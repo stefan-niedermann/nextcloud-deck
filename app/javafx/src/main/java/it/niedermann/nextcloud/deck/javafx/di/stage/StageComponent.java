@@ -3,6 +3,7 @@ package it.niedermann.nextcloud.deck.javafx.di.stage;
 
 import dagger.BindsInstance;
 import dagger.Subcomponent;
+import it.niedermann.nextcloud.deck.javafx.ui.stages.EditBoardStageManager;
 import it.niedermann.nextcloud.deck.javafx.ui.stages.EditCardStageManager;
 import it.niedermann.nextcloud.deck.javafx.ui.stages.MainStageManager;
 import javafx.stage.Stage;
@@ -21,4 +22,6 @@ public interface StageComponent {
     MainStageManager.Factory getMainStageFactory();
 
     EditCardStageManager.Factory getEditCardStageFactory();
+
+    EditBoardStageManager.Factory getEditBoardStageFactory();
 }

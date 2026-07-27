@@ -1,6 +1,7 @@
 package it.niedermann.nextcloud.deck.javafx.ui.cellfactories;
 
 import it.niedermann.nextcloud.deck.domain.model.Board;
+import it.niedermann.nextcloud.deck.javafx.ui.controller.views.BoardListItemActionListener;
 import it.niedermann.nextcloud.deck.javafx.ui.controller.views.BoardListItemView;
 import javafx.beans.binding.Bindings;
 import javafx.scene.control.ListCell;
@@ -8,6 +9,12 @@ import javafx.scene.control.ListView;
 import javafx.util.Callback;
 
 public class BoardListItemCellFactory implements Callback<ListView<Board>, ListCell<Board>> {
+
+    private final BoardListItemActionListener actionListener;
+
+    public BoardListItemCellFactory(BoardListItemActionListener actionListener) {
+        this.actionListener = actionListener;
+    }
 
     @Override
     public ListCell<Board> call(ListView<Board> listView) {
@@ -39,7 +46,7 @@ public class BoardListItemCellFactory implements Callback<ListView<Board>, ListC
 
                 } else {
 
-                    view.bind(board);
+                    view.bind(board, actionListener);
                     setGraphic(view);
 
                 }

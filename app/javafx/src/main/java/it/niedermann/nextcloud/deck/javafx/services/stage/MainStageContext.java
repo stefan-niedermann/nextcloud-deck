@@ -21,6 +21,7 @@ import it.niedermann.nextcloud.deck.domain.usecases.cards.UpdateCardUseCase;
 import it.niedermann.nextcloud.deck.domain.usecases.state.GetCurrentBoardUseCase;
 import it.niedermann.nextcloud.deck.domain.usecases.state.SetCurrentAccountUseCase;
 import it.niedermann.nextcloud.deck.domain.usecases.state.SetCurrentBoardUseCase;
+import it.niedermann.nextcloud.deck.javafx.services.application.ApplicationRouter;
 import it.niedermann.nextcloud.deck.javafx.services.application.ThemeService;
 import it.niedermann.nextcloud.deck.javafx.store.Store;
 import it.niedermann.nextcloud.deck.javafx.store.StoreLogger;
@@ -43,6 +44,7 @@ public class MainStageContext extends Store<MainStageContext.State, MainStageCon
     private static final Logger logger = Logger.getLogger(MainStageContext.class.getName());
 
     private final ThemeService themeService;
+    private final ApplicationRouter applicationRouter;
     private final SetCurrentAccountUseCase setCurrentAccountUseCase;
     private final GetCurrentBoardUseCase getCurrentBoardUseCase;
     private final SetCurrentBoardUseCase setCurrentBoardUseCase;
@@ -57,6 +59,7 @@ public class MainStageContext extends Store<MainStageContext.State, MainStageCon
     public MainStageContext(
             StoreLogger storeLogger,
             ThemeService themeService,
+            ApplicationRouter applicationRouter,
             SetCurrentAccountUseCase setCurrentAccountUseCase,
             GetCurrentBoardUseCase getCurrentBoardUseCase,
             SetCurrentBoardUseCase setCurrentBoardUseCase,
@@ -68,6 +71,7 @@ public class MainStageContext extends Store<MainStageContext.State, MainStageCon
             @Assisted State initialState
     ) {
         this.themeService = themeService;
+        this.applicationRouter = applicationRouter;
         this.setCurrentAccountUseCase = setCurrentAccountUseCase;
         this.getCurrentBoardUseCase = getCurrentBoardUseCase;
         this.setCurrentBoardUseCase = setCurrentBoardUseCase;
@@ -83,6 +87,7 @@ public class MainStageContext extends Store<MainStageContext.State, MainStageCon
         on(Action.SwitchAccountAction.class, (state, action) -> state.withAccountId(action.accountId()));
         on(Action.DisplayBoardAction.class, (state, action) -> state.withBoardId(action.boardId()));
         on(Action.EditCardAction.class, (state, action) -> state.withCardId(action.cardId()));
+        on(Action.EditBoardAction.class, (state, _) -> state);
         on(Action.CloseCardAction.class, (state, _) -> state.withCardId(null));
 
         effect(Action.SwitchAccountAction.class, (_, action) -> {
@@ -122,6 +127,11 @@ public class MainStageContext extends Store<MainStageContext.State, MainStageCon
                         return CompletableFuture.completedFuture(Optional.empty());
                     }
                 }));
+
+        effect(Action.EditBoardAction.class, (state, action) -> {
+            state.accountId().ifPresent(accountId -> applicationRouter.launchEditBoardStage(accountId, action.board().id()));
+            return CompletableFuture.completedFuture(Optional.empty());
+        });
     }
 
     @AssistedFactory
@@ -170,6 +180,11 @@ public class MainStageContext extends Store<MainStageContext.State, MainStageCon
     public Flowable<Board.Permissions> getPermissions() {
         return Flowable.fromPublisher(getBoard())
                 .map(Board::permissions);
+    }
+
+    @Override
+    public void onEditBoard(Board board) {
+        dispatch(new Action.EditBoardAction(board));
     }
 
     @Override
@@ -277,6 +292,9 @@ public class MainStageContext extends Store<MainStageContext.State, MainStageCon
         }
 
         record DeleteCardAction(Card.ID cardId) implements Action {
+        }
+
+        record EditBoardAction(Board board) implements Action {
         }
     }
 }

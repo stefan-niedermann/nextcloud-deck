@@ -55,6 +55,10 @@ public class BoardArgResolver implements ArgsResolver<BoardRawArgs, BoardParsedA
 
             return accountId.thenCombineAsync(boardId, BoardParsedArgs::new);
 
+        } else if (args instanceof BoardRawArgs.ExplicitBoard explicitArgs) {
+
+            return CompletableFuture.completedFuture(new BoardParsedArgs(explicitArgs.accountId(), explicitArgs.boardId()));
+
         } else {
             final var cf = new CompletableFuture<BoardParsedArgs>();
             cf.completeExceptionally(new UnsupportedOperationException("Not yet implemented."));

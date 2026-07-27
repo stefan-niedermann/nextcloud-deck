@@ -15,6 +15,7 @@ import it.niedermann.nextcloud.deck.domain.usecases.boards.GetBoardUseCase;
 import it.niedermann.nextcloud.deck.domain.usecases.boards.ListBoardsUseCase;
 import it.niedermann.nextcloud.deck.javafx.ui.cellfactories.BoardListItemCellFactory;
 import it.niedermann.nextcloud.deck.javafx.ui.controller.DisposableController;
+import it.niedermann.nextcloud.deck.javafx.ui.controller.views.BoardListItemActionListener;
 import it.niedermann.nextcloud.deck.javafx.util.JavaFxScheduler;
 import javafx.beans.value.ChangeListener;
 import javafx.fxml.FXML;
@@ -53,7 +54,7 @@ public class BoardListFeature extends DisposableController {
     public void initialize(URL location, ResourceBundle resources) {
         super.initialize(location, resources);
 
-        boardList.setCellFactory(new BoardListItemCellFactory());
+        boardList.setCellFactory(new BoardListItemCellFactory(viewModel));
 
         final var listBoards = viewModel.getAccountId()
                 .switchMap(listBoardsUseCase::execute);
@@ -78,7 +79,7 @@ public class BoardListFeature extends DisposableController {
 
     }
 
-    public interface ViewModel {
+    public interface ViewModel extends BoardListItemActionListener {
         void onBoardSelected(Board.ID boardId);
 
         Flowable<Account.ID> getAccountId();

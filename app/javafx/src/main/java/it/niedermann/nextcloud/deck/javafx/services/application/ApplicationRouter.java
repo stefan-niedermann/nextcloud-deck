@@ -4,6 +4,8 @@ import java.net.URL;
 
 import it.niedermann.nextcloud.deck.app.shared.args.board.BoardRawArgs;
 import it.niedermann.nextcloud.deck.app.shared.args.card.CardRawArgs;
+import it.niedermann.nextcloud.deck.domain.model.Account;
+import it.niedermann.nextcloud.deck.domain.model.Board;
 import it.niedermann.nextcloud.deck.javafx.di.fx.FxScope;
 import it.niedermann.nextcloud.deck.javafx.di.named.NamedPrimaryStage;
 import it.niedermann.nextcloud.deck.javafx.di.stage.StageComponent;
@@ -37,6 +39,10 @@ public class ApplicationRouter {
         launchMainStage(new Stage(), new BoardRawArgs.RemoteAccount(accountName, cardRemoteId));
     }
 
+    public void launchEditBoardStage(Account.ID accountId, Board.ID boardId) {
+        launchEditBoardStage(new Stage(), new BoardRawArgs.ExplicitBoard(accountId, boardId));
+    }
+
     // endregion
 
     // region Internal API
@@ -49,6 +55,11 @@ public class ApplicationRouter {
     private void launchEditCardStage(Stage stage, CardRawArgs args) {
         final var stageComponent = stageComponentFactory.create(stage);
         stageComponent.getEditCardStageFactory().create(args);
+    }
+
+    private void launchEditBoardStage(Stage stage, BoardRawArgs args) {
+        final var stageComponent = stageComponentFactory.create(stage);
+        stageComponent.getEditBoardStageFactory().create(args);
     }
 
     // endregion
