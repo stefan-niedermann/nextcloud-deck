@@ -7,7 +7,7 @@ import dagger.Module;
 import dagger.Provides;
 import it.niedermann.nextcloud.deck.app.shared.data.PreferencesKeyValueStore;
 import it.niedermann.nextcloud.deck.data.local.DeckDatabase;
-import it.niedermann.nextcloud.deck.data.local.KeyValueStore;
+import it.niedermann.nextcloud.deck.domain.state.KeyValueStore;
 import it.niedermann.nextcloud.deck.javafx.di.fx.FxComponent;
 import it.niedermann.nextcloud.deck.javafx.di.named.NamedDbPath;
 import it.niedermann.nextcloud.deck.javafx.di.named.NamedPreferencesVersion;

@@ -1,4 +1,6 @@
-package it.niedermann.nextcloud.deck.domain.model;
+package it.niedermann.nextcloud.deck.domain.state;
+
+import it.niedermann.nextcloud.deck.domain.model.Attachment;
 
 public record AttachmentDownloadProgress(Attachment.ID attachmentId,
                                          long bytesDownloaded,

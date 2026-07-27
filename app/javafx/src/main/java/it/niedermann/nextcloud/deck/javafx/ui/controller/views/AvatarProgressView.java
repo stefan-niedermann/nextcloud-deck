@@ -3,7 +3,7 @@ package it.niedermann.nextcloud.deck.javafx.ui.controller.views;
 import java.util.logging.Logger;
 
 import it.niedermann.nextcloud.deck.domain.model.Account;
-import it.niedermann.nextcloud.deck.domain.model.SyncStatus;
+import it.niedermann.nextcloud.deck.domain.state.SyncStatus;
 import it.niedermann.nextcloud.deck.javafx.ui.fxml.Inflater;
 import javafx.beans.binding.Bindings;
 import javafx.fxml.FXML;

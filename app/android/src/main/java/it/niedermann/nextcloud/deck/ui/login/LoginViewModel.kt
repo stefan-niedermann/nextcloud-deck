@@ -6,7 +6,7 @@ import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
-import it.niedermann.nextcloud.deck.domain.model.SyncStatus
+import it.niedermann.nextcloud.deck.domain.state.SyncStatus
 import it.niedermann.nextcloud.deck.domain.usecases.accounts.ImportAccountUseCase
 import it.niedermann.nextcloud.deck.domain.usecases.state.SetCurrentAccountUseCase
 import kotlinx.coroutines.flow.MutableSharedFlow

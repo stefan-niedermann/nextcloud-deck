@@ -12,7 +12,7 @@ import org.reactivestreams.FlowAdapters;
 import java.util.concurrent.Flow;
 
 import io.reactivex.rxjava3.core.Single;
-import it.niedermann.nextcloud.deck.data.local.KeyValueStore;
+import it.niedermann.nextcloud.deck.domain.state.KeyValueStore;
 
 public class AndroidKeyValueStore implements KeyValueStore {
 

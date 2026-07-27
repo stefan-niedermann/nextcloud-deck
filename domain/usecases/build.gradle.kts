@@ -8,6 +8,7 @@ java {
 }
 dependencies {
     api(project(":domain:model"))
+    api(project(":domain:state"))
     api(project(":domain:repository"))
     api(project(":domain:sync"))
 

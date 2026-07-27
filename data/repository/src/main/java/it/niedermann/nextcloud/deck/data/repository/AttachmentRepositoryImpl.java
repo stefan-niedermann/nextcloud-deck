@@ -11,9 +11,9 @@ import java.util.stream.Collectors;
 import io.reactivex.rxjava3.core.Flowable;
 import io.reactivex.rxjava3.processors.BehaviorProcessor;
 import it.niedermann.nextcloud.deck.domain.model.Attachment;
-import it.niedermann.nextcloud.deck.domain.model.AttachmentDownloadProgress;
 import it.niedermann.nextcloud.deck.domain.model.Card;
 import it.niedermann.nextcloud.deck.domain.repository.AttachmentRepository;
+import it.niedermann.nextcloud.deck.domain.state.AttachmentDownloadProgress;
 import jakarta.inject.Inject;
 
 public class AttachmentRepositoryImpl implements AttachmentRepository {

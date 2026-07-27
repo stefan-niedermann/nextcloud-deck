@@ -9,10 +9,10 @@ import java.util.concurrent.CompletableFuture;
 import java.util.logging.Logger;
 
 import io.reactivex.rxjava3.core.Flowable;
-import it.niedermann.nextcloud.deck.data.local.KeyValueStore;
 import it.niedermann.nextcloud.deck.domain.model.Account;
 import it.niedermann.nextcloud.deck.domain.model.Board;
-import it.niedermann.nextcloud.deck.domain.repository.StateRepository;
+import it.niedermann.nextcloud.deck.domain.state.KeyValueStore;
+import it.niedermann.nextcloud.deck.domain.state.StateRepository;
 import jakarta.inject.Inject;
 
 public class StateRepositoryImpl implements StateRepository {

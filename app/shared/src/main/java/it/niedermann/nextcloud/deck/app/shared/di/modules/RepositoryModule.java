@@ -3,7 +3,6 @@ package it.niedermann.nextcloud.deck.app.shared.di.modules;
 import dagger.Module;
 import dagger.Provides;
 import it.niedermann.nextcloud.deck.data.local.DeckDatabase;
-import it.niedermann.nextcloud.deck.data.local.KeyValueStore;
 import it.niedermann.nextcloud.deck.data.local.mapper.AccountMapper;
 import it.niedermann.nextcloud.deck.data.repository.AccountRepositoryImpl;
 import it.niedermann.nextcloud.deck.data.repository.ActivityRepositoryImpl;
@@ -23,8 +22,9 @@ import it.niedermann.nextcloud.deck.domain.repository.CardRepository;
 import it.niedermann.nextcloud.deck.domain.repository.ColumnRepository;
 import it.niedermann.nextcloud.deck.domain.repository.CommentRepository;
 import it.niedermann.nextcloud.deck.domain.repository.LabelRepository;
-import it.niedermann.nextcloud.deck.domain.repository.StateRepository;
 import it.niedermann.nextcloud.deck.domain.repository.UserRepository;
+import it.niedermann.nextcloud.deck.domain.state.KeyValueStore;
+import it.niedermann.nextcloud.deck.domain.state.StateRepository;
 import jakarta.inject.Singleton;
 
 @Module

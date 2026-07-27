@@ -7,7 +7,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import it.niedermann.nextcloud.deck.data.local.DeckDatabase;
-import it.niedermann.nextcloud.deck.data.local.KeyValueStore;
+import it.niedermann.nextcloud.deck.domain.state.KeyValueStore;
 import it.niedermann.nextcloud.deck.javafx.di.named.NamedDbPath;
 import jakarta.inject.Inject;
 import jakarta.inject.Singleton;

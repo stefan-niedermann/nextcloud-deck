@@ -13,7 +13,7 @@ import it.niedermann.nextcloud.deck.domain.model.Column
 import it.niedermann.nextcloud.deck.domain.model.CreateCard
 import it.niedermann.nextcloud.deck.domain.model.CreateColumn
 import it.niedermann.nextcloud.deck.domain.model.Label
-import it.niedermann.nextcloud.deck.domain.model.SyncStatus
+import it.niedermann.nextcloud.deck.domain.state.SyncStatus
 import it.niedermann.nextcloud.deck.domain.sync.SyncScheduler
 import it.niedermann.nextcloud.deck.domain.usecases.cards.AddCardUseCase
 import it.niedermann.nextcloud.deck.domain.usecases.cards.ListCardsUseCase

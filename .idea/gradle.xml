@@ -26,6 +26,7 @@
             <option value="$PROJECT_DIR$/domain" />
             <option value="$PROJECT_DIR$/domain/model" />
             <option value="$PROJECT_DIR$/domain/repository" />
+            <option value="$PROJECT_DIR$/domain/state" />
             <option value="$PROJECT_DIR$/domain/sync" />
             <option value="$PROJECT_DIR$/domain/usecases" />
           </set>

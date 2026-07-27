@@ -4,7 +4,7 @@ import java.time.Instant;
 import java.util.concurrent.Flow;
 
 import it.niedermann.nextcloud.deck.domain.model.Account;
-import it.niedermann.nextcloud.deck.domain.model.SyncStatus;
+import it.niedermann.nextcloud.deck.domain.state.SyncStatus;
 
 public interface SyncScheduler {
 

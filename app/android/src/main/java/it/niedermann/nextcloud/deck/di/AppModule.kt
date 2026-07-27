@@ -14,7 +14,7 @@ import dagger.hilt.components.SingletonComponent
 import it.niedermann.nextcloud.deck.AndroidKeyValueStore
 import it.niedermann.nextcloud.deck.app.shared.Constants.DECK_DB_NAME
 import it.niedermann.nextcloud.deck.data.local.DeckDatabase
-import it.niedermann.nextcloud.deck.data.local.KeyValueStore
+import it.niedermann.nextcloud.deck.domain.state.KeyValueStore
 import kotlinx.coroutines.Dispatchers
 import javax.inject.Singleton
 

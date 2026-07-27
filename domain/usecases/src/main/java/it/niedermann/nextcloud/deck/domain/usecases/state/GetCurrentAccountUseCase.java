@@ -9,7 +9,7 @@ import io.reactivex.rxjava3.core.Flowable;
 import io.reactivex.rxjava3.core.Single;
 import it.niedermann.nextcloud.deck.domain.model.Account;
 import it.niedermann.nextcloud.deck.domain.repository.AccountRepository;
-import it.niedermann.nextcloud.deck.domain.repository.StateRepository;
+import it.niedermann.nextcloud.deck.domain.state.StateRepository;
 import jakarta.inject.Inject;
 
 public class GetCurrentAccountUseCase {

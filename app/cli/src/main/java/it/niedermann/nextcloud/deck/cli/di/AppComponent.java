@@ -11,7 +11,7 @@ import it.niedermann.nextcloud.deck.cli.commands.account.subcommands.AccountRemo
 import it.niedermann.nextcloud.deck.cli.commands.board.BoardCmd;
 import it.niedermann.nextcloud.deck.cli.commands.reset.ResetCmd;
 import it.niedermann.nextcloud.deck.data.local.DeckDatabase;
-import it.niedermann.nextcloud.deck.data.local.KeyValueStore;
+import it.niedermann.nextcloud.deck.domain.state.KeyValueStore;
 
 import jakarta.inject.Singleton;
 

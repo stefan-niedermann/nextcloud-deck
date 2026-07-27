@@ -21,7 +21,7 @@ import dagger.Module;
 import dagger.Provides;
 import io.reactivex.rxjava3.core.Flowable;
 import it.niedermann.nextcloud.deck.data.local.DeckDatabase;
-import it.niedermann.nextcloud.deck.data.local.KeyValueStore;
+import it.niedermann.nextcloud.deck.domain.state.KeyValueStore;
 import jakarta.inject.Qualifier;
 import jakarta.inject.Singleton;
 

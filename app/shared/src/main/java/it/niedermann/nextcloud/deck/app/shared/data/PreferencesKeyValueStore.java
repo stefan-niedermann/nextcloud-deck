@@ -17,7 +17,7 @@ import java.util.prefs.Preferences;
 
 import io.reactivex.rxjava3.core.BackpressureStrategy;
 import io.reactivex.rxjava3.core.Flowable;
-import it.niedermann.nextcloud.deck.data.local.KeyValueStore;
+import it.niedermann.nextcloud.deck.domain.state.KeyValueStore;
 
 public class PreferencesKeyValueStore implements KeyValueStore {
 

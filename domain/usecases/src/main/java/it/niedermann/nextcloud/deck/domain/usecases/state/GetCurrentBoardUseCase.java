@@ -4,7 +4,7 @@ import java.util.concurrent.CompletableFuture;
 
 import it.niedermann.nextcloud.deck.domain.model.Account;
 import it.niedermann.nextcloud.deck.domain.model.Board;
-import it.niedermann.nextcloud.deck.domain.repository.StateRepository;
+import it.niedermann.nextcloud.deck.domain.state.StateRepository;
 import jakarta.inject.Inject;
 
 public class GetCurrentBoardUseCase {

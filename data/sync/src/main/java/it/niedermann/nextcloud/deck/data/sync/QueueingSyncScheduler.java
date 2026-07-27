@@ -13,8 +13,8 @@ import io.reactivex.rxjava3.core.Flowable;
 import io.reactivex.rxjava3.processors.ReplayProcessor;
 import io.reactivex.rxjava3.schedulers.Schedulers;
 import it.niedermann.nextcloud.deck.domain.model.Account;
-import it.niedermann.nextcloud.deck.domain.model.SyncStatus;
 import it.niedermann.nextcloud.deck.domain.repository.AccountRepository;
+import it.niedermann.nextcloud.deck.domain.state.SyncStatus;
 import it.niedermann.nextcloud.deck.domain.sync.SyncScheduler;
 import jakarta.inject.Inject;
 

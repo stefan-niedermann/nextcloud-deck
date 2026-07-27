@@ -8,7 +8,7 @@ import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import it.niedermann.nextcloud.deck.domain.model.Board
 import it.niedermann.nextcloud.deck.domain.model.CreateBoard
-import it.niedermann.nextcloud.deck.domain.model.SyncStatus
+import it.niedermann.nextcloud.deck.domain.state.SyncStatus
 import it.niedermann.nextcloud.deck.domain.sync.SyncScheduler
 import it.niedermann.nextcloud.deck.domain.usecases.boards.AddBoardUseCase
 import it.niedermann.nextcloud.deck.domain.usecases.boards.ListBoardsUseCase

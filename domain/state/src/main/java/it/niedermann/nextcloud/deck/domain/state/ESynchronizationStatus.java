@@ -1,4 +1,4 @@
-package it.niedermann.nextcloud.deck.domain.model;
+package it.niedermann.nextcloud.deck.domain.state;
 
 public enum ESynchronizationStatus {
     LOCAL_CHANGED,

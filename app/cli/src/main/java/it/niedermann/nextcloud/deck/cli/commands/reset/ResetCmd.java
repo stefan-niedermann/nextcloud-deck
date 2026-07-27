@@ -4,7 +4,7 @@ import java.nio.file.Files;
 import java.util.concurrent.Callable;
 
 import it.niedermann.nextcloud.deck.app.shared.Util;
-import it.niedermann.nextcloud.deck.domain.repository.StateRepository;
+import it.niedermann.nextcloud.deck.domain.state.StateRepository;
 import jakarta.inject.Inject;
 import picocli.CommandLine.Command;
 

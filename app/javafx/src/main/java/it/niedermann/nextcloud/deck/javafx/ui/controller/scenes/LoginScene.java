@@ -24,7 +24,7 @@ import it.niedermann.nextcloud.auth.apptoken.AppTokenAuthProvider;
 import it.niedermann.nextcloud.auth.webloginflowv2.AuthenticatedAccount;
 import it.niedermann.nextcloud.auth.webloginflowv2.WebLoginFlowV2AuthProvider;
 import it.niedermann.nextcloud.deck.domain.model.Account;
-import it.niedermann.nextcloud.deck.domain.model.SyncStatus;
+import it.niedermann.nextcloud.deck.domain.state.SyncStatus;
 import it.niedermann.nextcloud.deck.domain.usecases.accounts.ImportAccountUseCase;
 import it.niedermann.nextcloud.deck.javafx.ui.controller.DisposableController;
 import it.niedermann.nextcloud.deck.javafx.util.JavaFxScheduler;

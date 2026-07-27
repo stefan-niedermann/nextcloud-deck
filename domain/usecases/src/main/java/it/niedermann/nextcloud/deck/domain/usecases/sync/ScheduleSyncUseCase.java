@@ -3,7 +3,7 @@ package it.niedermann.nextcloud.deck.domain.usecases.sync;
 import java.util.concurrent.Flow;
 
 import it.niedermann.nextcloud.deck.domain.model.Account;
-import it.niedermann.nextcloud.deck.domain.model.SyncStatus;
+import it.niedermann.nextcloud.deck.domain.state.SyncStatus;
 import it.niedermann.nextcloud.deck.domain.sync.SyncScheduler;
 import jakarta.inject.Inject;
 

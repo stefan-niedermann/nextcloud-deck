@@ -1,4 +1,4 @@
-package it.niedermann.nextcloud.deck.domain.repository;
+package it.niedermann.nextcloud.deck.domain.state;
 
 import java.util.concurrent.CompletableFuture;
 

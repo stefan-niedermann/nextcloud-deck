@@ -8,6 +8,7 @@ java {
 }
 dependencies {
     api(project(":domain:model"))
+    implementation(project(":domain:state"))
     implementation(project(":domain:repository"))
     implementation(project(":data:local"))
     implementation(project(":data:remote"))

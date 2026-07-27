@@ -10,6 +10,7 @@ java {
 dependencies {
     api(project(":domain:usecases"))
     api(project(":domain:model"))
+    api(project(":domain:state"))
     api(project(":data:local"))
     api(project(":data:remote"))
     api(project(":data:repository"))
