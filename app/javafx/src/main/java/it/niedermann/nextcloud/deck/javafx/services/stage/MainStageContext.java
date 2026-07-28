@@ -14,10 +14,7 @@ import it.niedermann.nextcloud.deck.domain.model.Account;
 import it.niedermann.nextcloud.deck.domain.model.Board;
 import it.niedermann.nextcloud.deck.domain.model.Card;
 import it.niedermann.nextcloud.deck.domain.usecases.boards.GetBoardUseCase;
-import it.niedermann.nextcloud.deck.domain.usecases.cards.AssignCardUseCase;
 import it.niedermann.nextcloud.deck.domain.usecases.cards.DeleteCardUseCase;
-import it.niedermann.nextcloud.deck.domain.usecases.cards.UnassignCardUseCase;
-import it.niedermann.nextcloud.deck.domain.usecases.cards.UpdateCardUseCase;
 import it.niedermann.nextcloud.deck.domain.usecases.state.GetCurrentBoardUseCase;
 import it.niedermann.nextcloud.deck.domain.usecases.state.SetCurrentAccountUseCase;
 import it.niedermann.nextcloud.deck.domain.usecases.state.SetCurrentBoardUseCase;
@@ -28,7 +25,6 @@ import it.niedermann.nextcloud.deck.javafx.store.StoreLogger;
 import it.niedermann.nextcloud.deck.javafx.ui.controller.features.BoardFeature;
 import it.niedermann.nextcloud.deck.javafx.ui.controller.features.BoardListFeature;
 import it.niedermann.nextcloud.deck.javafx.ui.controller.features.ColumnFeature;
-import it.niedermann.nextcloud.deck.javafx.ui.controller.features.EditCardFeature;
 import it.niedermann.nextcloud.deck.javafx.ui.controller.features.HeaderFeature;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonBar;
@@ -38,8 +34,7 @@ public class MainStageContext extends Store<MainStageContext.State, MainStageCon
         HeaderFeature.ViewModel,
         BoardFeature.ViewModel,
         BoardListFeature.ViewModel,
-        ColumnFeature.ViewModel,
-        EditCardFeature.ViewModel {
+        ColumnFeature.ViewModel {
 
     private static final Logger logger = Logger.getLogger(MainStageContext.class.getName());
 
@@ -49,9 +44,6 @@ public class MainStageContext extends Store<MainStageContext.State, MainStageCon
     private final GetCurrentBoardUseCase getCurrentBoardUseCase;
     private final SetCurrentBoardUseCase setCurrentBoardUseCase;
     private final DeleteCardUseCase deleteCardUseCase;
-    private final UpdateCardUseCase updateCardUseCase;
-    private final AssignCardUseCase assignCardUseCase;
-    private final UnassignCardUseCase unassignCardUseCase;
 
     private final GetBoardUseCase getBoardUseCase;
 
@@ -64,9 +56,6 @@ public class MainStageContext extends Store<MainStageContext.State, MainStageCon
             GetCurrentBoardUseCase getCurrentBoardUseCase,
             SetCurrentBoardUseCase setCurrentBoardUseCase,
             DeleteCardUseCase deleteCardUseCase,
-            UpdateCardUseCase updateCardUseCase,
-            AssignCardUseCase assignCardUseCase,
-            UnassignCardUseCase unassignCardUseCase,
             GetBoardUseCase getBoardUseCase,
             @Assisted State initialState
     ) {
@@ -77,9 +66,6 @@ public class MainStageContext extends Store<MainStageContext.State, MainStageCon
         this.setCurrentBoardUseCase = setCurrentBoardUseCase;
         this.getBoardUseCase = getBoardUseCase;
         this.deleteCardUseCase = deleteCardUseCase;
-        this.updateCardUseCase = updateCardUseCase;
-        this.assignCardUseCase = assignCardUseCase;
-        this.unassignCardUseCase = unassignCardUseCase;
 
         super(storeLogger, initialState);
 
@@ -168,21 +154,6 @@ public class MainStageContext extends Store<MainStageContext.State, MainStageCon
     }
 
     @Override
-    public Flowable<Card.ID> getCardId() {
-        return Flowable.fromPublisher(getState())
-                .map(State::cardId)
-                .filter(Optional::isPresent)
-                .map(Optional::get)
-                .distinctUntilChanged(Card.ID::equals);
-    }
-
-    @Override
-    public Flowable<Board.Permissions> getPermissions() {
-        return Flowable.fromPublisher(getBoard())
-                .map(Board::permissions);
-    }
-
-    @Override
     public void onEditBoard(Board board) {
         dispatch(new Action.EditBoardAction(board));
     }
@@ -205,13 +176,11 @@ public class MainStageContext extends Store<MainStageContext.State, MainStageCon
 
     @Override
     public void onAssignCard(Card card) {
-        // FIXME We need the User.ID here, but the interface only provides the Card
         System.out.println("[Mock] onAssignCard " + card);
     }
 
     @Override
     public void onUnassignCard(Card card) {
-        // FIXME We need the User.ID here, but the interface only provides the Card
         System.out.println("[Mock] onUnassignCard " + card);
     }
 
@@ -235,16 +204,6 @@ public class MainStageContext extends Store<MainStageContext.State, MainStageCon
                 .map(ButtonType::getButtonData)
                 .map(ButtonBar.ButtonData::isDefaultButton)
                 .filter(Boolean.TRUE::equals).ifPresent(_ -> dispatch(new MainStageContext.Action.DeleteCardAction(card.id())));
-    }
-
-    @Override
-    public CompletableFuture<Void> onCardSaved(Card card) {
-        return updateCardUseCase.execute(card);
-    }
-
-    @Override
-    public void onCloseSidebar() {
-        dispatch(new MainStageContext.Action.CloseCardAction());
     }
 
     public record State(

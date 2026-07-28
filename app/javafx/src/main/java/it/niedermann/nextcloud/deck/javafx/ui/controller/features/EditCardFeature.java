@@ -8,6 +8,7 @@ import com.dlsc.gemsfx.TimePicker;
 import java.net.URL;
 import java.time.format.DateTimeFormatter;
 import java.time.format.FormatStyle;
+import java.util.List;
 import java.util.ResourceBundle;
 import java.util.concurrent.CompletableFuture;
 import java.util.logging.Logger;
@@ -16,21 +17,13 @@ import dagger.assisted.Assisted;
 import dagger.assisted.AssistedFactory;
 import dagger.assisted.AssistedInject;
 import io.reactivex.rxjava4.core.Flowable;
-import io.reactivex.rxjava4.core.Maybe;
-import io.reactivex.rxjava4.schedulers.Schedulers;
+import io.reactivex.rxjava4.disposables.Disposable;
 import it.niedermann.nextcloud.deck.domain.model.Activity;
 import it.niedermann.nextcloud.deck.domain.model.Attachment;
 import it.niedermann.nextcloud.deck.domain.model.Board;
 import it.niedermann.nextcloud.deck.domain.model.Card;
 import it.niedermann.nextcloud.deck.domain.model.Comment;
-import it.niedermann.nextcloud.deck.domain.model.CreateComment;
 import it.niedermann.nextcloud.deck.domain.model.User;
-import it.niedermann.nextcloud.deck.domain.usecases.activities.ListActivityUseCase;
-import it.niedermann.nextcloud.deck.domain.usecases.attachments.AddAttachmentUseCase;
-import it.niedermann.nextcloud.deck.domain.usecases.attachments.ListAttachmentsUseCase;
-import it.niedermann.nextcloud.deck.domain.usecases.cards.GetCardUseCase;
-import it.niedermann.nextcloud.deck.domain.usecases.comments.AddCommentUseCase;
-import it.niedermann.nextcloud.deck.domain.usecases.comments.ListCommentsUseCase;
 import it.niedermann.nextcloud.deck.javafx.ui.cellfactories.ActivityCellFactory;
 import it.niedermann.nextcloud.deck.javafx.ui.cellfactories.AttachmentCellFactory;
 import it.niedermann.nextcloud.deck.javafx.ui.cellfactories.CommentCellFactory;
@@ -55,22 +48,16 @@ import javafx.scene.control.ToggleButton;
 import javafx.scene.input.DataFormat;
 import javafx.scene.input.DragEvent;
 import javafx.scene.input.TransferMode;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.Region;
+import javafx.scene.layout.VBox;
 import one.jpro.platform.mdfx.MarkdownView;
 
 public class EditCardFeature extends DisposableController {
 
     private static final Logger logger = Logger.getLogger(EditCardFeature.class.getName());
 
-    private final GetCardUseCase getCardUseCase;
-
-    private final AddAttachmentUseCase addAttachmentUseCase;
-    private final ListAttachmentsUseCase listAttachmentsUseCase;
-
-    private final AddCommentUseCase addCommentUseCase;
-    private final ListCommentsUseCase listCommentsUseCase;
     private final CommentCellFactory commentCellFactory;
-
-    private final ListActivityUseCase listActivityUseCase;
 
     private final UserSuggestionProvider userSuggestionProvider;
     private final UserSearchViewConverter userSearchViewConverter;
@@ -84,6 +71,10 @@ public class EditCardFeature extends DisposableController {
 
     @FXML
     TextField title;
+    @FXML
+    BorderPane detailsPane;
+    @FXML
+    VBox metadataContainer;
     @FXML
     Label createdAt;
     @FXML
@@ -113,6 +104,8 @@ public class EditCardFeature extends DisposableController {
     @FXML
     Button saveBtn;
     @FXML
+    Button popOutBtn;
+    @FXML
     Button closeSidebar;
     @FXML
     ListView<Comment> comments;
@@ -127,13 +120,7 @@ public class EditCardFeature extends DisposableController {
 
     @AssistedInject
     public EditCardFeature(
-            GetCardUseCase getCardUseCase,
-            ListAttachmentsUseCase listAttachmentsUseCase,
-            AddAttachmentUseCase addAttachmentUseCase,
-            ListCommentsUseCase listCommentsUseCase,
-            AddCommentUseCase addCommentUseCase,
             CommentCellFactory commentCellFactory,
-            ListActivityUseCase listActivityUseCase,
             LabelSuggestionProvider labelSuggestionProvider,
             UserSuggestionProvider userSuggestionProvider,
             LabelSearchViewConverter labelSearchViewConverter,
@@ -142,13 +129,7 @@ public class EditCardFeature extends DisposableController {
             UserTagViewFactory userTagViewFactory,
             @Assisted ViewModel viewModel
     ) {
-        this.getCardUseCase = getCardUseCase;
-        this.listAttachmentsUseCase = listAttachmentsUseCase;
-        this.addAttachmentUseCase = addAttachmentUseCase;
-        this.listCommentsUseCase = listCommentsUseCase;
-        this.addCommentUseCase = addCommentUseCase;
         this.commentCellFactory = commentCellFactory;
-        this.listActivityUseCase = listActivityUseCase;
         this.labelSuggestionProvider = labelSuggestionProvider;
         this.userSuggestionProvider = userSuggestionProvider;
         this.labelSearchViewConverter = labelSearchViewConverter;
@@ -169,6 +150,22 @@ public class EditCardFeature extends DisposableController {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         super.initialize(location, resources);
+
+        detailsPane.widthProperty().addListener((_, _, newValue) -> {
+            if (newValue.doubleValue() > 600) {
+                if (detailsPane.getTop() != null) {
+                    detailsPane.setTop(null);
+                    detailsPane.setRight(metadataContainer);
+                    metadataContainer.setPrefWidth(300);
+                }
+            } else {
+                if (detailsPane.getRight() != null) {
+                    detailsPane.setRight(null);
+                    detailsPane.setTop(metadataContainer);
+                    metadataContainer.setPrefWidth(Region.USE_COMPUTED_SIZE);
+                }
+            }
+        });
 
         final var editModeEnabled = descriptionEditModeToggleButton.selectedProperty();
         final var previewModeEnabled = editModeEnabled.map(enabled -> !enabled);
@@ -206,10 +203,7 @@ public class EditCardFeature extends DisposableController {
 
         addDisposable(permissionsDisposable);
 
-        final var cardId = Flowable.fromPublisher(viewModel.getCardId());
-
-        final var cardDisposable = cardId.switchMap(getCardUseCase::execute)
-                .subscribeOn(Schedulers.virtual())
+        final var cardDisposable = viewModel.getCard()
                 .observeOn(JavaFxScheduler.platform())
                 .subscribe(card -> {
                     title.setText(card.title());
@@ -231,22 +225,19 @@ public class EditCardFeature extends DisposableController {
 
         addDisposable(cardDisposable);
 
-        final var attachmentsDisposable = cardId.switchMap(listAttachmentsUseCase::execute)
-                .subscribeOn(Schedulers.virtual())
+        final var attachmentsDisposable = viewModel.getAttachments()
                 .observeOn(JavaFxScheduler.platform())
                 .subscribe(attachments -> this.attachments.getItems().setAll(attachments));
 
         addDisposable(attachmentsDisposable);
 
-        final var commentsDisposable = cardId.switchMap(listCommentsUseCase::execute)
-                .subscribeOn(Schedulers.virtual())
+        final var commentsDisposable = viewModel.getComments()
                 .observeOn(JavaFxScheduler.platform())
                 .subscribe(comments -> this.comments.getItems().setAll(comments));
 
         addDisposable(commentsDisposable);
 
-        final var activitiesDisposable = cardId.switchMap(listActivityUseCase::execute)
-                .subscribeOn(Schedulers.virtual())
+        final var activitiesDisposable = viewModel.getActivities()
                 .observeOn(JavaFxScheduler.platform())
                 .subscribe(activities -> this.activities.getItems().setAll(activities));
 
@@ -257,14 +248,28 @@ public class EditCardFeature extends DisposableController {
             event.consume();
         });
 
+        final var isSidebarDisposable = viewModel.isStandalone()
+                .observeOn(JavaFxScheduler.platform())
+                .subscribe(standalone -> {
+                    final boolean visible = !standalone;
+                    popOutBtn.setVisible(visible);
+                    popOutBtn.setManaged(visible);
+                    closeSidebar.setVisible(visible);
+                    closeSidebar.setManaged(visible);
+                });
+
+        addDisposable(isSidebarDisposable);
+
+        popOutBtn.setOnAction(_ -> {
+            final var dispoable = viewModel.onPopOut();
+            addDisposable(dispoable);
+        });
+
         addComment.setOnSubmit(content -> {
 
             addComment.setDisable(true);
 
-            Maybe.fromPublisher(cardId)
-                    .toCompletionStage()
-                    .toCompletableFuture()
-                    .thenComposeAsync(id -> addCommentUseCase.execute(new CreateComment(id, content)))
+            viewModel.onAddComment(content)
                     .whenCompleteAsync((_, exception) -> {
 
                         if (exception == null) {
@@ -300,9 +305,23 @@ public class EditCardFeature extends DisposableController {
     }
 
     public interface ViewModel {
+        Flowable<Card> getCard();
+
+        Flowable<List<Attachment>> getAttachments();
+
+        Flowable<List<Comment>> getComments();
+
+        Flowable<List<Activity>> getActivities();
+
         CompletableFuture<Void> onCardSaved(Card card);
 
+        CompletableFuture<Void> onAddComment(String content);
+
         void onCloseSidebar();
+
+        Disposable onPopOut();
+
+        Flowable<Boolean> isStandalone();
 
         Flowable<Card.ID> getCardId();
 

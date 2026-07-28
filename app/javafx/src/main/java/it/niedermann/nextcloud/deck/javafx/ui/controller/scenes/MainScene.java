@@ -11,6 +11,7 @@ import io.reactivex.rxjava4.core.Flowable;
 import io.reactivex.rxjava4.schedulers.Schedulers;
 import it.niedermann.nextcloud.deck.domain.model.Board;
 import it.niedermann.nextcloud.deck.domain.usecases.boards.GetBoardUseCase;
+import it.niedermann.nextcloud.deck.javafx.services.stage.EditCardStageContext;
 import it.niedermann.nextcloud.deck.javafx.services.stage.MainStageContext;
 import it.niedermann.nextcloud.deck.javafx.ui.controller.DisposableController;
 import it.niedermann.nextcloud.deck.javafx.ui.controller.features.BoardFeature;
@@ -36,6 +37,7 @@ public class MainScene extends DisposableController {
     SplitPane splitPane;
 
     private final MainStageContext mainStageContext;
+    private final EditCardStageContext sidebarContext;
     private final GetBoardUseCase getBoardUseCase;
 
     private final Inflater.FxBundle<?> boardListBundle;
@@ -53,15 +55,18 @@ public class MainScene extends DisposableController {
             HeaderFeature.Factory headerFactory,
             BoardFeature.Factory boardFactory,
             EditCardFeature.Factory editCardFactory,
+            EditCardStageContext.Factory editCardStageContextFactory,
             @Assisted MainStageContext mainStageContext
     ) {
         this.mainStageContext = mainStageContext;
         this.getBoardUseCase = getBoardUseCase;
 
+        this.sidebarContext = editCardStageContextFactory.create(new EditCardStageContext.State(Optional.empty(), false), () -> mainStageContext.dispatch(new MainStageContext.Action.CloseCardAction()));
+
         this.boardListBundle = inflater.inflate(boardListFactory.create(mainStageContext));
         this.headerBundle = inflater.inflate(headerFactory.create(mainStageContext));
         this.boardBundle = inflater.inflate(boardFactory.create(mainStageContext));
-        this.editCardBundle = inflater.inflate(editCardFactory.create(mainStageContext));
+        this.editCardBundle = inflater.inflate(editCardFactory.create(sidebarContext));
     }
 
     @AssistedFactory
@@ -90,6 +95,7 @@ public class MainScene extends DisposableController {
 
         final var cardSidebarDisposable = Flowable.fromPublisher(mainStageContext.getState())
                 .subscribe(state -> {
+                    sidebarContext.dispatch(new EditCardStageContext.Action.SelectCard(state.cardId()));
                     if (state.cardId().isEmpty()) {
                         splitPane.getItems().remove(editCardBundle.view());
 

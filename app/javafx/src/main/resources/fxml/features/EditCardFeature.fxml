@@ -9,6 +9,11 @@
 
         <HBox styleClass="title">
             <TextField HBox.hgrow="ALWAYS" promptText="Title" fx:id="title" />
+            <Button accessibleText="Pop out" fx:id="popOutBtn">
+                <graphic>
+                    <FontIcon iconLiteral="fltfmz-open-16" iconSize="16" />
+                </graphic>
+            </Button>
             <Button accessibleText="Close sidebar" fx:id="closeSidebar">
                 <graphic>
                     <FontIcon iconLiteral="fltfmz-pane-close-16" iconSize="16" />
@@ -23,47 +28,54 @@
                         <FontIcon iconLiteral="fltral-home-16" />
                     </graphic>
                     <content>
-                        <VBox>
+                        <BorderPane fx:id="detailsPane">
+                            <top>
+                                <VBox fx:id="metadataContainer">
 
-                            <FlowPane hgap="10" vgap="10">
-                                <Label styleClass="label-secondary" fx:id="createdAt" />
-                                <Label styleClass="label-secondary" fx:id="editedAt" />
-                            </FlowPane>
+                                    <FlowPane hgap="10" vgap="10">
+                                        <Label styleClass="label-secondary" fx:id="createdAt" />
+                                        <Label styleClass="label-secondary" fx:id="editedAt" />
+                                    </FlowPane>
 
-                            <TagsField promptText="Labels" fx:id="labels" />
+                                    <TagsField promptText="Labels" fx:id="labels" />
 
-                            <TagsField promptText="Assignees" fx:id="assignees" />
+                                    <TagsField promptText="Assignees" fx:id="assignees" />
 
-                            <HBox>
-                                <CalendarPicker HBox.hgrow="ALWAYS" promptText="Start date"
-                                    fx:id="startDateDate" />
-                                <TimePicker promptText="Start time" fx:id="startDateTime" />
-                            </HBox>
+                                    <HBox>
+                                        <CalendarPicker HBox.hgrow="ALWAYS" promptText="Start date"
+                                            fx:id="startDateDate" />
+                                        <TimePicker promptText="Start time" fx:id="startDateTime" />
+                                    </HBox>
 
-                            <HBox>
-                                <CalendarPicker HBox.hgrow="ALWAYS" promptText="Due date"
-                                    fx:id="dueDateDate" />
-                                <TimePicker promptText="Due time" fx:id="dueDateTime" />
-                            </HBox>
+                                    <HBox>
+                                        <CalendarPicker HBox.hgrow="ALWAYS" promptText="Due date"
+                                            fx:id="dueDateDate" />
+                                        <TimePicker promptText="Due time" fx:id="dueDateTime" />
+                                    </HBox>
 
-                            <SearchField promptText="Dependent cards" fx:id="dependentCards" />
+                                    <SearchField promptText="Dependent cards" fx:id="dependentCards" />
+                                </VBox>
+                            </top>
+                            <center>
+                                <VBox fx:id="descriptionContainer">
 
-                            <ToggleButton
-                                accessibleHelp="Render the markdown content of the description field"
-                                accessibleText="Preview" alignment="CENTER_RIGHT"
-                                fx:id="descriptionEditModeToggleButton">
-                                <graphic>
-                                    <FontIcon iconLiteral="fltfal-eye-show-16" iconSize="16" />
-                                </graphic>
-                            </ToggleButton>
+                                    <ToggleButton
+                                        accessibleHelp="Render the markdown content of the description field"
+                                        accessibleText="Preview" alignment="CENTER_RIGHT"
+                                        fx:id="descriptionEditModeToggleButton">
+                                        <graphic>
+                                            <FontIcon iconLiteral="fltfal-eye-show-16" iconSize="16" />
+                                        </graphic>
+                                    </ToggleButton>
 
-                            <TextArea VBox.vgrow="ALWAYS" prefRowCount="10" promptText="Description"
-                                wrapText="true" fx:id="descriptionEditor" />
+                                    <TextArea VBox.vgrow="ALWAYS" prefRowCount="10" promptText="Description"
+                                        wrapText="true" fx:id="descriptionEditor" />
 
-                            <MarkdownView VBox.vgrow="ALWAYS" managed="false" visible="false"
-                                fx:id="descriptionPreview" />
-
-                        </VBox>
+                                    <MarkdownView VBox.vgrow="ALWAYS" managed="false" visible="false"
+                                        fx:id="descriptionPreview" />
+                                </VBox>
+                            </center>
+                        </BorderPane>
                     </content>
                 </Tab>
                 <Tab closable="false" text="Attachments">

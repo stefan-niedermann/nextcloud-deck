@@ -6,6 +6,7 @@ import it.niedermann.nextcloud.deck.app.shared.args.board.BoardRawArgs;
 import it.niedermann.nextcloud.deck.app.shared.args.card.CardRawArgs;
 import it.niedermann.nextcloud.deck.domain.model.Account;
 import it.niedermann.nextcloud.deck.domain.model.Board;
+import it.niedermann.nextcloud.deck.domain.model.Card;
 import it.niedermann.nextcloud.deck.javafx.di.fx.FxScope;
 import it.niedermann.nextcloud.deck.javafx.di.named.NamedPrimaryStage;
 import it.niedermann.nextcloud.deck.javafx.di.stage.StageComponent;
@@ -41,6 +42,10 @@ public class ApplicationRouter {
 
     public void launchEditBoardStage(Account.ID accountId, Board.ID boardId) {
         launchEditBoardStage(new Stage(), new BoardRawArgs.ExplicitBoard(accountId, boardId));
+    }
+
+    public void launchEditCardStage(Card.ID cardId) {
+        launchEditCardStage(new Stage(), new CardRawArgs.LocalCard(cardId));
     }
 
     // endregion
