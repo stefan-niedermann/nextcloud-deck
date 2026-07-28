@@ -78,6 +78,8 @@ public class LoginScene extends DisposableController {
     public void initialize(URL location, ResourceBundle resources) {
         super.initialize(location, resources);
 
+        submit.setOnAction(_ -> submit());
+
         final var importInProgressDisposable = importInProgress
                 .observeOn(JavaFxScheduler.platform())
                 .subscribe(importInProgress -> {

@@ -10,16 +10,10 @@
 
     <Region HBox.hgrow="SOMETIMES" />
 
-    <Button fx:id="editButton" mnemonicParsing="false">
-        <graphic>
-            <FontIcon iconLiteral="fltral-edit-20" />
-        </graphic>
-    </Button>
-
     <fx:define>
         <ContextMenu fx:id="contextMenu">
             <items>
-                <MenuItem mnemonicParsing="false" text="Edit" fx:id="share" />
+                <MenuItem mnemonicParsing="false" text="Edit" fx:id="editMenuItem" />
                 <MenuItem mnemonicParsing="false" text="Share" />
                 <MenuItem mnemonicParsing="false" text="Copy" />
                 <MenuItem mnemonicParsing="false" text="Delete" />

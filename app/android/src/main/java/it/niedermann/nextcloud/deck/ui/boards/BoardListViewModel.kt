@@ -13,13 +13,13 @@ import it.niedermann.nextcloud.deck.domain.sync.SyncScheduler
 import it.niedermann.nextcloud.deck.domain.usecases.boards.AddBoardUseCase
 import it.niedermann.nextcloud.deck.domain.usecases.boards.ListBoardsUseCase
 import it.niedermann.nextcloud.deck.domain.usecases.state.GetCurrentAccountUseCase
+import jakarta.inject.Inject
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.future.await
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.reactive.asFlow
 import org.reactivestreams.FlowAdapters
-import javax.inject.Inject
 
 @HiltViewModel
 class BoardListViewModel @Inject constructor(

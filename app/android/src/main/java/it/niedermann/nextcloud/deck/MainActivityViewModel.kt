@@ -8,6 +8,7 @@ import it.niedermann.nextcloud.deck.domain.model.Board
 import it.niedermann.nextcloud.deck.domain.usecases.accounts.GetAccountsUseCase
 import it.niedermann.nextcloud.deck.domain.usecases.state.GetCurrentAccountUseCase
 import it.niedermann.nextcloud.deck.domain.usecases.state.GetCurrentBoardUseCase
+import jakarta.inject.Inject
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
@@ -18,7 +19,6 @@ import kotlinx.coroutines.future.await
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.reactive.asFlow
 import org.reactivestreams.FlowAdapters
-import javax.inject.Inject
 
 @HiltViewModel
 class MainActivityViewModel @Inject constructor(

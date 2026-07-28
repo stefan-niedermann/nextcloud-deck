@@ -24,6 +24,7 @@ import it.niedermann.nextcloud.deck.domain.usecases.columns.ListColumnsUseCase
 import it.niedermann.nextcloud.deck.domain.usecases.labels.ListLabelsUseCase
 import it.niedermann.nextcloud.deck.domain.usecases.state.GetCurrentAccountUseCase
 import it.niedermann.nextcloud.deck.domain.usecases.state.SetCurrentBoardUseCase
+import jakarta.inject.Inject
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.collectLatest
@@ -32,7 +33,6 @@ import kotlinx.coroutines.future.await
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.reactive.asFlow
 import org.reactivestreams.FlowAdapters
-import javax.inject.Inject
 
 @HiltViewModel
 class BoardViewModel @Inject constructor(

@@ -9,6 +9,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import it.niedermann.nextcloud.deck.domain.state.SyncStatus
 import it.niedermann.nextcloud.deck.domain.usecases.accounts.ImportAccountUseCase
 import it.niedermann.nextcloud.deck.domain.usecases.state.SetCurrentAccountUseCase
+import jakarta.inject.Inject
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.future.await
@@ -16,7 +17,6 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.reactive.asFlow
 import org.reactivestreams.FlowAdapters
 import java.net.URL
-import javax.inject.Inject
 
 @HiltViewModel
 class LoginViewModel @Inject constructor(

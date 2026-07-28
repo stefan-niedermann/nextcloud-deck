@@ -12,6 +12,7 @@ import it.niedermann.nextcloud.deck.data.repository.CardRepositoryImpl;
 import it.niedermann.nextcloud.deck.data.repository.ColumnRepositoryImpl;
 import it.niedermann.nextcloud.deck.data.repository.CommentRepositoryImpl;
 import it.niedermann.nextcloud.deck.data.repository.LabelRepositoryImpl;
+import it.niedermann.nextcloud.deck.data.repository.ShareRepositoryImpl;
 import it.niedermann.nextcloud.deck.data.repository.StateRepositoryImpl;
 import it.niedermann.nextcloud.deck.data.repository.UserRepositoryImpl;
 import it.niedermann.nextcloud.deck.domain.repository.AccountRepository;
@@ -22,6 +23,7 @@ import it.niedermann.nextcloud.deck.domain.repository.CardRepository;
 import it.niedermann.nextcloud.deck.domain.repository.ColumnRepository;
 import it.niedermann.nextcloud.deck.domain.repository.CommentRepository;
 import it.niedermann.nextcloud.deck.domain.repository.LabelRepository;
+import it.niedermann.nextcloud.deck.domain.repository.ShareRepository;
 import it.niedermann.nextcloud.deck.domain.repository.UserRepository;
 import it.niedermann.nextcloud.deck.domain.state.KeyValueStore;
 import it.niedermann.nextcloud.deck.domain.state.StateRepository;
@@ -89,5 +91,11 @@ public class RepositoryModule {
     @Singleton
     ActivityRepository provideActivityRepository() {
         return new ActivityRepositoryImpl();
+    }
+
+    @Provides
+    @Singleton
+    ShareRepository provideShareRepository() {
+        return new ShareRepositoryImpl();
     }
 }

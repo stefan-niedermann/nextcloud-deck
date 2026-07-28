@@ -3,7 +3,6 @@ package it.niedermann.nextcloud.deck.javafx.ui.controller.views;
 import it.niedermann.nextcloud.deck.domain.model.Board;
 import it.niedermann.nextcloud.deck.javafx.ui.fxml.Inflater;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
 import javafx.scene.control.ContextMenu;
 import javafx.scene.control.Label;
 import javafx.scene.control.MenuItem;
@@ -18,11 +17,9 @@ public class BoardListItemView extends HBox {
     @FXML
     Label title;
     @FXML
-    Button editButton;
-    @FXML
     ContextMenu contextMenu;
     @FXML
-    MenuItem share;
+    MenuItem editMenuItem;
 
     public BoardListItemView() {
         Inflater.getInstance().inflate(this);
@@ -33,7 +30,7 @@ public class BoardListItemView extends HBox {
         circle.setFill(Color.rgb(board.color().getRed(), board.color().getGreen(), board.color().getBlue()));
         title.setText(board.title());
 
-        editButton.setOnAction(event -> {
+        editMenuItem.setOnAction(event -> {
             actionListener.onEditBoard(board);
             event.consume();
         });

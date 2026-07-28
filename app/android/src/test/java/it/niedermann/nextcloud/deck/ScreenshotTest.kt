@@ -10,6 +10,7 @@ import dagger.hilt.android.testing.HiltAndroidTest
 import dagger.hilt.android.testing.HiltTestApplication
 import it.niedermann.nextcloud.deck.domain.model.Account
 import it.niedermann.nextcloud.remote.ApiProvider
+import jakarta.inject.Inject
 import org.junit.Before
 import org.junit.Ignore
 import org.junit.Rule
@@ -22,7 +23,6 @@ import org.robolectric.RobolectricTestRunner
 import org.robolectric.annotation.Config
 import org.robolectric.annotation.GraphicsMode
 import java.io.File
-import javax.inject.Inject
 
 @Ignore("To be decided whether full e2e tests or mocked")
 @HiltAndroidTest

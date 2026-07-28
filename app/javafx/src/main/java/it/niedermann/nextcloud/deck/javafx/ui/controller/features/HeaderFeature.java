@@ -40,6 +40,8 @@ public class HeaderFeature extends DisposableController {
     @FXML
     Label boardTitle;
     @FXML
+    Button editBoardBtn;
+    @FXML
     Button scheduleSyncBtn;
     @FXML
     AvatarProgressView avatar;
@@ -92,14 +94,27 @@ public class HeaderFeature extends DisposableController {
         final var currentBoardDisposable = viewModel.getBoard()
                 .observeOn(JavaFxScheduler.platform())
                 .subscribe(board -> {
-                    boardTitle.setText(board.title());
-                    boardTitle.setTooltip(new Tooltip(String.format("Last edited at %1$s by %2$s",
-                            board.editedAt().format(DateTimeFormatter.ofLocalizedDateTime(FormatStyle.SHORT)),
-                            "John Doe")));
-                    circle.setFill(Color.rgb(board.color().getRed(), board.color().getGreen(), board.color().getBlue()));
+                    final boolean boardPresent = board != null;
+                    boardTitle.setText(boardPresent ? board.title() : "");
+                    editBoardBtn.setVisible(boardPresent);
+                    editBoardBtn.setManaged(boardPresent);
+                    if (boardPresent) {
+                        boardTitle.setTooltip(new Tooltip(String.format("Last edited at %1$s by %2$s",
+                                board.editedAt().format(DateTimeFormatter.ofLocalizedDateTime(FormatStyle.SHORT)),
+                                "John Doe")));
+                        circle.setFill(Color.rgb(board.color().getRed(), board.color().getGreen(), board.color().getBlue()));
+                    }
                 });
 
         addDisposable(currentBoardDisposable);
+
+        editBoardBtn.setOnAction(_ -> {
+            var disposable = viewModel.getBoard()
+                    .firstElement()
+                    .observeOn(JavaFxScheduler.platform())
+                    .subscribe(viewModel::onEditBoard);
+            addDisposable(disposable);
+        });
 
         scheduleSyncBtn.setOnAction(_ -> this.scheduleSync());
         removeAccountBtn.setOnAction(_ -> this.removeAccount());
@@ -148,6 +163,8 @@ public class HeaderFeature extends DisposableController {
         Flowable<Account.ID> getAccountId();
 
         Flowable<Board> getBoard();
+
+        void onEditBoard(Board board);
 
         void onAccountRemoved();
     }

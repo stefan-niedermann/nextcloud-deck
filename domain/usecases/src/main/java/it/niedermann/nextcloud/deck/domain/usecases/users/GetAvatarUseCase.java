@@ -11,13 +11,11 @@ import it.niedermann.nextcloud.deck.domain.model.User;
 import it.niedermann.nextcloud.deck.domain.repository.UserRepository;
 import it.niedermann.nextcloud.remote.ApiProvider;
 import jakarta.inject.Inject;
-import jakarta.inject.Singleton;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-@Singleton
 public class GetAvatarUseCase {
 
     private final ApiProvider.Factory apiProviderFactory;

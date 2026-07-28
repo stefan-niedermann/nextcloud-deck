@@ -25,6 +25,7 @@ import it.niedermann.nextcloud.deck.domain.usecases.comments.ListCommentsUseCase
 import it.niedermann.nextcloud.deck.domain.usecases.comments.UpdateCommentUseCase
 import it.niedermann.nextcloud.deck.domain.usecases.labels.ListLabelsUseCase
 import it.niedermann.nextcloud.deck.domain.usecases.users.SearchUserUseCase
+import jakarta.inject.Inject
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.FlowPreview
@@ -40,7 +41,6 @@ import kotlinx.coroutines.reactive.asFlow
 import kotlinx.coroutines.withContext
 import org.reactivestreams.FlowAdapters
 import java.time.LocalDateTime
-import javax.inject.Inject
 
 @OptIn(FlowPreview::class, ExperimentalCoroutinesApi::class)
 @HiltViewModel

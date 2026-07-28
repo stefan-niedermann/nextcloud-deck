@@ -84,6 +84,7 @@ dependencies {
     implementation(libs.androidx.preference.ktx)
 
     implementation(libs.hilt.android)
+    implementation(libs.jakarta.inject)
     ksp(libs.hilt.compiler)
 
 

@@ -15,8 +15,8 @@ import it.niedermann.nextcloud.deck.AndroidKeyValueStore
 import it.niedermann.nextcloud.deck.app.shared.Constants.DECK_DB_NAME
 import it.niedermann.nextcloud.deck.data.local.DeckDatabase
 import it.niedermann.nextcloud.deck.domain.state.KeyValueStore
+import jakarta.inject.Singleton
 import kotlinx.coroutines.Dispatchers
-import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)

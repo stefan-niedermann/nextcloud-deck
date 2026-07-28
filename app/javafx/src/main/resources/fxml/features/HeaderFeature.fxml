@@ -7,6 +7,11 @@
 
     <Circle radius="10" fx:id="circle" />
     <Label fx:id="boardTitle" />
+    <Button fx:id="editBoardBtn" mnemonicParsing="false">
+        <graphic>
+            <FontIcon iconLiteral="fltral-edit-16" iconSize="16" />
+        </graphic>
+    </Button>
 
     <Region HBox.hgrow="SOMETIMES" />
 

@@ -17,8 +17,8 @@ import it.niedermann.nextcloud.deck.app.shared.di.SharedModule
 import it.niedermann.nextcloud.deck.data.local.DeckDatabase
 import it.niedermann.nextcloud.deck.domain.state.KeyValueStore
 import it.niedermann.nextcloud.remote.ApiProvider
+import jakarta.inject.Singleton
 import org.mockito.Mockito.mock
-import javax.inject.Singleton
 
 @Module
 @TestInstallIn(

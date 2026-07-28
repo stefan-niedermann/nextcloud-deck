@@ -9,13 +9,13 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import it.niedermann.nextcloud.deck.domain.model.Board
 import it.niedermann.nextcloud.deck.domain.usecases.boards.GetBoardUseCase
 import it.niedermann.nextcloud.deck.domain.usecases.boards.UpdateBoardUseCase
+import jakarta.inject.Inject
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.future.await
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.reactive.asFlow
 import org.reactivestreams.FlowAdapters
-import javax.inject.Inject
 
 @HiltViewModel
 class EditBoardViewModel @Inject constructor(

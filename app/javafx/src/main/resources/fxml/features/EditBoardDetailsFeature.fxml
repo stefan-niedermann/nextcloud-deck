@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?><?import javafx.scene.control.ColorPicker?><?import javafx.scene.control.Label?><?import javafx.scene.control.TextField?><?import javafx.scene.layout.GridPane?>
+
+<GridPane xmlns:fx="http://javafx.com/fxml/1" hgap="10" vgap="10" xmlns="http://javafx.com/javafx/24.0.1">
+    <padding>
+        <Insets bottom="20" left="20" right="20" top="20" />
+    </padding>
+
+    <Label text="Board Title" GridPane.columnIndex="0" GridPane.rowIndex="0" />
+    <TextField fx:id="title" GridPane.columnIndex="1" GridPane.rowIndex="0" />
+
+    <Label text="Board Color" GridPane.columnIndex="0" GridPane.rowIndex="1" />
+    <ColorPicker fx:id="color" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+
+    <Label text="Last Edited At" GridPane.columnIndex="0" GridPane.rowIndex="2" />
+    <Label fx:id="editedAt" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+</GridPane>
