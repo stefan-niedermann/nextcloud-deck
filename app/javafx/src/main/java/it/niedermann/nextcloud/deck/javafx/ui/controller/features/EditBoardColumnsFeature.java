@@ -8,6 +8,7 @@ import dagger.assisted.Assisted;
 import dagger.assisted.AssistedFactory;
 import dagger.assisted.AssistedInject;
 import io.reactivex.rxjava4.core.Flowable;
+import io.reactivex.rxjava4.disposables.Disposable;
 import it.niedermann.nextcloud.deck.domain.model.Board;
 import it.niedermann.nextcloud.deck.domain.model.Column;
 import it.niedermann.nextcloud.deck.javafx.ui.controller.DisposableController;
@@ -30,6 +31,7 @@ public class EditBoardColumnsFeature extends DisposableController {
     @FXML
     Button addColumnButton;
 
+    private Board board;
     private final ViewModel viewModel;
 
     @AssistedInject
@@ -57,6 +59,7 @@ public class EditBoardColumnsFeature extends DisposableController {
         final var permissionsDisposable = viewModel.getBoard()
                 .observeOn(JavaFxScheduler.platform())
                 .subscribe(board -> {
+                    this.board = board;
                     final boolean disable = !board.permissions().permissionManage();
                     newColumnTitle.setDisable(disable);
                     addColumnButton.setDisable(disable);
@@ -93,7 +96,8 @@ public class EditBoardColumnsFeature extends DisposableController {
 
             deleteButton.setOnAction(_ -> {
                 if (getItem() != null) {
-                    viewModel.onDeleteColumn(getItem());
+                    final var disposable = viewModel.onDeleteColumn(getItem());
+                    addDisposable(disposable);
                 }
             });
         }
@@ -101,10 +105,9 @@ public class EditBoardColumnsFeature extends DisposableController {
         @Override
         protected void updateItem(Column item, boolean empty) {
             super.updateItem(item, empty);
-            if (empty || item == null) {
+            if (empty || item == null || board == null) {
                 setGraphic(null);
             } else {
-                final var board = viewModel.getBoard().blockingFirst();
                 final boolean disable = !board.permissions().permissionManage();
 
                 titleField.setText(item.title());
@@ -119,7 +122,7 @@ public class EditBoardColumnsFeature extends DisposableController {
         Flowable<Board> getBoard();
         Flowable<List<Column>> getColumns();
         void onAddColumn(String title);
-        void onDeleteColumn(Column column);
+        Disposable onDeleteColumn(Column column);
         void onUpdateColumn(Column column, String newTitle);
     }
 }

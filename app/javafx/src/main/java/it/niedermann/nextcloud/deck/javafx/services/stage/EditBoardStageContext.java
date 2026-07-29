@@ -7,6 +7,8 @@ import dagger.assisted.Assisted;
 import dagger.assisted.AssistedFactory;
 import dagger.assisted.AssistedInject;
 import io.reactivex.rxjava4.core.Flowable;
+import io.reactivex.rxjava4.disposables.Disposable;
+import io.reactivex.rxjava4.schedulers.Schedulers;
 import it.niedermann.nextcloud.deck.domain.model.Account;
 import it.niedermann.nextcloud.deck.domain.model.Board;
 import it.niedermann.nextcloud.deck.domain.model.BoardShare;
@@ -36,6 +38,7 @@ import it.niedermann.nextcloud.deck.javafx.ui.controller.features.EditBoardDetai
 import it.niedermann.nextcloud.deck.javafx.ui.controller.features.EditBoardFeature;
 import it.niedermann.nextcloud.deck.javafx.ui.controller.features.EditBoardLabelsFeature;
 import it.niedermann.nextcloud.deck.javafx.ui.controller.features.EditBoardShareFeature;
+import it.niedermann.nextcloud.deck.javafx.util.JavaFxScheduler;
 
 public class EditBoardStageContext extends Store<EditBoardStageContext.State, EditBoardStageContext.Action> implements
         EditBoardFeature.ViewModel,
@@ -109,6 +112,7 @@ public class EditBoardStageContext extends Store<EditBoardStageContext.State, Ed
     @Override
     public Flowable<Board> getBoard() {
         return Flowable.fromPublisher(getState())
+                .observeOn(Schedulers.virtual())
                 .map(State::boardId)
                 .switchMap(getBoardUseCase::execute);
     }
@@ -116,6 +120,7 @@ public class EditBoardStageContext extends Store<EditBoardStageContext.State, Ed
     @Override
     public Flowable<List<Column>> getColumns() {
         return Flowable.fromPublisher(getState())
+                .observeOn(Schedulers.virtual())
                 .map(State::boardId)
                 .switchMap(id -> Flowable.fromPublisher(listColumnsUseCase.execute(id)))
                 .switchMap(ids -> Flowable.fromIterable(ids)
@@ -130,9 +135,11 @@ public class EditBoardStageContext extends Store<EditBoardStageContext.State, Ed
     }
 
     @Override
-    public void onDeleteColumn(Column column) {
-        Flowable.fromPublisher(listCardsUseCase.execute(column.id()))
+    public Disposable onDeleteColumn(Column column) {
+        return Flowable.fromPublisher(listCardsUseCase.execute(column.id()))
+                .subscribeOn(Schedulers.virtual())
                 .firstElement()
+                .observeOn(JavaFxScheduler.platform())
                 .subscribe(cards -> {
                     if (cards.isEmpty()) {
                         deleteColumnUseCase.execute(column.id());
@@ -151,9 +158,9 @@ public class EditBoardStageContext extends Store<EditBoardStageContext.State, Ed
     @Override
     public Flowable<Collection<Label>> getLabels() {
         return Flowable.fromPublisher(getState())
+                .observeOn(Schedulers.virtual())
                 .map(State::boardId)
-                .switchMap(id -> Flowable.fromPublisher(listLabelsUseCase.execute(id)))
-                .map(set -> (Collection<Label>) set);
+                .switchMap(id -> Flowable.fromPublisher(listLabelsUseCase.execute(id)));
     }
 
     @Override
@@ -174,6 +181,7 @@ public class EditBoardStageContext extends Store<EditBoardStageContext.State, Ed
     @Override
     public Flowable<List<BoardShare>> getShares() {
         return Flowable.fromPublisher(getState())
+                .observeOn(Schedulers.virtual())
                 .map(State::boardId)
                 .switchMap(id -> Flowable.fromPublisher(listBoardSharesUseCase.execute(id)));
     }

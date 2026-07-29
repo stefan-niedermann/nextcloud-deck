@@ -1,5 +1,7 @@
 package it.niedermann.nextcloud.deck.domain.usecases.state;
 
+import java.util.concurrent.CompletableFuture;
+
 import it.niedermann.nextcloud.deck.domain.model.Account;
 import it.niedermann.nextcloud.deck.domain.model.Board;
 import it.niedermann.nextcloud.deck.domain.state.StateRepository;
@@ -16,8 +18,8 @@ public class SetCurrentBoardUseCase {
         this.stateRepository = stateRepository;
     }
 
-    public void execute(Account.ID accountId, Board.ID boardId) {
-        this.stateRepository.setCurrentBoardId(accountId, boardId);
+    public CompletableFuture<Board.ID> execute(Account.ID accountId, Board.ID boardId) {
+        return this.stateRepository.setCurrentBoardId(accountId, boardId);
     }
 
 }

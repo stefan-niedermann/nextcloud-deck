@@ -9,7 +9,6 @@ import dagger.assisted.Assisted;
 import dagger.assisted.AssistedFactory;
 import dagger.assisted.AssistedInject;
 import io.reactivex.rxjava4.core.Flowable;
-import io.reactivex.rxjava4.core.Single;
 import it.niedermann.nextcloud.deck.domain.model.Account;
 import it.niedermann.nextcloud.deck.domain.model.Board;
 import it.niedermann.nextcloud.deck.domain.model.Card;
@@ -76,20 +75,16 @@ public class MainStageContext extends Store<MainStageContext.State, MainStageCon
         on(Action.EditBoardAction.class, (state, _) -> state);
         on(Action.CloseCardAction.class, (state, _) -> state.withCardId(null));
 
-        effect(Action.SwitchAccountAction.class, (_, action) -> {
-            setCurrentAccountUseCase.execute(action.accountId());
-            return CompletableFuture.completedFuture(Optional.empty());
-        });
+        effect(Action.SwitchAccountAction.class, (_, action) -> setCurrentAccountUseCase.execute(action.accountId())
+                .thenApplyAsync(_ -> Optional.empty()));
 
         effect(Action.SwitchAccountAction.class, (state, action) -> {
             final var accountId = state.accountId();
             if (accountId.isEmpty()) {
                 return CompletableFuture.failedFuture(new IllegalStateException());
             }
-            setCurrentAccountUseCase.execute(accountId.get());
-            return Single.fromCompletionStage(this.getCurrentBoardUseCase.execute(accountId.get()))
-                    .toCompletionStage()
-                    .toCompletableFuture()
+            return setCurrentAccountUseCase.execute(accountId.get())
+                    .thenComposeAsync(_ -> this.getCurrentBoardUseCase.execute(accountId.get()))
                     .thenApplyAsync(Optional::ofNullable)
                     .exceptionallyAsync(_ -> Optional.empty())
                     .thenApplyAsync(boardId -> boardId.map(Action.DisplayBoardAction::new));
@@ -101,8 +96,8 @@ public class MainStageContext extends Store<MainStageContext.State, MainStageCon
             if (accountId.isEmpty() || boardId.isEmpty()) {
                 return CompletableFuture.failedFuture(new IllegalStateException());
             }
-            setCurrentBoardUseCase.execute(accountId.get(), boardId.get());
-            return CompletableFuture.completedFuture(Optional.empty());
+            return setCurrentBoardUseCase.execute(accountId.get(), boardId.get())
+                    .thenApplyAsync(_ -> Optional.empty());
         });
 
         effect(Action.DeleteCardAction.class, (state, action) -> deleteCardUseCase.execute(action.cardId())

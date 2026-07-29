@@ -34,6 +34,7 @@ public class EditBoardShareFeature extends DisposableController {
     @FXML
     ListView<BoardShare> shares;
 
+    private Board board;
     private final UserSuggestionProvider userSuggestionProvider;
     private final UserSearchViewConverter userSearchViewConverter;
     private final ViewModel viewModel;
@@ -75,6 +76,7 @@ public class EditBoardShareFeature extends DisposableController {
         final var permissionsDisposable = viewModel.getBoard()
                 .observeOn(JavaFxScheduler.platform())
                 .subscribe(board -> {
+                    this.board = board;
                     final boolean disable = !board.permissions().permissionShare();
                     userSearch.setDisable(disable);
                     shares.refresh();
@@ -119,10 +121,9 @@ public class EditBoardShareFeature extends DisposableController {
         @Override
         protected void updateItem(BoardShare item, boolean empty) {
             super.updateItem(item, empty);
-            if (empty || item == null) {
+            if (empty || item == null || board == null) {
                 setGraphic(null);
             } else {
-                final var board = viewModel.getBoard().blockingFirst();
                 final boolean disable = !board.permissions().permissionShare();
 
                 userChip.bind(item.user(), userSearchViewConverter);

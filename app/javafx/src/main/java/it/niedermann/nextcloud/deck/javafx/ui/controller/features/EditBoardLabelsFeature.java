@@ -34,6 +34,7 @@ public class EditBoardLabelsFeature extends DisposableController {
     @FXML
     Button addLabelButton;
 
+    private Board board;
     private final ViewModel viewModel;
 
     @AssistedInject
@@ -61,6 +62,7 @@ public class EditBoardLabelsFeature extends DisposableController {
         final var permissionsDisposable = viewModel.getBoard()
                 .observeOn(JavaFxScheduler.platform())
                 .subscribe(board -> {
+                    this.board = board;
                     final boolean disable = !board.permissions().permissionManage();
                     newLabelTitle.setDisable(disable);
                     newLabelColor.setDisable(disable);
@@ -113,10 +115,9 @@ public class EditBoardLabelsFeature extends DisposableController {
         @Override
         protected void updateItem(Label item, boolean empty) {
             super.updateItem(item, empty);
-            if (empty || item == null) {
+            if (empty || item == null || board == null) {
                 setGraphic(null);
             } else {
-                final var board = viewModel.getBoard().blockingFirst();
                 final boolean disable = !board.permissions().permissionManage();
 
                 titleField.setText(item.title());

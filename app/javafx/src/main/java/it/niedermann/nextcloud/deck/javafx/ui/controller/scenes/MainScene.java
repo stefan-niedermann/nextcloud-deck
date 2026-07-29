@@ -85,15 +85,16 @@ public class MainScene extends DisposableController {
                 .map(MainStageContext.State::boardId)
                 .filter(Optional::isPresent)
                 .map(Optional::get)
+                .observeOn(Schedulers.virtual())
                 .map(this.getBoardUseCase::execute)
                 .switchMap(Flowable::fromPublisher)
                 .map(Board::color)
                 .map(FxUtils::createAccentColorCss)
-                .subscribeOn(Schedulers.virtual())
                 .observeOn(JavaFxScheduler.platform())
                 .subscribe(root.styleProperty()::setValue);
 
         final var cardSidebarDisposable = Flowable.fromPublisher(mainStageContext.getState())
+                .observeOn(JavaFxScheduler.platform())
                 .subscribe(state -> {
                     sidebarContext.dispatch(new EditCardStageContext.Action.SelectCard(state.cardId()));
                     if (state.cardId().isEmpty()) {

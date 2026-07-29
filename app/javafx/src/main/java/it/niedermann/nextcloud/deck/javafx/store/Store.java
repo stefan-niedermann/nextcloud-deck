@@ -13,7 +13,6 @@ import java.util.logging.Logger;
 
 import io.reactivex.rxjava4.core.Flowable;
 import io.reactivex.rxjava4.processors.BehaviorProcessor;
-import it.niedermann.nextcloud.deck.javafx.util.JavaFxScheduler;
 
 public abstract class Store<TState, TAction> {
 
@@ -24,7 +23,6 @@ public abstract class Store<TState, TAction> {
     protected TState initialState;
     private final BehaviorProcessor<TState> state = BehaviorProcessor.create();
     private final Flowable<TState> state$ = state
-            .observeOn(JavaFxScheduler.platform())
             .distinctUntilChanged(TState::equals);
 
     private final Map<Class<?>, List<BiFunction<TState, TAction, TState>>> reducers = new HashMap<>();
