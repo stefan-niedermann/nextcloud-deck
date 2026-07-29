@@ -5,12 +5,14 @@ import java.util.concurrent.atomic.AtomicReference;
 import java.util.logging.Logger;
 
 import io.reactivex.rxjava4.core.Flowable;
+import io.reactivex.rxjava4.disposables.CompositeDisposable;
 import io.reactivex.rxjava4.disposables.Disposable;
 import io.reactivex.rxjava4.schedulers.Schedulers;
 import it.niedermann.nextcloud.deck.domain.model.Account;
 import it.niedermann.nextcloud.deck.domain.usecases.accounts.HasAccountsUseCase;
 import it.niedermann.nextcloud.deck.domain.usecases.state.SetCurrentAccountUseCase;
 import it.niedermann.nextcloud.deck.javafx.services.application.ThemeService;
+import it.niedermann.nextcloud.deck.javafx.ui.controller.TitleReportable;
 import it.niedermann.nextcloud.deck.javafx.ui.controller.scenes.ExceptionScene;
 import it.niedermann.nextcloud.deck.javafx.ui.controller.scenes.LoginScene;
 import it.niedermann.nextcloud.deck.javafx.ui.controller.scenes.SplashScreenScene;
@@ -39,6 +41,7 @@ public abstract class StageManager<TRawArgs> {
     private final TRawArgs args;
 
     private final AtomicReference<Object> controller = new AtomicReference<>();
+    private final CompositeDisposable titleDisposables = new CompositeDisposable();
 
     public StageManager(Stage stage,
                         ThemeService themeService,
@@ -60,6 +63,7 @@ public abstract class StageManager<TRawArgs> {
         this.args = args;
 
         this.stage.setOnCloseRequest(_ -> {
+            titleDisposables.dispose();
             final var ctrl = controller.get();
             if (ctrl instanceof Disposable disposableCtrl) {
                 disposableCtrl.dispose();
@@ -119,6 +123,15 @@ public abstract class StageManager<TRawArgs> {
 
         if (oldCtrl instanceof Disposable oldDisposableCtrl && !oldDisposableCtrl.isDisposed()) {
             oldDisposableCtrl.dispose();
+        }
+
+        titleDisposables.clear();
+        if (controller instanceof TitleReportable titleReportable) {
+            final var titleDisposable = titleReportable.getTitle()
+                    .observeOn(JavaFxScheduler.platform())
+                    .subscribe(stage::setTitle);
+
+            titleDisposables.add(titleDisposable);
         }
 
         Platform.runLater(() -> {

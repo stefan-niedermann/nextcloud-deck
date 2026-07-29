@@ -87,6 +87,12 @@ public class EditCardStageContext extends Store<EditCardStageContext.State, Edit
                 .switchMap(id -> Flowable.fromPublisher(getCardUseCase.execute(id)));
     }
 
+    public Flowable<Board> getBoard() {
+        return getCard()
+                .switchMap(card -> Flowable.fromPublisher(getColumnUseCase.execute(card.columnId())))
+                .switchMap(column -> Flowable.fromPublisher(getBoardUseCase.execute(column.boardId())));
+    }
+
     @Override
     public Flowable<java.util.List<Attachment>> getAttachments() {
         return getCardId()
@@ -148,10 +154,7 @@ public class EditCardStageContext extends Store<EditCardStageContext.State, Edit
 
     @Override
     public Flowable<Board.Permissions> getPermissions() {
-        return getCardId()
-                .switchMap(id -> Flowable.fromPublisher(getCardUseCase.execute(id)))
-                .switchMap(card -> Flowable.fromPublisher(getColumnUseCase.execute(card.columnId())))
-                .switchMap(column -> Flowable.fromPublisher(getBoardUseCase.execute(column.boardId())))
+        return getBoard()
                 .map(Board::permissions)
                 .distinctUntilChanged();
     }

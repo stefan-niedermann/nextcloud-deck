@@ -17,6 +17,7 @@ import java.util.logging.Logger;
 import dagger.assisted.Assisted;
 import dagger.assisted.AssistedFactory;
 import dagger.assisted.AssistedInject;
+import io.reactivex.rxjava4.core.Flowable;
 import io.reactivex.rxjava4.core.Single;
 import io.reactivex.rxjava4.processors.BehaviorProcessor;
 import io.reactivex.rxjava4.processors.FlowableProcessor;
@@ -27,13 +28,14 @@ import it.niedermann.nextcloud.deck.domain.model.Account;
 import it.niedermann.nextcloud.deck.domain.state.SyncStatus;
 import it.niedermann.nextcloud.deck.domain.usecases.accounts.ImportAccountUseCase;
 import it.niedermann.nextcloud.deck.javafx.ui.controller.DisposableController;
+import it.niedermann.nextcloud.deck.javafx.ui.controller.TitleReportable;
 import it.niedermann.nextcloud.deck.javafx.util.JavaFxScheduler;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.ProgressBar;
 import javafx.scene.control.TextInputControl;
 
-public class LoginScene extends DisposableController {
+public class LoginScene extends DisposableController implements TitleReportable {
 
     private static final Logger logger = Logger.getLogger(LoginScene.class.getName());
 
@@ -208,5 +210,10 @@ public class LoginScene extends DisposableController {
 
     public interface ViewModel {
         void onAccountImported(Account.ID accountId);
+    }
+
+    @Override
+    public Flowable<String> getTitle() {
+        return Flowable.just("Login");
     }
 }

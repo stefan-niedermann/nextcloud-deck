@@ -6,12 +6,14 @@ import java.util.ResourceBundle;
 import dagger.assisted.Assisted;
 import dagger.assisted.AssistedFactory;
 import dagger.assisted.AssistedInject;
+import io.reactivex.rxjava4.core.Flowable;
 import it.niedermann.nextcloud.deck.javafx.ui.controller.DisposableController;
+import it.niedermann.nextcloud.deck.javafx.ui.controller.TitleReportable;
 import it.niedermann.nextcloud.deck.javafx.ui.controller.features.ExceptionDialog;
 import it.niedermann.nextcloud.deck.javafx.ui.controller.views.EmptyContentView;
 import javafx.fxml.FXML;
 
-public class ExceptionScene extends DisposableController {
+public class ExceptionScene extends DisposableController implements TitleReportable {
 
     private final ExceptionDialog.Factory exceptionDialogFactory;
     private final Throwable exception;
@@ -39,5 +41,10 @@ public class ExceptionScene extends DisposableController {
     @AssistedFactory
     public interface Factory {
         ExceptionScene create(Throwable exception);
+    }
+
+    @Override
+    public Flowable<String> getTitle() {
+        return Flowable.just("Error");
     }
 }

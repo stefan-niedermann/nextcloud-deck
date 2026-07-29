@@ -8,12 +8,12 @@ import dagger.assisted.Assisted;
 import dagger.assisted.AssistedFactory;
 import dagger.assisted.AssistedInject;
 import io.reactivex.rxjava4.core.Flowable;
-import io.reactivex.rxjava4.schedulers.Schedulers;
 import it.niedermann.nextcloud.deck.domain.model.Board;
-import it.niedermann.nextcloud.deck.domain.usecases.boards.GetBoardUseCase;
+import it.niedermann.nextcloud.deck.javafx.services.application.StageTitleResolver;
 import it.niedermann.nextcloud.deck.javafx.services.stage.EditCardStageContext;
 import it.niedermann.nextcloud.deck.javafx.services.stage.MainStageContext;
 import it.niedermann.nextcloud.deck.javafx.ui.controller.DisposableController;
+import it.niedermann.nextcloud.deck.javafx.ui.controller.TitleReportable;
 import it.niedermann.nextcloud.deck.javafx.ui.controller.features.BoardFeature;
 import it.niedermann.nextcloud.deck.javafx.ui.controller.features.BoardListFeature;
 import it.niedermann.nextcloud.deck.javafx.ui.controller.features.EditCardFeature;
@@ -27,7 +27,7 @@ import javafx.scene.control.SplitPane;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.Pane;
 
-public class MainScene extends DisposableController {
+public class MainScene extends DisposableController implements TitleReportable {
 
     @FXML
     Parent root;
@@ -38,7 +38,7 @@ public class MainScene extends DisposableController {
 
     private final MainStageContext mainStageContext;
     private final EditCardStageContext sidebarContext;
-    private final GetBoardUseCase getBoardUseCase;
+    private final StageTitleResolver stageTitleResolver;
 
     private final Inflater.FxBundle<?> boardListBundle;
     private final Inflater.FxBundle<?> headerBundle;
@@ -49,17 +49,17 @@ public class MainScene extends DisposableController {
 
     @AssistedInject
     public MainScene(
-            GetBoardUseCase getBoardUseCase,
             Inflater inflater,
             BoardListFeature.Factory boardListFactory,
             HeaderFeature.Factory headerFactory,
             BoardFeature.Factory boardFactory,
             EditCardFeature.Factory editCardFactory,
             EditCardStageContext.Factory editCardStageContextFactory,
+            StageTitleResolver stageTitleResolver,
             @Assisted MainStageContext mainStageContext
     ) {
         this.mainStageContext = mainStageContext;
-        this.getBoardUseCase = getBoardUseCase;
+        this.stageTitleResolver = stageTitleResolver;
 
         this.sidebarContext = editCardStageContextFactory.create(new EditCardStageContext.State(Optional.empty(), false), () -> mainStageContext.dispatch(new MainStageContext.Action.CloseCardAction()));
 
@@ -81,13 +81,7 @@ public class MainScene extends DisposableController {
         headerHost.getChildren().add(headerBundle.view());
         splitPane.getItems().addAll(boardListBundle.view(), boardBundle.view());
 
-        final var accentColorDisposable = Flowable.fromPublisher(this.mainStageContext.getState())
-                .map(MainStageContext.State::boardId)
-                .filter(Optional::isPresent)
-                .map(Optional::get)
-                .observeOn(Schedulers.virtual())
-                .map(this.getBoardUseCase::execute)
-                .switchMap(Flowable::fromPublisher)
+        final var accentColorDisposable = mainStageContext.getBoard()
                 .map(Board::color)
                 .map(FxUtils::createAccentColorCss)
                 .observeOn(JavaFxScheduler.platform())
@@ -124,6 +118,12 @@ public class MainScene extends DisposableController {
 //                }
 //            }
         });
+    }
+
+    @Override
+    public Flowable<String> getTitle() {
+        return Flowable.fromPublisher(mainStageContext.getState())
+                .switchMap(state -> stageTitleResolver.resolve(state.accountId().orElse(null), state.boardId().orElse(null), state.cardId().orElse(null)));
     }
 }
 

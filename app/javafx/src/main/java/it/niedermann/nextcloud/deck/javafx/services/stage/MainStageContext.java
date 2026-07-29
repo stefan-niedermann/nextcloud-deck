@@ -134,6 +134,7 @@ public class MainStageContext extends Store<MainStageContext.State, MainStageCon
                 .distinctUntilChanged(Account.ID::equals);
     }
 
+    @Override
     public Flowable<Board.ID> getBoardId() {
         return Flowable.fromPublisher(getState())
                 .map(State::boardId)
