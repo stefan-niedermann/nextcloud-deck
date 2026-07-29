@@ -112,7 +112,9 @@ fun AppNavigation(
             composable<BoardListRoute> {
                 BoardListScreen(
                     onBoardClick = { boardId ->
-                        navController.navigate(BoardViewRoute(boardId))
+                        navController.navigate(BoardViewRoute(boardId)) {
+                            popUpTo<BoardListRoute> { inclusive = true }
+                        }
                     },
                     onEditBoardClick = { boardId ->
                         navController.navigate(EditBoardRoute(boardId))
@@ -137,7 +139,7 @@ fun AppNavigation(
                     },
                     onGoToBoardList = {
                         navController.navigate(BoardListRoute) {
-                            popUpTo(BoardListRoute) { inclusive = true }
+                            popUpTo<BoardViewRoute> { inclusive = true }
                         }
                     }
                 )
