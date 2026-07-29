@@ -1,6 +1,6 @@
 package it.niedermann.nextcloud.deck.javafx.ui.cellfactories;
 
-import it.niedermann.nextcloud.deck.domain.model.Card;
+import it.niedermann.nextcloud.deck.domain.model.query.PreviewCard;
 import it.niedermann.nextcloud.deck.javafx.ui.controller.views.CardPreviewView;
 import it.niedermann.nextcloud.deck.javafx.util.DeckDataFormat;
 import jakarta.inject.Inject;
@@ -12,7 +12,7 @@ import javafx.scene.input.DataFormat;
 import javafx.scene.input.TransferMode;
 import javafx.util.Callback;
 
-public class CardPreviewCellFactory implements Callback<ListView<Card>, ListCell<Card>> {
+public class CardPreviewCellFactory implements Callback<ListView<PreviewCard>, ListCell<PreviewCard>> {
 
     private CardPreviewView.CardPreviewActionListener cardPreviewActionListener;
 
@@ -26,8 +26,8 @@ public class CardPreviewCellFactory implements Callback<ListView<Card>, ListCell
     }
 
     @Override
-    public ListCell<Card> call(ListView<Card> listView) {
-        final var listCell = new ListCell<Card>() {
+    public ListCell<PreviewCard> call(ListView<PreviewCard> listView) {
+        final var listCell = new ListCell<PreviewCard>() {
 
             final CardPreviewView view = new CardPreviewView();
 
@@ -45,7 +45,7 @@ public class CardPreviewCellFactory implements Callback<ListView<Card>, ListCell
             }
 
             @Override
-            protected void updateItem(Card card, boolean empty) {
+            protected void updateItem(PreviewCard card, boolean empty) {
                 super.updateItem(card, empty);
                 setText(null);
 
@@ -56,7 +56,7 @@ public class CardPreviewCellFactory implements Callback<ListView<Card>, ListCell
                 } else {
 
                     // TODO evaluate whether card assignees contains the user belonging to the current account
-                    view.bind(card, !card.assignees().isEmpty(), cardPreviewActionListener);
+                    view.bind(card, card.assigneeCount() > 0, cardPreviewActionListener);
                     setGraphic(view);
 
                 }

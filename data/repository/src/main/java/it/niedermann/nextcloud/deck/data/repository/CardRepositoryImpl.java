@@ -17,6 +17,7 @@ import it.niedermann.nextcloud.deck.domain.model.Board;
 import it.niedermann.nextcloud.deck.domain.model.Card;
 import it.niedermann.nextcloud.deck.domain.model.Column;
 import it.niedermann.nextcloud.deck.domain.model.CreateCard;
+import it.niedermann.nextcloud.deck.domain.model.query.PreviewCard;
 import it.niedermann.nextcloud.deck.domain.repository.CardRepository;
 import jakarta.inject.Inject;
 
@@ -56,13 +57,70 @@ public class CardRepositoryImpl implements CardRepository {
     }
 
     @Override
+    public Flow.Publisher<List<PreviewCard>> getNotDeletedCardPreviews(Column.ID columnId) {
+        final var previews = MockData.MOCK_CARDS.stream()
+                .filter(card -> Objects.equals(card.columnId(), columnId))
+                .map(this::toPreviewCard)
+                .collect(Collectors.toList());
+        return FlowAdapters.toFlowPublisher(Flowable.just(previews));
+    }
+
+    private PreviewCard toPreviewCard(Card card) {
+        final var excerpt = card.description().length() > 300
+                ? card.description().substring(0, 300)
+                : card.description();
+
+        final var labels = card.labels().stream()
+                .map(labelId -> Arrays.stream(MockData.MOCK_LABELS)
+                        .filter(l -> Objects.equals(l.id(), labelId))
+                        .findFirst()
+                        .map(l -> new PreviewCard.LabelPreview(l.title(), l.color()))
+                        .orElse(null))
+                .filter(Objects::nonNull)
+                .collect(Collectors.toSet());
+
+        final var commentCount = (int) Arrays.stream(MockData.MOCK_COMMENTS)
+                .filter(comment -> Objects.equals(comment.cardId(), card.id()))
+                .count();
+
+        final var attachmentCount = (int) Arrays.stream(MockData.MOCK_ATTACHMENTS)
+                .filter(attachment -> Objects.equals(attachment.cardId(), card.id()))
+                .count();
+
+        final var description = card.description();
+        int checkboxTotalCount = 0;
+        int checkboxDoneCount = 0;
+        final var matcher = java.util.regex.Pattern.compile("\\[([ xX])]").matcher(description);
+        while (matcher.find()) {
+            checkboxTotalCount++;
+            if (!matcher.group(1).isBlank()) {
+                checkboxDoneCount++;
+            }
+        }
+
+        return new PreviewCard(
+                card.id(),
+                card.title(),
+                excerpt,
+                labels,
+                commentCount,
+                attachmentCount,
+                card.assignees().size(),
+                checkboxDoneCount,
+                checkboxTotalCount,
+                card.dueDate(),
+                card.color()
+        );
+    }
+
+    @Override
     public Flow.Publisher<Map<Column, List<Card>>> getNotDeletedCardsByColumn(Board.ID boardId) {
         // TODO Mock Implementation
 
         final var columns = Arrays.stream(MockData.MOCK_COLUMNS)
                 .filter(column -> Objects.equals(column.boardId(), boardId))
                 .map(Column::id)
-                .toList();
+                .collect(Collectors.toList());
 
 
         return FlowAdapters.toFlowPublisher(Flowable.just(

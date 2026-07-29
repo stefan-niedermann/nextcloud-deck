@@ -166,40 +166,40 @@ public class MainStageContext extends Store<MainStageContext.State, MainStageCon
     }
 
     @Override
-    public void onOpenCard(Card card) {
-        dispatch(new MainStageContext.Action.EditCardAction(card.id()));
+    public void onOpenCard(Card.ID cardId) {
+        dispatch(new MainStageContext.Action.EditCardAction(cardId));
     }
 
     @Override
-    public void onAssignCard(Card card) {
-        System.out.println("[Mock] onAssignCard " + card);
+    public void onAssignCard(Card.ID cardId) {
+        System.out.println("[Mock] onAssignCard " + cardId);
     }
 
     @Override
-    public void onUnassignCard(Card card) {
-        System.out.println("[Mock] onUnassignCard " + card);
+    public void onUnassignCard(Card.ID cardId) {
+        System.out.println("[Mock] onUnassignCard " + cardId);
     }
 
     @Override
-    public void onMoveCard(Card card) {
-        System.out.println("[Mock] onMoveCard " + card);
+    public void onMoveCard(Card.ID cardId) {
+        System.out.println("[Mock] onMoveCard " + cardId);
     }
 
     @Override
-    public void onCopyCard(Card card) {
-        System.out.println("[Mock] onCopyCard " + card);
+    public void onCopyCard(Card.ID cardId) {
+        System.out.println("[Mock] onCopyCard " + cardId);
     }
 
     @Override
-    public void onDeleteCard(Card card) {
-        final var alert = new Alert(Alert.AlertType.CONFIRMATION, "Do you want to delete the card \"" + card.title() + "\" permanently? This operation can not be undone.", ButtonType.CANCEL, ButtonType.YES);
+    public void onDeleteCard(Card.ID cardId) {
+        final var alert = new Alert(Alert.AlertType.CONFIRMATION, "Do you want to delete the card permanently? This operation can not be undone.", ButtonType.CANCEL, ButtonType.YES);
         alert.setTitle("Delete");
-        alert.setHeaderText("Delete \"" + card.title() + "\"?");
+        alert.setHeaderText("Delete card?");
         themeService.bind(alert);
         alert.showAndWait()
                 .map(ButtonType::getButtonData)
                 .map(ButtonBar.ButtonData::isDefaultButton)
-                .filter(Boolean.TRUE::equals).ifPresent(_ -> dispatch(new MainStageContext.Action.DeleteCardAction(card.id())));
+                .filter(Boolean.TRUE::equals).ifPresent(_ -> dispatch(new MainStageContext.Action.DeleteCardAction(cardId)));
     }
 
     public record State(

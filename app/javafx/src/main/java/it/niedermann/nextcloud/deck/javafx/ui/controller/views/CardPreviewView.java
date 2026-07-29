@@ -1,6 +1,7 @@
 package it.niedermann.nextcloud.deck.javafx.ui.controller.views;
 
 import it.niedermann.nextcloud.deck.domain.model.Card;
+import it.niedermann.nextcloud.deck.domain.model.query.PreviewCard;
 import it.niedermann.nextcloud.deck.javafx.ui.fxml.Inflater;
 import javafx.fxml.FXML;
 import javafx.scene.control.ContextMenu;
@@ -34,56 +35,55 @@ public class CardPreviewView extends BorderPane {
         Inflater.getInstance().inflate(this);
     }
 
-    public void bind(Card card, boolean isAssignedToCurrentUser, CardPreviewActionListener cardPreviewActionListener) {
+    public void bind(PreviewCard card, boolean isAssignedToCurrentUser, CardPreviewActionListener cardPreviewActionListener) {
 
         title.setText(card.title());
-        description.setText(card.description());
+        description.setText(card.excerpt());
         assign.setVisible(!isAssignedToCurrentUser);
         unassign.setVisible(isAssignedToCurrentUser);
         cardProperties.setArgs(new CardPropertiesView.Args(
-                card.description(),
+                card.excerpt(),
                 card.labels().size(),
-                card.commentsUnread(),
-                // TODO We need a custom query model here
                 0,
-                0,
-                card.assignees().size()
+                card.commentCount(),
+                card.attachmentCount(),
+                card.assigneeCount()
         ));
 
         setOnMouseClicked(event -> {
-            cardPreviewActionListener.onOpenCard(card);
+            cardPreviewActionListener.onOpenCard(card.id());
             event.consume();
         });
 
         setOnKeyPressed(event -> {
             if (event.getCode() == KeyCode.ENTER) {
-                cardPreviewActionListener.onOpenCard(card);
+                cardPreviewActionListener.onOpenCard(card.id());
                 event.consume();
             }
         });
 
         assign.setOnAction(event -> {
-            cardPreviewActionListener.onAssignCard(card);
+            cardPreviewActionListener.onAssignCard(card.id());
             event.consume();
         });
 
         unassign.setOnAction(event -> {
-            cardPreviewActionListener.onUnassignCard(card);
+            cardPreviewActionListener.onUnassignCard(card.id());
             event.consume();
         });
 
         move.setOnAction(event -> {
-            cardPreviewActionListener.onMoveCard(card);
+            cardPreviewActionListener.onMoveCard(card.id());
             event.consume();
         });
 
         copy.setOnAction(event -> {
-            cardPreviewActionListener.onCopyCard(card);
+            cardPreviewActionListener.onCopyCard(card.id());
             event.consume();
         });
 
         delete.setOnAction(event -> {
-            cardPreviewActionListener.onDeleteCard(card);
+            cardPreviewActionListener.onDeleteCard(card.id());
             event.consume();
         });
 
@@ -94,16 +94,16 @@ public class CardPreviewView extends BorderPane {
     }
 
     public interface CardPreviewActionListener {
-        void onOpenCard(Card card);
+        void onOpenCard(Card.ID cardId);
 
-        void onAssignCard(Card card);
+        void onAssignCard(Card.ID cardId);
 
-        void onUnassignCard(Card card);
+        void onUnassignCard(Card.ID cardId);
 
-        void onMoveCard(Card card);
+        void onMoveCard(Card.ID cardId);
 
-        void onCopyCard(Card card);
+        void onCopyCard(Card.ID cardId);
 
-        void onDeleteCard(Card card);
+        void onDeleteCard(Card.ID cardId);
     }
 }

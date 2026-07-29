@@ -13,10 +13,11 @@ import it.niedermann.nextcloud.deck.domain.model.Column
 import it.niedermann.nextcloud.deck.domain.model.CreateCard
 import it.niedermann.nextcloud.deck.domain.model.CreateColumn
 import it.niedermann.nextcloud.deck.domain.model.Label
+import it.niedermann.nextcloud.deck.domain.model.query.PreviewCard
 import it.niedermann.nextcloud.deck.domain.state.SyncStatus
 import it.niedermann.nextcloud.deck.domain.sync.SyncScheduler
 import it.niedermann.nextcloud.deck.domain.usecases.cards.AddCardUseCase
-import it.niedermann.nextcloud.deck.domain.usecases.cards.ListCardsUseCase
+import it.niedermann.nextcloud.deck.domain.usecases.cards.ListCardPreviewsUseCase
 import it.niedermann.nextcloud.deck.domain.usecases.cards.MoveCardUseCase
 import it.niedermann.nextcloud.deck.domain.usecases.columns.AddColumnUseCase
 import it.niedermann.nextcloud.deck.domain.usecases.columns.GetColumnUseCase
@@ -38,7 +39,7 @@ import org.reactivestreams.FlowAdapters
 class BoardViewModel @Inject constructor(
     private val listColumnsUseCase: ListColumnsUseCase,
     private val getColumnUseCase: GetColumnUseCase,
-    private val listCardsUseCase: ListCardsUseCase,
+    private val listCardPreviewsUseCase: ListCardPreviewsUseCase,
     private val addCardUseCase: AddCardUseCase,
     private val addColumnUseCase: AddColumnUseCase,
     private val moveCardUseCase: MoveCardUseCase,
@@ -51,7 +52,7 @@ class BoardViewModel @Inject constructor(
     private val _columns = MutableStateFlow<List<Column>>(emptyList())
     val columns = _columns.asStateFlow()
 
-    private val _cardsByColumn = MutableStateFlow<Map<Long, List<Card>>>(emptyMap())
+    private val _cardsByColumn = MutableStateFlow<Map<Long, List<PreviewCard>>>(emptyMap())
     val cardsByColumn = _cardsByColumn.asStateFlow()
 
     private val _labels = MutableStateFlow<Map<Long, Label>>(emptyMap())
@@ -134,7 +135,7 @@ class BoardViewModel @Inject constructor(
 
     private fun observeCards(columnId: Long) {
         viewModelScope.launch {
-            FlowAdapters.toPublisher(listCardsUseCase.execute(Column.ID(columnId)))
+            FlowAdapters.toPublisher(listCardPreviewsUseCase.execute(Column.ID(columnId)))
                 .asFlow()
                 .collect { cards ->
                     _cardsByColumn.value = _cardsByColumn.value + (columnId to cards)

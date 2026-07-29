@@ -16,8 +16,9 @@ import io.reactivex.rxjava4.processors.FlowableProcessor;
 import it.niedermann.nextcloud.deck.domain.model.Card;
 import it.niedermann.nextcloud.deck.domain.model.Column;
 import it.niedermann.nextcloud.deck.domain.model.CreateCard;
+import it.niedermann.nextcloud.deck.domain.model.query.PreviewCard;
 import it.niedermann.nextcloud.deck.domain.usecases.cards.AddCardUseCase;
-import it.niedermann.nextcloud.deck.domain.usecases.cards.ListCardsUseCase;
+import it.niedermann.nextcloud.deck.domain.usecases.cards.ListCardPreviewsUseCase;
 import it.niedermann.nextcloud.deck.domain.usecases.cards.MoveCardUseCase;
 import it.niedermann.nextcloud.deck.domain.usecases.columns.GetColumnUseCase;
 import it.niedermann.nextcloud.deck.javafx.ui.cellfactories.CardPreviewCellFactory;
@@ -40,7 +41,7 @@ public class ColumnFeature extends DisposableController {
 
     private static final Logger logger = Logger.getLogger(ColumnFeature.class.getName());
 
-    private final ListCardsUseCase listCardsUseCase;
+    private final ListCardPreviewsUseCase listCardPreviewsUseCase;
     private final MoveCardUseCase moveCardUseCase;
     private final AddCardUseCase addCardUseCase;
     private final GetColumnUseCase getColumnUseCase;
@@ -55,7 +56,7 @@ public class ColumnFeature extends DisposableController {
     @FXML
     Label title;
     @FXML
-    ListView<Card> cards;
+    ListView<PreviewCard> cards;
     @FXML
     Button addCard;
     @FXML
@@ -63,7 +64,7 @@ public class ColumnFeature extends DisposableController {
 
     @AssistedInject
     public ColumnFeature(
-            ListCardsUseCase listCardsUseCase,
+            ListCardPreviewsUseCase listCardPreviewsUseCase,
             MoveCardUseCase moveCardUseCase,
             CardPreviewCellFactory cardPreviewCellFactory,
             AddCardUseCase addCardUseCase,
@@ -71,7 +72,7 @@ public class ColumnFeature extends DisposableController {
             @Assisted Column.ID columnId,
             @Assisted ViewModel viewModel
     ) {
-        this.listCardsUseCase = listCardsUseCase;
+        this.listCardPreviewsUseCase = listCardPreviewsUseCase;
         this.moveCardUseCase = moveCardUseCase;
         this.cardPreviewCellFactory = cardPreviewCellFactory;
         this.addCardUseCase = addCardUseCase;
@@ -95,7 +96,7 @@ public class ColumnFeature extends DisposableController {
         cards.setOnDragOver(this::onDragCardOver);
         cards.setOnDragDropped(this::onCardDropped);
 
-        final var disposable = Flowable.fromPublisher(listCardsUseCase.execute(columnId))
+        final var disposable = Flowable.fromPublisher(listCardPreviewsUseCase.execute(columnId))
                 .observeOn(JavaFxScheduler.platform())
                 .subscribe(cards -> this.cards.getItems().setAll(cards));
 

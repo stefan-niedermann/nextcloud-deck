@@ -10,6 +10,7 @@ import it.niedermann.nextcloud.deck.domain.model.Board;
 import it.niedermann.nextcloud.deck.domain.model.Card;
 import it.niedermann.nextcloud.deck.domain.model.Column;
 import it.niedermann.nextcloud.deck.domain.model.CreateCard;
+import it.niedermann.nextcloud.deck.domain.model.query.PreviewCard;
 
 public interface CardRepository {
 
@@ -20,6 +21,8 @@ public interface CardRepository {
     CompletableFuture<Void> deleteCard(Card.ID cardId);
 
     Flow.Publisher<List<Card>> getNotDeletedCards(Column.ID columnId);
+
+    Flow.Publisher<List<PreviewCard>> getNotDeletedCardPreviews(Column.ID columnId);
 
     Flow.Publisher<Map<Column, List<Card>>> getNotDeletedCardsByColumn(Board.ID boardId);
 

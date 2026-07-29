@@ -5,7 +5,6 @@ import android.view.View
 import androidx.compose.animation.Crossfade
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.ExperimentalFoundationApi
-import androidx.compose.foundation.border
 import androidx.compose.foundation.draganddrop.dragAndDropSource
 import androidx.compose.foundation.draganddrop.dragAndDropTarget
 import androidx.compose.foundation.gestures.ScrollableDefaults
@@ -30,7 +29,6 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.lazy.rememberLazyListState
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Add
 import androidx.compose.material.icons.outlined.AttachFile
@@ -80,8 +78,8 @@ import it.niedermann.nextcloud.deck.domain.model.Account
 import it.niedermann.nextcloud.deck.domain.model.Card
 import it.niedermann.nextcloud.deck.domain.model.Column
 import it.niedermann.nextcloud.deck.domain.model.Label
+import it.niedermann.nextcloud.deck.domain.model.query.PreviewCard
 import it.niedermann.nextcloud.deck.ui.components.AppTopBar
-import it.niedermann.nextcloud.deck.ui.components.UserAvatar
 import it.niedermann.nextcloud.deck.ui.util.toComposeColor
 import java.time.format.DateTimeFormatter
 
@@ -248,7 +246,7 @@ fun BoardScreen(
 @Composable
 fun BoardColumn(
     column: Column,
-    cards: List<Card>,
+    cards: List<PreviewCard>,
     labels: Map<Long, Label>,
     currentAccountId: Account.ID?,
     draggingCardId: Card.ID?,
@@ -338,7 +336,7 @@ fun BoardColumn(
 @OptIn(ExperimentalLayoutApi::class, ExperimentalFoundationApi::class, ExperimentalMaterial3Api::class)
 @Composable
 fun CardItem(
-    card: Card,
+    card: PreviewCard,
     labels: Map<Long, Label>,
     currentAccountId: Account.ID?,
     isDragging: Boolean,
@@ -399,16 +397,16 @@ fun CardItem(
                         horizontalArrangement = Arrangement.spacedBy(4.dp),
                         verticalArrangement = Arrangement.spacedBy(4.dp)
                     ) {
-                        card.labels().forEach { labelId ->
-                            labels[labelId.value()]?.let { LabelChip(it) }
+                        card.labels().forEach { labelPreview ->
+                            LabelChipPreview(labelPreview)
                         }
                     }
                 }
 
-                if (card.description().isNotBlank()) {
+                if (card.excerpt().isNotBlank()) {
                     Spacer(modifier = Modifier.height(8.dp))
                     Text(
-                        text = card.description(),
+                        text = card.excerpt(),
                         style = MaterialTheme.typography.bodySmall,
                         color = MaterialTheme.colorScheme.onSurfaceVariant,
                         maxLines = 2,
@@ -418,15 +416,12 @@ fun CardItem(
 
                 Spacer(modifier = Modifier.height(12.dp))
 
-                val taskStatus = remember(card.description()) {
-                    val checkboxes = Regex("\\[([ xX])]").findAll(card.description())
-                    val total = checkboxes.count()
-                    val done = checkboxes.filter { it.groupValues[1].lowercase() == "x" }.count()
-                    if (total > 0) "$done/$total" else null
-                }
-                // TODO: Replace with real data from domain model when available
-                val commentsCount = if (card.id().value() % 3 == 0L) (card.id().value() + 1).toInt() else 0
-                val attachmentsCount = if (card.id().value() % 2 == 0L) (card.id().value() / 2 + 1).toInt() else 0
+                val taskStatus = if (card.checkboxTotalCount() > 0) {
+                    "${card.checkboxDoneCount()}/${card.checkboxTotalCount()}"
+                } else null
+
+                val commentsCount = card.commentCount()
+                val attachmentsCount = card.attachmentCount()
 
                 Row(
                     modifier = Modifier.fillMaxWidth(),
@@ -490,21 +485,34 @@ fun CardItem(
                         }
                     }
 
-                    if (card.assignees().isNotEmpty()) {
-                        Row(horizontalArrangement = Arrangement.spacedBy((-8).dp)) {
-                            card.assignees().take(3).forEach { userId ->
-                                UserAvatar(
-                                    accountId = currentAccountId,
-                                    userId = userId,
-                                    size = 24.dp,
-                                    modifier = Modifier.border(1.dp, Color.White, CircleShape)
-                                )
-                            }
-                        }
+                    if (card.assigneeCount() > 0) {
+                        // For mock data, we don't have the user IDs here yet, 
+                        // so we just show a generic indicator or placeholder.
+                        // In a real app, we'd need PreviewCard to also contain assignee avatars/IDs if needed.
+                        Text(
+                            text = "${card.assigneeCount()} assignees",
+                            style = MaterialTheme.typography.labelSmall,
+                            color = MaterialTheme.colorScheme.onSurfaceVariant
+                        )
                     }
                 }
             }
         }
+    }
+}
+
+@Composable
+fun LabelChipPreview(label: PreviewCard.LabelPreview) {
+    Surface(
+        color = label.color().toComposeColor().copy(alpha = 0.2f),
+        contentColor = label.color().toComposeColor(),
+        shape = MaterialTheme.shapes.extraSmall,
+    ) {
+        Text(
+            text = label.title(),
+            modifier = Modifier.padding(horizontal = 4.dp, vertical = 2.dp),
+            style = MaterialTheme.typography.labelSmall
+        )
     }
 }
 
