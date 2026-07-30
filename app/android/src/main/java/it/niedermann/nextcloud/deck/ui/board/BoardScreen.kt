@@ -1,6 +1,7 @@
 package it.niedermann.nextcloud.deck.ui.board
 
 import android.content.ClipData
+import android.content.ClipDescription
 import android.view.View
 import androidx.compose.animation.Crossfade
 import androidx.compose.foundation.BorderStroke
@@ -8,7 +9,12 @@ import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.draganddrop.dragAndDropSource
 import androidx.compose.foundation.draganddrop.dragAndDropTarget
 import androidx.compose.foundation.gestures.ScrollableDefaults
+import androidx.compose.foundation.gestures.detectTapGestures
+import androidx.compose.foundation.gestures.scrollBy
 import androidx.compose.foundation.gestures.snapping.rememberSnapFlingBehavior
+import androidx.compose.foundation.indication
+import androidx.compose.foundation.interaction.MutableInteractionSource
+import androidx.compose.foundation.interaction.PressInteraction
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -27,6 +33,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material.icons.Icons
@@ -51,11 +58,15 @@ import androidx.compose.material3.TextButton
 import androidx.compose.material3.pulltorefresh.PullToRefreshBox
 import androidx.compose.material3.pulltorefresh.PullToRefreshDefaults
 import androidx.compose.material3.pulltorefresh.rememberPullToRefreshState
+import androidx.compose.material3.ripple
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableFloatStateOf
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -64,8 +75,12 @@ import androidx.compose.ui.draganddrop.DragAndDropTarget
 import androidx.compose.ui.draganddrop.DragAndDropTransferData
 import androidx.compose.ui.draganddrop.mimeTypes
 import androidx.compose.ui.draganddrop.toAndroidDragEvent
+import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.graphicsLayer
+import androidx.compose.ui.layout.LayoutCoordinates
+import androidx.compose.ui.layout.onGloballyPositioned
+import androidx.compose.ui.layout.positionInRoot
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.LocalWindowInfo
@@ -74,14 +89,28 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import it.niedermann.nextcloud.deck.domain.model.Account
 import it.niedermann.nextcloud.deck.domain.model.Card
 import it.niedermann.nextcloud.deck.domain.model.Column
 import it.niedermann.nextcloud.deck.domain.model.Label
 import it.niedermann.nextcloud.deck.domain.model.query.PreviewCard
 import it.niedermann.nextcloud.deck.ui.components.AppTopBar
 import it.niedermann.nextcloud.deck.ui.util.toComposeColor
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.isActive
+import kotlinx.coroutines.launch
 import java.time.format.DateTimeFormatter
+
+private sealed class BoardItem {
+    abstract val key: Any
+
+    data class CardData(val card: PreviewCard) : BoardItem() {
+        override val key: Long = card.id().value()
+    }
+
+    data object Placeholder : BoardItem() {
+        override val key: String = "placeholder"
+    }
+}
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -94,8 +123,6 @@ fun BoardScreen(
 ) {
     val columns by viewModel.columns.collectAsStateWithLifecycle()
     val cardsByColumn by viewModel.cardsByColumn.collectAsStateWithLifecycle()
-    val labels by viewModel.labels.collectAsStateWithLifecycle()
-    val currentAccountId by viewModel.currentAccountId.collectAsStateWithLifecycle()
     val isRefreshing by viewModel.isRefreshing.collectAsStateWithLifecycle()
     val syncStatus by viewModel.syncStatus.collectAsStateWithLifecycle()
     val state = rememberPullToRefreshState()
@@ -106,6 +133,31 @@ fun BoardScreen(
     val isSmallScreen = screenWidth < 600
     val lazyListState = rememberLazyListState()
     val snapFlingBehavior = rememberSnapFlingBehavior(lazyListState = lazyListState)
+
+    var autoScrollSpeed by remember { mutableFloatStateOf(0f) }
+    var rowWidth by remember { mutableIntStateOf(0) }
+    val density = LocalDensity.current
+    val threshold = with(density) { 50.dp.toPx() }
+    val onDragLocation: (Offset) -> Unit = { position ->
+        val x = position.x
+        autoScrollSpeed = when {
+            x < threshold -> -1f * (1f - x / threshold.coerceAtLeast(1f))
+            x > rowWidth - threshold -> 1f * (1f - (rowWidth - x) / threshold.coerceAtLeast(1f))
+            else -> 0f
+        }
+    }
+    val onDragExited: () -> Unit = {
+        autoScrollSpeed = 0f
+    }
+
+    LaunchedEffect(autoScrollSpeed) {
+        if (autoScrollSpeed != 0f) {
+            while (isActive) {
+                lazyListState.scrollBy(autoScrollSpeed * 10f)
+                delay(16)
+            }
+        }
+    }
 
     LaunchedEffect(boardId) {
         viewModel.loadBoard(boardId)
@@ -180,7 +232,32 @@ fun BoardScreen(
                         )
                     } else {
                         LazyRow(
-                            modifier = Modifier.fillMaxSize(),
+                            modifier = Modifier
+                                .fillMaxSize()
+                                .onGloballyPositioned {
+                                    rowWidth = it.size.width
+                                }
+                                .dragAndDropTarget(
+                                    shouldStartDragAndDrop = { true },
+                                    target = remember(onDragLocation, onDragExited) {
+                                        object : DragAndDropTarget {
+                                            override fun onMoved(event: DragAndDropEvent) {
+                                                val dragEvent = event.toAndroidDragEvent()
+                                                onDragLocation(Offset(dragEvent.x, dragEvent.y))
+                                            }
+
+                                            override fun onExited(event: DragAndDropEvent) {
+                                                onDragExited()
+                                            }
+
+                                            override fun onEnded(event: DragAndDropEvent) {
+                                                onDragExited()
+                                            }
+
+                                            override fun onDrop(event: DragAndDropEvent): Boolean = false
+                                        }
+                                    }
+                                ),
                             state = lazyListState,
                             contentPadding = PaddingValues(16.dp),
                             horizontalArrangement = Arrangement.spacedBy(16.dp),
@@ -190,8 +267,6 @@ fun BoardScreen(
                                 BoardColumn(
                                     column = column,
                                     cards = cardsByColumn[column.id.value()] ?: emptyList(),
-                                    labels = labels,
-                                    currentAccountId = currentAccountId,
                                     draggingCardId = viewModel.draggingCardId,
                                     dropTargetColumnId = viewModel.dropTargetColumnId,
                                     dropTargetIndex = viewModel.dropTargetIndex,
@@ -207,7 +282,9 @@ fun BoardScreen(
                                         viewModel.draggingCardId = null
                                         viewModel.dropTargetColumnId = null
                                         viewModel.dropTargetIndex = -1
-                                    }
+                                    },
+                                    onDragLocation = onDragLocation,
+                                    onDragExited = onDragExited
                                 )
                             }
                         }
@@ -247,8 +324,6 @@ fun BoardScreen(
 fun BoardColumn(
     column: Column,
     cards: List<PreviewCard>,
-    labels: Map<Long, Label>,
-    currentAccountId: Account.ID?,
     draggingCardId: Card.ID?,
     dropTargetColumnId: Column.ID?,
     dropTargetIndex: Int,
@@ -256,9 +331,32 @@ fun BoardColumn(
     onAddCardClick: () -> Unit,
     onDragStart: (Card.ID) -> Unit,
     onDragOver: (Column.ID, Int) -> Unit,
-    onDrop: (Card.ID, Column.ID, Int) -> Unit
+    onDrop: (Card.ID, Column.ID, Int) -> Unit,
+    onDragLocation: (Offset) -> Unit,
+    onDragExited: () -> Unit
 ) {
     val isTarget = dropTargetColumnId == column.id
+    var lazyColumnCoordinates by remember { mutableStateOf<LayoutCoordinates?>(null) }
+    val lazyListState = rememberLazyListState()
+
+    // Filter out the card currently being dragged to avoid layout shifts during reordering
+    val activeCards = remember(cards, draggingCardId) {
+        cards.filter { it.id() != draggingCardId }
+    }
+
+    val columnContent = remember(activeCards, isTarget, dropTargetIndex) {
+        buildList {
+            activeCards.forEachIndexed { index, card ->
+                if (isTarget && dropTargetIndex == index) {
+                    add(BoardItem.Placeholder)
+                }
+                add(BoardItem.CardData(card))
+            }
+            if (isTarget && dropTargetIndex >= activeCards.size) {
+                add(BoardItem.Placeholder)
+            }
+        }
+    }
 
     Card(
         modifier = Modifier
@@ -266,26 +364,79 @@ fun BoardColumn(
             .fillMaxHeight()
             .dragAndDropTarget(
                 shouldStartDragAndDrop = { event ->
-                    event.mimeTypes().contains("text/plain")
+                    event.mimeTypes().contains(ClipDescription.MIMETYPE_TEXT_PLAIN)
                 },
-                target = remember(column.id, cards.size) {
+                target = remember(column.id, activeCards, lazyColumnCoordinates, lazyListState, onDragOver, onDrop, onDragLocation, onDragExited) {
                     object : DragAndDropTarget {
+                        private fun calculateTargetIndex(event: DragAndDropEvent): Int {
+                            val dragEvent = event.toAndroidDragEvent()
+                            val rootDragY = dragEvent.y
+
+                            val lazyColumnRootPos = lazyColumnCoordinates?.positionInRoot() ?: Offset.Zero
+                            val relativeDragY = rootDragY - lazyColumnRootPos.y
+
+                            val layoutInfo = lazyListState.layoutInfo
+                            val visibleItems = layoutInfo.visibleItemsInfo
+
+                            // Find placeholder info if present to compensate for its layout shift
+                            val placeholderItem = visibleItems.find { it.key == "placeholder" }
+                            val placeholderHeightWithSpacing = if (placeholderItem != null) {
+                                placeholderItem.size + layoutInfo.mainAxisItemSpacing
+                            } else 0
+
+                            // Filter for cards to find the insertion point relative to them
+                            val visibleCards = visibleItems.filter { it.key is Long }
+
+                            var targetIndex = activeCards.size
+
+                            for (item in visibleCards) {
+                                var itemCenter = item.offset + item.size / 2
+
+                                // If the card is below the placeholder, it has been shifted down.
+                                // We subtract the placeholder's height to find its "natural" trigger point.
+                                if (placeholderItem != null && item.offset > placeholderItem.offset) {
+                                    itemCenter -= placeholderHeightWithSpacing
+                                }
+
+                                if (relativeDragY < itemCenter) {
+                                    val indexInCards = activeCards.indexOfFirst { it.id().value() == item.key }
+                                    if (indexInCards != -1) {
+                                        targetIndex = indexInCards
+                                        break
+                                    }
+                                }
+                            }
+                            return targetIndex
+                        }
+
                         override fun onEntered(event: DragAndDropEvent) {
-                            onDragOver(column.id, cards.size)
+                            val targetIndex = calculateTargetIndex(event)
+                            onDragOver(column.id, targetIndex)
+
+                            val dragEvent = event.toAndroidDragEvent()
+                            onDragLocation(Offset(dragEvent.x, dragEvent.y))
                         }
 
                         override fun onMoved(event: DragAndDropEvent) {
-                            onDragOver(column.id, cards.size)
+                            val targetIndex = calculateTargetIndex(event)
+                            onDragOver(column.id, targetIndex)
+
+                            val dragEvent = event.toAndroidDragEvent()
+                            onDragLocation(Offset(dragEvent.x, dragEvent.y))
                         }
 
                         override fun onExited(event: DragAndDropEvent) {
+                            onDragExited()
                         }
 
                         override fun onDrop(event: DragAndDropEvent): Boolean {
+                            onDragExited()
                             val cardIdStr =
                                 event.toAndroidDragEvent().clipData.getItemAt(0).text.toString()
                             val cardId = Card.ID(cardIdStr.toLong())
-                            onDrop(cardId, column.id, cards.size)
+
+                            val targetIndex = calculateTargetIndex(event)
+                            onDrop(cardId, column.id, targetIndex)
                             return true
                         }
                     }
@@ -309,24 +460,27 @@ fun BoardColumn(
                 }
             }
             LazyColumn(
-                modifier = Modifier.weight(1f),
+                modifier = Modifier
+                    .weight(1f)
+                    .onGloballyPositioned { lazyColumnCoordinates = it },
+                state = lazyListState,
                 verticalArrangement = Arrangement.spacedBy(8.dp)
             ) {
-                itemsIndexed(cards, key = { _, card -> card.id().value() }) { index, card ->
-                    if (isTarget && dropTargetIndex == index) {
-                        PlaceholderCard(column.id.value())
+                items(columnContent, key = { it.key }) { item ->
+                    when (item) {
+                        is BoardItem.CardData -> {
+                            CardItem(
+                                card = item.card,
+                                isDragging = draggingCardId == item.card.id(),
+                                onDragStart = { onDragStart(item.card.id()) },
+                                onClick = { onCardClick(item.card.id().value()) }
+                            )
+                        }
+
+                        BoardItem.Placeholder -> {
+                            PlaceholderCard(column.id.value())
+                        }
                     }
-                    CardItem(
-                        card = card,
-                        labels = labels,
-                        currentAccountId = currentAccountId,
-                        isDragging = draggingCardId == card.id,
-                        onDragStart = { onDragStart(card.id) },
-                        onClick = { onCardClick(card.id.value()) }
-                    )
-                }
-                if (isTarget && dropTargetIndex >= cards.size) {
-                    item(key = "placeholder_${column.id.value()}") { PlaceholderCard(column.id.value()) }
                 }
             }
         }
@@ -337,33 +491,51 @@ fun BoardColumn(
 @Composable
 fun CardItem(
     card: PreviewCard,
-    labels: Map<Long, Label>,
-    currentAccountId: Account.ID?,
     isDragging: Boolean,
     onDragStart: () -> Unit,
     onClick: () -> Unit
 ) {
     val cardColor = card.color()?.toComposeColor() ?: MaterialTheme.colorScheme.surface
-    Box(
+    val interactionSource = remember { MutableInteractionSource() }
+    val scope = rememberCoroutineScope()
+
+    @Suppress("DEPRECATION")
+    Card(
         modifier = Modifier
             .fillMaxWidth()
-            .dragAndDropSource { _ ->
-                onDragStart()
-                DragAndDropTransferData(
-                    ClipData.newPlainText("card_id", card.id().value().toString()),
-                    flags = View.DRAG_FLAG_GLOBAL
-                )
-            }
+            .dragAndDropSource(
+                block = {
+                    detectTapGestures(
+                        onPress = { offset ->
+                            val press = PressInteraction.Press(offset)
+                            scope.launch {
+                                interactionSource.emit(press)
+                            }
+                            tryAwaitRelease()
+                            scope.launch {
+                                interactionSource.emit(PressInteraction.Release(press))
+                            }
+                        },
+                        onTap = { onClick() },
+                        onLongPress = { offset ->
+                            onDragStart()
+                            startTransfer(
+                                DragAndDropTransferData(
+                                    ClipData.newPlainText("card_id", card.id().value().toString()),
+                                    flags = View.DRAG_FLAG_GLOBAL
+                                )
+                            )
+                        }
+                    )
+                }
+            )
+            .indication(interactionSource, ripple())
             .graphicsLayer {
                 alpha = if (isDragging) 0.5f else 1.0f
-            }
+            },
+        colors = CardDefaults.cardColors(containerColor = cardColor)
     ) {
-        Card(
-            onClick = onClick,
-            modifier = Modifier.fillMaxWidth(),
-            colors = CardDefaults.cardColors(containerColor = cardColor)
-        ) {
-            Column(modifier = Modifier.padding(12.dp)) {
+        Column(modifier = Modifier.padding(12.dp)) {
                 Row(
                     modifier = Modifier.fillMaxWidth(),
                     horizontalArrangement = Arrangement.SpaceBetween,
@@ -486,15 +658,11 @@ fun CardItem(
                     }
 
                     if (card.assigneeCount() > 0) {
-                        // For mock data, we don't have the user IDs here yet, 
-                        // so we just show a generic indicator or placeholder.
-                        // In a real app, we'd need PreviewCard to also contain assignee avatars/IDs if needed.
                         Text(
                             text = "${card.assigneeCount()} assignees",
                             style = MaterialTheme.typography.labelSmall,
                             color = MaterialTheme.colorScheme.onSurfaceVariant
                         )
-                    }
                 }
             }
         }

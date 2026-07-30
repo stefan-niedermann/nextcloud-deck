@@ -14,6 +14,7 @@ import io.soabase.recordbuilder.core.RecordBuilder;
 @RecordBuilder
 public record Card(
         Card.ID id,
+        Card.RemoteID remoteId,
         Column.ID columnId,
         LocalDateTime createdAt,
         int order,
@@ -60,5 +61,8 @@ public record Card(
     }
 
     public record ID(long value) {
+    }
+
+    public record RemoteID(long value) {
     }
 }
