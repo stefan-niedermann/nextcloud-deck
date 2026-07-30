@@ -10,6 +10,7 @@ import javafx.scene.control.ListView;
 import javafx.scene.input.ClipboardContent;
 import javafx.scene.input.DataFormat;
 import javafx.scene.input.TransferMode;
+import javafx.scene.layout.Region;
 import javafx.util.Callback;
 
 public class CardPreviewCellFactory implements Callback<ListView<PreviewCard>, ListCell<PreviewCard>> {
@@ -30,8 +31,10 @@ public class CardPreviewCellFactory implements Callback<ListView<PreviewCard>, L
         final var listCell = new ListCell<PreviewCard>() {
 
             final CardPreviewView view = new CardPreviewView();
+            final Region placeholder = new Region();
 
             {
+                placeholder.getStyleClass().add("card-placeholder");
                 final var totalWidth = Bindings.createDoubleBinding(
                         () -> listView.getWidth()
                               - getPadding().getLeft()
@@ -42,6 +45,7 @@ public class CardPreviewCellFactory implements Callback<ListView<PreviewCard>, L
                         paddingProperty());
 
                 view.maxWidthProperty().bind(totalWidth);
+                placeholder.maxWidthProperty().bind(totalWidth);
             }
 
             @Override
@@ -52,6 +56,10 @@ public class CardPreviewCellFactory implements Callback<ListView<PreviewCard>, L
                 if (empty) {
 
                     setGraphic(null);
+
+                } else if (card == null) {
+
+                    setGraphic(placeholder);
 
                 } else {
 
@@ -80,9 +88,15 @@ public class CardPreviewCellFactory implements Callback<ListView<PreviewCard>, L
             content.put(DeckDataFormat.CARD_ID_PRIMITIVE, card.id().value());
             dragboard.setContent(content);
 
+            listCell.setOpacity(0.5);
             final var image = listCell.snapshot(null, null);
             dragboard.setDragView(image);
 
+            event.consume();
+        });
+
+        listCell.setOnDragDone(event -> {
+            listCell.setOpacity(1.0);
             event.consume();
         });
 

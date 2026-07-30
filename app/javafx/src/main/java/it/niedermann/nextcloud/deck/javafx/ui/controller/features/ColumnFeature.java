@@ -3,6 +3,7 @@ package it.niedermann.nextcloud.deck.javafx.ui.controller.features;
 import com.dlsc.gemsfx.PopOver;
 
 import java.net.URL;
+import java.util.Objects;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -48,6 +49,8 @@ public class ColumnFeature extends DisposableController {
     private final Column.ID columnId;
     private final ViewModel viewModel;
 
+    private Double lastDragSceneY;
+    private Integer placeholderIndex;
     private FlowableProcessor<Integer> draggingCardIndex;
 
     private final CardPreviewCellFactory cardPreviewCellFactory;
@@ -109,6 +112,8 @@ public class ColumnFeature extends DisposableController {
                     this.cardPreviewCellFactory.setCardPreviewActionListener(viewModel);
                 });
 
+        addDisposable(d2);
+
         addCard.setOnAction(event -> {
 
             popOver = new PopOver(addCardSubmitTextField);
@@ -145,6 +150,8 @@ public class ColumnFeature extends DisposableController {
         }
 
         this.draggingCardIndex = BehaviorProcessor.create();
+        this.placeholderIndex = null;
+        this.lastDragSceneY = null;
     }
 
     private void onDragCardExited(DragEvent event) {
@@ -152,7 +159,9 @@ public class ColumnFeature extends DisposableController {
             throw new IllegalStateException("Expected draggingCardIndex to be not null onDragCardEntered");
         }
 
+        removePlaceholder();
         this.draggingCardIndex = null;
+        this.lastDragSceneY = null;
     }
 
     private void onDragCardOver(DragEvent event) {
@@ -165,8 +174,16 @@ public class ColumnFeature extends DisposableController {
             return;
         }
 
+        final double currentSceneY = event.getSceneY();
+        if (lastDragSceneY != null && Math.abs(currentSceneY - lastDragSceneY) < 15) {
+            event.acceptTransferModes(TransferMode.MOVE);
+            event.consume();
+            return;
+        }
+
         final var targetIndex = getDropTargetOrderOfListView(event);
-        // TODO Display hint at targetIndex (e. g. colored bar or a semi-transparent card)
+        updatePlaceholder(targetIndex);
+        this.lastDragSceneY = currentSceneY;
 
         logger.finest("Dragging over index " + targetIndex + ", targetIndex: " + targetIndex);
 
@@ -184,10 +201,19 @@ public class ColumnFeature extends DisposableController {
             return;
         }
 
-        final var targetOrder = getDropTargetOrderOfListView(event);
+        final int rawTargetOrder = getDropTargetOrderOfListView(event);
+        final int targetOrder;
+        if (placeholderIndex != null && rawTargetOrder > placeholderIndex) {
+            targetOrder = rawTargetOrder - 1;
+        } else {
+            targetOrder = rawTargetOrder;
+        }
+
         final var cardId = new Card.ID((long) dragboard.getContent(DeckDataFormat.CARD_ID_PRIMITIVE));
 
-        logger.info("Dropped: " + cardId);
+        removePlaceholder();
+
+        logger.info("Dropped: " + cardId + " at " + targetOrder);
 
         moveCardUseCase.execute(cardId, columnId, targetOrder)
                 .whenCompleteAsync((_, exception) -> {
@@ -197,6 +223,31 @@ public class ColumnFeature extends DisposableController {
                 });
 
         event.consume();
+    }
+
+    private void updatePlaceholder(int targetIndex) {
+        final var items = cards.getItems();
+        final int adjustedIndex;
+        if (placeholderIndex != null && placeholderIndex < targetIndex) {
+            adjustedIndex = targetIndex - 1;
+        } else {
+            adjustedIndex = targetIndex;
+        }
+
+        if (placeholderIndex != null && placeholderIndex == adjustedIndex) {
+            return;
+        }
+
+        removePlaceholder();
+
+        final int safeIndex = Math.min(adjustedIndex, items.size());
+        items.add(safeIndex, null);
+        placeholderIndex = safeIndex;
+    }
+
+    private void removePlaceholder() {
+        cards.getItems().removeIf(Objects::isNull);
+        placeholderIndex = null;
     }
 
     private int getDropTargetOrderOfListView(DragEvent event) {

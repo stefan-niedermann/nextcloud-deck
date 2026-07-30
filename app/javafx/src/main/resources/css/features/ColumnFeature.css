@@ -30,3 +30,13 @@
 .list-view:focused .list-cell:focused > * {
     -fx-border-color: -fx-accent;
 }
+
+.card-placeholder {
+    -fx-background-color: transparent;
+    -fx-border-color: -fx-accent;
+    -fx-border-style: dotted;
+    -fx-border-width: 2;
+    -fx-border-radius: 10;
+    -fx-background-radius: 10;
+    -fx-min-height: 100;
+}
