@@ -41,7 +41,7 @@
     <string name="about_maintainer_title">Prižiūrėtojas</string>
     <string name="about_developers_title">Plėtotojai</string>
     <string name="about_translators_title">Vertėjai</string>
-    <string name="about_translators_transifex">Nextcloud bendruomenė, esanti %1$s</string>
+    <string name="about_translators_transifex">„Nextcloud“ bendruomenė, esanti %1$s</string>
     <string name="about_translators_transifex_label">Transifex</string>
     <string name="about_source_title">Pradinis kodas</string>
     <string name="about_source">Šis projektas talpinamas „GitHub“: %1$s</string>
@@ -295,7 +295,7 @@
     </plurals>
     <string name="no_assigned_label">Nėra priskirtos žymos</string>
     <string name="single_card">Viena kortelė</string>
-    <string name="project_type_room">Pokalbių kambarys</string>
+    <string name="project_type_room">„Pokalbiai“ kambarys</string>
     <string name="simple_move">Perkelti</string>
     <string name="cannot_upload_files_without_permission">Negalima įkelti failų be leidimų</string>
     <string name="insufficient_permission">Nepakanka leidimų</string>
