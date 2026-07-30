@@ -629,6 +629,14 @@ fun CardItem(
                         horizontalArrangement = Arrangement.spacedBy(12.dp),
                         verticalAlignment = Alignment.CenterVertically
                     ) {
+                        // Remote ID
+                        if (card.remoteId() != null) {
+                            Text(
+                                text = "#${card.remoteId().value()}",
+                                style = MaterialTheme.typography.labelMedium,
+                                color = MaterialTheme.colorScheme.onSurfaceVariant
+                            )
+                        }
                         // Comments
                         if (commentsCount > 0) {
                             Row(verticalAlignment = Alignment.CenterVertically) {
