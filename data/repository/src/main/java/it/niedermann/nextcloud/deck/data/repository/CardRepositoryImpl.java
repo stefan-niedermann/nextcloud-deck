@@ -107,6 +107,7 @@ public class CardRepositoryImpl implements CardRepository {
 
         return new PreviewCard(
                 card.id(),
+                card.remoteId(),
                 card.title(),
                 excerpt,
                 labels,

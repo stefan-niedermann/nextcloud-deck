@@ -11,6 +11,7 @@ import it.niedermann.nextcloud.deck.domain.model.Card;
 /// @implSpec Excerpt is a shortened description (e.g. 300 characters)
 public record PreviewCard(
         Card.ID id,
+        Card.RemoteID remoteId,
         String title,
         String excerpt,
         Set<LabelPreview> labels,

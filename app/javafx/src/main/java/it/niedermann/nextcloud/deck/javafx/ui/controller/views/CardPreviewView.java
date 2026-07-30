@@ -52,6 +52,7 @@ public class CardPreviewView extends BorderPane {
         }
 
         cardProperties.setArgs(new CardPropertiesView.Args(
+                card.remoteId(),
                 card.excerpt(),
                 card.labels().size(),
                 0,

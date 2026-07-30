@@ -1,14 +1,18 @@
 package it.niedermann.nextcloud.deck.javafx.ui.controller.views;
 
+import it.niedermann.nextcloud.deck.domain.model.Card;
 import it.niedermann.nextcloud.deck.javafx.ui.fxml.Inflater;
 import it.niedermann.nextcloud.deck.javafx.util.FxUtils;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.fxml.FXML;
+import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
 
 public class CardPropertiesView extends HBox {
 
+    @FXML
+    private Label remoteId;
     @FXML
     private IconCounterView descriptionIconCounter;
     @FXML
@@ -33,16 +37,27 @@ public class CardPropertiesView extends HBox {
         managedProperty().bind(visibleProperty());
         FxUtils.anyVisible(views).subscribe(this::setVisible);
 
+        remoteId.managedProperty().bind(remoteId.visibleProperty());
+
         for (final var view : views) {
             view.managedProperty().bind(view.visibleProperty());
         }
 
         args.subscribe(args -> {
             if (args == null) {
+                remoteId.setVisible(false);
                 for (final var view : views) {
                     view.setVisible(false);
                     return;
                 }
+            }
+
+            final var rid = args.remoteId();
+            if (rid != null) {
+                remoteId.setText("#" + rid.value());
+                remoteId.setVisible(true);
+            } else {
+                remoteId.setVisible(false);
             }
 
             descriptionIconCounter.setVisible(args.description() != null && !args.description().isEmpty());
@@ -70,7 +85,8 @@ public class CardPropertiesView extends HBox {
         args.set(value);
     }
 
-    public record Args(String description,
+    public record Args(Card.RemoteID remoteId,
+                       String description,
                        int labels,
                        int commentsUnreadCount,
                        int commentsTotalCount,
