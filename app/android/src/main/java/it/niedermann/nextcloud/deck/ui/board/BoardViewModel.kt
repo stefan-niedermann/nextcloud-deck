@@ -17,6 +17,7 @@ import it.niedermann.nextcloud.deck.domain.model.User
 import it.niedermann.nextcloud.deck.domain.model.query.PreviewCard
 import it.niedermann.nextcloud.deck.domain.state.SyncStatus
 import it.niedermann.nextcloud.deck.domain.sync.SyncScheduler
+import it.niedermann.nextcloud.deck.domain.usecases.accounts.GetAccountUseCase
 import it.niedermann.nextcloud.deck.domain.usecases.cards.AddCardUseCase
 import it.niedermann.nextcloud.deck.domain.usecases.cards.AssignCardUseCase
 import it.niedermann.nextcloud.deck.domain.usecases.cards.ListCardPreviewsUseCase
@@ -52,6 +53,7 @@ class BoardViewModel @Inject constructor(
     private val moveCardUseCase: MoveCardUseCase,
     private val listLabelsUseCase: ListLabelsUseCase,
     private val getCurrentAccountUseCase: GetCurrentAccountUseCase,
+    private val getAccountUseCase: GetAccountUseCase,
     private val setCurrentBoardUseCase: SetCurrentBoardUseCase,
     private val syncScheduler: SyncScheduler
 ) : ViewModel() {
@@ -67,6 +69,9 @@ class BoardViewModel @Inject constructor(
 
     private val _currentAccountId = MutableStateFlow<Account.ID?>(null)
     val currentAccountId = _currentAccountId.asStateFlow()
+
+    private val _currentAccount = MutableStateFlow<Account?>(null)
+    val currentAccount = _currentAccount.asStateFlow()
 
     private val _isRefreshing = MutableStateFlow(false)
     val isRefreshing = _isRefreshing.asStateFlow()
@@ -93,6 +98,11 @@ class BoardViewModel @Inject constructor(
                     getCurrentAccountUseCase.execute().await()
                 }
                 _currentAccountId.value = accountId
+                launch(Dispatchers.IO) {
+                    FlowAdapters.toPublisher(getAccountUseCase.execute(accountId))
+                        .asFlow()
+                        .collect { _currentAccount.value = it }
+                }
                 withContext(Dispatchers.IO) {
                     setCurrentBoardUseCase.execute(accountId, Board.ID(boardId))
                 }

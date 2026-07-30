@@ -92,11 +92,14 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import it.niedermann.nextcloud.deck.domain.model.Account
 import it.niedermann.nextcloud.deck.domain.model.Card
 import it.niedermann.nextcloud.deck.domain.model.Column
 import it.niedermann.nextcloud.deck.domain.model.Label
+import it.niedermann.nextcloud.deck.domain.model.User
 import it.niedermann.nextcloud.deck.domain.model.query.PreviewCard
 import it.niedermann.nextcloud.deck.ui.components.AppTopBar
+import it.niedermann.nextcloud.deck.ui.components.UserAvatar
 import it.niedermann.nextcloud.deck.ui.util.toComposeColor
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.isActive
@@ -126,6 +129,7 @@ fun BoardScreen(
 ) {
     val columns by viewModel.columns.collectAsStateWithLifecycle()
     val cardsByColumn by viewModel.cardsByColumn.collectAsStateWithLifecycle()
+    val currentAccount by viewModel.currentAccount.collectAsStateWithLifecycle()
     val isRefreshing by viewModel.isRefreshing.collectAsStateWithLifecycle()
     val syncStatus by viewModel.syncStatus.collectAsStateWithLifecycle()
     val state = rememberPullToRefreshState()
@@ -276,6 +280,7 @@ fun BoardScreen(
                                     onCardClick = onCardClick,
                                     onAddCardClick = { showAddCardDialog = column.id.value() },
                                     onAssignToggle = { cardId, assigned -> viewModel.toggleAssignment(cardId, assigned) },
+                                    currentAccount = currentAccount,
                                     onDragStart = { viewModel.draggingCardId = it },
                                     onDragOver = { colId, index ->
                                         viewModel.dropTargetColumnId = colId
@@ -328,6 +333,7 @@ fun BoardScreen(
 fun BoardColumn(
     column: Column,
     cards: List<PreviewCard>,
+    currentAccount: Account?,
     draggingCardId: Card.ID?,
     dropTargetColumnId: Column.ID?,
     dropTargetIndex: Int,
@@ -476,6 +482,7 @@ fun BoardColumn(
                         is BoardItem.CardData -> {
                             CardItem(
                                 card = item.card,
+                                currentAccount = currentAccount,
                                 isDragging = draggingCardId == item.card.id(),
                                 onDragStart = { onDragStart(item.card.id()) },
                                 onAssignToggle = { onAssignToggle(item.card.id(), item.card.assignedToMe()) },
@@ -497,6 +504,7 @@ fun BoardColumn(
 @Composable
 fun CardItem(
     card: PreviewCard,
+    currentAccount: Account?,
     isDragging: Boolean,
     onDragStart: () -> Unit,
     onAssignToggle: () -> Unit,
@@ -690,15 +698,21 @@ fun CardItem(
                         }
                     }
 
-                    if (card.assigneeCount() > 0) {
+                    if (card.assignedToMe() && currentAccount != null) {
+                        UserAvatar(
+                            accountId = currentAccount.id(),
+                            userId = User.ID(currentAccount.username()),
+                            size = 24.dp
+                        )
+                    } else if (card.assigneeCount() > 0) {
                         Text(
                             text = "${card.assigneeCount()} assignees",
                             style = MaterialTheme.typography.labelSmall,
                             color = MaterialTheme.colorScheme.onSurfaceVariant
                         )
+                    }
                 }
             }
-        }
     }
 }
 
