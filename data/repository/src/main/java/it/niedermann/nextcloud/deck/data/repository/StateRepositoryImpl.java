@@ -30,8 +30,8 @@ public class StateRepositoryImpl implements StateRepository {
 
     @Override
     public CompletableFuture<Account.ID> setCurrentAccountId(Account.ID accountId) {
-        keyValueStore.putLong("current.account", accountId.value());
-        return getCurrentAccountId();
+        return keyValueStore.putLong("current.account", accountId.value())
+                .thenCompose(v -> getCurrentAccountId());
     }
 
     @Override
@@ -67,13 +67,11 @@ public class StateRepositoryImpl implements StateRepository {
 
     @Override
     public CompletableFuture<Void> removeCurrentAccountId() {
-        keyValueStore.remove("current.account");
-        return CompletableFuture.completedFuture(null);
+        return keyValueStore.remove("current.account");
     }
 
     @Override
     public CompletableFuture<Void> reset() {
-        keyValueStore.remove("current.account");
-        return CompletableFuture.completedFuture(null);
+        return keyValueStore.remove("current.account");
     }
 }

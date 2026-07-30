@@ -9,6 +9,7 @@ import it.niedermann.nextcloud.deck.domain.usecases.accounts.GetAccountsUseCase
 import it.niedermann.nextcloud.deck.domain.usecases.state.GetCurrentAccountUseCase
 import it.niedermann.nextcloud.deck.domain.usecases.state.GetCurrentBoardUseCase
 import jakarta.inject.Inject
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
@@ -18,6 +19,7 @@ import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.future.await
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.reactive.asFlow
+import kotlinx.coroutines.withContext
 import org.reactivestreams.FlowAdapters
 
 @HiltViewModel
@@ -52,10 +54,14 @@ class MainActivityViewModel @Inject constructor(
     fun refreshCurrentAccount() {
         viewModelScope.launch {
             try {
-                val accountId = getCurrentAccountUseCase.execute().await()
+                val accountId = withContext(Dispatchers.IO) {
+                    getCurrentAccountUseCase.execute().await()
+                }
                 _currentAccountId.value = accountId
                 _currentBoardId.value = try {
-                    getCurrentBoardUseCase.execute(accountId).await()
+                    withContext(Dispatchers.IO) {
+                        getCurrentBoardUseCase.execute(accountId).await()
+                    }
                 } catch (e: Exception) {
                     null
                 }

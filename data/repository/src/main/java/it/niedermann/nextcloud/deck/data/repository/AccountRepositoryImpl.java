@@ -9,6 +9,7 @@ import java.util.Map;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.Flow;
 
+import io.reactivex.rxjava3.schedulers.Schedulers;
 import it.niedermann.nextcloud.deck.data.local.dao.AccountDao;
 import it.niedermann.nextcloud.deck.data.local.entity.AccountEntity;
 import it.niedermann.nextcloud.deck.data.local.mapper.AccountMapper;
@@ -43,6 +44,7 @@ public class AccountRepositoryImpl implements AccountRepository {
     public Flow.Publisher<Account> getAccount(Account.ID id) {
         final var result = accountDao
                 .getAccount(id.value())
+                .subscribeOn(Schedulers.io())
                 .map(accountMapper::toTO);
 
         return FlowAdapters.toFlowPublisher(result);
@@ -86,6 +88,7 @@ public class AccountRepositoryImpl implements AccountRepository {
     @Override
     public Flow.Publisher<Collection<Account>> getAccounts() {
         final var result = accountDao.getAccounts()
+                .subscribeOn(Schedulers.io())
                 .map(accountMapper::toTOList);
 
         return FlowAdapters.toFlowPublisher(result);

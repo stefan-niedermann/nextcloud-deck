@@ -15,6 +15,7 @@ import java.net.URI;
 import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.Flow;
 
 import dagger.Module;
@@ -70,18 +71,21 @@ public class TestModule {
         private final Map<String, Object> store = new HashMap<>();
 
         @Override
-        public void putString(@NotNull String key, @NotNull String value) {
+        public CompletableFuture<Void> putString(@NotNull String key, @NotNull String value) {
             store.put(key, value);
+            return CompletableFuture.completedFuture(null);
         }
 
         @Override
-        public void putLong(@NotNull String key, long value) {
+        public CompletableFuture<Void> putLong(@NotNull String key, long value) {
             store.put(key, value);
+            return CompletableFuture.completedFuture(null);
         }
 
         @Override
-        public void putBoolean(@NotNull String key, boolean value) {
+        public CompletableFuture<Void> putBoolean(@NotNull String key, boolean value) {
             store.put(key, value);
+            return CompletableFuture.completedFuture(null);
         }
 
         @Override
@@ -100,18 +104,20 @@ public class TestModule {
         }
 
         @Override
-        public boolean containsKey(@NotNull String key) {
-            return store.containsKey(key);
+        public CompletableFuture<Boolean> containsKey(@NotNull String key) {
+            return CompletableFuture.completedFuture(store.containsKey(key));
         }
 
         @Override
-        public void clear() {
+        public CompletableFuture<Void> clear() {
             store.clear();
+            return CompletableFuture.completedFuture(null);
         }
 
         @Override
-        public void remove(@NotNull String key) {
+        public CompletableFuture<Void> remove(@NotNull String key) {
             store.remove(key);
+            return CompletableFuture.completedFuture(null);
         }
     }
 

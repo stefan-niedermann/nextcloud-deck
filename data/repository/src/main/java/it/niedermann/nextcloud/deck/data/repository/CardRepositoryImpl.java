@@ -13,6 +13,7 @@ import java.util.concurrent.Flow;
 import java.util.stream.Collectors;
 
 import io.reactivex.rxjava3.core.Flowable;
+import io.reactivex.rxjava3.schedulers.Schedulers;
 import it.niedermann.nextcloud.deck.domain.model.Board;
 import it.niedermann.nextcloud.deck.domain.model.Card;
 import it.niedermann.nextcloud.deck.domain.model.Column;
@@ -53,16 +54,21 @@ public class CardRepositoryImpl implements CardRepository {
     @Override
     public Flow.Publisher<List<Card>> getNotDeletedCards(Column.ID columnId) {
         // TODO Mock Implementation
-        return FlowAdapters.toFlowPublisher(Flowable.just(MockData.MOCK_CARDS.stream().filter(card -> Objects.equals(card.columnId(), columnId)).toList()));
+        return FlowAdapters.toFlowPublisher(
+                Flowable.fromCallable(() -> MockData.MOCK_CARDS.stream().filter(card -> Objects.equals(card.columnId(), columnId)).toList())
+                        .subscribeOn(Schedulers.io())
+        );
     }
 
     @Override
     public Flow.Publisher<List<PreviewCard>> getNotDeletedCardPreviews(Column.ID columnId) {
-        final var previews = MockData.MOCK_CARDS.stream()
-                .filter(card -> Objects.equals(card.columnId(), columnId))
-                .map(this::toPreviewCard)
-                .collect(Collectors.toList());
-        return FlowAdapters.toFlowPublisher(Flowable.just(previews));
+        return FlowAdapters.toFlowPublisher(
+                Flowable.fromCallable(() -> MockData.MOCK_CARDS.stream()
+                        .filter(card -> Objects.equals(card.columnId(), columnId))
+                        .map(this::toPreviewCard)
+                        .collect(Collectors.toList()))
+                        .subscribeOn(Schedulers.io())
+        );
     }
 
     private PreviewCard toPreviewCard(Card card) {
@@ -117,36 +123,42 @@ public class CardRepositoryImpl implements CardRepository {
     public Flow.Publisher<Map<Column, List<Card>>> getNotDeletedCardsByColumn(Board.ID boardId) {
         // TODO Mock Implementation
 
-        final var columns = Arrays.stream(MockData.MOCK_COLUMNS)
-                .filter(column -> Objects.equals(column.boardId(), boardId))
-                .map(Column::id)
-                .collect(Collectors.toList());
+        return FlowAdapters.toFlowPublisher(
+                Flowable.fromCallable(() -> {
+                    final var columns = Arrays.stream(MockData.MOCK_COLUMNS)
+                            .filter(column -> Objects.equals(column.boardId(), boardId))
+                            .map(Column::id)
+                            .collect(Collectors.toList());
 
-
-        return FlowAdapters.toFlowPublisher(Flowable.just(
-                MockData.MOCK_CARDS.stream().filter(card -> columns.contains(card.columnId()))
-                        .collect(Collectors.groupingBy(card -> MockData.MOCK_COLUMNS[(int) card.columnId().value()]))
-        ));
+                    return MockData.MOCK_CARDS.stream().filter(card -> columns.contains(card.columnId()))
+                            .collect(Collectors.groupingBy(card -> MockData.MOCK_COLUMNS[(int) card.columnId().value()]));
+                }).subscribeOn(Schedulers.io())
+        );
     }
 
     @Override
     public Flow.Publisher<Card> getCard(Card.ID cardId) {
         // TODO Mock Implementation
-        if (cardId.value() < MockData.MOCK_CARDS.size()) {
-            return FlowAdapters.toFlowPublisher(Flowable.just(MockData.MOCK_CARDS.get((int) cardId.value())));
-        }
-
-        return FlowAdapters.toFlowPublisher(Flowable.error(new NoSuchElementException("No card with id " + cardId)));
+        return FlowAdapters.toFlowPublisher(
+                Flowable.fromCallable(() -> {
+                    if (cardId.value() < MockData.MOCK_CARDS.size()) {
+                        return MockData.MOCK_CARDS.get((int) cardId.value());
+                    }
+                    throw new NoSuchElementException("No card with id " + cardId);
+                }).subscribeOn(Schedulers.io())
+        );
     }
 
     @Override
     public Flow.Publisher<Collection<Card>> find(String userText) {
         // TODO Mock Implementation
-        return FlowAdapters.toFlowPublisher(Flowable.just(
-                MockData.MOCK_CARDS.stream()
+        return FlowAdapters.toFlowPublisher(
+                Flowable.fromCallable(() -> MockData.MOCK_CARDS.stream()
                         .filter(card ->
                                 card.title().toLowerCase().contains(userText.toLowerCase()) ||
-                                card.description().toLowerCase().contains(userText.toLowerCase()))
-                        .collect(Collectors.toList())));
+                                        card.description().toLowerCase().contains(userText.toLowerCase()))
+                        .collect(Collectors.toList()))
+                        .subscribeOn(Schedulers.io())
+        );
     }
 }

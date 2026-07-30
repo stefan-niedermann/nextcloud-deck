@@ -8,6 +8,7 @@ import org.reactivestreams.FlowAdapters;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
+import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.Flow;
 import java.util.function.Supplier;
 import java.util.prefs.BackingStoreException;
@@ -30,18 +31,21 @@ public class PreferencesKeyValueStore implements KeyValueStore {
     }
 
     @Override
-    public void putString(@NotNull String key, @NotNull String value) {
+    public CompletableFuture<Void> putString(@NotNull String key, @NotNull String value) {
         prefs.put(key, value);
+        return CompletableFuture.completedFuture(null);
     }
 
     @Override
-    public void putLong(@NotNull String key, long value) {
+    public CompletableFuture<Void> putLong(@NotNull String key, long value) {
         prefs.putLong(key, value);
+        return CompletableFuture.completedFuture(null);
     }
 
     @Override
-    public void putBoolean(@NotNull String key, boolean value) {
+    public CompletableFuture<Void> putBoolean(@NotNull String key, boolean value) {
         prefs.putBoolean(key, value);
+        return CompletableFuture.completedFuture(null);
     }
 
     @NonNull
@@ -66,33 +70,39 @@ public class PreferencesKeyValueStore implements KeyValueStore {
     }
 
     @Override
-    public boolean containsKey(@NotNull String key) {
+    public CompletableFuture<Boolean> containsKey(@NotNull String key) {
         try {
             for (var k : prefs.keys()) {
                 if (Objects.equals(k, key)) {
-                    return true;
+                    return CompletableFuture.completedFuture(true);
                 }
             }
 
-            return false;
+            return CompletableFuture.completedFuture(false);
 
         } catch (BackingStoreException e) {
-            throw new RuntimeException(e);
+            final var future = new CompletableFuture<Boolean>();
+            future.completeExceptionally(e);
+            return future;
         }
     }
 
     @Override
-    public void clear() {
+    public CompletableFuture<Void> clear() {
         try {
             prefs.clear();
+            return CompletableFuture.completedFuture(null);
         } catch (BackingStoreException e) {
-            throw new RuntimeException(e);
+            final var future = new CompletableFuture<Void>();
+            future.completeExceptionally(e);
+            return future;
         }
     }
 
     @Override
-    public void remove(@NotNull String key) {
+    public CompletableFuture<Void> remove(@NotNull String key) {
         prefs.remove(key);
+        return CompletableFuture.completedFuture(null);
     }
 
     private <T> Flow.Publisher<T> get(String key, Supplier<T> supplier) {

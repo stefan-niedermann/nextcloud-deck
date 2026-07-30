@@ -9,6 +9,7 @@ import androidx.datastore.rxjava3.RxDataStore;
 import org.jetbrains.annotations.NotNull;
 import org.reactivestreams.FlowAdapters;
 
+import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.Flow;
 
 import io.reactivex.rxjava3.core.Single;
@@ -23,18 +24,18 @@ public class AndroidKeyValueStore implements KeyValueStore {
     }
 
     @Override
-    public void putString(@NotNull String key, @NotNull String value) {
-        update(PreferencesKeys.stringKey(key), value);
+    public CompletableFuture<Void> putString(@NotNull String key, @NotNull String value) {
+        return update(PreferencesKeys.stringKey(key), value);
     }
 
     @Override
-    public void putLong(@NotNull String key, long value) {
-        update(PreferencesKeys.longKey(key), value);
+    public CompletableFuture<Void> putLong(@NotNull String key, long value) {
+        return update(PreferencesKeys.longKey(key), value);
     }
 
     @Override
-    public void putBoolean(@NotNull String key, boolean value) {
-        update(PreferencesKeys.booleanKey(key), value);
+    public CompletableFuture<Void> putBoolean(@NotNull String key, boolean value) {
+        return update(PreferencesKeys.booleanKey(key), value);
     }
 
     @NonNull
@@ -71,40 +72,41 @@ public class AndroidKeyValueStore implements KeyValueStore {
     }
 
     @Override
-    public boolean containsKey(@NotNull String key) {
+    public CompletableFuture<Boolean> containsKey(@NotNull String key) {
         return dataStore.data()
                 .firstOrError()
                 .map(prefs -> prefs.contains(PreferencesKeys.stringKey(key)) ||
                         prefs.contains(PreferencesKeys.longKey(key)) ||
                         prefs.contains(PreferencesKeys.booleanKey(key)))
-                .blockingGet();
+                .toCompletionStage()
+                .toCompletableFuture();
     }
 
     @Override
-    public void clear() {
-        dataStore.updateDataAsync(prefs -> {
+    public CompletableFuture<Void> clear() {
+        return dataStore.updateDataAsync(prefs -> {
             MutablePreferences mutablePreferences = prefs.toMutablePreferences();
             mutablePreferences.clear();
             return Single.just(mutablePreferences);
-        }).blockingSubscribe();
+        }).toCompletionStage().toCompletableFuture().thenApply(p -> null);
     }
 
     @Override
-    public void remove(@NotNull String key) {
-        dataStore.updateDataAsync(prefs -> {
+    public CompletableFuture<Void> remove(@NotNull String key) {
+        return dataStore.updateDataAsync(prefs -> {
             MutablePreferences mutablePreferences = prefs.toMutablePreferences();
             mutablePreferences.remove(PreferencesKeys.stringKey(key));
             mutablePreferences.remove(PreferencesKeys.longKey(key));
             mutablePreferences.remove(PreferencesKeys.booleanKey(key));
             return Single.just(mutablePreferences);
-        }).blockingSubscribe();
+        }).toCompletionStage().toCompletableFuture().thenApply(p -> null);
     }
 
-    private <T> void update(Preferences.Key<T> key, T value) {
-        dataStore.updateDataAsync(prefs -> {
+    private <T> CompletableFuture<Void> update(Preferences.Key<T> key, T value) {
+        return dataStore.updateDataAsync(prefs -> {
             MutablePreferences mutablePreferences = prefs.toMutablePreferences();
             mutablePreferences.set(key, value);
             return Single.just(mutablePreferences);
-        }).blockingSubscribe();
+        }).toCompletionStage().toCompletableFuture().thenApply(p -> null);
     }
 }

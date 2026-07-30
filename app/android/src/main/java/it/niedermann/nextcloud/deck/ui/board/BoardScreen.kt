@@ -186,7 +186,7 @@ fun BoardScreen(
                             horizontalArrangement = Arrangement.spacedBy(16.dp),
                             flingBehavior = if (isSmallScreen) snapFlingBehavior else ScrollableDefaults.flingBehavior()
                         ) {
-                            itemsIndexed(columns) { _, column ->
+                            itemsIndexed(columns, key = { _, column -> column.id.value() }) { _, column ->
                                 BoardColumn(
                                     column = column,
                                     cards = cardsByColumn[column.id.value()] ?: emptyList(),
@@ -312,9 +312,9 @@ fun BoardColumn(
                 modifier = Modifier.weight(1f),
                 verticalArrangement = Arrangement.spacedBy(8.dp)
             ) {
-                itemsIndexed(cards) { index, card ->
+                itemsIndexed(cards, key = { _, card -> card.id().value() }) { index, card ->
                     if (isTarget && dropTargetIndex == index) {
-                        PlaceholderCard()
+                        PlaceholderCard(column.id.value())
                     }
                     CardItem(
                         card = card,
@@ -326,7 +326,7 @@ fun BoardColumn(
                     )
                 }
                 if (isTarget && dropTargetIndex >= cards.size) {
-                    item { PlaceholderCard() }
+                    item(key = "placeholder_${column.id.value()}") { PlaceholderCard(column.id.value()) }
                 }
             }
         }
@@ -532,7 +532,7 @@ fun LabelChip(label: Label) {
 }
 
 @Composable
-fun PlaceholderCard() {
+fun PlaceholderCard(@Suppress("UNUSED_PARAMETER") columnId: Long) {
     Card(
         modifier = Modifier
             .fillMaxWidth()

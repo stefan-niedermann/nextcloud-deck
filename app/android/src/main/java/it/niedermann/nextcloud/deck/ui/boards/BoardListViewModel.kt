@@ -14,11 +14,13 @@ import it.niedermann.nextcloud.deck.domain.usecases.boards.AddBoardUseCase
 import it.niedermann.nextcloud.deck.domain.usecases.boards.ListBoardsUseCase
 import it.niedermann.nextcloud.deck.domain.usecases.state.GetCurrentAccountUseCase
 import jakarta.inject.Inject
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.future.await
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.reactive.asFlow
+import kotlinx.coroutines.withContext
 import org.reactivestreams.FlowAdapters
 
 @HiltViewModel
@@ -50,19 +52,25 @@ class BoardListViewModel @Inject constructor(
         error = null
         viewModelScope.launch {
             try {
-                val accountId = try {
-                    getCurrentAccountUseCase.execute().await()
-                } catch (e: Exception) {
-                    null
+                val accountId = withContext(Dispatchers.IO) {
+                    try {
+                        getCurrentAccountUseCase.execute().await()
+                    } catch (e: Exception) {
+                        null
+                    }
                 }
                 
                 if (accountId != null) {
-                    FlowAdapters.toPublisher(listBoardsUseCase.execute(accountId))
-                        .asFlow()
-                        .collect {
-                            _boards.value = it
-                            isLoading = false
-                        }
+                    launch(Dispatchers.IO) {
+                        FlowAdapters.toPublisher(listBoardsUseCase.execute(accountId))
+                            .asFlow()
+                            .collect {
+                                withContext(Dispatchers.Main) {
+                                    _boards.value = it
+                                    isLoading = false
+                                }
+                            }
+                    }
                 } else {
                     _boards.value = emptyList()
                     isLoading = false
@@ -78,13 +86,17 @@ class BoardListViewModel @Inject constructor(
         viewModelScope.launch {
             _isRefreshing.value = true
             try {
-                val accountId = getCurrentAccountUseCase.execute().await()
+                val accountId = withContext(Dispatchers.IO) {
+                    getCurrentAccountUseCase.execute().await()
+                }
                 if (accountId != null) {
-                    FlowAdapters.toPublisher(syncScheduler.scheduleSynchronization(accountId))
-                        .asFlow()
-                        .collect { status ->
-                            _syncStatus.value = status
-                        }
+                    launch(Dispatchers.IO) {
+                        FlowAdapters.toPublisher(syncScheduler.scheduleSynchronization(accountId))
+                            .asFlow()
+                            .collect { status ->
+                                _syncStatus.value = status
+                            }
+                    }
                 }
             } catch (e: Exception) {
                 error = e.message ?: "Sync failed"
@@ -97,13 +109,17 @@ class BoardListViewModel @Inject constructor(
     }
 
     fun addBoard(title: String) {
-        viewModelScope.launch {
+        viewModelScope.launch(Dispatchers.IO) {
             try {
                 val accountId = getCurrentAccountUseCase.execute().await()
                 addBoardUseCase.addBoard(CreateBoard(accountId, title)).await()
-                loadBoards() // Manual refresh for mock repository
+                withContext(Dispatchers.Main) {
+                    loadBoards() // Manual refresh for mock repository
+                }
             } catch (e: Exception) {
-                error = e.message ?: "Failed to add board"
+                withContext(Dispatchers.Main) {
+                    error = e.message ?: "Failed to add board"
+                }
             }
         }
     }

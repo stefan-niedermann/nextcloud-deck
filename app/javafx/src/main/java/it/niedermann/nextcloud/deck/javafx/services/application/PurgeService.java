@@ -33,9 +33,9 @@ public class PurgeService {
 
     public void purge() {
         try {
-            keyValueStore.clear();
+            keyValueStore.clear().join();
             logger.info("✓ Cleared " + keyValueStore.getClass().getSimpleName());
-        } catch (RuntimeException e) {
+        } catch (Exception e) {
             logger.log(Level.SEVERE, "× " + keyValueStore.getClass().getSimpleName() + " could not be cleared.", e);
         }
 

@@ -26,6 +26,7 @@ import it.niedermann.nextcloud.deck.domain.usecases.labels.ListLabelsUseCase
 import it.niedermann.nextcloud.deck.domain.usecases.state.GetCurrentAccountUseCase
 import it.niedermann.nextcloud.deck.domain.usecases.state.SetCurrentBoardUseCase
 import jakarta.inject.Inject
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.collectLatest
@@ -33,6 +34,7 @@ import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.future.await
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.reactive.asFlow
+import kotlinx.coroutines.withContext
 import org.reactivestreams.FlowAdapters
 
 @HiltViewModel
@@ -82,28 +84,38 @@ class BoardViewModel @Inject constructor(
         error = null
         viewModelScope.launch {
             try {
-                val accountId = getCurrentAccountUseCase.execute().await()
+                val accountId = withContext(Dispatchers.IO) {
+                    getCurrentAccountUseCase.execute().await()
+                }
                 _currentAccountId.value = accountId
-                setCurrentBoardUseCase.execute(accountId, Board.ID(boardId))
+                withContext(Dispatchers.IO) {
+                    setCurrentBoardUseCase.execute(accountId, Board.ID(boardId))
+                }
 
-                FlowAdapters.toPublisher(listLabelsUseCase.execute(Board.ID(boardId)))
-                    .asFlow()
-                    .collectLatest { labels ->
-                        _labels.value = labels.associateBy { it.id().value() }
-                    }
+                launch(Dispatchers.IO) {
+                    FlowAdapters.toPublisher(listLabelsUseCase.execute(Board.ID(boardId)))
+                        .asFlow()
+                        .collectLatest { labels ->
+                            _labels.value = labels.associateBy { it.id().value() }
+                        }
+                }
 
-                FlowAdapters.toPublisher(listColumnsUseCase.execute(Board.ID(boardId)))
-                    .asFlow()
-                    .collect { colIds ->
-                        val loadedCols = colIds.map { id ->
-                            FlowAdapters.toPublisher(getColumnUseCase.execute(id)).asFlow().first()
+                launch(Dispatchers.IO) {
+                    FlowAdapters.toPublisher(listColumnsUseCase.execute(Board.ID(boardId)))
+                        .asFlow()
+                        .collect { colIds ->
+                            val loadedCols = colIds.map { id ->
+                                FlowAdapters.toPublisher(getColumnUseCase.execute(id)).asFlow().first()
+                            }
+                            withContext(Dispatchers.Main) {
+                                _columns.value = loadedCols
+                                isLoading = false
+                            }
+                            loadedCols.forEach { col ->
+                                observeCards(col.id.value())
+                            }
                         }
-                        _columns.value = loadedCols
-                        loadedCols.forEach { col ->
-                            observeCards(col.id.value())
-                        }
-                        isLoading = false
-                    }
+                }
             } catch (e: Exception) {
                 error = e.message ?: "Failed to load board"
                 isLoading = false
@@ -115,13 +127,17 @@ class BoardViewModel @Inject constructor(
         viewModelScope.launch {
             _isRefreshing.value = true
             try {
-                val accountId = getCurrentAccountUseCase.execute().await()
+                val accountId = withContext(Dispatchers.IO) {
+                    getCurrentAccountUseCase.execute().await()
+                }
                 if (accountId != null) {
-                    FlowAdapters.toPublisher(syncScheduler.scheduleSynchronization(accountId))
-                        .asFlow()
-                        .collect { status ->
-                            _syncStatus.value = status
-                        }
+                    launch(Dispatchers.IO) {
+                        FlowAdapters.toPublisher(syncScheduler.scheduleSynchronization(accountId))
+                            .asFlow()
+                            .collect { status ->
+                                _syncStatus.value = status
+                            }
+                    }
                 }
             } catch (e: Exception) {
                 error = e.message ?: "Sync failed"
@@ -134,7 +150,7 @@ class BoardViewModel @Inject constructor(
     }
 
     private fun observeCards(columnId: Long) {
-        viewModelScope.launch {
+        viewModelScope.launch(Dispatchers.IO) {
             FlowAdapters.toPublisher(listCardPreviewsUseCase.execute(Column.ID(columnId)))
                 .asFlow()
                 .collect { cards ->
@@ -144,33 +160,37 @@ class BoardViewModel @Inject constructor(
     }
 
     fun addCard(columnId: Long, title: String) {
-        viewModelScope.launch {
+        viewModelScope.launch(Dispatchers.IO) {
             try {
                 addCardUseCase.execute(CreateCard(Column.ID(columnId), title)).await()
-                // In a real app, the flow would emit the new card. 
-                // For mock, we might need to refresh manually.
             } catch (e: Exception) {
-                error = e.message ?: "Failed to add card"
+                withContext(Dispatchers.Main) {
+                    error = e.message ?: "Failed to add card"
+                }
             }
         }
     }
 
     fun addColumn(boardId: Long, title: String) {
-        viewModelScope.launch {
+        viewModelScope.launch(Dispatchers.IO) {
             try {
                 addColumnUseCase.execute(CreateColumn(Board.ID(boardId), title, 0)).await()
             } catch (e: Exception) {
-                error = e.message ?: "Failed to add column"
+                withContext(Dispatchers.Main) {
+                    error = e.message ?: "Failed to add column"
+                }
             }
         }
     }
 
     fun moveCard(cardId: Card.ID, targetColumnId: Column.ID, targetOrder: Int) {
-        viewModelScope.launch {
+        viewModelScope.launch(Dispatchers.IO) {
             try {
                 moveCardUseCase.execute(cardId, targetColumnId, targetOrder).await()
             } catch (e: Exception) {
-                error = e.message ?: "Failed to move card"
+                withContext(Dispatchers.Main) {
+                    error = e.message ?: "Failed to move card"
+                }
             }
         }
     }

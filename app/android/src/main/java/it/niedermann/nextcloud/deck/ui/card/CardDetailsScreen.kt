@@ -1,8 +1,10 @@
 package it.niedermann.nextcloud.deck.ui.card
 
+import android.content.ActivityNotFoundException
 import android.content.Intent
 import android.provider.ContactsContract
 import android.text.format.DateUtils
+import android.widget.Toast
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
@@ -117,6 +119,7 @@ fun CardDetailsScreen(
     val icons = listOf(Icons.Outlined.Info, Icons.Outlined.AttachFile, Icons.Outlined.ModeComment, Icons.Outlined.Bolt)
     val pagerState = rememberPagerState(pageCount = { tabs.size })
     val coroutineScope = rememberCoroutineScope()
+    val context = androidx.compose.ui.platform.LocalContext.current
 
     val photoPickerLauncher = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.PickVisualMedia(),
@@ -194,7 +197,15 @@ fun CardDetailsScreen(
                                         )
                                     )
                                 }
-                                contactPickerLauncher.launch(intent)
+                                try {
+                                    contactPickerLauncher.launch(intent)
+                                } catch (_: ActivityNotFoundException) {
+                                    try {
+                                        contactPickerLauncher.launch(Intent(Intent.ACTION_PICK, ContactsContract.Contacts.CONTENT_URI))
+                                    } catch (_: ActivityNotFoundException) {
+                                        Toast.makeText(context, "No contacts app found", Toast.LENGTH_SHORT).show()
+                                    }
+                                }
                             },
                             leadingIcon = { Icon(Icons.Outlined.Person, contentDescription = null) }
                         )
@@ -579,7 +590,7 @@ fun DateTimeInput(
 fun AttachmentsTab(viewModel: CardDetailsViewModel) {
     val attachments by viewModel.attachments.collectAsStateWithLifecycle()
     LazyColumn(modifier = Modifier.fillMaxSize()) {
-        items(attachments) { attachment ->
+        items(attachments, key = { it.id().value() }) { attachment ->
             ListItem(headlineContent = { Text(attachment.filename()) })
         }
     }
@@ -595,23 +606,11 @@ fun CommentsTab(viewModel: CardDetailsViewModel) {
     val scope = rememberCoroutineScope()
     var commentToDelete by remember { mutableStateOf<Comment?>(null) }
 
-    Scaffold(
-        bottomBar = {
-            CommentInput(
-                message = commentMessage,
-                onMessageChange = viewModel::onCommentMessageChange,
-                respondingTo = respondingTo,
-                editing = editing,
-                onCancelAction = viewModel::cancelCommentAction,
-                onSubmit = viewModel::submitComment
-            )
-        },
-        contentWindowInsets = WindowInsets(0, 0, 0, 0)
-    ) { padding ->
+    Column(modifier = Modifier.fillMaxSize()) {
         LazyColumn(
             modifier = Modifier
-                .fillMaxSize()
-                .padding(bottom = padding.calculateBottomPadding()),
+                .weight(1f)
+                .fillMaxWidth(),
             reverseLayout = false
         ) {
             items(comments, key = { it.id().value() }) { comment ->
@@ -640,6 +639,15 @@ fun CommentsTab(viewModel: CardDetailsViewModel) {
                 )
             }
         }
+
+        CommentInput(
+            message = commentMessage,
+            onMessageChange = viewModel::onCommentMessageChange,
+            respondingTo = respondingTo,
+            editing = editing,
+            onCancelAction = viewModel::cancelCommentAction,
+            onSubmit = viewModel::submitComment
+        )
     }
 
     if (commentToDelete != null) {
@@ -882,7 +890,7 @@ fun CommentInput(
 fun ActivityTab(viewModel: CardDetailsViewModel) {
     val activities by viewModel.activities.collectAsStateWithLifecycle()
     LazyColumn(modifier = Modifier.fillMaxSize()) {
-        items(activities) { activity ->
+        items(activities, key = { it.id().value() }) { activity ->
             ListItem(headlineContent = { Text(activity.subject()) })
         }
     }
