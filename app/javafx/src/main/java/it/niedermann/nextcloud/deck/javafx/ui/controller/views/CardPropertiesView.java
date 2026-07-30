@@ -17,8 +17,6 @@ public class CardPropertiesView extends HBox {
     private IconCounterView commentsIconCounter;
     @FXML
     private IconCounterView attachmentsIconCounter;
-    @FXML
-    private IconCounterView assigneesIconCounter;
 
     private final ObjectProperty<Args> args = new SimpleObjectProperty<>(this, "args");
 
@@ -30,7 +28,6 @@ public class CardPropertiesView extends HBox {
                 labelsIconCounter,
                 commentsIconCounter,
                 attachmentsIconCounter,
-                assigneesIconCounter,
         };
 
         managedProperty().bind(visibleProperty());
@@ -52,14 +49,12 @@ public class CardPropertiesView extends HBox {
             labelsIconCounter.setVisible(args.labels() > 0);
             commentsIconCounter.setVisible(args.commentsTotalCount() > 0);
             attachmentsIconCounter.setVisible(args.attachments() > 0);
-            assigneesIconCounter.setVisible(args.assignees() > 0);
 
             // TODO Set checkbox item count
             descriptionIconCounter.setCounter(0);
             labelsIconCounter.setCounter(args.labels());
             commentsIconCounter.setCounter(args.commentsTotalCount());
             attachmentsIconCounter.setCounter(args.attachments());
-            assigneesIconCounter.setCounter(args.assignees());
         });
     }
 

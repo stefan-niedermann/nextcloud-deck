@@ -1,8 +1,14 @@
 package it.niedermann.nextcloud.deck.javafx.ui.cellfactories;
 
+import io.reactivex.rxjava4.core.Flowable;
+import io.reactivex.rxjava4.disposables.Disposable;
+import it.niedermann.nextcloud.deck.domain.model.Account;
 import it.niedermann.nextcloud.deck.domain.model.query.PreviewCard;
+import it.niedermann.nextcloud.deck.domain.usecases.accounts.GetAccountUseCase;
+import it.niedermann.nextcloud.deck.domain.usecases.state.GetCurrentAccountUseCase;
 import it.niedermann.nextcloud.deck.javafx.ui.controller.views.CardPreviewView;
 import it.niedermann.nextcloud.deck.javafx.util.DeckDataFormat;
+import it.niedermann.nextcloud.deck.javafx.util.JavaFxScheduler;
 import jakarta.inject.Inject;
 import javafx.beans.binding.Bindings;
 import javafx.scene.control.ListCell;
@@ -16,10 +22,21 @@ import javafx.util.Callback;
 public class CardPreviewCellFactory implements Callback<ListView<PreviewCard>, ListCell<PreviewCard>> {
 
     private CardPreviewView.CardPreviewActionListener cardPreviewActionListener;
+    private final GetCurrentAccountUseCase getCurrentAccountUseCase;
+    private final GetAccountUseCase getAccountUseCase;
+
+    private Account currentAccount;
+    private Disposable disposable;
 
     @Inject
-    public CardPreviewCellFactory() {
+    public CardPreviewCellFactory(GetCurrentAccountUseCase getCurrentAccountUseCase, GetAccountUseCase getAccountUseCase) {
+        this.getCurrentAccountUseCase = getCurrentAccountUseCase;
+        this.getAccountUseCase = getAccountUseCase;
 
+        this.disposable = Flowable.fromCompletionStage(getCurrentAccountUseCase.execute())
+                .switchMap(id -> Flowable.fromPublisher(getAccountUseCase.execute(id)))
+                .observeOn(JavaFxScheduler.platform())
+                .subscribe(account -> this.currentAccount = account);
     }
 
     public void setCardPreviewActionListener(CardPreviewView.CardPreviewActionListener cardPreviewActionListener) {
@@ -63,8 +80,7 @@ public class CardPreviewCellFactory implements Callback<ListView<PreviewCard>, L
 
                 } else {
 
-                    // TODO evaluate whether card assignees contains the user belonging to the current account
-                    view.bind(card, card.assigneeCount() > 0, cardPreviewActionListener);
+                    view.bind(card, currentAccount, cardPreviewActionListener);
                     setGraphic(view);
 
                 }

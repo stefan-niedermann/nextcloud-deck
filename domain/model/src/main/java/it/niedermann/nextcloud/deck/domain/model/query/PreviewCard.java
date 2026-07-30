@@ -17,6 +17,7 @@ public record PreviewCard(
         int commentCount,
         int attachmentCount,
         int assigneeCount,
+        boolean assignedToMe,
         int checkboxDoneCount,
         int checkboxTotalCount,
         LocalDateTime dueDate,

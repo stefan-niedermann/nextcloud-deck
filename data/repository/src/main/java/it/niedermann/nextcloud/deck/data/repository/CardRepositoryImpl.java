@@ -18,6 +18,7 @@ import it.niedermann.nextcloud.deck.domain.model.Board;
 import it.niedermann.nextcloud.deck.domain.model.Card;
 import it.niedermann.nextcloud.deck.domain.model.Column;
 import it.niedermann.nextcloud.deck.domain.model.CreateCard;
+import it.niedermann.nextcloud.deck.domain.model.User;
 import it.niedermann.nextcloud.deck.domain.model.query.PreviewCard;
 import it.niedermann.nextcloud.deck.domain.repository.CardRepository;
 import jakarta.inject.Inject;
@@ -112,6 +113,7 @@ public class CardRepositoryImpl implements CardRepository {
                 commentCount,
                 attachmentCount,
                 card.assignees().size(),
+                card.assignees().contains(new User.ID("jdoe")),
                 checkboxDoneCount,
                 checkboxTotalCount,
                 card.dueDate(),

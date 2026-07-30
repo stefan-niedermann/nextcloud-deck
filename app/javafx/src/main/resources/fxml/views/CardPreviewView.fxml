@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.ContextMenu?><?import it.niedermann.nextcloud.deck.javafx.ui.controller.views.CardPropertiesView?><?import javafx.scene.control.MenuItem?><?import javafx.scene.control.ButtonBar?><?import javafx.geometry.Insets?><?import javafx.scene.control.MenuButton?><?import javafx.scene.control.Label?><?import javafx.scene.control.MenuItem?><?import javafx.scene.layout.BorderPane?><?import javafx.scene.layout.HBox?><?import javafx.scene.text.Text?><?import it.niedermann.nextcloud.deck.javafx.ui.controller.views.IconCounterView?><?import javafx.scene.layout.Region?>
+<?import it.niedermann.nextcloud.deck.javafx.ui.controller.views.AvatarView?><?import javafx.scene.control.ContextMenu?><?import it.niedermann.nextcloud.deck.javafx.ui.controller.views.CardPropertiesView?><?import javafx.scene.control.MenuItem?><?import javafx.scene.control.ButtonBar?><?import javafx.geometry.Insets?><?import javafx.scene.control.MenuButton?><?import javafx.scene.control.Label?><?import javafx.scene.control.MenuItem?><?import javafx.scene.layout.BorderPane?><?import javafx.scene.layout.HBox?><?import javafx.scene.text.Text?><?import it.niedermann.nextcloud.deck.javafx.ui.controller.views.IconCounterView?><?import javafx.scene.layout.Region?>
 
 
 <fx:root xmlns:fx="http://javafx.com/fxml/1" styleClass="card"
@@ -21,6 +21,7 @@
         <HBox BorderPane.alignment="CENTER_LEFT" styleClass="bottom">
             <CardPropertiesView fx:id="cardProperties" />
             <Region HBox.hgrow="SOMETIMES" />
+            <AvatarView fx:id="avatar" />
         </HBox>
     </bottom>
 

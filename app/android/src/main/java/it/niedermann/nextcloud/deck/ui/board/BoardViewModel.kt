@@ -13,12 +13,15 @@ import it.niedermann.nextcloud.deck.domain.model.Column
 import it.niedermann.nextcloud.deck.domain.model.CreateCard
 import it.niedermann.nextcloud.deck.domain.model.CreateColumn
 import it.niedermann.nextcloud.deck.domain.model.Label
+import it.niedermann.nextcloud.deck.domain.model.User
 import it.niedermann.nextcloud.deck.domain.model.query.PreviewCard
 import it.niedermann.nextcloud.deck.domain.state.SyncStatus
 import it.niedermann.nextcloud.deck.domain.sync.SyncScheduler
 import it.niedermann.nextcloud.deck.domain.usecases.cards.AddCardUseCase
+import it.niedermann.nextcloud.deck.domain.usecases.cards.AssignCardUseCase
 import it.niedermann.nextcloud.deck.domain.usecases.cards.ListCardPreviewsUseCase
 import it.niedermann.nextcloud.deck.domain.usecases.cards.MoveCardUseCase
+import it.niedermann.nextcloud.deck.domain.usecases.cards.UnassignCardUseCase
 import it.niedermann.nextcloud.deck.domain.usecases.columns.AddColumnUseCase
 import it.niedermann.nextcloud.deck.domain.usecases.columns.GetColumnUseCase
 import it.niedermann.nextcloud.deck.domain.usecases.columns.ListColumnsUseCase
@@ -43,6 +46,8 @@ class BoardViewModel @Inject constructor(
     private val getColumnUseCase: GetColumnUseCase,
     private val listCardPreviewsUseCase: ListCardPreviewsUseCase,
     private val addCardUseCase: AddCardUseCase,
+    private val assignCardUseCase: AssignCardUseCase,
+    private val unassignCardUseCase: UnassignCardUseCase,
     private val addColumnUseCase: AddColumnUseCase,
     private val moveCardUseCase: MoveCardUseCase,
     private val listLabelsUseCase: ListLabelsUseCase,
@@ -190,6 +195,25 @@ class BoardViewModel @Inject constructor(
             } catch (e: Exception) {
                 withContext(Dispatchers.Main) {
                     error = e.message ?: "Failed to move card"
+                }
+            }
+        }
+    }
+
+    fun toggleAssignment(cardId: Card.ID, assignedToMe: Boolean) {
+        viewModelScope.launch(Dispatchers.IO) {
+            try {
+                val accountId = getCurrentAccountUseCase.execute().await()
+                // Assuming username matches User.ID value for the mock
+                val userId = User.ID("jdoe") 
+                if (assignedToMe) {
+                    unassignCardUseCase.execute(cardId, userId).await()
+                } else {
+                    assignCardUseCase.execute(cardId, userId).await()
+                }
+            } catch (e: Exception) {
+                withContext(Dispatchers.Main) {
+                    error = e.message ?: "Failed to update assignment"
                 }
             }
         }

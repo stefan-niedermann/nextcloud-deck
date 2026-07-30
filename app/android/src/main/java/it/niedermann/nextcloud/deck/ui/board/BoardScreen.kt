@@ -41,10 +41,13 @@ import androidx.compose.material.icons.outlined.Add
 import androidx.compose.material.icons.outlined.AttachFile
 import androidx.compose.material.icons.outlined.CheckBox
 import androidx.compose.material.icons.outlined.ModeComment
+import androidx.compose.material.icons.outlined.MoreVert
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.DropdownMenu
+import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
@@ -272,6 +275,7 @@ fun BoardScreen(
                                     dropTargetIndex = viewModel.dropTargetIndex,
                                     onCardClick = onCardClick,
                                     onAddCardClick = { showAddCardDialog = column.id.value() },
+                                    onAssignToggle = { cardId, assigned -> viewModel.toggleAssignment(cardId, assigned) },
                                     onDragStart = { viewModel.draggingCardId = it },
                                     onDragOver = { colId, index ->
                                         viewModel.dropTargetColumnId = colId
@@ -329,6 +333,7 @@ fun BoardColumn(
     dropTargetIndex: Int,
     onCardClick: (Long) -> Unit,
     onAddCardClick: () -> Unit,
+    onAssignToggle: (Card.ID, Boolean) -> Unit,
     onDragStart: (Card.ID) -> Unit,
     onDragOver: (Column.ID, Int) -> Unit,
     onDrop: (Card.ID, Column.ID, Int) -> Unit,
@@ -473,6 +478,7 @@ fun BoardColumn(
                                 card = item.card,
                                 isDragging = draggingCardId == item.card.id(),
                                 onDragStart = { onDragStart(item.card.id()) },
+                                onAssignToggle = { onAssignToggle(item.card.id(), item.card.assignedToMe()) },
                                 onClick = { onCardClick(item.card.id().value()) }
                             )
                         }
@@ -493,11 +499,13 @@ fun CardItem(
     card: PreviewCard,
     isDragging: Boolean,
     onDragStart: () -> Unit,
+    onAssignToggle: () -> Unit,
     onClick: () -> Unit
 ) {
     val cardColor = card.color()?.toComposeColor() ?: MaterialTheme.colorScheme.surface
     val interactionSource = remember { MutableInteractionSource() }
     val scope = rememberCoroutineScope()
+    var showMenu by remember { mutableStateOf(false) }
 
     @Suppress("DEPRECATION")
     Card(
@@ -546,6 +554,23 @@ fun CardItem(
                         modifier = Modifier.weight(1f),
                         style = MaterialTheme.typography.bodyLarge.copy(fontWeight = FontWeight.Bold)
                     )
+                    Box {
+                        IconButton(onClick = { showMenu = true }, modifier = Modifier.size(24.dp)) {
+                            Icon(Icons.Outlined.MoreVert, contentDescription = "Menu")
+                        }
+                        DropdownMenu(
+                            expanded = showMenu,
+                            onDismissRequest = { showMenu = false }
+                        ) {
+                            DropdownMenuItem(
+                                text = { Text(if (card.assignedToMe()) "Unassign from me" else "Assign to me") },
+                                onClick = {
+                                    onAssignToggle()
+                                    showMenu = false
+                                }
+                            )
+                        }
+                    }
                     if (card.dueDate() != null) {
                         val locale = LocalConfiguration.current.locales[0]
                         val formatter = remember(locale) { DateTimeFormatter.ofPattern("MMM dd", locale) }

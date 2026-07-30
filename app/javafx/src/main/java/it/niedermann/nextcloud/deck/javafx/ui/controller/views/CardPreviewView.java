@@ -1,5 +1,6 @@
 package it.niedermann.nextcloud.deck.javafx.ui.controller.views;
 
+import it.niedermann.nextcloud.deck.domain.model.Account;
 import it.niedermann.nextcloud.deck.domain.model.Card;
 import it.niedermann.nextcloud.deck.domain.model.query.PreviewCard;
 import it.niedermann.nextcloud.deck.javafx.ui.fxml.Inflater;
@@ -19,6 +20,8 @@ public class CardPreviewView extends BorderPane {
     @FXML
     CardPropertiesView cardProperties;
     @FXML
+    AvatarView avatar;
+    @FXML
     ContextMenu contextMenu;
     @FXML
     MenuItem assign;
@@ -35,12 +38,19 @@ public class CardPreviewView extends BorderPane {
         Inflater.getInstance().inflate(this);
     }
 
-    public void bind(PreviewCard card, boolean isAssignedToCurrentUser, CardPreviewActionListener cardPreviewActionListener) {
+    public void bind(PreviewCard card, Account account, CardPreviewActionListener cardPreviewActionListener) {
 
         title.setText(card.title());
         description.setText(card.excerpt());
-        assign.setVisible(!isAssignedToCurrentUser);
-        unassign.setVisible(isAssignedToCurrentUser);
+        assign.setVisible(!card.assignedToMe());
+        unassign.setVisible(card.assignedToMe());
+        avatar.setVisible(card.assignedToMe());
+        avatar.setManaged(card.assignedToMe());
+
+        if (card.assignedToMe() && account != null) {
+            avatar.setAvatar(account);
+        }
+
         cardProperties.setArgs(new CardPropertiesView.Args(
                 card.excerpt(),
                 card.labels().size(),

@@ -5,6 +5,7 @@ import java.time.LocalDateTime;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 import it.niedermann.nextcloud.deck.domain.model.Attachment;
 import it.niedermann.nextcloud.deck.domain.model.Board;
@@ -92,10 +93,10 @@ public interface MockData {
     };
 
     List<Card> MOCK_CARDS = List.of(
-            new Card(new Card.ID(0), null, new Column.ID(1), LocalDateTime.now(), 0, "Card-Title #0", "Card-Description 0 Lorem Ipsum Dolor sit Amet", Collections.emptySet(), Collections.emptySet(), Collections.emptyList(), LocalDateTime.now(), null, null, null, false, false, 0, 3),
+            new Card(new Card.ID(0), null, new Column.ID(1), LocalDateTime.now(), 0, "Card-Title #0", "Card-Description 0 Lorem Ipsum Dolor sit Amet", Collections.emptySet(), Set.of(new User.ID("jdoe")), Collections.emptyList(), LocalDateTime.now(), null, null, null, false, false, 0, 3),
             new Card(new Card.ID(1), null, new Column.ID(1), LocalDateTime.now(), 1, "Card-Title #1", "", Collections.emptySet(), Collections.emptySet(), Collections.emptyList(), LocalDateTime.now(), null, null, null, false, false, 0, 0),
-            new Card(new Card.ID(2), null, new Column.ID(1), LocalDateTime.now(), 2, "Card-Title #2", "- [ ] Check 1\n- [x] Check 2\n- [ ] Check 3", Collections.emptySet(), Collections.emptySet(), Collections.emptyList(), LocalDateTime.now(), null, null, null, false, false, 0, 4),
-            new Card(new Card.ID(3), null, new Column.ID(1), LocalDateTime.now(), 3, "Card-Title #3", "Card-Description 3 Lorem Ipsum Dolor sit Amet", Collections.emptySet(), Collections.emptySet(), Collections.emptyList(), LocalDateTime.now(), null, null, null, false, false, 0, 6),
+            new Card(new Card.ID(2), null, new Column.ID(1), LocalDateTime.now(), 2, "Card-Title #2", "- [ ] Check 1\n- [x] Check 2\n- [ ] Check 3", Collections.emptySet(), Set.of(new User.ID("jdoe")), Collections.emptyList(), LocalDateTime.now(), null, null, null, false, false, 0, 4),
+            new Card(new Card.ID(3), null, new Column.ID(1), LocalDateTime.now(), 3, "Card-Title #3", "Card-Description 3 Lorem Ipsum Dolor sit Amet", Collections.emptySet(), Set.of(new User.ID("smith")), Collections.emptyList(), LocalDateTime.now(), null, null, null, false, false, 0, 6),
             new Card(new Card.ID(4), null, new Column.ID(2), LocalDateTime.now(), 4, "Card-Title #4", "Card-Description 4 Lorem Ipsum Dolor sit Amet", Collections.emptySet(), Collections.emptySet(), Collections.emptyList(), LocalDateTime.now(), null, null, null, false, false, 0, 0),
             new Card(new Card.ID(5), null, new Column.ID(2), LocalDateTime.now(), 5, "Card-Title #5", "Card-Description 5 Lorem Ipsum Dolor sit Amet", Collections.emptySet(), Collections.emptySet(), Collections.emptyList(), LocalDateTime.now(), null, null, null, false, false, 0, 1),
             new Card(new Card.ID(6), null, new Column.ID(3), LocalDateTime.now(), 6, "Card-Title #6", "Card-Description 6 Lorem Ipsum Dolor sit Amet", Collections.emptySet(), Collections.emptySet(), Collections.emptyList(), LocalDateTime.now(), null, null, null, false, false, 0, 0),

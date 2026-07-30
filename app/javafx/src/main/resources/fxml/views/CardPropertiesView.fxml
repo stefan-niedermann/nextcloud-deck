@@ -8,5 +8,4 @@
     <IconCounterView iconLiteral="fltrmz-tag-16" fx:id="labelsIconCounter" />
     <IconCounterView iconLiteral="fltral-comment-16" fx:id="commentsIconCounter" />
     <IconCounterView iconLiteral="fltfal-attach-16" fx:id="attachmentsIconCounter" />
-    <IconCounterView iconLiteral="fltrmz-person-16" fx:id="assigneesIconCounter" />
 </fx:root>
