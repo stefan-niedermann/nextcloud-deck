@@ -85,8 +85,13 @@ public class BoardFeature extends DisposableController {
 
         this.columns.getChildren().clear();
 
+        boolean first = true;
         for (final var columnId : columnIds) {
             final var fxBundle = this.inflater.inflate(columnFactory.create(columnId, viewModel));
+            if (first && fxBundle.controller() instanceof ColumnFeature columnFeature) {
+                columnFeature.setShouldRequestInitialFocus(true);
+                first = false;
+            }
             if (fxBundle.controller() instanceof Disposable d) {
                 addDisposable(d);
             }

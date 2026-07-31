@@ -56,6 +56,8 @@ public class ColumnFeature extends DisposableController {
     private final CardPreviewCellFactory cardPreviewCellFactory;
     private PopOver popOver;
 
+    private boolean shouldRequestInitialFocus = false;
+
     @FXML
     Label title;
     @FXML
@@ -99,9 +101,38 @@ public class ColumnFeature extends DisposableController {
         cards.setOnDragOver(this::onDragCardOver);
         cards.setOnDragDropped(this::onCardDropped);
 
+        cards.setOnKeyPressed(event -> {
+            final var selectedItem = cards.getSelectionModel().getSelectedItem();
+
+            if (selectedItem == null) {
+                return;
+            }
+
+            switch (event.getCode()) {
+                case ENTER, SPACE -> {
+                    viewModel.onOpenCard(selectedItem.id());
+                    event.consume();
+                }
+                case DELETE -> {
+                    viewModel.onDeleteCard(selectedItem.id());
+                    event.consume();
+                }
+                default -> {
+                    // Ignored
+                }
+            }
+        });
+
         final var disposable = Flowable.fromPublisher(listCardPreviewsUseCase.execute(columnId))
                 .observeOn(JavaFxScheduler.platform())
-                .subscribe(cards -> this.cards.getItems().setAll(cards));
+                .subscribe(cards -> {
+                    this.cards.getItems().setAll(cards);
+                    if (shouldRequestInitialFocus && !cards.isEmpty()) {
+                        this.cards.requestFocus();
+                        this.cards.getFocusModel().focus(0);
+                        shouldRequestInitialFocus = false;
+                    }
+                });
 
         addDisposable(disposable);
 
@@ -256,6 +287,10 @@ public class ColumnFeature extends DisposableController {
                 .orElseThrow(() -> new IllegalStateException("intersectedNode " + intersectedNode + " is not a child of the ListView"));
 
         return FxUtils.identifyClosestListViewIndex(intersectedListCellOrListView, event.getSceneY());
+    }
+
+    public void setShouldRequestInitialFocus(boolean shouldRequestInitialFocus) {
+        this.shouldRequestInitialFocus = shouldRequestInitialFocus;
     }
 
     public interface ViewModel extends CardPreviewView.CardPreviewActionListener {

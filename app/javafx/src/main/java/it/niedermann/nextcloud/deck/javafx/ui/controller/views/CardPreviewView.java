@@ -11,7 +11,6 @@ import javafx.fxml.FXML;
 import javafx.scene.control.ContextMenu;
 import javafx.scene.control.Label;
 import javafx.scene.control.MenuItem;
-import javafx.scene.input.KeyCode;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.FlowPane;
 
@@ -89,13 +88,6 @@ public class CardPreviewView extends BorderPane {
         setOnMouseClicked(event -> {
             cardPreviewActionListener.onOpenCard(card.id());
             event.consume();
-        });
-
-        setOnKeyPressed(event -> {
-            if (event.getCode() == KeyCode.ENTER) {
-                cardPreviewActionListener.onOpenCard(card.id());
-                event.consume();
-            }
         });
 
         assign.setOnAction(event -> {
