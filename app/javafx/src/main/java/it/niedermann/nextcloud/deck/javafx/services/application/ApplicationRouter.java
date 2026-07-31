@@ -48,6 +48,10 @@ public class ApplicationRouter {
         launchEditCardStage(new Stage(), new CardRawArgs.LocalCard(cardId));
     }
 
+    public void launchPreferencesStage() {
+        launchPreferencesStage(new Stage());
+    }
+
     // endregion
 
     // region Internal API
@@ -65,6 +69,11 @@ public class ApplicationRouter {
     private void launchEditBoardStage(Stage stage, BoardRawArgs args) {
         final var stageComponent = stageComponentFactory.create(stage);
         stageComponent.getEditBoardStageFactory().create(args);
+    }
+
+    private void launchPreferencesStage(Stage stage) {
+        final var stageComponent = stageComponentFactory.create(stage);
+        stageComponent.getPreferencesStageFactory().create(null);
     }
 
     // endregion

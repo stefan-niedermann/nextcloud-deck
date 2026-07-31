@@ -120,12 +120,7 @@ public class PreferencesKeyValueStore implements KeyValueStore {
 
                             final var newValue = event.getNewValue();
                             if (newValue != null) {
-                                try {
-                                    //noinspection unchecked
-                                    emitter.onNext((T) newValue);
-                                } catch (ClassCastException e) {
-                                    emitter.onError(e);
-                                }
+                                emitter.onNext(supplier.get());
                             }
                         }
                     };

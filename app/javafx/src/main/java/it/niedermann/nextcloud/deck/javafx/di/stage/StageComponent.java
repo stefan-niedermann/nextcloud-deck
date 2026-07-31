@@ -6,6 +6,7 @@ import dagger.Subcomponent;
 import it.niedermann.nextcloud.deck.javafx.ui.stages.EditBoardStageManager;
 import it.niedermann.nextcloud.deck.javafx.ui.stages.EditCardStageManager;
 import it.niedermann.nextcloud.deck.javafx.ui.stages.MainStageManager;
+import it.niedermann.nextcloud.deck.javafx.ui.stages.PreferencesStageManager;
 import javafx.stage.Stage;
 
 @StageScope
@@ -24,4 +25,6 @@ public interface StageComponent {
     EditCardStageManager.Factory getEditCardStageFactory();
 
     EditBoardStageManager.Factory getEditBoardStageFactory();
+
+    PreferencesStageManager.Factory getPreferencesStageFactory();
 }

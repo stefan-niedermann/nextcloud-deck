@@ -42,6 +42,8 @@ public class HeaderFeature extends DisposableController {
     @FXML
     Button editBoardBtn;
     @FXML
+    Button preferencesBtn;
+    @FXML
     Button scheduleSyncBtn;
     @FXML
     AvatarProgressView avatar;
@@ -116,6 +118,8 @@ public class HeaderFeature extends DisposableController {
             addDisposable(disposable);
         });
 
+        preferencesBtn.setOnAction(_ -> viewModel.onLaunchPreferences());
+
         scheduleSyncBtn.setOnAction(_ -> this.scheduleSync());
         removeAccountBtn.setOnAction(_ -> this.removeAccount());
 
@@ -165,6 +169,8 @@ public class HeaderFeature extends DisposableController {
         Flowable<Board> getBoard();
 
         void onEditBoard(Board board);
+
+        void onLaunchPreferences();
 
         void onAccountRemoved();
     }

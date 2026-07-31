@@ -15,6 +15,12 @@
 
     <Region HBox.hgrow="SOMETIMES" />
 
+    <Button accessibleText="Preferences" fx:id="preferencesBtn">
+        <graphic>
+            <FontIcon iconLiteral="fltrmz-settings-16" iconSize="16" />
+        </graphic>
+    </Button>
+
     <Button accessibleText="Schedule synchronization" fx:id="scheduleSyncBtn">
         <graphic>
             <FontIcon iconLiteral="fltfal-arrow-sync-20" iconSize="16" />

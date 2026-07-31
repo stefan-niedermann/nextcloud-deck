@@ -155,6 +155,11 @@ public class MainStageContext extends Store<MainStageContext.State, MainStageCon
     }
 
     @Override
+    public void onLaunchPreferences() {
+        applicationRouter.launchPreferencesStage();
+    }
+
+    @Override
     public void onAccountRemoved() {
         // TODO Select any account and set as current OR fallback to login scene
     }
