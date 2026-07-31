@@ -9,6 +9,7 @@ import dagger.assisted.AssistedFactory;
 import dagger.assisted.AssistedInject;
 import io.reactivex.rxjava4.core.Flowable;
 import it.niedermann.nextcloud.deck.domain.model.Board;
+import it.niedermann.nextcloud.deck.domain.model.Color;
 import it.niedermann.nextcloud.deck.domain.model.Label;
 import it.niedermann.nextcloud.deck.javafx.ui.controller.DisposableController;
 import it.niedermann.nextcloud.deck.javafx.util.JavaFxScheduler;
@@ -21,7 +22,6 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.Region;
-import javafx.scene.paint.Color;
 
 public class EditBoardLabelsFeature extends DisposableController {
 
@@ -77,7 +77,7 @@ public class EditBoardLabelsFeature extends DisposableController {
         final var title = newLabelTitle.getText();
         final var color = newLabelColor.getValue();
         if (title != null && !title.isBlank() && color != null) {
-            viewModel.onAddLabel(title, new java.awt.Color((float) color.getRed(), (float) color.getGreen(), (float) color.getBlue(), (float) color.getOpacity()));
+            viewModel.onAddLabel(title, new Color((int) (color.getRed() * 255), (int) (color.getGreen() * 255), (int) (color.getBlue() * 255)));
             newLabelTitle.clear();
         }
     }
@@ -107,8 +107,8 @@ public class EditBoardLabelsFeature extends DisposableController {
         private void updateLabel() {
             if (getItem() != null) {
                 final var fxColor = colorPicker.getValue();
-                final var awtColor = new java.awt.Color((float) fxColor.getRed(), (float) fxColor.getGreen(), (float) fxColor.getBlue(), (float) fxColor.getOpacity());
-                viewModel.onUpdateLabel(getItem(), titleField.getText(), awtColor);
+                final var color = new Color((int) (fxColor.getRed() * 255), (int) (fxColor.getGreen() * 255), (int) (fxColor.getBlue() * 255));
+                viewModel.onUpdateLabel(getItem(), titleField.getText(), color);
             }
         }
 
@@ -121,7 +121,7 @@ public class EditBoardLabelsFeature extends DisposableController {
                 final boolean disable = !board.permissions().permissionManage();
 
                 titleField.setText(item.title());
-                colorPicker.setValue(Color.rgb(item.color().getRed(), item.color().getGreen(), item.color().getBlue()));
+                colorPicker.setValue(javafx.scene.paint.Color.rgb(item.color().getRed(), item.color().getGreen(), item.color().getBlue()));
                 titleField.setDisable(disable);
                 colorPicker.setDisable(disable);
                 deleteButton.setDisable(disable);
@@ -133,8 +133,8 @@ public class EditBoardLabelsFeature extends DisposableController {
     public interface ViewModel {
         Flowable<Board> getBoard();
         Flowable<Collection<Label>> getLabels();
-        void onAddLabel(String title, java.awt.Color color);
+        void onAddLabel(String title, Color color);
         void onDeleteLabel(Label label);
-        void onUpdateLabel(Label label, String newTitle, java.awt.Color newColor);
+        void onUpdateLabel(Label label, String newTitle, Color newColor);
     }
 }

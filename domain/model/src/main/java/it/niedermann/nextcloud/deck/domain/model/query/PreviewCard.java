@@ -1,12 +1,12 @@
 package it.niedermann.nextcloud.deck.domain.model.query;
 
-import java.awt.Color;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.Objects;
 import java.util.Set;
 
 import it.niedermann.nextcloud.deck.domain.model.Card;
+import it.niedermann.nextcloud.deck.domain.model.Color;
 
 /// @implSpec Excerpt is a shortened description (e.g. 300 characters)
 public record PreviewCard(

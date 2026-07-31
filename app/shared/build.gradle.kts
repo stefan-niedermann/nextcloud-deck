@@ -27,4 +27,12 @@ dependencies {
     api(libs.retrofit.gson)
     implementation(libs.retrofit.rxjava)
     api(libs.gson);
+
+    testImplementation(platform(libs.junitBom))
+    testImplementation(libs.junitJupiter)
+    testRuntimeOnly(libs.junitPlatformLauncher)
+}
+
+tasks.test {
+    useJUnitPlatform()
 }

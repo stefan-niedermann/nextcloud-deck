@@ -1,16 +1,21 @@
 package it.niedermann.nextcloud.deck.javafx.ui.cellfactories;
 
 import io.reactivex.rxjava4.core.Flowable;
-import io.reactivex.rxjava4.disposables.Disposable;
+import io.reactivex.rxjava4.disposables.CompositeDisposable;
 import it.niedermann.nextcloud.deck.domain.model.Account;
 import it.niedermann.nextcloud.deck.domain.model.query.PreviewCard;
+import it.niedermann.nextcloud.deck.domain.state.KeyValueStore;
 import it.niedermann.nextcloud.deck.domain.usecases.accounts.GetAccountUseCase;
 import it.niedermann.nextcloud.deck.domain.usecases.state.GetCurrentAccountUseCase;
+import it.niedermann.nextcloud.deck.javafx.services.stage.PreferencesStageContext;
 import it.niedermann.nextcloud.deck.javafx.ui.controller.views.CardPreviewView;
 import it.niedermann.nextcloud.deck.javafx.util.DeckDataFormat;
 import it.niedermann.nextcloud.deck.javafx.util.JavaFxScheduler;
+import it.niedermann.nextcloud.deck.util.ColorUtil;
 import jakarta.inject.Inject;
 import javafx.beans.binding.Bindings;
+import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.SimpleBooleanProperty;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
 import javafx.scene.input.ClipboardContent;
@@ -24,19 +29,28 @@ public class CardPreviewCellFactory implements Callback<ListView<PreviewCard>, L
     private CardPreviewView.CardPreviewActionListener cardPreviewActionListener;
     private final GetCurrentAccountUseCase getCurrentAccountUseCase;
     private final GetAccountUseCase getAccountUseCase;
+    private final KeyValueStore keyValueStore;
+    private final ColorUtil colorUtil;
 
     private Account currentAccount;
-    private Disposable disposable;
+    private final BooleanProperty compactMode = new SimpleBooleanProperty(this, "compactMode", false);
+    private final CompositeDisposable disposables = new CompositeDisposable();
 
     @Inject
-    public CardPreviewCellFactory(GetCurrentAccountUseCase getCurrentAccountUseCase, GetAccountUseCase getAccountUseCase) {
+    public CardPreviewCellFactory(GetCurrentAccountUseCase getCurrentAccountUseCase, GetAccountUseCase getAccountUseCase, KeyValueStore keyValueStore, ColorUtil colorUtil) {
         this.getCurrentAccountUseCase = getCurrentAccountUseCase;
         this.getAccountUseCase = getAccountUseCase;
+        this.keyValueStore = keyValueStore;
+        this.colorUtil = colorUtil;
 
-        this.disposable = Flowable.fromCompletionStage(getCurrentAccountUseCase.execute())
+        disposables.add(Flowable.fromCompletionStage(getCurrentAccountUseCase.execute())
                 .switchMap(id -> Flowable.fromPublisher(getAccountUseCase.execute(id)))
                 .observeOn(JavaFxScheduler.platform())
-                .subscribe(account -> this.currentAccount = account);
+                .subscribe(account -> this.currentAccount = account));
+
+        disposables.add(Flowable.fromPublisher(keyValueStore.getBoolean(PreferencesStageContext.KEY_COMPACT_MODE))
+                .observeOn(JavaFxScheduler.platform())
+                .subscribe(compactMode::set));
     }
 
     public void setCardPreviewActionListener(CardPreviewView.CardPreviewActionListener cardPreviewActionListener) {
@@ -63,6 +77,8 @@ public class CardPreviewCellFactory implements Callback<ListView<PreviewCard>, L
 
                 view.maxWidthProperty().bind(totalWidth);
                 placeholder.maxWidthProperty().bind(totalWidth);
+
+                view.compactProperty().bind(compactMode);
             }
 
             @Override
@@ -80,7 +96,7 @@ public class CardPreviewCellFactory implements Callback<ListView<PreviewCard>, L
 
                 } else {
 
-                    view.bind(card, currentAccount, cardPreviewActionListener);
+                    view.bind(card, currentAccount, cardPreviewActionListener, colorUtil);
                     setGraphic(view);
 
                 }

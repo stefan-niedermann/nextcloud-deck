@@ -2,10 +2,10 @@ package it.niedermann.nextcloud.deck.javafx.util;
 
 import org.intellij.lang.annotations.Language;
 
-import java.awt.Color;
 import java.util.Arrays;
 import java.util.Optional;
 
+import it.niedermann.nextcloud.deck.domain.model.Color;
 import javafx.beans.Observable;
 import javafx.beans.binding.Bindings;
 import javafx.beans.binding.BooleanBinding;
@@ -20,7 +20,7 @@ import javafx.scene.layout.CornerRadii;
 public class FxUtils {
 
     public static String createAccentColorCss(Color accentColor) {
-        final var rgb = accentColor.getRGB();
+        final var rgb = accentColor.argb();
         final var hexString = '#' + Integer.toHexString(rgb).substring(2);
 
         @Language("CSS") final var css = """

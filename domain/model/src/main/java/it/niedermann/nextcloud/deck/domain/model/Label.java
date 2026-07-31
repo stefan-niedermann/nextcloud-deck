@@ -1,6 +1,5 @@
 package it.niedermann.nextcloud.deck.domain.model;
 
-import java.awt.Color;
 import java.util.Objects;
 
 public record Label(

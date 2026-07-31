@@ -8,9 +8,11 @@ import java.util.HashSet;
 import java.util.Objects;
 import java.util.logging.Logger;
 
+import io.reactivex.rxjava4.core.BackpressureStrategy;
 import io.reactivex.rxjava4.core.Flowable;
 import it.niedermann.nextcloud.deck.domain.state.KeyValueStore;
 import it.niedermann.nextcloud.deck.javafx.di.fx.FxScope;
+import it.niedermann.nextcloud.deck.javafx.util.JavaFxScheduler;
 import jakarta.inject.Inject;
 import javafx.scene.Scene;
 import javafx.scene.control.Dialog;
@@ -22,59 +24,58 @@ public class ThemeService {
 
     public static final String KEY_THEME = "theme";
 
-    private final OsThemeDetector detector;
     private final KeyValueStore keyValueStore;
 
     private final Collection<WeakReference<Scene>> scenes = new HashSet<>();
 
-    private Theme theme = Theme.AUTO;
+    private boolean currentDarkModeEnabled = false;
 
     @Inject
     public ThemeService(OsThemeDetector detector, KeyValueStore keyValueStore) {
-        this.detector = detector;
         this.keyValueStore = keyValueStore;
 
-        detector.registerListener(isDark -> {
-            if (theme == Theme.AUTO) {
-                updateAllScenes(isDark);
-            }
-        });
-
-        final var themePreferenceDisposable = Flowable.fromPublisher(this.keyValueStore.getString(KEY_THEME))
+        final var themeFlowable = Flowable.fromPublisher(this.keyValueStore.getString(KEY_THEME))
                 .map(Theme::fromName)
-                .subscribe(this::setTheme);
-    }
+                .distinctUntilChanged();
 
-    private void setTheme(Theme theme) {
-        this.theme = theme;
-        updateAllScenes(isDarkModeEnabled());
+        final var osDarkFlowable = Flowable.<Boolean>create(emitter -> {
+                    emitter.onNext(detector.isDark());
+                    detector.registerListener(emitter::onNext);
+                }, BackpressureStrategy.LATEST)
+                .distinctUntilChanged();
+
+        final var disposable = Flowable.combineLatest(
+                        themeFlowable,
+                        osDarkFlowable,
+                        (theme, osDark) -> switch (theme) {
+                            case AUTO -> osDark;
+                            case LIGHT -> false;
+                            case DARK -> true;
+                        })
+                .distinctUntilChanged()
+                .observeOn(JavaFxScheduler.platform())
+                .subscribe(enabled -> {
+                    this.currentDarkModeEnabled = enabled;
+                    updateAllScenes(enabled);
+                });
     }
 
     public void bind(Scene scene) {
         scenes.add(new WeakReference<>(scene));
-        setDarkMode(scene, isDarkModeEnabled());
+        setDarkMode(scene, currentDarkModeEnabled);
     }
 
     public void bind(Dialog<?> dialog) {
         bind(dialog.getDialogPane().getScene());
     }
 
-    private boolean isDarkModeEnabled() {
-        return switch (theme) {
-            case AUTO -> detector.isDark();
-            case LIGHT -> false;
-            case DARK -> true;
-        };
-    }
-
     private void updateAllScenes(boolean isDark) {
+        scenes.removeIf(ref -> ref.get() == null);
         for (final var sceneRef : scenes) {
             final var scene = sceneRef.get();
-            if (scene == null) {
-                scenes.remove(sceneRef);
-                continue;
+            if (scene != null) {
+                setDarkMode(scene, isDark);
             }
-            setDarkMode(scene, isDark);
         }
     }
 

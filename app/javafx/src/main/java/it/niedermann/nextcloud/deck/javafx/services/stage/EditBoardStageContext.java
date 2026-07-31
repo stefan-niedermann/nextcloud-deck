@@ -12,6 +12,7 @@ import io.reactivex.rxjava4.schedulers.Schedulers;
 import it.niedermann.nextcloud.deck.domain.model.Account;
 import it.niedermann.nextcloud.deck.domain.model.Board;
 import it.niedermann.nextcloud.deck.domain.model.BoardShare;
+import it.niedermann.nextcloud.deck.domain.model.Color;
 import it.niedermann.nextcloud.deck.domain.model.Column;
 import it.niedermann.nextcloud.deck.domain.model.CreateColumn;
 import it.niedermann.nextcloud.deck.domain.model.Label;
@@ -164,7 +165,7 @@ public class EditBoardStageContext extends Store<EditBoardStageContext.State, Ed
     }
 
     @Override
-    public void onAddLabel(String title, java.awt.Color color) {
+    public void onAddLabel(String title, Color color) {
         addLabelUseCase.execute(new Label(new Label.ID(0), initialState.boardId(), title, color));
     }
 
@@ -174,7 +175,7 @@ public class EditBoardStageContext extends Store<EditBoardStageContext.State, Ed
     }
 
     @Override
-    public void onUpdateLabel(Label label, String newTitle, java.awt.Color newColor) {
+    public void onUpdateLabel(Label label, String newTitle, Color newColor) {
         updateLabelUseCase.execute(new Label(label.id(), label.boardId(), newTitle, newColor));
     }
 

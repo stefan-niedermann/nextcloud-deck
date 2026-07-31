@@ -1,6 +1,7 @@
 package it.niedermann.nextcloud.deck.ui.board
 
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
@@ -15,6 +16,7 @@ import it.niedermann.nextcloud.deck.domain.model.CreateColumn
 import it.niedermann.nextcloud.deck.domain.model.Label
 import it.niedermann.nextcloud.deck.domain.model.User
 import it.niedermann.nextcloud.deck.domain.model.query.PreviewCard
+import it.niedermann.nextcloud.deck.domain.state.KeyValueStore
 import it.niedermann.nextcloud.deck.domain.state.SyncStatus
 import it.niedermann.nextcloud.deck.domain.sync.SyncScheduler
 import it.niedermann.nextcloud.deck.domain.usecases.accounts.GetAccountUseCase
@@ -55,7 +57,8 @@ class BoardViewModel @Inject constructor(
     private val getCurrentAccountUseCase: GetCurrentAccountUseCase,
     private val getAccountUseCase: GetAccountUseCase,
     private val setCurrentBoardUseCase: SetCurrentBoardUseCase,
-    private val syncScheduler: SyncScheduler
+    private val syncScheduler: SyncScheduler,
+    private val keyValueStore: KeyValueStore
 ) : ViewModel() {
 
     private val _columns = MutableStateFlow<List<Column>>(emptyList())
@@ -79,9 +82,12 @@ class BoardViewModel @Inject constructor(
     private val _syncStatus = MutableStateFlow<SyncStatus?>(null)
     val syncStatus = _syncStatus.asStateFlow()
 
+    private val _compactMode = MutableStateFlow(false)
+    val compactMode = _compactMode.asStateFlow()
+
     var draggingCardId by mutableStateOf<Card.ID?>(null)
     var dropTargetColumnId by mutableStateOf<Column.ID?>(null)
-    var dropTargetIndex by mutableStateOf(-1)
+    var dropTargetIndex by mutableIntStateOf(-1)
 
     var isLoading by mutableStateOf(false)
     var error by mutableStateOf<String?>(null)
@@ -94,6 +100,12 @@ class BoardViewModel @Inject constructor(
         error = null
         viewModelScope.launch {
             try {
+                launch(Dispatchers.IO) {
+                    FlowAdapters.toPublisher(keyValueStore.getBoolean("compact_mode"))
+                        .asFlow()
+                        .collect { _compactMode.value = it }
+                }
+
                 val accountId = withContext(Dispatchers.IO) {
                     getCurrentAccountUseCase.execute().await()
                 }

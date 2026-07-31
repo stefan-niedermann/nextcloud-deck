@@ -52,6 +52,7 @@ import androidx.compose.material.icons.outlined.Person
 import androidx.compose.material.icons.outlined.Visibility
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.AssistChip
+import androidx.compose.material3.AssistChipDefaults
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.DatePicker
 import androidx.compose.material3.DatePickerDialog
@@ -100,6 +101,7 @@ import it.niedermann.nextcloud.deck.domain.model.Comment
 import it.niedermann.nextcloud.deck.domain.model.Label
 import it.niedermann.nextcloud.deck.domain.model.User
 import it.niedermann.nextcloud.deck.ui.components.UserAvatar
+import it.niedermann.nextcloud.deck.ui.util.LocalColorUtil
 import it.niedermann.nextcloud.deck.ui.util.toComposeColor
 import kotlinx.coroutines.launch
 import java.time.Instant
@@ -351,14 +353,23 @@ fun LabelSelector(
 
     FlowRow(horizontalArrangement = Arrangement.spacedBy(8.dp), verticalArrangement = Arrangement.spacedBy(4.dp)) {
         selectedLabelsList.forEach { label ->
+            val backgroundColor = label.color().toComposeColor()
+            val foregroundColor = Color(LocalColorUtil.current.getForegroundColorForBackgroundColor(label.color().argb()))
             AssistChip(
                 onClick = { onToggleLabel(label.id()) },
                 label = { Text(label.title()) },
-                leadingIcon = {
-                    Box(Modifier.size(12.dp).background(label.color().toComposeColor(), CircleShape))
-                },
+                colors = AssistChipDefaults.assistChipColors(
+                    containerColor = backgroundColor,
+                    labelColor = foregroundColor
+                ),
+                border = null,
                 trailingIcon = {
-                    Icon(Icons.Outlined.Close, contentDescription = "Remove", Modifier.size(16.dp))
+                    Icon(
+                        Icons.Outlined.Close,
+                        contentDescription = "Remove",
+                        modifier = Modifier.size(16.dp),
+                        tint = foregroundColor
+                    )
                 }
             )
         }
@@ -374,10 +385,11 @@ fun LabelSelector(
             ) {
                 availableLabels.forEach { label ->
                     val isSelected = selectedLabels.contains(label.id())
+                    val backgroundColor = label.color().toComposeColor()
                     DropdownMenuItem(
                         text = {
                             Row(verticalAlignment = Alignment.CenterVertically) {
-                                Box(Modifier.size(12.dp).background(label.color().toComposeColor(), CircleShape))
+                                Box(Modifier.size(12.dp).background(backgroundColor, CircleShape))
                                 Spacer(Modifier.width(8.dp))
                                 Text(label.title())
                             }

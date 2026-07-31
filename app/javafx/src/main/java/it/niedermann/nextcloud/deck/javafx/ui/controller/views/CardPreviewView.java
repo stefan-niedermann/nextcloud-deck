@@ -4,12 +4,16 @@ import it.niedermann.nextcloud.deck.domain.model.Account;
 import it.niedermann.nextcloud.deck.domain.model.Card;
 import it.niedermann.nextcloud.deck.domain.model.query.PreviewCard;
 import it.niedermann.nextcloud.deck.javafx.ui.fxml.Inflater;
+import it.niedermann.nextcloud.deck.util.ColorUtil;
+import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.SimpleBooleanProperty;
 import javafx.fxml.FXML;
 import javafx.scene.control.ContextMenu;
 import javafx.scene.control.Label;
 import javafx.scene.control.MenuItem;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.FlowPane;
 
 public class CardPreviewView extends BorderPane {
 
@@ -17,6 +21,8 @@ public class CardPreviewView extends BorderPane {
     Label title;
     @FXML
     Label description;
+    @FXML
+    FlowPane labels;
     @FXML
     CardPropertiesView cardProperties;
     @FXML
@@ -34,14 +40,33 @@ public class CardPreviewView extends BorderPane {
     @FXML
     MenuItem delete;
 
+    private final BooleanProperty compact = new SimpleBooleanProperty(this, "compact", false);
+
     public CardPreviewView() {
         Inflater.getInstance().inflate(this);
     }
 
-    public void bind(PreviewCard card, Account account, CardPreviewActionListener cardPreviewActionListener) {
+    public BooleanProperty compactProperty() {
+        return compact;
+    }
+
+    public void bind(PreviewCard card, Account account, CardPreviewActionListener cardPreviewActionListener, ColorUtil colorUtil) {
 
         title.setText(card.title());
         description.setText(card.excerpt());
+        description.setManaged(!card.excerpt().isEmpty());
+        description.setVisible(!card.excerpt().isEmpty());
+
+        labels.getChildren().clear();
+        for (final var label : card.labels()) {
+            final var labelView = new LabelView(colorUtil);
+            labelView.compactProperty().bind(compact);
+            labelView.setLabel(label.title(), label.color());
+            labels.getChildren().add(labelView);
+        }
+        labels.setManaged(!card.labels().isEmpty());
+        labels.setVisible(!card.labels().isEmpty());
+
         assign.setVisible(!card.assignedToMe());
         unassign.setVisible(card.assignedToMe());
         avatar.setVisible(card.assignedToMe());

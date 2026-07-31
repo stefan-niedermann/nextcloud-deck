@@ -6,6 +6,7 @@ import android.view.View
 import androidx.compose.animation.Crossfade
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.foundation.background
 import androidx.compose.foundation.draganddrop.dragAndDropSource
 import androidx.compose.foundation.draganddrop.dragAndDropTarget
 import androidx.compose.foundation.gestures.ScrollableDefaults
@@ -100,6 +101,7 @@ import it.niedermann.nextcloud.deck.domain.model.User
 import it.niedermann.nextcloud.deck.domain.model.query.PreviewCard
 import it.niedermann.nextcloud.deck.ui.components.AppTopBar
 import it.niedermann.nextcloud.deck.ui.components.UserAvatar
+import it.niedermann.nextcloud.deck.ui.util.LocalColorUtil
 import it.niedermann.nextcloud.deck.ui.util.toComposeColor
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.isActive
@@ -132,6 +134,7 @@ fun BoardScreen(
     val currentAccount by viewModel.currentAccount.collectAsStateWithLifecycle()
     val isRefreshing by viewModel.isRefreshing.collectAsStateWithLifecycle()
     val syncStatus by viewModel.syncStatus.collectAsStateWithLifecycle()
+    val compactMode by viewModel.compactMode.collectAsStateWithLifecycle()
     val state = rememberPullToRefreshState()
     var showAddCardDialog by remember { mutableStateOf<Long?>(null) }
     var showAddColumnDialog by remember { mutableStateOf(false) }
@@ -281,6 +284,7 @@ fun BoardScreen(
                                     onAddCardClick = { showAddCardDialog = column.id.value() },
                                     onAssignToggle = { cardId, assigned -> viewModel.toggleAssignment(cardId, assigned) },
                                     currentAccount = currentAccount,
+                                    compactMode = compactMode,
                                     onDragStart = { viewModel.draggingCardId = it },
                                     onDragOver = { colId, index ->
                                         viewModel.dropTargetColumnId = colId
@@ -334,6 +338,7 @@ fun BoardColumn(
     column: Column,
     cards: List<PreviewCard>,
     currentAccount: Account?,
+    compactMode: Boolean,
     draggingCardId: Card.ID?,
     dropTargetColumnId: Column.ID?,
     dropTargetIndex: Int,
@@ -483,6 +488,7 @@ fun BoardColumn(
                             CardItem(
                                 card = item.card,
                                 currentAccount = currentAccount,
+                                compactMode = compactMode,
                                 isDragging = draggingCardId == item.card.id(),
                                 onDragStart = { onDragStart(item.card.id()) },
                                 onAssignToggle = { onAssignToggle(item.card.id(), item.card.assignedToMe()) },
@@ -505,6 +511,7 @@ fun BoardColumn(
 fun CardItem(
     card: PreviewCard,
     currentAccount: Account?,
+    compactMode: Boolean,
     isDragging: Boolean,
     onDragStart: () -> Unit,
     onAssignToggle: () -> Unit,
@@ -596,18 +603,6 @@ fun CardItem(
                     }
                 }
 
-                if (card.labels().isNotEmpty()) {
-                    Spacer(modifier = Modifier.height(8.dp))
-                    FlowRow(
-                        horizontalArrangement = Arrangement.spacedBy(4.dp),
-                        verticalArrangement = Arrangement.spacedBy(4.dp)
-                    ) {
-                        card.labels().forEach { labelPreview ->
-                            LabelChipPreview(labelPreview)
-                        }
-                    }
-                }
-
                 if (card.excerpt().isNotBlank()) {
                     Spacer(modifier = Modifier.height(8.dp))
                     Text(
@@ -617,6 +612,18 @@ fun CardItem(
                         maxLines = 2,
                         overflow = TextOverflow.Ellipsis
                     )
+                }
+
+                if (card.labels().isNotEmpty()) {
+                    Spacer(modifier = Modifier.height(8.dp))
+                    FlowRow(
+                        horizontalArrangement = Arrangement.spacedBy(4.dp),
+                        verticalArrangement = Arrangement.spacedBy(4.dp)
+                    ) {
+                        card.labels().forEach { labelPreview ->
+                            LabelChipPreview(labelPreview, compactMode)
+                        }
+                    }
                 }
 
                 Spacer(modifier = Modifier.height(12.dp))
@@ -717,25 +724,38 @@ fun CardItem(
 }
 
 @Composable
-fun LabelChipPreview(label: PreviewCard.LabelPreview) {
-    Surface(
-        color = label.color().toComposeColor().copy(alpha = 0.2f),
-        contentColor = label.color().toComposeColor(),
-        shape = MaterialTheme.shapes.extraSmall,
-    ) {
-        Text(
-            text = label.title(),
-            modifier = Modifier.padding(horizontal = 4.dp, vertical = 2.dp),
-            style = MaterialTheme.typography.labelSmall
+fun LabelChipPreview(label: PreviewCard.LabelPreview, compactMode: Boolean = false) {
+    if (compactMode) {
+        Box(
+            modifier = Modifier
+                .width(38.dp)
+                .height(3.dp)
+                .background(label.color().toComposeColor(), shape = MaterialTheme.shapes.extraSmall)
         )
+    } else {
+        val backgroundColor = label.color().toComposeColor()
+        val foregroundColor = Color(LocalColorUtil.current.getForegroundColorForBackgroundColor(label.color().argb()))
+        Surface(
+            color = backgroundColor,
+            contentColor = foregroundColor,
+            shape = MaterialTheme.shapes.extraSmall,
+        ) {
+            Text(
+                text = label.title(),
+                modifier = Modifier.padding(horizontal = 4.dp, vertical = 2.dp),
+                style = MaterialTheme.typography.labelSmall
+            )
+        }
     }
 }
 
 @Composable
 fun LabelChip(label: Label) {
+    val backgroundColor = label.color().toComposeColor()
+    val foregroundColor = Color(LocalColorUtil.current.getForegroundColorForBackgroundColor(label.color().argb()))
     Surface(
-        color = label.color().toComposeColor().copy(alpha = 0.2f),
-        contentColor = label.color().toComposeColor(),
+        color = backgroundColor,
+        contentColor = foregroundColor,
         shape = MaterialTheme.shapes.extraSmall,
     ) {
         Text(

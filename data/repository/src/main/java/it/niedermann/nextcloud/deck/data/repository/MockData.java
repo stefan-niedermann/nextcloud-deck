@@ -1,6 +1,5 @@
 package it.niedermann.nextcloud.deck.data.repository;
 
-import java.awt.Color;
 import java.time.LocalDateTime;
 import java.util.Collections;
 import java.util.List;
@@ -10,6 +9,7 @@ import java.util.Set;
 import it.niedermann.nextcloud.deck.domain.model.Attachment;
 import it.niedermann.nextcloud.deck.domain.model.Board;
 import it.niedermann.nextcloud.deck.domain.model.Card;
+import it.niedermann.nextcloud.deck.domain.model.Color;
 import it.niedermann.nextcloud.deck.domain.model.Column;
 import it.niedermann.nextcloud.deck.domain.model.Comment;
 import it.niedermann.nextcloud.deck.domain.model.Label;
@@ -50,20 +50,20 @@ public interface MockData {
     };
 
     Label[] MOCK_LABELS = new Label[]{
-            new Label(new Label.ID(1), new Board.ID(1), "Sample Label", Color.GREEN),
-            new Label(new Label.ID(2), new Board.ID(1), "Work in Progress", Color.PINK),
-            new Label(new Label.ID(3), new Board.ID(1), "Done", Color.CYAN),
-            new Label(new Label.ID(4), new Board.ID(1), "Important", Color.MAGENTA),
-            new Label(new Label.ID(5), new Board.ID(1), "Staffing", Color.DARK_GRAY),
-            new Label(new Label.ID(6), new Board.ID(2), "Prio 1", Color.RED),
-            new Label(new Label.ID(7), new Board.ID(2), "Prio 2", Color.ORANGE),
-            new Label(new Label.ID(8), new Board.ID(2), "Prio 3", Color.YELLOW),
-            new Label(new Label.ID(9), new Board.ID(2), "System: A", Color.GRAY),
-            new Label(new Label.ID(10), new Board.ID(3), "System: B", Color.GRAY),
-            new Label(new Label.ID(11), new Board.ID(3), "System: C", Color.GRAY),
-            new Label(new Label.ID(12), new Board.ID(3), "System: D", Color.GRAY),
-            new Label(new Label.ID(13), new Board.ID(3), "System: E", Color.GRAY),
-            new Label(new Label.ID(14), new Board.ID(3), "System: F", Color.GRAY),
+            new Label(new Label.ID(1), new Board.ID(1), "Sample Label", new Color(0, 255, 0)),
+            new Label(new Label.ID(2), new Board.ID(1), "Work in Progress", new Color(255, 175, 175)),
+            new Label(new Label.ID(3), new Board.ID(1), "Done", new Color(0, 255, 255)),
+            new Label(new Label.ID(4), new Board.ID(1), "Important", new Color(255, 0, 255)),
+            new Label(new Label.ID(5), new Board.ID(1), "Staffing", new Color(64, 64, 64)),
+            new Label(new Label.ID(6), new Board.ID(2), "Prio 1", new Color(255, 0, 0)),
+            new Label(new Label.ID(7), new Board.ID(2), "Prio 2", new Color(255, 200, 0)),
+            new Label(new Label.ID(8), new Board.ID(2), "Prio 3", new Color(255, 255, 0)),
+            new Label(new Label.ID(9), new Board.ID(2), "System: A", new Color(128, 128, 128)),
+            new Label(new Label.ID(10), new Board.ID(3), "System: B", new Color(128, 128, 128)),
+            new Label(new Label.ID(11), new Board.ID(3), "System: C", new Color(128, 128, 128)),
+            new Label(new Label.ID(12), new Board.ID(3), "System: D", new Color(128, 128, 128)),
+            new Label(new Label.ID(13), new Board.ID(3), "System: E", new Color(128, 128, 128)),
+            new Label(new Label.ID(14), new Board.ID(3), "System: F", new Color(128, 128, 128)),
     };
 
     Column[] MOCK_COLUMNS = new Column[]{
@@ -93,13 +93,13 @@ public interface MockData {
     };
 
     List<Card> MOCK_CARDS = List.of(
-            new Card(new Card.ID(0), new Card.RemoteID(100), new Column.ID(1), LocalDateTime.now(), 0, "Card-Title #0", "Card-Description 0 Lorem Ipsum Dolor sit Amet", Collections.emptySet(), Set.of(new User.ID("jdoe")), Collections.emptyList(), LocalDateTime.now(), null, null, null, false, false, 0, 3),
+            new Card(new Card.ID(0), new Card.RemoteID(100), new Column.ID(1), LocalDateTime.now(), 0, "Card-Title #0", "Card-Description 0 Lorem Ipsum Dolor sit Amet", Set.of(new Label.ID(1), new Label.ID(2)), Set.of(new User.ID("jdoe")), Collections.emptyList(), LocalDateTime.now(), null, null, null, false, false, 0, 3),
             new Card(new Card.ID(1), new Card.RemoteID(101), new Column.ID(1), LocalDateTime.now(), 1, "Card-Title #1", "", Collections.emptySet(), Collections.emptySet(), Collections.emptyList(), LocalDateTime.now(), null, null, null, false, false, 0, 0),
-            new Card(new Card.ID(2), null, new Column.ID(1), LocalDateTime.now(), 2, "Card-Title #2", "- [ ] Check 1\n- [x] Check 2\n- [ ] Check 3", Collections.emptySet(), Set.of(new User.ID("jdoe")), Collections.emptyList(), LocalDateTime.now(), null, null, null, false, false, 0, 4),
-            new Card(new Card.ID(3), new Card.RemoteID(103), new Column.ID(1), LocalDateTime.now(), 3, "Card-Title #3", "Card-Description 3 Lorem Ipsum Dolor sit Amet", Collections.emptySet(), Set.of(new User.ID("smith")), Collections.emptyList(), LocalDateTime.now(), null, null, null, false, false, 0, 6),
+            new Card(new Card.ID(2), null, new Column.ID(1), LocalDateTime.now(), 2, "Card-Title #2", "- [ ] Check 1\n- [x] Check 2\n- [ ] Check 3", Set.of(new Label.ID(3)), Set.of(new User.ID("jdoe")), Collections.emptyList(), LocalDateTime.now(), null, null, null, false, false, 0, 4),
+            new Card(new Card.ID(3), new Card.RemoteID(103), new Column.ID(1), LocalDateTime.now(), 3, "Card-Title #3", "Card-Description 3 Lorem Ipsum Dolor sit Amet", Set.of(new Label.ID(4), new Label.ID(5)), Set.of(new User.ID("smith")), Collections.emptyList(), LocalDateTime.now(), null, null, null, false, false, 0, 6),
             new Card(new Card.ID(4), null, new Column.ID(2), LocalDateTime.now(), 4, "Card-Title #4", "Card-Description 4 Lorem Ipsum Dolor sit Amet", Collections.emptySet(), Collections.emptySet(), Collections.emptyList(), LocalDateTime.now(), null, null, null, false, false, 0, 0),
-            new Card(new Card.ID(5), new Card.RemoteID(105), new Column.ID(2), LocalDateTime.now(), 5, "Card-Title #5", "Card-Description 5 Lorem Ipsum Dolor sit Amet", Collections.emptySet(), Collections.emptySet(), Collections.emptyList(), LocalDateTime.now(), null, null, null, false, false, 0, 1),
-            new Card(new Card.ID(6), null, new Column.ID(3), LocalDateTime.now(), 6, "Card-Title #6", "Card-Description 6 Lorem Ipsum Dolor sit Amet", Collections.emptySet(), Collections.emptySet(), Collections.emptyList(), LocalDateTime.now(), null, null, null, false, false, 0, 0),
+            new Card(new Card.ID(5), new Card.RemoteID(105), new Column.ID(2), LocalDateTime.now(), 5, "Card-Title #5", "Card-Description 5 Lorem Ipsum Dolor sit Amet", Set.of(new Label.ID(1)), Collections.emptySet(), Collections.emptyList(), LocalDateTime.now(), null, null, null, false, false, 0, 1),
+            new Card(new Card.ID(6), null, new Column.ID(3), LocalDateTime.now(), 6, "Card-Title #6", "Card-Description 6 Lorem Ipsum Dolor sit Amet", Set.of(new Label.ID(6), new Label.ID(7)), Collections.emptySet(), Collections.emptyList(), LocalDateTime.now(), null, null, null, false, false, 0, 0),
             new Card(new Card.ID(7), new Card.RemoteID(107), new Column.ID(3), LocalDateTime.now(), 7, "Card-Title #7", "Card-Description 7 Lorem Ipsum Dolor sit Amet", Collections.emptySet(), Collections.emptySet(), Collections.emptyList(), LocalDateTime.now(), null, null, null, false, false, 0, 0),
             new Card(new Card.ID(8), null, new Column.ID(4), LocalDateTime.now(), 8, "Card-Title #8", "Card-Description 8 Lorem Ipsum Dolor sit Amet", Collections.emptySet(), Collections.emptySet(), Collections.emptyList(), LocalDateTime.now(), null, null, null, false, false, 0, 6),
             new Card(new Card.ID(9), new Card.RemoteID(109), new Column.ID(9), LocalDateTime.now(), 9, "Card-Title #9", "Card-Description 9 Lorem Ipsum Dolor sit Amet", Collections.emptySet(), Collections.emptySet(), Collections.emptyList(), LocalDateTime.now(), null, null, null, false, false, 0, 0)

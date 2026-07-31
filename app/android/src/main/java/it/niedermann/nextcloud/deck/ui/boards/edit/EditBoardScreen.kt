@@ -43,8 +43,8 @@ import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import it.niedermann.nextcloud.deck.data.repository.MockData
 import it.niedermann.nextcloud.deck.domain.model.Board
-import it.niedermann.nextcloud.deck.ui.util.toAwtColor
 import it.niedermann.nextcloud.deck.ui.util.toComposeColor
+import it.niedermann.nextcloud.deck.ui.util.toDomainColor
 
 private val predefinedColors = MockData.MOCK_COLORS.map { it.toComposeColor() }
 
@@ -86,7 +86,7 @@ fun EditBoardScreen(
                                 val updatedBoard = Board(
                                     it.id(),
                                     title,
-                                    selectedColor.toAwtColor(),
+                                    selectedColor.toDomainColor(),
                                     it.editedAt(),
                                     it.permissions()
                                 )

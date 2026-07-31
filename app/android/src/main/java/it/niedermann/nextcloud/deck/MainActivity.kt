@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
@@ -31,9 +32,15 @@ import it.niedermann.nextcloud.deck.ui.navigation.CardDetailsRoute
 import it.niedermann.nextcloud.deck.ui.navigation.EditBoardRoute
 import it.niedermann.nextcloud.deck.ui.navigation.LoginRoute
 import it.niedermann.nextcloud.deck.ui.theme.NextcloudDeckTheme
+import it.niedermann.nextcloud.deck.ui.util.LocalColorUtil
+import it.niedermann.nextcloud.deck.util.ColorUtil
+import jakarta.inject.Inject
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
+
+    @Inject
+    lateinit var colorUtil: ColorUtil
 
     private val viewModel: MainActivityViewModel by viewModels()
 
@@ -47,19 +54,21 @@ class MainActivity : ComponentActivity() {
             val currentBoardId by viewModel.currentBoardId.collectAsStateWithLifecycle()
             val hasAccounts by viewModel.hasAccounts.collectAsStateWithLifecycle()
 
-            NextcloudDeckTheme {
-                if (isInitialized) {
-                    val startDestination = if (currentAccountId != null && hasAccounts) {
-                        val boardId = currentBoardId
-                        if (boardId != null) {
-                            BoardViewRoute(boardId.value)
+            CompositionLocalProvider(LocalColorUtil provides colorUtil) {
+                NextcloudDeckTheme {
+                    if (isInitialized) {
+                        val startDestination = if (currentAccountId != null && hasAccounts) {
+                            val boardId = currentBoardId
+                            if (boardId != null) {
+                                BoardViewRoute(boardId.value)
+                            } else {
+                                BoardListRoute
+                            }
                         } else {
-                            BoardListRoute
+                            LoginRoute
                         }
-                    } else {
-                        LoginRoute
+                        AppNavigation(startDestination, viewModel)
                     }
-                    AppNavigation(startDestination, viewModel)
                 }
             }
         }
