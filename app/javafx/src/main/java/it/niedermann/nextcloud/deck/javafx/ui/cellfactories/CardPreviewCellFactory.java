@@ -104,8 +104,9 @@ public class CardPreviewCellFactory implements Callback<ListView<PreviewCard>, L
             content.put(DeckDataFormat.CARD_ID_PRIMITIVE, card.id().value());
             dragboard.setContent(content);
 
+            final var graphic = listCell.getGraphic();
+            final var image = graphic != null ? graphic.snapshot(null, null) : listCell.snapshot(null, null);
             listCell.setOpacity(0.5);
-            final var image = listCell.snapshot(null, null);
             dragboard.setDragView(image);
 
             event.consume();

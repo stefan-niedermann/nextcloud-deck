@@ -2,7 +2,7 @@
 
 <?import javafx.scene.control.ComboBox?><?import javafx.scene.control.Label?><?import javafx.scene.control.CheckBox?><?import javafx.scene.layout.VBox?><?import javafx.scene.layout.GridPane?><?import javafx.geometry.Insets?><?import javafx.scene.layout.ColumnConstraints?>
 
-<VBox xmlns:fx="http://javafx.com/fxml/1" prefHeight="400.0" prefWidth="600.0"
+<VBox xmlns:fx="http://javafx.com/fxml/1" prefHeight="400.0" prefWidth="600.0" maxWidth="Infinity" maxHeight="Infinity"
     xmlns="http://javafx.com/javafx/24.0.1" spacing="20">
     <padding>
         <Insets top="20" right="20" bottom="20" left="20" />

@@ -22,7 +22,7 @@ import it.niedermann.nextcloud.deck.javafx.ui.fxml.Inflater;
 import it.niedermann.nextcloud.deck.javafx.util.FxUtils;
 import it.niedermann.nextcloud.deck.javafx.util.JavaFxScheduler;
 import javafx.fxml.FXML;
-import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.SplitPane;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.Pane;
@@ -30,7 +30,7 @@ import javafx.scene.layout.Pane;
 public class MainScene extends DisposableController implements TitleReportable {
 
     @FXML
-    Parent root;
+    Pane root;
     @FXML
     Pane headerHost;
     @FXML
@@ -77,6 +77,9 @@ public class MainScene extends DisposableController implements TitleReportable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         super.initialize(location, resources);
+
+        root.prefWidthProperty().bind(root.sceneProperty().flatMap(Scene::widthProperty));
+        root.prefHeightProperty().bind(root.sceneProperty().flatMap(Scene::heightProperty));
 
         headerHost.getChildren().add(headerBundle.view());
         splitPane.getItems().addAll(boardListBundle.view(), boardBundle.view());

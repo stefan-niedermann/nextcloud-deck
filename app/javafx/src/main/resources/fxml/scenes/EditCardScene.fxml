@@ -2,7 +2,7 @@
 
 <?import javafx.scene.layout.BorderPane?><?import javafx.scene.layout.StackPane?>
 
-<BorderPane xmlns:fx="http://javafx.com/fxml/1" prefHeight="768.0" prefWidth="400.0"
+<BorderPane xmlns:fx="http://javafx.com/fxml/1" prefHeight="768.0" prefWidth="400.0" maxWidth="Infinity" maxHeight="Infinity"
     xmlns="http://javafx.com/javafx/24.0.1">
     <center>
         <StackPane fx:id="contentHost" />
