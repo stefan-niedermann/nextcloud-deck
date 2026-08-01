@@ -1,7 +1,8 @@
 package it.niedermann.nextcloud.auth.webloginflowv2;
 
 import retrofit2.Call;
-import retrofit2.http.Body;
+import retrofit2.http.Field;
+import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.Headers;
 import retrofit2.http.POST;
 
@@ -15,8 +16,9 @@ public interface OcsV2CoreApi {
     Call<InitWebLoginFlowV2Response> initWebLoginFlowV2();
 
     @Headers({HEADER_OCS_API_REQUEST, HEADER_USER_AGENT})
+    @FormUrlEncoded
     @POST("index.php/login/v2/poll?format=json")
-    Call<PollResponse> pollWebLoginFlowV2(@Body String token);
+    Call<PollResponse> pollWebLoginFlowV2(@Field("token") String token);
 
 
     record InitWebLoginFlowV2Response(Poll poll, String login) {

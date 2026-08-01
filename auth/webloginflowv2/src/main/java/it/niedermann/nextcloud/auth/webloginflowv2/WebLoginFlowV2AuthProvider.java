@@ -8,6 +8,7 @@ import java.net.URL;
 import java.time.Duration;
 import java.time.Instant;
 import java.util.Objects;
+import java.util.Optional;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -15,6 +16,7 @@ import jakarta.inject.Inject;
 
 import jakarta.inject.Singleton;
 import okhttp3.OkHttpClient;
+import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
@@ -35,7 +37,7 @@ public class WebLoginFlowV2AuthProvider {
 
     private final Duration pollLimit = Duration.ofMinutes(20);
 
-    public AuthenticatedAccount initializeAuthentication(URL url) throws IOException, URISyntaxException {
+    public AuthenticatedAccount initializeAuthentication(URL url) throws IOException, URISyntaxException, InterruptedException {
 
         logger.fine("Initialize WebLoginFlowV2");
 
@@ -53,19 +55,37 @@ public class WebLoginFlowV2AuthProvider {
         desktop.browse(new URI(loginUrl));
 
         do {
-            try {
-                final var pollResponse = api.pollWebLoginFlowV2(response.body().poll().token()).execute();
-                if (pollResponse.code() == 200) {
-                    return new AuthenticatedAccount(Objects.requireNonNull(pollResponse.body()));
-                }
-                //noinspection BusyWait
-                Thread.sleep(1_000);
-            } catch (Exception e) {
-                logger.log(Level.SEVERE, e.getMessage(), e);
+            final var pollResponse = api.pollWebLoginFlowV2(response.body().poll().token()).execute();
+            switch (pollResponse.code()) {
+                // @formatter:off
+                    case 200 -> {
+                        return new AuthenticatedAccount(Objects.requireNonNull(pollResponse.body()));
+                    }
+                    case 404 -> //noinspection BusyWait
+                                Thread.sleep(1_000);
+                    default -> throwException(pollResponse);
+                    // @formatter:on
             }
         } while (Duration.between(startTime, Instant.now()).compareTo(pollLimit) < 0);
 
-        throw new RuntimeException();
+        throw new RuntimeException("Not able to log in for 20 minutes");
+    }
+
+    private void throwException(Response<OcsV2CoreApi.PollResponse> pollResponse) {
+        final var errorBody = Optional.ofNullable(pollResponse)
+                .map(Response::errorBody)
+                .map(responseBody ->{
+                    try {
+                        return responseBody.string();
+                    }
+                    catch (IOException e) {
+                        throw new RuntimeException(e);
+                    }
+                })
+                .orElse("");
+
+        logger.log(Level.SEVERE, errorBody);
+        throw new RuntimeException(errorBody);
     }
 
     public void invalidateToken(URL url, String username, String token) {

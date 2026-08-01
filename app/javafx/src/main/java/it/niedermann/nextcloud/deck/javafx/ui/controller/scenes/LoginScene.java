@@ -192,7 +192,7 @@ public class LoginScene extends DisposableController implements TitleReportable 
             try {
                 return webLoginV2AuthProvider.initializeAuthentication(parsedUrl);
 
-            } catch (IOException | URISyntaxException | UnsupportedOperationException e) {
+            } catch (IOException | URISyntaxException | UnsupportedOperationException | InterruptedException e) {
 
                 logger.log(Level.WARNING, e.getMessage(), e);
 

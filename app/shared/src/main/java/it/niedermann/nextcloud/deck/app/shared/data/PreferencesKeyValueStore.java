@@ -108,7 +108,10 @@ public class PreferencesKeyValueStore implements KeyValueStore {
     private <T> Flow.Publisher<T> get(String key, Supplier<T> supplier) {
         final var result = Flowable.<T>create(emitter -> {
 
-                    emitter.onNext(supplier.get());
+                    final var newValue = supplier.get();
+                    if (newValue != null) {
+                        emitter.onNext(newValue);
+                    }
 
                     final var listener = new PreferenceChangeListener() {
                         @Override
