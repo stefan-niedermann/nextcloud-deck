@@ -10,7 +10,7 @@
 /.idea/*
 */outputs
 */build
-domain
+/domain/state/build
 /.idea/assetWizardSettings.xml
 .DS_Store
 /captures
