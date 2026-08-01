@@ -4,13 +4,13 @@ import org.reactivestreams.FlowAdapters;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.NoSuchElementException;
 import java.util.concurrent.CompletableFuture;
 import java.util.logging.Logger;
 
 import io.reactivex.rxjava3.core.Flowable;
 import it.niedermann.nextcloud.deck.domain.model.Account;
 import it.niedermann.nextcloud.deck.domain.model.Board;
+import it.niedermann.nextcloud.deck.domain.repository.AccountRepository;
 import it.niedermann.nextcloud.deck.domain.state.KeyValueStore;
 import it.niedermann.nextcloud.deck.domain.state.StateRepository;
 import jakarta.inject.Inject;
@@ -20,12 +20,15 @@ public class StateRepositoryImpl implements StateRepository {
     private static final Logger logger = Logger.getLogger(StateRepositoryImpl.class.getName());
 
     private final KeyValueStore keyValueStore;
+    private final AccountRepository accountRepository;
 
     private final Map<Account.ID, Board.ID> currentBoardMockStore = new HashMap<>();
 
     @Inject
-    public StateRepositoryImpl(KeyValueStore keyValueStore) {
+    public StateRepositoryImpl(KeyValueStore keyValueStore,
+                               AccountRepository accountRepository) {
         this.keyValueStore = keyValueStore;
+        this.accountRepository = accountRepository;
     }
 
     @Override
@@ -37,16 +40,17 @@ public class StateRepositoryImpl implements StateRepository {
     @Override
     public CompletableFuture<Account.ID> getCurrentAccountId() {
         return Flowable.fromPublisher(FlowAdapters.toPublisher(keyValueStore.getLong("current.account")))
-                .distinctUntilChanged()
-                .doOnNext(id -> {
-                    if (id == -1L) {
-                        throw new NoSuchElementException();
-                    }
-                })
-                .map(Account.ID::new)
                 .firstElement()
                 .toCompletionStage()
-                .toCompletableFuture();
+                .toCompletableFuture()
+                .thenComposeAsync(id -> {
+                    if (id != -1L) {
+                        return CompletableFuture.completedFuture(new Account.ID(id));
+                    } else {
+                        return accountRepository.getAnyAccount()
+                                .thenComposeAsync(this::setCurrentAccountId);
+                    }
+                });
     }
 
     @Override

@@ -34,8 +34,8 @@ public class RepositoryModule {
 
     @Provides
     @Singleton
-    StateRepository provideStateRepository(KeyValueStore keyValueStore) {
-        return new StateRepositoryImpl(keyValueStore);
+    StateRepository provideStateRepository(KeyValueStore keyValueStore, AccountRepository accountRepository) {
+        return new StateRepositoryImpl(keyValueStore, accountRepository);
     }
 
     @Provides
