@@ -8,15 +8,12 @@ import java.net.URL;
 import java.time.Duration;
 import java.time.Instant;
 import java.util.Objects;
-import java.util.Optional;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import jakarta.inject.Inject;
-
 import jakarta.inject.Singleton;
 import okhttp3.OkHttpClient;
-import retrofit2.Response;
+import retrofit2.HttpException;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
@@ -63,29 +60,12 @@ public class WebLoginFlowV2AuthProvider {
                     }
                     case 404 -> //noinspection BusyWait
                                 Thread.sleep(1_000);
-                    default -> throwException(pollResponse);
+                    default -> throw new HttpException(pollResponse);
                     // @formatter:on
             }
         } while (Duration.between(startTime, Instant.now()).compareTo(pollLimit) < 0);
 
         throw new RuntimeException("Not able to log in for 20 minutes");
-    }
-
-    private void throwException(Response<OcsV2CoreApi.PollResponse> pollResponse) {
-        final var errorBody = Optional.ofNullable(pollResponse)
-                .map(Response::errorBody)
-                .map(responseBody ->{
-                    try {
-                        return responseBody.string();
-                    }
-                    catch (IOException e) {
-                        throw new RuntimeException(e);
-                    }
-                })
-                .orElse("");
-
-        logger.log(Level.SEVERE, errorBody);
-        throw new RuntimeException(errorBody);
     }
 
     public void invalidateToken(URL url, String username, String token) {
