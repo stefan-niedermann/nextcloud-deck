@@ -47,9 +47,9 @@ public class ActivityRepositoryImpl implements ActivityRepository {
                                 new Activity.ID(1),
                                 cardId,
                                 "Something changed",
+                                0,
                                 new User(new User.ID("sample"), "Sampson Sample"),
-                                new URL("https://placehold.co/150x150"),
-                                LocalDateTime.now()
+                                OffsetDateTime.now()
                         ), account))))
         );
     }
