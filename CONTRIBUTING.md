@@ -2,14 +2,17 @@
 
 ## Issues / Pull Requests
 
-- You should discuss new features and behavior changes in an issue before starting with the implementation
+- You should discuss new features and behavior changes in an issue before starting with the
+  implementation
 
 ## Commit messages
 
 - Commit messages must strictly follow [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/#specification)
 - Commit messages must be `Signed-off-by`
-- Commit messages must contain `Co-authored-by` mentioning the used LLM in case a LLM was involved in the code changes
-- Commit messages should focus on the motivation behind a change, not be a summary of what was changed
+- Commit messages must contain `Co-authored-by` mentioning the used LLM in case a LLM was involved
+  in the code changes
+- Commit messages should focus on the motivation behind a change, not be a summary of what was
+  changed
 
 # Technical overview
 
@@ -28,6 +31,10 @@
 ## Architecture
 
 - Clean Architecture with encapsulated UseCases in Domain layers
+- Follow the [Command Query Responsibility Segregation](https://martinfowler.com/bliki/CQRS.html)-Pattern with one exception:
+  The caller is allowed to know when a command execution is "completed" by returning a completable
+  type like `CompletableFuture` or `Flow.Publisher`. *UseCases should either read data for the UI
+  *or* write data (this includes reading necessary entities), but not both
 - Threading
     - Applications usually have one main thread and expect to apply data on the main thread
     - *UseCases should be executed on IO threads
@@ -37,8 +44,10 @@
 - Reactive and immutable Programming
 - Strong typed business properties
     - Business properties like IDs should always be strictly typed (instead of using a primitive)
-    - If an `ID` is bound hard to another domain object like `Card`, declare the `ID` record as within this domain object.
-- Avoid reflection access at runtime for performance reasons, prefer compile time annotation frameworks
+    - If an `ID` is bound hard to another domain object like `Card`, declare the `ID` record as
+      within this domain object.
+- Avoid reflection access at runtime for performance reasons, prefer compile time annotation
+  frameworks
 
 ## Implement Unit-Tests
 
