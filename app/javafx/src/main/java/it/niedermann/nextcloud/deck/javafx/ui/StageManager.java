@@ -24,8 +24,12 @@ import javafx.scene.Scene;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
 
-/// Takes care about having at least one account present and redirects to login scene if not.
-/// Also catches error while argument parsing and redirects to error scene
+/// Lifecycle of a stage
+///
+/// 1. SplashScreen with loading indicator show up
+/// 2. Argument resolving with recovering for example with intermediate LoginScene
+/// 3. Actual content loads, displaying a `*Scene`
+/// 4. (Optionally ErrorScene)
 public abstract class StageManager<TRawArgs> {
 
     private static final Logger logger = Logger.getLogger(StageManager.class.getName());

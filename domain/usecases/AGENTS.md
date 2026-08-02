@@ -1,0 +1,3 @@
+# Domain
+
+Contains business rules
