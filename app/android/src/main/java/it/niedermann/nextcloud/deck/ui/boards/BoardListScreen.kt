@@ -182,7 +182,7 @@ fun BoardItem(board: Board, onClick: () -> Unit, onEditClick: () -> Unit) {
             headlineContent = { Text(board.title) },
             supportingContent = {
                 Text(
-                    text = "Last edited: ${board.editedAt().format(formatter)}",
+                    text = "Last edited: ${board.lastModified().format(formatter)}",
                     style = MaterialTheme.typography.bodySmall
                 )
             },

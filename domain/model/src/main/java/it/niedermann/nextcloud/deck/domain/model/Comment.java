@@ -9,19 +9,14 @@ public record Comment(
         User.ID author,
         OffsetDateTime created,
         String message,
-        Long parentId,
-
-        User.ID actorId,
-        String actorDisplayName,
-
+        Comment.ID parentId,
         Comment.RemoteID remoteId,
         DBStatus status,
-        OffsetDateTime lastModified,
-        OffsetDateTime lastModifiedLocal
+        OffsetDateTime lastModified
 ) {
 
     public Comment(Comment.ID id, Card.ID cardId, User.ID author, OffsetDateTime created, String message) {
-        this(id, cardId, author, created, message, null, null, null, null, DBStatus.UP_TO_DATE, OffsetDateTime.now(), OffsetDateTime.now());
+        this(id, cardId, author, created, message, null, null, DBStatus.UP_TO_DATE, OffsetDateTime.now());
     }
 
     public Comment {

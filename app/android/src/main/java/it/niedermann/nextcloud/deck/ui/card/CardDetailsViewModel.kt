@@ -41,7 +41,7 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.reactive.asFlow
 import kotlinx.coroutines.withContext
 import org.reactivestreams.FlowAdapters
-import java.time.LocalDateTime
+import java.time.OffsetDateTime
 
 @OptIn(FlowPreview::class, ExperimentalCoroutinesApi::class)
 @HiltViewModel
@@ -223,7 +223,7 @@ class CardDetailsViewModel @Inject constructor(
         updateCard(currentCard.withDescription(description))
     }
 
-    fun updateCardDates(startDate: LocalDateTime?, dueDate: LocalDateTime?) {
+    fun updateCardDates(startDate: OffsetDateTime?, dueDate: OffsetDateTime?) {
         val currentCard = _card.value ?: return
         updateCard(currentCard.withStartDate(startDate).withDueDate(dueDate))
     }

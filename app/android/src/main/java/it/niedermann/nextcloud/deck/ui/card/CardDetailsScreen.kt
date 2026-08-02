@@ -108,6 +108,7 @@ import it.niedermann.nextcloud.deck.ui.util.LocalColorUtil
 import kotlinx.coroutines.launch
 import java.time.Instant
 import java.time.LocalDateTime
+import java.time.OffsetDateTime
 import java.time.ZoneId
 import java.time.format.DateTimeFormatter
 
@@ -228,7 +229,7 @@ fun CardDetailsScreen(
                 tabs.forEachIndexed { index, title ->
                     Tab(
                         selected = pagerState.currentPage == index,
-                        onClick = { 
+                        onClick = {
                             coroutineScope.launch {
                                 pagerState.animateScrollToPage(index)
                             }
@@ -325,7 +326,7 @@ fun CardDetailsTab(card: Card?, viewModel: CardDetailsViewModel, account: Accoun
             if (isEditingDescription) {
                 OutlinedTextField(
                     value = descriptionText,
-                    onValueChange = { 
+                    onValueChange = {
                         descriptionText = it
                         viewModel.updateCardDescription(it)
                     },
@@ -453,7 +454,7 @@ fun AssigneeSelector(
                 }
             }
             AssistChip(
-                onClick = { 
+                onClick = {
                     isSearching = !isSearching
                 },
                 label = { Text("Assign user") },
@@ -463,7 +464,7 @@ fun AssigneeSelector(
 
         if (isSearching) {
             var expanded by remember { mutableStateOf(false) }
-            
+
             LaunchedEffect(isSearching) {
                 if (isSearching) {
                     focusRequester.requestFocus()
@@ -483,9 +484,9 @@ fun AssigneeSelector(
                     },
                     modifier = Modifier.fillMaxWidth().menuAnchor(androidx.compose.material3.ExposedDropdownMenuAnchorType.PrimaryEditable).focusRequester(focusRequester),
                     label = { Text("Search users...") },
-                    trailingIcon = { 
-                        IconButton(onClick = { 
-                            isSearching = false 
+                    trailingIcon = {
+                        IconButton(onClick = {
+                            isSearching = false
                             query = ""
                             onSearchQueryChange("")
                         }) {
@@ -528,14 +529,14 @@ fun AssigneeSelector(
 @Composable
 fun DateTimeInput(
     label: String,
-    dateTime: LocalDateTime?,
-    onDateTimeChange: (LocalDateTime?) -> Unit,
+    dateTime: OffsetDateTime?,
+    onDateTimeChange: (OffsetDateTime?) -> Unit,
     modifier: Modifier = Modifier
 ) {
     var showDatePicker by remember { mutableStateOf(false) }
     var showTimePicker by remember { mutableStateOf(false) }
     val datePickerState = rememberDatePickerState(
-        initialSelectedDateMillis = dateTime?.atZone(ZoneId.systemDefault())?.toInstant()?.toEpochMilli()
+        initialSelectedDateMillis = dateTime?.toInstant()?.toEpochMilli()
     )
     val timePickerState = rememberTimePickerState(
         initialHour = dateTime?.hour ?: 12,
@@ -550,7 +551,7 @@ fun DateTimeInput(
                 onValueChange = {},
                 readOnly = true,
                 modifier = Modifier.fillMaxWidth(),
-                trailingIcon = { 
+                trailingIcon = {
                     if (dateTime != null) {
                         IconButton(onClick = { onDateTimeChange(null) }) {
                             Icon(Icons.Outlined.Clear, contentDescription = "Clear")
@@ -597,6 +598,8 @@ fun DateTimeInput(
                         .atZone(ZoneId.systemDefault())
                         .toLocalDate()
                     val newDateTime = LocalDateTime.of(date, java.time.LocalTime.of(timePickerState.hour, timePickerState.minute))
+                        .atZone(ZoneId.systemDefault())
+                        .toOffsetDateTime()
                     onDateTimeChange(newDateTime)
                     showTimePicker = false
                 }) { Text("OK") }
@@ -752,7 +755,7 @@ fun CommentItem(
                     )
                     Text(
                         text = DateUtils.getRelativeTimeSpanString(
-                            comment.created().atZone(ZoneId.systemDefault()).toInstant().toEpochMilli(),
+                            comment.created().toInstant().toEpochMilli(),
                             System.currentTimeMillis(),
                             DateUtils.SECOND_IN_MILLIS,
                             DateUtils.FORMAT_ABBREV_RELATIVE

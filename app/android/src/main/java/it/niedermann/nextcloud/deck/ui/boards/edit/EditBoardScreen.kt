@@ -87,8 +87,13 @@ fun EditBoardScreen(
                                     it.id(),
                                     title,
                                     selectedColor.toDomainColor(),
-                                    it.editedAt(),
-                                    it.permissions()
+                                    it.ownerId(),
+                                    it.archived,
+                                    it.permissions(),
+                                    it.accountId(),
+                                    it.remoteId(),
+                                    it.status(),
+                                    it.lastModified()
                                 )
                                 viewModel.updateBoard(updatedBoard)
                                 onBack()
