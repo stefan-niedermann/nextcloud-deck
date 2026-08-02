@@ -7,6 +7,7 @@ import dagger.assisted.Assisted;
 import dagger.assisted.AssistedFactory;
 import dagger.assisted.AssistedInject;
 import io.reactivex.rxjava4.core.Flowable;
+import io.reactivex.rxjava4.core.Maybe;
 import io.reactivex.rxjava4.disposables.Disposable;
 import io.reactivex.rxjava4.schedulers.Schedulers;
 import it.niedermann.nextcloud.deck.domain.model.Account;
@@ -137,9 +138,8 @@ public class EditBoardStageContext extends Store<EditBoardStageContext.State, Ed
 
     @Override
     public Disposable onDeleteColumn(Column column) {
-        return Flowable.fromPublisher(listCardsUseCase.execute(column.id()))
+        return Maybe.fromPublisher(listCardsUseCase.execute(column.id()))
                 .subscribeOn(Schedulers.virtual())
-                .firstElement()
                 .observeOn(JavaFxScheduler.platform())
                 .subscribe(cards -> {
                     if (cards.isEmpty()) {

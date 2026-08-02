@@ -111,7 +111,8 @@ public class EditCardStageContext extends Store<EditCardStageContext.State, Edit
 
     @Override
     public CompletableFuture<Void> onAddComment(String content) {
-        return getCardId().firstElement()
+        return getCardId()
+                .firstElement()
                 .toCompletionStage()
                 .toCompletableFuture()
                 .thenComposeAsync(id -> addCommentUseCase.execute(new CreateComment(id, content)));

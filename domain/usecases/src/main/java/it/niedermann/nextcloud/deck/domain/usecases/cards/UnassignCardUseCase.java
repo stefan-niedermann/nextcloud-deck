@@ -4,7 +4,7 @@ import org.reactivestreams.FlowAdapters;
 
 import java.util.concurrent.CompletableFuture;
 
-import io.reactivex.rxjava3.core.Flowable;
+import io.reactivex.rxjava3.core.Maybe;
 import it.niedermann.nextcloud.deck.domain.model.Card;
 import it.niedermann.nextcloud.deck.domain.model.User;
 import it.niedermann.nextcloud.deck.domain.repository.CardRepository;
@@ -22,8 +22,7 @@ public class UnassignCardUseCase {
     }
 
     public CompletableFuture<Void> execute(Card.ID cardId, User.ID userId) {
-        return Flowable.fromPublisher(FlowAdapters.toPublisher(cardRepository.getCard(cardId)))
-                .firstElement()
+        return Maybe.fromPublisher(FlowAdapters.toPublisher(cardRepository.getCard(cardId)))
                 .toCompletionStage()
                 .toCompletableFuture()
                 .thenApplyAsync(card -> card.unassign(userId))

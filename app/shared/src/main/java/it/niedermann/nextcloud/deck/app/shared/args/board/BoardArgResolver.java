@@ -5,7 +5,7 @@ import org.reactivestreams.FlowAdapters;
 import java.util.Collection;
 import java.util.concurrent.CompletableFuture;
 
-import io.reactivex.rxjava3.core.Flowable;
+import io.reactivex.rxjava3.core.Maybe;
 import io.reactivex.rxjava3.core.Single;
 import io.reactivex.rxjava3.schedulers.Schedulers;
 import it.niedermann.nextcloud.deck.app.shared.args.ArgsResolver;
@@ -35,9 +35,8 @@ public class BoardArgResolver implements ArgsResolver<BoardRawArgs, BoardParsedA
     @Override
     public CompletableFuture<BoardParsedArgs> resolve(BoardRawArgs args) {
         if (args instanceof BoardRawArgs.CurrentBoardOfCurrentAccount) {
-            final var accountId = Flowable.fromPublisher(FlowAdapters.toPublisher(hasAccountsUseCase.execute()))
+            final var accountId = Maybe.fromPublisher(FlowAdapters.toPublisher(hasAccountsUseCase.execute()))
                     .subscribeOn(Schedulers.io())
-                    .firstElement()
                     .flatMapSingle(hasAccounts -> {
                         // TODO No need to check for hasAccounts, better check fo accounts.exist(args)
                         if (hasAccounts) {

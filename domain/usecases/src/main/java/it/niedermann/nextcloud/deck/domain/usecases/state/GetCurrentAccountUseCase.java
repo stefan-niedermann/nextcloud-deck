@@ -6,7 +6,7 @@ import java.util.NoSuchElementException;
 import java.util.concurrent.CompletableFuture;
 import java.util.logging.Logger;
 
-import io.reactivex.rxjava3.core.Flowable;
+import io.reactivex.rxjava3.core.Maybe;
 import it.niedermann.nextcloud.deck.domain.model.Account;
 import it.niedermann.nextcloud.deck.domain.repository.AccountRepository;
 import it.niedermann.nextcloud.deck.domain.state.StateRepository;
@@ -29,8 +29,7 @@ public class GetCurrentAccountUseCase {
     }
 
     public CompletableFuture<Account.ID> execute() {
-        return Flowable.fromPublisher(FlowAdapters.toPublisher(accountRepository.hasAccounts()))
-                .firstElement()
+        return Maybe.fromPublisher(FlowAdapters.toPublisher(accountRepository.hasAccounts()))
                 .toCompletionStage()
                 .toCompletableFuture()
                 .thenComposeAsync(hasAccounts -> {

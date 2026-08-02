@@ -7,7 +7,7 @@ import java.util.Map;
 import java.util.concurrent.CompletableFuture;
 import java.util.logging.Logger;
 
-import io.reactivex.rxjava3.core.Flowable;
+import io.reactivex.rxjava3.core.Maybe;
 import it.niedermann.nextcloud.deck.domain.model.Account;
 import it.niedermann.nextcloud.deck.domain.model.Board;
 import it.niedermann.nextcloud.deck.domain.repository.AccountRepository;
@@ -39,8 +39,7 @@ public class StateRepositoryImpl implements StateRepository {
 
     @Override
     public CompletableFuture<Account.ID> getCurrentAccountId() {
-        return Flowable.fromPublisher(FlowAdapters.toPublisher(keyValueStore.getLong("current.account")))
-                .firstElement()
+        return Maybe.fromPublisher(FlowAdapters.toPublisher(keyValueStore.getLong("current.account")))
                 .toCompletionStage()
                 .toCompletableFuture()
                 .thenComposeAsync(id -> {

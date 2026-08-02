@@ -10,6 +10,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import io.reactivex.rxjava3.core.Flowable;
+import io.reactivex.rxjava3.core.Maybe;
 import io.reactivex.rxjava3.processors.ReplayProcessor;
 import io.reactivex.rxjava3.schedulers.Schedulers;
 import it.niedermann.nextcloud.deck.domain.model.Account;
@@ -121,8 +122,7 @@ public class QueueingSyncScheduler implements SyncScheduler {
         final var accountFlowPublisher = accountRepository.getAccount(accountId);
         final var accountPublisher = FlowAdapters.toPublisher(accountFlowPublisher);
 
-        return Flowable.fromPublisher(accountPublisher)
-                .firstElement()
+        return Maybe.fromPublisher(accountPublisher)
                 .flatMapPublisher(this::synchronize);
     }
 
