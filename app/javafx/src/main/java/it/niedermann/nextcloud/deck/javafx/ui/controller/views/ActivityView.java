@@ -1,6 +1,7 @@
 package it.niedermann.nextcloud.deck.javafx.ui.controller.views;
 
-import java.time.Instant;
+import java.time.Duration;
+import java.time.OffsetDateTime;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.time.format.FormatStyle;
@@ -32,8 +33,8 @@ public class ActivityView extends HBox {
         author.setText(activity.author().displayName());
         message.setText(activity.subject());
 
-        final var created = activity.createdAt().atZone(ZoneId.systemDefault());
-        final var duration = created.toInstant().until(Instant.now());
+        final var created = activity.createdAt().atZoneSameInstant(ZoneId.systemDefault());
+        final var duration = Duration.between(activity.createdAt(), OffsetDateTime.now());
 
         if (duration.toDays() < 1) {
             creationDateTime.setText(created.format(DateTimeFormatter.ofLocalizedTime(FormatStyle.MEDIUM)));

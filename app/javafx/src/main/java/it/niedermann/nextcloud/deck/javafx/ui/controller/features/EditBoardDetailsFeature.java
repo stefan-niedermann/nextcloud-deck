@@ -48,7 +48,7 @@ public class EditBoardDetailsFeature extends DisposableController {
                 .subscribe(board -> {
                     title.setText(board.title());
                     color.setValue(Color.rgb(board.color().getRed(), board.color().getGreen(), board.color().getBlue()));
-                    editedAt.setText(board.editedAt().format(DateTimeFormatter.ofLocalizedDateTime(FormatStyle.MEDIUM)));
+                    editedAt.setText(board.lastModified().format(DateTimeFormatter.ofLocalizedDateTime(FormatStyle.MEDIUM)));
 
                     final boolean disable = !board.permissions().permissionManage();
                     title.setDisable(disable);

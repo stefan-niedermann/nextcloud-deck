@@ -10,6 +10,24 @@ import it.niedermann.nextcloud.deck.data.local.dao.AccountDao
 import it.niedermann.nextcloud.deck.data.local.daoreturntypeconverter.rxjava.CfDaoReturnTypeConverters
 import it.niedermann.nextcloud.deck.data.local.daoreturntypeconverter.rxjava.RxDaoReturnTypeConverters
 import it.niedermann.nextcloud.deck.data.local.entity.AccountEntity
+import it.niedermann.nextcloud.deck.data.local.entity.ActivityEntity
+import it.niedermann.nextcloud.deck.data.local.entity.AttachmentEntity
+import it.niedermann.nextcloud.deck.data.local.entity.BoardEntity
+import it.niedermann.nextcloud.deck.data.local.entity.CardEntity
+import it.niedermann.nextcloud.deck.data.local.entity.ColumnEntity
+import it.niedermann.nextcloud.deck.data.local.entity.CommentEntity
+import it.niedermann.nextcloud.deck.data.local.entity.LabelEntity
+import it.niedermann.nextcloud.deck.data.local.entity.UserEntity
+import it.niedermann.nextcloud.deck.data.local.entity.AccessControlEntity
+import it.niedermann.nextcloud.deck.data.local.entity.PermissionEntity
+import it.niedermann.nextcloud.deck.data.local.entity.JoinBoardWithLabelEntity
+import it.niedermann.nextcloud.deck.data.local.entity.JoinBoardWithPermissionEntity
+import it.niedermann.nextcloud.deck.data.local.entity.JoinBoardWithUserEntity
+import it.niedermann.nextcloud.deck.data.local.entity.JoinCardWithLabelEntity
+import it.niedermann.nextcloud.deck.data.local.entity.JoinCardWithUserEntity
+import it.niedermann.nextcloud.deck.data.local.typeconverter.AttachmentTypeConverter
+import it.niedermann.nextcloud.deck.data.local.typeconverter.ColorConverter
+import it.niedermann.nextcloud.deck.data.local.typeconverter.OffsetDateTimeConverter
 import it.niedermann.nextcloud.deck.data.local.typeconverter.URLConverter
 import kotlinx.coroutines.Dispatchers
 import java.nio.file.Path
@@ -17,7 +35,24 @@ import kotlin.io.path.absolutePathString
 
 @Database(
     version = 1,
-    entities = [AccountEntity::class],
+    entities = [
+        AccountEntity::class,
+        ActivityEntity::class,
+        AttachmentEntity::class,
+        BoardEntity::class,
+        CardEntity::class,
+        ColumnEntity::class,
+        CommentEntity::class,
+        LabelEntity::class,
+        UserEntity::class,
+        AccessControlEntity::class,
+        PermissionEntity::class,
+        JoinBoardWithLabelEntity::class,
+        JoinBoardWithPermissionEntity::class,
+        JoinBoardWithUserEntity::class,
+        JoinCardWithLabelEntity::class,
+        JoinCardWithUserEntity::class
+    ],
     exportSchema = true
 )
 @DaoReturnTypeConverters(
@@ -26,7 +61,7 @@ import kotlin.io.path.absolutePathString
         CfDaoReturnTypeConverters::class
     ]
 )
-@ColumnTypeConverters(URLConverter::class)
+@ColumnTypeConverters(URLConverter::class, OffsetDateTimeConverter::class, ColorConverter::class, AttachmentTypeConverter::class)
 abstract class DeckDatabase : RoomDatabase() {
 
     abstract val accountDao: AccountDao

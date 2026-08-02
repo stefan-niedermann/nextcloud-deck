@@ -1,7 +1,7 @@
 package it.niedermann.nextcloud.deck.domain.model;
 
 import java.io.Serializable;
-import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
@@ -15,36 +15,40 @@ public record Card(
         Card.ID id,
         Card.RemoteID remoteId,
         Column.ID columnId,
-        LocalDateTime createdAt,
+        OffsetDateTime createdAt,
         int order,
         String title,
         String description,
         Set<Label.ID> labels,
         Set<User.ID> assignees,
         List<Card.ID> dependents,
-        LocalDateTime startDate,
-        LocalDateTime dueDate,
-        LocalDateTime done,
+        OffsetDateTime startDate,
+        OffsetDateTime dueDate,
+        OffsetDateTime done,
         Color color,
         boolean archived,
         boolean notified,
         int overdue,
-        int commentsUnread
+        int commentsUnread,
+
+        Long localId,
+        DBStatus status,
+        OffsetDateTime lastModified,
+        OffsetDateTime lastModifiedLocal
 ) implements Serializable, CardBuilder.With {
 
+    public Card(Card.ID id, Card.RemoteID remoteId, Column.ID columnId, OffsetDateTime createdAt, int order, String title, String description, Set<Label.ID> labels, Set<User.ID> assignees, List<Card.ID> dependents, boolean archived, boolean notified, int overdue, int commentsUnread) {
+        this(id, remoteId, columnId, createdAt, order, title, description, labels, assignees, dependents, null, null, null, null, archived, notified, overdue, commentsUnread, null, DBStatus.UP_TO_DATE, OffsetDateTime.now(), OffsetDateTime.now());
+    }
+
     public Card {
-        for (final var o : new Object[]{
-                id,
-                columnId,
-                createdAt,
-                title,
-                description,
-                labels,
-                assignees,
-                dependents,
-        }) {
-            Objects.requireNonNull(o);
-        }
+        Objects.requireNonNull(id);
+        Objects.requireNonNull(columnId);
+        Objects.requireNonNull(title);
+        Objects.requireNonNull(labels);
+        Objects.requireNonNull(assignees);
+        Objects.requireNonNull(dependents);
+        Objects.requireNonNull(status);
     }
 
     public Card assign(User.ID userId) {
