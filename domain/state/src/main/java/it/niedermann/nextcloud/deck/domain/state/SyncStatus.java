@@ -12,12 +12,8 @@ public record SyncStatus(Account account,
                          long boardsFinishedCount) {
 
     public SyncStatus {
-        for (final var o : new Object[]{
-                account,
-                boardsInProgress,
-        }) {
-            Objects.requireNonNull(o);
-        }
+        Objects.requireNonNull(account);
+        Objects.requireNonNull(boardsInProgress);
     }
 
     @Override

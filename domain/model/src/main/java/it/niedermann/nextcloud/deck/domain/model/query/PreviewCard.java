@@ -26,14 +26,10 @@ public record PreviewCard(
 ) implements Serializable {
 
     public PreviewCard {
-        for (final var o : new Object[]{
-                id,
-                title,
-                excerpt,
-                labels,
-        }) {
-            Objects.requireNonNull(o);
-        }
+        Objects.requireNonNull(id);
+        Objects.requireNonNull(title);
+        Objects.requireNonNull(excerpt);
+        Objects.requireNonNull(labels);
     }
 
     public record LabelPreview(

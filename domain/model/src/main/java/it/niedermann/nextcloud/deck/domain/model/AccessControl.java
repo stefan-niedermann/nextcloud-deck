@@ -9,13 +9,11 @@ public record AccessControl(
         boolean owner,
         Board.Permissions permissions,
         User.ID userId,
-
         Long localId,
         Account.ID accountId,
         AccessControl.RemoteID remoteId,
         DBStatus status,
-        OffsetDateTime lastModified,
-        OffsetDateTime lastModifiedLocal
+        OffsetDateTime lastModified
 ) {
 
     public AccessControl {

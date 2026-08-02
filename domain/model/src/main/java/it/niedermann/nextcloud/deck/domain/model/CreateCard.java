@@ -8,12 +8,8 @@ public record CreateCard(
 ) {
 
     public CreateCard {
-        for (final var o : new Object[]{
-                columnId,
-                title,
-        }) {
-            Objects.requireNonNull(o);
-        }
+        Objects.requireNonNull(columnId);
+        Objects.requireNonNull(title);
     }
 
     public record ID(long value) {

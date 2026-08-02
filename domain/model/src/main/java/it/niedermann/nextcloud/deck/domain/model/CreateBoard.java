@@ -8,11 +8,7 @@ public record CreateBoard(
 ) {
 
     public CreateBoard {
-        for (final var o : new Object[]{
-                accountId,
-                title,
-        }) {
-            Objects.requireNonNull(o);
-        }
+        Objects.requireNonNull(accountId);
+        Objects.requireNonNull(title);
     }
 }

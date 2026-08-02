@@ -11,14 +11,10 @@ public record Account(
         String accountName) {
 
     public Account {
-        for (final var o : new Object[]{
-                id,
-                url,
-                username,
-                accountName,
-        }) {
-            Objects.requireNonNull(o);
-        }
+        Objects.requireNonNull(id);
+        Objects.requireNonNull(url);
+        Objects.requireNonNull(username);
+        Objects.requireNonNull(accountName);
     }
 
     public record ID(long value) {

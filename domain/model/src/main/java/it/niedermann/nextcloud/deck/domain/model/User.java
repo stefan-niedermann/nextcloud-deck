@@ -5,18 +5,15 @@ import java.util.Objects;
 
 public record User(
         User.ID id,
-        String displayName,
-
-        Long localId,
-        Account.ID accountId,
         User.RemoteID remoteId,
+        String displayName,
+        Account.ID accountId,
         DBStatus status,
-        OffsetDateTime lastModified,
-        OffsetDateTime lastModifiedLocal
+        OffsetDateTime lastModified
 ) {
 
     public User(User.ID id, String displayName) {
-        this(id, displayName, null, null, null, DBStatus.UP_TO_DATE, OffsetDateTime.now(), OffsetDateTime.now());
+        this(id, null, displayName, null, DBStatus.UP_TO_DATE, OffsetDateTime.now());
     }
 
     public User {
@@ -27,14 +24,13 @@ public record User(
 
     public record ID(String value) {
         public ID {
-            for (final var o : new Object[]{
-                   value,
-            }) {
-                Objects.requireNonNull(o);
-            }
+            Objects.requireNonNull(value);
         }
     }
 
     public record RemoteID(String value) {
+        public RemoteID {
+            Objects.requireNonNull(value);
+        }
     }
 }

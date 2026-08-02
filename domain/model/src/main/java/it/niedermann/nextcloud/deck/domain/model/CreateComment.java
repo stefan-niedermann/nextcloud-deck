@@ -9,12 +9,8 @@ public record CreateComment(
 ) {
 
     public CreateComment {
-        for (final var o : new Object[]{
-                cardId,
-                message,
-        }) {
-            Objects.requireNonNull(o);
-        }
+        Objects.requireNonNull(cardId);
+        Objects.requireNonNull(message);
     }
 
     public CreateComment(Card.ID cardId, String message) {

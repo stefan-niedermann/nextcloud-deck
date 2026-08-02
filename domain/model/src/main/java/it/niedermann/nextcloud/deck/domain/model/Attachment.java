@@ -26,12 +26,11 @@ public record Attachment(
         Account.ID accountId,
         Attachment.RemoteID remoteId,
         DBStatus status,
-        OffsetDateTime lastModified,
-        OffsetDateTime lastModifiedLocal
+        OffsetDateTime lastModified
 ) {
 
     public Attachment(Attachment.ID id, Card.ID cardId, String title, OffsetDateTime createdAt, User.ID createdBy, FileSize size, String mimetype) {
-        this(id, cardId, title, createdAt, size, mimetype, null, null, createdBy, null, null, null, null, null, null, null, DBStatus.UP_TO_DATE, OffsetDateTime.now(), OffsetDateTime.now());
+        this(id, cardId, title, createdAt, size, mimetype, null, null, createdBy, null, null, null, null, null, null, null, DBStatus.UP_TO_DATE, OffsetDateTime.now());
     }
 
     public Attachment {

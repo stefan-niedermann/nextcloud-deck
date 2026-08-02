@@ -7,11 +7,7 @@ public record CreateColumn(Board.ID id,
                            int order) {
 
     public CreateColumn {
-        for (final var o : new Object[]{
-                id,
-                title,
-        }) {
-            Objects.requireNonNull(o);
-        }
+        Objects.requireNonNull(id);
+        Objects.requireNonNull(title);
     }
 }
