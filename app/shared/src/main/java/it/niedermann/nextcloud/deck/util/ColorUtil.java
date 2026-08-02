@@ -18,6 +18,8 @@ public class ColorUtil {
     private final Map<Integer, Integer> foregroundCache = new HashMap<>();
     private final Map<Integer, Boolean> isDarkColorCache = new HashMap<>();
 
+    private ColorHarmonizer harmonizer;
+
     private static final int BLACK = 0xFF000000;
     private static final int WHITE = 0xFFFFFFFF;
     private static final int TRANSPARENT = 0x00000000;
@@ -25,6 +27,17 @@ public class ColorUtil {
     @Inject
     public ColorUtil() {
         // Static utility class
+    }
+
+    public void setHarmonizer(ColorHarmonizer harmonizer) {
+        this.harmonizer = harmonizer;
+    }
+
+    public int harmonize(int color, int keyColor) {
+        if (harmonizer != null) {
+            return harmonizer.harmonize(color, keyColor);
+        }
+        return color;
     }
 
     public int getForegroundColorForBackgroundColor(int color) {

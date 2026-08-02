@@ -32,6 +32,7 @@ javafx {
 dependencies {
     implementation(project(":app:shared"))
     implementation(project(":auth:webloginflowv2"))
+    implementation(libs.materialColorUtilities)
 
     implementation(libs.dagger)
     annotationProcessor(libs.dagger.compiler)

@@ -90,6 +90,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.platform.LocalClipboard
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.style.TextOverflow
@@ -104,7 +105,6 @@ import it.niedermann.nextcloud.deck.domain.model.User
 import it.niedermann.nextcloud.deck.ui.accounts.AccountViewModel
 import it.niedermann.nextcloud.deck.ui.components.UserAvatar
 import it.niedermann.nextcloud.deck.ui.util.LocalColorUtil
-import it.niedermann.nextcloud.deck.ui.util.toComposeColor
 import kotlinx.coroutines.launch
 import java.time.Instant
 import java.time.LocalDateTime
@@ -357,11 +357,14 @@ fun LabelSelector(
 ) {
     var expanded by remember { mutableStateOf(false) }
     val selectedLabelsList = availableLabels.filter { selectedLabels.contains(it.id()) }
+    val colorUtil = LocalColorUtil.current
+    val primaryColor = MaterialTheme.colorScheme.primary.toArgb()
 
     FlowRow(horizontalArrangement = Arrangement.spacedBy(8.dp), verticalArrangement = Arrangement.spacedBy(4.dp)) {
         selectedLabelsList.forEach { label ->
-            val backgroundColor = label.color().toComposeColor()
-            val foregroundColor = Color(LocalColorUtil.current.getForegroundColorForBackgroundColor(label.color().argb()))
+            val harmonizedColor = colorUtil.harmonize(label.color().argb(), primaryColor)
+            val backgroundColor = Color(harmonizedColor)
+            val foregroundColor = Color(colorUtil.getForegroundColorForBackgroundColor(harmonizedColor))
             AssistChip(
                 onClick = { onToggleLabel(label.id()) },
                 label = { Text(label.title()) },
@@ -392,7 +395,8 @@ fun LabelSelector(
             ) {
                 availableLabels.forEach { label ->
                     val isSelected = selectedLabels.contains(label.id())
-                    val backgroundColor = label.color().toComposeColor()
+                    val harmonizedColor = colorUtil.harmonize(label.color().argb(), primaryColor)
+                    val backgroundColor = Color(harmonizedColor)
                     DropdownMenuItem(
                         text = {
                             Row(verticalAlignment = Alignment.CenterVertically) {

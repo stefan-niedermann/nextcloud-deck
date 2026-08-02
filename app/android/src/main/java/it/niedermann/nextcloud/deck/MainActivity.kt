@@ -32,6 +32,7 @@ import it.niedermann.nextcloud.deck.ui.navigation.CardDetailsRoute
 import it.niedermann.nextcloud.deck.ui.navigation.EditBoardRoute
 import it.niedermann.nextcloud.deck.ui.navigation.LoginRoute
 import it.niedermann.nextcloud.deck.ui.theme.NextcloudDeckTheme
+import it.niedermann.nextcloud.deck.ui.util.AndroidColorHarmonizer
 import it.niedermann.nextcloud.deck.ui.util.LocalColorUtil
 import it.niedermann.nextcloud.deck.util.ColorUtil
 import jakarta.inject.Inject
@@ -42,11 +43,15 @@ class MainActivity : ComponentActivity() {
     @Inject
     lateinit var colorUtil: ColorUtil
 
+    @Inject
+    lateinit var colorHarmonizer: AndroidColorHarmonizer
+
     private val viewModel: MainActivityViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         installSplashScreen()
         super.onCreate(savedInstanceState)
+        colorUtil.setHarmonizer(colorHarmonizer)
         enableEdgeToEdge()
         setContent {
             val isInitialized by viewModel.isInitialized.collectAsStateWithLifecycle()

@@ -32,6 +32,7 @@ kotlinxCoroutinesRx3 = "1.11.0"
 lifecycleRuntimeKtx = "2.11.0"
 mapstruct = "1.6.3"
 material = "1.14.0"
+material-color-utilities = "5.0.0"
 mockitoCore = "5.23.0"
 picocli = "4.7.7"
 preference = "1.2.1"
@@ -103,6 +104,7 @@ kotlinx-serialization-json = { group = "org.jetbrains.kotlinx", name = "kotlinx-
 mapstruct = { group = "org.mapstruct", name = "mapstruct", version.ref = "mapstruct" }
 mapstruct-processor = { group = "org.mapstruct", name = "mapstruct-processor", version.ref = "mapstruct" }
 material = { group = "com.google.android.material", name = "material", version.ref = "material" }
+materialColorUtilities = { module = "com.materialkolor:material-color-utilities", version.ref = "material-color-utilities" }
 androidx-core-splashscreen = { group = "androidx.core", name = "core-splashscreen", version.ref = "splashscreen" }
 mockito-core = { module = "org.mockito:mockito-core", version.ref = "mockitoCore" }
 mockitokotlin = { module = "org.mockito.kotlin:mockito-kotlin", version.ref = "mockitoKotlin" }

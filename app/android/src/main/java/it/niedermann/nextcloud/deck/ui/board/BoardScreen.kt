@@ -82,6 +82,7 @@ import androidx.compose.ui.draganddrop.toAndroidDragEvent
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.graphicsLayer
+import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.layout.LayoutCoordinates
 import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.layout.positionInRoot
@@ -725,16 +726,20 @@ fun CardItem(
 
 @Composable
 fun LabelChipPreview(label: PreviewCard.LabelPreview, compactMode: Boolean = false) {
+    val colorUtil = LocalColorUtil.current
+    val primaryColor = MaterialTheme.colorScheme.primary.toArgb()
+    val harmonizedColor = colorUtil.harmonize(label.color().argb(), primaryColor)
+
     if (compactMode) {
         Box(
             modifier = Modifier
                 .width(38.dp)
                 .height(3.dp)
-                .background(label.color().toComposeColor(), shape = MaterialTheme.shapes.extraSmall)
+                .background(Color(harmonizedColor), shape = MaterialTheme.shapes.extraSmall)
         )
     } else {
-        val backgroundColor = label.color().toComposeColor()
-        val foregroundColor = Color(LocalColorUtil.current.getForegroundColorForBackgroundColor(label.color().argb()))
+        val backgroundColor = Color(harmonizedColor)
+        val foregroundColor = Color(colorUtil.getForegroundColorForBackgroundColor(harmonizedColor))
         Surface(
             color = backgroundColor,
             contentColor = foregroundColor,
@@ -751,8 +756,12 @@ fun LabelChipPreview(label: PreviewCard.LabelPreview, compactMode: Boolean = fal
 
 @Composable
 fun LabelChip(label: Label) {
-    val backgroundColor = label.color().toComposeColor()
-    val foregroundColor = Color(LocalColorUtil.current.getForegroundColorForBackgroundColor(label.color().argb()))
+    val colorUtil = LocalColorUtil.current
+    val primaryColor = MaterialTheme.colorScheme.primary.toArgb()
+    val harmonizedColor = colorUtil.harmonize(label.color().argb(), primaryColor)
+
+    val backgroundColor = Color(harmonizedColor)
+    val foregroundColor = Color(colorUtil.getForegroundColorForBackgroundColor(harmonizedColor))
     Surface(
         color = backgroundColor,
         contentColor = foregroundColor,
