@@ -85,7 +85,7 @@ fun AccountItem(
         supportingContent = { Text(account.url().toString()) },
         leadingContent = {
             UserAvatar(
-                accountId = account.id(),
+                account = account,
                 userId = User.ID(account.username()),
                 size = 40.dp
             )

@@ -707,7 +707,7 @@ fun CardItem(
 
                     if (card.assignedToMe() && currentAccount != null) {
                         UserAvatar(
-                            accountId = currentAccount.id(),
+                            account = currentAccount,
                             userId = User.ID(currentAccount.username()),
                             size = 24.dp
                         )
