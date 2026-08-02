@@ -75,9 +75,6 @@ public class MainStageContext extends Store<MainStageContext.State, MainStageCon
         on(Action.EditBoardAction.class, (state, _) -> state);
         on(Action.CloseCardAction.class, (state, _) -> state.withCardId(null));
 
-        effect(Action.SwitchAccountAction.class, (_, action) -> setCurrentAccountUseCase.execute(action.accountId())
-                .thenApplyAsync(_ -> Optional.empty()));
-
         effect(Action.SwitchAccountAction.class, (state, action) -> {
             final var accountId = state.accountId();
             if (accountId.isEmpty()) {

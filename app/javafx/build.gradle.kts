@@ -12,14 +12,6 @@ java {
     modularity.inferModulePath.set(false)
 }
 
-sourceSets {
-    main {
-        java {
-            srcDir("src/main/resources")
-        }
-    }
-}
-
 application {
     mainClass.set("it.niedermann.nextcloud.deck.javafx.Launcher")
 }
@@ -57,10 +49,18 @@ dependencies {
     testImplementation(libs.junitJupiter)
     testRuntimeOnly(libs.junitPlatformLauncher)
     testImplementation(libs.mockito.core)
+    testImplementation(libs.hamcrest)
+    testImplementation(libs.testfx.core)
+    testImplementation(libs.testfx.junit5)
+    testImplementation(libs.testfx.monocle)
+    testImplementation(libs.assertj.core)
 }
 
 tasks.withType<Test> {
     useJUnitPlatform()
+    systemProperty("junit.jupiter.extensions.autodetection.enabled", "true")
+    systemProperty("testfx.robot", "glass")
+    systemProperty("testfx.headless", "false")
 }
 
 tasks.named<Tar>("distTar") {

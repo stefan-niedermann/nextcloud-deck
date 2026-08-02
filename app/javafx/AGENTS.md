@@ -10,6 +10,6 @@
 
 ## Unit-Tests
 - Tests should exclusively use [`TestFX`](https://github.com/TestFX/TestFX)
-- Tests should consequently mock *UseCases and use real implementation for the reset.
+- Tests should consequently mock *UseCases and use real implementation for other dependencies.
 - Tests should be focused on UI state and interaction.
 - Tests should prefer interacting with the test subject via `AccessibleRole` and other semantic information
