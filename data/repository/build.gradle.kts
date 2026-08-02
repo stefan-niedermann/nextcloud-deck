@@ -16,5 +16,5 @@ dependencies {
     api(libs.jakarta.inject)
     implementation(libs.rxjava3)
     implementation(libs.rxjava3.jdk9.interop)
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-jdk8:1.10.2")
+    implementation(libs.kotlinx.coroutines.jdk8)
 }

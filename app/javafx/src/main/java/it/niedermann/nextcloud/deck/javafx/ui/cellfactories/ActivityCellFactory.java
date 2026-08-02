@@ -1,6 +1,6 @@
 package it.niedermann.nextcloud.deck.javafx.ui.cellfactories;
 
-import it.niedermann.nextcloud.deck.domain.model.Activity;
+import it.niedermann.nextcloud.deck.domain.model.query.PreviewActivity;
 import it.niedermann.nextcloud.deck.javafx.ui.controller.views.ActivityView;
 import jakarta.inject.Inject;
 import javafx.beans.binding.Bindings;
@@ -8,14 +8,14 @@ import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
 import javafx.util.Callback;
 
-public class ActivityCellFactory implements Callback<ListView<Activity>, ListCell<Activity>> {
+public class ActivityCellFactory implements Callback<ListView<PreviewActivity>, ListCell<PreviewActivity>> {
 
     @Inject
     public ActivityCellFactory() {
     }
 
     @Override
-    public ListCell<Activity> call(ListView<Activity> listView) {
+    public ListCell<PreviewActivity> call(ListView<PreviewActivity> listView) {
         return new ListCell<>() {
 
             final ActivityView view = new ActivityView();
@@ -34,7 +34,7 @@ public class ActivityCellFactory implements Callback<ListView<Activity>, ListCel
             }
 
             @Override
-            protected void updateItem(Activity activity, boolean empty) {
+            protected void updateItem(PreviewActivity activity, boolean empty) {
                 super.updateItem(activity, empty);
                 setText(null);
 

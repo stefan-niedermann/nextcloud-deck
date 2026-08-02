@@ -89,7 +89,7 @@ fun AppTopBar(
                         IconButton(onClick = { showAccountDialog = true }) {
                             if (currentAccount != null) {
                                 UserAvatar(
-                                    accountId = currentAccount.id(),
+                                    account = currentAccount,
                                     userId = User.ID(currentAccount.username()),
                                     size = 30.dp
                                 )

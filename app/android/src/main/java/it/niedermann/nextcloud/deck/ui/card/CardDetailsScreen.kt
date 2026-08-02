@@ -96,10 +96,12 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import it.niedermann.nextcloud.deck.domain.model.Account
 import it.niedermann.nextcloud.deck.domain.model.Card
 import it.niedermann.nextcloud.deck.domain.model.Comment
 import it.niedermann.nextcloud.deck.domain.model.Label
 import it.niedermann.nextcloud.deck.domain.model.User
+import it.niedermann.nextcloud.deck.ui.accounts.AccountViewModel
 import it.niedermann.nextcloud.deck.ui.components.UserAvatar
 import it.niedermann.nextcloud.deck.ui.util.LocalColorUtil
 import it.niedermann.nextcloud.deck.ui.util.toComposeColor
@@ -114,9 +116,13 @@ import java.time.format.DateTimeFormatter
 fun CardDetailsScreen(
     cardId: Long,
     onBack: () -> Unit,
-    viewModel: CardDetailsViewModel = hiltViewModel()
+    viewModel: CardDetailsViewModel = hiltViewModel(),
+    accountViewModel: AccountViewModel = hiltViewModel()
 ) {
     val card by viewModel.card.collectAsStateWithLifecycle()
+    val accounts by accountViewModel.accounts.collectAsStateWithLifecycle()
+    val currentAccountId by accountViewModel.currentAccountId.collectAsStateWithLifecycle()
+    val currentAccount = accounts.find { it.id() == currentAccountId }
     val tabs = listOf("Details", "Attachments", "Comments", "Activity")
     val icons = listOf(Icons.Outlined.Info, Icons.Outlined.AttachFile, Icons.Outlined.ModeComment, Icons.Outlined.Bolt)
     val pagerState = rememberPagerState(pageCount = { tabs.size })
@@ -243,9 +249,9 @@ fun CardDetailsScreen(
                         verticalAlignment = Alignment.Top
                     ) { page ->
                         when (page) {
-                            0 -> CardDetailsTab(card, viewModel)
+                            0 -> CardDetailsTab(card, viewModel, currentAccount)
                             1 -> AttachmentsTab(viewModel)
-                            2 -> CommentsTab(viewModel)
+                            2 -> CommentsTab(viewModel, currentAccount)
                             3 -> ActivityTab(viewModel)
                         }
                     }
@@ -257,7 +263,7 @@ fun CardDetailsScreen(
 
 @OptIn(ExperimentalLayoutApi::class, ExperimentalMaterial3Api::class)
 @Composable
-fun CardDetailsTab(card: Card?, viewModel: CardDetailsViewModel) {
+fun CardDetailsTab(card: Card?, viewModel: CardDetailsViewModel, account: Account?) {
     if (card == null) return
     var isEditingDescription by remember { mutableStateOf(false) }
     var descriptionText by remember(card.description()) { mutableStateOf(card.description()) }
@@ -282,7 +288,8 @@ fun CardDetailsTab(card: Card?, viewModel: CardDetailsViewModel) {
                 selectedAssignees = card.assignees(),
                 searchResults = userSearchResults,
                 onSearchQueryChange = viewModel::onUserSearchQueryChange,
-                onToggleAssignee = viewModel::toggleAssignee
+                onToggleAssignee = viewModel::toggleAssignee,
+                account = account
             )
         }
 
@@ -414,7 +421,8 @@ fun AssigneeSelector(
     selectedAssignees: Set<User.ID>,
     searchResults: Collection<User>,
     onSearchQueryChange: (String) -> Unit,
-    onToggleAssignee: (User.ID) -> Unit
+    onToggleAssignee: (User.ID) -> Unit,
+    account: Account?
 ) {
     var isSearching by remember { mutableStateOf(false) }
     var query by remember { mutableStateOf("") }
@@ -432,7 +440,7 @@ fun AssigneeSelector(
                         verticalAlignment = Alignment.CenterVertically,
                         modifier = Modifier.padding(start = 4.dp, end = 8.dp, top = 4.dp, bottom = 4.dp)
                     ) {
-                        UserAvatar(accountId = null, userId = userId, size = 24.dp)
+                        UserAvatar(account = account, userId = userId, size = 24.dp)
                         Spacer(Modifier.width(8.dp))
                         Text(userId.value(), style = MaterialTheme.typography.labelMedium)
                         Spacer(Modifier.width(4.dp))
@@ -492,7 +500,7 @@ fun AssigneeSelector(
                             DropdownMenuItem(
                                 text = {
                                     Row(verticalAlignment = Alignment.CenterVertically) {
-                                        UserAvatar(accountId = null, userId = user.id(), size = 32.dp)
+                                        UserAvatar(account = account, userId = user.id(), size = 32.dp)
                                         Spacer(Modifier.width(8.dp))
                                         Text(user.displayName())
                                     }
@@ -609,14 +617,14 @@ fun AttachmentsTab(viewModel: CardDetailsViewModel) {
 }
 
 @Composable
-fun CommentsTab(viewModel: CardDetailsViewModel) {
+fun CommentsTab(viewModel: CardDetailsViewModel, account: Account?) {
     val comments by viewModel.comments.collectAsStateWithLifecycle()
     val commentMessage by viewModel.commentMessage.collectAsStateWithLifecycle()
     val respondingTo by viewModel.respondingToComment.collectAsStateWithLifecycle()
     val editing by viewModel.editingComment.collectAsStateWithLifecycle()
     val clipboardManager = LocalClipboard.current
     val scope = rememberCoroutineScope()
-    var commentToDelete by remember { mutableStateOf<Comment?>(null) }
+    var commentToDelete by remember { mutableStateOf<it.niedermann.nextcloud.deck.domain.model.Comment?>(null) }
 
     Column(modifier = Modifier.fillMaxSize()) {
         LazyColumn(
@@ -625,9 +633,10 @@ fun CommentsTab(viewModel: CardDetailsViewModel) {
                 .fillMaxWidth(),
             reverseLayout = false
         ) {
-            items(comments, key = { it.id().value() }) { comment ->
+            items(comments, key = { it.comment.id().value() }) { preview ->
+                val comment = preview.comment
                 val parentComment = if (comment.parentId() != null) {
-                    comments.find { it.id() == comment.parentId() }
+                    comments.find { it.comment.id() == comment.parentId() }?.comment
                 } else null
 
                 CommentItem(
@@ -647,7 +656,8 @@ fun CommentsTab(viewModel: CardDetailsViewModel) {
                                 )
                             )
                         }
-                    }
+                    },
+                    account = preview.account
                 )
             }
         }
@@ -691,7 +701,8 @@ fun CommentItem(
     onReply: () -> Unit,
     onEdit: () -> Unit,
     onDelete: () -> Unit,
-    onCopy: () -> Unit
+    onCopy: () -> Unit,
+    account: Account?
 ) {
     var showMenu by remember { mutableStateOf(false) }
 
@@ -803,7 +814,7 @@ fun CommentItem(
             },
             leadingContent = {
                 UserAvatar(
-                    accountId = null,
+                    account = account,
                     userId = comment.author(),
                     size = 32.dp
                 )
@@ -902,8 +913,8 @@ fun CommentInput(
 fun ActivityTab(viewModel: CardDetailsViewModel) {
     val activities by viewModel.activities.collectAsStateWithLifecycle()
     LazyColumn(modifier = Modifier.fillMaxSize()) {
-        items(activities, key = { it.id().value() }) { activity ->
-            ListItem(headlineContent = { Text(activity.subject()) })
+        items(activities, key = { it.activity.id().value() }) { preview ->
+            ListItem(headlineContent = { Text(preview.activity.subject()) })
         }
     }
 }

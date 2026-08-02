@@ -2,16 +2,18 @@ package it.niedermann.nextcloud.deck.javafx.ui.controller.views;
 
 import org.kordamp.ikonli.javafx.FontIcon;
 
+import java.io.ByteArrayInputStream;
+import java.util.concurrent.CompletableFuture;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import io.reactivex.rxjava4.core.Flowable;
+import io.reactivex.rxjava4.processors.BehaviorProcessor;
 import it.niedermann.nextcloud.deck.domain.model.Account;
+import it.niedermann.nextcloud.deck.domain.model.Avatar;
 import it.niedermann.nextcloud.deck.domain.model.User;
 import it.niedermann.nextcloud.deck.domain.usecases.users.GetAvatarUseCase;
 import it.niedermann.nextcloud.deck.javafx.util.JavaFxScheduler;
-import javafx.beans.binding.Bindings;
-import javafx.beans.property.ObjectProperty;
-import javafx.beans.property.SimpleObjectProperty;
 import javafx.scene.SnapshotParameters;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -23,8 +25,8 @@ public class AvatarView extends ImageView {
 
     private static GetAvatarUseCase getAvatarUseCase;
 
-    private final ObjectProperty<Account.ID> accountId = new SimpleObjectProperty<>(this, "accountId");
-    private final ObjectProperty<User.ID> userId = new SimpleObjectProperty<>(this, "userId");
+    private final BehaviorProcessor<Request> requestProcessor = BehaviorProcessor.createDefault(new Request(null, null, null));
+    private final BehaviorProcessor<Double> sizeProcessor = BehaviorProcessor.createDefault(24.0);
 
     public AvatarView() {
         setFitWidth(24);
@@ -43,11 +45,20 @@ public class AvatarView extends ImageView {
         clip.arcHeightProperty().bind(fitHeightProperty());
         setClip(clip);
 
-        Bindings.createObjectBinding(() -> new AccountIdUserIdSize(accountId.get(), userId.get(), fitWidthProperty().get()), accountId, userId, fitWidthProperty())
-                .addListener((_, _, newValue) -> loadImage(newValue.accountId(), newValue.userId(), newValue.size()));
+        sizeProcessor.onNext(getFitWidth());
+        fitWidthProperty().addListener((_, _, newValue) -> sizeProcessor.onNext(newValue.doubleValue()));
+
+        Flowable.combineLatest(
+                requestProcessor,
+                sizeProcessor,
+                RequestSize::new
+        ).subscribe(newValue -> loadImage(newValue.request(), newValue.size()));
     }
 
-    private record AccountIdUserIdSize(Account.ID accountId, User.ID userId, double size) {
+    private record Request(Account account, User.ID userId, CompletableFuture<Void> onLoaded) {
+    }
+
+    private record RequestSize(Request request, double size) {
     }
 
     public static synchronized void initialize(GetAvatarUseCase getAvatarUseCase) {
@@ -58,66 +69,64 @@ public class AvatarView extends ImageView {
         AvatarView.getAvatarUseCase = getAvatarUseCase;
     }
 
-    private void loadImage(Account.ID accountId, User.ID userId, double sizeInPx) {
+    private void loadImage(Request request, double sizeInPx) {
         if (getAvatarUseCase == null) {
             throw new IllegalStateException("Not yet initialized.");
         }
 
-        if (userId == null) {
+        final var account = request.account();
+        final var userId = request.userId();
+
+        if (account == null && userId == null) {
             setImage(null);
+            if (request.onLoaded() != null) {
+                request.onLoaded().complete(null);
+            }
             return;
         }
 
-        final var cf = accountId == null
-                ? getAvatarUseCase.execute(userId, (int) sizeInPx)
-                : getAvatarUseCase.execute(accountId, userId, (int) sizeInPx);
+        final CompletableFuture<Avatar> cf;
+        if (account != null && userId != null) {
+            cf = getAvatarUseCase.execute(account, userId, (int) sizeInPx);
+        } else if (account != null) {
+            cf = getAvatarUseCase.execute(account, (int) sizeInPx);
+        } else {
+            cf = getAvatarUseCase.execute(userId, (int) sizeInPx);
+        }
 
-        cf.whenCompleteAsync((inputStream, exception) -> {
+        cf.whenCompleteAsync((avatar, exception) -> {
             if (exception == null) {
-                setImage(new Image(inputStream, true));
+                setImage(new Image(new ByteArrayInputStream(avatar.content()), true));
+                if (request.onLoaded() != null) {
+                    request.onLoaded().complete(null);
+                }
             } else {
-                logger.log(Level.SEVERE, "Failed to load avatar for accountId=" + accountId + " and userId=" + userId, exception);
+                logger.log(Level.SEVERE, "Failed to load avatar for account=" + account + " and user=" + userId, exception);
                 final var icon = new FontIcon("fltral-image-off-24");
                 icon.setIconSize((int) sizeInPx);
                 setImage(icon.snapshot(null, null));
+                if (request.onLoaded() != null) {
+                    request.onLoaded().completeExceptionally(exception);
+                }
             }
         }, JavaFxScheduler.platform().toExecutorService());
     }
 
-    public void setAvatar(Account account) {
-        setAccountId(account.id());
-        setUserId(new User.ID(account.username()));
+    private CompletableFuture<Void> update(Account account, User.ID userId) {
+        final var onLoaded = new CompletableFuture<Void>();
+        requestProcessor.onNext(new Request(account, userId, onLoaded));
+        return onLoaded;
     }
 
-    public void setAvatar(User user) {
-        setUserId(user.id());
+    public CompletableFuture<Void> setAvatar(Account account, User.ID userId) {
+        return update(account, userId);
     }
 
-    public void setAvatar(User.ID userId) {
-        setUserId(userId);
+    public CompletableFuture<Void> setAvatar(Account account) {
+        return update(account, null);
     }
 
-    public User.ID getUserId() {
-        return userId.get();
-    }
-
-    public void setUserId(User.ID user) {
-        this.userId.set(user);
-    }
-
-    public ObjectProperty<User.ID> userIdProperty() {
-        return userId;
-    }
-
-    public Account.ID getAccountId() {
-        return accountId.get();
-    }
-
-    public void setAccountId(Account.ID user) {
-        this.accountId.set(user);
-    }
-
-    public ObjectProperty<Account.ID> accountIdProperty() {
-        return accountId;
+    public CompletableFuture<Void> setAvatar(User.ID userId) {
+        return update(null, userId);
     }
 }

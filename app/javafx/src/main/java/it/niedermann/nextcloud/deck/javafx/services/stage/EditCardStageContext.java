@@ -9,20 +9,20 @@ import dagger.assisted.AssistedFactory;
 import dagger.assisted.AssistedInject;
 import io.reactivex.rxjava4.core.Flowable;
 import io.reactivex.rxjava4.disposables.Disposable;
-import it.niedermann.nextcloud.deck.domain.model.Activity;
 import it.niedermann.nextcloud.deck.domain.model.Attachment;
 import it.niedermann.nextcloud.deck.domain.model.Board;
 import it.niedermann.nextcloud.deck.domain.model.Card;
-import it.niedermann.nextcloud.deck.domain.model.Comment;
 import it.niedermann.nextcloud.deck.domain.model.CreateComment;
-import it.niedermann.nextcloud.deck.domain.usecases.activities.ListActivityUseCase;
+import it.niedermann.nextcloud.deck.domain.model.query.PreviewActivity;
+import it.niedermann.nextcloud.deck.domain.model.query.PreviewComment;
+import it.niedermann.nextcloud.deck.domain.usecases.activities.ListPreviewActivitiesUseCase;
 import it.niedermann.nextcloud.deck.domain.usecases.attachments.ListAttachmentsUseCase;
 import it.niedermann.nextcloud.deck.domain.usecases.boards.GetBoardUseCase;
 import it.niedermann.nextcloud.deck.domain.usecases.cards.GetCardUseCase;
 import it.niedermann.nextcloud.deck.domain.usecases.cards.UpdateCardUseCase;
 import it.niedermann.nextcloud.deck.domain.usecases.columns.GetColumnUseCase;
 import it.niedermann.nextcloud.deck.domain.usecases.comments.AddCommentUseCase;
-import it.niedermann.nextcloud.deck.domain.usecases.comments.ListCommentsUseCase;
+import it.niedermann.nextcloud.deck.domain.usecases.comments.ListPreviewCommentsUseCase;
 import it.niedermann.nextcloud.deck.javafx.services.application.ApplicationRouter;
 import it.niedermann.nextcloud.deck.javafx.store.Store;
 import it.niedermann.nextcloud.deck.javafx.store.StoreLogger;
@@ -39,8 +39,8 @@ public class EditCardStageContext extends Store<EditCardStageContext.State, Edit
     private final GetColumnUseCase getColumnUseCase;
     private final GetBoardUseCase getBoardUseCase;
     private final ListAttachmentsUseCase listAttachmentsUseCase;
-    private final ListCommentsUseCase listCommentsUseCase;
-    private final ListActivityUseCase listActivityUseCase;
+    private final ListPreviewCommentsUseCase listPreviewCommentsUseCase;
+    private final ListPreviewActivitiesUseCase listPreviewActivitiesUseCase;
     private final AddCommentUseCase addCommentUseCase;
 
     private final Runnable onClose;
@@ -54,8 +54,8 @@ public class EditCardStageContext extends Store<EditCardStageContext.State, Edit
             GetColumnUseCase getColumnUseCase,
             GetBoardUseCase getBoardUseCase,
             ListAttachmentsUseCase listAttachmentsUseCase,
-            ListCommentsUseCase listCommentsUseCase,
-            ListActivityUseCase listActivityUseCase,
+            ListPreviewCommentsUseCase listPreviewCommentsUseCase,
+            ListPreviewActivitiesUseCase listPreviewActivitiesUseCase,
             AddCommentUseCase addCommentUseCase,
             @Assisted State initialState,
             @Assisted Runnable onClose
@@ -67,8 +67,8 @@ public class EditCardStageContext extends Store<EditCardStageContext.State, Edit
         this.getColumnUseCase = getColumnUseCase;
         this.getBoardUseCase = getBoardUseCase;
         this.listAttachmentsUseCase = listAttachmentsUseCase;
-        this.listCommentsUseCase = listCommentsUseCase;
-        this.listActivityUseCase = listActivityUseCase;
+        this.listPreviewCommentsUseCase = listPreviewCommentsUseCase;
+        this.listPreviewActivitiesUseCase = listPreviewActivitiesUseCase;
         this.addCommentUseCase = addCommentUseCase;
         this.onClose = onClose;
 
@@ -100,15 +100,13 @@ public class EditCardStageContext extends Store<EditCardStageContext.State, Edit
     }
 
     @Override
-    public Flowable<java.util.List<Comment>> getComments() {
-        return getCardId()
-                .switchMap(id -> Flowable.fromPublisher(listCommentsUseCase.execute(id)));
+    public Flowable<java.util.List<PreviewComment>> getComments() {
+        return getCardId().switchMap(id -> Flowable.fromPublisher(listPreviewCommentsUseCase.execute(id)));
     }
 
     @Override
-    public Flowable<java.util.List<Activity>> getActivities() {
-        return getCardId()
-                .switchMap(id -> Flowable.fromPublisher(listActivityUseCase.execute(id)));
+    public Flowable<java.util.List<PreviewActivity>> getActivities() {
+        return getCardId().switchMap(id -> Flowable.fromPublisher(listPreviewActivitiesUseCase.execute(id)));
     }
 
     @Override

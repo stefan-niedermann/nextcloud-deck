@@ -9,11 +9,13 @@ import java.util.Map;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.Flow;
 
+import io.reactivex.rxjava3.core.Maybe;
 import io.reactivex.rxjava3.schedulers.Schedulers;
 import it.niedermann.nextcloud.deck.data.local.dao.AccountDao;
 import it.niedermann.nextcloud.deck.data.local.entity.AccountEntity;
 import it.niedermann.nextcloud.deck.data.local.mapper.AccountMapper;
 import it.niedermann.nextcloud.deck.domain.model.Account;
+import it.niedermann.nextcloud.deck.domain.model.Card;
 import it.niedermann.nextcloud.deck.domain.repository.AccountRepository;
 import jakarta.inject.Inject;
 
@@ -51,6 +53,13 @@ public class AccountRepositoryImpl implements AccountRepository {
     }
 
     @Override
+    public CompletableFuture<Account> getAccountSync(Account.ID id) {
+        return Maybe.fromPublisher(FlowAdapters.toPublisher(getAccount(id)))
+                .toCompletionStage()
+                .toCompletableFuture();
+    }
+
+    @Override
     public CompletableFuture<Account.ID> getAnyAccount() {
         final var result = accountDao.getAnyAccount()
                 .map(Account.ID::new);
@@ -58,6 +67,11 @@ public class AccountRepositoryImpl implements AccountRepository {
         return result
                 .toCompletionStage()
                 .toCompletableFuture();
+    }
+
+    @Override
+    public CompletableFuture<Account.ID> findAccountIdByCardId(Card.ID cardId) {
+        return getAnyAccount();
     }
 
     @Override

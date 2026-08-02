@@ -44,7 +44,7 @@ public class SyncManager {
             reporter.accept(new SyncStatus(account, emptySet(), MOCK_BOARD_COUNT, i));
         }
 
-        final var apiProvider = apiProviderFactory.create(account.id()).join();
+        final var apiProvider = apiProviderFactory.create(account);
         final var ocsApi = apiProvider.getOcsApi();
 
         final var response = ocsApi.getCapabilitiesRx(null).blockingGet();

@@ -1,16 +1,11 @@
 package it.niedermann.nextcloud.deck.app.shared.data;
 
-import static org.reactivestreams.FlowAdapters.toPublisher;
-
 import com.google.gson.Gson;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.concurrent.CompletableFuture;
 
-import io.reactivex.rxjava3.core.Flowable;
 import it.niedermann.nextcloud.deck.domain.model.Account;
-import it.niedermann.nextcloud.deck.domain.repository.AccountRepository;
 import it.niedermann.nextcloud.remote.ApiProvider;
 import it.niedermann.nextcloud.remote.deck.DeckApi;
 import it.niedermann.nextcloud.remote.ocs.OcsApi;
@@ -47,31 +42,17 @@ public class RetrofitApiProvider implements ApiProvider {
 
     public static class Factory implements ApiProvider.Factory {
 
-        private final AccountRepository accountRepository;
         private final Gson gson;
         private final Map<Account, ApiProvider> cache = new HashMap<>();
 
         @Inject
-        public Factory(AccountRepository accountRepository,
-                       Gson gson) {
-
-            this.accountRepository = accountRepository;
+        public Factory(Gson gson) {
             this.gson = gson;
         }
 
         @Override
-        public CompletableFuture<ApiProvider> create(Account.ID accountId) {
-
-            return Flowable.fromPublisher(toPublisher(accountRepository.getAccount(accountId)))
-                    .firstElement()
-                    .toCompletionStage()
-                    .toCompletableFuture()
-                    .thenApplyAsync(this::create);
-        }
-
-        @Override
         public synchronized ApiProvider create(Account account) {
-            return cache.computeIfAbsent(account, a -> new RetrofitApiProvider(account, gson));
+            return cache.computeIfAbsent(account, a -> new RetrofitApiProvider(a, gson));
         }
     }
 }

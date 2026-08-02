@@ -5,9 +5,16 @@ import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.Flow;
 
 import it.niedermann.nextcloud.deck.domain.model.Account;
+import it.niedermann.nextcloud.deck.domain.model.Avatar;
 import it.niedermann.nextcloud.deck.domain.model.User;
 
 public interface UserRepository {
+
+    CompletableFuture<Avatar> getAvatar(Account account, User.ID userId, int sizeInPx);
+
+    CompletableFuture<Avatar> getAvatar(Account account, int sizeInPx);
+
+    CompletableFuture<Avatar> getAvatar(User.ID userId, int sizeInPx);
 
     Flow.Publisher<Collection<?>> getNotDeletedUsers(long accountId);
 

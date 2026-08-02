@@ -6,6 +6,7 @@ import java.time.format.DateTimeFormatter;
 import java.time.format.FormatStyle;
 
 import it.niedermann.nextcloud.deck.domain.model.Comment;
+import it.niedermann.nextcloud.deck.domain.model.query.PreviewComment;
 import it.niedermann.nextcloud.deck.javafx.ui.fxml.Inflater;
 import javafx.fxml.FXML;
 import javafx.scene.control.ContextMenu;
@@ -43,8 +44,9 @@ public class CommentView extends HBox {
         });
     }
 
-    public void bind(Comment comment, CommentActionListener commentActionListener) {
-        avatar.setUserId(comment.author());
+    public void bind(PreviewComment preview, CommentActionListener commentActionListener) {
+        final var comment = preview.comment();
+        avatar.setAvatar(preview.account(), comment.author());
         // TODO We need a proper query item here
         author.setText(comment.author().value());
         message.setText(comment.message());

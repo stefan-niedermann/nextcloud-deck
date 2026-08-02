@@ -5,7 +5,6 @@ import java.util.logging.Logger;
 import it.niedermann.nextcloud.deck.javafx.di.fx.FxComponent;
 import it.niedermann.nextcloud.deck.javafx.ui.controller.views.AvatarView;
 import javafx.application.Application;
-import javafx.scene.image.Image;
 import javafx.stage.Stage;
 
 public class JavaFxApplication extends Application {
@@ -36,7 +35,7 @@ public class JavaFxApplication extends Application {
             Thread.setDefaultUncaughtExceptionHandler(exceptionHandler);
             AvatarView.initialize(fxComponent.getGetAvatarUseCase());
 
-            stage.getIcons().add(new Image(getClass().getResourceAsStream("/images/icon.png")));
+//            stage.getIcons().add(new Image(getClass().getResourceAsStream("/images/icon.png")));
 
             final var applicationRouter = fxComponent.getApplicationRouter();
             applicationRouter.initialize();

@@ -18,12 +18,12 @@ import dagger.assisted.AssistedFactory;
 import dagger.assisted.AssistedInject;
 import io.reactivex.rxjava4.core.Flowable;
 import io.reactivex.rxjava4.disposables.Disposable;
-import it.niedermann.nextcloud.deck.domain.model.Activity;
 import it.niedermann.nextcloud.deck.domain.model.Attachment;
 import it.niedermann.nextcloud.deck.domain.model.Board;
 import it.niedermann.nextcloud.deck.domain.model.Card;
-import it.niedermann.nextcloud.deck.domain.model.Comment;
 import it.niedermann.nextcloud.deck.domain.model.User;
+import it.niedermann.nextcloud.deck.domain.model.query.PreviewActivity;
+import it.niedermann.nextcloud.deck.domain.model.query.PreviewComment;
 import it.niedermann.nextcloud.deck.javafx.ui.cellfactories.ActivityCellFactory;
 import it.niedermann.nextcloud.deck.javafx.ui.cellfactories.AttachmentCellFactory;
 import it.niedermann.nextcloud.deck.javafx.ui.cellfactories.CommentCellFactory;
@@ -58,6 +58,7 @@ public class EditCardFeature extends DisposableController {
     private static final Logger logger = Logger.getLogger(EditCardFeature.class.getName());
 
     private final CommentCellFactory commentCellFactory;
+    private final ActivityCellFactory activityCellFactory = new ActivityCellFactory();
 
     private final UserSuggestionProvider userSuggestionProvider;
     private final UserSearchViewConverter userSearchViewConverter;
@@ -108,11 +109,11 @@ public class EditCardFeature extends DisposableController {
     @FXML
     Button closeSidebar;
     @FXML
-    ListView<Comment> comments;
+    ListView<PreviewComment> comments;
     @FXML
     SubmitTextField addComment;
     @FXML
-    ListView<Activity> activities;
+    ListView<PreviewActivity> activities;
     @FXML
     ListView<Attachment> attachments;
 
@@ -179,7 +180,7 @@ public class EditCardFeature extends DisposableController {
 
 
         comments.setCellFactory(commentCellFactory);
-        activities.setCellFactory(new ActivityCellFactory());
+        activities.setCellFactory(activityCellFactory);
         attachments.setCellFactory(new AttachmentCellFactory());
 
         labels.setSuggestionProvider(labelSuggestionProvider);
@@ -309,9 +310,9 @@ public class EditCardFeature extends DisposableController {
 
         Flowable<List<Attachment>> getAttachments();
 
-        Flowable<List<Comment>> getComments();
+        Flowable<List<PreviewComment>> getComments();
 
-        Flowable<List<Activity>> getActivities();
+        Flowable<List<PreviewActivity>> getActivities();
 
         CompletableFuture<Void> onCardSaved(Card card);
 

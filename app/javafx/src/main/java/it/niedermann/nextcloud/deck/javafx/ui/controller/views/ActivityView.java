@@ -5,7 +5,7 @@ import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.time.format.FormatStyle;
 
-import it.niedermann.nextcloud.deck.domain.model.Activity;
+import it.niedermann.nextcloud.deck.domain.model.query.PreviewActivity;
 import it.niedermann.nextcloud.deck.javafx.ui.fxml.Inflater;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
@@ -26,8 +26,9 @@ public class ActivityView extends HBox {
         Inflater.getInstance().inflate(this);
     }
 
-    public void bind(Activity activity) {
-        avatar.setAvatar(activity.author());
+    public void bind(PreviewActivity preview) {
+        final var activity = preview.activity();
+        avatar.setAvatar(preview.account(), activity.author().id());
         author.setText(activity.author().displayName());
         message.setText(activity.subject());
 

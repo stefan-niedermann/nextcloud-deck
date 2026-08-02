@@ -27,6 +27,7 @@ import it.niedermann.nextcloud.deck.domain.repository.ShareRepository;
 import it.niedermann.nextcloud.deck.domain.repository.UserRepository;
 import it.niedermann.nextcloud.deck.domain.state.KeyValueStore;
 import it.niedermann.nextcloud.deck.domain.state.StateRepository;
+import it.niedermann.nextcloud.remote.ApiProvider;
 import jakarta.inject.Singleton;
 
 @Module
@@ -65,8 +66,8 @@ public class RepositoryModule {
 
     @Provides
     @Singleton
-    UserRepository provideUserRepository() {
-        return new UserRepositoryImpl();
+    UserRepository provideUserRepository(ApiProvider.Factory apiProviderFactory, AccountRepository accountRepository) {
+        return new UserRepositoryImpl(apiProviderFactory, accountRepository);
     }
 
     @Provides
@@ -83,14 +84,14 @@ public class RepositoryModule {
 
     @Provides
     @Singleton
-    CommentRepository provideCommentRepository() {
-        return new CommentRepositoryImpl();
+    CommentRepository provideCommentRepository(AccountRepository accountRepository) {
+        return new CommentRepositoryImpl(accountRepository);
     }
 
     @Provides
     @Singleton
-    ActivityRepository provideActivityRepository() {
-        return new ActivityRepositoryImpl();
+    ActivityRepository provideActivityRepository(AccountRepository accountRepository) {
+        return new ActivityRepositoryImpl(accountRepository);
     }
 
     @Provides

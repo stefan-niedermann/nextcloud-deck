@@ -1,7 +1,9 @@
 package it.niedermann.nextcloud.deck.data.repository;
 
+import org.jetbrains.annotations.NotNull;
 import org.reactivestreams.FlowAdapters;
 
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.concurrent.CompletableFuture;
@@ -10,15 +12,78 @@ import java.util.stream.Collectors;
 
 import io.reactivex.rxjava3.core.Flowable;
 import it.niedermann.nextcloud.deck.domain.model.Account;
+import it.niedermann.nextcloud.deck.domain.model.Avatar;
 import it.niedermann.nextcloud.deck.domain.model.User;
+import it.niedermann.nextcloud.deck.domain.repository.AccountRepository;
 import it.niedermann.nextcloud.deck.domain.repository.UserRepository;
+import it.niedermann.nextcloud.remote.ApiProvider;
 import jakarta.inject.Inject;
+import okhttp3.ResponseBody;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.HttpException;
+import retrofit2.Response;
 
 public class UserRepositoryImpl implements UserRepository {
 
-    @Inject
-    public UserRepositoryImpl() {
+    private final ApiProvider.Factory apiFactory;
+    private final AccountRepository accountRepository;
 
+    @Inject
+    public UserRepositoryImpl(ApiProvider.Factory apiFactory, AccountRepository accountRepository) {
+        this.apiFactory = apiFactory;
+        this.accountRepository = accountRepository;
+    }
+
+    @Override
+    public CompletableFuture<Avatar> getAvatar(Account account, User.ID userId, int sizeInPx) {
+        return CompletableFuture.completedFuture(account)
+                .thenApplyAsync(apiFactory::create)
+                .thenApplyAsync(ApiProvider::getOcsApi)
+                .thenComposeAsync(ocsApi -> {
+                    final var result = new CompletableFuture<Avatar>();
+                    final var call = ocsApi.getAvatar(userId.value(), sizeInPx);
+                    call.enqueue(new Callback<>() {
+                        @Override
+                        public void onResponse(@NotNull Call<ResponseBody> call, @NotNull Response<ResponseBody> response) {
+                            if (response.isSuccessful()) {
+                                try (final var body = response.body()) {
+                                    if (body != null) {
+                                        final var contentType = body.contentType();
+                                        final var mimeType = contentType != null ? contentType.toString() : null;
+                                        final var eTag = response.headers().get("ETag");
+                                        final var content = body.bytes();
+                                        result.complete(new Avatar(mimeType, eTag, sizeInPx, content));
+                                    } else {
+                                        result.completeExceptionally(new IOException("Empty response body"));
+                                    }
+                                } catch (IOException | RuntimeException e) {
+                                    result.completeExceptionally(e);
+                                }
+                            } else {
+                                result.completeExceptionally(new HttpException(response));
+                            }
+                        }
+
+                        @Override
+                        public void onFailure(@NotNull Call<ResponseBody> call, @NotNull Throwable t) {
+                            result.completeExceptionally(t);
+                        }
+                    });
+                    return result;
+                });
+    }
+
+    @Override
+    public CompletableFuture<Avatar> getAvatar(Account account, int sizeInPx) {
+        return getAvatar(account, new User.ID(account.username()), sizeInPx);
+    }
+
+    @Override
+    public CompletableFuture<Avatar> getAvatar(User.ID userId, int sizeInPx) {
+        return getAccountIdByUserId(userId)
+                .thenCompose(accountRepository::getAccountSync)
+                .thenCompose(account -> getAvatar(account, userId, sizeInPx));
     }
 
     @Override

@@ -28,25 +28,22 @@ import kotlinx.coroutines.withContext
 
 @Composable
 fun UserAvatar(
-    accountId: Account.ID?,
+    account: Account?,
     userId: User.ID,
     size: Dp,
     modifier: Modifier = Modifier
 ) {
-    var bitmap by remember(accountId, userId) { mutableStateOf<ImageBitmap?>(null) }
+    var bitmap by remember(account, userId) { mutableStateOf<ImageBitmap?>(null) }
     val density = LocalDensity.current
     val sizeInPx = with(density) { size.toPx() }.toInt()
 
-    LaunchedEffect(accountId, userId, sizeInPx) {
+    LaunchedEffect(account, userId, sizeInPx) {
+        if (account == null) return@LaunchedEffect
         try {
             val useCase = AvatarProvider.get()
-            val inputStream = if (accountId != null) {
-                useCase.execute(accountId, userId, sizeInPx).await()
-            } else {
-                useCase.execute(userId, sizeInPx).await()
-            }
+            val avatar = useCase.execute(account, userId, sizeInPx).await()
             withContext(Dispatchers.IO) {
-                val b = BitmapFactory.decodeStream(inputStream)
+                val b = BitmapFactory.decodeByteArray(avatar.content, 0, avatar.content.size)
                 bitmap = b?.asImageBitmap()
             }
         } catch (e: Exception) {

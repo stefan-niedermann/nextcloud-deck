@@ -6,14 +6,15 @@ import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
-import it.niedermann.nextcloud.deck.domain.model.Activity
 import it.niedermann.nextcloud.deck.domain.model.Attachment
 import it.niedermann.nextcloud.deck.domain.model.Card
 import it.niedermann.nextcloud.deck.domain.model.Comment
 import it.niedermann.nextcloud.deck.domain.model.CreateComment
 import it.niedermann.nextcloud.deck.domain.model.Label
 import it.niedermann.nextcloud.deck.domain.model.User
-import it.niedermann.nextcloud.deck.domain.usecases.activities.ListActivityUseCase
+import it.niedermann.nextcloud.deck.domain.model.query.PreviewActivity
+import it.niedermann.nextcloud.deck.domain.model.query.PreviewComment
+import it.niedermann.nextcloud.deck.domain.usecases.activities.ListPreviewActivitiesUseCase
 import it.niedermann.nextcloud.deck.domain.usecases.attachments.AddAttachmentUseCase
 import it.niedermann.nextcloud.deck.domain.usecases.attachments.ListAttachmentsUseCase
 import it.niedermann.nextcloud.deck.domain.usecases.cards.GetCardUseCase
@@ -21,7 +22,7 @@ import it.niedermann.nextcloud.deck.domain.usecases.cards.UpdateCardUseCase
 import it.niedermann.nextcloud.deck.domain.usecases.columns.GetColumnUseCase
 import it.niedermann.nextcloud.deck.domain.usecases.comments.AddCommentUseCase
 import it.niedermann.nextcloud.deck.domain.usecases.comments.DeleteCommentUseCase
-import it.niedermann.nextcloud.deck.domain.usecases.comments.ListCommentsUseCase
+import it.niedermann.nextcloud.deck.domain.usecases.comments.ListPreviewCommentsUseCase
 import it.niedermann.nextcloud.deck.domain.usecases.comments.UpdateCommentUseCase
 import it.niedermann.nextcloud.deck.domain.usecases.labels.ListLabelsUseCase
 import it.niedermann.nextcloud.deck.domain.usecases.users.SearchUserUseCase
@@ -48,8 +49,8 @@ class CardDetailsViewModel @Inject constructor(
     private val getCardUseCase: GetCardUseCase,
     private val listAttachmentsUseCase: ListAttachmentsUseCase,
     private val addAttachmentUseCase: AddAttachmentUseCase,
-    private val listCommentsUseCase: ListCommentsUseCase,
-    private val listActivityUseCase: ListActivityUseCase,
+    private val listPreviewCommentsUseCase: ListPreviewCommentsUseCase,
+    private val listPreviewActivitiesUseCase: ListPreviewActivitiesUseCase,
     private val updateCardUseCase: UpdateCardUseCase,
     private val listLabelsUseCase: ListLabelsUseCase,
     private val getColumnUseCase: GetColumnUseCase,
@@ -65,10 +66,10 @@ class CardDetailsViewModel @Inject constructor(
     private val _attachments = MutableStateFlow<List<Attachment>>(emptyList())
     val attachments = _attachments.asStateFlow()
 
-    private val _comments = MutableStateFlow<List<Comment>>(emptyList())
+    private val _comments = MutableStateFlow<List<PreviewComment>>(emptyList())
     val comments = _comments.asStateFlow()
 
-    private val _activities = MutableStateFlow<List<Activity>>(emptyList())
+    private val _activities = MutableStateFlow<List<PreviewActivity>>(emptyList())
     val activities = _activities.asStateFlow()
 
     private val _boardLabels = MutableStateFlow<List<Label>>(emptyList())
@@ -163,7 +164,7 @@ class CardDetailsViewModel @Inject constructor(
 
     private fun refreshComments(cardId: Card.ID) {
         viewModelScope.launch {
-            FlowAdapters.toPublisher(listCommentsUseCase.execute(cardId))
+            FlowAdapters.toPublisher(listPreviewCommentsUseCase.execute(cardId))
                 .asFlow()
                 .collect { _comments.value = it }
         }
@@ -199,12 +200,12 @@ class CardDetailsViewModel @Inject constructor(
                     .collect { _attachments.value = it.toList() }
 
                 // Fetch Comments
-                FlowAdapters.toPublisher(listCommentsUseCase.execute(id))
+                FlowAdapters.toPublisher(listPreviewCommentsUseCase.execute(id))
                     .asFlow()
                     .collect { _comments.value = it }
 
                 // Fetch Activity
-                FlowAdapters.toPublisher(listActivityUseCase.execute(id))
+                FlowAdapters.toPublisher(listPreviewActivitiesUseCase.execute(id))
                     .asFlow()
                     .collect { _activities.value = it }
 

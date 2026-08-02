@@ -1,6 +1,6 @@
 package it.niedermann.nextcloud.deck.javafx.ui.cellfactories;
 
-import it.niedermann.nextcloud.deck.domain.model.Comment;
+import it.niedermann.nextcloud.deck.domain.model.query.PreviewComment;
 import it.niedermann.nextcloud.deck.javafx.ui.controller.views.CommentView;
 import jakarta.inject.Inject;
 import javafx.beans.binding.Bindings;
@@ -8,7 +8,7 @@ import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
 import javafx.util.Callback;
 
-public class CommentCellFactory implements Callback<ListView<Comment>, ListCell<Comment>> {
+public class CommentCellFactory implements Callback<ListView<PreviewComment>, ListCell<PreviewComment>> {
 
     private CommentView.CommentActionListener commentActionListener;
 
@@ -21,7 +21,7 @@ public class CommentCellFactory implements Callback<ListView<Comment>, ListCell<
     }
 
     @Override
-    public ListCell<Comment> call(ListView<Comment> listView) {
+    public ListCell<PreviewComment> call(ListView<PreviewComment> listView) {
         return new ListCell<>() {
 
             final CommentView view = new CommentView();
@@ -40,7 +40,7 @@ public class CommentCellFactory implements Callback<ListView<Comment>, ListCell<
             }
 
             @Override
-            protected void updateItem(Comment comment, boolean empty) {
+            protected void updateItem(PreviewComment comment, boolean empty) {
                 super.updateItem(comment, empty);
                 setText(null);
 

@@ -13,9 +13,19 @@ import io.reactivex.rxjava3.core.Flowable;
 import it.niedermann.nextcloud.deck.domain.model.Card;
 import it.niedermann.nextcloud.deck.domain.model.Comment;
 import it.niedermann.nextcloud.deck.domain.model.CreateComment;
+import it.niedermann.nextcloud.deck.domain.model.query.PreviewComment;
+import it.niedermann.nextcloud.deck.domain.repository.AccountRepository;
 import it.niedermann.nextcloud.deck.domain.repository.CommentRepository;
+import jakarta.inject.Inject;
 
 public class CommentRepositoryImpl implements CommentRepository {
+
+    private final AccountRepository accountRepository;
+
+    @Inject
+    public CommentRepositoryImpl(AccountRepository accountRepository) {
+        this.accountRepository = accountRepository;
+    }
 
     @Override
     public Flow.Publisher<List<Comment>> getNotDeletedComments(Card.ID cardId) {
@@ -23,6 +33,18 @@ public class CommentRepositoryImpl implements CommentRepository {
                 Arrays.stream(MockData.MOCK_COMMENTS)
                         .filter(comment -> Objects.equals(comment.cardId(), cardId))
                         .collect(Collectors.toList())));
+    }
+
+    @Override
+    public Flow.Publisher<List<PreviewComment>> getNotDeletedCommentPreviews(Card.ID cardId) {
+        return FlowAdapters.toFlowPublisher(
+                Flowable.fromCompletionStage(accountRepository.findAccountIdByCardId(cardId))
+                        .switchMap(accountId -> Flowable.fromCompletionStage(accountRepository.getAccountSync(accountId)))
+                        .switchMap(account -> Flowable.fromCallable(() -> Arrays.stream(MockData.MOCK_COMMENTS)
+                                .filter(comment -> Objects.equals(comment.cardId(), cardId))
+                                .map(comment -> new PreviewComment(comment, account))
+                                .collect(Collectors.toList())))
+        );
     }
 
     @Override

@@ -25,5 +25,12 @@ public record User(
     }
 
     public record ID(String value) {
+        public ID {
+            for (final var o : new Object[]{
+                   value,
+            }) {
+                Objects.requireNonNull(o);
+            }
+        }
     }
 }

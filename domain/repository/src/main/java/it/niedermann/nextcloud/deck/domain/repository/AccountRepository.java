@@ -6,6 +6,7 @@ import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.Flow;
 
 import it.niedermann.nextcloud.deck.domain.model.Account;
+import it.niedermann.nextcloud.deck.domain.model.Card;
 
 public interface AccountRepository {
 
@@ -13,7 +14,11 @@ public interface AccountRepository {
 
     Flow.Publisher<Account> getAccount(Account.ID id);
 
+    CompletableFuture<Account> getAccountSync(Account.ID id);
+
     CompletableFuture<Account.ID> getAnyAccount();
+
+    CompletableFuture<Account.ID> findAccountIdByCardId(Card.ID cardId);
 
     CompletableFuture<Account.ID> findAccountId(String accountName);
 
