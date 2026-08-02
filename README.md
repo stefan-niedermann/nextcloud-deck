@@ -5,7 +5,16 @@
 [![GitHub stars](https://img.shields.io/github/stars/stefan-niedermann/nextcloud-deck.svg)](https://github.com/stefan-niedermann/nextcloud-deck/stargazers)
 [![License: GPL v3](https://img.shields.io/badge/License-GPL%20v3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
 
-An Android client for [Nextcloud Deck App](https://github.com/nextcloud/deck/).
+A set of clients for [Nextcloud Deck App](https://github.com/nextcloud/deck/).
+
+## 🚀 Features
+* Multiple accounts 👥
+* Works offline 🔌
+* Manage cards, lists and boards 📝
+* Manage tags 🏷
+* Supports attachments 📎, activities ⚡ & comments 💬
+* Dark mode 🌙
+* Translated in many languages 🌎
 
 ## ▶️ Access
 
@@ -31,15 +40,6 @@ An Android client for [Nextcloud Deck App](https://github.com/nextcloud/deck/).
 | --- | --- |
 | ![Screenshot of list view](/fastlane/metadata/android/en-US/images/phoneScreenshots/2.png) | ![Screenshot of card](/fastlane/metadata/android/en-US/images/phoneScreenshots/5.png) |
 
-## 🚀 Features
-* Multiple accounts 👥
-* Works offline 🔌
-* Manage cards, lists and boards 📝
-* Manage tags 🏷
-* Supports attachments 📎, activities ⚡ & comments 💬
-* Dark mode 🌙
-* Translated in many languages 🌎
-
 ## 👪 Join the team
 * Test the app with different devices
 * Report issues in the [issue tracker](https://github.com/stefan-niedermann/nextcloud-deck/issues)
@@ -47,7 +47,6 @@ An Android client for [Nextcloud Deck App](https://github.com/nextcloud/deck/).
 * Create a [Pull Request](https://opensource.guide/how-to-contribute/#opening-a-pull-request)
 * Help increasing the test coverage by contributing unit tests
 * Translate the app on [Transifex](https://app.transifex.com/nextcloud/nextcloud/android-deck/)
-* Send me a bottle of your favorite beer :beers: :wink:
 
 ## 🔗 Requirements
 * [Nextcloud](https://nextcloud.com/) instance running
