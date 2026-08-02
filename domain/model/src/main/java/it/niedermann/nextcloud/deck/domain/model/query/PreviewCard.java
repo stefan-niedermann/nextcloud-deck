@@ -1,7 +1,7 @@
 package it.niedermann.nextcloud.deck.domain.model.query;
 
 import java.io.Serializable;
-import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
 import java.util.Objects;
 import java.util.Set;
 
@@ -21,7 +21,7 @@ public record PreviewCard(
         boolean assignedToMe,
         int checkboxDoneCount,
         int checkboxTotalCount,
-        LocalDateTime dueDate,
+        OffsetDateTime dueDate,
         Color color
 ) implements Serializable {
 
@@ -44,9 +44,5 @@ public record PreviewCard(
             Objects.requireNonNull(title);
             Objects.requireNonNull(color);
         }
-    }
-
-    public int labelCount() {
-        return labels().size();
     }
 }

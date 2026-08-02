@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "6078e01b43f4a2e10a0ed193d7991a06",
+    "identityHash": "49b1281332d276c3403d7ed91cca349b",
     "entities": [
       {
         "tableName": "Account",
@@ -45,11 +45,1872 @@
             "id"
           ]
         }
+      },
+      {
+        "tableName": "Activity",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`localId` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `accountId` INTEGER NOT NULL, `remoteId` INTEGER, `status` INTEGER NOT NULL, `lastModified` TEXT, `lastModifiedLocal` TEXT, `etag` TEXT, `cardId` INTEGER NOT NULL, `subject` TEXT NOT NULL, `type` INTEGER NOT NULL, `actorDisplayName` TEXT, `createdAt` TEXT, FOREIGN KEY(`cardId`) REFERENCES `Card`(`localId`) ON UPDATE NO ACTION ON DELETE CASCADE , FOREIGN KEY(`accountId`) REFERENCES `Account`(`id`) ON UPDATE NO ACTION ON DELETE CASCADE )",
+        "fields": [
+          {
+            "fieldPath": "localId",
+            "columnName": "localId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "accountId",
+            "columnName": "accountId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "remoteId",
+            "columnName": "remoteId",
+            "affinity": "INTEGER"
+          },
+          {
+            "fieldPath": "status",
+            "columnName": "status",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "lastModified",
+            "columnName": "lastModified",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "lastModifiedLocal",
+            "columnName": "lastModifiedLocal",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "etag",
+            "columnName": "etag",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "cardId",
+            "columnName": "cardId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "subject",
+            "columnName": "subject",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "type",
+            "columnName": "type",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "actorDisplayName",
+            "columnName": "actorDisplayName",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "createdAt",
+            "columnName": "createdAt",
+            "affinity": "TEXT"
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": true,
+          "columnNames": [
+            "localId"
+          ]
+        },
+        "indices": [
+          {
+            "name": "index_Activity_accountId",
+            "unique": false,
+            "columnNames": [
+              "accountId"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_Activity_accountId` ON `${TABLE_NAME}` (`accountId`)"
+          },
+          {
+            "name": "index_Activity_remoteId",
+            "unique": false,
+            "columnNames": [
+              "remoteId"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_Activity_remoteId` ON `${TABLE_NAME}` (`remoteId`)"
+          },
+          {
+            "name": "index_Activity_lastModifiedLocal",
+            "unique": false,
+            "columnNames": [
+              "lastModifiedLocal"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_Activity_lastModifiedLocal` ON `${TABLE_NAME}` (`lastModifiedLocal`)"
+          },
+          {
+            "name": "index_Activity_accountId_remoteId",
+            "unique": true,
+            "columnNames": [
+              "accountId",
+              "remoteId"
+            ],
+            "orders": [],
+            "createSql": "CREATE UNIQUE INDEX IF NOT EXISTS `index_Activity_accountId_remoteId` ON `${TABLE_NAME}` (`accountId`, `remoteId`)"
+          },
+          {
+            "name": "index_Activity_cardId",
+            "unique": false,
+            "columnNames": [
+              "cardId"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_Activity_cardId` ON `${TABLE_NAME}` (`cardId`)"
+          }
+        ],
+        "foreignKeys": [
+          {
+            "table": "Card",
+            "onDelete": "CASCADE",
+            "onUpdate": "NO ACTION",
+            "columns": [
+              "cardId"
+            ],
+            "referencedColumns": [
+              "localId"
+            ]
+          },
+          {
+            "table": "Account",
+            "onDelete": "CASCADE",
+            "onUpdate": "NO ACTION",
+            "columns": [
+              "accountId"
+            ],
+            "referencedColumns": [
+              "id"
+            ]
+          }
+        ]
+      },
+      {
+        "tableName": "Attachment",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`localId` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `accountId` INTEGER NOT NULL, `remoteId` INTEGER, `status` INTEGER NOT NULL, `lastModified` TEXT, `lastModifiedLocal` TEXT, `etag` TEXT, `cardId` INTEGER NOT NULL, `type` TEXT NOT NULL, `data` TEXT, `createdAt` TEXT, `createdBy` TEXT, `deletedAt` TEXT, `filesize` INTEGER NOT NULL, `mimetype` TEXT, `dirname` TEXT, `basename` TEXT, `extension` TEXT, `filename` TEXT, `localPath` TEXT, `fileId` INTEGER, FOREIGN KEY(`cardId`) REFERENCES `Card`(`localId`) ON UPDATE NO ACTION ON DELETE CASCADE , FOREIGN KEY(`accountId`) REFERENCES `Account`(`id`) ON UPDATE NO ACTION ON DELETE CASCADE )",
+        "fields": [
+          {
+            "fieldPath": "localId",
+            "columnName": "localId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "accountId",
+            "columnName": "accountId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "remoteId",
+            "columnName": "remoteId",
+            "affinity": "INTEGER"
+          },
+          {
+            "fieldPath": "status",
+            "columnName": "status",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "lastModified",
+            "columnName": "lastModified",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "lastModifiedLocal",
+            "columnName": "lastModifiedLocal",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "etag",
+            "columnName": "etag",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "cardId",
+            "columnName": "cardId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "type",
+            "columnName": "type",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "data",
+            "columnName": "data",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "createdAt",
+            "columnName": "createdAt",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "createdBy",
+            "columnName": "createdBy",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "deletedAt",
+            "columnName": "deletedAt",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "filesize",
+            "columnName": "filesize",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "mimetype",
+            "columnName": "mimetype",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "dirname",
+            "columnName": "dirname",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "basename",
+            "columnName": "basename",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "extension",
+            "columnName": "extension",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "filename",
+            "columnName": "filename",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "localPath",
+            "columnName": "localPath",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "fileId",
+            "columnName": "fileId",
+            "affinity": "INTEGER"
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": true,
+          "columnNames": [
+            "localId"
+          ]
+        },
+        "indices": [
+          {
+            "name": "index_Attachment_accountId",
+            "unique": false,
+            "columnNames": [
+              "accountId"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_Attachment_accountId` ON `${TABLE_NAME}` (`accountId`)"
+          },
+          {
+            "name": "index_Attachment_remoteId",
+            "unique": false,
+            "columnNames": [
+              "remoteId"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_Attachment_remoteId` ON `${TABLE_NAME}` (`remoteId`)"
+          },
+          {
+            "name": "index_Attachment_lastModifiedLocal",
+            "unique": false,
+            "columnNames": [
+              "lastModifiedLocal"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_Attachment_lastModifiedLocal` ON `${TABLE_NAME}` (`lastModifiedLocal`)"
+          },
+          {
+            "name": "index_Attachment_accountId_remoteId",
+            "unique": true,
+            "columnNames": [
+              "accountId",
+              "remoteId"
+            ],
+            "orders": [],
+            "createSql": "CREATE UNIQUE INDEX IF NOT EXISTS `index_Attachment_accountId_remoteId` ON `${TABLE_NAME}` (`accountId`, `remoteId`)"
+          },
+          {
+            "name": "index_Attachment_cardId",
+            "unique": false,
+            "columnNames": [
+              "cardId"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_Attachment_cardId` ON `${TABLE_NAME}` (`cardId`)"
+          }
+        ],
+        "foreignKeys": [
+          {
+            "table": "Card",
+            "onDelete": "CASCADE",
+            "onUpdate": "NO ACTION",
+            "columns": [
+              "cardId"
+            ],
+            "referencedColumns": [
+              "localId"
+            ]
+          },
+          {
+            "table": "Account",
+            "onDelete": "CASCADE",
+            "onUpdate": "NO ACTION",
+            "columns": [
+              "accountId"
+            ],
+            "referencedColumns": [
+              "id"
+            ]
+          }
+        ]
+      },
+      {
+        "tableName": "Board",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`localId` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `accountId` INTEGER NOT NULL, `remoteId` INTEGER, `status` INTEGER NOT NULL, `lastModified` TEXT, `lastModifiedLocal` TEXT, `etag` TEXT, `title` TEXT NOT NULL, `ownerId` INTEGER, `color` INTEGER, `archived` INTEGER NOT NULL, `shared` INTEGER NOT NULL, `deletedAt` TEXT, `permissionRead` INTEGER NOT NULL, `permissionEdit` INTEGER NOT NULL, `permissionManage` INTEGER NOT NULL, `permissionShare` INTEGER NOT NULL, FOREIGN KEY(`ownerId`) REFERENCES `User`(`localId`) ON UPDATE NO ACTION ON DELETE CASCADE , FOREIGN KEY(`accountId`) REFERENCES `Account`(`id`) ON UPDATE NO ACTION ON DELETE CASCADE )",
+        "fields": [
+          {
+            "fieldPath": "localId",
+            "columnName": "localId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "accountId",
+            "columnName": "accountId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "remoteId",
+            "columnName": "remoteId",
+            "affinity": "INTEGER"
+          },
+          {
+            "fieldPath": "status",
+            "columnName": "status",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "lastModified",
+            "columnName": "lastModified",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "lastModifiedLocal",
+            "columnName": "lastModifiedLocal",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "etag",
+            "columnName": "etag",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "title",
+            "columnName": "title",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "ownerId",
+            "columnName": "ownerId",
+            "affinity": "INTEGER"
+          },
+          {
+            "fieldPath": "color",
+            "columnName": "color",
+            "affinity": "INTEGER"
+          },
+          {
+            "fieldPath": "archived",
+            "columnName": "archived",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "shared",
+            "columnName": "shared",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "deletedAt",
+            "columnName": "deletedAt",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "permissionRead",
+            "columnName": "permissionRead",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "permissionEdit",
+            "columnName": "permissionEdit",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "permissionManage",
+            "columnName": "permissionManage",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "permissionShare",
+            "columnName": "permissionShare",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": true,
+          "columnNames": [
+            "localId"
+          ]
+        },
+        "indices": [
+          {
+            "name": "index_Board_accountId",
+            "unique": false,
+            "columnNames": [
+              "accountId"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_Board_accountId` ON `${TABLE_NAME}` (`accountId`)"
+          },
+          {
+            "name": "index_Board_remoteId",
+            "unique": false,
+            "columnNames": [
+              "remoteId"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_Board_remoteId` ON `${TABLE_NAME}` (`remoteId`)"
+          },
+          {
+            "name": "index_Board_lastModifiedLocal",
+            "unique": false,
+            "columnNames": [
+              "lastModifiedLocal"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_Board_lastModifiedLocal` ON `${TABLE_NAME}` (`lastModifiedLocal`)"
+          },
+          {
+            "name": "index_Board_accountId_remoteId",
+            "unique": true,
+            "columnNames": [
+              "accountId",
+              "remoteId"
+            ],
+            "orders": [],
+            "createSql": "CREATE UNIQUE INDEX IF NOT EXISTS `index_Board_accountId_remoteId` ON `${TABLE_NAME}` (`accountId`, `remoteId`)"
+          },
+          {
+            "name": "index_Board_ownerId",
+            "unique": false,
+            "columnNames": [
+              "ownerId"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_Board_ownerId` ON `${TABLE_NAME}` (`ownerId`)"
+          }
+        ],
+        "foreignKeys": [
+          {
+            "table": "User",
+            "onDelete": "CASCADE",
+            "onUpdate": "NO ACTION",
+            "columns": [
+              "ownerId"
+            ],
+            "referencedColumns": [
+              "localId"
+            ]
+          },
+          {
+            "table": "Account",
+            "onDelete": "CASCADE",
+            "onUpdate": "NO ACTION",
+            "columns": [
+              "accountId"
+            ],
+            "referencedColumns": [
+              "id"
+            ]
+          }
+        ]
+      },
+      {
+        "tableName": "Card",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`localId` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `accountId` INTEGER NOT NULL, `remoteId` INTEGER, `status` INTEGER NOT NULL, `lastModified` TEXT, `lastModifiedLocal` TEXT, `etag` TEXT, `title` TEXT NOT NULL, `description` TEXT, `columnId` INTEGER NOT NULL, `type` TEXT, `createdAt` TEXT, `deletedAt` TEXT, `done` TEXT, `attachmentCount` INTEGER NOT NULL, `userId` INTEGER, `order` INTEGER NOT NULL, `archived` INTEGER NOT NULL, `dueDate` TEXT, `notified` INTEGER NOT NULL, `overdue` INTEGER NOT NULL, `commentsUnread` INTEGER NOT NULL, FOREIGN KEY(`columnId`) REFERENCES `Column`(`localId`) ON UPDATE NO ACTION ON DELETE CASCADE , FOREIGN KEY(`accountId`) REFERENCES `Account`(`id`) ON UPDATE NO ACTION ON DELETE CASCADE )",
+        "fields": [
+          {
+            "fieldPath": "localId",
+            "columnName": "localId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "accountId",
+            "columnName": "accountId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "remoteId",
+            "columnName": "remoteId",
+            "affinity": "INTEGER"
+          },
+          {
+            "fieldPath": "status",
+            "columnName": "status",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "lastModified",
+            "columnName": "lastModified",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "lastModifiedLocal",
+            "columnName": "lastModifiedLocal",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "etag",
+            "columnName": "etag",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "title",
+            "columnName": "title",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "description",
+            "columnName": "description",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "columnId",
+            "columnName": "columnId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "type",
+            "columnName": "type",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "createdAt",
+            "columnName": "createdAt",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "deletedAt",
+            "columnName": "deletedAt",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "done",
+            "columnName": "done",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "attachmentCount",
+            "columnName": "attachmentCount",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "userId",
+            "columnName": "userId",
+            "affinity": "INTEGER"
+          },
+          {
+            "fieldPath": "order",
+            "columnName": "order",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "archived",
+            "columnName": "archived",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "dueDate",
+            "columnName": "dueDate",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "notified",
+            "columnName": "notified",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "overdue",
+            "columnName": "overdue",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "commentsUnread",
+            "columnName": "commentsUnread",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": true,
+          "columnNames": [
+            "localId"
+          ]
+        },
+        "indices": [
+          {
+            "name": "index_Card_accountId",
+            "unique": false,
+            "columnNames": [
+              "accountId"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_Card_accountId` ON `${TABLE_NAME}` (`accountId`)"
+          },
+          {
+            "name": "index_Card_remoteId",
+            "unique": false,
+            "columnNames": [
+              "remoteId"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_Card_remoteId` ON `${TABLE_NAME}` (`remoteId`)"
+          },
+          {
+            "name": "index_Card_lastModifiedLocal",
+            "unique": false,
+            "columnNames": [
+              "lastModifiedLocal"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_Card_lastModifiedLocal` ON `${TABLE_NAME}` (`lastModifiedLocal`)"
+          },
+          {
+            "name": "index_Card_accountId_remoteId",
+            "unique": true,
+            "columnNames": [
+              "accountId",
+              "remoteId"
+            ],
+            "orders": [],
+            "createSql": "CREATE UNIQUE INDEX IF NOT EXISTS `index_Card_accountId_remoteId` ON `${TABLE_NAME}` (`accountId`, `remoteId`)"
+          },
+          {
+            "name": "index_Card_columnId",
+            "unique": false,
+            "columnNames": [
+              "columnId"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_Card_columnId` ON `${TABLE_NAME}` (`columnId`)"
+          }
+        ],
+        "foreignKeys": [
+          {
+            "table": "Column",
+            "onDelete": "CASCADE",
+            "onUpdate": "NO ACTION",
+            "columns": [
+              "columnId"
+            ],
+            "referencedColumns": [
+              "localId"
+            ]
+          },
+          {
+            "table": "Account",
+            "onDelete": "CASCADE",
+            "onUpdate": "NO ACTION",
+            "columns": [
+              "accountId"
+            ],
+            "referencedColumns": [
+              "id"
+            ]
+          }
+        ]
+      },
+      {
+        "tableName": "Column",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`localId` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `accountId` INTEGER NOT NULL, `remoteId` INTEGER, `status` INTEGER NOT NULL, `lastModified` TEXT, `lastModifiedLocal` TEXT, `etag` TEXT, `boardId` INTEGER NOT NULL, `title` TEXT NOT NULL, `order` INTEGER NOT NULL, `archived` INTEGER NOT NULL, `deletedAt` TEXT, FOREIGN KEY(`boardId`) REFERENCES `Board`(`localId`) ON UPDATE NO ACTION ON DELETE CASCADE , FOREIGN KEY(`accountId`) REFERENCES `Account`(`id`) ON UPDATE NO ACTION ON DELETE CASCADE )",
+        "fields": [
+          {
+            "fieldPath": "localId",
+            "columnName": "localId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "accountId",
+            "columnName": "accountId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "remoteId",
+            "columnName": "remoteId",
+            "affinity": "INTEGER"
+          },
+          {
+            "fieldPath": "status",
+            "columnName": "status",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "lastModified",
+            "columnName": "lastModified",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "lastModifiedLocal",
+            "columnName": "lastModifiedLocal",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "etag",
+            "columnName": "etag",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "boardId",
+            "columnName": "boardId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "title",
+            "columnName": "title",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "order",
+            "columnName": "order",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "archived",
+            "columnName": "archived",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "deletedAt",
+            "columnName": "deletedAt",
+            "affinity": "TEXT"
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": true,
+          "columnNames": [
+            "localId"
+          ]
+        },
+        "indices": [
+          {
+            "name": "index_Column_accountId",
+            "unique": false,
+            "columnNames": [
+              "accountId"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_Column_accountId` ON `${TABLE_NAME}` (`accountId`)"
+          },
+          {
+            "name": "index_Column_remoteId",
+            "unique": false,
+            "columnNames": [
+              "remoteId"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_Column_remoteId` ON `${TABLE_NAME}` (`remoteId`)"
+          },
+          {
+            "name": "index_Column_lastModifiedLocal",
+            "unique": false,
+            "columnNames": [
+              "lastModifiedLocal"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_Column_lastModifiedLocal` ON `${TABLE_NAME}` (`lastModifiedLocal`)"
+          },
+          {
+            "name": "index_Column_accountId_remoteId",
+            "unique": true,
+            "columnNames": [
+              "accountId",
+              "remoteId"
+            ],
+            "orders": [],
+            "createSql": "CREATE UNIQUE INDEX IF NOT EXISTS `index_Column_accountId_remoteId` ON `${TABLE_NAME}` (`accountId`, `remoteId`)"
+          },
+          {
+            "name": "index_Column_boardId",
+            "unique": false,
+            "columnNames": [
+              "boardId"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_Column_boardId` ON `${TABLE_NAME}` (`boardId`)"
+          }
+        ],
+        "foreignKeys": [
+          {
+            "table": "Board",
+            "onDelete": "CASCADE",
+            "onUpdate": "NO ACTION",
+            "columns": [
+              "boardId"
+            ],
+            "referencedColumns": [
+              "localId"
+            ]
+          },
+          {
+            "table": "Account",
+            "onDelete": "CASCADE",
+            "onUpdate": "NO ACTION",
+            "columns": [
+              "accountId"
+            ],
+            "referencedColumns": [
+              "id"
+            ]
+          }
+        ]
+      },
+      {
+        "tableName": "Comment",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`localId` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `accountId` INTEGER NOT NULL, `remoteId` INTEGER, `status` INTEGER NOT NULL, `lastModified` TEXT, `lastModifiedLocal` TEXT, `etag` TEXT, `cardId` INTEGER NOT NULL, `actorType` TEXT, `actorId` TEXT, `actorDisplayName` TEXT, `message` TEXT NOT NULL, `parentId` INTEGER, `createdAt` TEXT, FOREIGN KEY(`cardId`) REFERENCES `Card`(`localId`) ON UPDATE NO ACTION ON DELETE CASCADE , FOREIGN KEY(`parentId`) REFERENCES `Comment`(`localId`) ON UPDATE NO ACTION ON DELETE CASCADE , FOREIGN KEY(`accountId`) REFERENCES `Account`(`id`) ON UPDATE NO ACTION ON DELETE CASCADE )",
+        "fields": [
+          {
+            "fieldPath": "localId",
+            "columnName": "localId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "accountId",
+            "columnName": "accountId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "remoteId",
+            "columnName": "remoteId",
+            "affinity": "INTEGER"
+          },
+          {
+            "fieldPath": "status",
+            "columnName": "status",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "lastModified",
+            "columnName": "lastModified",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "lastModifiedLocal",
+            "columnName": "lastModifiedLocal",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "etag",
+            "columnName": "etag",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "cardId",
+            "columnName": "cardId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "actorType",
+            "columnName": "actorType",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "actorId",
+            "columnName": "actorId",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "actorDisplayName",
+            "columnName": "actorDisplayName",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "message",
+            "columnName": "message",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "parentId",
+            "columnName": "parentId",
+            "affinity": "INTEGER"
+          },
+          {
+            "fieldPath": "createdAt",
+            "columnName": "createdAt",
+            "affinity": "TEXT"
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": true,
+          "columnNames": [
+            "localId"
+          ]
+        },
+        "indices": [
+          {
+            "name": "index_Comment_accountId",
+            "unique": false,
+            "columnNames": [
+              "accountId"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_Comment_accountId` ON `${TABLE_NAME}` (`accountId`)"
+          },
+          {
+            "name": "index_Comment_remoteId",
+            "unique": false,
+            "columnNames": [
+              "remoteId"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_Comment_remoteId` ON `${TABLE_NAME}` (`remoteId`)"
+          },
+          {
+            "name": "index_Comment_lastModifiedLocal",
+            "unique": false,
+            "columnNames": [
+              "lastModifiedLocal"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_Comment_lastModifiedLocal` ON `${TABLE_NAME}` (`lastModifiedLocal`)"
+          },
+          {
+            "name": "index_Comment_accountId_remoteId",
+            "unique": true,
+            "columnNames": [
+              "accountId",
+              "remoteId"
+            ],
+            "orders": [],
+            "createSql": "CREATE UNIQUE INDEX IF NOT EXISTS `index_Comment_accountId_remoteId` ON `${TABLE_NAME}` (`accountId`, `remoteId`)"
+          },
+          {
+            "name": "index_Comment_cardId",
+            "unique": false,
+            "columnNames": [
+              "cardId"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_Comment_cardId` ON `${TABLE_NAME}` (`cardId`)"
+          },
+          {
+            "name": "index_Comment_parentId",
+            "unique": false,
+            "columnNames": [
+              "parentId"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_Comment_parentId` ON `${TABLE_NAME}` (`parentId`)"
+          }
+        ],
+        "foreignKeys": [
+          {
+            "table": "Card",
+            "onDelete": "CASCADE",
+            "onUpdate": "NO ACTION",
+            "columns": [
+              "cardId"
+            ],
+            "referencedColumns": [
+              "localId"
+            ]
+          },
+          {
+            "table": "Comment",
+            "onDelete": "CASCADE",
+            "onUpdate": "NO ACTION",
+            "columns": [
+              "parentId"
+            ],
+            "referencedColumns": [
+              "localId"
+            ]
+          },
+          {
+            "table": "Account",
+            "onDelete": "CASCADE",
+            "onUpdate": "NO ACTION",
+            "columns": [
+              "accountId"
+            ],
+            "referencedColumns": [
+              "id"
+            ]
+          }
+        ]
+      },
+      {
+        "tableName": "Label",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`localId` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `accountId` INTEGER NOT NULL, `remoteId` INTEGER, `status` INTEGER NOT NULL, `lastModified` TEXT, `lastModifiedLocal` TEXT, `etag` TEXT, `boardId` INTEGER NOT NULL, `title` TEXT NOT NULL, `color` INTEGER, FOREIGN KEY(`boardId`) REFERENCES `Board`(`localId`) ON UPDATE NO ACTION ON DELETE CASCADE , FOREIGN KEY(`accountId`) REFERENCES `Account`(`id`) ON UPDATE NO ACTION ON DELETE CASCADE )",
+        "fields": [
+          {
+            "fieldPath": "localId",
+            "columnName": "localId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "accountId",
+            "columnName": "accountId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "remoteId",
+            "columnName": "remoteId",
+            "affinity": "INTEGER"
+          },
+          {
+            "fieldPath": "status",
+            "columnName": "status",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "lastModified",
+            "columnName": "lastModified",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "lastModifiedLocal",
+            "columnName": "lastModifiedLocal",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "etag",
+            "columnName": "etag",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "boardId",
+            "columnName": "boardId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "title",
+            "columnName": "title",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "color",
+            "columnName": "color",
+            "affinity": "INTEGER"
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": true,
+          "columnNames": [
+            "localId"
+          ]
+        },
+        "indices": [
+          {
+            "name": "index_Label_accountId",
+            "unique": false,
+            "columnNames": [
+              "accountId"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_Label_accountId` ON `${TABLE_NAME}` (`accountId`)"
+          },
+          {
+            "name": "index_Label_remoteId",
+            "unique": false,
+            "columnNames": [
+              "remoteId"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_Label_remoteId` ON `${TABLE_NAME}` (`remoteId`)"
+          },
+          {
+            "name": "index_Label_lastModifiedLocal",
+            "unique": false,
+            "columnNames": [
+              "lastModifiedLocal"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_Label_lastModifiedLocal` ON `${TABLE_NAME}` (`lastModifiedLocal`)"
+          },
+          {
+            "name": "index_Label_accountId_remoteId",
+            "unique": true,
+            "columnNames": [
+              "accountId",
+              "remoteId"
+            ],
+            "orders": [],
+            "createSql": "CREATE UNIQUE INDEX IF NOT EXISTS `index_Label_accountId_remoteId` ON `${TABLE_NAME}` (`accountId`, `remoteId`)"
+          },
+          {
+            "name": "index_Label_boardId",
+            "unique": false,
+            "columnNames": [
+              "boardId"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_Label_boardId` ON `${TABLE_NAME}` (`boardId`)"
+          }
+        ],
+        "foreignKeys": [
+          {
+            "table": "Board",
+            "onDelete": "CASCADE",
+            "onUpdate": "NO ACTION",
+            "columns": [
+              "boardId"
+            ],
+            "referencedColumns": [
+              "localId"
+            ]
+          },
+          {
+            "table": "Account",
+            "onDelete": "CASCADE",
+            "onUpdate": "NO ACTION",
+            "columns": [
+              "accountId"
+            ],
+            "referencedColumns": [
+              "id"
+            ]
+          }
+        ]
+      },
+      {
+        "tableName": "User",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`localId` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `accountId` INTEGER NOT NULL, `remoteId` TEXT, `status` INTEGER NOT NULL, `lastModified` TEXT, `lastModifiedLocal` TEXT, `etag` TEXT, `displayName` TEXT NOT NULL, FOREIGN KEY(`accountId`) REFERENCES `Account`(`id`) ON UPDATE NO ACTION ON DELETE CASCADE )",
+        "fields": [
+          {
+            "fieldPath": "localId",
+            "columnName": "localId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "accountId",
+            "columnName": "accountId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "remoteId",
+            "columnName": "remoteId",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "status",
+            "columnName": "status",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "lastModified",
+            "columnName": "lastModified",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "lastModifiedLocal",
+            "columnName": "lastModifiedLocal",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "etag",
+            "columnName": "etag",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "displayName",
+            "columnName": "displayName",
+            "affinity": "TEXT",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": true,
+          "columnNames": [
+            "localId"
+          ]
+        },
+        "indices": [
+          {
+            "name": "index_User_accountId",
+            "unique": false,
+            "columnNames": [
+              "accountId"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_User_accountId` ON `${TABLE_NAME}` (`accountId`)"
+          },
+          {
+            "name": "index_User_remoteId",
+            "unique": false,
+            "columnNames": [
+              "remoteId"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_User_remoteId` ON `${TABLE_NAME}` (`remoteId`)"
+          },
+          {
+            "name": "index_User_lastModifiedLocal",
+            "unique": false,
+            "columnNames": [
+              "lastModifiedLocal"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_User_lastModifiedLocal` ON `${TABLE_NAME}` (`lastModifiedLocal`)"
+          },
+          {
+            "name": "index_User_accountId_remoteId",
+            "unique": true,
+            "columnNames": [
+              "accountId",
+              "remoteId"
+            ],
+            "orders": [],
+            "createSql": "CREATE UNIQUE INDEX IF NOT EXISTS `index_User_accountId_remoteId` ON `${TABLE_NAME}` (`accountId`, `remoteId`)"
+          }
+        ],
+        "foreignKeys": [
+          {
+            "table": "Account",
+            "onDelete": "CASCADE",
+            "onUpdate": "NO ACTION",
+            "columns": [
+              "accountId"
+            ],
+            "referencedColumns": [
+              "id"
+            ]
+          }
+        ]
+      },
+      {
+        "tableName": "AccessControl",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`localId` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `accountId` INTEGER NOT NULL, `remoteId` INTEGER, `status` INTEGER NOT NULL, `lastModified` TEXT, `lastModifiedLocal` TEXT, `etag` TEXT, `type` INTEGER, `boardId` INTEGER NOT NULL, `owner` INTEGER NOT NULL, `permissionEdit` INTEGER NOT NULL, `permissionShare` INTEGER NOT NULL, `permissionManage` INTEGER NOT NULL, `userId` INTEGER, FOREIGN KEY(`boardId`) REFERENCES `Board`(`localId`) ON UPDATE NO ACTION ON DELETE CASCADE , FOREIGN KEY(`accountId`) REFERENCES `Account`(`id`) ON UPDATE NO ACTION ON DELETE CASCADE )",
+        "fields": [
+          {
+            "fieldPath": "localId",
+            "columnName": "localId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "accountId",
+            "columnName": "accountId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "remoteId",
+            "columnName": "remoteId",
+            "affinity": "INTEGER"
+          },
+          {
+            "fieldPath": "status",
+            "columnName": "status",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "lastModified",
+            "columnName": "lastModified",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "lastModifiedLocal",
+            "columnName": "lastModifiedLocal",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "etag",
+            "columnName": "etag",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "type",
+            "columnName": "type",
+            "affinity": "INTEGER"
+          },
+          {
+            "fieldPath": "boardId",
+            "columnName": "boardId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "owner",
+            "columnName": "owner",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "permissionEdit",
+            "columnName": "permissionEdit",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "permissionShare",
+            "columnName": "permissionShare",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "permissionManage",
+            "columnName": "permissionManage",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "userId",
+            "columnName": "userId",
+            "affinity": "INTEGER"
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": true,
+          "columnNames": [
+            "localId"
+          ]
+        },
+        "indices": [
+          {
+            "name": "index_AccessControl_accountId",
+            "unique": false,
+            "columnNames": [
+              "accountId"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_AccessControl_accountId` ON `${TABLE_NAME}` (`accountId`)"
+          },
+          {
+            "name": "index_AccessControl_remoteId",
+            "unique": false,
+            "columnNames": [
+              "remoteId"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_AccessControl_remoteId` ON `${TABLE_NAME}` (`remoteId`)"
+          },
+          {
+            "name": "index_AccessControl_lastModifiedLocal",
+            "unique": false,
+            "columnNames": [
+              "lastModifiedLocal"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_AccessControl_lastModifiedLocal` ON `${TABLE_NAME}` (`lastModifiedLocal`)"
+          },
+          {
+            "name": "index_AccessControl_accountId_remoteId",
+            "unique": true,
+            "columnNames": [
+              "accountId",
+              "remoteId"
+            ],
+            "orders": [],
+            "createSql": "CREATE UNIQUE INDEX IF NOT EXISTS `index_AccessControl_accountId_remoteId` ON `${TABLE_NAME}` (`accountId`, `remoteId`)"
+          },
+          {
+            "name": "index_AccessControl_boardId",
+            "unique": false,
+            "columnNames": [
+              "boardId"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_AccessControl_boardId` ON `${TABLE_NAME}` (`boardId`)"
+          }
+        ],
+        "foreignKeys": [
+          {
+            "table": "Board",
+            "onDelete": "CASCADE",
+            "onUpdate": "NO ACTION",
+            "columns": [
+              "boardId"
+            ],
+            "referencedColumns": [
+              "localId"
+            ]
+          },
+          {
+            "table": "Account",
+            "onDelete": "CASCADE",
+            "onUpdate": "NO ACTION",
+            "columns": [
+              "accountId"
+            ],
+            "referencedColumns": [
+              "id"
+            ]
+          }
+        ]
+      },
+      {
+        "tableName": "Permission",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL)",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": true,
+          "columnNames": [
+            "id"
+          ]
+        }
+      },
+      {
+        "tableName": "JoinBoardWithLabel",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`boardId` INTEGER NOT NULL, `labelId` INTEGER NOT NULL, `status` INTEGER NOT NULL, PRIMARY KEY(`boardId`, `labelId`), FOREIGN KEY(`boardId`) REFERENCES `Board`(`localId`) ON UPDATE NO ACTION ON DELETE CASCADE , FOREIGN KEY(`labelId`) REFERENCES `Label`(`localId`) ON UPDATE NO ACTION ON DELETE CASCADE )",
+        "fields": [
+          {
+            "fieldPath": "boardId",
+            "columnName": "boardId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "labelId",
+            "columnName": "labelId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "status",
+            "columnName": "status",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": false,
+          "columnNames": [
+            "boardId",
+            "labelId"
+          ]
+        },
+        "indices": [
+          {
+            "name": "index_JoinBoardWithLabel_boardId",
+            "unique": false,
+            "columnNames": [
+              "boardId"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_JoinBoardWithLabel_boardId` ON `${TABLE_NAME}` (`boardId`)"
+          },
+          {
+            "name": "index_JoinBoardWithLabel_labelId",
+            "unique": false,
+            "columnNames": [
+              "labelId"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_JoinBoardWithLabel_labelId` ON `${TABLE_NAME}` (`labelId`)"
+          }
+        ],
+        "foreignKeys": [
+          {
+            "table": "Board",
+            "onDelete": "CASCADE",
+            "onUpdate": "NO ACTION",
+            "columns": [
+              "boardId"
+            ],
+            "referencedColumns": [
+              "localId"
+            ]
+          },
+          {
+            "table": "Label",
+            "onDelete": "CASCADE",
+            "onUpdate": "NO ACTION",
+            "columns": [
+              "labelId"
+            ],
+            "referencedColumns": [
+              "localId"
+            ]
+          }
+        ]
+      },
+      {
+        "tableName": "JoinBoardWithPermission",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`boardId` INTEGER NOT NULL, `permissionId` INTEGER NOT NULL, `status` INTEGER NOT NULL, PRIMARY KEY(`boardId`, `permissionId`), FOREIGN KEY(`boardId`) REFERENCES `Board`(`localId`) ON UPDATE NO ACTION ON DELETE CASCADE , FOREIGN KEY(`permissionId`) REFERENCES `Permission`(`id`) ON UPDATE NO ACTION ON DELETE CASCADE )",
+        "fields": [
+          {
+            "fieldPath": "boardId",
+            "columnName": "boardId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "permissionId",
+            "columnName": "permissionId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "status",
+            "columnName": "status",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": false,
+          "columnNames": [
+            "boardId",
+            "permissionId"
+          ]
+        },
+        "indices": [
+          {
+            "name": "index_JoinBoardWithPermission_boardId",
+            "unique": false,
+            "columnNames": [
+              "boardId"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_JoinBoardWithPermission_boardId` ON `${TABLE_NAME}` (`boardId`)"
+          },
+          {
+            "name": "index_JoinBoardWithPermission_permissionId",
+            "unique": false,
+            "columnNames": [
+              "permissionId"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_JoinBoardWithPermission_permissionId` ON `${TABLE_NAME}` (`permissionId`)"
+          }
+        ],
+        "foreignKeys": [
+          {
+            "table": "Board",
+            "onDelete": "CASCADE",
+            "onUpdate": "NO ACTION",
+            "columns": [
+              "boardId"
+            ],
+            "referencedColumns": [
+              "localId"
+            ]
+          },
+          {
+            "table": "Permission",
+            "onDelete": "CASCADE",
+            "onUpdate": "NO ACTION",
+            "columns": [
+              "permissionId"
+            ],
+            "referencedColumns": [
+              "id"
+            ]
+          }
+        ]
+      },
+      {
+        "tableName": "JoinBoardWithUser",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`boardId` INTEGER NOT NULL, `userId` INTEGER NOT NULL, `status` INTEGER NOT NULL, PRIMARY KEY(`boardId`, `userId`), FOREIGN KEY(`boardId`) REFERENCES `Board`(`localId`) ON UPDATE NO ACTION ON DELETE CASCADE , FOREIGN KEY(`userId`) REFERENCES `User`(`localId`) ON UPDATE NO ACTION ON DELETE CASCADE )",
+        "fields": [
+          {
+            "fieldPath": "boardId",
+            "columnName": "boardId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "userId",
+            "columnName": "userId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "status",
+            "columnName": "status",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": false,
+          "columnNames": [
+            "boardId",
+            "userId"
+          ]
+        },
+        "indices": [
+          {
+            "name": "index_JoinBoardWithUser_boardId",
+            "unique": false,
+            "columnNames": [
+              "boardId"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_JoinBoardWithUser_boardId` ON `${TABLE_NAME}` (`boardId`)"
+          },
+          {
+            "name": "index_JoinBoardWithUser_userId",
+            "unique": false,
+            "columnNames": [
+              "userId"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_JoinBoardWithUser_userId` ON `${TABLE_NAME}` (`userId`)"
+          }
+        ],
+        "foreignKeys": [
+          {
+            "table": "Board",
+            "onDelete": "CASCADE",
+            "onUpdate": "NO ACTION",
+            "columns": [
+              "boardId"
+            ],
+            "referencedColumns": [
+              "localId"
+            ]
+          },
+          {
+            "table": "User",
+            "onDelete": "CASCADE",
+            "onUpdate": "NO ACTION",
+            "columns": [
+              "userId"
+            ],
+            "referencedColumns": [
+              "localId"
+            ]
+          }
+        ]
+      },
+      {
+        "tableName": "JoinCardWithLabel",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`cardId` INTEGER NOT NULL, `labelId` INTEGER NOT NULL, `status` INTEGER NOT NULL, PRIMARY KEY(`cardId`, `labelId`), FOREIGN KEY(`cardId`) REFERENCES `Card`(`localId`) ON UPDATE NO ACTION ON DELETE CASCADE , FOREIGN KEY(`labelId`) REFERENCES `Label`(`localId`) ON UPDATE NO ACTION ON DELETE CASCADE )",
+        "fields": [
+          {
+            "fieldPath": "cardId",
+            "columnName": "cardId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "labelId",
+            "columnName": "labelId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "status",
+            "columnName": "status",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": false,
+          "columnNames": [
+            "cardId",
+            "labelId"
+          ]
+        },
+        "indices": [
+          {
+            "name": "index_JoinCardWithLabel_cardId",
+            "unique": false,
+            "columnNames": [
+              "cardId"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_JoinCardWithLabel_cardId` ON `${TABLE_NAME}` (`cardId`)"
+          },
+          {
+            "name": "index_JoinCardWithLabel_labelId",
+            "unique": false,
+            "columnNames": [
+              "labelId"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_JoinCardWithLabel_labelId` ON `${TABLE_NAME}` (`labelId`)"
+          }
+        ],
+        "foreignKeys": [
+          {
+            "table": "Card",
+            "onDelete": "CASCADE",
+            "onUpdate": "NO ACTION",
+            "columns": [
+              "cardId"
+            ],
+            "referencedColumns": [
+              "localId"
+            ]
+          },
+          {
+            "table": "Label",
+            "onDelete": "CASCADE",
+            "onUpdate": "NO ACTION",
+            "columns": [
+              "labelId"
+            ],
+            "referencedColumns": [
+              "localId"
+            ]
+          }
+        ]
+      },
+      {
+        "tableName": "JoinCardWithUser",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`cardId` INTEGER NOT NULL, `userId` INTEGER NOT NULL, `status` INTEGER NOT NULL, PRIMARY KEY(`cardId`, `userId`), FOREIGN KEY(`cardId`) REFERENCES `Card`(`localId`) ON UPDATE NO ACTION ON DELETE CASCADE , FOREIGN KEY(`userId`) REFERENCES `User`(`localId`) ON UPDATE NO ACTION ON DELETE CASCADE )",
+        "fields": [
+          {
+            "fieldPath": "cardId",
+            "columnName": "cardId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "userId",
+            "columnName": "userId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "status",
+            "columnName": "status",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": false,
+          "columnNames": [
+            "cardId",
+            "userId"
+          ]
+        },
+        "indices": [
+          {
+            "name": "index_JoinCardWithUser_cardId",
+            "unique": false,
+            "columnNames": [
+              "cardId"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_JoinCardWithUser_cardId` ON `${TABLE_NAME}` (`cardId`)"
+          },
+          {
+            "name": "index_JoinCardWithUser_userId",
+            "unique": false,
+            "columnNames": [
+              "userId"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_JoinCardWithUser_userId` ON `${TABLE_NAME}` (`userId`)"
+          }
+        ],
+        "foreignKeys": [
+          {
+            "table": "Card",
+            "onDelete": "CASCADE",
+            "onUpdate": "NO ACTION",
+            "columns": [
+              "cardId"
+            ],
+            "referencedColumns": [
+              "localId"
+            ]
+          },
+          {
+            "table": "User",
+            "onDelete": "CASCADE",
+            "onUpdate": "NO ACTION",
+            "columns": [
+              "userId"
+            ],
+            "referencedColumns": [
+              "localId"
+            ]
+          }
+        ]
       }
     ],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '6078e01b43f4a2e10a0ed193d7991a06')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '49b1281332d276c3403d7ed91cca349b')"
     ]
   }
 }

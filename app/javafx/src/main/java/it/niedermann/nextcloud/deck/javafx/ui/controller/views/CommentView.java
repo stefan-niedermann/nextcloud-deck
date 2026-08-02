@@ -1,6 +1,7 @@
 package it.niedermann.nextcloud.deck.javafx.ui.controller.views;
 
-import java.time.Instant;
+import java.time.Duration;
+import java.time.OffsetDateTime;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.time.format.FormatStyle;
@@ -51,8 +52,8 @@ public class CommentView extends HBox {
         author.setText(comment.author().value());
         message.setText(comment.message());
 
-        final var created = comment.created().atZone(ZoneId.systemDefault());
-        final var duration = created.toInstant().until(Instant.now());
+        final var created = comment.created().atZoneSameInstant(ZoneId.systemDefault());
+        final var duration = Duration.between(comment.created(), OffsetDateTime.now());
 
         if (duration.toDays() < 1) {
             creationDateTime.setText(created.format(DateTimeFormatter.ofLocalizedTime(FormatStyle.MEDIUM)));

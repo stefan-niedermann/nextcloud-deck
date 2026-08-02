@@ -1,30 +1,40 @@
 package it.niedermann.nextcloud.deck.domain.model;
 
-import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
 import java.util.Objects;
 
 public record Comment(
         Comment.ID id,
         Card.ID cardId,
         User.ID author,
-        LocalDateTime created,
+        OffsetDateTime created,
         String message,
-        Comment.ID parentId
-        // List<Mention>mentions = new ArrayList<>();
+        Long parentId,
+
+        User.ID actorId,
+        String actorDisplayName,
+
+        Comment.RemoteID remoteId,
+        DBStatus status,
+        OffsetDateTime lastModified,
+        OffsetDateTime lastModifiedLocal
 ) {
 
+    public Comment(Comment.ID id, Card.ID cardId, User.ID author, OffsetDateTime created, String message) {
+        this(id, cardId, author, created, message, null, null, null, null, DBStatus.UP_TO_DATE, OffsetDateTime.now(), OffsetDateTime.now());
+    }
+
     public Comment {
-        for (final var o : new Object[]{
-                id,
-                cardId,
-                author,
-                created,
-                message,
-        }) {
-            Objects.requireNonNull(o);
-        }
+        Objects.requireNonNull(id);
+        Objects.requireNonNull(cardId);
+        Objects.requireNonNull(author);
+        Objects.requireNonNull(message);
+        Objects.requireNonNull(status);
     }
 
     public record ID(long value) {
+    }
+
+    public record RemoteID(long value) {
     }
 }

@@ -1,31 +1,44 @@
 package it.niedermann.nextcloud.deck.domain.model;
 
-import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
 import java.util.Objects;
 
-public record Board(Board.ID id,
-                    String title,
-                    Color color,
-                    LocalDateTime editedAt,
-                    Permissions permissions) {
+public record Board(
+        Board.ID id,
+        String title,
+        Color color,
+        User.ID ownerId,
+        boolean archived,
+        Permissions permissions,
+        Account.ID accountId,
+        Board.RemoteID remoteId,
+        DBStatus status,
+        OffsetDateTime lastModified,
+        OffsetDateTime lastModifiedLocal
+) {
+
+    public Board(Board.ID id, String title, Color color, Permissions permissions) {
+        this(id, title, color, null, false, permissions, null, null, DBStatus.UP_TO_DATE, OffsetDateTime.now(), OffsetDateTime.now());
+    }
 
     public Board {
-        for (final var o : new Object[]{
-                id,
-                title,
-                color,
-                permissions,
-        }) {
-            Objects.requireNonNull(o);
-        }
+        Objects.requireNonNull(id);
+        Objects.requireNonNull(title);
+        Objects.requireNonNull(permissions);
+        Objects.requireNonNull(status);
     }
 
     public record ID(long value) {
     }
 
-    public record Permissions(boolean permissionRead,
-                              boolean permissionEdit,
-                              boolean permissionManage,
-                              boolean permissionShare) {
+    public record RemoteID(long value) {
+    }
+
+    public record Permissions(
+            boolean permissionRead,
+            boolean permissionEdit,
+            boolean permissionManage,
+            boolean permissionShare
+    ) {
     }
 }

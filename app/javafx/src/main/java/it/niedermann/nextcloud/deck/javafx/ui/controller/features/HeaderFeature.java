@@ -101,8 +101,11 @@ public class HeaderFeature extends DisposableController {
                     editBoardBtn.setVisible(boardPresent);
                     editBoardBtn.setManaged(boardPresent);
                     if (boardPresent) {
+                        final String lastEdited = board.lastModified() != null
+                                ? board.lastModified().format(DateTimeFormatter.ofLocalizedDateTime(FormatStyle.SHORT))
+                                : "unknown";
                         boardTitle.setTooltip(new Tooltip(String.format("Last edited at %1$s by %2$s",
-                                board.editedAt().format(DateTimeFormatter.ofLocalizedDateTime(FormatStyle.SHORT)),
+                                lastEdited,
                                 "John Doe")));
                         circle.setFill(Color.rgb(board.color().getRed(), board.color().getGreen(), board.color().getBlue()));
                     }
