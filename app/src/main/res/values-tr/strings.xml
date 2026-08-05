@@ -322,7 +322,7 @@
     <string name="log_file">Günlük dosyası</string>
     <string name="copying_logs_to_file">Günlükler dosyaya kopyalanıyor…</string>
     <string name="account_imported">Hesap içe aktarıldı</string>
-    <string name="simple_search">Arama</string>
+    <string name="simple_search">Ara</string>
     <!-- Label for a title input field that is required to be filled out -->
     <string name="title_mandatory">Başlık (zorunlu)</string>
     <string name="saving_new_card">Yeni kart kaydediliyor…</string>
@@ -334,6 +334,6 @@
     <string name="enter_search_term_title">Aranacak ifadeyi yazın</string>
     <string name="enter_search_term_description">Bu panodaki kartları bulmak için bir arama ifadesi yazın</string>
     <string name="no_search_results_title">Aramadan bir sonuç alınamadı</string>
-    <string name="no_search_results_description">Yazdığınız arama ifadesine uygum bir sonuç bulunamadı</string>
+    <string name="no_search_results_description">Yazdığınız arama ifadesine uygun bir sonuç bulunamadı</string>
     <string name="label_no_startdate">Başlangıç tarihi yok</string>
     </resources>
