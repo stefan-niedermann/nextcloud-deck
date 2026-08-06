@@ -1,5 +1,6 @@
 package it.niedermann.nextcloud.deck.ui.card;
 
+import android.content.res.ColorStateList;
 import android.net.Uri;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -10,6 +11,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.CallSuper;
+import androidx.annotation.ColorInt;
 import androidx.annotation.MenuRes;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -26,6 +28,7 @@ import java.time.Instant;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import it.niedermann.android.util.ColorUtil;
 import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.model.Account;
 import it.niedermann.nextcloud.deck.model.Card;
@@ -51,14 +54,22 @@ public abstract class AbstractCardViewHolder extends RecyclerView.ViewHolder {
     public void bind(@NonNull FullCard fullCard, @NonNull Account account, @Nullable Long boardRemoteId, boolean hasEditPermission, @MenuRes int optionsMenu, @NonNull CardOptionsItemSelectedListener optionsItemsSelectedListener, @NonNull String counterMaxValue, @Nullable ThemeUtils utils) {
         final var context = itemView.getContext();
 
+        @ColorInt
+        final Integer backgroundColor = fullCard.getCard().getColor();
+        if (backgroundColor == null) {
+            applyTheme(utils);
+        } else {
+            final int foregroundColor = ColorUtil.getForegroundColorForBackgroundColor(backgroundColor);
+            getCard().setCardBackgroundColor(ColorStateList.valueOf(backgroundColor));
+            applyForegroundColor(foregroundColor);
+        }
+
         bindCardClickListener(null);
         bindCardLongClickListener(null);
 
         getCardMenu().setVisibility(hasEditPermission ? View.VISIBLE : View.GONE);
         getCardTitle().setText(fullCard.getCard().getTitle().trim());
         getNotSyncedYet().setVisibility(DBStatus.LOCAL_EDITED.equals(fullCard.getStatusEnum()) ? View.VISIBLE : View.GONE);
-
-        applyTheme(utils);
 
         if (fullCard.getCard().getDueDate() != null || fullCard.getCard().getDone() != null) {
             setupDueDate(getCardDueDate(), fullCard.getCard());
@@ -177,5 +188,14 @@ public abstract class AbstractCardViewHolder extends RecyclerView.ViewHolder {
             }
         }
         return false;
+    }
+
+    @CallSuper
+    protected void applyForegroundColor(@ColorInt int color) {
+        final var colorStateList = ColorStateList.valueOf(color);
+        getCardTitle().setTextColor(color);
+        getCardMenu().setImageTintList(colorStateList);
+        getCardDueDate().setTextColor(color);
+        getCardDueDate().setChipIconTint(colorStateList);
     }
 }

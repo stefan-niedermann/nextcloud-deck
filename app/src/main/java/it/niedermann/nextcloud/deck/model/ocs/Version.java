@@ -227,6 +227,12 @@ public class Version implements Comparable<Version> {
         return isGreaterOrEqualTo(VERSION_1_18_0);
     }
 
+    ///
+    /// @see <a href="https://github.com/nextcloud/deck/releases/tag/v1.18.0">Deck sever 1.18.0 release notes</a>
+    public boolean supportsCardColor() {
+        return isGreaterOrEqualTo(VERSION_1_18_0);
+    }
+
     /// @see <a href="https://github.com/nextcloud/deck/releases/tag/v1.18.0">Deck sever 1.18.0 release notes</a>
     public boolean supportsDependents() {
         return isGreaterOrEqualTo(VERSION_1_18_0);
