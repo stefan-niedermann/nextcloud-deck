@@ -42,7 +42,7 @@ public class CompactCardViewHolder extends AbstractCardViewHolder {
         setupCoverImages(account, binding.coverImages, fullCard, Math.min(maxCoverImagesCount, 1));
 
         final List<Label> labels = fullCard.getLabels();
-        if (labels != null && labels.size() > 0) {
+        if (labels != null && !labels.isEmpty()) {
             binding.labels.updateLabels(labels);
             binding.labels.setVisibility(View.VISIBLE);
         } else {
