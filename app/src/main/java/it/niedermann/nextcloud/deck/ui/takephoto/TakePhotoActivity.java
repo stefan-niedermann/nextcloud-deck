@@ -186,7 +186,7 @@ public class TakePhotoActivity extends AppCompatActivity {
         @NonNull
         @Override
         public Intent createIntent(@NonNull Context context, Void unused) {
-            return new Intent(context, TakePhotoActivity.class).setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+            return new Intent(context, TakePhotoActivity.class);
         }
 
         @Override

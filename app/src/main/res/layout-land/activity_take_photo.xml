@@ -9,7 +9,6 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@android:color/black"
-        android:orientation="vertical"
         tools:theme="@style/TransparentTheme">
 
         <androidx.camera.view.PreviewView
@@ -19,11 +18,10 @@
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/controlsContainer"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
             android:background="@color/mdtp_transparent_black"
-            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
             android:fitsSystemWindows="true">
 
             <com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -31,11 +29,13 @@
                 style="?attr/floatingActionButtonSmallSecondaryStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_margin="@dimen/fab_margin"
                 android:contentDescription="@string/take_photo_switch_camera"
-                app:layout_constraintBottom_toBottomOf="@id/takePhoto"
-                app:layout_constraintEnd_toStartOf="@id/takePhoto"
+                app:layout_constraintBottom_toTopOf="@id/takePhoto"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="@id/takePhoto"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_chainStyle="packed"
                 tools:srcCompat="@drawable/ic_outline_mobile_camera_front_24" />
 
             <com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -44,10 +44,10 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/fab_margin"
                 android:contentDescription="@string/take_photo"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@id/toggle_torch"
-                app:layout_constraintStart_toEndOf="@id/switchCamera"
-                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toTopOf="@id/toggle_torch"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/switchCamera"
                 app:srcCompat="@drawable/ic_photo_camera_24" />
 
             <com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -55,11 +55,12 @@
                 style="?attr/floatingActionButtonSmallSecondaryStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_margin="@dimen/fab_margin"
                 android:contentDescription="@string/take_photo_toggle_torch"
-                app:layout_constraintBottom_toBottomOf="@id/takePhoto"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@id/takePhoto"
-                app:layout_constraintTop_toTopOf="@id/takePhoto"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/takePhoto"
                 tools:srcCompat="@drawable/ic_outline_flash_on_24" />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
