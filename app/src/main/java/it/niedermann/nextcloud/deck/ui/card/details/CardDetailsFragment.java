@@ -121,6 +121,9 @@ public class CardDetailsFragment extends Fragment implements
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        if (viewModel.getFullCard() == null) {
+            return;
+        }
         final var ssoAccount = viewModel.getAccount().getSingleSignOnAccount(requireContext()).orElse(null);
 
         ViewCompat.setOnApplyWindowInsetsListener(binding.getRoot(), (v, insets) -> {
@@ -157,6 +160,9 @@ public class CardDetailsFragment extends Fragment implements
     }
 
     private void applyTheme(@ColorInt int color) {
+        if (binding == null) {
+            return;
+        }
         final var utils = ThemeUtils.of(color, requireContext());
 
         Stream.of(
@@ -175,7 +181,7 @@ public class CardDetailsFragment extends Fragment implements
 
         binding.cardDueDateView.applyTheme(color);
 
-        if (viewModel.getAccount().getServerDeckVersionAsObject().supportsDependents()) {
+        if (viewModel.getAccount().getServerDeckVersionAsObject().supportsDependents() && dependentsAdapter != null) {
             dependentsAdapter.applyTheme(color);
         }
 
