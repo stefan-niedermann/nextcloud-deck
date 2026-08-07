@@ -92,7 +92,7 @@ public class TipsAdapter extends RecyclerView.Adapter<TipsViewHolder> {
             if (account == null) {
                 add(R.string.error_dialog_version_not_parsable);
             } else if (OfflineException.Reason.CONNECTION_REJECTED.equals(o.getReason()) &&
-                    Version.minimumSupported().equals(account.getServerDeckVersionAsObject())) {
+                       Version.minimumSupported().equals(account.getServerDeckVersionAsObject())) {
                 add(R.string.error_dialog_version_not_parsable, new Intent(Intent.ACTION_VIEW)
                         .putExtra(INTENT_EXTRA_BUTTON_TEXT, R.string.error_action_install)
                         .setData(Uri.parse(account.getUrl() + context.getString(R.string.url_fragment_install_deck))));
@@ -121,6 +121,11 @@ public class TipsAdapter extends RecyclerView.Adapter<TipsViewHolder> {
                 }
                 case 503 -> add(R.string.error_dialog_check_maintenance);
                 case 507 -> add(R.string.error_dialog_insufficient_storage);
+                case 900 -> add(R.string.error_dialog_tip_parsing_failed);
+            }
+            if ((statusCode >= 400 && statusCode < 500) || statusCode == 900) {
+                add(R.string.error_dialog_tip_clear_storage_might_help);
+                add(R.string.error_dialog_tip_clear_storage, INTENT_APP_INFO);
             }
         } else if (throwable instanceof UploadAttachmentFailedException) {
             add(R.string.error_dialog_attachment_upload_failed);
