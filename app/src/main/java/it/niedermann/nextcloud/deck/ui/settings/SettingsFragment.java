@@ -1,8 +1,10 @@
 package it.niedermann.nextcloud.deck.ui.settings;
 
+import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 
@@ -20,6 +22,7 @@ import it.niedermann.nextcloud.deck.DeckLog;
 import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.model.Account;
 import it.niedermann.nextcloud.deck.remote.SyncWorker;
+import it.niedermann.nextcloud.deck.reminders.DueReminderScheduler;
 import it.niedermann.nextcloud.deck.ui.theme.ThemedSwitchPreference;
 
 public class SettingsFragment extends PreferenceFragmentCompat {
@@ -32,6 +35,7 @@ public class SettingsFragment extends PreferenceFragmentCompat {
     private ThemedSwitchPreference compactPref;
     private ThemedSwitchPreference coverImagesPref;
     private ThemedSwitchPreference compressImageAttachmentsPref;
+    private ThemedSwitchPreference localDueRemindersPref;
     private ThemedSwitchPreference debuggingPref;
     private ThemedSwitchPreference eTagPref;
 
@@ -58,6 +62,7 @@ public class SettingsFragment extends PreferenceFragmentCompat {
         coverImagesPref = findPreference(getString(R.string.pref_key_cover_images));
         compactPref = findPreference(getString(R.string.pref_key_compact));
         compressImageAttachmentsPref = findPreference(getString(R.string.pref_key_compress_image_attachments));
+        localDueRemindersPref = findPreference(getString(R.string.pref_key_local_due_reminders));
         eTagPref = findPreference(getString(R.string.pref_key_etags));
 
         debuggingPref = findPreference(getString(R.string.pref_key_debugging));
@@ -91,6 +96,20 @@ public class SettingsFragment extends PreferenceFragmentCompat {
             DeckLog.error("Could not find preference with key", getString(R.string.pref_key_push_notifications));
         }
 
+        if (localDueRemindersPref != null) {
+            localDueRemindersPref.setOnPreferenceChangeListener((Preference preference, Object newValue) -> {
+                if (Boolean.TRUE.equals(newValue)) {
+                    requestNotificationPermissionIfNeeded();
+                    DueReminderScheduler.rescheduleAll(requireContext().getApplicationContext());
+                } else {
+                    DueReminderScheduler.cancelAll(requireContext().getApplicationContext());
+                }
+                return true;
+            });
+        } else {
+            DeckLog.error("Could not find preference with key", getString(R.string.pref_key_local_due_reminders));
+        }
+
         final var themePref = findPreference(getString(R.string.pref_key_dark_theme));
         if (themePref != null) {
             themePref.setOnPreferenceChangeListener((Preference preference, Object newValue) -> {
@@ -107,8 +126,14 @@ public class SettingsFragment extends PreferenceFragmentCompat {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        Stream.of(wifiOnlyPref, compactPref, coverImagesPref, compressImageAttachmentsPref, debuggingPref, eTagPref)
+        Stream.of(wifiOnlyPref, compactPref, coverImagesPref, compressImageAttachmentsPref, localDueRemindersPref, debuggingPref, eTagPref)
                 .forEach(pref -> pref.applyTheme(account.getColor()));
+    }
+
+    private void requestNotificationPermissionIfNeeded() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            requestPermissions(new String[]{Manifest.permission.POST_NOTIFICATIONS}, 0);
+        }
     }
 
     @NonNull
