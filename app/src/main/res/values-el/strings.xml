@@ -338,4 +338,6 @@
     <string name="no_search_results_description">Δεν έχει βρεθεί κανένα αποτέλεσμα για τον συγκεκριμένο όρο αναζήτησης</string>
     <string name="label_no_startdate">Καμία ημερομηνία έναρξης</string>
     <string name="label_dependent_cards">Εξαρτημένες κάρτες</string>
+    <string name="label_color">Χρώμα</string>
+    <string name="choose_color">Επιλογή χρώματος</string>
 </resources>

@@ -334,4 +334,6 @@
     <string name="enter_search_term_description">Introduza o termo de busca para atopar tarxetas neste taboleiro</string>
     <string name="no_search_results_title">Sen resultados de busca</string>
     <string name="no_search_results_description">Non foi atopado ningún resultado para o termo de busca dado</string>
-    </resources>
+    <string name="label_color">Cor</string>
+    <string name="choose_color">Escoller a cor</string>
+</resources>

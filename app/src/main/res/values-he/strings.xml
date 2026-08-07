@@ -218,4 +218,5 @@
     <string name="edit_description">עריכת תיאור</string>
     <string name="widget_upcoming_title">כרטיסים עתידיים</string>
     <string name="simple_search">חיפוש</string>
+    <string name="label_color">צבע</string>
     </resources>

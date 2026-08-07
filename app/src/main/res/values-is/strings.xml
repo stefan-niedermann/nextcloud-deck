@@ -333,4 +333,5 @@
     <string name="enter_search_term_description">Settu inn leitarorð til að finna spjöld á þessu borði</string>
     <string name="no_search_results_title">Engar leitarniðurstöður</string>
     <string name="no_search_results_description">Ekki hafa fundist neinar niðurstöður fyrir þetta leitarorð</string>
+    <string name="label_color">Litur</string>
     </resources>

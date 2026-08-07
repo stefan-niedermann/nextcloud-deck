@@ -334,4 +334,6 @@
     <string name="enter_search_term_description">بۇ تاختىدىن كارتا تېپىش ئۈچۈن ئىزدەش ئاتالغۇسىنى كىرگۈزۈڭ</string>
     <string name="no_search_results_title">ئىزدەش نەتىجىسى يوق</string>
     <string name="no_search_results_description">بېرىلگەن ئىزدەش سۆزى ئۈچۈن ھېچقانداق نەتىجىنى تاپالمىدۇق</string>
-    </resources>
+    <string name="label_color">رەڭ</string>
+    <string name="choose_color">رەڭ تاللاڭ</string>
+</resources>

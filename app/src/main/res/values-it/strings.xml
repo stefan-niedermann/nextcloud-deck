@@ -338,4 +338,6 @@
     <string name="enter_search_term_description">Inserisci il termine di ricerca per trovare schede in questa lavagna</string>
     <string name="no_search_results_title">Nessun risultato di ricerca</string>
     <string name="no_search_results_description">Non abbiamo trovato alcun risultato per il termine di ricerca scelto</string>
-    </resources>
+    <string name="label_color">Colore</string>
+    <string name="choose_color">Scegli il colore</string>
+</resources>

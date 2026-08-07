@@ -329,4 +329,5 @@
     <string name="enter_search_term_description">Nhập từ khoá để tìm kiếm thẻ trong bảng này</string>
     <string name="no_search_results_title">Không tìm thấy</string>
     <string name="no_search_results_description">Chúng tôi không tìm thấy bất kỳ kết quả nào cho từ khoá vừa tìm kiếm.</string>
+    <string name="label_color">Màu sắc</string>
     </resources>

@@ -301,4 +301,6 @@
     <string name="progress_import_indeterminate">Tuodaan tauluja…</string>
     <string name="show_error">Näytä virhe</string>
     <string name="no_search_results_title">Ei hakutuloksia</string>
-    </resources>
+    <string name="label_color">Väri</string>
+    <string name="choose_color">Valitse väri</string>
+</resources>

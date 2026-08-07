@@ -338,4 +338,6 @@
     <string name="enter_search_term_description">Унесите појам за претрагу да пронађете картице у овој табли</string>
     <string name="no_search_results_title">Нема резултата претраге</string>
     <string name="no_search_results_description">Нисмо пронашли ниједан резултат који задовољава наведени термин за претрагу</string>
-    </resources>
+    <string name="label_color">Боја</string>
+    <string name="choose_color">Изаберите бој</string>
+</resources>

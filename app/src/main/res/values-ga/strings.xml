@@ -350,4 +350,6 @@
     <string name="no_search_results_description">Ní bhfuaireamar aon toradh ar an téarma cuardaigh a tugadh</string>
     <string name="label_no_startdate">Gan dáta tosaithe</string>
     <string name="label_dependent_cards">Cártaí cleithiúnacha</string>
+    <string name="label_color">Dath</string>
+    <string name="choose_color">Roghnaigh dath</string>
 </resources>

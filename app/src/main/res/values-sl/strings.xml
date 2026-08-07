@@ -337,4 +337,6 @@
     <string name="enter_search_term_description">Vpišite iskalni niz za kartice in zbirke</string>
     <string name="no_search_results_title">Ni zadetkov iskanja</string>
     <string name="no_search_results_description">Za vpisan iskalni niz ni najdenih zadetkov</string>
-    </resources>
+    <string name="label_color">Barva</string>
+    <string name="choose_color">Izbor barve</string>
+</resources>

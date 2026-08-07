@@ -334,4 +334,6 @@
     <string name="enter_search_term_description">Sartu bilaketa-terminoa taula honetan txartelak aurkitzeko</string>
     <string name="no_search_results_title">Ez dago bilaketaren emaitzarik</string>
     <string name="no_search_results_description">Ez dugu emaitzarik aurkitu emandako bilaketa-terminoarentzat</string>
-    </resources>
+    <string name="label_color">Kolorea</string>
+    <string name="choose_color">Aukeratu kolorea</string>
+</resources>

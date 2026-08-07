@@ -330,4 +330,6 @@
     <string name="enter_search_term_description">Masukkan istilah pencarian untuk menemukan kartu di papan ini</string>
     <string name="no_search_results_title">Tidak ada hasil pencarian</string>
     <string name="no_search_results_description">Kami tidak menemukan hasil untuk istilah pencarian yang diberikan</string>
-    </resources>
+    <string name="label_color">Warna</string>
+    <string name="choose_color">Pilih warna</string>
+</resources>

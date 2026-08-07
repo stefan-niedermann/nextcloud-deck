@@ -342,4 +342,5 @@
     <string name="enter_search_term_description">Wpisz szukane hasło, aby znaleźć karty w tej tablicy</string>
     <string name="no_search_results_title">Brak wyników wyszukiwania</string>
     <string name="no_search_results_description">Nie znaleźliśmy żadnych wyników dla podanego terminu wyszukiwania</string>
+    <string name="label_color">Kolor</string>
     </resources>

@@ -338,4 +338,5 @@
     <string name="enter_search_term_description">Introduzca el término de búsqueda para encontrar tarjetas en esta pizarra</string>
     <string name="no_search_results_title">No hay resultados de búsqueda</string>
     <string name="no_search_results_description">No hemos encontrado ningún resultado para el término de búsqueda proporcionado</string>
+    <string name="label_color">Color</string>
     </resources>

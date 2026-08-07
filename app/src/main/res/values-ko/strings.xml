@@ -315,4 +315,5 @@
     <string name="progress_import">%2$d에서 보드 %1$d 가져오기</string>
     <string name="progress_import_indeterminate">보드 가져오기</string>
     <string name="no_search_results_title">검색 결과 없음</string>
+    <string name="label_color">색</string>
     </resources>

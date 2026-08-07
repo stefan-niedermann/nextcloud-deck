@@ -241,4 +241,5 @@
     <string name="widget_upcoming_title">Престојни картици</string>
     <string name="simple_search">Барај</string>
     <string name="no_search_results_title">Нема резултати од пребарувањето</string>
+    <string name="label_color">Боја</string>
     </resources>
