@@ -6,6 +6,9 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.core.view.ViewCompat;
+import androidx.core.view.WindowInsetsCompat;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
@@ -56,6 +59,21 @@ public class CardActivityFragment extends Fragment implements Themed {
                     adapter.setData(data.first, ThemeUtils.of(data.second, requireContext()));
                 });
         return binding.getRoot();
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        ViewCompat.setOnApplyWindowInsetsListener(view, (v, insets) -> {
+            final var systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars() | WindowInsetsCompat.Type.ime());
+            binding.activitiesList.setPadding(
+                    binding.activitiesList.getPaddingLeft(),
+                    binding.activitiesList.getPaddingTop(),
+                    binding.activitiesList.getPaddingRight(),
+                    systemBars.bottom
+            );
+            return insets;
+        });
     }
 
     @Override

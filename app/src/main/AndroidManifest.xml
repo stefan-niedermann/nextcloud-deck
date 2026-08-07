@@ -106,7 +106,8 @@
         <activity
             android:name=".ui.card.EditActivity"
             android:label="@string/edit"
-            android:parentActivityName="it.niedermann.nextcloud.deck.ui.main.MainActivity" />
+            android:parentActivityName="it.niedermann.nextcloud.deck.ui.main.MainActivity"
+            android:windowSoftInputMode="adjustResize" />
 
         <activity
             android:name=".ui.attachments.AttachmentsActivity"
