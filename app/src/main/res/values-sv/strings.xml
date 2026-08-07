@@ -338,4 +338,6 @@
     <string name="no_search_results_description">Vi har inte hittat något resultat för den givna söktermen</string>
     <string name="label_no_startdate">Inget startdatum</string>
     <string name="label_dependent_cards">Beroende kort</string>
+    <string name="label_color">Färg</string>
+    <string name="choose_color">Välj färg</string>
 </resources>

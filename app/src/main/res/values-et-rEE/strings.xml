@@ -338,4 +338,6 @@
     <string name="no_search_results_description">Selle otsingusõnaga ei õnnestu leida mitte midagi</string>
     <string name="label_no_startdate">Alguskuupäeva pole</string>
     <string name="label_dependent_cards">Sõltuvad kaardid</string>
+    <string name="label_color">Värv</string>
+    <string name="choose_color">Vali värv</string>
 </resources>

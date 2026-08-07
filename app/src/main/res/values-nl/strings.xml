@@ -335,4 +335,5 @@ Controleer a.u.b. uw internet verbinding en of U in staat bent verbinding te mak
     <string name="enter_search_term_description">Voer een zoekterm in om kaarten in dit bord te vinden</string>
     <string name="no_search_results_title">Geen zoekresultaten</string>
     <string name="no_search_results_description">We hebben geen resultaten gevonden voor de opgegeven zoekterm</string>
+    <string name="label_color">Kleur</string>
     </resources>

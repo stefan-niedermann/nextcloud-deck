@@ -338,4 +338,6 @@
     <string name="no_search_results_description">Hatujapata matokeo yoyote ya neno hili la utafutaji</string>
     <string name="label_no_startdate">Hakuna tarehe ya kuanza</string>
     <string name="label_dependent_cards">Kadi tegemezi</string>
+    <string name="label_color">Rangi</string>
+    <string name="choose_color">Chagua rangi</string>
 </resources>

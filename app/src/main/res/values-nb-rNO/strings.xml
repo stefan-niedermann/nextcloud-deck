@@ -334,4 +334,6 @@
     <string name="enter_search_term_description">Skriv inn søkeord for å finne kort på dette brettet</string>
     <string name="no_search_results_title">Ingen søkeresultater</string>
     <string name="no_search_results_description">Vi fant ingen resultater for dine oppgitte søkeord</string>
-    </resources>
+    <string name="label_color">Farge</string>
+    <string name="choose_color">Velg farge</string>
+</resources>

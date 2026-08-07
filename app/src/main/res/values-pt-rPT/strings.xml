@@ -311,4 +311,6 @@
     <string name="enter_search_term_description">Digite o termo de pesquisa para encontrar cartões neste painel</string>
     <string name="no_search_results_title">Nenhum resultado de pesquisa</string>
     <string name="no_search_results_description">Não encontramos nenhum resultado para o termo de pesquisa fornecido</string>
-    </resources>
+    <string name="label_color">Cor</string>
+    <string name="choose_color">Escolha uma cor</string>
+</resources>

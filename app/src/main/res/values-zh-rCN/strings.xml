@@ -330,4 +330,5 @@
     <string name="enter_search_term_description">输入搜索词以查找此面板中的卡片</string>
     <string name="no_search_results_title">无搜索结果</string>
     <string name="no_search_results_description">对于给定的搜索词，我们没有找到任何结果</string>
+    <string name="label_color">颜色</string>
     </resources>

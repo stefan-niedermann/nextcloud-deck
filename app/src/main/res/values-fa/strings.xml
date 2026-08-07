@@ -334,4 +334,6 @@
     <string name="enter_search_term_description">برای یافتن کارت ها در این تابلو عبارت جستجو را وارد کنید.</string>
     <string name="no_search_results_title">جستجو نتیجه‌ای نداشت</string>
     <string name="no_search_results_description">برای جستجوی شما نتیجه‌ای پیدا نکردیم.</string>
-    </resources>
+    <string name="label_color">رنگ</string>
+    <string name="choose_color">انتخاب رنگ</string>
+</resources>

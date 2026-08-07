@@ -342,4 +342,6 @@
     <string name="no_search_results_description">Aucun résultat trouvé pour le mot recherché</string>
     <string name="label_no_startdate">Aucune date de début</string>
     <string name="label_dependent_cards">Carte dépendante</string>
+    <string name="label_color">Couleur</string>
+    <string name="choose_color">Sélectionnez une couleur</string>
 </resources>

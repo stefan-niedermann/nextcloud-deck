@@ -338,4 +338,6 @@
     <string name="no_search_results_description">We have not found any result for the given search term</string>
     <string name="label_no_startdate">No start date</string>
     <string name="label_dependent_cards">Dependent cards</string>
+    <string name="label_color">Colour</string>
+    <string name="choose_color">Choose colour</string>
 </resources>

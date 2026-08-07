@@ -334,4 +334,6 @@
     <string name="enter_search_term_description">Angiv søgeterm for at finde kort til denne tavle</string>
     <string name="no_search_results_title">Ingen søgeresultater</string>
     <string name="no_search_results_description">Vi har ikke fundet nogle resultater for den givne søgeterm</string>
-    </resources>
+    <string name="label_color">Farve</string>
+    <string name="choose_color">Vælg farve</string>
+</resources>

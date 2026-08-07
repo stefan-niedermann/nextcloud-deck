@@ -334,4 +334,6 @@
     <string name="enter_search_term_description">Adja meg a keresési kifejezést a táblán lévő kártyák kereséséhez</string>
     <string name="no_search_results_title">Nincs találat</string>
     <string name="no_search_results_description">Nincs találat a megadott keresési kifejezésre</string>
-    </resources>
+    <string name="label_color">Szín</string>
+    <string name="choose_color">Válasszon színt</string>
+</resources>

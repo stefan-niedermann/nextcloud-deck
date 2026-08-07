@@ -345,4 +345,6 @@
     <string name="no_search_results_title">Žiadne výsledky vyhľadávania</string>
     <string name="no_search_results_description">Nenašli sme žiadne výsledky pre zadaný vyhľadávací výraz</string>
     <string name="label_no_startdate">Žiadny dátum začiatku</string>
-    </resources>
+    <string name="label_color">Farba</string>
+    <string name="choose_color">Vyberte farbu</string>
+</resources>
