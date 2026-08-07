@@ -1,0 +1,3 @@
+- 🎨 feat: Card colors
+- 🐞 fix: Fix several crash causes when editing cards
+- ⚙️ chore: Update dependencies
