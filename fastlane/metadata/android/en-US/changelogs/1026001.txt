@@ -1,0 +1,9 @@
+1.26.1
+
+- 🐞 fix: Show tips when parsing response fails
+
+1.26.0
+
+- 🎨 feat: Card colors
+- 🐞 fix: Fix several crash causes when editing cards
+- ⚙️ chore: Update dependencies
