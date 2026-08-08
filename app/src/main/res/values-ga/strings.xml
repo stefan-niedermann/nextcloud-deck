@@ -217,7 +217,6 @@
 
     <string name="error_dialog_title">Ó ní hea - Cad anois? 🙁</string>
     <string name="error_dialog_tip_token_mismatch_retry">Déan iarracht iallach a chur ar an aip a dhúnadh agus í a atosú arís le do thoil. Seans go raibh nasc mícheart leis an aip Nextcloud.</string>
-    <string name="error_dialog_tip_clear_storage_might_help">Má leanann an cheist, déan iarracht stóráil an dá apps a ghlanadh: Nextcloud agus Nextcloud Deck chun an cheist seo a réiteach.</string>
     <string name="error_dialog_tip_database_upgrade_failed">Theip ar uasghrádú an bhunachair sonraí. Tuairiscigh an fhadhb le do thoil agus glan an stóras chun an aip a úsáid de ghnáth.</string>
     <string name="error_dialog_tip_clear_storage">Is féidir leat an stóráil a ghlanadh tríd an eolas app a oscailt agus Stóráil → Stóráil Glan a roghnú.</string>
     <string name="error_dialog_tip_offline_no_internet">Tá an chuma ar an scéal go ndearna tú iarracht sioncrónú a spreagadh gan nasc idirlín.</string>
@@ -234,7 +233,6 @@
     <string name="error_dialog_check_maintenance">Seiceáil le do thoil an bhfuil do shampla Nextcloud i mód cothabhála faoi láthair.</string>
     <string name="error_dialog_insufficient_storage">Níl aon stóras saor in aisce fágtha ag do shampla Nextcloud. Scrios roinnt comhad chun d\'athruithe áitiúla a shioncronú isteach i do néal le do thoil.</string>
     <string name="error_dialog_we_need_info">Tá an fhaisnéis theicniúil seo a leanas ag teastáil uainn chun cabhrú leat:</string>
-    <string name="error_dialog_redirect">D\'fhreagair do fhreastalaí le cód stádais HTTP 302, rud a thugann le tuiscint, nach bhfuil an app Deck suiteáilte agat ar do fhreastalaí nó go bhfuil rud éigin míchumraithe. Is féidir é seo a bheith mar chúis le sáruithe saincheaptha i gcomhad .htaccess nó trí apps Nextcloud cosúil le Cliant OID.</string>
     <string name="error_dialog_version_not_parsable">Níorbh fhéidir linn an leagan den app Deic taobh an fhreastalaí a chinneadh. Cinntigh le do thoil go bhfuil sé suiteáilte agus cumasaithe.</string>
     <string name="error_dialog_account_might_not_be_authorized">Seans nach bhfuil cuntas d’aip Nextcloud údaraithe a thuilleadh.</string>
     <string name="error_dialog_user_not_found_in_database">Ní mheaitseálann an t-úsáideoir reatha an t-úsáideoir atá inár mbunachar sonraí. Má tá LDAP á úsáid agat ar do shampla Nextcloud, seans go raibh seanaitheantas úsáideora stóráilte ag d’aip Nextcloud.</string>

@@ -217,7 +217,6 @@
 
     <string name="error_dialog_title">آه لا، ماذا الان؟🙁</string>
     <string name="error_dialog_tip_token_mismatch_retry">الرجاء محاولة إغلاق التطبيق وإعادة تشغيله، ربما هنالك خطأ في الإتصال مع تطبيق نيكست كلاود nextcloud</string>
-    <string name="error_dialog_tip_clear_storage_might_help">إذا تكررت المشكلة، حاول تنظيف مساحة التخزين في التطبيقين كلاهما: نكست كلاود، ونكست كلاود Deck لحل هذه المشكلة.</string>
     <string name="error_dialog_tip_database_upgrade_failed">فشلت ترقية قاعدة البيانات. يرجى الإبلاغ عن المشكلة ومسح التخزين لاستخدام التطبيق مجددًا.</string>
     <string name="error_dialog_tip_clear_storage">يمكنك مسح التخزين عن طريق فتح معلومات التطبيق واختيار التخزين ← مسح التخزين.</string>
     <string name="error_dialog_tip_offline_no_internet">يبدو أنك حاولت البدء بالمزامنة بدون اتصال بالإنترنت.</string>
@@ -234,7 +233,6 @@
     <string name="error_dialog_check_maintenance">يرجى التحقق مما إذا كان خادم Nextcloud الخاص بك ليس في وضع الصيانة حاليًا.</string>
     <string name="error_dialog_insufficient_storage">خادم Nextcloud الخاص بك ليس لديه مساحة تخزين فارغة متبقية. يرجى حذف بعض الملفات لمزامنة التغييرات المحلية الخاصة بك في السحابة الخاصة بك.</string>
     <string name="error_dialog_we_need_info">نحتاج إلى المعلومات الفنية التالية لمساعدتك:</string>
-    <string name="error_dialog_redirect">استجاب خادمك برمز حالة HTTP 302 ، مما يعني أنك لم تقم بتثبيت تطبيق Deck على الخادم الخاص بك أو أنه تم تكوين شيء ما بشكل خاطئ. يمكن أن يحدث هذا بسبب التجاوزات المخصصة في ملف htaccess أو تطبيقات Nextcloud مثل عميل OID.</string>
     <string name="error_dialog_version_not_parsable">لم نتمكن من تحديد إصدار تطبيق Deck من ناحية الخادم. يرجى التأكد من تثبيته وتمكينه.</string>
     <string name="error_dialog_account_might_not_be_authorized">ربما حسابك في نكست كلاود لم يعد مصرحًا به </string>
     <string name="error_dialog_user_not_found_in_database">لا يتطابق المستخدم الحالي مع المستخدم الموجود لدينا في قاعدة البيانات. إذا كنت تستخدم بروتوكول الوصول الخفيف إلى الدليل (LDAP) على حالة نكست كلاود الخاص بك، فربما قام تطبيق نكست كلاود بتخزين معرف مستخدم قديم.</string>
@@ -351,4 +349,6 @@
     <string name="enter_search_term_description">أدخل عبارة البحث لإيجاد البطاقات على الرقعة</string>
     <string name="no_search_results_title">لا توجد نتائج</string>
     <string name="no_search_results_description">لم يُمكن إيجاد أي نتيجة للعبارة المبحوث عنها</string>
-    </resources>
+    <string name="label_color">اللون</string>
+    <string name="choose_color">إختر لوناً</string>
+</resources>

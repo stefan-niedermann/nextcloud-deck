@@ -215,7 +215,6 @@
 
     <string name="error_dialog_title">O, ne - Kas dabar? 🙁</string>
     <string name="error_dialog_tip_token_mismatch_retry">Pabandykite priverstinai uždaryti programėlę ir vėl paleiskite ją iš naujo. Galbūt buvo nepavyko užmegžti ryšį su „Nextcloud“ programėle.</string>
-    <string name="error_dialog_tip_clear_storage_might_help">Jei problema išlieka, pabandykite išvalyti abiejų programų – „Nextcloud“ ir „Nextcloud Darbai“ – saugyklą, kad ją išspręstumėte.</string>
     <string name="error_dialog_tip_database_upgrade_failed">Duomenų bazės atnaujinimas nepavyko. Praneškite apie problemą ir išvalykite saugyklą, kad galėtumėte įprastai naudoti programą.</string>
     <string name="error_dialog_tip_clear_storage">Saugyklą galite išvalyti atidarę programėlės nustatymus ir pasirinkdami Saugykla → Išvalyti saugyklą.</string>
     <string name="error_dialog_tip_offline_no_internet">Panašu, kad bandėte paleisti sinchronizavimą be interneto ryšio.</string>
@@ -232,7 +231,6 @@
     <string name="error_dialog_check_maintenance">Patikrinkite, ar jūsų „Nextcloud“ programėlė šiuo metu aptarnavimo režime.</string>
     <string name="error_dialog_insufficient_storage">„Nextcloud“ elementas nebeturi laisvos vietos saugykloje. Prašome, ištrinkite nereikalingus failus, kad lokalūs pakeitimai būtų sinchronizuoti su debesimi.</string>
     <string name="error_dialog_we_need_info">Norint jums padėti, mums reikia techninės informacijos:</string>
-    <string name="error_dialog_redirect">Jūsų serveris atsakė HTTP 302 būsenos kodu, o tai reiškia, kad jūsų serveryje nėra įdiegta „Darbai“ programėlė arba kažkas yra netinkamai sukonfigūruota. Tai gali būti susiję su pasirinktiniais pakeitimais .htaccess faile arba su tokiomis „Nextcloud“ programomis kaip „OID Client“.</string>
     <string name="error_dialog_version_not_parsable">Nepavyko nustatyti serverio pusėje veikiančios „Darbų“ programėlės versijos. Patikrinkite, ar ji yra įdiegta ir įjungta.</string>
     <string name="error_dialog_account_might_not_be_authorized">Jūsų „Nextcloud“ programėlės paskyra gali būti nebeautorizuota.</string>
     <string name="error_dialog_user_not_found_in_database">Dabartinis vartotojas neatitinka duomenų bazėje esančio vartotojo. Jei savo „Nextcloud“ elemente naudojate LDAP, jūsų „Nextcloud“ programėlė galėjo išsaugoti seną vartotojo ID.</string>
@@ -347,5 +345,6 @@
     <string name="label_no_startdate">Nėra pradžios datos</string>
     <string name="label_dependent_cards">Susijusios kortelės</string>
     <string name="label_color">Spalva</string>
+    <string name="label_clear_color">Skaidri spalva</string>
     <string name="choose_color">Pasirinkite spalvą</string>
 </resources>

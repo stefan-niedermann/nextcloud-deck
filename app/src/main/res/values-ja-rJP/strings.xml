@@ -206,7 +206,6 @@
 
     <string name="error_dialog_title">おやまあ、どうしたことでしょう？🙁</string>
     <string name="error_dialog_tip_token_mismatch_retry">アプリの強制終了と再起動を試みてください。Nextcloudアプリへの接続が正しくない接続があったかも知れません。</string>
-    <string name="error_dialog_tip_clear_storage_might_help">この問題が続くようでしたら、下記両方のアプリでストレージをクリアして問題が解決できるか試してください：Nextcloud と Nextcloud Deck</string>
     <string name="error_dialog_tip_database_upgrade_failed">データベースのアップグレードに失敗しました。問題を報告し、ストレージを初期化してアプリを正常に使用できるようにしてください</string>
     <string name="error_dialog_tip_clear_storage">以下の方法でストレージをクリアできます：アプリ情報→ストレージ→ストレージをクリア.</string>
     <string name="error_dialog_tip_offline_no_internet">インターネット接続なしに同期を行おうとしているようです。</string>
@@ -221,7 +220,6 @@
     <string name="error_dialog_check_maintenance">Nextcloudサーバーがメンテナンスモード中かどうか確認してください。</string>
     <string name="error_dialog_insufficient_storage">Nextcloudサーバーのストレージに空き容量がありません。ローカルの変更をクラウドに同期するには一部のファイルを削除してください。</string>
     <string name="error_dialog_we_need_info">サポートには下記技術情報が必要です：</string>
-    <string name="error_dialog_redirect">サーバーがHTTPステータスコード 302を返しました。これはDeckアプリがインストールされていないか、構成が誤っていることを意味します。.htaccessファイルのカスタムオーバーライドやOIDクライアントのようなNextcloudアプリが原因の可能性があります。</string>
     <string name="error_dialog_version_not_parsable">サーバー側のDeckアプリのバージョンを判別できませんでした。Deckアプリがインストール，有効化されていることを確認してください。</string>
     <string name="error_dialog_account_might_not_be_authorized">Nextcloudアプリのアカウントが認証されていない可能性があります。</string>
     <string name="error_dialog_user_not_found_in_database">現在のユーザーは、データベースに登録されているユーザーと一致しません。NextcloudインスタンスでLDAPを使用している場合、Nextcloudアプリに古いユーザーIDが保存されている可能性があります。</string>

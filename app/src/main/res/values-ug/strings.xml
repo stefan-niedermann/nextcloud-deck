@@ -209,7 +209,6 @@
 
     <string name="error_dialog_title">ھە ياق - ھازىرچۇ؟ 🙁</string>
     <string name="error_dialog_tip_token_mismatch_retry">ئەپنى تاقاپ قايتا قوزغىتىڭ. Nextcloud دېتالىغا خاتا ئۇلىنىش بولۇشى مۇمكىن.</string>
-    <string name="error_dialog_tip_clear_storage_might_help">ئەگەر بۇ مەسىلە يەنە داۋاملاشسا ، بۇ مەسىلىنى ھەل قىلىش ئۈچۈن Nextcloud ۋە Nextcloud Deck دىن ئىبارەت ئىككى ئەپنىڭ ساقلىنىشىنى تازىلاپ بېقىڭ.</string>
     <string name="error_dialog_tip_database_upgrade_failed">سانداننىڭ يېڭىلىنىشى مەغلۇپ بولدى. بۇ مەسىلىنى دوكلات قىلىپ ، ئەپنى نورمال ئىشلىتىش ئۈچۈن ساقلاشنى تازىلاڭ.</string>
     <string name="error_dialog_tip_clear_storage">ئەپ ئۇچۇرىنى ئېچىش ۋە ساقلاش → ساقلاشنى تاللاش ئارقىلىق ساقلاشنى تازىلىيالايسىز.</string>
     <string name="error_dialog_tip_offline_no_internet">تورغا ئۇلانماي ماس قەدەمنى قوزغىتىشقا ئۇرۇنغان ئوخشايسىز.</string>
@@ -226,7 +225,6 @@
     <string name="error_dialog_check_maintenance">Nextcloud مىسالىڭىزنىڭ ھازىر ئاسراش ھالىتىدە ئەمەسلىكىنى تەكشۈرۈڭ.</string>
     <string name="error_dialog_insufficient_storage">Nextcloud مىسالىڭىزدا ھەقسىز ساقلاش بوشلۇقى قالمىدى. يەرلىك ھۆججەتلىرىڭىزنى بۇلۇتقا ماسقەدەملەش ئۈچۈن بەزى ھۆججەتلەرنى ئۆچۈرۈڭ.</string>
     <string name="error_dialog_we_need_info">سىزگە ياردەم قىلىش ئۈچۈن تۆۋەندىكى تېخنىكىلىق ئۇچۇرلار لازىم:</string>
-    <string name="error_dialog_redirect">مۇلازىمېتىرىڭىز HTTP 302 ھالەت كودى بىلەن جاۋاب قايتۇردى ، بۇ سىزنىڭ مۇلازىمېتىرغا پالۋان دېتالى ئورناتمىغانلىقىڭىزنى ياكى بىرەر ئىشنىڭ خاتا ئۆزگەرتىلگەنلىكىنى كۆرسىتىدۇ. بۇنى .htaccess ھۆججىتىدىكى ئىختىيارى قاپلاش ياكى OID Client غا ئوخشاش Nextcloud ئەپلىرى كەلتۈرۈپ چىقىرىدۇ.</string>
     <string name="error_dialog_version_not_parsable">مۇلازىمېتىر تەرەپ پالۋان دېتالىنىڭ نەشرىنى ئېنىقلىيالمىدۇق. قاچىلانغان ۋە قوزغىتىلغانلىقىنى جەزملەشتۈرۈڭ.</string>
     <string name="error_dialog_account_might_not_be_authorized">Nextcloud ئەپىڭىزنىڭ ھېساباتىغا ئەمدى ئىجازەت بېرىلمەسلىكى مۇمكىن.</string>
     <string name="error_dialog_user_not_found_in_database">نۆۋەتتىكى ئىشلەتكۈچى سانداندىكى ئىشلەتكۈچىگە ماس كەلمەيدۇ. ئەگەر Nextcloud مىسالىڭىزدا LDAP ئىشلىتىۋاتقان بولسىڭىز ، Nextcloud ئەپىڭىز كونا ئىشلەتكۈچى كىملىكىنى ساقلىغان بولۇشى مۇمكىن.</string>

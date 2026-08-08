@@ -211,7 +211,6 @@
 
     <string name="error_dialog_title">Appikene, mis nüüd saab? 🙁</string>
     <string name="error_dialog_tip_token_mismatch_retry">Palun  proovi sundkorras rakendus kinni panna ja siis uuesti käivitada. Tegemist võis olla ühenduse veaga Nextcloudi serveri ja rakenduse vahel.</string>
-    <string name="error_dialog_tip_clear_storage_might_help">Kui probleem jätkub, siis proovi selle lahendamiseks tühjendada mõlema rakenduse andmeruumid: Nextcloud ja Nextcloudi Deck.</string>
     <string name="error_dialog_tip_database_upgrade_failed">Ei õnnestunud uuendada andmebaasi. Palun teata sellest veast arendajatele ning rakenduse tavapäraseks kasutamiseks kustuta andmeruum.</string>
     <string name="error_dialog_tip_clear_storage">Andmeruumi saad tühjendada, kui avad rakenduse teabe ning valid „Andmeruum“ → „Tühjenda andmeruum“.</string>
     <string name="error_dialog_tip_offline_no_internet">Tundub, et sa proovisid käivitada sünkroniseerimist nii, et nutiseadmes polnud toimivat internetiühendust.</string>
@@ -228,7 +227,6 @@
     <string name="error_dialog_check_maintenance">Palun kontrolli, et Nextcloudi server ei oleks hetkel hooldusrežiimis!</string>
     <string name="error_dialog_insufficient_storage">Sinu Nextcloudi serveris pole enam vaba andmeruumi. Selleks, et kohalike failide sünkroonimine pilve toimiks, palun kustuta serverist mittevajalikke faile.</string>
     <string name="error_dialog_we_need_info">Me vajame sinult järgnevat tehnilist teavet:</string>
-    <string name="error_dialog_redirect">Sinu server vastas päringule http-protokolli olekukukoodiga 302, mis tähendab, et kas serverisse on paigaldamata Kanbani rakendus või mõni seadistus on vigane. Samuti võib seda põhjustada .htaccess faili eraldi tehtud muudatused  või Nextcloudi rakendused nagu OID Klient.</string>
     <string name="error_dialog_version_not_parsable">Me ei suutnud serverpoolse Kanbani rakenduse versiooni tuvastada. Palun kontrolli, et ta oleks paigaldatud ja sisse lülitatud.</string>
     <string name="error_dialog_account_might_not_be_authorized">Sinu Nextcloudi rakenduse kasutajakonto autoriseerimine võib olla lõppenud.</string>
     <string name="error_dialog_user_not_found_in_database">Praegune kasutajanimi ei vasta sellele mis meil on andmebaasis kirjas. Kui kasutad oma Nextcloudi serveris LDAP-i teenust, siis võib sinu Nextcloudi rakenduses veel kirjas olla vana kasutajatunnus.</string>
@@ -339,5 +337,6 @@
     <string name="label_no_startdate">Alguskuupäeva pole</string>
     <string name="label_dependent_cards">Sõltuvad kaardid</string>
     <string name="label_color">Värv</string>
+    <string name="label_clear_color">Eemalda värv</string>
     <string name="choose_color">Vali värv</string>
 </resources>

@@ -209,7 +209,6 @@
 
     <string name="error_dialog_title">Å nei - Hva nå? 🙁</string>
     <string name="error_dialog_tip_token_mismatch_retry">Prøv å tvinge avslutning av appen og start den på nytt. Det kan ha vært en feiltilkobling til Nextcloud-appen.</string>
-    <string name="error_dialog_tip_clear_storage_might_help">Hvis problemet vedvarer, prøv å tømme lageret for begge disse appene for å løse problemet: Nextcloud og Nextcloud Deck.</string>
     <string name="error_dialog_tip_database_upgrade_failed">Oppgraderingen av databasen mislyktes. Vennligst rapporter problemet og tøm lageret for å bruke appen normalt.</string>
     <string name="error_dialog_tip_clear_storage">Du kan tømme lageret ved å åpne App info og velge Lagring og buffer → Tøm lagring.</string>
     <string name="error_dialog_tip_offline_no_internet">Det ser ut til at du forsøkte å sette igang en synkronisering uten en internettilkobling.</string>
@@ -226,7 +225,6 @@
     <string name="error_dialog_check_maintenance">Vennligst sjekk at Nextcloud instansen ikke er i vedlikeholdsmodus for øyeblikket.</string>
     <string name="error_dialog_insufficient_storage">Nextcloud instansen har ikke mer ledig lagringsplass. Vennligst slett noen filer for å synkronisere de lokale endringen til skyen din.</string>
     <string name="error_dialog_we_need_info">Vi trenger følgende teknisk informasjon for å kunne hjelpe deg:</string>
-    <string name="error_dialog_redirect">Serveren din svarte med en HTTP 302-statuskode, noe som antyder at du ikke har installert Deck-appen på serveren din, eller at noe er feilkonfigurert. Dette kan være forårsaket av tilpassede overstyringer i en .htaccess-fil eller av Nextcloud-apper som OID Client.</string>
     <string name="error_dialog_version_not_parsable">Vi kunne ikke avgjøre hvilken versjon av Deck-appen på serveren. Vennligst forsikre deg om at den er installert og aktivert.</string>
     <string name="error_dialog_account_might_not_be_authorized">Kontoen til Nextcloud-appen din er kanskje ikke lenger autorisert.</string>
     <string name="error_dialog_user_not_found_in_database">Den nåværende brukeren samsvarer ikke med brukeren vi har i databasen vår. Hvis du bruker LDAP i Nextcloud-instansen, kan det hende at Nextcloud-appen din har lagret en gammel bruker-ID.</string>

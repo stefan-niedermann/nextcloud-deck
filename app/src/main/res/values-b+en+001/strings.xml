@@ -211,7 +211,6 @@
 
     <string name="error_dialog_title">Oh no - What now? 🙁</string>
     <string name="error_dialog_tip_token_mismatch_retry">Please try to force close the app and restart it again. There might have been an incorrect connection to the Nextcloud app.</string>
-    <string name="error_dialog_tip_clear_storage_might_help">If the issue persists, try to clear the storage of both apps: Nextcloud and Nextcloud Deck to solve this issue.</string>
     <string name="error_dialog_tip_database_upgrade_failed">The upgrade of the database failed. Please report the issue and clear the storage to use the app normally.</string>
     <string name="error_dialog_tip_clear_storage">You can clear the storage by opening the app info and selecting Storage → Clear storage.</string>
     <string name="error_dialog_tip_offline_no_internet">It looks like you tried to trigger a synchronization without an internet connection.</string>
@@ -228,7 +227,6 @@
     <string name="error_dialog_check_maintenance">Please check whether your Nextcloud instance is not currently in maintenance mode.</string>
     <string name="error_dialog_insufficient_storage">Your Nextcloud instance has no free storage left. Please delete some files to sync your local changes into your cloud.</string>
     <string name="error_dialog_we_need_info">We need the following technical information to help you:</string>
-    <string name="error_dialog_redirect">Your server did respond with a HTTP 302 status code, which implies, that you do not have installed the Deck app on your server or something is misconfigured. This can be caused by custom overrides in a .htaccess-file or by Nextcloud apps like OID Client.</string>
     <string name="error_dialog_version_not_parsable">We could not determine the version of the server side Deck app. Please make sure it is installed and enabled.</string>
     <string name="error_dialog_account_might_not_be_authorized">The account of your Nextcloud app might no longer be authorised.</string>
     <string name="error_dialog_user_not_found_in_database">The current user does not match the user we have in our database. If you are using LDAP on your Nextcloud instance, your Nextcloud app might have stored an old user ID.</string>
