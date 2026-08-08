@@ -169,4 +169,5 @@
     <string name="saving_new_card">Guardando la tarxeta nueva…</string>
     <string name="show_error">Amosar l\'error</string>
     <string name="no_search_results_title">Nun hai nengún resultáu de la busca</string>
+    <string name="label_color">Color</string>
     </resources>

@@ -209,7 +209,6 @@
 
     <string name="error_dialog_title">О не - сега какво? 🙁</string>
     <string name="error_dialog_tip_token_mismatch_retry">Моля, опитайте принудително да затворите приложението и отново да го рестартирате. Възможно е да е имало неправилна връзка с приложението Nextcloud.</string>
-    <string name="error_dialog_tip_clear_storage_might_help">Ако проблемът продължава, опитайте се да изчистите хранилището на двете приложения: Nextcloud и Nextcloud Deck, за да разрешите този проблем.</string>
     <string name="error_dialog_tip_database_upgrade_failed">Неуспешна надстройка на базата данни. Моля, подайте сигнал за проблема и изчистете хранилището, за да използвате приложението нормално.</string>
     <string name="error_dialog_tip_clear_storage">Можете да изчистите хранилището, като отворите информацията за приложението и изберете Хранилище → Изчистване на хранилището.</string>
     <string name="error_dialog_tip_offline_no_internet">Изглежда, че сте се опитали да задействате синхронизация без интернет връзка.</string>
@@ -226,7 +225,6 @@
     <string name="error_dialog_check_maintenance">Моля, проверете дали вашето приложение Nextcloud в момента не е в режим на поддръжка.</string>
     <string name="error_dialog_insufficient_storage">Вашето приложение Nextcloud няма свободно място в хранилището. Моля, изтрийте някои файлове, за да синхронизирате локалните си промени във вашия облак.</string>
     <string name="error_dialog_we_need_info">Имаме нужда от следната техническа информация, за да ви помогнем:</string>
-    <string name="error_dialog_redirect">Сървърът ви отговори с код за състояние HTTP 302, което означава, че не сте инсталирали приложението Deck на вашия сървър или нещо е конфигурирано неправилно. Това може да бъде причинено от персонализирани замени в .htaccess-файл или от приложения на Nextcloud, като OID Клиент.</string>
     <string name="error_dialog_version_not_parsable">Не можахме да определим версията на приложението Deck от сървъра. Моля, уверете се, че е инсталирано и активирано.</string>
     <string name="error_dialog_account_might_not_be_authorized">Профилът на вашето приложение Nextcloud може вече да не е оторизиран.</string>
     <string name="error_dialog_user_not_found_in_database">Текущият потребител не съответства на потребителя, който имаме в нашата база данни. Ако за вашето Nextcloud приложение използвате LDAP, приложението Nextcloud може да е съхранило стар потребителски идентификатор.</string>
@@ -334,4 +332,6 @@
     <string name="enter_search_term_description">Въвеждане на термин за търсене, за да намерите карти в този панел</string>
     <string name="no_search_results_title">Няма резултати от търсенето</string>
     <string name="no_search_results_description">Не са намерени резултати за зададения термин за търсене</string>
-    </resources>
+    <string name="label_color">Цвят</string>
+    <string name="choose_color">Избор на цвят</string>
+</resources>

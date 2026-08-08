@@ -209,7 +209,6 @@
 
     <string name="error_dialog_title">Ó-nei - Hvað nú? 🙁</string>
     <string name="error_dialog_tip_token_mismatch_retry">Prófaðu að þvinga lokun á forritinu og endurræsa það síðan. Mögulega hefur verið röng tenging við Nextcloud-forritið.</string>
-    <string name="error_dialog_tip_clear_storage_might_help">Ef vandamálið er viðvarandi, skaltu reyna að hreinsa geymslurými beggja forritanna, Nextcloud og Nextcloud Deck, til að leysa málið.</string>
     <string name="error_dialog_tip_database_upgrade_failed">Uppfærsla á gagnagrunninum mistókst. Tilkynntu vandamálið og hreinsaðu út úr geymslurýminu til að nota forritið á venjulegan máta.</string>
     <string name="error_dialog_tip_clear_storage">Þú getur hreinsað geymslurýmið með því að opna upplýsingar forritsins og velja Geymslurými → Hreinsa geymslurými.</string>
     <string name="error_dialog_tip_offline_no_internet">Það lítur út eins og þú hafir sett samstillingu í gang án tengingar við internetið.</string>
@@ -225,7 +224,6 @@
     <string name="error_dialog_check_maintenance">Athugaðu hvort Nextcloud-þjónninn þinn sé nokkuð núna í viðhaldsham.</string>
     <string name="error_dialog_insufficient_storage">Nextcloud-netþjónninn þinn á ekkert laust geymslupláss eftir. Eyddu einhverjum skrám til að geta samstillt breytingar á tækinu yfir í skýið.</string>
     <string name="error_dialog_we_need_info">Við þurfum eftirfarandi tæknilegar upplýsingar til að geta aðstoðað þig:</string>
-    <string name="error_dialog_redirect">Þjónninn þinn svaraði með HTTP 302 stöðukóða, sem bendir til að þú hafir ekki sett Deck-spjaldaforritið upp á netþjóninum eða að eitthvað sé vanstillt. Þetta getur komið til vegna sérsniðinna skipana í .htaccess-skrá eða vegna Nextcloud-forrita á borð við OID Client.</string>
     <string name="error_dialog_version_not_parsable">Við gátum ekki ákvarðað útgáfu Deck-spjaldaforritsins á netþjóninum. Gakktu úr skugga um að það sé rétt upp sett og sé virkt.</string>
     <string name="error_dialog_account_might_not_be_authorized">Aðgangurinn þinn á Nextcloud-forritinu er mögulega ekki lengur heimilaður.</string>
     <string name="error_dialog_user_not_found_in_database">Núverandi notandi samsvarar ekki notandanum sem við erum með í gagnagrunninum okkar. Ef þú ert að nota LDAP á Nextcloud-tilvikinu þínu, gæti Nextcloud-forritið þitt mögulega hafa geymt gamalt notandaauðkenni.</string>

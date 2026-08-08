@@ -213,7 +213,6 @@
 
     <string name="error_dialog_title">О нет, что теперь? 🙁</string>
     <string name="error_dialog_tip_token_mismatch_retry">Попробуйте принудительно закрыть приложение и запустить его снова. Это могло быть связано с некорректным подключением к приложению Nextcloud.</string>
-    <string name="error_dialog_tip_clear_storage_might_help">Если проблема повторяется, попробуйте для её решения очистить хранилища данных приложений Nextcloud и Nextcloud Карточки.</string>
     <string name="error_dialog_tip_database_upgrade_failed">Не удалось выполнить обновление базы данных. Сообщите об этой ошибке разработчикам. Чтобы продолжить использовать приложение, требуется выполнить очистку данных приложения.</string>
     <string name="error_dialog_tip_clear_storage">Для очистки хранилища на откройте приложение «Настройки» и выберите Приложения → Nextcloud / Nextcloud Deck → Хранилище → Очистить хранилище</string>
     <string name="error_dialog_tip_offline_no_internet">Похоже, что вы пытались запустить синхронизацию без подключения к Интернету.</string>
@@ -230,7 +229,6 @@
     <string name="error_dialog_check_maintenance">Пожалуйста убедитесь что ваш экземпляр Nextcloud не в режиме обслуживания.</string>
     <string name="error_dialog_insufficient_storage">На вашем экземпляре Nextcloud нет свободного места. Удалите ненужные файлы для синхронизации изменений в облако.</string>
     <string name="error_dialog_we_need_info">Требуется следующая техническая информация от вас:</string>
-    <string name="error_dialog_redirect">На запрос сервер вернул код состояния HTTP 302, что означает, что  приложение Карточки либо не установлено, либо сервер настроен неверно. Такое поведение может являться следствием замены стандартного файла .htaccess администратором сервера или приложением Nextcloud, таким как OID Client.</string>
     <string name="error_dialog_version_not_parsable">Не удалось определить серверную версию приложения Карточки. Убедитесь, что приложение установлено и включено на сервере.</string>
     <string name="error_dialog_account_might_not_be_authorized">Учётная запись из приложения Nextcloud не может использована для авторизации.</string>
     <string name="error_dialog_user_not_found_in_database">Данные о текущем пользователе отличаются от сохранённых в базе данных приложения. Это может произойти при использовании каталогов LDAP на сервере Nextcloud.</string>

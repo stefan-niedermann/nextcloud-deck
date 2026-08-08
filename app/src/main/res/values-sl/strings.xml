@@ -212,7 +212,6 @@
 
     <string name="error_dialog_title">Ojoj, kaj pa zdaj? 🙁</string>
     <string name="error_dialog_tip_token_mismatch_retry">Poskusite vsiliti končanje programa in ga ponovno zagnati. Morda je težava v neustrezni povezavi z okoljem Nextcloud</string>
-    <string name="error_dialog_tip_clear_storage_might_help">Če se težava še naprej pojavlja, poskusite počistiti podatke programa Nextcloud in Nextcloud Deck.</string>
     <string name="error_dialog_tip_database_upgrade_failed">Nadgradnja podatkovne zbirke je spodletela. Pošljite poročilo o napaki in nato počistite shrambo za normalno uporabo programa.</string>
     <string name="error_dialog_tip_clear_storage">Shrambo je mogoče počistiti med podrobnostmi programa Shramba → Počisti shrambo.</string>
     <string name="error_dialog_tip_offline_no_internet">Kaže, da ste sprožili usklajevanje brez ustrezno vzpostavljene povezave z omrežjem.</string>
@@ -228,7 +227,6 @@
     <string name="error_dialog_check_maintenance">Preverite, ali je morda namestitev Nextcloud trenutno v vzdrževalnem načinu.</string>
     <string name="error_dialog_insufficient_storage">Ni več prostora v shrambi. Izbrisati je treba nekaj datotek za nadaljevanje usklajevanja krajevnih datotek z oblakom.</string>
     <string name="error_dialog_we_need_info">Z ustrezno pomoč potrebujemo nekaj tehničnih podrobnosti sistema:</string>
-    <string name="error_dialog_redirect">S strežnika je prejet odziv s kodo stanja HTTP 302, kar kaže na to, da program Deck ni nameščen, ali pa je napačno nastavljen. Napaka se pojavi tudi pri nekaterih določilih v datoteki .htaccess oziroma programih, kot je odjemalec OID.</string>
     <string name="error_dialog_version_not_parsable">Ni mogoče določiti različice strežnika, povezanega s programom Deck. Prepričajte se, da je nameščen in omogočen.</string>
     <string name="error_dialog_account_might_not_be_authorized">Račun v programu Nextcloud morda ni več overjen.</string>
     <string name="error_dialog_user_not_found_in_database">Trenutno izbrani uporabnik nima ustreznih dovoljenj. Če uporabljate LDAP ima morda progam Nextcloud shranjen star ID uporabnika.</string>

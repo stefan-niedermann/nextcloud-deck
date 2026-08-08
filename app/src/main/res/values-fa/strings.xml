@@ -209,7 +209,6 @@
 
     <string name="error_dialog_title">اوه نه - حالا نه! 🤦 </string>
     <string name="error_dialog_tip_token_mismatch_retry">لطفا سعی کنید برنامه را به زور ببندید و دوباره آن را مجدداً راه اندازی کنید. ممکن است اتصال نادرستی به برنامه ابر سانا وجود داشته باشد.</string>
-    <string name="error_dialog_tip_clear_storage_might_help">اگر این مشکل همچنان ادامه دارد ، سعی کنید فضای ذخیره سازی هر دو برنامه را پاک کنید: ابر سانا و کارت های سانا برای حل این مشکل.</string>
     <string name="error_dialog_tip_database_upgrade_failed">ارتقا پایگاه داده انجام نشد. لطفاً موضوع را گزارش کرده و فضای ذخیره سازی را پاک کنید تا به طور معمول از برنامه استفاده کنید.</string>
     <string name="error_dialog_tip_clear_storage">با باز کردن اطلاعات برنامه و انتخاب ذخیره سازی ← پاک کردن فضای ذخیره سازی ، می توانید فضای ذخیره سازی را پاک کنید.</string>
     <string name="error_dialog_tip_offline_no_internet">به نظر می رسد سعی کرده اید یک همگام سازی را بدون اتصال به اینترنت راه اندازی کنید.</string>
@@ -226,7 +225,6 @@
     <string name="error_dialog_check_maintenance">لطفاً بررسی کنید که برنامه ابرسانا شما در حال حاضر در حالت تعمیر و نگهداری نیست.</string>
     <string name="error_dialog_insufficient_storage">نمونه نکست‌کلود شما دیگر فضای ذخیرهٔ خالی ندارد. لطفاً تعدادی پرونده را حذف کنید تا تغییرات محلی‌تان با فضای ابری همگام شود.</string>
     <string name="error_dialog_we_need_info">برای کمک به شما به اطلاعات فنی زیر نیاز داریم:</string>
-    <string name="error_dialog_redirect">سرور شما با کد وضعیت HTTP 302 پاسخ داده است ، که این بدان معناست که شما برنامه کارت‌های سانا را بر روی سرور خود نصب نکرده اید یا چیز اشتباه پیکربندی شده است. این می تواند به دلیل لغو سفارشی در پرونده .htaccess یا برنامه های ابرسانا مانند OID Client باشد.</string>
     <string name="error_dialog_version_not_parsable">ما نمی توانیم نسخه برنامه کارت‌های سانا سمت سرور را تعیین کنیم. لطفاً از نصب و فعال بودن آن اطمینان حاصل کنید.</string>
     <string name="error_dialog_account_might_not_be_authorized">حساب برنامه ابرسانا شما ممکن است دیگر مجاز نباشد.</string>
     <string name="error_dialog_user_not_found_in_database">کاربر فعلی با کاربرانی که در پایگاه داده خود داریم مطابقت ندارد. اگر از LDAP در نمونه ابرسنا خود استفاده می کنید ، ممکن است برنامه ابرسانا شما شناسه کاربری قدیمی را ذخیره کرده باشد.</string>
