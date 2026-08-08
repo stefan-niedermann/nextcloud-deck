@@ -2,13 +2,10 @@ package it.niedermann.nextcloud.deck.javafx.ui.stages;
 
 import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 import dagger.assisted.Assisted;
 import dagger.assisted.AssistedFactory;
 import dagger.assisted.AssistedInject;
-import it.niedermann.nextcloud.deck.app.shared.args.ArgsResolver;
 import it.niedermann.nextcloud.deck.app.shared.args.board.BoardArgResolver;
 import it.niedermann.nextcloud.deck.app.shared.args.board.BoardParsedArgs;
 import it.niedermann.nextcloud.deck.app.shared.args.board.BoardRawArgs;
@@ -16,6 +13,7 @@ import it.niedermann.nextcloud.deck.domain.usecases.accounts.HasAccountsUseCase;
 import it.niedermann.nextcloud.deck.domain.usecases.state.SetCurrentAccountUseCase;
 import it.niedermann.nextcloud.deck.javafx.exception.ExceptionUnwrapper;
 import it.niedermann.nextcloud.deck.javafx.services.application.ThemeService;
+import it.niedermann.nextcloud.deck.javafx.services.stage.LoginStageContext;
 import it.niedermann.nextcloud.deck.javafx.services.stage.MainStageContext;
 import it.niedermann.nextcloud.deck.javafx.ui.StageManager;
 import it.niedermann.nextcloud.deck.javafx.ui.controller.scenes.ExceptionScene;
@@ -23,17 +21,13 @@ import it.niedermann.nextcloud.deck.javafx.ui.controller.scenes.LoginScene;
 import it.niedermann.nextcloud.deck.javafx.ui.controller.scenes.MainScene;
 import it.niedermann.nextcloud.deck.javafx.ui.controller.scenes.SplashScreenScene;
 import it.niedermann.nextcloud.deck.javafx.ui.fxml.Inflater;
-import it.niedermann.nextcloud.deck.javafx.util.JavaFxScheduler;
 import jakarta.inject.Provider;
 import javafx.stage.Stage;
 
-public class MainStageManager extends StageManager<BoardRawArgs> {
-
-    private static final Logger logger = Logger.getLogger(MainStageManager.class.getName());
+public class MainStageManager extends StageManager<BoardRawArgs, BoardParsedArgs> {
 
     private final MainScene.Factory mainSceneFactory;
     private final MainStageContext.Factory stageContextFactory;
-    private final ArgsResolver<BoardRawArgs, BoardParsedArgs> boardArgResolver;
     private final ExceptionUnwrapper exceptionUnwrapper;
 
     @AssistedInject
@@ -42,6 +36,7 @@ public class MainStageManager extends StageManager<BoardRawArgs> {
                             ThemeService themeService,
                             SplashScreenScene.Factory splashScreenFactory,
                             HasAccountsUseCase hasAccountsUseCase,
+                            LoginStageContext.Factory loginStageContextFactory,
                             Provider<LoginScene.Factory> loginFactoryProvider,
                             Provider<ExceptionScene.Factory> exceptionFactoryProvider,
                             SetCurrentAccountUseCase setCurrentAccountUseCase,
@@ -55,13 +50,14 @@ public class MainStageManager extends StageManager<BoardRawArgs> {
                 inflater,
                 splashScreenFactory,
                 hasAccountsUseCase,
+                loginStageContextFactory,
                 loginFactoryProvider,
                 exceptionFactoryProvider,
                 setCurrentAccountUseCase,
+                boardArgResolver,
                 args);
         this.mainSceneFactory = mainSceneFactory;
         this.stageContextFactory = stageContextFactory;
-        this.boardArgResolver = boardArgResolver;
         this.exceptionUnwrapper = exceptionUnwrapper;
     }
 
@@ -71,37 +67,22 @@ public class MainStageManager extends StageManager<BoardRawArgs> {
     }
 
     @Override
-    protected CompletableFuture<Void> showContent(BoardRawArgs rawArgs) {
-        return boardArgResolver.resolve(rawArgs)
-                .thenApplyAsync(this::inflateContent, JavaFxScheduler.platform().toExecutorService())
-                .thenComposeAsync(this::setStageContent)
-                .exceptionallyComposeAsync(this::recoverError);
-    }
-
-    private Inflater.FxBundle<?> inflateContent(BoardParsedArgs initialState) {
-
+    protected CompletableFuture<Inflater.FxBundle<Object>> showContent(BoardParsedArgs parsedArgs) {
         final var stageContext = stageContextFactory.createStageContext(new MainStageContext.State(
-                Optional.ofNullable(initialState.accountId()),
-                Optional.ofNullable(initialState.boardId()),
+                Optional.ofNullable(parsedArgs.accountId()),
+                Optional.ofNullable(parsedArgs.boardId()),
                 Optional.empty()
         ));
 
         final var mainScene = mainSceneFactory.createMainScene(stageContext);
-        return inflater.inflate(mainScene);
+        return CompletableFuture.completedFuture(inflater.inflate(mainScene));
     }
 
-    /// @return [CompletableFuture] - completed when the user recovered from the passed throwable
-    private CompletableFuture<Void> recoverError(Throwable throwable) {
-
-        logger.log(Level.SEVERE, "Initialization error", throwable);
-
-        return switch (exceptionUnwrapper.unwrap(throwable)) {
-
-            case BoardArgResolver.NoAccountConfiguredException _ ->
-                    showLogin().thenComposeAsync(_ -> initialize());
-
-            default -> CompletableFuture.failedFuture(throwable);
-
-        };
+    @Override
+    protected CompletableFuture<Void> recoverError(Throwable throwable) {
+        if (exceptionUnwrapper.unwrap(throwable) instanceof BoardArgResolver.NoAccountConfiguredException) {
+            return showLoginScene();
+        }
+        return CompletableFuture.failedFuture(throwable);
     }
 }

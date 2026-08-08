@@ -153,6 +153,15 @@ public class CardRepositoryImpl implements CardRepository {
     }
 
     @Override
+    public Flow.Publisher<Boolean> cardExists(Card.ID cardId) {
+        // TODO Mock Implementation
+        return FlowAdapters.toFlowPublisher(
+                Flowable.fromCallable(() -> MockData.MOCK_CARDS.stream().anyMatch(card -> Objects.equals(card.id(), cardId)))
+                        .subscribeOn(Schedulers.io())
+        );
+    }
+
+    @Override
     public Flow.Publisher<Collection<Card>> find(String userText) {
         // TODO Mock Implementation
         return FlowAdapters.toFlowPublisher(

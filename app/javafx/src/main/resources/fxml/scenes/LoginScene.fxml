@@ -7,46 +7,12 @@
     <BorderPane>
         <center>
             <VBox id="form">
-                <GridPane>
-                    <columnConstraints>
-                        <ColumnConstraints minWidth="10.0" prefWidth="150.0" />
-                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="200.0" />
-                    </columnConstraints>
-                    <rowConstraints>
-                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                        <RowConstraints />
-                    </rowConstraints>
-                    <children>
-                        <Label text="%login.label.server-address" />
-                        <TextField GridPane.columnIndex="1"
-                            promptText="%login.placeholder.server-address" fx:id="url" />
-
-                        <Label GridPane.rowIndex="1" text="%login.label.username" />
-                        <TextField GridPane.columnIndex="1" GridPane.rowIndex="1"
-                            fx:id="username" />
-
-                        <Label GridPane.rowIndex="2" text="%login.label.password" />
-                        <PasswordField GridPane.columnIndex="1" GridPane.rowIndex="2"
-                            fx:id="password" />
-
-                        <Label GridPane.rowIndex="3" prefWidth="100.0"
-                            text="%login.label.progress" />
-                        <ProgressBar GridPane.columnIndex="1" GridPane.rowIndex="3" disable="true"
-                            maxWidth="Infinity" progress="0.0" fx:id="progress" />
-                    </children>
-                </GridPane>
+                <StackPane fx:id="featureHost" />
+                <VBox fx:id="progressHost" spacing="10.0" visible="false" managed="false">
+                    <Label text="%login.label.progress" />
+                    <ProgressBar fx:id="progress" maxWidth="Infinity" progress="0.0" />
+                </VBox>
             </VBox>
         </center>
-        <bottom>
-            <Button BorderPane.alignment="CENTER_RIGHT" text="%login.btn.submit"
-                fx:id="submit">
-                <BorderPane.margin>
-                    <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
-                </BorderPane.margin>
-            </Button>
-        </bottom>
-
     </BorderPane>
 </StackPane>

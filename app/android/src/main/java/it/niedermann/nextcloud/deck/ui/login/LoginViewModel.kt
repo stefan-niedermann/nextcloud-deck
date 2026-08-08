@@ -6,6 +6,7 @@ import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
+import it.niedermann.nextcloud.deck.domain.model.AuthenticatedAccount
 import it.niedermann.nextcloud.deck.domain.state.SyncStatus
 import it.niedermann.nextcloud.deck.domain.usecases.accounts.ImportAccountUseCase
 import it.niedermann.nextcloud.deck.domain.usecases.state.SetCurrentAccountUseCase
@@ -48,7 +49,8 @@ class LoginViewModel @Inject constructor(
 
         viewModelScope.launch {
             try {
-                FlowAdapters.toPublisher(importAccountUseCase.execute(serverUrl, username, password))
+                val authenticatedAccount = AuthenticatedAccount(serverUrl, username, password)
+                FlowAdapters.toPublisher(importAccountUseCase.execute(authenticatedAccount))
                     .asFlow()
                     .collect { status ->
                         syncStatus = status

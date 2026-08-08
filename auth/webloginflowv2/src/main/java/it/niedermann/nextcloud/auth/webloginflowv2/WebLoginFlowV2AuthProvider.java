@@ -10,6 +10,7 @@ import java.time.Instant;
 import java.util.Objects;
 import java.util.logging.Logger;
 
+import it.niedermann.nextcloud.deck.domain.model.AuthenticatedAccount;
 import jakarta.inject.Inject;
 import jakarta.inject.Singleton;
 import okhttp3.OkHttpClient;
@@ -56,7 +57,8 @@ public class WebLoginFlowV2AuthProvider {
             switch (pollResponse.code()) {
                 // @formatter:off
                     case 200 -> {
-                        return new AuthenticatedAccount(Objects.requireNonNull(pollResponse.body()));
+                        final var body = Objects.requireNonNull(pollResponse.body());
+                        return new AuthenticatedAccount(URI.create(body.server()).toURL(), body.loginName(), body.appPassword());
                     }
                     case 404 -> //noinspection BusyWait
                                 Thread.sleep(1_000);

@@ -28,5 +28,7 @@ public interface CardRepository {
 
     Flow.Publisher<Card> getCard(Card.ID cardId);
 
+    Flow.Publisher<Boolean> cardExists(Card.ID cardId);
+
     Flow.Publisher<Collection<Card>> find(String userText);
 }

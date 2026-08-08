@@ -9,6 +9,7 @@ import java.util.logging.Logger;
 
 import io.reactivex.rxjava4.core.Maybe;
 import it.niedermann.nextcloud.auth.apptoken.AppTokenAuthProvider;
+import it.niedermann.nextcloud.deck.domain.model.AuthenticatedAccount;
 import it.niedermann.nextcloud.deck.domain.usecases.accounts.ImportAccountUseCase;
 import it.niedermann.nextcloud.deck.domain.usecases.state.SetCurrentAccountUseCase;
 import jakarta.inject.Inject;
@@ -58,7 +59,8 @@ public class AccountAddCmd implements Callable<Integer> {
             }
 
             final var token = appTokenAuthProvider.generateToken(url, username, password);
-            final var accountId = Maybe.fromPublisher(importAccountUseCase.execute(url, username, token)).blockingGet()
+            final var authenticatedAccount = new AuthenticatedAccount(url, username, token);
+            final var accountId = Maybe.fromPublisher(importAccountUseCase.execute(authenticatedAccount)).blockingGet()
                     .account()
                     .id();
 

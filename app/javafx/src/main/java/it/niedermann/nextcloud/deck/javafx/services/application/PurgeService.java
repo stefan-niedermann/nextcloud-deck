@@ -11,7 +11,6 @@ import it.niedermann.nextcloud.deck.domain.state.KeyValueStore;
 import it.niedermann.nextcloud.deck.javafx.di.named.NamedDbPath;
 import jakarta.inject.Inject;
 import jakarta.inject.Singleton;
-import javafx.application.Platform;
 
 @Singleton
 public class PurgeService {
@@ -40,7 +39,6 @@ public class PurgeService {
         }
 
         try {
-            Platform.exit();
             database.close();
             Files.delete(dbPath);
             logger.info("✓ Deleted " + dbPath);

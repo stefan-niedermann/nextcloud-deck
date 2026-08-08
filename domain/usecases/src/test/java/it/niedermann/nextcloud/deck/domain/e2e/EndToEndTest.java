@@ -16,6 +16,7 @@ import it.niedermann.nextcloud.auth.apptoken.AppTokenAuthProvider;
 import it.niedermann.nextcloud.deck.data.local.DeckDatabase;
 import it.niedermann.nextcloud.deck.domain.di.DaggerTestComponent;
 import it.niedermann.nextcloud.deck.domain.di.TestModule;
+import it.niedermann.nextcloud.deck.domain.model.AuthenticatedAccount;
 import it.niedermann.nextcloud.deck.domain.model.CreateBoard;
 import it.niedermann.nextcloud.deck.domain.state.KeyValueStore;
 import it.niedermann.nextcloud.deck.domain.sync.SyncScheduler;
@@ -73,7 +74,8 @@ public class EndToEndTest {
     public void loginFlow() throws IOException {
 
         final var token = authProvider.generateToken(url, username, password);
-        final var lastSyncStatus = Maybe.fromPublisher(FlowAdapters.toPublisher(importAccountUseCase.execute(url, username, token))).blockingGet();
+        final var authenticatedAccount = new AuthenticatedAccount(url, username, token);
+        final var lastSyncStatus = Maybe.fromPublisher(FlowAdapters.toPublisher(importAccountUseCase.execute(authenticatedAccount))).blockingGet();
 
         final var account = lastSyncStatus.account();
         setCurrentAccountUseCase.execute(account.id()).join();

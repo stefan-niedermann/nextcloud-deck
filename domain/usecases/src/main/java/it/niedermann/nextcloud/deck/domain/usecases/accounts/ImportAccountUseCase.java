@@ -3,13 +3,13 @@ package it.niedermann.nextcloud.deck.domain.usecases.accounts;
 
 import org.reactivestreams.FlowAdapters;
 
-import java.net.URL;
 import java.util.concurrent.Flow;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.logging.Logger;
 
 import io.reactivex.rxjava3.core.Flowable;
 import it.niedermann.nextcloud.deck.domain.model.Account;
+import it.niedermann.nextcloud.deck.domain.model.AuthenticatedAccount;
 import it.niedermann.nextcloud.deck.domain.repository.AccountRepository;
 import it.niedermann.nextcloud.deck.domain.state.SyncStatus;
 import it.niedermann.nextcloud.deck.domain.sync.SyncScheduler;
@@ -31,9 +31,12 @@ public class ImportAccountUseCase {
         this.syncScheduler = syncScheduler;
     }
 
-    public Flow.Publisher<SyncStatus> execute(URL url, String username, String token) {
+    public Flow.Publisher<SyncStatus> execute(AuthenticatedAccount authenticatedAccount) {
         final var accountId = new AtomicReference<Account.ID>();
-        final var result = Flowable.fromFuture(accountRepository.addAccount(url, username, token))
+        final var result = Flowable.fromFuture(accountRepository.addAccount(
+                        authenticatedAccount.url(),
+                        authenticatedAccount.username(),
+                        authenticatedAccount.token()))
 
                 .doOnNext(accountId::set)
                 .doOnNext(v -> {
