@@ -1,0 +1,30 @@
+package it.niedermann.nextcloud.remote.deck.mapper;
+
+import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
+import org.mapstruct.factory.Mappers;
+
+import it.niedermann.nextcloud.deck.domain.model.Label;
+import it.niedermann.nextcloud.remote.deck.dto.LabelDTO;
+
+@Mapper(uses = {CommonRemoteMapper.class})
+public interface LabelRemoteMapper extends GenericRemoteMapper<LabelDTO, Label> {
+
+    LabelRemoteMapper INSTANCE = Mappers.getMapper(LabelRemoteMapper.class);
+
+    @Override
+    @Mapping(target = "id", source = "id")
+    @Mapping(target = "color", source = "color")
+    @Mapping(target = "etag", ignore = true)
+    LabelDTO toDTO(Label label);
+
+    @Override
+    @Mapping(target = "id", source = "id")
+    @Mapping(target = "boardId", ignore = true)
+    @Mapping(target = "remoteId", source = "id")
+    @Mapping(target = "status", ignore = true)
+    @Mapping(target = "lastModified", ignore = true)
+    @Mapping(target = "lastModifiedLocal", ignore = true)
+    @Mapping(target = "color", source = "color")
+    Label toTO(LabelDTO labelDTO);
+}

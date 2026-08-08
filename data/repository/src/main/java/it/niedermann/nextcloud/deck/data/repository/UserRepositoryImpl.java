@@ -1,6 +1,5 @@
 package it.niedermann.nextcloud.deck.data.repository;
 
-import org.jetbrains.annotations.NotNull;
 import org.reactivestreams.FlowAdapters;
 
 import java.io.IOException;
@@ -18,11 +17,7 @@ import it.niedermann.nextcloud.deck.domain.repository.AccountRepository;
 import it.niedermann.nextcloud.deck.domain.repository.UserRepository;
 import it.niedermann.nextcloud.remote.ApiProvider;
 import jakarta.inject.Inject;
-import okhttp3.ResponseBody;
-import retrofit2.Call;
-import retrofit2.Callback;
 import retrofit2.HttpException;
-import retrofit2.Response;
 
 public class UserRepositoryImpl implements UserRepository {
 
@@ -40,37 +35,31 @@ public class UserRepositoryImpl implements UserRepository {
         return CompletableFuture.completedFuture(account)
                 .thenApplyAsync(apiFactory::create)
                 .thenApplyAsync(ApiProvider::getOcsApi)
-                .thenComposeAsync(ocsApi -> {
-                    final var result = new CompletableFuture<Avatar>();
-                    final var call = ocsApi.getAvatar(userId.value(), sizeInPx);
-                    call.enqueue(new Callback<>() {
-                        @Override
-                        public void onResponse(@NotNull Call<ResponseBody> call, @NotNull Response<ResponseBody> response) {
-                            if (response.isSuccessful()) {
-                                try (final var body = response.body()) {
-                                    if (body != null) {
-                                        final var contentType = body.contentType();
-                                        final var mimeType = contentType != null ? contentType.toString() : null;
-                                        final var eTag = response.headers().get("ETag");
-                                        final var content = body.bytes();
-                                        result.complete(new Avatar(mimeType, eTag, sizeInPx, content));
-                                    } else {
-                                        result.completeExceptionally(new IOException("Empty response body"));
-                                    }
-                                } catch (IOException | RuntimeException e) {
-                                    result.completeExceptionally(e);
-                                }
+                .thenComposeAsync(ocsApi -> ocsApi.getAvatar(userId.value(), sizeInPx))
+                .thenComposeAsync(response -> {
+                    if (response.isSuccessful()) {
+                        try (final var body = response.body()) {
+                            if (body != null) {
+                                final var contentType = body.contentType();
+                                final var mimeType = contentType != null ? contentType.toString() : null;
+                                final var eTag = response.headers().get("ETag");
+                                final var content = body.bytes();
+                                return CompletableFuture.completedFuture(new Avatar(mimeType, eTag, sizeInPx, content));
                             } else {
-                                result.completeExceptionally(new HttpException(response));
+                                final var future = new CompletableFuture<Avatar>();
+                                future.completeExceptionally(new IOException("Empty response body"));
+                                return future;
                             }
+                        } catch (IOException | RuntimeException e) {
+                            final var future = new CompletableFuture<Avatar>();
+                            future.completeExceptionally(e);
+                            return future;
                         }
-
-                        @Override
-                        public void onFailure(@NotNull Call<ResponseBody> call, @NotNull Throwable t) {
-                            result.completeExceptionally(t);
-                        }
-                    });
-                    return result;
+                    } else {
+                        final var future = new CompletableFuture<Avatar>();
+                        future.completeExceptionally(new HttpException(response));
+                        return future;
+                    }
                 });
     }
 
