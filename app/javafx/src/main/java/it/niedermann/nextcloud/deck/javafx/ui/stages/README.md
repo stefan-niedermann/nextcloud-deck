@@ -3,17 +3,17 @@
 title: Lifecycle of a Stage
 ---
 flowchart TD
-    initializing((ApplicationRouter initializes StageManager)) --> loading[Show splashscreen]
+    initializing((Initialize StageManager)) --> loading[Show splashscreen]
     loading --> resolving[Subscribe to ArgsResolver]
     
     subgraph Watching ["Watching (Reactive Stream)"]
         resolving --> resolved{Resolving successful?}
         resolved -- success --> detectingchanges[Check if Args changed]
-        resolved -- failure --> recovering[recoverError]
+        resolved -- failure --> recovering[Recover from error]
     
-        detectingchanges -- changed --> savepromptevaulation{SavePromptGuarded}
+        detectingchanges -- changed --> savepromptevaluation{SavePromptGuarded}
     
-        savepromptevaulation -- allowed --> showcontent((Show content))
+        savepromptevaluation -- allowed --> showcontent((Show content))
     end
     
     recovering -- success --> loading
