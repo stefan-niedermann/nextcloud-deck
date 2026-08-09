@@ -26,6 +26,9 @@ import java.time.OffsetDateTime;
 import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.Flow;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.TimeoutException;
 
 import io.reactivex.rxjava4.core.Flowable;
 import it.niedermann.nextcloud.deck.app.shared.args.board.BoardArgResolver;
@@ -56,16 +59,19 @@ import it.niedermann.nextcloud.deck.domain.usecases.columns.GetColumnUseCase;
 import it.niedermann.nextcloud.deck.domain.usecases.columns.ListColumnsUseCase;
 import it.niedermann.nextcloud.deck.domain.usecases.comments.AddCommentUseCase;
 import it.niedermann.nextcloud.deck.domain.usecases.comments.ListPreviewCommentsUseCase;
+import it.niedermann.nextcloud.deck.domain.usecases.labels.SearchLabelsUseCase;
 import it.niedermann.nextcloud.deck.domain.usecases.state.GetCurrentAccountUseCase;
 import it.niedermann.nextcloud.deck.domain.usecases.state.GetCurrentBoardUseCase;
 import it.niedermann.nextcloud.deck.domain.usecases.state.SetCurrentAccountUseCase;
 import it.niedermann.nextcloud.deck.domain.usecases.state.SetCurrentBoardUseCase;
 import it.niedermann.nextcloud.deck.domain.usecases.sync.ScheduleSyncUseCase;
+import it.niedermann.nextcloud.deck.domain.usecases.users.SearchUserUseCase;
 import it.niedermann.nextcloud.deck.javafx.exception.ExceptionUnwrapper;
 import it.niedermann.nextcloud.deck.javafx.services.application.ApplicationRouter;
 import it.niedermann.nextcloud.deck.javafx.services.application.StageTitleResolver;
 import it.niedermann.nextcloud.deck.javafx.services.application.ThemeService;
 import it.niedermann.nextcloud.deck.javafx.services.stage.EditCardStageContext;
+import it.niedermann.nextcloud.deck.javafx.services.stage.LoginStageContext;
 import it.niedermann.nextcloud.deck.javafx.services.stage.MainStageContext;
 import it.niedermann.nextcloud.deck.javafx.store.StoreLogger;
 import it.niedermann.nextcloud.deck.javafx.ui.cellfactories.CardPreviewCellFactory;
@@ -124,17 +130,18 @@ class MainStageIntegrationTest {
 
     @Start
     void start(Stage stage) {
-        hasAccountsUseCase = mock(HasAccountsUseCase.class);
-        boardArgResolver = mock(BoardArgResolver.class);
-        setCurrentAccountUseCase = mock(SetCurrentAccountUseCase.class);
-        getBoardUseCase = mock(GetBoardUseCase.class);
-        listBoardsUseCase = mock(ListBoardsUseCase.class);
-        listColumnsUseCase = mock(ListColumnsUseCase.class);
-        getColumnUseCase = mock(GetColumnUseCase.class);
-        listCardPreviewsUseCase = mock(ListCardPreviewsUseCase.class);
-        getCardUseCase = mock(GetCardUseCase.class);
-        setCurrentBoardUseCase = mock(SetCurrentBoardUseCase.class);
-        getCurrentAccountUseCase = mock(GetCurrentAccountUseCase.class);
+        hasAccountsUseCase = mock(HasAccountsUseCase.class, Answers.RETURNS_MOCKS);
+        boardArgResolver = mock(BoardArgResolver.class, Answers.RETURNS_MOCKS);
+        setCurrentAccountUseCase = mock(SetCurrentAccountUseCase.class, Answers.RETURNS_MOCKS);
+        getBoardUseCase = mock(GetBoardUseCase.class, Answers.RETURNS_MOCKS);
+        listBoardsUseCase = mock(ListBoardsUseCase.class, Answers.RETURNS_MOCKS);
+        listColumnsUseCase = mock(ListColumnsUseCase.class, Answers.RETURNS_MOCKS);
+        getColumnUseCase = mock(GetColumnUseCase.class, Answers.RETURNS_MOCKS);
+        listCardPreviewsUseCase = mock(ListCardPreviewsUseCase.class, Answers.RETURNS_MOCKS);
+        getCardUseCase = mock(GetCardUseCase.class, Answers.RETURNS_MOCKS);
+        setCurrentBoardUseCase = mock(SetCurrentBoardUseCase.class, Answers.RETURNS_MOCKS);
+        getCurrentAccountUseCase = mock(GetCurrentAccountUseCase.class, Answers.RETURNS_MOCKS);
+
         
         applicationRouter = mock(ApplicationRouter.class);
 
@@ -150,7 +157,17 @@ class MainStageIntegrationTest {
 
         when(hasAccountsUseCase.execute()).thenReturn(Flowable.just(true));
         final var boardParsedArgs = new BoardParsedArgs(ACCOUNT_ID, BOARD_1.id());
-        when(boardArgResolver.resolve(any())).thenReturn(CompletableFuture.completedFuture(boardParsedArgs));
+        when(boardArgResolver.resolve(any())).thenReturn(subscriber -> subscriber.onSubscribe(new Flow.Subscription() {
+            @Override
+            public void request(long n) {
+                subscriber.onNext(boardParsedArgs);
+                subscriber.onComplete();
+            }
+
+            @Override
+            public void cancel() {
+            }
+        }));
 
         final var getAccountUseCase = mock(GetAccountUseCase.class);
         when(getAccountUseCase.execute(any())).thenReturn(Flowable.just(ACCOUNT));
@@ -169,7 +186,7 @@ class MainStageIntegrationTest {
         when(getCardUseCase.execute(any())).thenReturn(Flowable.empty());
         when(getCardUseCase.execute(CARD_1.id())).thenReturn(Flowable.just(card));
 
-        final var storeLogger = mock(StoreLogger.class);
+        final var storeLogger = new StoreLogger(new com.google.gson.Gson());
         final var detector = mock(OsThemeDetector.class);
         when(detector.isDark()).thenReturn(false);
         final var keyValueStore = mock(KeyValueStore.class);
@@ -218,42 +235,52 @@ class MainStageIntegrationTest {
                 getAccountUseCase,
                 mock(ScheduleSyncUseCase.class),
                 mock(RemoveAccountUseCase.class),
-                mock(AccountSwitcherFeature.Factory.class, Answers.RETURNS_MOCKS),
+                () -> new AccountSwitcherFeature(
+                        new it.niedermann.nextcloud.deck.javafx.ui.cellfactories.AccountListItemCellFactory(),
+                        getAccountUseCase,
+                        getAccountsUseCase,
+                        mock(ScheduleSyncUseCase.class),
+                        mock(RemoveAccountUseCase.class)
+                ),
                 viewModel
         );
 
-        final EditCardFeature.Factory editCardFeatureFactory = viewModel -> new EditCardFeature(
-                mock(CommentCellFactory.class, Answers.RETURNS_MOCKS),
-                mock(LabelSuggestionProvider.class, Answers.RETURNS_MOCKS),
-                mock(UserSuggestionProvider.class, Answers.RETURNS_MOCKS),
-                mock(LabelSearchViewConverter.class, Answers.RETURNS_MOCKS),
-                mock(LabelTagViewFactory.class, Answers.RETURNS_MOCKS),
-                mock(UserSearchViewConverter.class, Answers.RETURNS_MOCKS),
-                mock(UserTagViewFactory.class, Answers.RETURNS_MOCKS),
-                viewModel
-        );
+        final EditCardFeature.Factory editCardFeatureFactory = viewModel -> {
+            final var userSearchViewConverter = new UserSearchViewConverter();
+            return new EditCardFeature(
+                    new CommentCellFactory(),
+                    new LabelSuggestionProvider(mock(SearchLabelsUseCase.class)),
+                    new UserSuggestionProvider(mock(SearchUserUseCase.class)),
+                    new LabelSearchViewConverter(),
+                    new LabelTagViewFactory(new ColorUtil()),
+                    userSearchViewConverter,
+                    new UserTagViewFactory(userSearchViewConverter),
+                    viewModel
+            );
+        };
         
-        final var listAttachmentsUseCase = mock(ListAttachmentsUseCase.class);
+        final var listAttachmentsUseCase = mock(ListAttachmentsUseCase.class, Answers.RETURNS_MOCKS);
         when(listAttachmentsUseCase.execute(any())).thenReturn(Flowable.just(Collections.emptyList()));
-        final var listPreviewCommentsUseCase = mock(ListPreviewCommentsUseCase.class);
+        final var listPreviewCommentsUseCase = mock(ListPreviewCommentsUseCase.class, Answers.RETURNS_MOCKS);
         when(listPreviewCommentsUseCase.execute(any())).thenReturn(Flowable.just(Collections.emptyList()));
-        final var listPreviewActivitiesUseCase = mock(ListPreviewActivitiesUseCase.class);
+        final var listPreviewActivitiesUseCase = mock(ListPreviewActivitiesUseCase.class, Answers.RETURNS_MOCKS);
         when(listPreviewActivitiesUseCase.execute(any())).thenReturn(Flowable.just(Collections.emptyList()));
 
         final EditCardStageContext.Factory editCardStageContextFactory = (initialState, onClose) -> new EditCardStageContext(
                 storeLogger,
                 applicationRouter,
                 getCardUseCase,
-                mock(UpdateCardUseCase.class),
+                mock(UpdateCardUseCase.class, Answers.RETURNS_MOCKS),
                 getColumnUseCase,
                 getBoardUseCase,
                 listAttachmentsUseCase,
                 listPreviewCommentsUseCase,
                 listPreviewActivitiesUseCase,
-                mock(AddCommentUseCase.class),
+                mock(AddCommentUseCase.class, Answers.RETURNS_MOCKS),
                 initialState,
                 onClose
         );
+
 
         final MainScene.Factory mainSceneFactory = context -> new MainScene(
                 inflater,
@@ -269,14 +296,19 @@ class MainStageIntegrationTest {
         final SplashScreenScene.Factory splashScreenFactory = SplashScreenScene::new;
         final var loginFactoryProvider = (jakarta.inject.Provider<LoginScene.Factory>) () -> mock(LoginScene.Factory.class);
         final var exceptionFactoryProvider = (jakarta.inject.Provider<ExceptionScene.Factory>) () -> mock(ExceptionScene.Factory.class);
+        final LoginStageContext.Factory loginStageContextFactory = url -> new LoginStageContext(
+                storeLogger,
+                mock(it.niedermann.nextcloud.deck.domain.usecases.accounts.ImportAccountUseCase.class),
+                url
+        );
         final var exceptionUnwrapper = new ExceptionUnwrapper();
 
-        new MainStageManager(
+        final var manager = new MainStageManager(
                 inflater,
                 stage,
                 themeService,
                 splashScreenFactory,
-                hasAccountsUseCase,
+                loginStageContextFactory,
                 loginFactoryProvider,
                 exceptionFactoryProvider,
                 setCurrentAccountUseCase,
@@ -286,6 +318,7 @@ class MainStageIntegrationTest {
                 boardArgResolver,
                 new BoardRawArgs.CurrentBoardOfCurrentAccount()
         );
+        manager.initialize();
     }
 
     @NonNull
@@ -317,39 +350,35 @@ class MainStageIntegrationTest {
     }
 
     @Test
-    void testMainSceneIsShown(FxRobot robot) {
-        WaitForAsyncUtils.waitForFxEvents();
+    void testMainSceneIsShown(FxRobot robot) throws TimeoutException {
+        WaitForAsyncUtils.waitFor(10, TimeUnit.SECONDS, () -> robot.lookup("#boardList").tryQuery().isPresent());
         FxAssert.verifyThat("#boardList", NodeMatchers.isVisible());
     }
 
     @Test
-    void testSwitchBetweenBoards(FxRobot robot) {
-        WaitForAsyncUtils.waitForFxEvents();
+    void testSwitchBetweenBoards(FxRobot robot) throws TimeoutException {
+        WaitForAsyncUtils.waitFor(10, TimeUnit.SECONDS, () -> robot.lookup("Board 2").tryQuery().isPresent());
         robot.clickOn("Board 2");
         verify(setCurrentBoardUseCase, atLeastOnce()).execute(ACCOUNT_ID, BOARD_2.id());
     }
 
     @Test
-    void testOpenCard(FxRobot robot) {
-        WaitForAsyncUtils.waitForFxEvents();
+    void testOpenCard(FxRobot robot) throws TimeoutException {
+        WaitForAsyncUtils.waitFor(10, TimeUnit.SECONDS, () -> robot.lookup("Board 1").tryQuery().isPresent());
         robot.clickOn("Board 1");
-        WaitForAsyncUtils.waitForFxEvents();
+        WaitForAsyncUtils.waitFor(10, TimeUnit.SECONDS, () -> robot.lookup("Card 1").tryQuery().isPresent());
         robot.clickOn("Card 1");
-        WaitForAsyncUtils.waitForFxEvents();
-        robot.sleep(200);
-        WaitForAsyncUtils.waitForFxEvents();
+        WaitForAsyncUtils.waitFor(10, TimeUnit.SECONDS, () -> robot.lookup("#popOutBtn").tryQuery().isPresent());
         FxAssert.verifyThat("#popOutBtn", NodeMatchers.isVisible());
     }
 
     @Test
-    void testCloseCard(FxRobot robot) {
-        WaitForAsyncUtils.waitForFxEvents();
+    void testCloseCard(FxRobot robot) throws TimeoutException {
+        WaitForAsyncUtils.waitFor(10, TimeUnit.SECONDS, () -> robot.lookup("Board 1").tryQuery().isPresent());
         robot.clickOn("Board 1");
-        WaitForAsyncUtils.waitForFxEvents();
+        WaitForAsyncUtils.waitFor(10, TimeUnit.SECONDS, () -> robot.lookup("Card 1").tryQuery().isPresent());
         robot.clickOn("Card 1");
-        WaitForAsyncUtils.waitForFxEvents();
-        robot.sleep(200);
-        WaitForAsyncUtils.waitForFxEvents();
+        WaitForAsyncUtils.waitFor(10, TimeUnit.SECONDS, () -> robot.lookup("#popOutBtn").tryQuery().isPresent());
         FxAssert.verifyThat("#popOutBtn", NodeMatchers.isVisible());
         robot.clickOn("#closeSidebar");
         WaitForAsyncUtils.waitForFxEvents();
@@ -361,14 +390,12 @@ class MainStageIntegrationTest {
     }
 
     @Test
-    void testPopOutCard(FxRobot robot) {
-        WaitForAsyncUtils.waitForFxEvents();
+    void testPopOutCard(FxRobot robot) throws TimeoutException {
+        WaitForAsyncUtils.waitFor(10, TimeUnit.SECONDS, () -> robot.lookup("Board 1").tryQuery().isPresent());
         robot.clickOn("Board 1");
-        WaitForAsyncUtils.waitForFxEvents();
+        WaitForAsyncUtils.waitFor(10, TimeUnit.SECONDS, () -> robot.lookup("Card 1").tryQuery().isPresent());
         robot.clickOn("Card 1");
-        WaitForAsyncUtils.waitForFxEvents();
-        robot.sleep(200);
-        WaitForAsyncUtils.waitForFxEvents();
+        WaitForAsyncUtils.waitFor(10, TimeUnit.SECONDS, () -> robot.lookup("#popOutBtn").tryQuery().isPresent());
         robot.clickOn("#popOutBtn");
         verify(applicationRouter, atLeastOnce()).launchEditCardStage(CARD_1.id());
     }

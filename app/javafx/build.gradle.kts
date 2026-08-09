@@ -61,6 +61,17 @@ tasks.withType<Test> {
     systemProperty("junit.jupiter.extensions.autodetection.enabled", "true")
     systemProperty("testfx.robot", "glass")
     systemProperty("testfx.headless", "false")
+    jvmArgs(
+        "--add-exports=javafx.graphics/com.sun.glass.ui=ALL-UNNAMED",
+        "--add-exports=javafx.graphics/com.sun.javafx.application=ALL-UNNAMED",
+        "--add-opens=javafx.graphics/com.sun.glass.ui=ALL-UNNAMED",
+        "--add-opens=javafx.graphics/com.sun.javafx.application=ALL-UNNAMED",
+        "--add-opens=javafx.graphics/com.sun.javafx.stage=ALL-UNNAMED",
+        "--add-opens=javafx.graphics/com.sun.javafx.scene=ALL-UNNAMED",
+        "--add-opens=javafx.controls/com.sun.javafx.scene.control=ALL-UNNAMED",
+        "--add-opens=javafx.base/com.sun.javafx.binding=ALL-UNNAMED",
+        "--add-opens=javafx.base/com.sun.javafx.event=ALL-UNNAMED"
+    )
 }
 
 tasks.named<Tar>("distTar") {

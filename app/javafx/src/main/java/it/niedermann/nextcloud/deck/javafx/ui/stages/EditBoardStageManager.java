@@ -10,7 +10,6 @@ import it.niedermann.nextcloud.deck.app.shared.args.board.BoardParsedArgs;
 import it.niedermann.nextcloud.deck.app.shared.args.board.BoardRawArgs;
 import it.niedermann.nextcloud.deck.domain.usecases.state.SetCurrentAccountUseCase;
 import it.niedermann.nextcloud.deck.javafx.di.stage.StageScope;
-import it.niedermann.nextcloud.deck.javafx.exception.ExceptionUnwrapper;
 import it.niedermann.nextcloud.deck.javafx.services.application.ThemeService;
 import it.niedermann.nextcloud.deck.javafx.services.stage.EditBoardStageContext;
 import it.niedermann.nextcloud.deck.javafx.services.stage.LoginStageContext;
@@ -27,7 +26,6 @@ public class EditBoardStageManager extends StageManager<BoardRawArgs, BoardParse
 
     private final EditBoardScene.Factory editBoardSceneFactory;
     private final EditBoardStageContext.Factory stageContextFactory;
-    private final ExceptionUnwrapper exceptionUnwrapper;
 
     @AssistedInject
     public EditBoardStageManager(Inflater inflater,
@@ -40,7 +38,6 @@ public class EditBoardStageManager extends StageManager<BoardRawArgs, BoardParse
                                  SetCurrentAccountUseCase setCurrentAccountUseCase,
                                  EditBoardScene.Factory editBoardSceneFactory,
                                  EditBoardStageContext.Factory stageContextFactory,
-                                 ExceptionUnwrapper exceptionUnwrapper,
                                  BoardArgResolver boardArgResolver,
                                  @Assisted BoardRawArgs args) {
         super(stage,
@@ -55,7 +52,6 @@ public class EditBoardStageManager extends StageManager<BoardRawArgs, BoardParse
                 args);
         this.editBoardSceneFactory = editBoardSceneFactory;
         this.stageContextFactory = stageContextFactory;
-        this.exceptionUnwrapper = exceptionUnwrapper;
     }
 
     @StageScope
@@ -75,11 +71,4 @@ public class EditBoardStageManager extends StageManager<BoardRawArgs, BoardParse
         return CompletableFuture.completedFuture(inflater.inflate(editBoardScene));
     }
 
-    @Override
-    protected CompletableFuture<Void> recoverError(Throwable throwable) {
-        if (exceptionUnwrapper.unwrap(throwable) instanceof BoardArgResolver.NoAccountConfiguredException) {
-            return showLoginScene();
-        }
-        return CompletableFuture.failedFuture(throwable);
-    }
 }

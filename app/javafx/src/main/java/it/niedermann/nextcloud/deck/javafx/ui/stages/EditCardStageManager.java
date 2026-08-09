@@ -11,7 +11,6 @@ import it.niedermann.nextcloud.deck.app.shared.args.card.CardRawArgs;
 import it.niedermann.nextcloud.deck.domain.model.Card;
 import it.niedermann.nextcloud.deck.domain.usecases.state.SetCurrentAccountUseCase;
 import it.niedermann.nextcloud.deck.javafx.di.stage.StageScope;
-import it.niedermann.nextcloud.deck.javafx.exception.ExceptionUnwrapper;
 import it.niedermann.nextcloud.deck.javafx.services.application.ThemeService;
 import it.niedermann.nextcloud.deck.javafx.services.stage.EditCardStageContext;
 import it.niedermann.nextcloud.deck.javafx.services.stage.LoginStageContext;
@@ -29,7 +28,6 @@ public class EditCardStageManager extends StageManager<CardRawArgs, Card.ID> {
 
     private final EditCardStageContext.Factory editCardStageContextFactory;
     private final EditCardScene.Factory editCardSceneFactory;
-    private final ExceptionUnwrapper exceptionUnwrapper;
 
     @AssistedInject
     public EditCardStageManager(Inflater inflater,
@@ -43,7 +41,6 @@ public class EditCardStageManager extends StageManager<CardRawArgs, Card.ID> {
                                 CardArgResolver cardArgResolver,
                                 EditCardStageContext.Factory editCardStageContextFactory,
                                 EditCardScene.Factory editCardSceneFactory,
-                                ExceptionUnwrapper exceptionUnwrapper,
                                 @Assisted CardRawArgs args) {
         super(stage,
                 themeService,
@@ -57,7 +54,6 @@ public class EditCardStageManager extends StageManager<CardRawArgs, Card.ID> {
                 args);
         this.editCardStageContextFactory = editCardStageContextFactory;
         this.editCardSceneFactory = editCardSceneFactory;
-        this.exceptionUnwrapper = exceptionUnwrapper;
     }
 
     @StageScope

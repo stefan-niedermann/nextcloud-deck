@@ -13,7 +13,7 @@ import org.testfx.api.FxRobot;
 import org.testfx.framework.junit5.ApplicationExtension;
 import org.testfx.framework.junit5.Start;
 
-import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.Flow;
 
 import io.reactivex.rxjava4.core.Flowable;
 import it.niedermann.nextcloud.deck.app.shared.args.board.BoardArgResolver;
@@ -42,12 +42,11 @@ import it.niedermann.nextcloud.deck.domain.usecases.labels.DeleteLabelUseCase;
 import it.niedermann.nextcloud.deck.domain.usecases.labels.ListLabelsUseCase;
 import it.niedermann.nextcloud.deck.domain.usecases.labels.UpdateLabelUseCase;
 import it.niedermann.nextcloud.deck.domain.usecases.state.SetCurrentAccountUseCase;
-import it.niedermann.nextcloud.deck.javafx.exception.ExceptionUnwrapper;
 import it.niedermann.nextcloud.deck.javafx.services.application.StageTitleResolver;
 import it.niedermann.nextcloud.deck.javafx.services.application.ThemeService;
 import it.niedermann.nextcloud.deck.javafx.services.stage.EditBoardStageContext;
+import it.niedermann.nextcloud.deck.javafx.services.stage.LoginStageContext;
 import it.niedermann.nextcloud.deck.javafx.store.StoreLogger;
-import it.niedermann.nextcloud.deck.javafx.ui.controller.features.EditBoardFeature;
 import it.niedermann.nextcloud.deck.javafx.ui.controller.scenes.EditBoardScene;
 import it.niedermann.nextcloud.deck.javafx.ui.controller.scenes.ExceptionScene;
 import it.niedermann.nextcloud.deck.javafx.ui.controller.scenes.LoginScene;
@@ -69,9 +68,19 @@ class EditBoardStageIntegrationTest {
         final var accountId = new Account.ID(1);
         final var boardId = new Board.ID(2);
         final var boardParsedArgs = new BoardParsedArgs(accountId, boardId);
-        when(boardArgResolver.resolve(any())).thenReturn(CompletableFuture.completedFuture(boardParsedArgs));
+        when(boardArgResolver.resolve(any())).thenReturn(subscriber -> subscriber.onSubscribe(new Flow.Subscription() {
+            @Override
+            public void request(long n) {
+                subscriber.onNext(boardParsedArgs);
+                subscriber.onComplete();
+            }
+
+            @Override
+            public void cancel() {
+            }
+        }));
         
-        final var storeLogger = mock(StoreLogger.class);
+        final var storeLogger = new StoreLogger(new com.google.gson.Gson());
         final var detector = mock(OsThemeDetector.class);
         when(detector.isDark()).thenReturn(false);
         final var keyValueStore = mock(KeyValueStore.class);
@@ -79,20 +88,35 @@ class EditBoardStageIntegrationTest {
         final var themeService = new ThemeService(detector, keyValueStore);
 
 
+        final var getBoardUseCase = mock(GetBoardUseCase.class, Answers.RETURNS_MOCKS);
+        final var listCardsUseCase = mock(ListCardsUseCase.class, Answers.RETURNS_MOCKS);
+        final var listColumnsUseCase = mock(ListColumnsUseCase.class, Answers.RETURNS_MOCKS);
+        final var getColumnUseCase = mock(GetColumnUseCase.class, Answers.RETURNS_MOCKS);
+        final var listLabelsUseCase = mock(ListLabelsUseCase.class, Answers.RETURNS_MOCKS);
+        final var listBoardSharesUseCase = mock(ListBoardSharesUseCase.class, Answers.RETURNS_MOCKS);
+
+        when(getBoardUseCase.execute(any())).thenReturn(Flowable.empty());
+        when(listCardsUseCase.execute(any())).thenReturn(Flowable.empty());
+        when(listColumnsUseCase.execute(any())).thenReturn(Flowable.empty());
+        when(getColumnUseCase.execute(any())).thenReturn(Flowable.empty());
+        when(listLabelsUseCase.execute(any())).thenReturn(Flowable.empty());
+        when(listBoardSharesUseCase.execute(any())).thenReturn(Flowable.empty());
+
+
         final var stageContext = new EditBoardStageContext(
                 storeLogger,
-                mock(GetBoardUseCase.class),
-                mock(ListCardsUseCase.class),
+                getBoardUseCase,
+                listCardsUseCase,
                 mock(AddColumnUseCase.class),
                 mock(UpdateColumnUseCase.class),
                 mock(DeleteColumnUseCase.class),
-                mock(ListColumnsUseCase.class),
-                mock(GetColumnUseCase.class),
+                listColumnsUseCase,
+                getColumnUseCase,
                 mock(AddLabelUseCase.class),
                 mock(UpdateLabelUseCase.class),
                 mock(DeleteLabelUseCase.class),
-                mock(ListLabelsUseCase.class),
-                mock(ListBoardSharesUseCase.class),
+                listLabelsUseCase,
+                listBoardSharesUseCase,
                 mock(AddBoardShareUseCase.class),
                 mock(RemoveBoardShareUseCase.class),
                 mock(UpdateBoardShareUseCase.class),
@@ -102,14 +126,14 @@ class EditBoardStageIntegrationTest {
         
         final var inflater = Inflater.getInstance();
         
-        final var getAccountUseCase = mock(GetAccountUseCase.class);
-        final var getAccountsUseCase = mock(GetAccountsUseCase.class);
+        final var getAccountUseCase = mock(GetAccountUseCase.class, Answers.RETURNS_MOCKS);
+        when(getAccountUseCase.execute(any())).thenReturn(Flowable.empty());
+        final var getAccountsUseCase = mock(GetAccountsUseCase.class, Answers.RETURNS_MOCKS);
         when(getAccountsUseCase.execute()).thenReturn(Flowable.empty());
-        final var getBoardUseCase = mock(GetBoardUseCase.class);
-        when(getBoardUseCase.execute(any())).thenReturn(Flowable.empty());
-        final var getCardUseCase = mock(GetCardUseCase.class);
-        final var getColumnUseCase = mock(GetColumnUseCase.class);
-        when(getColumnUseCase.execute(any())).thenReturn(Flowable.empty());
+        final var getCardUseCase = mock(GetCardUseCase.class, Answers.RETURNS_MOCKS);
+        when(getCardUseCase.execute(any())).thenReturn(Flowable.empty());
+
+
         
         final var stageTitleResolver = new StageTitleResolver(
                 getAccountUseCase,
@@ -119,9 +143,23 @@ class EditBoardStageIntegrationTest {
                 getColumnUseCase
         );
 
+        final var userSearchViewConverter = new it.niedermann.nextcloud.deck.javafx.ui.searchviewconverter.UserSearchViewConverter();
+        final it.niedermann.nextcloud.deck.javafx.ui.controller.features.EditBoardFeature.Factory editBoardFeatureFactory = viewModel -> new it.niedermann.nextcloud.deck.javafx.ui.controller.features.EditBoardFeature(
+                inflater,
+                it.niedermann.nextcloud.deck.javafx.ui.controller.features.EditBoardDetailsFeature::new,
+                it.niedermann.nextcloud.deck.javafx.ui.controller.features.EditBoardColumnsFeature::new,
+                it.niedermann.nextcloud.deck.javafx.ui.controller.features.EditBoardLabelsFeature::new,
+                vm -> new it.niedermann.nextcloud.deck.javafx.ui.controller.features.EditBoardShareFeature(
+                        new it.niedermann.nextcloud.deck.javafx.ui.suggestionproviders.UserSuggestionProvider(mock(it.niedermann.nextcloud.deck.domain.usecases.users.SearchUserUseCase.class)),
+                        userSearchViewConverter,
+                        vm
+                ),
+                viewModel
+        );
+
         final EditBoardScene.Factory editBoardSceneFactory = context -> new EditBoardScene(
                 inflater,
-                mock(EditBoardFeature.Factory.class, Answers.RETURNS_MOCKS),
+                editBoardFeatureFactory,
                 stageTitleResolver,
                 context
         );
@@ -129,23 +167,27 @@ class EditBoardStageIntegrationTest {
         final SplashScreenScene.Factory splashScreenFactory = SplashScreenScene::new;
         final var loginFactoryProvider = (jakarta.inject.Provider<LoginScene.Factory>) () -> mock(LoginScene.Factory.class);
         final var exceptionFactoryProvider = (jakarta.inject.Provider<ExceptionScene.Factory>) () -> mock(ExceptionScene.Factory.class);
-        final var exceptionUnwrapper = new ExceptionUnwrapper();
+        final LoginStageContext.Factory loginStageContextFactory = url -> new LoginStageContext(
+                storeLogger,
+                mock(it.niedermann.nextcloud.deck.domain.usecases.accounts.ImportAccountUseCase.class),
+                url
+        );
 
-        new EditBoardStageManager(
+        final var manager = new EditBoardStageManager(
                 inflater,
                 stage,
                 themeService,
                 splashScreenFactory,
-                hasAccountsUseCase,
+                loginStageContextFactory,
                 loginFactoryProvider,
                 exceptionFactoryProvider,
                 setCurrentAccountUseCase,
                 editBoardSceneFactory,
                 stageContextFactory,
-                exceptionUnwrapper,
                 boardArgResolver,
                 new BoardRawArgs.ExplicitBoard(accountId, boardId)
         );
+        manager.initialize();
     }
 
     @Test

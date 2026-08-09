@@ -18,6 +18,7 @@ import org.testfx.framework.junit5.Start;
 import org.testfx.matcher.control.LabeledMatchers;
 
 import io.reactivex.rxjava4.core.Flowable;
+import it.niedermann.nextcloud.deck.app.shared.args.EmptyArgs;
 import it.niedermann.nextcloud.deck.domain.state.KeyValueStore;
 import it.niedermann.nextcloud.deck.domain.usecases.accounts.GetAccountUseCase;
 import it.niedermann.nextcloud.deck.domain.usecases.accounts.GetAccountsUseCase;
@@ -28,6 +29,7 @@ import it.niedermann.nextcloud.deck.domain.usecases.columns.GetColumnUseCase;
 import it.niedermann.nextcloud.deck.domain.usecases.state.SetCurrentAccountUseCase;
 import it.niedermann.nextcloud.deck.javafx.services.application.StageTitleResolver;
 import it.niedermann.nextcloud.deck.javafx.services.application.ThemeService;
+import it.niedermann.nextcloud.deck.javafx.services.stage.LoginStageContext;
 import it.niedermann.nextcloud.deck.javafx.services.stage.PreferencesStageContext;
 import it.niedermann.nextcloud.deck.javafx.store.StoreLogger;
 import it.niedermann.nextcloud.deck.javafx.ui.controller.scenes.ExceptionScene;
@@ -45,7 +47,6 @@ class PreferencesStageIntegrationTest {
     @Start
     void start(Stage stage) {
         final var hasAccountsUseCase = mock(HasAccountsUseCase.class);
-        final var storeLogger = mock(StoreLogger.class);
         final var keyValueStore = mock(KeyValueStore.class);
         final var detector = mock(OsThemeDetector.class);
         final var setCurrentAccountUseCase = mock(SetCurrentAccountUseCase.class);
@@ -77,25 +78,32 @@ class PreferencesStageIntegrationTest {
         
         final var loginFactoryProvider = (jakarta.inject.Provider<LoginScene.Factory>) () -> mock(LoginScene.Factory.class);
         final var exceptionFactoryProvider = (jakarta.inject.Provider<ExceptionScene.Factory>) () -> mock(ExceptionScene.Factory.class);
+        final var storeLogger = new StoreLogger(new com.google.gson.Gson());
+        final LoginStageContext.Factory loginStageContextFactory = url -> new LoginStageContext(
+                storeLogger,
+                mock(it.niedermann.nextcloud.deck.domain.usecases.accounts.ImportAccountUseCase.class),
+                url
+        );
 
         final var realStageContext = new PreferencesStageContext(storeLogger, keyValueStore, new PreferencesStageContext.State());
         stageContext = spy(realStageContext);
         final PreferencesStageContext.Factory stageContextFactory = initialState -> stageContext;
         final PreferencesScene.Factory preferencesSceneFactory = PreferencesScene::new;
 
-        new PreferencesStageManager(
+        final var manager = new PreferencesStageManager(
                 Inflater.getInstance(),
                 stage,
                 themeService,
                 splashScreenFactory,
-                hasAccountsUseCase,
+                loginStageContextFactory,
                 loginFactoryProvider,
                 exceptionFactoryProvider,
                 setCurrentAccountUseCase,
                 preferencesSceneFactory,
                 stageContextFactory,
-                null
+                EmptyArgs.INSTANCE
         );
+        manager.initialize();
     }
 
     @Test

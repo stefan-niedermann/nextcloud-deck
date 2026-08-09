@@ -13,7 +13,7 @@ import javafx.util.Callback;
 public class AccountListItemCellFactory implements Callback<ListView<Account>, ListCell<Account>> {
 
     @Inject
-    AccountListItemCellFactory() {
+    public AccountListItemCellFactory() {
 
     }
 
