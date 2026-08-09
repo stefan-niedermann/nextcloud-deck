@@ -212,7 +212,9 @@
     <string name="error_edit_activity_killed_by_android">O Android terminou o modo de edição porque precisava de mais recursos do sistema para outros aplicativos.</string>
 
     <string name="error_dialog_title">Oh não - E agora? 🙁</string>
+    <string name="error_dialog_tip_parsing_failed">Não foi possível analisar a resposta do seu servidor conforme o esperado. Verifique se o aplicativo Deck está habilitado no seu servidor Nextcloud.</string>
     <string name="error_dialog_tip_token_mismatch_retry">Tente forçar o fechamento do aplicativo e reinicie-o novamente. Pode ter havido uma conexão incorreta com o aplicativo Nextcloud.</string>
+    <string name="error_dialog_tip_clear_storage_might_help">Se o problema persistir, tente limpar o armazenamento dos dois aplicativos: Nextcloud e Nextcloud Deck, e reimporte sua conta.</string>
     <string name="error_dialog_tip_database_upgrade_failed">A atualização do banco de dados falhou. Relate o problema e limpe o armazenamento para usar o aplicativo normalmente.</string>
     <string name="error_dialog_tip_clear_storage">Você pode limpar o armazenamento abrindo as informações do aplicativo e selecionando Armazenamento → Limpar Armazenamento</string>
     <string name="error_dialog_tip_offline_no_internet">Parece que você tentou iniciar uma sincronização sem uma conexão com a internet.</string>
@@ -229,6 +231,7 @@
     <string name="error_dialog_check_maintenance">Verifique se sua instância do Nextcloud não está no modo de manutenção.</string>
     <string name="error_dialog_insufficient_storage">Sua instância do Nextcloud não possui mais espaço livre. Exclua alguns arquivos para sincronizar suas alterações locais com a nuvem.</string>
     <string name="error_dialog_we_need_info">Precisamos das seguintes informações técnicas para ajudar você:</string>
+    <string name="error_dialog_redirect">Seu servidor respondeu com um código de status HTTP 302, o que indica que você não tem o aplicativo Deck instalado no servidor ou que há alguma configuração incorreta. Isso pode ser causado por substituições personalizadas em um arquivo .htaccess ou por aplicativos do Nextcloud, como o OID Client.</string>
     <string name="error_dialog_version_not_parsable">Não conseguimos determinar a versão do servidor do aplicativo Deck. Confirme se ele está instalado e ativo.</string>
     <string name="error_dialog_account_might_not_be_authorized">A conta do seu aplicativo Nextcloud pode não estar mais autorizada.</string>
     <string name="error_dialog_user_not_found_in_database">O usuário atual não corresponde ao usuário que temos em nosso banco de dados. Se você estiver usando LDAP na sua instância do Nextcloud, seu aplicativo Nextcloud pode ter armazenado um ID do usuário antigo.</string>
