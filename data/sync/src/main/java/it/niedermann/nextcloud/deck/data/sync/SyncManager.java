@@ -47,8 +47,8 @@ public class SyncManager {
         final var apiProvider = apiProviderFactory.create(account);
         final var ocsApi = apiProvider.getOcsApi();
 
-        final var response = ocsApi.getCapabilitiesRx(null).blockingGet();
-        logger.info(response.ocs().data().capabilities().toString());
+        final var response = ocsApi.getCapabilities(null).join();
+        logger.info(response.getOcs().getData().getCapabilities().toString());
 
     }
 }

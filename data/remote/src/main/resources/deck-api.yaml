@@ -1,0 +1,505 @@
+openapi: 3.0.0
+info:
+  title: Nextcloud Deck API
+  version: 1.0.0
+paths:
+  /v1.0/boards:
+    get:
+      parameters:
+        - name: details
+          in: query
+          schema:
+            type: boolean
+        - name: If-Modified-Since
+          in: header
+          schema:
+            type: string
+        - name: If-None-Match
+          in: header
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/BoardDTO'
+    post:
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BoardDTO'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BoardDTO'
+  /v1.0/boards/{id}:
+    get:
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+        - name: If-Modified-Since
+          in: header
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BoardDTO'
+    put:
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BoardDTO'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BoardDTO'
+    delete:
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: OK
+  /v1.0/boards/{boardId}/stacks:
+    get:
+      parameters:
+        - name: boardId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+        - name: If-Modified-Since
+          in: header
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ColumnDTO'
+    post:
+      parameters:
+        - name: boardId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ColumnDTO'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ColumnDTO'
+  /v1.0/boards/{boardId}/stacks/{stackId}/cards:
+    get:
+      parameters:
+        - name: boardId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+        - name: stackId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/CardDTO'
+    post:
+      parameters:
+        - name: boardId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+        - name: stackId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CardDTO'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CardDTO'
+
+components:
+  schemas:
+    BoardDTO:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        title:
+          type: string
+        color:
+          type: string
+        archived:
+          type: boolean
+        lastModified:
+          type: integer
+          format: int64
+        deletedAt:
+          type: integer
+          format: int64
+        etag:
+          type: string
+        labels:
+          type: array
+          items:
+            $ref: '#/components/schemas/LabelDTO'
+        stacks:
+          type: array
+          items:
+            $ref: '#/components/schemas/ColumnDTO'
+        acl:
+          type: array
+          items:
+            $ref: '#/components/schemas/AccessControlDTO'
+        permissions:
+          $ref: '#/components/schemas/PermissionsDTO'
+        owner:
+          $ref: '#/components/schemas/UserDTO'
+        users:
+          type: array
+          items:
+            $ref: '#/components/schemas/UserDTO'
+
+    LabelDTO:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        title:
+          type: string
+        color:
+          type: string
+        ETag:
+          type: string
+
+    ColumnDTO:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        title:
+          type: string
+        boardId:
+          type: integer
+          format: int64
+        order:
+          type: integer
+        archived:
+          type: boolean
+        lastModified:
+          type: integer
+          format: int64
+        deletedAt:
+          type: integer
+          format: int64
+        etag:
+          type: string
+        cards:
+          type: array
+          items:
+            $ref: '#/components/schemas/CardDTO'
+
+    CardDTO:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        title:
+          type: string
+        description:
+          type: string
+        stackId:
+          type: integer
+          format: int64
+        type:
+          type: string
+        lastModified:
+          type: integer
+          format: int64
+        createdAt:
+          type: integer
+          format: int64
+        deletedAt:
+          type: integer
+          format: int64
+        done:
+          type: string
+          format: date-time
+        archived:
+          type: boolean
+        order:
+          type: integer
+        overdue:
+          type: integer
+        duedate:
+          type: string
+          format: date-time
+        commentsUnread:
+          type: integer
+        attachmentCount:
+          type: integer
+        ETag:
+          type: string
+        labels:
+          type: array
+          items:
+            $ref: '#/components/schemas/LabelDTO'
+        assignedUsers:
+          type: array
+          items:
+            $ref: '#/components/schemas/AccessControlDTO'
+        attachments:
+          type: array
+          items:
+            $ref: '#/components/schemas/AttachmentDTO'
+        owner:
+          $ref: '#/components/schemas/UserDTO'
+
+    UserDTO:
+      type: object
+      properties:
+        uid:
+          type: string
+        displayname:
+          type: string
+        primaryKey:
+          type: string
+        type:
+          type: integer
+
+    AccessControlDTO:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        boardId:
+          type: integer
+          format: int64
+        type:
+          type: integer
+        owner:
+          type: boolean
+        permissionEdit:
+          type: boolean
+        permissionShare:
+          type: boolean
+        permissionManage:
+          type: boolean
+        participant:
+          $ref: '#/components/schemas/UserDTO'
+
+    PermissionsDTO:
+      type: object
+      properties:
+        permissionRead:
+          type: boolean
+        permissionEdit:
+          type: boolean
+        permissionManage:
+          type: boolean
+        permissionShare:
+          type: boolean
+
+    AttachmentDTO:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        cardId:
+          type: integer
+          format: int64
+        type:
+          type: string
+        data:
+          type: string
+        lastModified:
+          type: integer
+          format: int64
+        createdAt:
+          type: integer
+          format: int64
+        createdBy:
+          type: string
+        deletedAt:
+          type: integer
+          format: int64
+        etag:
+          type: string
+        extendedData:
+          $ref: '#/components/schemas/AttachmentExtendedDataDTO'
+
+    AttachmentExtendedDataDTO:
+      type: object
+      properties:
+        filesize:
+          type: integer
+          format: int64
+        mimetype:
+          type: string
+        fileid:
+          type: integer
+          format: int64
+        info:
+          $ref: '#/components/schemas/AttachmentInfoDTO'
+
+    AttachmentInfoDTO:
+      type: object
+      properties:
+        dirname:
+          type: string
+        basename:
+          type: string
+        extension:
+          type: string
+        filename:
+          type: string
+
+    CommentDTO:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        objectId:
+          type: integer
+          format: int64
+        message:
+          type: string
+        actorId:
+          type: string
+        actorDisplayName:
+          type: string
+        actorType:
+          type: string
+        creationDateTime:
+          type: string
+          format: date-time
+        replyTo:
+          $ref: '#/components/schemas/CommentDTO'
+        mentions:
+          type: array
+          items:
+            $ref: '#/components/schemas/MentionDTO'
+
+    MentionDTO:
+      type: object
+      properties:
+        mentionId:
+          type: string
+        mentionType:
+          type: string
+        mentionDisplayName:
+          type: string
+
+    CardUpdateDTO:
+      type: object
+      properties:
+        title:
+          type: string
+        description:
+          type: string
+        stackId:
+          type: integer
+          format: int64
+        type:
+          type: string
+        archived:
+          type: boolean
+        order:
+          type: integer
+        duedate:
+          type: string
+          format: date-time
+
+    CardUpdateOwnerStringDTO:
+      type: object
+      properties:
+        owner:
+          type: string
+
+    UserForAssignmentDTO:
+      type: object
+      properties:
+        userId:
+          type: string
+
+    ReorderDTO:
+      type: object
+      properties:
+        order:
+          type: integer
+        stackId:
+          type: integer
+          format: int64

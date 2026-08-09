@@ -46,6 +46,7 @@ rxjava3 = "3.1.12"
 rxjava3-jdk9-interop = "3.0.1"
 rxjava4 = "4.0.0-alpha-20"
 shadow = "9.6.0"
+openapiGenerator = "7.8.0"
 splashscreen = "1.0.1"
 sqlite = "2.7.0"
 testfx = "4.0.18"
@@ -146,3 +147,4 @@ kotlin-compose = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "ko
 kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
 roborazzi = { id = "io.github.takahirom.roborazzi", version.ref = "roborazzi" }
 graalvm = { id = "org.graalvm.buildtools.native", version.ref = "graalvm" }
+openapiGenerator = { id = "org.openapi.generator", version.ref = "openapiGenerator" }

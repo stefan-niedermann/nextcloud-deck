@@ -1,0 +1,379 @@
+openapi: 3.0.0
+info:
+  title: Nextcloud OCS API
+  version: 1.0.0
+paths:
+  /ocs/v1.php/cloud/capabilities:
+    get:
+      parameters:
+        - name: format
+          in: query
+          required: true
+          schema:
+            type: string
+            default: json
+        - name: If-None-Match
+          in: header
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OcsCapabilitiesResponseDTO'
+
+  /ocs/v1.php/cloud/users/{userId}:
+    get:
+      parameters:
+        - name: userId
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: format
+          in: query
+          required: true
+          schema:
+            type: string
+            default: json
+        - name: If-None-Match
+          in: header
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OcsUserResponseDTO'
+
+  /ocs/v1.php/core/autocomplete/get:
+    get:
+      parameters:
+        - name: format
+          in: query
+          required: true
+          schema:
+            type: string
+            default: json
+        - name: search
+          in: query
+          required: true
+          schema:
+            type: string
+        - name: shareTypes[]
+          in: query
+          style: form
+          explode: true
+          schema:
+            type: array
+            items:
+              type: integer
+        - name: itemType
+          in: query
+          style: form
+          explode: true
+          schema:
+            type: array
+            items:
+              type: integer
+        - name: itemId
+          in: query
+          schema:
+            type: integer
+            format: int64
+        - name: limit
+          in: query
+          schema:
+            type: integer
+        - name: If-None-Match
+          in: header
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OcsAutocompleteResponseDTO'
+
+  /ocs/v1.php/search/providers:
+    get:
+      parameters:
+        - name: format
+          in: query
+          required: true
+          schema:
+            type: string
+            default: json
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OcsSearchProvidersResponseDTO'
+
+  /ocs/v1.php/search/providers/{provider}/search:
+    get:
+      parameters:
+        - name: provider
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: term
+          in: query
+          required: true
+          schema:
+            type: string
+        - name: format
+          in: query
+          required: true
+          schema:
+            type: string
+            default: json
+        - name: If-None-Match
+          in: header
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OcsSearchResultResponseDTO'
+
+components:
+  schemas:
+    OcsMetaDTO:
+      type: object
+      properties:
+        status:
+          type: string
+        statuscode:
+          type: integer
+        message:
+          type: string
+
+    OcsCapabilitiesResponseDTO:
+      type: object
+      properties:
+        ocs:
+          type: object
+          properties:
+            meta:
+              $ref: '#/components/schemas/OcsMetaDTO'
+            data:
+              $ref: '#/components/schemas/CapabilitiesDTO'
+
+    CapabilitiesDTO:
+      type: object
+      properties:
+        version:
+          $ref: '#/components/schemas/OcsVersionDTO'
+        capabilities:
+          $ref: '#/components/schemas/OcsCapabilitiesDTO'
+
+    OcsVersionDTO:
+      type: object
+      properties:
+        major:
+          type: integer
+        minor:
+          type: integer
+        micro:
+          type: integer
+        string:
+          type: string
+        edition:
+          type: string
+
+    OcsCapabilitiesDTO:
+      type: object
+      properties:
+        theming:
+          $ref: '#/components/schemas/OcsThemingDTO'
+        tables:
+          $ref: '#/components/schemas/TablesDTO'
+
+    OcsThemingDTO:
+      type: object
+      properties:
+        color:
+          type: string
+        color-text:
+          type: string
+
+    TablesDTO:
+      type: object
+      properties:
+        enabled:
+          type: boolean
+        version:
+          type: string
+
+    OcsUserResponseDTO:
+      type: object
+      properties:
+        ocs:
+          type: object
+          properties:
+            meta:
+              $ref: '#/components/schemas/OcsMetaDTO'
+            data:
+              $ref: '#/components/schemas/OcsUserDTO'
+
+    OcsUserDTO:
+      type: object
+      properties:
+        enabled:
+          type: boolean
+        id:
+          type: string
+        lastLogin:
+          type: integer
+          format: int64
+        quota:
+          $ref: '#/components/schemas/OcsQuotaDTO'
+        email:
+          type: string
+        displayname:
+          type: string
+        phone:
+          type: string
+        address:
+          type: string
+        website:
+          type: string
+        twitter:
+          type: string
+        groups:
+          type: array
+          items:
+            type: string
+        language:
+          type: string
+        locale:
+          type: string
+
+    OcsQuotaDTO:
+      type: object
+      properties:
+        free:
+          type: integer
+          format: int64
+        used:
+          type: integer
+          format: int64
+        total:
+          type: integer
+          format: int64
+
+    OcsAutocompleteResponseDTO:
+      type: object
+      properties:
+        ocs:
+          type: object
+          properties:
+            meta:
+              $ref: '#/components/schemas/OcsMetaDTO'
+            data:
+              type: array
+              items:
+                $ref: '#/components/schemas/OcsAutocompleteResultDTO'
+
+    OcsAutocompleteResultDTO:
+      type: object
+      properties:
+        id:
+          type: string
+        label:
+          type: string
+        icon:
+          type: string
+        source:
+          type: string
+        subline:
+          type: string
+        shareWithDisplayNameUnique:
+          type: string
+
+    OcsSearchProvidersResponseDTO:
+      type: object
+      properties:
+        ocs:
+          type: object
+          properties:
+            meta:
+              $ref: '#/components/schemas/OcsMetaDTO'
+            data:
+              type: array
+              items:
+                $ref: '#/components/schemas/OcsSearchProviderDTO'
+
+    OcsSearchProviderDTO:
+      type: object
+      properties:
+        id:
+          type: string
+        appId:
+          type: string
+        name:
+          type: string
+        icon:
+          type: string
+        order:
+          type: integer
+        inAppSearch:
+          type: boolean
+
+    OcsSearchResultResponseDTO:
+      type: object
+      properties:
+        ocs:
+          type: object
+          properties:
+            meta:
+              $ref: '#/components/schemas/OcsMetaDTO'
+            data:
+              $ref: '#/components/schemas/OcsSearchResultDTO'
+
+    OcsSearchResultDTO:
+      type: object
+      properties:
+        name:
+          type: string
+        isPaginated:
+          type: boolean
+        entries:
+          type: array
+          items:
+            $ref: '#/components/schemas/OcsSearchResultEntryDTO'
+        cursor:
+          type: integer
+
+    OcsSearchResultEntryDTO:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        subline:
+          type: string
+        icon:
+          type: string
+        link:
+          type: string
+        thumbnail:
+          type: string
+        attributes:
+          type: object
+          additionalProperties:
+            type: string
