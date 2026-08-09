@@ -9,7 +9,6 @@ import dagger.assisted.AssistedInject;
 import it.niedermann.nextcloud.deck.app.shared.args.card.CardArgResolver;
 import it.niedermann.nextcloud.deck.app.shared.args.card.CardRawArgs;
 import it.niedermann.nextcloud.deck.domain.model.Card;
-import it.niedermann.nextcloud.deck.domain.usecases.accounts.HasAccountsUseCase;
 import it.niedermann.nextcloud.deck.domain.usecases.state.SetCurrentAccountUseCase;
 import it.niedermann.nextcloud.deck.javafx.di.stage.StageScope;
 import it.niedermann.nextcloud.deck.javafx.exception.ExceptionUnwrapper;
@@ -37,7 +36,6 @@ public class EditCardStageManager extends StageManager<CardRawArgs, Card.ID> {
                                 Stage stage,
                                 ThemeService themeService,
                                 SplashScreenScene.Factory splashScreenFactory,
-                                HasAccountsUseCase hasAccountsUseCase,
                                 LoginStageContext.Factory loginStageContextFactory,
                                 Provider<LoginScene.Factory> loginFactoryProvider,
                                 Provider<ExceptionScene.Factory> exceptionFactoryProvider,
@@ -51,7 +49,6 @@ public class EditCardStageManager extends StageManager<CardRawArgs, Card.ID> {
                 themeService,
                 inflater,
                 splashScreenFactory,
-                hasAccountsUseCase,
                 loginStageContextFactory,
                 loginFactoryProvider,
                 exceptionFactoryProvider,

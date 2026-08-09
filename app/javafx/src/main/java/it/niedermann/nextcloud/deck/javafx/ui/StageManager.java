@@ -11,7 +11,6 @@ import io.reactivex.rxjava4.disposables.CompositeDisposable;
 import io.reactivex.rxjava4.disposables.Disposable;
 import io.reactivex.rxjava4.schedulers.Schedulers;
 import it.niedermann.nextcloud.deck.app.shared.args.ArgsResolver;
-import it.niedermann.nextcloud.deck.domain.usecases.accounts.HasAccountsUseCase;
 import it.niedermann.nextcloud.deck.domain.usecases.state.SetCurrentAccountUseCase;
 import it.niedermann.nextcloud.deck.javafx.services.application.ThemeService;
 import it.niedermann.nextcloud.deck.javafx.services.stage.LoginStageContext;
@@ -41,7 +40,6 @@ public abstract class StageManager<TRawArgs, TParsedArgs> {
     protected final Inflater inflater;
     protected final Stage stage;
     private final ThemeService themeService;
-    private final HasAccountsUseCase hasAccountsUseCase;
     private final SplashScreenScene.Factory splashScreenFactory;
     private final LoginStageContext.Factory loginStageContextFactory;
     private final Provider<LoginScene.Factory> loginFactoryProvider;
@@ -51,7 +49,6 @@ public abstract class StageManager<TRawArgs, TParsedArgs> {
     protected final TRawArgs args;
 
 
-    private final AtomicReference<Boolean> initialized = new AtomicReference<>(false);
     protected final AtomicReference<Object> controller = new AtomicReference<>();
     protected final AtomicReference<TParsedArgs> currentParsedArgs = new AtomicReference<>();
     protected final CompositeDisposable titleDisposables = new CompositeDisposable();
@@ -61,7 +58,6 @@ public abstract class StageManager<TRawArgs, TParsedArgs> {
                         ThemeService themeService,
                         Inflater inflater,
                         SplashScreenScene.Factory splashScreenFactory,
-                        HasAccountsUseCase hasAccountsUseCase,
                         LoginStageContext.Factory loginStageContextFactory,
                         Provider<LoginScene.Factory> loginFactoryProvider,
                         Provider<ExceptionScene.Factory> exceptionFactoryProvider,
@@ -71,7 +67,6 @@ public abstract class StageManager<TRawArgs, TParsedArgs> {
         this.stage = stage;
         this.themeService = themeService;
         this.inflater = inflater;
-        this.hasAccountsUseCase = hasAccountsUseCase;
         this.splashScreenFactory = splashScreenFactory;
         this.loginStageContextFactory = loginStageContextFactory;
         this.loginFactoryProvider = loginFactoryProvider;
@@ -79,12 +74,10 @@ public abstract class StageManager<TRawArgs, TParsedArgs> {
         this.setCurrentAccountUseCase = setCurrentAccountUseCase;
         this.resolver = resolver;
         this.args = args;
-
-        initialize();
     }
 
     /// @return CompletableFuture is completed when the stage had an unrecoverable error or has been closed
-    protected CompletableFuture<Void> initialize() {
+    public CompletableFuture<Void> initialize() {
         final var cf = new CompletableFuture<Void>();
 
         lifecycleDisposables.clear();

@@ -7,7 +7,6 @@ import dagger.assisted.AssistedFactory;
 import dagger.assisted.AssistedInject;
 import it.niedermann.nextcloud.deck.app.shared.args.EmptyArgs;
 import it.niedermann.nextcloud.deck.app.shared.args.StaticArgsResolver;
-import it.niedermann.nextcloud.deck.domain.usecases.accounts.HasAccountsUseCase;
 import it.niedermann.nextcloud.deck.domain.usecases.state.SetCurrentAccountUseCase;
 import it.niedermann.nextcloud.deck.javafx.di.stage.StageScope;
 import it.niedermann.nextcloud.deck.javafx.services.application.ThemeService;
@@ -32,7 +31,6 @@ public class PreferencesStageManager extends StageManager<EmptyArgs, EmptyArgs> 
                                    Stage stage,
                                    ThemeService themeService,
                                    SplashScreenScene.Factory splashScreenFactory,
-                                   HasAccountsUseCase hasAccountsUseCase,
                                    LoginStageContext.Factory loginStageContextFactory,
                                    Provider<LoginScene.Factory> loginFactoryProvider,
                                    Provider<ExceptionScene.Factory> exceptionFactoryProvider,
@@ -44,7 +42,6 @@ public class PreferencesStageManager extends StageManager<EmptyArgs, EmptyArgs> 
                 themeService,
                 inflater,
                 splashScreenFactory,
-                hasAccountsUseCase,
                 loginStageContextFactory,
                 loginFactoryProvider,
                 exceptionFactoryProvider,
