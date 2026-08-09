@@ -23,7 +23,8 @@ public interface CardMapper extends GenericMapper<CardEntity, Card> {
     @Override
     @Mapping(target = "columnId", source = "columnId")
     @Mapping(target = "remoteId", source = "remoteId")
-    @Mapping(target = "status", ignore = true)
+    @Mapping(target = "status", expression = "java(it.niedermann.nextcloud.deck.domain.model.DBStatus.findById(cardEntity.getStatus()))")
+    @Mapping(target = "lastModified", source = "lastModified")
     @Mapping(target = "color", ignore = true)
     @Mapping(target = "labels", ignore = true)
     @Mapping(target = "assignees", ignore = true)

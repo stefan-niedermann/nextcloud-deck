@@ -6,30 +6,26 @@ import androidx.room3.RoomDatabase
 import kotlinx.coroutines.AbstractCoroutine
 import kotlinx.coroutines.CoroutineStart
 import kotlinx.coroutines.DelicateCoroutinesApi
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.InternalCoroutinesApi
-import kotlinx.coroutines.Job
-import kotlinx.coroutines.newCoroutineContext
 import java.util.concurrent.CompletableFuture
 import kotlin.coroutines.CoroutineContext
 
 class CfDaoReturnTypeConverters {
     @OptIn(DelicateCoroutinesApi::class, ExperimentalCoroutinesApi::class)
     @DaoReturnTypeConverter(operations = [OperationType.READ, OperationType.WRITE])
-    public fun <T : Any> convertCompletableFuture(
+    public fun <T> convertCompletableFuture(
         database: RoomDatabase,
-        executeAndConvert: suspend () -> T?,
+        executeAndConvert: suspend () -> T,
     ): CompletableFuture<T> {
         val cf = CompletableFuture<T>()
-        val scope = GlobalScope
-        val context = database.getCoroutineScope().coroutineContext.minusKey(Job)
-        val newContext = scope.newCoroutineContext(context)
-
-        val coroutine = CfCoroutine<T>(newContext, cf)
+        val context = Dispatchers.IO + GlobalScope.coroutineContext
+        
+        val coroutine = CfCoroutine<T>(context, cf)
         coroutine.start(CoroutineStart.DEFAULT, coroutine) {
             executeAndConvert.invoke()
-                ?: throw EmptyResultSetException("Query returned null, but CompletableFuture<T> was expected.")
         }
 
         return cf
@@ -37,7 +33,7 @@ class CfDaoReturnTypeConverters {
 }
 
 @OptIn(InternalCoroutinesApi::class)
-private class CfCoroutine<T : Any>(
+private class CfCoroutine<T>(
     parentContext: CoroutineContext,
     private val cf: CompletableFuture<T>
 ) : AbstractCoroutine<T>(parentContext, false, true) {
@@ -50,10 +46,6 @@ private class CfCoroutine<T : Any>(
     }
 
     override fun onCancelled(cause: Throwable, handled: Boolean) {
-        try {
-            cf.cancel(true)
-        } catch (e: Throwable) {
-            cf.completeExceptionally(e)
-        }
+        cf.completeExceptionally(cause)
     }
 }

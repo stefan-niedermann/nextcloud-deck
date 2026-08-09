@@ -93,14 +93,14 @@ fun LoginScreen(
             if (viewModel.isLoading) {
                 Spacer(modifier = Modifier.height(16.dp))
                 val status = viewModel.syncStatus
-                if (status != null && status.boardsTotalCount() > 0) {
-                    val progress = status.boardsFinishedCount().toFloat() / status.boardsTotalCount()
+                if (status != null && status.boardsTotal > 0) {
+                    val progress = status.boardsFinished.toFloat() / status.boardsTotal
                     LinearProgressIndicator(
                         progress = { progress },
                         modifier = Modifier.fillMaxWidth(),
                     )
                     Text(
-                        text = "Importing boards: ${status.boardsFinishedCount()} / ${status.boardsTotalCount()}",
+                        text = "Importing boards: ${status.boardsFinished} / ${status.boardsTotal}",
                         style = MaterialTheme.typography.bodySmall,
                         modifier = Modifier.padding(top = 4.dp)
                     )

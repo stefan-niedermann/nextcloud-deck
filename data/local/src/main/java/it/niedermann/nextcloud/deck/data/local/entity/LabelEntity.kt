@@ -43,5 +43,7 @@ data class LabelEntity(
 
     val boardId: Long,
     val title: String,
-    val color: Color?
+    val color: Color?,
+
+    val conflictWithId: Long? = null
 )

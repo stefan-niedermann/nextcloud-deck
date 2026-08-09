@@ -50,5 +50,7 @@ data class BoardEntity(
     val permissionRead: Boolean,
     val permissionEdit: Boolean,
     val permissionManage: Boolean,
-    val permissionShare: Boolean
+    val permissionShare: Boolean,
+
+    val conflictWithId: Long? = null
 )

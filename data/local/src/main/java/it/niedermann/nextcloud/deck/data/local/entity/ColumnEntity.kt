@@ -44,5 +44,7 @@ data class ColumnEntity(
     val title: String,
     val order: Int,
     val archived: Boolean,
-    val deletedAt: OffsetDateTime?
+    val deletedAt: OffsetDateTime?,
+
+    val conflictWithId: Long? = null
 )

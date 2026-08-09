@@ -15,7 +15,7 @@ interface AccountDao {
     @Query("SELECT a.id FROM Account a WHERE a.accountName = :accountName")
     fun findAccountId(accountName: String): Single<Long>
 
-    @Query("SELECT EXISTS(SELECT id FROM Account LIMIT 1)")
+    @Query("SELECT EXISTS(SELECT id FROM Account WHERE id != -1 LIMIT 1)")
     fun hasAccount(): Flowable<Boolean>
 
     @Query("SELECT EXISTS(SELECT id FROM Account WHERE id = :id)")
@@ -24,10 +24,10 @@ interface AccountDao {
     @Query("SELECT * FROM Account a WHERE a.id = :id")
     fun getAccount(id: Long): Flowable<AccountEntity>
 
-    @Query("SELECT id FROM Account a LIMIT 1")
+    @Query("SELECT id FROM Account a WHERE id != -1 LIMIT 1")
     fun getAnyAccount(): Single<Long>
 
-    @Query("SELECT * FROM Account")
+    @Query("SELECT * FROM Account WHERE id != -1")
     fun getAccounts(): Flowable<List<AccountEntity>>
 
     @Query("DELETE FROM Account WHERE Account.id = :id")

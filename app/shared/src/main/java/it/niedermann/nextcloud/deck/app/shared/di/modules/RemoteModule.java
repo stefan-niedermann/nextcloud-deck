@@ -16,8 +16,8 @@ public class RemoteModule {
 
     @Provides
     @Singleton
-    ApiProvider.Factory provideApiProviderFactory(Gson gson) {
-        return new RetrofitApiProvider.Factory(gson);
+    ApiProvider.Factory provideApiProviderFactory(Gson gson, OkHttpClient client) {
+        return new RetrofitApiProvider.Factory(gson, client);
     }
 
     @Provides

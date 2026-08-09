@@ -5,7 +5,9 @@ public enum DBStatus {
     LOCAL_EDITED(2),
     LOCAL_DELETED(3),
     LOCAL_MOVED(4),
-    LOCAL_EDITED_SILENT(5);
+    LOCAL_EDITED_SILENT(5),
+    CONFLICT(6),
+    RESOLVED(7);
 
     private final int id;
 

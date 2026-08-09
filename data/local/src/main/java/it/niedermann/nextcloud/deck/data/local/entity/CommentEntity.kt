@@ -53,5 +53,7 @@ data class CommentEntity(
     val actorDisplayName: String?,
     val message: String,
     val parentId: Long?,
-    val createdAt: OffsetDateTime?
+    val createdAt: OffsetDateTime?,
+
+    val conflictWithId: Long? = null
 )

@@ -22,8 +22,8 @@ public interface LabelMapper extends GenericMapper<LabelEntity, Label> {
     @Override
     @Mapping(target = "boardId", source = "boardId")
     @Mapping(target = "remoteId", source = "remoteId")
-    @Mapping(target = "status", ignore = true)
-    @Mapping(target = "lastModified", ignore = true)
-    @Mapping(target = "lastModifiedLocal", ignore = true)
+    @Mapping(target = "status", expression = "java(it.niedermann.nextcloud.deck.domain.model.DBStatus.findById(labelEntity.getStatus()))")
+    @Mapping(target = "lastModified", source = "lastModified")
+    @Mapping(target = "lastModifiedLocal", source = "lastModifiedLocal")
     Label toTO(LabelEntity labelEntity);
 }

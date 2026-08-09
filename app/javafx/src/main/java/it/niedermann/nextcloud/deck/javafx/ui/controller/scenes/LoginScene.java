@@ -116,8 +116,8 @@ public class LoginScene extends DisposableController implements TitleReportable 
                 .switchMap(_ -> syncStatus)
                 .observeOn(JavaFxScheduler.platform())
                 .subscribe(syncStatus -> {
-                    if (syncStatus.boardsFinishedCount() > 0) {
-                        this.progress.setProgress(Math.min(1, (double) syncStatus.boardsFinishedCount() / syncStatus.boardsTotalCount()));
+                    if (syncStatus.boardsFinished() > 0) {
+                        this.progress.setProgress(Math.min(1, (double) syncStatus.boardsFinished() / syncStatus.boardsTotal()));
                     }
                 });
 

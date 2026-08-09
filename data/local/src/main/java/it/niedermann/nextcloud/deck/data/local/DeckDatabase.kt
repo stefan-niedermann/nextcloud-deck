@@ -5,8 +5,17 @@ import androidx.room3.DaoReturnTypeConverters
 import androidx.room3.Database
 import androidx.room3.Room
 import androidx.room3.RoomDatabase
+import androidx.sqlite.SQLiteConnection
 import androidx.sqlite.driver.bundled.BundledSQLiteDriver
+import androidx.sqlite.execSQL
 import it.niedermann.nextcloud.deck.data.local.dao.AccountDao
+import it.niedermann.nextcloud.deck.data.local.dao.BoardDao
+import it.niedermann.nextcloud.deck.data.local.dao.ColumnDao
+import it.niedermann.nextcloud.deck.data.local.dao.CardDao
+import it.niedermann.nextcloud.deck.data.local.dao.LabelDao
+import it.niedermann.nextcloud.deck.data.local.dao.AttachmentDao
+import it.niedermann.nextcloud.deck.data.local.dao.CommentDao
+import it.niedermann.nextcloud.deck.data.local.dao.AccessControlDao
 import it.niedermann.nextcloud.deck.data.local.daoreturntypeconverter.rxjava.CfDaoReturnTypeConverters
 import it.niedermann.nextcloud.deck.data.local.daoreturntypeconverter.rxjava.RxDaoReturnTypeConverters
 import it.niedermann.nextcloud.deck.data.local.entity.AccountEntity
@@ -65,6 +74,13 @@ import kotlin.io.path.absolutePathString
 abstract class DeckDatabase : RoomDatabase() {
 
     abstract val accountDao: AccountDao
+    abstract val boardDao: BoardDao
+    abstract val columnDao: ColumnDao
+    abstract val cardDao: CardDao
+    abstract val labelDao: LabelDao
+    abstract val attachmentDao: AttachmentDao
+    abstract val commentDao: CommentDao
+    abstract val accessControlDao: AccessControlDao
 
     companion object {
 
@@ -74,6 +90,11 @@ abstract class DeckDatabase : RoomDatabase() {
         fun getDatabaseBuilder(path: Path): Builder<DeckDatabase> {
             return Room.databaseBuilder<DeckDatabase>(name = path.absolutePathString())
                 .setDriver(BundledSQLiteDriver())
+                .addCallback(object : Callback() {
+                    override suspend fun onCreate(connection: SQLiteConnection) {
+                        connection.execSQL("INSERT INTO Account (id, url, username, token, accountName) VALUES (-1, 'http://localhost', 'conflict_system', '', 'Conflict System')")
+                    }
+                })
                 .fallbackToDestructiveMigration(true)
                 .setQueryCoroutineContext(Dispatchers.IO)
         }
@@ -81,6 +102,11 @@ abstract class DeckDatabase : RoomDatabase() {
         fun getInMemoryDatabaseBuilder(): Builder<DeckDatabase> {
             return Room.inMemoryDatabaseBuilder<DeckDatabase>()
                 .setDriver(BundledSQLiteDriver())
+                .addCallback(object : Callback() {
+                    override suspend fun onCreate(connection: SQLiteConnection) {
+                        connection.execSQL("INSERT INTO Account (id, url, username, token, accountName) VALUES (-1, 'http://localhost', 'conflict_system', '', 'Conflict System')")
+                    }
+                })
                 .fallbackToDestructiveMigration(true)
                 .setQueryCoroutineContext(Dispatchers.IO)
         }

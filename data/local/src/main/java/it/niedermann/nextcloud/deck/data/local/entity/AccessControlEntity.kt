@@ -46,5 +46,7 @@ data class AccessControlEntity(
     val permissionEdit: Boolean,
     val permissionShare: Boolean,
     val permissionManage: Boolean,
-    val userId: Long?
+    val userId: Long?,
+
+    val conflictWithId: Long? = null
 )

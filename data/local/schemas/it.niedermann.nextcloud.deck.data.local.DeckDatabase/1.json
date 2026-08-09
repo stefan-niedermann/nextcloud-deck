@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "49b1281332d276c3403d7ed91cca349b",
+    "identityHash": "16952981fa1298c20cbfa4a821467a9f",
     "entities": [
       {
         "tableName": "Account",
@@ -198,7 +198,7 @@
       },
       {
         "tableName": "Attachment",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`localId` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `accountId` INTEGER NOT NULL, `remoteId` INTEGER, `status` INTEGER NOT NULL, `lastModified` TEXT, `lastModifiedLocal` TEXT, `etag` TEXT, `cardId` INTEGER NOT NULL, `type` TEXT NOT NULL, `data` TEXT, `createdAt` TEXT, `createdBy` TEXT, `deletedAt` TEXT, `filesize` INTEGER NOT NULL, `mimetype` TEXT, `dirname` TEXT, `basename` TEXT, `extension` TEXT, `filename` TEXT, `localPath` TEXT, `fileId` INTEGER, FOREIGN KEY(`cardId`) REFERENCES `Card`(`localId`) ON UPDATE NO ACTION ON DELETE CASCADE , FOREIGN KEY(`accountId`) REFERENCES `Account`(`id`) ON UPDATE NO ACTION ON DELETE CASCADE )",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`localId` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `accountId` INTEGER NOT NULL, `remoteId` INTEGER, `status` INTEGER NOT NULL, `lastModified` TEXT, `lastModifiedLocal` TEXT, `etag` TEXT, `cardId` INTEGER NOT NULL, `type` TEXT NOT NULL, `data` TEXT, `createdAt` TEXT, `createdBy` TEXT, `deletedAt` TEXT, `filesize` INTEGER NOT NULL, `mimetype` TEXT, `dirname` TEXT, `basename` TEXT, `extension` TEXT, `filename` TEXT, `localPath` TEXT, `fileId` INTEGER, `conflictWithId` INTEGER, FOREIGN KEY(`cardId`) REFERENCES `Card`(`localId`) ON UPDATE NO ACTION ON DELETE CASCADE , FOREIGN KEY(`accountId`) REFERENCES `Account`(`id`) ON UPDATE NO ACTION ON DELETE CASCADE )",
         "fields": [
           {
             "fieldPath": "localId",
@@ -310,6 +310,11 @@
             "fieldPath": "fileId",
             "columnName": "fileId",
             "affinity": "INTEGER"
+          },
+          {
+            "fieldPath": "conflictWithId",
+            "columnName": "conflictWithId",
+            "affinity": "INTEGER"
           }
         ],
         "primaryKey": {
@@ -393,7 +398,7 @@
       },
       {
         "tableName": "Board",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`localId` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `accountId` INTEGER NOT NULL, `remoteId` INTEGER, `status` INTEGER NOT NULL, `lastModified` TEXT, `lastModifiedLocal` TEXT, `etag` TEXT, `title` TEXT NOT NULL, `ownerId` INTEGER, `color` INTEGER, `archived` INTEGER NOT NULL, `shared` INTEGER NOT NULL, `deletedAt` TEXT, `permissionRead` INTEGER NOT NULL, `permissionEdit` INTEGER NOT NULL, `permissionManage` INTEGER NOT NULL, `permissionShare` INTEGER NOT NULL, FOREIGN KEY(`ownerId`) REFERENCES `User`(`localId`) ON UPDATE NO ACTION ON DELETE CASCADE , FOREIGN KEY(`accountId`) REFERENCES `Account`(`id`) ON UPDATE NO ACTION ON DELETE CASCADE )",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`localId` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `accountId` INTEGER NOT NULL, `remoteId` INTEGER, `status` INTEGER NOT NULL, `lastModified` TEXT, `lastModifiedLocal` TEXT, `etag` TEXT, `title` TEXT NOT NULL, `ownerId` INTEGER, `color` INTEGER, `archived` INTEGER NOT NULL, `shared` INTEGER NOT NULL, `deletedAt` TEXT, `permissionRead` INTEGER NOT NULL, `permissionEdit` INTEGER NOT NULL, `permissionManage` INTEGER NOT NULL, `permissionShare` INTEGER NOT NULL, `conflictWithId` INTEGER, FOREIGN KEY(`ownerId`) REFERENCES `User`(`localId`) ON UPDATE NO ACTION ON DELETE CASCADE , FOREIGN KEY(`accountId`) REFERENCES `Account`(`id`) ON UPDATE NO ACTION ON DELETE CASCADE )",
         "fields": [
           {
             "fieldPath": "localId",
@@ -489,6 +494,11 @@
             "columnName": "permissionShare",
             "affinity": "INTEGER",
             "notNull": true
+          },
+          {
+            "fieldPath": "conflictWithId",
+            "columnName": "conflictWithId",
+            "affinity": "INTEGER"
           }
         ],
         "primaryKey": {
@@ -572,7 +582,7 @@
       },
       {
         "tableName": "Card",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`localId` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `accountId` INTEGER NOT NULL, `remoteId` INTEGER, `status` INTEGER NOT NULL, `lastModified` TEXT, `lastModifiedLocal` TEXT, `etag` TEXT, `title` TEXT NOT NULL, `description` TEXT, `columnId` INTEGER NOT NULL, `type` TEXT, `createdAt` TEXT, `deletedAt` TEXT, `done` TEXT, `attachmentCount` INTEGER NOT NULL, `userId` INTEGER, `order` INTEGER NOT NULL, `archived` INTEGER NOT NULL, `dueDate` TEXT, `notified` INTEGER NOT NULL, `overdue` INTEGER NOT NULL, `commentsUnread` INTEGER NOT NULL, FOREIGN KEY(`columnId`) REFERENCES `Column`(`localId`) ON UPDATE NO ACTION ON DELETE CASCADE , FOREIGN KEY(`accountId`) REFERENCES `Account`(`id`) ON UPDATE NO ACTION ON DELETE CASCADE )",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`localId` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `accountId` INTEGER NOT NULL, `remoteId` INTEGER, `status` INTEGER NOT NULL, `lastModified` TEXT, `lastModifiedLocal` TEXT, `etag` TEXT, `title` TEXT NOT NULL, `description` TEXT, `columnId` INTEGER NOT NULL, `type` TEXT, `createdAt` TEXT, `deletedAt` TEXT, `done` TEXT, `attachmentCount` INTEGER NOT NULL, `userId` INTEGER, `order` INTEGER NOT NULL, `archived` INTEGER NOT NULL, `dueDate` TEXT, `notified` INTEGER NOT NULL, `overdue` INTEGER NOT NULL, `commentsUnread` INTEGER NOT NULL, `conflictWithId` INTEGER, FOREIGN KEY(`columnId`) REFERENCES `Column`(`localId`) ON UPDATE NO ACTION ON DELETE CASCADE , FOREIGN KEY(`accountId`) REFERENCES `Account`(`id`) ON UPDATE NO ACTION ON DELETE CASCADE )",
         "fields": [
           {
             "fieldPath": "localId",
@@ -694,6 +704,11 @@
             "columnName": "commentsUnread",
             "affinity": "INTEGER",
             "notNull": true
+          },
+          {
+            "fieldPath": "conflictWithId",
+            "columnName": "conflictWithId",
+            "affinity": "INTEGER"
           }
         ],
         "primaryKey": {
@@ -777,7 +792,7 @@
       },
       {
         "tableName": "Column",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`localId` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `accountId` INTEGER NOT NULL, `remoteId` INTEGER, `status` INTEGER NOT NULL, `lastModified` TEXT, `lastModifiedLocal` TEXT, `etag` TEXT, `boardId` INTEGER NOT NULL, `title` TEXT NOT NULL, `order` INTEGER NOT NULL, `archived` INTEGER NOT NULL, `deletedAt` TEXT, FOREIGN KEY(`boardId`) REFERENCES `Board`(`localId`) ON UPDATE NO ACTION ON DELETE CASCADE , FOREIGN KEY(`accountId`) REFERENCES `Account`(`id`) ON UPDATE NO ACTION ON DELETE CASCADE )",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`localId` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `accountId` INTEGER NOT NULL, `remoteId` INTEGER, `status` INTEGER NOT NULL, `lastModified` TEXT, `lastModifiedLocal` TEXT, `etag` TEXT, `boardId` INTEGER NOT NULL, `title` TEXT NOT NULL, `order` INTEGER NOT NULL, `archived` INTEGER NOT NULL, `deletedAt` TEXT, `conflictWithId` INTEGER, FOREIGN KEY(`boardId`) REFERENCES `Board`(`localId`) ON UPDATE NO ACTION ON DELETE CASCADE , FOREIGN KEY(`accountId`) REFERENCES `Account`(`id`) ON UPDATE NO ACTION ON DELETE CASCADE )",
         "fields": [
           {
             "fieldPath": "localId",
@@ -845,6 +860,11 @@
             "fieldPath": "deletedAt",
             "columnName": "deletedAt",
             "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "conflictWithId",
+            "columnName": "conflictWithId",
+            "affinity": "INTEGER"
           }
         ],
         "primaryKey": {
@@ -928,7 +948,7 @@
       },
       {
         "tableName": "Comment",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`localId` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `accountId` INTEGER NOT NULL, `remoteId` INTEGER, `status` INTEGER NOT NULL, `lastModified` TEXT, `lastModifiedLocal` TEXT, `etag` TEXT, `cardId` INTEGER NOT NULL, `actorType` TEXT, `actorId` TEXT, `actorDisplayName` TEXT, `message` TEXT NOT NULL, `parentId` INTEGER, `createdAt` TEXT, FOREIGN KEY(`cardId`) REFERENCES `Card`(`localId`) ON UPDATE NO ACTION ON DELETE CASCADE , FOREIGN KEY(`parentId`) REFERENCES `Comment`(`localId`) ON UPDATE NO ACTION ON DELETE CASCADE , FOREIGN KEY(`accountId`) REFERENCES `Account`(`id`) ON UPDATE NO ACTION ON DELETE CASCADE )",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`localId` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `accountId` INTEGER NOT NULL, `remoteId` INTEGER, `status` INTEGER NOT NULL, `lastModified` TEXT, `lastModifiedLocal` TEXT, `etag` TEXT, `cardId` INTEGER NOT NULL, `actorType` TEXT, `actorId` TEXT, `actorDisplayName` TEXT, `message` TEXT NOT NULL, `parentId` INTEGER, `createdAt` TEXT, `conflictWithId` INTEGER, FOREIGN KEY(`cardId`) REFERENCES `Card`(`localId`) ON UPDATE NO ACTION ON DELETE CASCADE , FOREIGN KEY(`parentId`) REFERENCES `Comment`(`localId`) ON UPDATE NO ACTION ON DELETE CASCADE , FOREIGN KEY(`accountId`) REFERENCES `Account`(`id`) ON UPDATE NO ACTION ON DELETE CASCADE )",
         "fields": [
           {
             "fieldPath": "localId",
@@ -1004,6 +1024,11 @@
             "fieldPath": "createdAt",
             "columnName": "createdAt",
             "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "conflictWithId",
+            "columnName": "conflictWithId",
+            "affinity": "INTEGER"
           }
         ],
         "primaryKey": {
@@ -1107,7 +1132,7 @@
       },
       {
         "tableName": "Label",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`localId` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `accountId` INTEGER NOT NULL, `remoteId` INTEGER, `status` INTEGER NOT NULL, `lastModified` TEXT, `lastModifiedLocal` TEXT, `etag` TEXT, `boardId` INTEGER NOT NULL, `title` TEXT NOT NULL, `color` INTEGER, FOREIGN KEY(`boardId`) REFERENCES `Board`(`localId`) ON UPDATE NO ACTION ON DELETE CASCADE , FOREIGN KEY(`accountId`) REFERENCES `Account`(`id`) ON UPDATE NO ACTION ON DELETE CASCADE )",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`localId` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `accountId` INTEGER NOT NULL, `remoteId` INTEGER, `status` INTEGER NOT NULL, `lastModified` TEXT, `lastModifiedLocal` TEXT, `etag` TEXT, `boardId` INTEGER NOT NULL, `title` TEXT NOT NULL, `color` INTEGER, `conflictWithId` INTEGER, FOREIGN KEY(`boardId`) REFERENCES `Board`(`localId`) ON UPDATE NO ACTION ON DELETE CASCADE , FOREIGN KEY(`accountId`) REFERENCES `Account`(`id`) ON UPDATE NO ACTION ON DELETE CASCADE )",
         "fields": [
           {
             "fieldPath": "localId",
@@ -1162,6 +1187,11 @@
           {
             "fieldPath": "color",
             "columnName": "color",
+            "affinity": "INTEGER"
+          },
+          {
+            "fieldPath": "conflictWithId",
+            "columnName": "conflictWithId",
             "affinity": "INTEGER"
           }
         ],
@@ -1354,7 +1384,7 @@
       },
       {
         "tableName": "AccessControl",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`localId` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `accountId` INTEGER NOT NULL, `remoteId` INTEGER, `status` INTEGER NOT NULL, `lastModified` TEXT, `lastModifiedLocal` TEXT, `etag` TEXT, `type` INTEGER, `boardId` INTEGER NOT NULL, `owner` INTEGER NOT NULL, `permissionEdit` INTEGER NOT NULL, `permissionShare` INTEGER NOT NULL, `permissionManage` INTEGER NOT NULL, `userId` INTEGER, FOREIGN KEY(`boardId`) REFERENCES `Board`(`localId`) ON UPDATE NO ACTION ON DELETE CASCADE , FOREIGN KEY(`accountId`) REFERENCES `Account`(`id`) ON UPDATE NO ACTION ON DELETE CASCADE )",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`localId` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `accountId` INTEGER NOT NULL, `remoteId` INTEGER, `status` INTEGER NOT NULL, `lastModified` TEXT, `lastModifiedLocal` TEXT, `etag` TEXT, `type` INTEGER, `boardId` INTEGER NOT NULL, `owner` INTEGER NOT NULL, `permissionEdit` INTEGER NOT NULL, `permissionShare` INTEGER NOT NULL, `permissionManage` INTEGER NOT NULL, `userId` INTEGER, `conflictWithId` INTEGER, FOREIGN KEY(`boardId`) REFERENCES `Board`(`localId`) ON UPDATE NO ACTION ON DELETE CASCADE , FOREIGN KEY(`accountId`) REFERENCES `Account`(`id`) ON UPDATE NO ACTION ON DELETE CASCADE )",
         "fields": [
           {
             "fieldPath": "localId",
@@ -1432,6 +1462,11 @@
           {
             "fieldPath": "userId",
             "columnName": "userId",
+            "affinity": "INTEGER"
+          },
+          {
+            "fieldPath": "conflictWithId",
+            "columnName": "conflictWithId",
             "affinity": "INTEGER"
           }
         ],
@@ -1910,7 +1945,7 @@
     ],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '49b1281332d276c3403d7ed91cca349b')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '16952981fa1298c20cbfa4a821467a9f')"
     ]
   }
 }

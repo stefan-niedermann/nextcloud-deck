@@ -54,5 +54,7 @@ data class AttachmentEntity(
     val extension: String?,
     val filename: String?,
     val localPath: String?,
-    val fileId: Long?
+    val fileId: Long?,
+
+    val conflictWithId: Long? = null
 )

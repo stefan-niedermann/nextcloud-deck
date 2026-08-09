@@ -20,9 +20,9 @@ public interface LabelRemoteMapper extends GenericRemoteMapper<LabelDTO, Label> 
 
     @Override
     @Mapping(target = "id", source = "id")
-    @Mapping(target = "boardId", ignore = true)
+    @Mapping(target = "boardId", expression = "java(new it.niedermann.nextcloud.deck.domain.model.Board.ID(0L))")
     @Mapping(target = "remoteId", source = "id")
-    @Mapping(target = "status", ignore = true)
+    @Mapping(target = "status", expression = "java(it.niedermann.nextcloud.deck.domain.model.DBStatus.UP_TO_DATE)")
     @Mapping(target = "lastModified", ignore = true)
     @Mapping(target = "lastModifiedLocal", ignore = true)
     @Mapping(target = "color", source = "color")

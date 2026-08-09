@@ -26,7 +26,7 @@ public interface AccessControlMapper extends GenericMapper<AccessControlEntity, 
     @Mapping(target = "permissions.permissionEdit", source = "permissionEdit")
     @Mapping(target = "permissions.permissionShare", source = "permissionShare")
     @Mapping(target = "permissions.permissionManage", source = "permissionManage")
-    @Mapping(target = "status", ignore = true)
-    @Mapping(target = "lastModified", ignore = true)
+    @Mapping(target = "status", expression = "java(it.niedermann.nextcloud.deck.domain.model.DBStatus.findById(entity.getStatus()))")
+    @Mapping(target = "lastModified", source = "lastModified")
     AccessControl toTO(AccessControlEntity entity);
 }

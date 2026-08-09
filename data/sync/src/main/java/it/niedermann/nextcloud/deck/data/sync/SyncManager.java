@@ -1,10 +1,17 @@
 package it.niedermann.nextcloud.deck.data.sync;
 
-import static java.util.Collections.emptySet;
-
+import java.util.concurrent.CompletableFuture;
 import java.util.function.Consumer;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import it.niedermann.nextcloud.deck.data.sync.provider.AccessControlSyncProvider;
+import it.niedermann.nextcloud.deck.data.sync.provider.AttachmentSyncProvider;
+import it.niedermann.nextcloud.deck.data.sync.provider.BoardSyncProvider;
+import it.niedermann.nextcloud.deck.data.sync.provider.CardSyncProvider;
+import it.niedermann.nextcloud.deck.data.sync.provider.ColumnSyncProvider;
+import it.niedermann.nextcloud.deck.data.sync.provider.CommentSyncProvider;
+import it.niedermann.nextcloud.deck.data.sync.provider.LabelSyncProvider;
 import it.niedermann.nextcloud.deck.domain.model.Account;
 import it.niedermann.nextcloud.deck.domain.state.SyncStatus;
 import it.niedermann.nextcloud.remote.ApiProvider;
@@ -17,38 +24,66 @@ public class SyncManager {
     private static final Logger logger = Logger.getLogger(SyncManager.class.getName());
 
     private final ApiProvider.Factory apiProviderFactory;
+    private final BoardSyncProvider boardSyncProvider;
+    private final ColumnSyncProvider columnSyncProvider;
+    private final CardSyncProvider cardSyncProvider;
+    private final LabelSyncProvider labelSyncProvider;
+    private final AttachmentSyncProvider attachmentSyncProvider;
+    private final CommentSyncProvider commentSyncProvider;
+    private final AccessControlSyncProvider accessControlSyncProvider;
 
     @Inject
     public SyncManager(
-            ApiProvider.Factory apiProviderFactory
+            ApiProvider.Factory apiProviderFactory,
+            BoardSyncProvider boardSyncProvider,
+            ColumnSyncProvider columnSyncProvider,
+            CardSyncProvider cardSyncProvider,
+            LabelSyncProvider labelSyncProvider,
+            AttachmentSyncProvider attachmentSyncProvider,
+            CommentSyncProvider commentSyncProvider,
+            AccessControlSyncProvider accessControlSyncProvider
     ) {
         this.apiProviderFactory = apiProviderFactory;
+        this.boardSyncProvider = boardSyncProvider;
+        this.columnSyncProvider = columnSyncProvider;
+        this.cardSyncProvider = cardSyncProvider;
+        this.labelSyncProvider = labelSyncProvider;
+        this.attachmentSyncProvider = attachmentSyncProvider;
+        this.commentSyncProvider = commentSyncProvider;
+        this.accessControlSyncProvider = accessControlSyncProvider;
+        
+        this.boardSyncProvider.setColumnSyncProvider(columnSyncProvider);
+        this.boardSyncProvider.setLabelSyncProvider(labelSyncProvider);
+        this.boardSyncProvider.setAccessControlSyncProvider(accessControlSyncProvider);
+        this.columnSyncProvider.setCardSyncProvider(cardSyncProvider);
+        this.cardSyncProvider.setAttachmentSyncProvider(attachmentSyncProvider);
+        this.cardSyncProvider.setCommentSyncProvider(commentSyncProvider);
     }
 
-    public void synchronize(Account account, Consumer<SyncStatus> reporter) throws Exception {
-
-        // TODO Implement
-        //   1. Wait for Capabilities Call to verify Deck is installed and version is compatible
-        //   2. Synchronize stuff
-
-        // The following content of this method is a NoOp dummy implementation and can be replaced entirely.
-
-        final int MOCK_DURATION_PER_BOARD = 500;
-        final int MOCK_BOARD_COUNT = 10;
-
-        Thread.sleep(MOCK_DURATION_PER_BOARD);
-        reporter.accept(new SyncStatus(account, emptySet(), 0, 0));
-
-        for (int i = 0; i <= MOCK_BOARD_COUNT; i++) {
-            Thread.sleep(MOCK_DURATION_PER_BOARD);
-            reporter.accept(new SyncStatus(account, emptySet(), MOCK_BOARD_COUNT, i));
-        }
-
+    public CompletableFuture<Void> synchronize(Account account, Consumer<SyncStatus> reporter) {
         final var apiProvider = apiProviderFactory.create(account);
         final var ocsApi = apiProvider.getOcsApi();
 
-        final var response = ocsApi.getCapabilities(null).join();
-        logger.info(response.getOcs().getData().getCapabilities().toString());
+        SyncStatus initialStatus = new SyncStatus(account);
 
+        return ocsApi.getCapabilities(null).thenCompose(response -> {
+            logger.info("Server capabilities received");
+
+            reporter.accept(initialStatus);
+            return boardSyncProvider.upSync(account, initialStatus, reporter)
+                    .thenCompose(v -> columnSyncProvider.upSync(account, initialStatus, reporter))
+                    .thenCompose(v -> cardSyncProvider.upSync(account, initialStatus, reporter))
+                    .thenCompose(v -> labelSyncProvider.upSync(account, initialStatus, reporter))
+                    .thenCompose(v -> attachmentSyncProvider.upSync(account, initialStatus, reporter))
+                    .thenCompose(v -> commentSyncProvider.upSync(account, initialStatus, reporter))
+                    .thenCompose(v -> accessControlSyncProvider.upSync(account, initialStatus, reporter));
+        }).thenCompose(v -> {
+            return boardSyncProvider.downSync(account, null, null, initialStatus, reporter);
+        }).thenAccept(v -> {
+            logger.info("Sync finished for account: " + account.username());
+        }).exceptionally(throwable -> {
+            logger.log(Level.SEVERE, "Sync failed", throwable);
+            throw new RuntimeException(throwable);
+        });
     }
 }

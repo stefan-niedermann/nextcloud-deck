@@ -1,7 +1,9 @@
 package it.niedermann.nextcloud.deck.javafx.di.application;
 
 
+import dagger.BindsInstance;
 import dagger.Component;
+import it.niedermann.nextcloud.deck.app.shared.di.NamedVerbose;
 import it.niedermann.nextcloud.deck.app.shared.di.SharedModule;
 import it.niedermann.nextcloud.deck.javafx.di.fx.FxComponent;
 import it.niedermann.nextcloud.deck.javafx.services.application.PurgeService;
@@ -17,7 +19,7 @@ public interface AppComponent {
 
     @Component.Factory
     interface Factory {
-        AppComponent create();
+        AppComponent create(@BindsInstance @NamedVerbose boolean verbose);
     }
 
     FxComponent.Factory getFxComponentFactory();

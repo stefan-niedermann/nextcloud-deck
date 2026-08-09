@@ -22,7 +22,7 @@ public interface UserRemoteMapper extends GenericRemoteMapper<UserDTO, User> {
     @Override
     @Mapping(target = "id", source = "uid")
     @Mapping(target = "displayName", source = "displayname")
-    @Mapping(target = "status", ignore = true)
+    @Mapping(target = "status", expression = "java(it.niedermann.nextcloud.deck.domain.model.DBStatus.UP_TO_DATE)")
     @Mapping(target = "lastModified", ignore = true)
     @Mapping(target = "accountId", ignore = true)
     @Mapping(target = "remoteId", ignore = true)

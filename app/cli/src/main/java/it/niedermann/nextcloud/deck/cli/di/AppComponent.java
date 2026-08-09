@@ -3,6 +3,7 @@ package it.niedermann.nextcloud.deck.cli.di;
 
 import dagger.BindsInstance;
 import dagger.Component;
+import it.niedermann.nextcloud.deck.app.shared.di.NamedVerbose;
 import it.niedermann.nextcloud.deck.app.shared.di.SharedModule;
 import it.niedermann.nextcloud.deck.cli.commands.account.AccountCmd;
 import it.niedermann.nextcloud.deck.cli.commands.account.subcommands.AccountAddCmd;
@@ -25,7 +26,8 @@ public interface AppComponent {
     @Component.Factory
     interface Factory {
         AppComponent create(@BindsInstance DeckDatabase database,
-                            @BindsInstance KeyValueStore keyValueStore);
+                            @BindsInstance KeyValueStore keyValueStore,
+                            @BindsInstance @NamedVerbose boolean verbose);
     }
 
     void inject(AccountCmd cmd);

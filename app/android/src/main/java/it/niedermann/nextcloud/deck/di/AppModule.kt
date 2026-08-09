@@ -15,12 +15,21 @@ import it.niedermann.nextcloud.deck.AndroidKeyValueStore
 import it.niedermann.nextcloud.deck.app.shared.Constants.DECK_DB_NAME
 import it.niedermann.nextcloud.deck.data.local.DeckDatabase
 import it.niedermann.nextcloud.deck.domain.state.KeyValueStore
+import it.niedermann.nextcloud.deck.app.shared.di.NamedVerbose
 import jakarta.inject.Singleton
 import kotlinx.coroutines.Dispatchers
 
 @Module
 @InstallIn(SingletonComponent::class)
 object AppModule {
+
+    @Provides
+    @NamedVerbose
+    fun provideVerbose(): Boolean {
+        // For Android, we could link this to a setting, but for now we'll just use false
+        // or true if you want it always on in debug.
+        return false
+    }
 
     @Provides
     @Singleton

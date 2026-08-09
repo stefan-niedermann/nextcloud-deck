@@ -4,6 +4,7 @@ import com.google.gson.Gson;
 
 import dagger.Module;
 import dagger.Provides;
+import it.niedermann.nextcloud.deck.app.shared.di.modules.LocalModule;
 import it.niedermann.nextcloud.deck.app.shared.di.modules.MapperModule;
 import it.niedermann.nextcloud.deck.app.shared.di.modules.RemoteModule;
 import it.niedermann.nextcloud.deck.app.shared.di.modules.RepositoryModule;
@@ -12,6 +13,7 @@ import it.niedermann.nextcloud.remote.GsonProvider;
 import jakarta.inject.Singleton;
 
 @Module(includes = {
+        LocalModule.class,
         RepositoryModule.class,
         MapperModule.class,
         SyncModule.class,

@@ -21,7 +21,8 @@ public interface CommentMapper extends GenericMapper<CommentEntity, Comment> {
     @Override
     @Mapping(target = "id", source = "remoteId")
     @Mapping(target = "created", source = "createdAt")
-    @Mapping(target = "status", ignore = true)
-    @Mapping(target = "author", ignore = true)
+    @Mapping(target = "status", expression = "java(it.niedermann.nextcloud.deck.domain.model.DBStatus.findById(entity.getStatus()))")
+    @Mapping(target = "lastModified", source = "lastModified")
+    @Mapping(target = "author", source = "actorId")
     Comment toTO(CommentEntity entity);
 }

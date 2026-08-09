@@ -23,7 +23,7 @@ public interface AccessControlRemoteMapper extends GenericRemoteMapper<AccessCon
 
     @Override
     @Mapping(target = "remoteId", source = "id")
-    @Mapping(target = "boardId", source = "boardId")
+    @Mapping(target = "boardId", expression = "java(new it.niedermann.nextcloud.deck.domain.model.Board.ID(aclDTO.getBoardId() != null ? aclDTO.getBoardId() : 0L))")
     @Mapping(target = "permissions.permissionRead", constant = "true")
     @Mapping(target = "permissions.permissionEdit", source = "permissionEdit")
     @Mapping(target = "permissions.permissionShare", source = "permissionShare")
@@ -31,6 +31,6 @@ public interface AccessControlRemoteMapper extends GenericRemoteMapper<AccessCon
     @Mapping(target = "localId", ignore = true)
     @Mapping(target = "accountId", ignore = true)
     @Mapping(target = "userId", ignore = true)
-    @Mapping(target = "status", ignore = true)
+    @Mapping(target = "status", expression = "java(it.niedermann.nextcloud.deck.domain.model.DBStatus.UP_TO_DATE)")
     AccessControl toTO(AccessControlDTO aclDTO);
 }

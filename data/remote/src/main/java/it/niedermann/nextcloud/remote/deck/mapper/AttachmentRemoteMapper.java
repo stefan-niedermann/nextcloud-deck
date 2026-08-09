@@ -37,7 +37,7 @@ public interface AttachmentRemoteMapper extends GenericRemoteMapper<AttachmentDT
     @Mapping(target = "extension", source = "extendedData.info.extension")
     @Mapping(target = "filename", source = "extendedData.info.filename")
     @Mapping(target = "remoteId", source = "id")
-    @Mapping(target = "status", ignore = true)
+    @Mapping(target = "status", expression = "java(it.niedermann.nextcloud.deck.domain.model.DBStatus.UP_TO_DATE)")
     @Mapping(target = "title", source = "data")
     @Mapping(target = "localPath", ignore = true)
     @Mapping(target = "accountId", ignore = true)

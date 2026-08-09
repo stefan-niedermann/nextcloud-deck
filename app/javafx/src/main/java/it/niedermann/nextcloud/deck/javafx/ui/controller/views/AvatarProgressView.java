@@ -69,17 +69,17 @@ public class AvatarProgressView extends StackPane {
 
         avatar.setAvatar(syncStatus.account());
 
-        if (syncStatus.boardsFinishedCount() == 0) {
+        if (syncStatus.boardsFinished() == 0) {
 
             this.progress.setProgress(ProgressIndicator.INDETERMINATE_PROGRESS);
             this.progress.setVisible(true);
             this.progress.setDisable(false);
 
-        } else if (syncStatus.boardsFinishedCount() > 0) {
+        } else if (syncStatus.boardsFinished() > 0) {
 
-            this.progress.setProgress(Math.min(1, (double) syncStatus.boardsFinishedCount() / syncStatus.boardsTotalCount()));
+            this.progress.setProgress(Math.min(1, (double) syncStatus.boardsFinished() / syncStatus.boardsTotal()));
 
-            if (syncStatus.boardsFinishedCount() == syncStatus.boardsTotalCount()) {
+            if (syncStatus.boardsFinished() == syncStatus.boardsTotal()) {
                 this.progress.setVisible(false);
                 this.progress.setDisable(true);
                 this.progress.setProgress(ProgressIndicator.INDETERMINATE_PROGRESS);

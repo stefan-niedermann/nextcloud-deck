@@ -203,10 +203,10 @@ fun BoardScreen(
                     Crossfade(targetState = isRefreshing, label = "SyncProgress") { refreshing ->
                         if (refreshing) {
                             val currentStatus = syncStatus
-                            val total = currentStatus?.boardsTotalCount() ?: 0
+                            val total = currentStatus?.boardsTotal ?: 0
                             if (currentStatus != null && total > 0) {
                                 CircularProgressIndicator(
-                                    progress = { currentStatus.boardsFinishedCount().toFloat() / total },
+                                    progress = { currentStatus.boardsFinished.toFloat() / total },
                                     modifier = Modifier.size(24.dp),
                                     color = MaterialTheme.colorScheme.primary,
                                     strokeWidth = 3.dp,

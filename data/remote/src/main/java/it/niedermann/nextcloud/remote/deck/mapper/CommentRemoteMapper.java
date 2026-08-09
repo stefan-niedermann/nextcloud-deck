@@ -26,7 +26,7 @@ public interface CommentRemoteMapper extends GenericRemoteMapper<CommentDTO, Com
 
     @Override
     @Mapping(target = "id", source = "id")
-    @Mapping(target = "status", ignore = true)
+    @Mapping(target = "status", expression = "java(it.niedermann.nextcloud.deck.domain.model.DBStatus.UP_TO_DATE)")
     @Mapping(target = "lastModified", ignore = true)
     @Mapping(target = "cardId", source = "objectId")
     @Mapping(target = "created", source = "creationDateTime")

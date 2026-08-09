@@ -54,5 +54,7 @@ data class CardEntity(
     val dueDate: OffsetDateTime?,
     val notified: Boolean,
     val overdue: Int,
-    val commentsUnread: Int
+    val commentsUnread: Int,
+
+    val conflictWithId: Long? = null
 )

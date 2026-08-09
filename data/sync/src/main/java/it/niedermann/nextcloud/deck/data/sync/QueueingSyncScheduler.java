@@ -12,7 +12,6 @@ import java.util.logging.Logger;
 import io.reactivex.rxjava3.core.Flowable;
 import io.reactivex.rxjava3.core.Maybe;
 import io.reactivex.rxjava3.processors.ReplayProcessor;
-import io.reactivex.rxjava3.schedulers.Schedulers;
 import it.niedermann.nextcloud.deck.domain.model.Account;
 import it.niedermann.nextcloud.deck.domain.repository.AccountRepository;
 import it.niedermann.nextcloud.deck.domain.state.SyncStatus;
@@ -130,28 +129,22 @@ public class QueueingSyncScheduler implements SyncScheduler {
 
         final var reporter = ReplayProcessor.<SyncStatus>createWithSize(1);
 
-        final var disposable = Schedulers.single().createWorker().schedule(() -> {
+        logger.info("Start " + account.accountName() + ": " + Instant.now());
+        final var future = syncManager.synchronize(account, reporter::onNext);
 
-            try {
-
-                logger.info("Start " + account.accountName() + ": " + Instant.now());
-                syncManager.synchronize(account, reporter::onNext);
-                reporter.onComplete();
-
-            } catch (Exception e) {
-
-                logger.log(Level.SEVERE, "[ERROR] " + account.accountName() + ": " + Instant.now(), e);
-                reporter.onError(e);
-
-            } finally {
-
+        future.handle((v, throwable) -> {
+            if (throwable != null) {
+                logger.log(Level.SEVERE, "[ERROR] " + account.accountName() + ": " + Instant.now(), throwable);
+                reporter.onError(throwable);
+            } else {
                 logger.info("End " + account.accountName() + ": " + Instant.now());
-
+                reporter.onComplete();
             }
-
+            return null;
         });
 
-        return reporter.doOnCancel(disposable::dispose);
+        // We don't cancel the future anymore, as it's better to let the sync finish
+        return reporter;
     }
 
     @Override
