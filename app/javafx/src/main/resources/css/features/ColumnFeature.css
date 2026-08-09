@@ -17,8 +17,8 @@
     -fx-background-color: transparent;
 }
 
-.list-cell,
-.list-cell:filled:selected {
+.list-view .list-cell,
+.list-view .list-cell:filled:selected {
     -fx-background-color: transparent;
 }
 
