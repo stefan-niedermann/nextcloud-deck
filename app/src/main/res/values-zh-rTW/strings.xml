@@ -208,7 +208,9 @@
     <string name="error_edit_activity_killed_by_android">Android 完成了編輯模式，因為它需要更多的系統資源來服務其他應用程式。</string>
 
     <string name="error_dialog_title">喔不 - 現在怎麼辦？🙁</string>
+    <string name="error_dialog_tip_parsing_failed">無法如預期般解析您的伺服器回應。請確認您已在 Nextcloud 伺服器上啟用 Deck 應用程式。</string>
     <string name="error_dialog_tip_token_mismatch_retry">請嘗試強制關閉該 APP，然後重新啟動。與 Nextcloud APP 的連線可能不正確。</string>
+    <string name="error_dialog_tip_clear_storage_might_help">如果問題仍然存在，請嘗試清除兩款應用程式（Nextcloud 與 Nextcloud Deck）的儲存資料，然後重新匯入您的帳號。</string>
     <string name="error_dialog_tip_database_upgrade_failed">資料庫升級失敗。請回報問題，並清除儲存區以正常使用該應用程式。</string>
     <string name="error_dialog_tip_clear_storage">您可以透過開啟應用程式資訊並選擇 儲存區 → 清除儲存區 來清除儲存區。</string>
     <string name="error_dialog_tip_offline_no_internet">似乎您試圖在沒有網際網路連線的情況下觸發同步。</string>
@@ -225,6 +227,7 @@
     <string name="error_dialog_check_maintenance">請確認您的 Nextcloud 現在不是處於維護模式。</string>
     <string name="error_dialog_insufficient_storage">您的 Nextcloud 已無可用空間，請刪除部份檔案以將您的本地變更同步至雲端。</string>
     <string name="error_dialog_we_need_info">我們需要以下的技術資訊來幫助您：</string>
+    <string name="error_dialog_redirect">您的伺服器確實回傳了 HTTP 302 狀態碼，這表示您的伺服器上尚未安裝 Deck 應用程式，或是某處設定有誤。此問題可能是由於 .htaccess 檔案中的自訂覆寫設定，或是 Nextcloud 應用程式（例如 OID 客戶媏）所導致。</string>
     <string name="error_dialog_version_not_parsable">我們無法確定伺服器端 Deck 應用程式的版本。請確保已安裝並啟用它。</string>
     <string name="error_dialog_account_might_not_be_authorized">您的 Nextcloud APP 帳號可能不再被授權。</string>
     <string name="error_dialog_user_not_found_in_database">目前使用者與我們資料庫中的使用者不符。如果您在 Nextcloud 實例上使用 LDAP，則 Nextcloud APP 可能已存儲了舊的使用者 ID。</string>
@@ -333,5 +336,6 @@
     <string name="label_no_startdate">沒有開始日期</string>
     <string name="label_dependent_cards">被依賴的卡片</string>
     <string name="label_color">顏色</string>
+    <string name="label_clear_color">清除顏色</string>
     <string name="choose_color">選擇顏色</string>
 </resources>

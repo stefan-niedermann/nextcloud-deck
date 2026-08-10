@@ -210,9 +210,9 @@
     <string name="error_edit_activity_killed_by_android">Android hat den Bearbeitungsmodus beendet, da mehr Systemressourcen für andere Apps benötigt wurden.</string>
 
     <string name="error_dialog_title">Oh nein - Was jetzt? 🙁</string>
-    <string name="error_dialog_tip_parsing_failed">Die Antwort Ihres Servers konnte nicht wie erwartet verarbeitet werden. Stellen Sie sicher, dass Sie die Deck-App auf Ihrem Nextcloud-Server aktiviert haben.</string>
+    <string name="error_dialog_tip_parsing_failed">Die Antwort des Servers konnte nicht wie erwartet verarbeitet werden. Bitte sicherstellen, dass die Deck-App auf dem Nextcloud-Server aktiviert ist.</string>
     <string name="error_dialog_tip_token_mismatch_retry">Bitte versuchen Sie, das Schließen der App zu erzwingen und erneut zu starten. Möglicherweise bestand eine gestörte Verbindung zur Nextcloud-App.</string>
-    <string name="error_dialog_tip_clear_storage_might_help">Sollte das Problem weiterhin bestehen, versuchen Sie, den Speicher beider Apps – Nextcloud und Nextcloud Deck – zu löschen und Ihr Konto erneut zu importieren.</string>
+    <string name="error_dialog_tip_clear_storage_might_help">Sollte das Problem weiterhin bestehen, bitte versuchen, den Speicher beider Apps – Nextcloud und Nextcloud Deck – zu löschen und Ihr Konto erneut zu importieren.</string>
     <string name="error_dialog_tip_database_upgrade_failed">Die Aktualisierung der Datenbank ist fehlgeschlagen. Bitte melden Sie das Problem und leeren Sie den Speicher, um die App normal zu verwenden.</string>
     <string name="error_dialog_tip_clear_storage">Sie können den Speicherinhalt leeren indem Sie die App öffnen und Speicher → Speicherinhalt löschen auswählen.</string>
     <string name="error_dialog_tip_offline_no_internet">Es sieht so aus, als hätten Sie versucht, eine Synchronisation ohne Internetverbindung auszulösen.</string>
