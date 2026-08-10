@@ -472,6 +472,12 @@ public class BaseRepository {
         });
     }
 
+    /**
+     * Takes {@link IResponseCallback} rather than
+     * {@link it.niedermann.nextcloud.deck.remote.api.ResponseCallback} because, unlike the
+     * stack/filter widget configuration flows, the Upcoming widget's config can span multiple
+     * accounts, so there is no single {@link Account} to attach here.
+     */
     @AnyThread
     public void updateFilterWidget(@NonNull FilterWidget filterWidget, @NonNull IResponseCallback<Boolean> callback) {
         executor.submit(() -> {

@@ -127,6 +127,9 @@ public class UpcomingWidgetConfigurationActivity extends AppCompatActivity {
     }
 
     private void updateSwatch(@NonNull ImageView swatch, @ColorInt int color) {
+        // circle_36dp is a plain filled circle, i.e. an actual color preview. Don't swap this for
+        // circle_alpha_check_36dp: that drawable is ColorChooser's own "currently selected"
+        // checkmark overlay, not a general-purpose swatch, and tinting it fully hides the check.
         swatch.setImageDrawable(DeckViewThemeUtils.getTintedImageView(this, R.drawable.circle_36dp, color));
     }
 
