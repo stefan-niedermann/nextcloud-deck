@@ -513,6 +513,21 @@ public class BaseRepository {
     }
 
     @WorkerThread
+    public FilterWidget getFilterWidgetByIdDirectly(@NonNull Integer filterWidgetId) {
+        return dataBaseAdapter.getFilterWidgetByIdDirectly(filterWidgetId);
+    }
+
+    @WorkerThread
+    public int createFilterWidgetDirectly(@NonNull FilterWidget filterWidget) {
+        return dataBaseAdapter.createFilterWidgetDirectly(filterWidget);
+    }
+
+    @WorkerThread
+    public void updateFilterWidgetDirectly(@NonNull FilterWidget filterWidget) {
+        dataBaseAdapter.updateFilterWidgetDirectly(filterWidget);
+    }
+
+    @WorkerThread
     public List<FilterWidgetCard> getCardsForFilterWidget(@NonNull Integer filterWidgetId) {
         return dataBaseAdapter.getCardsForFilterWidget(filterWidgetId);
     }

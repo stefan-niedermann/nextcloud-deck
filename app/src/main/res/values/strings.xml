@@ -343,6 +343,16 @@
     <string name="simple_order">Order</string>
     <string name="edit_description">Edit description</string>
     <string name="widget_upcoming_title">Upcoming cards</string>
+    <string name="configure_upcoming_widget">Configure widget</string>
+    <string name="widget_title_hint">Widget title</string>
+    <string name="widget_color_title">Title color</string>
+    <string name="widget_color_widget_background">Widget background</string>
+    <string name="widget_color_section_text">Section text color</string>
+    <string name="widget_color_list_background">List background</string>
+    <string name="widget_color_entry_text">Entry text color</string>
+    <string name="widget_color_swatch">Selected color</string>
+    <string name="widget_color_transparent">Transparent</string>
+    <string name="widget_color_use_default">Use default</string>
     <!-- Category header for a section in the settings which contain features for advanced users -->
     <string name="simple_expert_settings">Expert settings</string>
     <string name="copy_logs">Copy logs to clipboard</string>
