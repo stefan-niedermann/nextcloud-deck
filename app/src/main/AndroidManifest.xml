@@ -172,6 +172,13 @@
             android:name=".ui.widget.upcoming.UpcomingWidgetService"
             android:permission="android.permission.BIND_REMOTEVIEWS" />
 
+        <activity android:name=".ui.widget.upcoming.UpcomingWidgetConfigurationActivity"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_CONFIGURE" />
+            </intent-filter>
+        </activity>
+
         <receiver
             android:name="it.niedermann.nextcloud.deck.ui.widget.upcoming.UpcomingWidget"
             android:label="@string/widget_upcoming_title"
