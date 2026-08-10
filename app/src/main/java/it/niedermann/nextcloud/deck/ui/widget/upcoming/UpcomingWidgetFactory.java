@@ -7,6 +7,7 @@ import android.widget.RemoteViews;
 import android.widget.RemoteViewsService;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,6 +16,7 @@ import java.util.NoSuchElementException;
 import it.niedermann.nextcloud.deck.DeckLog;
 import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.model.full.FullCard;
+import it.niedermann.nextcloud.deck.model.widget.filter.FilterWidget;
 import it.niedermann.nextcloud.deck.repository.BaseRepository;
 import it.niedermann.nextcloud.deck.ui.upcomingcards.UpcomingCardsAdapterItem;
 import it.niedermann.nextcloud.deck.ui.upcomingcards.UpcomingCardsAdapterSectionItem;
@@ -29,6 +31,9 @@ public class UpcomingWidgetFactory implements RemoteViewsService.RemoteViewsFact
 
     @NonNull
     private final List<Object> data = new ArrayList<>();
+
+    @Nullable
+    private FilterWidget config;
 
     UpcomingWidgetFactory(@NonNull Context context, Intent intent) {
         this.context = context;
@@ -47,6 +52,7 @@ public class UpcomingWidgetFactory implements RemoteViewsService.RemoteViewsFact
 
     @Override
     public void onDataSetChanged() {
+        config = baseRepository.getFilterWidgetDirectly(appWidgetId);
         try {
             final List<UpcomingCardsAdapterItem> response = baseRepository.getCardsForUpcomingCardsForWidget();
             DeckLog.verbose(UpcomingWidgetFactory.class.getSimpleName(), "with id", appWidgetId, "fetched", response.size(), "cards from the database.");
@@ -84,11 +90,17 @@ public class UpcomingWidgetFactory implements RemoteViewsService.RemoteViewsFact
             } else {
                 widget_entry.setViewPadding(R.id.widget_entry_content_tv, headerHorizontalPadding, headerVerticalPaddingNth, headerHorizontalPadding, 0);
             }
+            if (config != null && config.getHeaderTextColor() != null) {
+                widget_entry.setTextColor(R.id.widget_entry_content_tv, config.getHeaderTextColor());
+            }
             widget_entry.setOnClickFillInIntent(R.id.widget_stack_entry, UpcomingWidget.fillOpenPendingIntent());
         } else if (data.get(i).getClass() == UpcomingCardsAdapterItem.class || data.get(i) instanceof UpcomingCardsAdapterItem) {
             final FullCard card = ((UpcomingCardsAdapterItem) data.get(i)).getFullCard();
             widget_entry = new RemoteViews(context.getPackageName(), R.layout.widget_stack_entry);
             widget_entry.setTextViewText(R.id.widget_entry_content_tv, card.getCard().getTitle());
+            if (config != null && config.getEntryTextColor() != null) {
+                widget_entry.setTextColor(R.id.widget_entry_content_tv, config.getEntryTextColor());
+            }
             widget_entry.setOnClickFillInIntent(R.id.widget_stack_entry, UpcomingWidget.fillEditPendingIntent(card.getAccountId(), card.getLocalId()));
         } else {
             DeckLog.logError(new IllegalStateException("Expected items to be instance of " + UpcomingCardsAdapterSectionItem.class.getSimpleName() + " or " + UpcomingCardsAdapterItem.class.getSimpleName()));

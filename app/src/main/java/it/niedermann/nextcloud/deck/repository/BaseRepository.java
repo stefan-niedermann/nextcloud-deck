@@ -43,7 +43,6 @@ import it.niedermann.nextcloud.deck.model.widget.filter.FilterWidget;
 import it.niedermann.nextcloud.deck.model.widget.filter.dto.FilterWidgetCard;
 import it.niedermann.nextcloud.deck.remote.api.IResponseCallback;
 import it.niedermann.nextcloud.deck.remote.api.LastSyncUtil;
-import it.niedermann.nextcloud.deck.remote.api.ResponseCallback;
 import it.niedermann.nextcloud.deck.remote.helpers.util.ConnectivityUtil;
 import it.niedermann.nextcloud.deck.ui.upcomingcards.UpcomingCardsAdapterItem;
 import it.niedermann.nextcloud.deck.util.ExecutorServiceProvider;
@@ -474,7 +473,7 @@ public class BaseRepository {
     }
 
     @AnyThread
-    public void updateFilterWidget(@NonNull FilterWidget filterWidget, @NonNull ResponseCallback<Boolean> callback) {
+    public void updateFilterWidget(@NonNull FilterWidget filterWidget, @NonNull IResponseCallback<Boolean> callback) {
         executor.submit(() -> {
             try {
                 dataBaseAdapter.updateFilterWidgetDirectly(filterWidget);
@@ -494,6 +493,16 @@ public class BaseRepository {
                 callback.onError(t);
             }
         });
+    }
+
+    @WorkerThread
+    @Nullable
+    public FilterWidget getFilterWidgetDirectly(int filterWidgetId) {
+        try {
+            return dataBaseAdapter.getFilterWidgetByIdDirectly(filterWidgetId);
+        } catch (NoSuchElementException e) {
+            return null;
+        }
     }
 
     @AnyThread

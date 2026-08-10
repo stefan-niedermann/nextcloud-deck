@@ -369,4 +369,14 @@
     <string name="label_color">Color</string>
     <string name="label_clear_color">Clear color</string>
     <string name="choose_color">Choose color</string>
+
+    <!-- Widget appearance configuration, see https://github.com/stefan-niedermann/nextcloud-deck/issues/1792 -->
+    <string name="widget_appearance_configure_title">Configure widget appearance</string>
+    <string name="widget_appearance_title_hint">Widget title</string>
+    <string name="widget_appearance_title_color">Title text color</string>
+    <string name="widget_appearance_background_color">Widget background color</string>
+    <string name="widget_appearance_header_text_color">Section header text color</string>
+    <string name="widget_appearance_list_background_color">Task list background color</string>
+    <string name="widget_appearance_entry_text_color">Task text color</string>
+    <string name="widget_appearance_use_default">Use default</string>
 </resources>

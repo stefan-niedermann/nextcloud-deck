@@ -7,4 +7,5 @@
     android:previewImage="@drawable/widget_upcoming_preview"
     android:resizeMode="vertical|horizontal"
     android:updatePeriodMillis="86400000"
-    android:widgetCategory="keyguard|home_screen" />
+    android:widgetCategory="keyguard|home_screen"
+    android:configure="it.niedermann.nextcloud.deck.ui.widget.upcoming.UpcomingWidgetConfigurationActivity" />

@@ -9,10 +9,15 @@ import android.appwidget.AppWidgetProvider;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.ColorStateList;
+import android.graphics.Color;
 import android.net.Uri;
+import android.os.Build;
+import android.view.View;
 import android.widget.RemoteViews;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 import java.util.List;
 import java.util.concurrent.ExecutorService;
@@ -52,14 +57,7 @@ public class UpcomingWidget extends AppWidgetProvider {
                     DeckLog.warn(UpcomingWidget.class.getSimpleName(), "with id", appWidgetId, "already exists, perform update instead.");
                     updateAppWidget(executor, context, appWidgetManager, appWidgetIds);
                 } else {
-                    final List<Account> accountsList = baseRepository.readAccountsDirectly();
-                    final FilterWidget config = new FilterWidget(appWidgetId, EWidgetType.UPCOMING_WIDGET);
-                    config.setSorts(new FilterWidgetSort(ESortCriteria.DUE_DATE, true));
-                    config.setAccounts(accountsList.stream().map(account -> {
-                        final FilterWidgetAccount fwa = new FilterWidgetAccount(account.getId(), false);
-                        fwa.setUsers(new FilterWidgetUser(baseRepository.getUserByUidDirectly(account.getId(), account.getUserName()).getLocalId()));
-                        return fwa;
-                    }).collect(Collectors.toList()));
+                    final FilterWidget config = buildDefaultConfig(baseRepository, appWidgetId);
                     baseRepository.createFilterWidget(config, new IResponseCallback<>() {
                         @Override
                         public void onResponse(Integer response, Headers headers) {
@@ -120,9 +118,12 @@ public class UpcomingWidget extends AppWidgetProvider {
     }
 
     private static void updateAppWidget(@NonNull ExecutorService executor, @NonNull Context context, @NonNull AppWidgetManager awm, int[] appWidgetIds) {
+        final var baseRepository = new BaseRepository(context);
         for (int appWidgetId : appWidgetIds) {
             executor.submit(() -> {
                 final RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.widget_upcoming);
+
+                applyAppearance(context, views, baseRepository.getFilterWidgetDirectly(appWidgetId));
 
                 final Intent serviceIntent = new Intent(context, UpcomingWidgetService.class);
                 serviceIntent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, appWidgetId);
@@ -138,6 +139,57 @@ public class UpcomingWidget extends AppWidgetProvider {
                 awm.updateAppWidget(appWidgetId, views);
             });
         }
+    }
+
+    /**
+     * Applies the user-configured title and colors (see #1792) to the widget's root layout.
+     * Only touches the root background when a custom color was actually configured, so widgets
+     * left on defaults keep the rounded-corner {@code widget_outer_background} drawable intact.
+     * Below API 31 {@link RemoteViews} cannot tint a drawable, so a custom background falls back
+     * to a plain (square-cornered) fill on those versions.
+     */
+    private static void applyAppearance(@NonNull Context context, @NonNull RemoteViews views, @Nullable FilterWidget config) {
+        final String title = config == null ? null : config.getTitle();
+        if (title != null && !title.isEmpty()) {
+            views.setTextViewText(R.id.widget_upcoming_title_tv, title);
+            views.setViewVisibility(R.id.widget_upcoming_title_tv, View.VISIBLE);
+            final Integer titleColor = config.getTitleColor();
+            if (titleColor != null) {
+                views.setTextColor(R.id.widget_upcoming_title_tv, titleColor);
+            }
+        } else {
+            views.setViewVisibility(R.id.widget_upcoming_title_tv, View.GONE);
+        }
+
+        final Integer backgroundColor = config == null ? null : config.getBackgroundColor();
+        if (backgroundColor != null) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+                views.setColorStateList(R.id.widget_upcoming_root, "setBackgroundTintList", ColorStateList.valueOf(backgroundColor));
+            } else {
+                views.setInt(R.id.widget_upcoming_root, "setBackgroundColor", backgroundColor);
+            }
+        }
+
+        final Integer listBackgroundColor = config == null ? null : config.getListBackgroundColor();
+        views.setInt(R.id.upcoming_widget_lv, "setBackgroundColor", listBackgroundColor != null ? listBackgroundColor : Color.TRANSPARENT);
+    }
+
+    /**
+     * Builds the default configuration for a newly added Upcoming widget: due-date sorted,
+     * spanning all currently known accounts. Shared between the auto-add fallback in
+     * {@link #onUpdate} and {@link UpcomingWidgetConfigurationActivity}.
+     */
+    @NonNull
+    static FilterWidget buildDefaultConfig(@NonNull BaseRepository baseRepository, int appWidgetId) {
+        final List<Account> accountsList = baseRepository.readAccountsDirectly();
+        final FilterWidget config = new FilterWidget(appWidgetId, EWidgetType.UPCOMING_WIDGET);
+        config.setSorts(new FilterWidgetSort(ESortCriteria.DUE_DATE, true));
+        config.setAccounts(accountsList.stream().map(account -> {
+            final FilterWidgetAccount fwa = new FilterWidgetAccount(account.getId(), false);
+            fwa.setUsers(new FilterWidgetUser(baseRepository.getUserByUidDirectly(account.getId(), account.getUserName()).getLocalId()));
+            return fwa;
+        }).collect(Collectors.toList()));
+        return config;
     }
 
     static Intent fillEditPendingIntent(long accountId, long localCardId) {

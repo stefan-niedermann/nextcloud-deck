@@ -48,6 +48,24 @@
     <color name="widget_background">#ddffffff</color>
     <color name="widget_foreground">#222222</color>
 
+    <!-- Swatches offered in the widget appearance configuration screen, see #1792 -->
+    <string-array name="widget_appearance_colors">
+        <item>#00000000</item>
+        <item>#ffffffff</item>
+        <item>#ff222222</item>
+        <item>#ffb6469d</item>
+        <item>#ffbf678b</item>
+        <item>#ffc98879</item>
+        <item>#ffddcb55</item>
+        <item>#ffa5b872</item>
+        <item>#ff6ea68f</item>
+        <item>#ff3794ac</item>
+        <item>#ff0082c9</item>
+        <item>#ff2d73be</item>
+        <item>#ff5b64b3</item>
+        <item>#ff8855a8</item>
+    </string-array>
+
     <!-- ======================================= -->
     <!-- Static colors                           -->
     <!-- Are theme independent and should match  -->

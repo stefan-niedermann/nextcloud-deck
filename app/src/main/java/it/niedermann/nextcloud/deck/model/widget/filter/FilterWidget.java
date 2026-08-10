@@ -27,6 +27,26 @@ public class FilterWidget {
     @NonNull
     private EWidgetType widgetType = EWidgetType.FILTER_WIDGET;
 
+    /**
+     * Appearance customization introduced for
+     * <a href="https://github.com/stefan-niedermann/nextcloud-deck/issues/1792">#1792</a>.
+     * A {@code null} value means "use the theme default" for that part of the widget.
+     */
+    @Nullable
+    private Integer titleColor;
+
+    @Nullable
+    private Integer backgroundColor;
+
+    @Nullable
+    private Integer headerTextColor;
+
+    @Nullable
+    private Integer listBackgroundColor;
+
+    @Nullable
+    private Integer entryTextColor;
+
     @Ignore
     @NonNull
     private final List<FilterWidgetAccount> accounts = new ArrayList<>();
@@ -106,6 +126,51 @@ public class FilterWidget {
         this.title = title;
     }
 
+    @Nullable
+    public Integer getTitleColor() {
+        return titleColor;
+    }
+
+    public void setTitleColor(@Nullable Integer titleColor) {
+        this.titleColor = titleColor;
+    }
+
+    @Nullable
+    public Integer getBackgroundColor() {
+        return backgroundColor;
+    }
+
+    public void setBackgroundColor(@Nullable Integer backgroundColor) {
+        this.backgroundColor = backgroundColor;
+    }
+
+    @Nullable
+    public Integer getHeaderTextColor() {
+        return headerTextColor;
+    }
+
+    public void setHeaderTextColor(@Nullable Integer headerTextColor) {
+        this.headerTextColor = headerTextColor;
+    }
+
+    @Nullable
+    public Integer getListBackgroundColor() {
+        return listBackgroundColor;
+    }
+
+    public void setListBackgroundColor(@Nullable Integer listBackgroundColor) {
+        this.listBackgroundColor = listBackgroundColor;
+    }
+
+    @Nullable
+    public Integer getEntryTextColor() {
+        return entryTextColor;
+    }
+
+    public void setEntryTextColor(@Nullable Integer entryTextColor) {
+        this.entryTextColor = entryTextColor;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -117,6 +182,11 @@ public class FilterWidget {
         if (!Objects.equals(title, that.title)) return false;
         if (dueType != that.dueType) return false;
         if (widgetType != that.widgetType) return false;
+        if (!Objects.equals(titleColor, that.titleColor)) return false;
+        if (!Objects.equals(backgroundColor, that.backgroundColor)) return false;
+        if (!Objects.equals(headerTextColor, that.headerTextColor)) return false;
+        if (!Objects.equals(listBackgroundColor, that.listBackgroundColor)) return false;
+        if (!Objects.equals(entryTextColor, that.entryTextColor)) return false;
         if (!accounts.equals(that.accounts)) return false;
         return sorts.equals(that.sorts);
     }
@@ -127,6 +197,11 @@ public class FilterWidget {
         result = 31 * result + (title != null ? title.hashCode() : 0);
         result = 31 * result + (dueType != null ? dueType.hashCode() : 0);
         result = 31 * result + widgetType.hashCode();
+        result = 31 * result + Objects.hashCode(titleColor);
+        result = 31 * result + Objects.hashCode(backgroundColor);
+        result = 31 * result + Objects.hashCode(headerTextColor);
+        result = 31 * result + Objects.hashCode(listBackgroundColor);
+        result = 31 * result + Objects.hashCode(entryTextColor);
         result = 31 * result + accounts.hashCode();
         result = 31 * result + sorts.hashCode();
         return result;
