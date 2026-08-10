@@ -10,11 +10,13 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
+import android.text.TextUtils;
 import android.widget.RemoteViews;
 
 import androidx.annotation.NonNull;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.stream.Collectors;
@@ -32,6 +34,7 @@ import it.niedermann.nextcloud.deck.model.widget.filter.FilterWidgetUser;
 import it.niedermann.nextcloud.deck.remote.api.IResponseCallback;
 import it.niedermann.nextcloud.deck.repository.BaseRepository;
 import it.niedermann.nextcloud.deck.ui.card.EditActivity;
+import it.niedermann.nextcloud.deck.util.WidgetUtil;
 import okhttp3.Headers;
 
 public class UpcomingWidget extends AppWidgetProvider {
@@ -120,6 +123,7 @@ public class UpcomingWidget extends AppWidgetProvider {
     }
 
     private static void updateAppWidget(@NonNull ExecutorService executor, @NonNull Context context, @NonNull AppWidgetManager awm, int[] appWidgetIds) {
+        final BaseRepository baseRepository = new BaseRepository(context);
         for (int appWidgetId : appWidgetIds) {
             executor.submit(() -> {
                 final RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.widget_upcoming);
@@ -133,6 +137,20 @@ public class UpcomingWidget extends AppWidgetProvider {
                 views.setPendingIntentTemplate(R.id.upcoming_widget_lv, templatePI);
                 views.setRemoteAdapter(R.id.upcoming_widget_lv, serviceIntent);
                 views.setEmptyView(R.id.upcoming_widget_lv, R.id.widget_upcoming_placeholder_iv);
+
+                try {
+                    final FilterWidget config = baseRepository.getFilterWidgetByIdDirectly(appWidgetId);
+                    final String title = config.getTitle();
+                    views.setTextViewText(R.id.upcoming_widget_title_tv, TextUtils.isEmpty(title) ? context.getString(R.string.app_name_short) : title);
+                    if (config.getTitleColor() != null) {
+                        views.setTextColor(R.id.upcoming_widget_title_tv, config.getTitleColor());
+                    }
+                    if (config.getWidgetBackgroundColor() != null) {
+                        WidgetUtil.applyBackgroundColor(views, R.id.upcoming_widget_root, config.getWidgetBackgroundColor());
+                    }
+                } catch (NoSuchElementException e) {
+                    views.setTextViewText(R.id.upcoming_widget_title_tv, context.getString(R.string.app_name_short));
+                }
 
                 awm.notifyAppWidgetViewDataChanged(appWidgetId, R.id.upcoming_widget_lv);
                 awm.updateAppWidget(appWidgetId, views);
