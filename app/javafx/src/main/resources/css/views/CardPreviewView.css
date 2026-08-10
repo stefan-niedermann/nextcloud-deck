@@ -4,6 +4,9 @@
     -fx-border-radius: 10;
     -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.15), 10, 0, 0, 2);
     -fx-padding: 10;
+    -fx-min-width: 280;
+    -fx-pref-width: 280;
+    -fx-max-width: 280;
 }
 
 .top {

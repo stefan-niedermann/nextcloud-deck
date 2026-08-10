@@ -2,4 +2,5 @@
     -fx-alignment: center-left;
     -fx-spacing: 10;
     -fx-padding: 0 0 0 0;
+    -fx-min-width: 0;
 }

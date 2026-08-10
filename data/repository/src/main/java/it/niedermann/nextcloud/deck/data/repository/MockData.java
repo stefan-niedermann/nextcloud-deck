@@ -5,7 +5,14 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 
-import it.niedermann.nextcloud.deck.domain.model.*;
+import it.niedermann.nextcloud.deck.domain.model.Attachment;
+import it.niedermann.nextcloud.deck.domain.model.Board;
+import it.niedermann.nextcloud.deck.domain.model.Card;
+import it.niedermann.nextcloud.deck.domain.model.Color;
+import it.niedermann.nextcloud.deck.domain.model.Column;
+import it.niedermann.nextcloud.deck.domain.model.Comment;
+import it.niedermann.nextcloud.deck.domain.model.Label;
+import it.niedermann.nextcloud.deck.domain.model.User;
 
 public interface MockData {
 
@@ -93,7 +100,7 @@ public interface MockData {
             new Card(new Card.ID(5), new Card.RemoteID(105), new Column.ID(2), OffsetDateTime.now(), 5, "Card-Title #5", "Card-Description 5 Lorem Ipsum Dolor sit Amet", Set.of(new Label.ID(1)), Collections.emptySet(), Collections.emptyList(), false, false, 0, 1),
             new Card(new Card.ID(6), null, new Column.ID(3), OffsetDateTime.now(), 6, "Card-Title #6", "Card-Description 6 Lorem Ipsum Dolor sit Amet", Set.of(new Label.ID(6), new Label.ID(7)), Collections.emptySet(), Collections.emptyList(), false, false, 0, 0),
             new Card(new Card.ID(7), new Card.RemoteID(107), new Column.ID(3), OffsetDateTime.now(), 7, "Card-Title #7", "Card-Description 7 Lorem Ipsum Dolor sit Amet", Collections.emptySet(), Collections.emptySet(), Collections.emptyList(), false, false, 0, 0),
-            new Card(new Card.ID(8), null, new Column.ID(4), OffsetDateTime.now(), 8, "Card-Title #8", "Card-Description 8 Lorem Ipsum Dolor sit Amet", Collections.emptySet(), Collections.emptySet(), Collections.emptyList(), false, false, 0, 6),
+            new Card(new Card.ID(8), null, new Column.ID(4), OffsetDateTime.now(), 8, "A very very long Card-Title for the card with the number #8", "Card-Description 8 Lorem Ipsum Dolor sit Amet", Collections.emptySet(), Collections.emptySet(), Collections.emptyList(), false, false, 0, 6),
             new Card(new Card.ID(9), new Card.RemoteID(109), new Column.ID(9), OffsetDateTime.now(), 9, "Card-Title #9", "Card-Description 9 Lorem Ipsum Dolor sit Amet", Collections.emptySet(), Collections.emptySet(), Collections.emptyList(), false, false, 0, 0)
     );
 

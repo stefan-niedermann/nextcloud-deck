@@ -9,7 +9,7 @@
 
     <top>
         <HBox BorderPane.alignment="CENTER" styleClass="top">
-            <Label fx:id="title" />
+            <Label fx:id="title" wrapText="true" />
         </HBox>
     </top>
 
