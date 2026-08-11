@@ -20,13 +20,17 @@ import it.niedermann.nextcloud.deck.domain.model.Account;
 import it.niedermann.nextcloud.deck.domain.model.Board;
 import it.niedermann.nextcloud.deck.domain.state.KeyValueStore;
 import it.niedermann.nextcloud.deck.domain.usecases.boards.GetBoardUseCase;
+import it.niedermann.nextcloud.deck.domain.usecases.cards.CopyCardUseCase;
 import it.niedermann.nextcloud.deck.domain.usecases.cards.DeleteCardUseCase;
+import it.niedermann.nextcloud.deck.domain.usecases.cards.MoveCardUseCase;
 import it.niedermann.nextcloud.deck.domain.usecases.state.GetCurrentBoardUseCase;
 import it.niedermann.nextcloud.deck.domain.usecases.state.SetCurrentAccountUseCase;
 import it.niedermann.nextcloud.deck.domain.usecases.state.SetCurrentBoardUseCase;
 import it.niedermann.nextcloud.deck.javafx.services.application.ApplicationRouter;
 import it.niedermann.nextcloud.deck.javafx.services.application.ThemeService;
 import it.niedermann.nextcloud.deck.javafx.store.StoreLogger;
+import it.niedermann.nextcloud.deck.javafx.ui.controller.features.PickStackFeature;
+import it.niedermann.nextcloud.deck.javafx.ui.fxml.Inflater;
 
 @ExtendWith(ApplicationExtension.class)
 class MainStageContextTest {
@@ -38,6 +42,10 @@ class MainStageContextTest {
     private GetCurrentBoardUseCase getCurrentBoardUseCase;
     private SetCurrentBoardUseCase setCurrentBoardUseCase;
     private DeleteCardUseCase deleteCardUseCase;
+    private MoveCardUseCase moveCardUseCase;
+    private CopyCardUseCase copyCardUseCase;
+    private Inflater inflater;
+    private PickStackFeature.Factory pickStackFeatureFactory;
     private GetBoardUseCase getBoardUseCase;
 
     private MainStageContext mainStageContext;
@@ -58,6 +66,10 @@ class MainStageContextTest {
         getCurrentBoardUseCase = mock(GetCurrentBoardUseCase.class);
         setCurrentBoardUseCase = mock(SetCurrentBoardUseCase.class);
         deleteCardUseCase = mock(DeleteCardUseCase.class);
+        moveCardUseCase = mock(MoveCardUseCase.class);
+        copyCardUseCase = mock(CopyCardUseCase.class);
+        inflater = mock(Inflater.class);
+        pickStackFeatureFactory = mock(PickStackFeature.Factory.class);
         getBoardUseCase = mock(GetBoardUseCase.class);
 
         mainStageContext = new MainStageContext(
@@ -68,6 +80,10 @@ class MainStageContextTest {
                 getCurrentBoardUseCase,
                 setCurrentBoardUseCase,
                 deleteCardUseCase,
+                moveCardUseCase,
+                copyCardUseCase,
+                inflater,
+                pickStackFeatureFactory,
                 getBoardUseCase,
                 new MainStageContext.State(Optional.empty(), Optional.empty(), Optional.empty())
         );

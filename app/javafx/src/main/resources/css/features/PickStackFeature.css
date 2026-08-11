@@ -1,0 +1,25 @@
+#root {
+    -fx-background-color: -fx-control-inner-background;
+    -fx-padding: 16;
+    -fx-spacing: 10;
+    -fx-pref-width: 400;
+    -fx-pref-height: 500;
+}
+
+.headline {
+    -fx-font-weight: bold;
+    -fx-font-size: 1.5em;
+    -fx-padding: 0 0 10 0;
+}
+
+.field-group {
+    -fx-spacing: 5;
+}
+
+.footer {
+    -fx-alignment: center-right;
+}
+
+.combo-box, .list-view {
+    -fx-background-color: -fx-control-inner-background;
+}

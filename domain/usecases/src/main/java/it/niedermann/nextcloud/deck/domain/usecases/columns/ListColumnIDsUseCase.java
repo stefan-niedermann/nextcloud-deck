@@ -8,19 +8,19 @@ import it.niedermann.nextcloud.deck.domain.model.Column;
 import it.niedermann.nextcloud.deck.domain.repository.ColumnRepository;
 import jakarta.inject.Inject;
 
-public class ListColumnsUseCase {
+public class ListColumnIDsUseCase {
 
     private final ColumnRepository columnRepository;
 
     @Inject
-    public ListColumnsUseCase(
+    public ListColumnIDsUseCase(
             ColumnRepository columnRepository
     ) {
         this.columnRepository = columnRepository;
     }
 
     /// @implSpec Result is ordered ascending by [Column#order()]
-    public Flow.Publisher<List<Column>> execute(Board.ID boardId) {
-        return columnRepository.getColumns(boardId);
+    public Flow.Publisher<List<Column.ID>> execute(Board.ID boardId) {
+        return columnRepository.getColumnIDs(boardId);
     }
 }

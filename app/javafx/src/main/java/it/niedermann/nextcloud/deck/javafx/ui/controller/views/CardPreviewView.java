@@ -8,6 +8,7 @@ import it.niedermann.nextcloud.deck.util.ColorUtil;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.fxml.FXML;
+import javafx.scene.Node;
 import javafx.scene.control.ContextMenu;
 import javafx.scene.control.Label;
 import javafx.scene.control.MenuItem;
@@ -101,12 +102,12 @@ public class CardPreviewView extends BorderPane {
         });
 
         move.setOnAction(event -> {
-            cardPreviewActionListener.onMoveCard(card.id());
+            cardPreviewActionListener.onMoveCard(card.id(), this);
             event.consume();
         });
 
         copy.setOnAction(event -> {
-            cardPreviewActionListener.onCopyCard(card.id());
+            cardPreviewActionListener.onCopyCard(card.id(), this);
             event.consume();
         });
 
@@ -128,9 +129,9 @@ public class CardPreviewView extends BorderPane {
 
         void onUnassignCard(Card.ID cardId);
 
-        void onMoveCard(Card.ID cardId);
+        void onMoveCard(Card.ID cardId, Node anchor);
 
-        void onCopyCard(Card.ID cardId);
+        void onCopyCard(Card.ID cardId, Node anchor);
 
         void onDeleteCard(Card.ID cardId);
     }

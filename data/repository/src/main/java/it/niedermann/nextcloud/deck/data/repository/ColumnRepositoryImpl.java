@@ -29,9 +29,15 @@ public class ColumnRepositoryImpl implements ColumnRepository {
     }
 
     @Override
-    public Flow.Publisher<List<Column.ID>> getColumns(Board.ID boardId) {
+    public Flow.Publisher<List<Column.ID>> getColumnIDs(Board.ID boardId) {
         return FlowAdapters.toFlowPublisher(Flowable.just(
                 Arrays.stream(MockData.MOCK_COLUMNS).filter(column -> Objects.equals(column.boardId(), boardId)).map(Column::id).toList()));
+    }
+
+    @Override
+    public Flow.Publisher<List<Column>> getColumns(Board.ID boardId) {
+        return FlowAdapters.toFlowPublisher(Flowable.just(
+                Arrays.stream(MockData.MOCK_COLUMNS).filter(column -> Objects.equals(column.boardId(), boardId)).toList()));
     }
 
     @Override

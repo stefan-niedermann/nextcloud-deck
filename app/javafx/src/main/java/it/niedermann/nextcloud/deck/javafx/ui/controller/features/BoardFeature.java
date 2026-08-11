@@ -13,7 +13,7 @@ import io.reactivex.rxjava4.schedulers.Schedulers;
 import it.niedermann.nextcloud.deck.domain.model.Board;
 import it.niedermann.nextcloud.deck.domain.model.Column;
 import it.niedermann.nextcloud.deck.domain.usecases.boards.GetBoardUseCase;
-import it.niedermann.nextcloud.deck.domain.usecases.columns.ListColumnsUseCase;
+import it.niedermann.nextcloud.deck.domain.usecases.columns.ListColumnIDsUseCase;
 import it.niedermann.nextcloud.deck.javafx.ui.controller.DisposableController;
 import it.niedermann.nextcloud.deck.javafx.ui.controller.views.EmptyContentView;
 import it.niedermann.nextcloud.deck.javafx.ui.fxml.Inflater;
@@ -34,7 +34,7 @@ public class BoardFeature extends DisposableController {
     private final Inflater inflater;
     private final GetBoardUseCase getBoardUseCase;
     private final ColumnFeature.Factory columnFactory;
-    private final ListColumnsUseCase listColumnsUseCase;
+    private final ListColumnIDsUseCase listColumnIDsUseCase;
     private final ViewModel viewModel;
 
     @AssistedInject
@@ -42,14 +42,14 @@ public class BoardFeature extends DisposableController {
             Inflater inflater,
             GetBoardUseCase getBoardUseCase,
             ColumnFeature.Factory columnFactory,
-            ListColumnsUseCase listColumnsUseCase,
+            ListColumnIDsUseCase listColumnIDsUseCase,
             @Assisted ViewModel viewModel
     ) {
         this.viewModel = viewModel;
         this.inflater = inflater;
         this.getBoardUseCase = getBoardUseCase;
         this.columnFactory = columnFactory;
-        this.listColumnsUseCase = listColumnsUseCase;
+        this.listColumnIDsUseCase = listColumnIDsUseCase;
     }
 
     @AssistedFactory
@@ -74,7 +74,7 @@ public class BoardFeature extends DisposableController {
                 })
                 .observeOn(Schedulers.virtual())
                 .switchMap(this.getBoardUseCase::execute)
-                .switchMap(board -> listColumnsUseCase.execute(board.id()))
+                .switchMap(board -> listColumnIDsUseCase.execute(board.id()))
                 .observeOn(JavaFxScheduler.platform())
                 .subscribe(this::setColumns);
 

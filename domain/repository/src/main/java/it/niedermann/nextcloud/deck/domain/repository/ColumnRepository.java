@@ -15,7 +15,10 @@ public interface ColumnRepository {
     CompletableFuture<Void> updateColumn(Column column);
 
     /// @implSpec Result is ordered ascending by [Column#order()]
-    Flow.Publisher<List<Column.ID>> getColumns(Board.ID boardId);
+    Flow.Publisher<List<Column.ID>> getColumnIDs(Board.ID boardId);
+
+    /// @implSpec Result is ordered ascending by [Column#order()]
+    Flow.Publisher<List<Column>> getColumns(Board.ID boardId);
 
     Flow.Publisher<Column> getColumn(Column.ID columnId);
 }

@@ -107,6 +107,8 @@ import it.niedermann.nextcloud.deck.domain.model.User
 import it.niedermann.nextcloud.deck.domain.model.query.PreviewCard
 import it.niedermann.nextcloud.deck.ui.components.AppTopBar
 import it.niedermann.nextcloud.deck.ui.components.UserAvatar
+import it.niedermann.nextcloud.deck.ui.pickstack.PickStackDialog
+import it.niedermann.nextcloud.deck.ui.pickstack.PickStackViewModel
 import it.niedermann.nextcloud.deck.ui.util.LocalColorUtil
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.isActive
@@ -143,6 +145,7 @@ fun BoardScreen(
     val state = rememberPullToRefreshState()
     var showAddCardDialog by remember { mutableStateOf<Long?>(null) }
     var showAddColumnDialog by remember { mutableStateOf(false) }
+    var showPickStack by remember { mutableStateOf<Pair<Card.ID, PickStackViewModel.Mode>?>(null) }
 
     val screenWidth = with(LocalDensity.current) { LocalWindowInfo.current.containerSize.width.toDp() }.value
     val isSmallScreen = screenWidth < 600
@@ -288,6 +291,8 @@ fun BoardScreen(
                                     onCardClick = onCardClick,
                                     onAddCardClick = { showAddCardDialog = column.id.value() },
                                     onAssignToggle = { cardId, assigned -> viewModel.toggleAssignment(cardId, assigned) },
+                                    onMove = { cardId -> showPickStack = cardId to PickStackViewModel.Mode.MOVE },
+                                    onCopy = { cardId -> showPickStack = cardId to PickStackViewModel.Mode.COPY },
                                     currentAccount = currentAccount,
                                     compactMode = compactMode,
                                     onDragStart = { viewModel.draggingCardId = it },
@@ -316,6 +321,14 @@ fun BoardScreen(
                 }
             }
         }
+
+    if (showPickStack != null) {
+        PickStackDialog(
+            cardId = showPickStack!!.first,
+            mode = showPickStack!!.second,
+            onDismiss = { showPickStack = null }
+        )
+    }
 
     if (showAddColumnDialog) {
         AddColumnDialog(
@@ -350,6 +363,8 @@ fun BoardColumn(
     onCardClick: (Long) -> Unit,
     onAddCardClick: () -> Unit,
     onAssignToggle: (Card.ID, Boolean) -> Unit,
+    onMove: (Card.ID) -> Unit,
+    onCopy: (Card.ID) -> Unit,
     onDragStart: (Card.ID) -> Unit,
     onDragOver: (Column.ID, Int) -> Unit,
     onDrop: (Card.ID, Column.ID, Int) -> Unit,
@@ -498,6 +513,8 @@ fun BoardColumn(
                             isDragging = draggingCardId == item.card.id(),
                             onDragStart = { onDragStart(item.card.id()) },
                             onAssignToggle = { onAssignToggle(item.card.id(), item.card.assignedToMe()) },
+                            onMove = { onMove(item.card.id()) },
+                            onCopy = { onCopy(item.card.id()) },
                             onClick = { onCardClick(item.card.id().value()) }
                         )
                     }
@@ -520,6 +537,8 @@ fun CardItem(
     isDragging: Boolean,
     onDragStart: () -> Unit,
     onAssignToggle: () -> Unit,
+    onMove: () -> Unit,
+    onCopy: () -> Unit,
     onClick: () -> Unit
 ) {
     val colorUtil = LocalColorUtil.current
@@ -594,18 +613,32 @@ fun CardItem(
                     IconButton(onClick = { showMenu = true }, modifier = Modifier.size(24.dp)) {
                         Icon(Icons.Outlined.MoreVert, contentDescription = "Menu")
                     }
-                    DropdownMenu(
-                        expanded = showMenu,
-                        onDismissRequest = { showMenu = false }
-                    ) {
-                        DropdownMenuItem(
-                            text = { Text(if (card.assignedToMe()) "Unassign from me" else "Assign to me") },
-                            onClick = {
-                                onAssignToggle()
-                                showMenu = false
-                            }
-                        )
-                    }
+                        DropdownMenu(
+                            expanded = showMenu,
+                            onDismissRequest = { showMenu = false }
+                        ) {
+                            DropdownMenuItem(
+                                text = { Text(if (card.assignedToMe()) "Unassign from me" else "Assign to me") },
+                                onClick = {
+                                    onAssignToggle()
+                                    showMenu = false
+                                }
+                            )
+                            DropdownMenuItem(
+                                text = { Text("Move") },
+                                onClick = {
+                                    onMove()
+                                    showMenu = false
+                                }
+                            )
+                            DropdownMenuItem(
+                                text = { Text("Copy") },
+                                onClick = {
+                                    onCopy()
+                                    showMenu = false
+                                }
+                            )
+                        }
                 }
                 if (card.dueDate() != null) {
                     val locale = LocalConfiguration.current.locales[0]

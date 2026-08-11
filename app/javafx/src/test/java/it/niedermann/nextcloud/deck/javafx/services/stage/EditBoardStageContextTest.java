@@ -26,7 +26,7 @@ import it.niedermann.nextcloud.deck.domain.usecases.cards.ListCardsUseCase;
 import it.niedermann.nextcloud.deck.domain.usecases.columns.AddColumnUseCase;
 import it.niedermann.nextcloud.deck.domain.usecases.columns.DeleteColumnUseCase;
 import it.niedermann.nextcloud.deck.domain.usecases.columns.GetColumnUseCase;
-import it.niedermann.nextcloud.deck.domain.usecases.columns.ListColumnsUseCase;
+import it.niedermann.nextcloud.deck.domain.usecases.columns.ListColumnIDsUseCase;
 import it.niedermann.nextcloud.deck.domain.usecases.columns.UpdateColumnUseCase;
 import it.niedermann.nextcloud.deck.domain.usecases.labels.AddLabelUseCase;
 import it.niedermann.nextcloud.deck.domain.usecases.labels.DeleteLabelUseCase;
@@ -43,7 +43,7 @@ class EditBoardStageContextTest {
     private AddColumnUseCase addColumnUseCase;
     private UpdateColumnUseCase updateColumnUseCase;
     private DeleteColumnUseCase deleteColumnUseCase;
-    private ListColumnsUseCase listColumnsUseCase;
+    private ListColumnIDsUseCase listColumnIDsUseCase;
     private GetColumnUseCase getColumnUseCase;
     private AddLabelUseCase addLabelUseCase;
     private UpdateLabelUseCase updateLabelUseCase;
@@ -66,7 +66,7 @@ class EditBoardStageContextTest {
         addColumnUseCase = mock(AddColumnUseCase.class);
         updateColumnUseCase = mock(UpdateColumnUseCase.class);
         deleteColumnUseCase = mock(DeleteColumnUseCase.class);
-        listColumnsUseCase = mock(ListColumnsUseCase.class);
+        listColumnIDsUseCase = mock(ListColumnIDsUseCase.class);
         getColumnUseCase = mock(GetColumnUseCase.class);
         addLabelUseCase = mock(AddLabelUseCase.class);
         updateLabelUseCase = mock(UpdateLabelUseCase.class);
@@ -84,7 +84,7 @@ class EditBoardStageContextTest {
                 addColumnUseCase,
                 updateColumnUseCase,
                 deleteColumnUseCase,
-                listColumnsUseCase,
+                listColumnIDsUseCase,
                 getColumnUseCase,
                 addLabelUseCase,
                 updateLabelUseCase,

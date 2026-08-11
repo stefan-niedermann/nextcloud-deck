@@ -54,7 +54,7 @@ public class ColumnFeature extends DisposableController {
     private FlowableProcessor<Integer> draggingCardIndex;
 
     private final CardPreviewCellFactory cardPreviewCellFactory;
-    private PopOver popOver;
+    private PopOver addCardPopOver;
 
     private boolean shouldRequestInitialFocus = false;
 
@@ -147,10 +147,10 @@ public class ColumnFeature extends DisposableController {
 
         addCard.setOnAction(event -> {
 
-            popOver = new PopOver(addCardSubmitTextField);
-            popOver.setArrowLocation(PopOver.ArrowLocation.TOP_RIGHT);
-            popOver.setAnchorLocation(PopupWindow.AnchorLocation.CONTENT_TOP_RIGHT);
-            popOver.show(addCard);
+            addCardPopOver = new PopOver(addCardSubmitTextField);
+            addCardPopOver.setArrowLocation(PopOver.ArrowLocation.TOP_RIGHT);
+            addCardPopOver.setAnchorLocation(PopupWindow.AnchorLocation.CONTENT_TOP_RIGHT);
+            addCardPopOver.show(addCard);
 
             addCardSubmitTextField.requestFocus();
 
@@ -159,7 +159,7 @@ public class ColumnFeature extends DisposableController {
 
         addCardSubmitTextField.setOnSubmit(cardTitle -> {
 
-            popOver.hide();
+            addCardPopOver.hide();
             addCardSubmitTextField.setDisable(true);
 
             addCardUseCase.execute(new CreateCard(columnId, cardTitle))

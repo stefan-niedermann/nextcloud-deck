@@ -27,7 +27,7 @@ import it.niedermann.nextcloud.deck.domain.usecases.cards.MoveCardUseCase
 import it.niedermann.nextcloud.deck.domain.usecases.cards.UnassignCardUseCase
 import it.niedermann.nextcloud.deck.domain.usecases.columns.AddColumnUseCase
 import it.niedermann.nextcloud.deck.domain.usecases.columns.GetColumnUseCase
-import it.niedermann.nextcloud.deck.domain.usecases.columns.ListColumnsUseCase
+import it.niedermann.nextcloud.deck.domain.usecases.columns.ListColumnIDsUseCase
 import it.niedermann.nextcloud.deck.domain.usecases.labels.ListLabelsUseCase
 import it.niedermann.nextcloud.deck.domain.usecases.state.GetCurrentAccountUseCase
 import it.niedermann.nextcloud.deck.domain.usecases.state.SetCurrentBoardUseCase
@@ -45,7 +45,7 @@ import org.reactivestreams.FlowAdapters
 
 @HiltViewModel
 class BoardViewModel @Inject constructor(
-    private val listColumnsUseCase: ListColumnsUseCase,
+    private val listColumnIDsUseCase: ListColumnIDsUseCase,
     private val getColumnUseCase: GetColumnUseCase,
     private val listCardPreviewsUseCase: ListCardPreviewsUseCase,
     private val addCardUseCase: AddCardUseCase,
@@ -128,7 +128,7 @@ class BoardViewModel @Inject constructor(
                 }
 
                 launch(Dispatchers.IO) {
-                    FlowAdapters.toPublisher(listColumnsUseCase.execute(Board.ID(boardId)))
+                    FlowAdapters.toPublisher(listColumnIDsUseCase.execute(Board.ID(boardId)))
                         .asFlow()
                         .collect { colIds ->
                             val loadedCols = colIds.map { id ->

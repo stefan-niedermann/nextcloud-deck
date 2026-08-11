@@ -35,7 +35,7 @@ import it.niedermann.nextcloud.deck.domain.usecases.cards.ListCardsUseCase;
 import it.niedermann.nextcloud.deck.domain.usecases.columns.AddColumnUseCase;
 import it.niedermann.nextcloud.deck.domain.usecases.columns.DeleteColumnUseCase;
 import it.niedermann.nextcloud.deck.domain.usecases.columns.GetColumnUseCase;
-import it.niedermann.nextcloud.deck.domain.usecases.columns.ListColumnsUseCase;
+import it.niedermann.nextcloud.deck.domain.usecases.columns.ListColumnIDsUseCase;
 import it.niedermann.nextcloud.deck.domain.usecases.columns.UpdateColumnUseCase;
 import it.niedermann.nextcloud.deck.domain.usecases.labels.AddLabelUseCase;
 import it.niedermann.nextcloud.deck.domain.usecases.labels.DeleteLabelUseCase;
@@ -90,7 +90,7 @@ class EditBoardStageIntegrationTest {
 
         final var getBoardUseCase = mock(GetBoardUseCase.class, Answers.RETURNS_MOCKS);
         final var listCardsUseCase = mock(ListCardsUseCase.class, Answers.RETURNS_MOCKS);
-        final var listColumnsUseCase = mock(ListColumnsUseCase.class, Answers.RETURNS_MOCKS);
+        final var listColumnsUseCase = mock(ListColumnIDsUseCase.class, Answers.RETURNS_MOCKS);
         final var getColumnUseCase = mock(GetColumnUseCase.class, Answers.RETURNS_MOCKS);
         final var listLabelsUseCase = mock(ListLabelsUseCase.class, Answers.RETURNS_MOCKS);
         final var listBoardSharesUseCase = mock(ListBoardSharesUseCase.class, Answers.RETURNS_MOCKS);

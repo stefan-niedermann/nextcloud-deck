@@ -50,13 +50,14 @@ import it.niedermann.nextcloud.deck.domain.usecases.attachments.ListAttachmentsU
 import it.niedermann.nextcloud.deck.domain.usecases.boards.GetBoardUseCase;
 import it.niedermann.nextcloud.deck.domain.usecases.boards.ListBoardsUseCase;
 import it.niedermann.nextcloud.deck.domain.usecases.cards.AddCardUseCase;
+import it.niedermann.nextcloud.deck.domain.usecases.cards.CopyCardUseCase;
 import it.niedermann.nextcloud.deck.domain.usecases.cards.DeleteCardUseCase;
 import it.niedermann.nextcloud.deck.domain.usecases.cards.GetCardUseCase;
 import it.niedermann.nextcloud.deck.domain.usecases.cards.ListCardPreviewsUseCase;
 import it.niedermann.nextcloud.deck.domain.usecases.cards.MoveCardUseCase;
 import it.niedermann.nextcloud.deck.domain.usecases.cards.UpdateCardUseCase;
 import it.niedermann.nextcloud.deck.domain.usecases.columns.GetColumnUseCase;
-import it.niedermann.nextcloud.deck.domain.usecases.columns.ListColumnsUseCase;
+import it.niedermann.nextcloud.deck.domain.usecases.columns.ListColumnIDsUseCase;
 import it.niedermann.nextcloud.deck.domain.usecases.comments.AddCommentUseCase;
 import it.niedermann.nextcloud.deck.domain.usecases.comments.ListPreviewCommentsUseCase;
 import it.niedermann.nextcloud.deck.domain.usecases.labels.SearchLabelsUseCase;
@@ -82,6 +83,7 @@ import it.niedermann.nextcloud.deck.javafx.ui.controller.features.BoardListFeatu
 import it.niedermann.nextcloud.deck.javafx.ui.controller.features.ColumnFeature;
 import it.niedermann.nextcloud.deck.javafx.ui.controller.features.EditCardFeature;
 import it.niedermann.nextcloud.deck.javafx.ui.controller.features.HeaderFeature;
+import it.niedermann.nextcloud.deck.javafx.ui.controller.features.PickStackFeature;
 import it.niedermann.nextcloud.deck.javafx.ui.controller.scenes.ExceptionScene;
 import it.niedermann.nextcloud.deck.javafx.ui.controller.scenes.LoginScene;
 import it.niedermann.nextcloud.deck.javafx.ui.controller.scenes.MainScene;
@@ -104,7 +106,7 @@ class MainStageIntegrationTest {
     private SetCurrentAccountUseCase setCurrentAccountUseCase;
     private GetBoardUseCase getBoardUseCase;
     private ListBoardsUseCase listBoardsUseCase;
-    private ListColumnsUseCase listColumnsUseCase;
+    private ListColumnIDsUseCase listColumnIDsUseCase;
     private GetColumnUseCase getColumnUseCase;
     private ListCardPreviewsUseCase listCardPreviewsUseCase;
     private GetCardUseCase getCardUseCase;
@@ -135,7 +137,7 @@ class MainStageIntegrationTest {
         setCurrentAccountUseCase = mock(SetCurrentAccountUseCase.class, Answers.RETURNS_MOCKS);
         getBoardUseCase = mock(GetBoardUseCase.class, Answers.RETURNS_MOCKS);
         listBoardsUseCase = mock(ListBoardsUseCase.class, Answers.RETURNS_MOCKS);
-        listColumnsUseCase = mock(ListColumnsUseCase.class, Answers.RETURNS_MOCKS);
+        listColumnIDsUseCase = mock(ListColumnIDsUseCase.class, Answers.RETURNS_MOCKS);
         getColumnUseCase = mock(GetColumnUseCase.class, Answers.RETURNS_MOCKS);
         listCardPreviewsUseCase = mock(ListCardPreviewsUseCase.class, Answers.RETURNS_MOCKS);
         getCardUseCase = mock(GetCardUseCase.class, Answers.RETURNS_MOCKS);
@@ -147,13 +149,18 @@ class MainStageIntegrationTest {
 
         when(getColumnUseCase.execute(any())).thenReturn(Flowable.empty());
         when(listBoardsUseCase.execute(any())).thenReturn(Flowable.empty());
-        when(listColumnsUseCase.execute(any())).thenReturn(Flowable.empty());
+        when(listColumnIDsUseCase.execute(any())).thenReturn(Flowable.empty());
         when(listCardPreviewsUseCase.execute(any())).thenReturn(Flowable.empty());
 
         final var getCurrentBoardUseCase = mock(GetCurrentBoardUseCase.class);
         when(getCurrentBoardUseCase.execute(any())).thenReturn(CompletableFuture.completedFuture(null));
         final var deleteCardUseCase = mock(DeleteCardUseCase.class);
         when(deleteCardUseCase.execute(any())).thenReturn(CompletableFuture.completedFuture(null));
+        final var moveCardUseCase = mock(MoveCardUseCase.class);
+        when(moveCardUseCase.execute(any(), any(), any(Integer.class))).thenReturn(CompletableFuture.completedFuture(null));
+        final var copyCardUseCase = mock(CopyCardUseCase.class);
+        when(copyCardUseCase.execute(any(), any(), any(Integer.class))).thenReturn(CompletableFuture.completedFuture(null));
+        final var pickStackFeatureFactory = mock(PickStackFeature.Factory.class);
 
         when(hasAccountsUseCase.execute()).thenReturn(Flowable.just(true));
         final var boardParsedArgs = new BoardParsedArgs(ACCOUNT_ID, BOARD_1.id());
@@ -175,7 +182,7 @@ class MainStageIntegrationTest {
         when(listBoardsUseCase.execute(ACCOUNT_ID)).thenReturn(Flowable.just(List.of(BOARD_1, BOARD_2)));
         when(getBoardUseCase.execute(BOARD_1.id())).thenReturn(Flowable.just(BOARD_1));
         when(getBoardUseCase.execute(BOARD_2.id())).thenReturn(Flowable.just(BOARD_2));
-        when(listColumnsUseCase.execute(BOARD_1.id())).thenReturn(Flowable.just(List.of(COLUMN_1.id())));
+        when(listColumnIDsUseCase.execute(BOARD_1.id())).thenReturn(Flowable.just(List.of(COLUMN_1.id())));
         when(getColumnUseCase.execute(COLUMN_1.id())).thenReturn(Flowable.just(COLUMN_1));
         when(listCardPreviewsUseCase.execute(COLUMN_1.id())).thenReturn(Flowable.just(List.of(CARD_1)));
         
@@ -194,6 +201,8 @@ class MainStageIntegrationTest {
         when(keyValueStore.getBoolean(any())).thenReturn(Flowable.just(false));
         final var themeService = new ThemeService(detector, keyValueStore);
 
+        final var inflater = Inflater.getInstance();
+
         final MainStageContext.Factory stageContextFactory = initialState -> {
             mainStageContext = new MainStageContext(
                     storeLogger,
@@ -203,13 +212,15 @@ class MainStageIntegrationTest {
                     getCurrentBoardUseCase,
                     setCurrentBoardUseCase,
                     deleteCardUseCase,
+                    moveCardUseCase,
+                    copyCardUseCase,
+                    inflater,
+                    pickStackFeatureFactory,
                     getBoardUseCase,
                     initialState
             );
             return mainStageContext;
         };
-
-        final var inflater = Inflater.getInstance();
 
         final var getAccountsUseCase = mock(GetAccountsUseCase.class);
         when(getAccountsUseCase.execute()).thenReturn(Flowable.just(List.of(ACCOUNT)));
@@ -344,7 +355,7 @@ class MainStageIntegrationTest {
                 inflater,
                 getBoardUseCase,
                 columnFeatureFactory,
-                listColumnsUseCase,
+                listColumnIDsUseCase,
                 viewModel
         );
     }

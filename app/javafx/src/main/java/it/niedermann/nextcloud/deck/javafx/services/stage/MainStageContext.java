@@ -1,9 +1,10 @@
 package it.niedermann.nextcloud.deck.javafx.services.stage;
 
+import com.dlsc.gemsfx.PopOver;
+
 import java.util.Objects;
 import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
-import java.util.logging.Logger;
 
 import dagger.assisted.Assisted;
 import dagger.assisted.AssistedFactory;
@@ -12,8 +13,11 @@ import io.reactivex.rxjava4.core.Flowable;
 import it.niedermann.nextcloud.deck.domain.model.Account;
 import it.niedermann.nextcloud.deck.domain.model.Board;
 import it.niedermann.nextcloud.deck.domain.model.Card;
+import it.niedermann.nextcloud.deck.domain.model.Column;
 import it.niedermann.nextcloud.deck.domain.usecases.boards.GetBoardUseCase;
+import it.niedermann.nextcloud.deck.domain.usecases.cards.CopyCardUseCase;
 import it.niedermann.nextcloud.deck.domain.usecases.cards.DeleteCardUseCase;
+import it.niedermann.nextcloud.deck.domain.usecases.cards.MoveCardUseCase;
 import it.niedermann.nextcloud.deck.domain.usecases.state.GetCurrentBoardUseCase;
 import it.niedermann.nextcloud.deck.domain.usecases.state.SetCurrentAccountUseCase;
 import it.niedermann.nextcloud.deck.domain.usecases.state.SetCurrentBoardUseCase;
@@ -25,6 +29,10 @@ import it.niedermann.nextcloud.deck.javafx.ui.controller.features.BoardFeature;
 import it.niedermann.nextcloud.deck.javafx.ui.controller.features.BoardListFeature;
 import it.niedermann.nextcloud.deck.javafx.ui.controller.features.ColumnFeature;
 import it.niedermann.nextcloud.deck.javafx.ui.controller.features.HeaderFeature;
+import it.niedermann.nextcloud.deck.javafx.ui.controller.features.PickStackFeature;
+import it.niedermann.nextcloud.deck.javafx.ui.fxml.Inflater;
+import javafx.application.Platform;
+import javafx.scene.Node;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonBar;
 import javafx.scene.control.ButtonType;
@@ -35,16 +43,21 @@ public class MainStageContext extends Store<MainStageContext.State, MainStageCon
         BoardListFeature.ViewModel,
         ColumnFeature.ViewModel {
 
-    private static final Logger logger = Logger.getLogger(MainStageContext.class.getName());
-
     private final ThemeService themeService;
     private final ApplicationRouter applicationRouter;
     private final SetCurrentAccountUseCase setCurrentAccountUseCase;
     private final GetCurrentBoardUseCase getCurrentBoardUseCase;
     private final SetCurrentBoardUseCase setCurrentBoardUseCase;
     private final DeleteCardUseCase deleteCardUseCase;
+    private final MoveCardUseCase moveCardUseCase;
+    private final CopyCardUseCase copyCardUseCase;
+
+    private final Inflater inflater;
+    private final PickStackFeature.Factory pickStackFeatureFactory;
 
     private final GetBoardUseCase getBoardUseCase;
+
+    private PopOver pickStackPopOver;
 
     @AssistedInject
     public MainStageContext(
@@ -55,6 +68,10 @@ public class MainStageContext extends Store<MainStageContext.State, MainStageCon
             GetCurrentBoardUseCase getCurrentBoardUseCase,
             SetCurrentBoardUseCase setCurrentBoardUseCase,
             DeleteCardUseCase deleteCardUseCase,
+            MoveCardUseCase moveCardUseCase,
+            CopyCardUseCase copyCardUseCase,
+            Inflater inflater,
+            PickStackFeature.Factory pickStackFeatureFactory,
             GetBoardUseCase getBoardUseCase,
             @Assisted State initialState
     ) {
@@ -65,6 +82,10 @@ public class MainStageContext extends Store<MainStageContext.State, MainStageCon
         this.setCurrentBoardUseCase = setCurrentBoardUseCase;
         this.getBoardUseCase = getBoardUseCase;
         this.deleteCardUseCase = deleteCardUseCase;
+        this.moveCardUseCase = moveCardUseCase;
+        this.copyCardUseCase = copyCardUseCase;
+        this.inflater = inflater;
+        this.pickStackFeatureFactory = pickStackFeatureFactory;
 
         super(storeLogger, initialState);
 
@@ -76,12 +97,13 @@ public class MainStageContext extends Store<MainStageContext.State, MainStageCon
         on(Action.CloseCardAction.class, (state, _) -> state.withCardId(null));
 
         effect(Action.SwitchAccountAction.class, (state, action) -> {
-            final var accountId = state.accountId();
-            if (accountId.isEmpty()) {
+            final var accountIdOpt = state.accountId();
+            if (accountIdOpt.isEmpty()) {
                 return CompletableFuture.failedFuture(new IllegalStateException());
             }
-            return setCurrentAccountUseCase.execute(accountId.get())
-                    .thenComposeAsync(_ -> this.getCurrentBoardUseCase.execute(accountId.get()))
+            final var accountId = accountIdOpt.get();
+            return setCurrentAccountUseCase.execute(accountId)
+                    .thenComposeAsync(_ -> this.getCurrentBoardUseCase.execute(accountId))
                     .thenApplyAsync(Optional::ofNullable)
                     .exceptionallyAsync(_ -> Optional.empty())
                     .thenApplyAsync(boardId -> boardId.map(Action.DisplayBoardAction::new));
@@ -108,6 +130,52 @@ public class MainStageContext extends Store<MainStageContext.State, MainStageCon
 
         effect(Action.EditBoardAction.class, (state, action) -> {
             state.accountId().ifPresent(accountId -> applicationRouter.launchEditBoardStage(accountId, action.board().id()));
+            return CompletableFuture.completedFuture(Optional.of(new Action.CloseCardAction()));
+        });
+
+        effect(Action.MoveCardAction.class, (state, action) -> moveCardUseCase.execute(action.cardId(), action.column().id(), 0)
+                .thenApplyAsync(_ -> Optional.empty()));
+
+        effect(Action.CopyCardAction.class, (state, action) -> copyCardUseCase.execute(action.cardId(), action.column().id(), 0)
+                .thenApplyAsync(_ -> Optional.empty()));
+
+        effect(Action.PickStackRequestAction.class, (state, action) -> {
+            Platform.runLater(() -> {
+                if (pickStackPopOver != null) {
+                    pickStackPopOver.hide();
+                }
+
+                final var feature = pickStackFeatureFactory.create(action.mode(), column -> {
+                    if (pickStackPopOver != null) {
+                        pickStackPopOver.hide();
+                    }
+                    if (action.mode() == PickStackFeature.Mode.MOVE) {
+                        dispatch(new Action.MoveCardAction(action.cardId(), column));
+                    } else {
+                        dispatch(new Action.CopyCardAction(action.cardId(), column));
+                    }
+                });
+
+                final var bundle = inflater.inflate(feature);
+
+                final var popOver = new PopOver(bundle.view());
+                popOver.setArrowLocation(PopOver.ArrowLocation.TOP_CENTER);
+                popOver.setAnimated(false);
+                this.pickStackPopOver = popOver;
+
+                popOver.setOnShown(_ -> {
+                    if (popOver.getScene() != null) {
+                        themeService.bind(popOver.getScene());
+                    }
+                });
+                popOver.setOnHidden(_ -> {
+                    if (this.pickStackPopOver == popOver) {
+                        this.pickStackPopOver = null;
+                    }
+                });
+                popOver.show(action.anchor());
+            });
+
             return CompletableFuture.completedFuture(Optional.empty());
         });
     }
@@ -183,13 +251,13 @@ public class MainStageContext extends Store<MainStageContext.State, MainStageCon
     }
 
     @Override
-    public void onMoveCard(Card.ID cardId) {
-        System.out.println("[Mock] onMoveCard " + cardId);
+    public void onMoveCard(Card.ID cardId, Node anchor) {
+        dispatch(new Action.PickStackRequestAction(cardId, PickStackFeature.Mode.MOVE, anchor));
     }
 
     @Override
-    public void onCopyCard(Card.ID cardId) {
-        System.out.println("[Mock] onCopyCard " + cardId);
+    public void onCopyCard(Card.ID cardId, Node anchor) {
+        dispatch(new Action.PickStackRequestAction(cardId, PickStackFeature.Mode.COPY, anchor));
     }
 
     @Override
@@ -252,6 +320,15 @@ public class MainStageContext extends Store<MainStageContext.State, MainStageCon
         }
 
         record EditBoardAction(Board board) implements Action {
+        }
+
+        record PickStackRequestAction(Card.ID cardId, PickStackFeature.Mode mode, Node anchor) implements Action {
+        }
+
+        record MoveCardAction(Card.ID cardId, Column column) implements Action {
+        }
+
+        record CopyCardAction(Card.ID cardId, Column column) implements Action {
         }
     }
 }

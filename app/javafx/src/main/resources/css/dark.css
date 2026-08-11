@@ -11,6 +11,10 @@
     -fx-text-fill: white;
 }
 
+.radio-button {
+    -fx-text-fill: #cccccc;
+}
+
 FontIcon {
     -fx-icon-color: white;
 }
