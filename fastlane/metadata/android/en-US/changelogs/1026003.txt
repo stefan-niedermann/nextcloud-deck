@@ -1,0 +1,17 @@
+1.26.3
+
+- 🐞 fix: Focused fields weren't scrolled into view when soft keyboard appears
+
+1.26.2
+
+- 🎨 fix: Fix hex representation of color chooser to strip alpha
+
+1.26.1
+
+- 🐞 fix: Show tips when parsing response fails
+
+1.26.0
+
+- 🎨 feat: Card colors
+- 🐞 fix: Fix several crash causes when editing cards
+- ⚙️ chore: Update dependencies
