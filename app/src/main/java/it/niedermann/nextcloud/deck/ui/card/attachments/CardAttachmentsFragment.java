@@ -30,8 +30,6 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.SharedElementCallback;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.preference.PreferenceManager;
@@ -212,21 +210,6 @@ public class CardAttachmentsFragment extends Fragment implements AttachmentDelet
     public void onResume() {
         super.onResume();
         backPressedCallback.setEnabled(editViewModel.getAttachmentsBackPressedCallbackStatus());
-    }
-
-    @Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-        ViewCompat.setOnApplyWindowInsetsListener(view, (v, insets) -> {
-            final var systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars() | WindowInsetsCompat.Type.ime());
-            binding.attachmentsList.setPadding(
-                    binding.attachmentsList.getPaddingLeft(),
-                    binding.attachmentsList.getPaddingTop(),
-                    binding.attachmentsList.getPaddingRight(),
-                    systemBars.bottom
-            );
-            return insets;
-        });
     }
 
     private void setupAttachments() {

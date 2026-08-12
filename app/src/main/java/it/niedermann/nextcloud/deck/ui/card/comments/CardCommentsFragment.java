@@ -16,8 +16,6 @@ import android.widget.Toast;
 import androidx.annotation.ColorInt;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
@@ -158,16 +156,6 @@ public class CardCommentsFragment extends Fragment implements Themed, CommentEdi
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        ViewCompat.setOnApplyWindowInsetsListener(view, (v, insets) -> {
-            final var systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars() | WindowInsetsCompat.Type.ime());
-            binding.addCommentLayout.setPadding(
-                    binding.addCommentLayout.getPaddingLeft(),
-                    binding.addCommentLayout.getPaddingTop(),
-                    binding.addCommentLayout.getPaddingRight(),
-                    systemBars.bottom
-            );
-            return insets;
-        });
         if (editCardViewModel.canEdit()) {
             KeyboardUtils.showKeyboardForEditText(binding.message);
         }
