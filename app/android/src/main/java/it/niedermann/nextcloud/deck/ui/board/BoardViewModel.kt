@@ -13,6 +13,7 @@ import it.niedermann.nextcloud.deck.domain.model.Card
 import it.niedermann.nextcloud.deck.domain.model.Column
 import it.niedermann.nextcloud.deck.domain.model.CreateCard
 import it.niedermann.nextcloud.deck.domain.model.CreateColumn
+import it.niedermann.nextcloud.deck.domain.model.FilterInformation
 import it.niedermann.nextcloud.deck.domain.model.Label
 import it.niedermann.nextcloud.deck.domain.model.User
 import it.niedermann.nextcloud.deck.domain.model.query.PreviewCard
@@ -27,10 +28,11 @@ import it.niedermann.nextcloud.deck.domain.usecases.cards.MoveCardUseCase
 import it.niedermann.nextcloud.deck.domain.usecases.cards.UnassignCardUseCase
 import it.niedermann.nextcloud.deck.domain.usecases.columns.AddColumnUseCase
 import it.niedermann.nextcloud.deck.domain.usecases.columns.GetColumnUseCase
-import it.niedermann.nextcloud.deck.domain.usecases.columns.ListColumnsUseCase
+import it.niedermann.nextcloud.deck.domain.usecases.columns.ListColumnIDsUseCase
 import it.niedermann.nextcloud.deck.domain.usecases.labels.ListLabelsUseCase
 import it.niedermann.nextcloud.deck.domain.usecases.state.GetCurrentAccountUseCase
 import it.niedermann.nextcloud.deck.domain.usecases.state.SetCurrentBoardUseCase
+import it.niedermann.nextcloud.deck.domain.usecases.users.ListUsersUseCase
 import jakarta.inject.Inject
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -45,7 +47,7 @@ import org.reactivestreams.FlowAdapters
 
 @HiltViewModel
 class BoardViewModel @Inject constructor(
-    private val listColumnsUseCase: ListColumnsUseCase,
+    private val listColumnIDsUseCase: ListColumnIDsUseCase,
     private val getColumnUseCase: GetColumnUseCase,
     private val listCardPreviewsUseCase: ListCardPreviewsUseCase,
     private val addCardUseCase: AddCardUseCase,
@@ -54,6 +56,7 @@ class BoardViewModel @Inject constructor(
     private val addColumnUseCase: AddColumnUseCase,
     private val moveCardUseCase: MoveCardUseCase,
     private val listLabelsUseCase: ListLabelsUseCase,
+    private val listUsersUseCase: ListUsersUseCase,
     private val getCurrentAccountUseCase: GetCurrentAccountUseCase,
     private val getAccountUseCase: GetAccountUseCase,
     private val setCurrentBoardUseCase: SetCurrentBoardUseCase,
@@ -69,6 +72,12 @@ class BoardViewModel @Inject constructor(
 
     private val _labels = MutableStateFlow<Map<Long, Label>>(emptyMap())
     val labels = _labels.asStateFlow()
+
+    private val _users = MutableStateFlow<List<User>>(emptyList())
+    val users = _users.asStateFlow()
+
+    private val _filter = MutableStateFlow(FilterInformation.EMPTY)
+    val filter = _filter.asStateFlow()
 
     private val _currentAccountId = MutableStateFlow<Account.ID?>(null)
     val currentAccountId = _currentAccountId.asStateFlow()
@@ -128,7 +137,15 @@ class BoardViewModel @Inject constructor(
                 }
 
                 launch(Dispatchers.IO) {
-                    FlowAdapters.toPublisher(listColumnsUseCase.execute(Board.ID(boardId)))
+                    FlowAdapters.toPublisher(listUsersUseCase.execute(accountId))
+                        .asFlow()
+                        .collect { users ->
+                            _users.value = users
+                        }
+                }
+
+                launch(Dispatchers.IO) {
+                    FlowAdapters.toPublisher(listColumnIDsUseCase.execute(Board.ID(boardId)))
                         .asFlow()
                         .collect { colIds ->
                             val loadedCols = colIds.map { id ->
@@ -178,12 +195,18 @@ class BoardViewModel @Inject constructor(
 
     private fun observeCards(columnId: Long) {
         viewModelScope.launch(Dispatchers.IO) {
-            FlowAdapters.toPublisher(listCardPreviewsUseCase.execute(Column.ID(columnId)))
-                .asFlow()
-                .collect { cards ->
-                    _cardsByColumn.value = _cardsByColumn.value + (columnId to cards)
-                }
+            filter.collectLatest { filter ->
+                FlowAdapters.toPublisher(listCardPreviewsUseCase.execute(Column.ID(columnId), filter))
+                    .asFlow()
+                    .collect { cards ->
+                        _cardsByColumn.value = _cardsByColumn.value + (columnId to cards)
+                    }
+            }
         }
+    }
+
+    fun updateFilter(filter: FilterInformation) {
+        _filter.value = filter
     }
 
     fun addCard(columnId: Long, title: String) {

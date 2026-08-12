@@ -8,6 +8,6 @@ public sealed interface CardRawArgs {
     record LocalCard(Card.ID cardId) implements CardRawArgs {
     }
 
-    record RemoteCard(URL url) implements CardRawArgs {
+    record RemoteCard(URL url, Card.RemoteID cardRemoteId) implements CardRawArgs {
     }
 }

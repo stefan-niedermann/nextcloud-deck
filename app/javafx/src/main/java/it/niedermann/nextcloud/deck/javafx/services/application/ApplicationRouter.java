@@ -2,6 +2,7 @@ package it.niedermann.nextcloud.deck.javafx.services.application;
 
 import java.net.URL;
 
+import it.niedermann.nextcloud.deck.app.shared.args.EmptyArgs;
 import it.niedermann.nextcloud.deck.app.shared.args.board.BoardRawArgs;
 import it.niedermann.nextcloud.deck.app.shared.args.card.CardRawArgs;
 import it.niedermann.nextcloud.deck.domain.model.Account;
@@ -58,22 +59,22 @@ public class ApplicationRouter {
 
     private void launchMainStage(Stage stage, BoardRawArgs args) {
         final var stageComponent = stageComponentFactory.create(stage);
-        stageComponent.getMainStageFactory().create(args);
+        stageComponent.getMainStageFactory().create(args).initialize();
     }
 
     private void launchEditCardStage(Stage stage, CardRawArgs args) {
         final var stageComponent = stageComponentFactory.create(stage);
-        stageComponent.getEditCardStageFactory().create(args);
+        stageComponent.getEditCardStageFactory().create(args).initialize();
     }
 
     private void launchEditBoardStage(Stage stage, BoardRawArgs args) {
         final var stageComponent = stageComponentFactory.create(stage);
-        stageComponent.getEditBoardStageFactory().create(args);
+        stageComponent.getEditBoardStageFactory().create(args).initialize();
     }
 
     private void launchPreferencesStage(Stage stage) {
         final var stageComponent = stageComponentFactory.create(stage);
-        stageComponent.getPreferencesStageFactory().create(null);
+        stageComponent.getPreferencesStageFactory().create(EmptyArgs.INSTANCE).initialize();
     }
 
     // endregion

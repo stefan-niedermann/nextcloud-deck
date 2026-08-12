@@ -12,14 +12,6 @@ java {
     modularity.inferModulePath.set(false)
 }
 
-sourceSets {
-    main {
-        java {
-            srcDir("src/main/resources")
-        }
-    }
-}
-
 application {
     mainClass.set("it.niedermann.nextcloud.deck.javafx.Launcher")
 }
@@ -39,6 +31,9 @@ dependencies {
 
     implementation(libs.rxjava4)
 
+    implementation(libs.record.builder.core)
+    annotationProcessor(libs.record.builder.processor)
+
     implementation(libs.openjfx.controls)
     implementation(libs.openjfx.fxml)
     implementation(libs.ikonli.javafx)
@@ -57,10 +52,29 @@ dependencies {
     testImplementation(libs.junitJupiter)
     testRuntimeOnly(libs.junitPlatformLauncher)
     testImplementation(libs.mockito.core)
+    testImplementation(libs.hamcrest)
+    testImplementation(libs.testfx.core)
+    testImplementation(libs.testfx.junit5)
+    testImplementation(libs.testfx.monocle)
+    testImplementation(libs.assertj.core)
 }
 
 tasks.withType<Test> {
     useJUnitPlatform()
+    systemProperty("junit.jupiter.extensions.autodetection.enabled", "true")
+    systemProperty("testfx.robot", "glass")
+    systemProperty("testfx.headless", "false")
+    jvmArgs(
+        "--add-exports=javafx.graphics/com.sun.glass.ui=ALL-UNNAMED",
+        "--add-exports=javafx.graphics/com.sun.javafx.application=ALL-UNNAMED",
+        "--add-opens=javafx.graphics/com.sun.glass.ui=ALL-UNNAMED",
+        "--add-opens=javafx.graphics/com.sun.javafx.application=ALL-UNNAMED",
+        "--add-opens=javafx.graphics/com.sun.javafx.stage=ALL-UNNAMED",
+        "--add-opens=javafx.graphics/com.sun.javafx.scene=ALL-UNNAMED",
+        "--add-opens=javafx.controls/com.sun.javafx.scene.control=ALL-UNNAMED",
+        "--add-opens=javafx.base/com.sun.javafx.binding=ALL-UNNAMED",
+        "--add-opens=javafx.base/com.sun.javafx.event=ALL-UNNAMED"
+    )
 }
 
 tasks.named<Tar>("distTar") {

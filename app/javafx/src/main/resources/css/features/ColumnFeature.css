@@ -1,6 +1,7 @@
 #root {
-    -fx-min-width: 250;
-    -fx-pref-width: 300;
+    -fx-min-width: 320;
+    -fx-pref-width: 320;
+    -fx-max-width: 320;
 }
 
 .header {
@@ -17,8 +18,8 @@
     -fx-background-color: transparent;
 }
 
-.list-cell,
-.list-cell:filled:selected {
+.list-view .list-cell,
+.list-view .list-cell:filled:selected {
     -fx-background-color: transparent;
 }
 
@@ -39,4 +40,7 @@
     -fx-border-radius: 10;
     -fx-background-radius: 10;
     -fx-min-height: 100;
+    -fx-min-width: 280;
+    -fx-pref-width: 280;
+    -fx-max-width: 280;
 }

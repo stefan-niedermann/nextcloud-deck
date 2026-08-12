@@ -15,5 +15,5 @@
 
 - Tests should consider
   the [official documentation of picocli](https://picocli.info/#_testing_your_application)
-- Tests should consequently mock *UseCases and use real implementation for the reset.
+- Tests should consequently mock *UseCases and use real implementation for other dependencies.
 - Tests should be focused on arguments and outputs.

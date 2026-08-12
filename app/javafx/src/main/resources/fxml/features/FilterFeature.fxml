@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.RadioButton?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TabPane?>
+<?import javafx.scene.control.ToggleGroup?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+
+<VBox prefWidth="300.0" spacing="10.0" xmlns="http://javafx.com/javafx/24.0.1" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <TabPane tabClosingPolicy="UNAVAILABLE">
+        <tabs>
+          <Tab text="Labels">
+               <content>
+                  <ListView fx:id="labelList" prefHeight="200.0" />
+               </content>
+          </Tab>
+          <Tab text="Users">
+               <content>
+                  <ListView fx:id="userList" prefHeight="200.0" />
+               </content>
+          </Tab>
+            <Tab text="Done">
+               <content>
+                  <VBox spacing="5.0">
+                     <children>
+                        <RadioButton fx:id="doneAll" mnemonicParsing="false" text="All">
+                           <toggleGroup>
+                              <ToggleGroup fx:id="doneGroup" />
+                           </toggleGroup>
+                        </RadioButton>
+                        <RadioButton fx:id="doneDone" mnemonicParsing="false" text="Done" toggleGroup="$doneGroup" />
+                        <RadioButton fx:id="doneNotDone" mnemonicParsing="false" text="Not Done" toggleGroup="$doneGroup" />
+                     </children>
+                     <padding>
+                        <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                     </padding>
+                  </VBox>
+               </content>
+            </Tab>
+            <Tab text="Due Date">
+               <content>
+                  <VBox spacing="5.0">
+                     <children>
+                        <RadioButton fx:id="dueAll" mnemonicParsing="false" text="All">
+                           <toggleGroup>
+                              <ToggleGroup fx:id="dueGroup" />
+                           </toggleGroup>
+                        </RadioButton>
+                        <RadioButton fx:id="dueOverdue" mnemonicParsing="false" text="Overdue" toggleGroup="$dueGroup" />
+                        <RadioButton fx:id="dueToday" mnemonicParsing="false" text="Today" toggleGroup="$dueGroup" />
+                        <RadioButton fx:id="dueNext7" mnemonicParsing="false" text="Next 7 days" toggleGroup="$dueGroup" />
+                        <RadioButton fx:id="dueNext30" mnemonicParsing="false" text="Next 30 days" toggleGroup="$dueGroup" />
+                        <RadioButton fx:id="dueNone" mnemonicParsing="false" text="No due date" toggleGroup="$dueGroup" />
+                     </children>
+                     <padding>
+                        <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                     </padding>
+                  </VBox>
+               </content>
+            </Tab>
+        </tabs>
+      </TabPane>
+      <HBox alignment="CENTER_RIGHT" spacing="10.0">
+         <children>
+            <Button fx:id="reset" mnemonicParsing="false" text="Reset" />
+            <Button fx:id="apply" mnemonicParsing="false" text="Apply" />
+         </children>
+      </HBox>
+   </children>
+   <padding>
+      <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+   </padding>
+</VBox>

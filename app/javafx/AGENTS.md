@@ -7,9 +7,10 @@
 - A `*Scene` is usually one Window (Stage) content and is composed by multiple `Features`
 - Features do have own State and Access to Services and UseCases
 - Views directly inherit an existing JavaFx element like a Node or a Parent or Pane and do not have any access to any injected classes. They usually have a `bind()` method that accepts a domain query model (See `:domain:model` module, `query` package).
+- Prefer applying stylable properties (like padding or spacing) in the CSS file rather than in the FXML file
 
 ## Unit-Tests
 - Tests should exclusively use [`TestFX`](https://github.com/TestFX/TestFX)
-- Tests should consequently mock *UseCases and use real implementation for the reset.
+- Tests should consequently mock *UseCases and use real implementation for other dependencies.
 - Tests should be focused on UI state and interaction.
 - Tests should prefer interacting with the test subject via `AccessibleRole` and other semantic information

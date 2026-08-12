@@ -7,6 +7,7 @@ java {
     }
 }
 dependencies {
+    api(project(":domain:model"))
     implementation(libs.jakarta.inject)
     implementation(libs.retrofit)
     implementation(libs.retrofit.gson)

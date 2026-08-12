@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.concurrent.Flow;
 
 import it.niedermann.nextcloud.deck.domain.model.Column;
+import it.niedermann.nextcloud.deck.domain.model.FilterInformation;
 import it.niedermann.nextcloud.deck.domain.model.query.PreviewCard;
 import it.niedermann.nextcloud.deck.domain.repository.CardRepository;
 import jakarta.inject.Inject;
@@ -20,6 +21,10 @@ public class ListCardPreviewsUseCase {
     }
 
     public Flow.Publisher<List<PreviewCard>> execute(Column.ID columnId) {
-        return cardRepository.getNotDeletedCardPreviews(columnId);
+        return execute(columnId, FilterInformation.EMPTY);
+    }
+
+    public Flow.Publisher<List<PreviewCard>> execute(Column.ID columnId, FilterInformation filter) {
+        return cardRepository.getNotDeletedCardPreviews(columnId, filter);
     }
 }

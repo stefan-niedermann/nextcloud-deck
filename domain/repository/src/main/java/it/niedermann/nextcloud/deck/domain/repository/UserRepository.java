@@ -1,6 +1,7 @@
 package it.niedermann.nextcloud.deck.domain.repository;
 
 import java.util.Collection;
+import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.Flow;
 
@@ -16,7 +17,7 @@ public interface UserRepository {
 
     CompletableFuture<Avatar> getAvatar(User.ID userId, int sizeInPx);
 
-    Flow.Publisher<Collection<?>> getNotDeletedUsers(long accountId);
+    Flow.Publisher<List<User>> getNotDeletedUsers(Account.ID accountId);
 
     Flow.Publisher<Collection<User>> getUser(String userId);
 

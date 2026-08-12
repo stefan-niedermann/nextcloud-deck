@@ -12,6 +12,11 @@
             <FontIcon iconLiteral="fltral-edit-16" iconSize="16" />
         </graphic>
     </Button>
+    <Button fx:id="filterBtn" mnemonicParsing="false">
+        <graphic>
+            <FontIcon iconLiteral="fltfal-filter-20" iconSize="16" />
+        </graphic>
+    </Button>
 
     <Region HBox.hgrow="SOMETIMES" />
 

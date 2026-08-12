@@ -21,7 +21,7 @@ public class Inflater {
     }
 
     /// Inflates the corresponding view and attaches the passed controller instance
-    public <T> FxBundle<T> inflate(Object controller) {
+    public <T> FxBundle<T> inflate(T controller) {
         final var loader = createLoader(controller.getClass());
         loader.setController(controller);
 

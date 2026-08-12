@@ -20,14 +20,15 @@ import javafx.scene.layout.CornerRadii;
 public class FxUtils {
 
     public static String createAccentColorCss(Color accentColor) {
-        final var rgb = accentColor.argb();
-        final var hexString = '#' + Integer.toHexString(rgb).substring(2);
+        final var r = accentColor.getRed();
+        final var g = accentColor.getGreen();
+        final var b = accentColor.getBlue();
+        final var hexString = String.format("#%02X%02X%02X", r, g, b);
 
         @Language("CSS") final var css = """
                 -fx-accent: %1$s;
                 -fx-default-button: derive(-fx-accent, 90%%);
                 -fx-focus-color: derive(-fx-accent, 60%%);
-                -fx-faint-focus-color: derive(-fx-accent, 65%%);
                 """.formatted(hexString);
 
         return css;

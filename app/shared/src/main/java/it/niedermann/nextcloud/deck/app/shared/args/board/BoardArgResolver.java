@@ -3,13 +3,13 @@ package it.niedermann.nextcloud.deck.app.shared.args.board;
 import org.reactivestreams.FlowAdapters;
 
 import java.util.Collection;
-import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.Flow;
 
-import io.reactivex.rxjava3.core.Maybe;
-import io.reactivex.rxjava3.core.Single;
+import io.reactivex.rxjava3.core.Flowable;
 import io.reactivex.rxjava3.schedulers.Schedulers;
 import it.niedermann.nextcloud.deck.app.shared.args.ArgsResolver;
 import it.niedermann.nextcloud.deck.domain.model.Account;
+import it.niedermann.nextcloud.deck.domain.repository.AccountRepository;
 import it.niedermann.nextcloud.deck.domain.usecases.accounts.HasAccountsUseCase;
 import it.niedermann.nextcloud.deck.domain.usecases.state.GetCurrentAccountUseCase;
 import it.niedermann.nextcloud.deck.domain.usecases.state.GetCurrentBoardUseCase;
@@ -20,69 +20,75 @@ public class BoardArgResolver implements ArgsResolver<BoardRawArgs, BoardParsedA
     private final HasAccountsUseCase hasAccountsUseCase;
     private final GetCurrentAccountUseCase getCurrentAccountUseCase;
     private final GetCurrentBoardUseCase getCurrentBoardUseCase;
+    private final AccountRepository accountRepository;
 
     @Inject
     public BoardArgResolver(
             HasAccountsUseCase hasAccountsUseCase,
             GetCurrentAccountUseCase getCurrentAccountUseCase,
-            GetCurrentBoardUseCase getCurrentBoardUseCase
+            GetCurrentBoardUseCase getCurrentBoardUseCase,
+            AccountRepository accountRepository
     ) {
         this.hasAccountsUseCase = hasAccountsUseCase;
         this.getCurrentAccountUseCase = getCurrentAccountUseCase;
         this.getCurrentBoardUseCase = getCurrentBoardUseCase;
+        this.accountRepository = accountRepository;
     }
 
     @Override
-    public CompletableFuture<BoardParsedArgs> resolve(BoardRawArgs args) {
+    public Flow.Publisher<BoardParsedArgs> resolve(BoardRawArgs args) {
         if (args instanceof BoardRawArgs.CurrentBoardOfCurrentAccount) {
-            final var accountId = Maybe.fromPublisher(FlowAdapters.toPublisher(hasAccountsUseCase.execute()))
-                    .subscribeOn(Schedulers.io())
-                    .flatMapSingle(hasAccounts -> {
-                        // TODO No need to check for hasAccounts, better check fo accounts.exist(args)
-                        if (hasAccounts) {
-                            return Maybe.fromCompletionStage(getCurrentAccountUseCase.execute()).toSingle();
-                        }
+            return FlowAdapters.toFlowPublisher(
+                    Flowable.fromPublisher(FlowAdapters.toPublisher(hasAccountsUseCase.execute()))
+                            .subscribeOn(Schedulers.io())
+                            .switchMap(hasAccounts -> {
+                                if (hasAccounts) {
+                                    return Flowable.fromCompletionStage(getCurrentAccountUseCase.execute())
+                                            .flatMap(accountId ->
+                                                    Flowable.fromCompletionStage(getCurrentBoardUseCase.execute(accountId))
+                                                            .map(boardId -> new BoardParsedArgs(accountId, boardId))
+                                                            .onErrorReturnItem(new BoardParsedArgs(accountId, null))
+                                            );
+                                }
 
-                        return Single.error(new BoardArgResolver.NoAccountConfiguredException());
-                    })
-                    .toCompletionStage()
-                    .toCompletableFuture();
-
-            final var boardId = accountId
-                    .thenComposeAsync(getCurrentBoardUseCase::execute)
-                    .exceptionally(throwable -> null);
-
-            return accountId.thenCombineAsync(boardId, BoardParsedArgs::new);
+                                return Flowable.error(new BoardArgResolver.NoAccountConfiguredException());
+                            })
+            );
 
         } else if (args instanceof BoardRawArgs.ExplicitBoard explicitArgs) {
 
-            return CompletableFuture.completedFuture(new BoardParsedArgs(explicitArgs.accountId(), explicitArgs.boardId()));
+            return FlowAdapters.toFlowPublisher(
+                    Flowable.fromPublisher(FlowAdapters.toPublisher(accountRepository.accountExists(explicitArgs.accountId())))
+                            .subscribeOn(Schedulers.io())
+                            .switchMap(exists -> {
+                                if (exists) {
+                                    return Flowable.just(new BoardParsedArgs(explicitArgs.accountId(), explicitArgs.boardId()));
+                                } else {
+                                    return Flowable.error(new BoardArgResolver.NoAccountConfiguredException());
+                                }
+                            })
+            );
 
         } else {
-            final var cf = new CompletableFuture<BoardParsedArgs>();
-            cf.completeExceptionally(new UnsupportedOperationException("Not yet implemented."));
-            return cf;
+            return FlowAdapters.toFlowPublisher(Flowable.error(new UnsupportedOperationException("Not yet implemented.")));
         }
     }
 
-    abstract sealed class BoardArgResolveException extends RuntimeException permits MultipleAccountsOnRequestedInstanceException, NoAccountConfiguredException, RequestedAccountNotConfiguredException {
+    abstract sealed static class BoardArgResolveException extends RuntimeException permits MultipleAccountsOnRequestedInstanceException, NoAccountConfiguredException, RequestedAccountNotConfiguredException {
     }
 
     /// No account is configured at all
-    ///
-    /// @deprecated according to [ArgsResolver#resolve(Object)] it is safe to assume that this can not happen.
-    @Deprecated
-    public final class NoAccountConfiguredException extends BoardArgResolveException {
+    public static final class NoAccountConfiguredException extends BoardArgResolveException {
 
     }
 
     /// There is no account on the requested instance
-    public final class RequestedAccountNotConfiguredException extends BoardArgResolveException {
+    public static final class RequestedAccountNotConfiguredException extends BoardArgResolveException {
 
     }
 
     /// Args are not specific enough to identify one matching account
-    public final class MultipleAccountsOnRequestedInstanceException extends BoardArgResolveException {
+    public static final class MultipleAccountsOnRequestedInstanceException extends BoardArgResolveException {
 
         private final Collection<Account> matchingAccounts;
 

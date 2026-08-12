@@ -2,7 +2,9 @@ package it.niedermann.nextcloud.deck.data.repository;
 
 import org.reactivestreams.FlowAdapters;
 
+import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.Flow;
 import java.util.stream.Collectors;
@@ -42,7 +44,7 @@ public class ColumnRepositoryImpl implements ColumnRepository {
     }
 
     @Override
-    public Flow.Publisher<List<Column.ID>> getColumns(Board.ID boardId) {
+    public Flow.Publisher<List<Column.ID>> getColumnIDs(Board.ID boardId) {
         return FlowAdapters.toFlowPublisher(
                 columnDao.getColumnsByBoard(boardId.value())
                         .map(entities -> entities.stream()
@@ -50,6 +52,12 @@ public class ColumnRepositoryImpl implements ColumnRepository {
                                 .collect(Collectors.toList()))
                         .subscribeOn(Schedulers.io())
         );
+    }
+
+    @Override
+    public Flow.Publisher<List<Column>> getColumns(Board.ID boardId) {
+        return FlowAdapters.toFlowPublisher(Flowable.just(
+                Arrays.stream(MockData.MOCK_COLUMNS).filter(column -> Objects.equals(column.boardId(), boardId)).toList()));
     }
 
     @Override

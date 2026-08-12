@@ -14,7 +14,6 @@ import it.niedermann.nextcloud.deck.javafx.util.DeckDataFormat;
 import it.niedermann.nextcloud.deck.javafx.util.JavaFxScheduler;
 import it.niedermann.nextcloud.deck.util.ColorUtil;
 import jakarta.inject.Inject;
-import javafx.beans.binding.Bindings;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.scene.control.ListCell;
@@ -28,9 +27,6 @@ import javafx.util.Callback;
 public class CardPreviewCellFactory implements Callback<ListView<PreviewCard>, ListCell<PreviewCard>> {
 
     private CardPreviewView.CardPreviewActionListener cardPreviewActionListener;
-    private final GetCurrentAccountUseCase getCurrentAccountUseCase;
-    private final GetAccountUseCase getAccountUseCase;
-    private final KeyValueStore keyValueStore;
     private final ColorUtil colorUtil;
 
     private Account currentAccount;
@@ -38,10 +34,10 @@ public class CardPreviewCellFactory implements Callback<ListView<PreviewCard>, L
     private final CompositeDisposable disposables = new CompositeDisposable();
 
     @Inject
-    public CardPreviewCellFactory(GetCurrentAccountUseCase getCurrentAccountUseCase, GetAccountUseCase getAccountUseCase, KeyValueStore keyValueStore, ColorUtil colorUtil) {
-        this.getCurrentAccountUseCase = getCurrentAccountUseCase;
-        this.getAccountUseCase = getAccountUseCase;
-        this.keyValueStore = keyValueStore;
+    public CardPreviewCellFactory(GetCurrentAccountUseCase getCurrentAccountUseCase,
+                                  GetAccountUseCase getAccountUseCase,
+                                  KeyValueStore keyValueStore,
+                                  ColorUtil colorUtil) {
         this.colorUtil = colorUtil;
 
         disposables.add(Maybe.fromCompletionStage(getCurrentAccountUseCase.execute())
@@ -68,18 +64,6 @@ public class CardPreviewCellFactory implements Callback<ListView<PreviewCard>, L
 
             {
                 placeholder.getStyleClass().add("card-placeholder");
-                final var totalWidth = Bindings.createDoubleBinding(
-                        () -> listView.getWidth()
-                              - getPadding().getLeft()
-                              - getPadding().getRight()
-                              // FIXME This magic number is probably needed for some border, otherwise the items cause overflow
-                              - 2,
-                        listView.widthProperty(),
-                        paddingProperty());
-
-                view.maxWidthProperty().bind(totalWidth);
-                placeholder.maxWidthProperty().bind(totalWidth);
-
                 view.compactProperty().bind(compactMode);
             }
 

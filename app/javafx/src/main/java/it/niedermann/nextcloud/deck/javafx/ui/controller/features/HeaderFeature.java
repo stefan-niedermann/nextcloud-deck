@@ -6,8 +6,10 @@ import java.net.URL;
 import java.time.format.DateTimeFormatter;
 import java.time.format.FormatStyle;
 import java.util.ResourceBundle;
+import java.util.Set;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.logging.Logger;
+import java.util.stream.Stream;
 
 import dagger.assisted.Assisted;
 import dagger.assisted.AssistedFactory;
@@ -16,9 +18,13 @@ import io.reactivex.rxjava4.core.Flowable;
 import io.reactivex.rxjava4.schedulers.Schedulers;
 import it.niedermann.nextcloud.deck.domain.model.Account;
 import it.niedermann.nextcloud.deck.domain.model.Board;
+import it.niedermann.nextcloud.deck.domain.model.FilterInformation;
 import it.niedermann.nextcloud.deck.domain.usecases.accounts.GetAccountUseCase;
 import it.niedermann.nextcloud.deck.domain.usecases.accounts.RemoveAccountUseCase;
+import it.niedermann.nextcloud.deck.domain.usecases.labels.ListLabelsUseCase;
 import it.niedermann.nextcloud.deck.domain.usecases.sync.ScheduleSyncUseCase;
+import it.niedermann.nextcloud.deck.domain.usecases.users.ListUsersUseCase;
+import it.niedermann.nextcloud.deck.javafx.services.application.ThemeService;
 import it.niedermann.nextcloud.deck.javafx.ui.controller.DisposableController;
 import it.niedermann.nextcloud.deck.javafx.ui.controller.views.AvatarProgressView;
 import it.niedermann.nextcloud.deck.javafx.ui.fxml.Inflater;
@@ -42,6 +48,8 @@ public class HeaderFeature extends DisposableController {
     @FXML
     Button editBoardBtn;
     @FXML
+    Button filterBtn;
+    @FXML
     Button preferencesBtn;
     @FXML
     Button scheduleSyncBtn;
@@ -54,10 +62,15 @@ public class HeaderFeature extends DisposableController {
     private final GetAccountUseCase getAccountUseCase;
     private final ScheduleSyncUseCase scheduleSyncUseCase;
     private final RemoveAccountUseCase removeAccountUseCase;
+    private final FilterFeature.Factory filterFeatureFactory;
+    private final ListLabelsUseCase listLabelsUseCase;
+    private final ListUsersUseCase listUsersUseCase;
+    private final ThemeService themeService;
     private final AccountSwitcherFeature.Factory accountSwitcherFactory;
     private final ViewModel viewModel;
 
     private final AtomicBoolean syncInProgress = new AtomicBoolean(false);
+    private PopOver filterPopOver;
 
     @AssistedInject
     public HeaderFeature(
@@ -65,6 +78,10 @@ public class HeaderFeature extends DisposableController {
             GetAccountUseCase getAccountUseCase,
             ScheduleSyncUseCase scheduleSyncUseCase,
             RemoveAccountUseCase removeAccountUseCase,
+            FilterFeature.Factory filterFeatureFactory,
+            ListLabelsUseCase listLabelsUseCase,
+            ListUsersUseCase listUsersUseCase,
+            ThemeService themeService,
             AccountSwitcherFeature.Factory accountSwitcherFactory,
             @Assisted ViewModel viewModel
     ) {
@@ -72,6 +89,10 @@ public class HeaderFeature extends DisposableController {
         this.getAccountUseCase = getAccountUseCase;
         this.scheduleSyncUseCase = scheduleSyncUseCase;
         this.removeAccountUseCase = removeAccountUseCase;
+        this.filterFeatureFactory = filterFeatureFactory;
+        this.listLabelsUseCase = listLabelsUseCase;
+        this.listUsersUseCase = listUsersUseCase;
+        this.themeService = themeService;
         this.accountSwitcherFactory = accountSwitcherFactory;
         this.viewModel = viewModel;
     }
@@ -100,6 +121,8 @@ public class HeaderFeature extends DisposableController {
                     boardTitle.setText(boardPresent ? board.title() : "");
                     editBoardBtn.setVisible(boardPresent);
                     editBoardBtn.setManaged(boardPresent);
+                    filterBtn.setVisible(boardPresent);
+                    filterBtn.setManaged(boardPresent);
                     if (boardPresent) {
                         final String lastEdited = board.lastModified() != null
                                 ? board.lastModified().format(DateTimeFormatter.ofLocalizedDateTime(FormatStyle.SHORT))
@@ -119,6 +142,42 @@ public class HeaderFeature extends DisposableController {
                     .observeOn(JavaFxScheduler.platform())
                     .subscribe(viewModel::onEditBoard);
             addDisposable(disposable);
+        });
+
+        filterBtn.setOnAction(event -> {
+            if (filterPopOver != null) {
+                filterPopOver.hide();
+            }
+
+            final var filterDisposable = Flowable.combineLatest(
+                            viewModel.getAccountId().firstOrError().toFlowable(),
+                            viewModel.getBoardId().firstOrError().toFlowable(),
+                            (accountId, boardId) -> new Object[]{accountId, boardId}
+                    )
+                    .flatMap(ids -> {
+                        final var accountId = (Account.ID) ids[0];
+                        final var boardId = (Board.ID) ids[1];
+                        return Flowable.combineLatest(
+                                Flowable.fromPublisher(listLabelsUseCase.execute(boardId)).firstOrError().map(Set::stream).map(Stream::toList).toFlowable(),
+                                Flowable.fromPublisher(listUsersUseCase.execute(accountId)).firstOrError().toFlowable(),
+                                (labels, users) -> {
+                                    final var initialFilter = viewModel.getFilter().blockingFirst();
+                                    return filterFeatureFactory.create(initialFilter, labels, users, filter -> {
+                                        viewModel.setFilter(filter);
+                                        filterPopOver.hide();
+                                    });
+                                }
+                        );
+                    })
+                    .observeOn(JavaFxScheduler.platform())
+                    .subscribe(feature -> {
+                        final var bundle = inflater.inflate(feature);
+                        filterPopOver = new PopOver(bundle.view());
+                        filterPopOver.setArrowLocation(PopOver.ArrowLocation.TOP_LEFT);
+                        themeService.bind(filterPopOver.getScene());
+                        filterPopOver.show(filterBtn);
+                    });
+            addDisposable(filterDisposable);
         });
 
         preferencesBtn.setOnAction(_ -> viewModel.onLaunchPreferences());
@@ -169,7 +228,13 @@ public class HeaderFeature extends DisposableController {
 
         Flowable<Account.ID> getAccountId();
 
+        Flowable<Board.ID> getBoardId();
+
         Flowable<Board> getBoard();
+
+        Flowable<FilterInformation> getFilter();
+
+        void setFilter(FilterInformation filter);
 
         void onEditBoard(Board board);
 

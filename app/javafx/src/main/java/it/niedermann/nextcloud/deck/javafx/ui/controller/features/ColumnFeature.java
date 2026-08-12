@@ -17,6 +17,7 @@ import io.reactivex.rxjava4.processors.FlowableProcessor;
 import it.niedermann.nextcloud.deck.domain.model.Card;
 import it.niedermann.nextcloud.deck.domain.model.Column;
 import it.niedermann.nextcloud.deck.domain.model.CreateCard;
+import it.niedermann.nextcloud.deck.domain.model.FilterInformation;
 import it.niedermann.nextcloud.deck.domain.model.query.PreviewCard;
 import it.niedermann.nextcloud.deck.domain.usecases.cards.AddCardUseCase;
 import it.niedermann.nextcloud.deck.domain.usecases.cards.ListCardPreviewsUseCase;
@@ -54,7 +55,7 @@ public class ColumnFeature extends DisposableController {
     private FlowableProcessor<Integer> draggingCardIndex;
 
     private final CardPreviewCellFactory cardPreviewCellFactory;
-    private PopOver popOver;
+    private PopOver addCardPopOver;
 
     private boolean shouldRequestInitialFocus = false;
 
@@ -123,7 +124,8 @@ public class ColumnFeature extends DisposableController {
             }
         });
 
-        final var disposable = Flowable.fromPublisher(listCardPreviewsUseCase.execute(columnId))
+        final var disposable = viewModel.getFilter()
+                .switchMap(filter -> Flowable.fromPublisher(listCardPreviewsUseCase.execute(columnId, filter)))
                 .observeOn(JavaFxScheduler.platform())
                 .subscribe(cards -> {
                     this.cards.getItems().setAll(cards);
@@ -147,10 +149,10 @@ public class ColumnFeature extends DisposableController {
 
         addCard.setOnAction(event -> {
 
-            popOver = new PopOver(addCardSubmitTextField);
-            popOver.setArrowLocation(PopOver.ArrowLocation.TOP_RIGHT);
-            popOver.setAnchorLocation(PopupWindow.AnchorLocation.CONTENT_TOP_RIGHT);
-            popOver.show(addCard);
+            addCardPopOver = new PopOver(addCardSubmitTextField);
+            addCardPopOver.setArrowLocation(PopOver.ArrowLocation.TOP_RIGHT);
+            addCardPopOver.setAnchorLocation(PopupWindow.AnchorLocation.CONTENT_TOP_RIGHT);
+            addCardPopOver.show(addCard);
 
             addCardSubmitTextField.requestFocus();
 
@@ -159,7 +161,7 @@ public class ColumnFeature extends DisposableController {
 
         addCardSubmitTextField.setOnSubmit(cardTitle -> {
 
-            popOver.hide();
+            addCardPopOver.hide();
             addCardSubmitTextField.setDisable(true);
 
             addCardUseCase.execute(new CreateCard(columnId, cardTitle))
@@ -294,5 +296,6 @@ public class ColumnFeature extends DisposableController {
     }
 
     public interface ViewModel extends CardPreviewView.CardPreviewActionListener {
+        Flowable<FilterInformation> getFilter();
     }
 }

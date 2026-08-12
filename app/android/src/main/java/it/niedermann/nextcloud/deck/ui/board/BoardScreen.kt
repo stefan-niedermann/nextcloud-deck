@@ -16,9 +16,11 @@ import androidx.compose.foundation.gestures.snapping.rememberSnapFlingBehavior
 import androidx.compose.foundation.indication
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.interaction.PressInteraction
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.ExperimentalLayoutApi
 import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.PaddingValues
@@ -29,6 +31,7 @@ import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.navigationBars
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
@@ -38,6 +41,7 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.FilterList
 import androidx.compose.material.icons.outlined.Add
 import androidx.compose.material.icons.outlined.AttachFile
 import androidx.compose.material.icons.outlined.CheckBox
@@ -49,11 +53,13 @@ import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
+import androidx.compose.material3.ElevatedCard
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedCard
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
@@ -97,13 +103,15 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import it.niedermann.nextcloud.deck.domain.model.Account
 import it.niedermann.nextcloud.deck.domain.model.Card
 import it.niedermann.nextcloud.deck.domain.model.Column
+import it.niedermann.nextcloud.deck.domain.model.FilterInformation
 import it.niedermann.nextcloud.deck.domain.model.Label
 import it.niedermann.nextcloud.deck.domain.model.User
 import it.niedermann.nextcloud.deck.domain.model.query.PreviewCard
 import it.niedermann.nextcloud.deck.ui.components.AppTopBar
 import it.niedermann.nextcloud.deck.ui.components.UserAvatar
+import it.niedermann.nextcloud.deck.ui.pickstack.PickStackDialog
+import it.niedermann.nextcloud.deck.ui.pickstack.PickStackViewModel
 import it.niedermann.nextcloud.deck.ui.util.LocalColorUtil
-import it.niedermann.nextcloud.deck.ui.util.toComposeColor
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
@@ -132,6 +140,9 @@ fun BoardScreen(
 ) {
     val columns by viewModel.columns.collectAsStateWithLifecycle()
     val cardsByColumn by viewModel.cardsByColumn.collectAsStateWithLifecycle()
+    val labels by viewModel.labels.collectAsStateWithLifecycle()
+    val users by viewModel.users.collectAsStateWithLifecycle()
+    val filter by viewModel.filter.collectAsStateWithLifecycle()
     val currentAccount by viewModel.currentAccount.collectAsStateWithLifecycle()
     val isRefreshing by viewModel.isRefreshing.collectAsStateWithLifecycle()
     val syncStatus by viewModel.syncStatus.collectAsStateWithLifecycle()
@@ -139,6 +150,8 @@ fun BoardScreen(
     val state = rememberPullToRefreshState()
     var showAddCardDialog by remember { mutableStateOf<Long?>(null) }
     var showAddColumnDialog by remember { mutableStateOf(false) }
+    var showFilter by remember { mutableStateOf(false) }
+    var showPickStack by remember { mutableStateOf<Pair<Card.ID, PickStackViewModel.Mode>?>(null) }
 
     val screenWidth = with(LocalDensity.current) { LocalWindowInfo.current.containerSize.width.toDp() }.value
     val isSmallScreen = screenWidth < 600
@@ -179,7 +192,12 @@ fun BoardScreen(
             AppTopBar(
                 onAddAccount = onAddAccount,
                 onCardClick = onCardClick,
-                onGoToBoardList = onGoToBoardList
+                onGoToBoardList = onGoToBoardList,
+                extraActions = {
+                    IconButton(onClick = { showFilter = true }) {
+                        Icon(Icons.Default.FilterList, contentDescription = "Filter")
+                    }
+                }
             )
         },
         floatingActionButton = {
@@ -187,7 +205,7 @@ fun BoardScreen(
                 Icon(Icons.Outlined.Add, contentDescription = "Add Column")
             }
         },
-        contentWindowInsets = WindowInsets(0, 0, 0, 0)
+        contentWindowInsets = WindowInsets.navigationBars
     ) { padding ->
         PullToRefreshBox(
             isRefreshing = isRefreshing,
@@ -284,6 +302,8 @@ fun BoardScreen(
                                     onCardClick = onCardClick,
                                     onAddCardClick = { showAddCardDialog = column.id.value() },
                                     onAssignToggle = { cardId, assigned -> viewModel.toggleAssignment(cardId, assigned) },
+                                    onMove = { cardId -> showPickStack = cardId to PickStackViewModel.Mode.MOVE },
+                                    onCopy = { cardId -> showPickStack = cardId to PickStackViewModel.Mode.COPY },
                                     currentAccount = currentAccount,
                                     compactMode = compactMode,
                                     onDragStart = { viewModel.draggingCardId = it },
@@ -313,6 +333,14 @@ fun BoardScreen(
             }
         }
 
+    if (showPickStack != null) {
+        PickStackDialog(
+            cardId = showPickStack!!.first,
+            mode = showPickStack!!.second,
+            onDismiss = { showPickStack = null }
+        )
+    }
+
     if (showAddColumnDialog) {
         AddColumnDialog(
             onDismiss = { showAddColumnDialog = false },
@@ -332,6 +360,17 @@ fun BoardScreen(
             }
         )
     }
+
+    if (showFilter) {
+        FilterBottomSheet(
+            availableLabels = labels.values.toList(),
+            availableUsers = users,
+            filter = filter,
+            onApply = { viewModel.updateFilter(it) },
+            onReset = { viewModel.updateFilter(FilterInformation.EMPTY) },
+            onDismiss = { showFilter = false }
+        )
+    }
 }
 
 @Composable
@@ -346,6 +385,8 @@ fun BoardColumn(
     onCardClick: (Long) -> Unit,
     onAddCardClick: () -> Unit,
     onAssignToggle: (Card.ID, Boolean) -> Unit,
+    onMove: (Card.ID) -> Unit,
+    onCopy: (Card.ID) -> Unit,
     onDragStart: (Card.ID) -> Unit,
     onDragOver: (Column.ID, Int) -> Unit,
     onDrop: (Card.ID, Column.ID, Int) -> Unit,
@@ -375,9 +416,9 @@ fun BoardColumn(
         }
     }
 
-    Card(
+    Column(
         modifier = Modifier
-            .width(300.dp)
+            .width(maxOf(LocalConfiguration.current.screenWidthDp.dp - 36.dp, 300.dp))
             .fillMaxHeight()
             .dragAndDropTarget(
                 shouldStartDragAndDrop = { event ->
@@ -458,8 +499,8 @@ fun BoardColumn(
                         }
                     }
                 }
-            ),
-        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceVariant)
+            )
+            .padding(8.dp)
     ) {
         Column(modifier = Modifier.padding(8.dp)) {
             Row(
@@ -476,30 +517,32 @@ fun BoardColumn(
                     Icon(Icons.Outlined.Add, contentDescription = "Add Card")
                 }
             }
-            LazyColumn(
-                modifier = Modifier
-                    .weight(1f)
-                    .onGloballyPositioned { lazyColumnCoordinates = it },
-                state = lazyListState,
-                verticalArrangement = Arrangement.spacedBy(8.dp)
-            ) {
-                items(columnContent, key = { it.key }) { item ->
-                    when (item) {
-                        is BoardItem.CardData -> {
-                            CardItem(
-                                card = item.card,
-                                currentAccount = currentAccount,
-                                compactMode = compactMode,
-                                isDragging = draggingCardId == item.card.id(),
-                                onDragStart = { onDragStart(item.card.id()) },
-                                onAssignToggle = { onAssignToggle(item.card.id(), item.card.assignedToMe()) },
-                                onClick = { onCardClick(item.card.id().value()) }
-                            )
-                        }
+        }
+        LazyColumn(
+            modifier = Modifier
+                .weight(1f)
+                .onGloballyPositioned { lazyColumnCoordinates = it },
+            state = lazyListState,
+            verticalArrangement = Arrangement.spacedBy(8.dp)
+        ) {
+            items(columnContent, key = { it.key }) { item ->
+                when (item) {
+                    is BoardItem.CardData -> {
+                        CardItem(
+                            card = item.card,
+                            currentAccount = currentAccount,
+                            compactMode = compactMode,
+                            isDragging = draggingCardId == item.card.id(),
+                            onDragStart = { onDragStart(item.card.id()) },
+                            onAssignToggle = { onAssignToggle(item.card.id(), item.card.assignedToMe()) },
+                            onMove = { onMove(item.card.id()) },
+                            onCopy = { onCopy(item.card.id()) },
+                            onClick = { onCardClick(item.card.id().value()) }
+                        )
+                    }
 
-                        BoardItem.Placeholder -> {
-                            PlaceholderCard(column.id.value())
-                        }
+                    BoardItem.Placeholder -> {
+                        PlaceholderCard(column.id.value())
                     }
                 }
             }
@@ -516,64 +559,82 @@ fun CardItem(
     isDragging: Boolean,
     onDragStart: () -> Unit,
     onAssignToggle: () -> Unit,
+    onMove: () -> Unit,
+    onCopy: () -> Unit,
     onClick: () -> Unit
 ) {
-    val cardColor = card.color()?.toComposeColor() ?: MaterialTheme.colorScheme.surface
+    val colorUtil = LocalColorUtil.current
+    val primaryColor = MaterialTheme.colorScheme.primary.toArgb()
+    val harmonizedColor = remember(card.color(), primaryColor) {
+        card.color()?.let { colorUtil.harmonize(it.argb(), primaryColor) }
+    }
+    val containerColor = if (harmonizedColor != null) Color(harmonizedColor) else MaterialTheme.colorScheme.surface
+    val contentColor = if (harmonizedColor != null) {
+        Color(colorUtil.getForegroundColorForBackgroundColor(harmonizedColor))
+    } else {
+        MaterialTheme.colorScheme.onSurface
+    }
+
     val interactionSource = remember { MutableInteractionSource() }
     val scope = rememberCoroutineScope()
     var showMenu by remember { mutableStateOf(false) }
 
-    @Suppress("DEPRECATION")
-    Card(
-        modifier = Modifier
-            .fillMaxWidth()
-            .dragAndDropSource(
-                block = {
-                    detectTapGestures(
-                        onPress = { offset ->
-                            val press = PressInteraction.Press(offset)
-                            scope.launch {
-                                interactionSource.emit(press)
-                            }
-                            tryAwaitRelease()
-                            scope.launch {
-                                interactionSource.emit(PressInteraction.Release(press))
-                            }
-                        },
-                        onTap = { onClick() },
-                        onLongPress = { offset ->
-                            onDragStart()
-                            startTransfer(
-                                DragAndDropTransferData(
-                                    ClipData.newPlainText("card_id", card.id().value().toString()),
-                                    flags = View.DRAG_FLAG_GLOBAL
-                                )
+    val isDarkTheme = isSystemInDarkTheme()
+    val secondaryContentColor = if (harmonizedColor != null) {
+        contentColor.copy(alpha = 0.7f)
+    } else {
+        MaterialTheme.colorScheme.onSurfaceVariant
+    }
+
+    val cardModifier = Modifier
+        .fillMaxWidth()
+        .dragAndDropSource(
+            block = {
+                detectTapGestures(
+                    onPress = { offset ->
+                        val press = PressInteraction.Press(offset)
+                        scope.launch {
+                            interactionSource.emit(press)
+                        }
+                        tryAwaitRelease()
+                        scope.launch {
+                            interactionSource.emit(PressInteraction.Release(press))
+                        }
+                    },
+                    onTap = { onClick() },
+                    onLongPress = { offset ->
+                        onDragStart()
+                        startTransfer(
+                            DragAndDropTransferData(
+                                ClipData.newPlainText("card_id", card.id().value().toString()),
+                                flags = View.DRAG_FLAG_GLOBAL
                             )
-                        }
-                    )
-                }
-            )
-            .indication(interactionSource, ripple())
-            .graphicsLayer {
-                alpha = if (isDragging) 0.5f else 1.0f
-            },
-        colors = CardDefaults.cardColors(containerColor = cardColor)
-    ) {
+                        )
+                    }
+                )
+            }
+        )
+        .indication(interactionSource, ripple())
+        .graphicsLayer {
+            alpha = if (isDragging) 0.5f else 1.0f
+        }
+
+    val cardContent: @Composable ColumnScope.() -> Unit = {
         Column(modifier = Modifier.padding(12.dp)) {
-                Row(
-                    modifier = Modifier.fillMaxWidth(),
-                    horizontalArrangement = Arrangement.SpaceBetween,
-                    verticalAlignment = Alignment.Top
-                ) {
-                    Text(
-                        text = card.title(),
-                        modifier = Modifier.weight(1f),
-                        style = MaterialTheme.typography.bodyLarge.copy(fontWeight = FontWeight.Bold)
-                    )
-                    Box {
-                        IconButton(onClick = { showMenu = true }, modifier = Modifier.size(24.dp)) {
-                            Icon(Icons.Outlined.MoreVert, contentDescription = "Menu")
-                        }
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceBetween,
+                verticalAlignment = Alignment.Top
+            ) {
+                Text(
+                    text = card.title(),
+                    modifier = Modifier.weight(1f),
+                    style = MaterialTheme.typography.bodyLarge.copy(fontWeight = FontWeight.Bold)
+                )
+                Box {
+                    IconButton(onClick = { showMenu = true }, modifier = Modifier.size(24.dp)) {
+                        Icon(Icons.Outlined.MoreVert, contentDescription = "Menu")
+                    }
                         DropdownMenu(
                             expanded = showMenu,
                             onDismissRequest = { showMenu = false }
@@ -585,142 +646,176 @@ fun CardItem(
                                     showMenu = false
                                 }
                             )
-                        }
-                    }
-                    if (card.dueDate() != null) {
-                        val locale = LocalConfiguration.current.locales[0]
-                        val formatter = remember(locale) { DateTimeFormatter.ofPattern("MMM dd", locale) }
-                        Surface(
-                            color = MaterialTheme.colorScheme.surfaceVariant,
-                            shape = MaterialTheme.shapes.extraSmall,
-                            modifier = Modifier.padding(start = 8.dp)
-                        ) {
-                            Text(
-                                text = card.dueDate().format(formatter),
-                                modifier = Modifier.padding(horizontal = 4.dp, vertical = 2.dp),
-                                style = MaterialTheme.typography.labelSmall
+                            DropdownMenuItem(
+                                text = { Text("Move") },
+                                onClick = {
+                                    onMove()
+                                    showMenu = false
+                                }
+                            )
+                            DropdownMenuItem(
+                                text = { Text("Copy") },
+                                onClick = {
+                                    onCopy()
+                                    showMenu = false
+                                }
                             )
                         }
-                    }
                 }
-
-                if (card.excerpt().isNotBlank()) {
-                    Spacer(modifier = Modifier.height(8.dp))
-                    Text(
-                        text = card.excerpt(),
-                        style = MaterialTheme.typography.bodySmall,
-                        color = MaterialTheme.colorScheme.onSurfaceVariant,
-                        maxLines = 2,
-                        overflow = TextOverflow.Ellipsis
-                    )
-                }
-
-                if (card.labels().isNotEmpty()) {
-                    Spacer(modifier = Modifier.height(8.dp))
-                    FlowRow(
-                        horizontalArrangement = Arrangement.spacedBy(4.dp),
-                        verticalArrangement = Arrangement.spacedBy(4.dp)
+                if (card.dueDate() != null) {
+                    val locale = LocalConfiguration.current.locales[0]
+                    val formatter = remember(locale) { DateTimeFormatter.ofPattern("MMM dd", locale) }
+                    Surface(
+                        color = MaterialTheme.colorScheme.surfaceVariant,
+                        shape = MaterialTheme.shapes.extraSmall,
+                        modifier = Modifier.padding(start = 8.dp)
                     ) {
-                        card.labels().forEach { labelPreview ->
-                            LabelChipPreview(labelPreview, compactMode)
-                        }
-                    }
-                }
-
-                Spacer(modifier = Modifier.height(12.dp))
-
-                val taskStatus = if (card.checkboxTotalCount() > 0) {
-                    "${card.checkboxDoneCount()}/${card.checkboxTotalCount()}"
-                } else null
-
-                val commentsCount = card.commentCount()
-                val attachmentsCount = card.attachmentCount()
-
-                Row(
-                    modifier = Modifier.fillMaxWidth(),
-                    verticalAlignment = Alignment.CenterVertically
-                ) {
-                    Row(
-                        modifier = Modifier.weight(1f),
-                        horizontalArrangement = Arrangement.spacedBy(12.dp),
-                        verticalAlignment = Alignment.CenterVertically
-                    ) {
-                        // Remote ID
-                        if (card.remoteId() != null) {
-                            Text(
-                                text = "#${card.remoteId().value()}",
-                                style = MaterialTheme.typography.labelMedium,
-                                color = MaterialTheme.colorScheme.onSurfaceVariant
-                            )
-                        }
-                        // Comments
-                        if (commentsCount > 0) {
-                            Row(verticalAlignment = Alignment.CenterVertically) {
-                                Icon(
-                                    Icons.Outlined.ModeComment,
-                                    contentDescription = null,
-                                    modifier = Modifier.size(16.dp),
-                                    tint = MaterialTheme.colorScheme.onSurfaceVariant
-                                )
-                                Text(
-                                    text = commentsCount.toString(),
-                                    modifier = Modifier.padding(start = 4.dp),
-                                    style = MaterialTheme.typography.labelMedium,
-                                    color = MaterialTheme.colorScheme.onSurfaceVariant
-                                )
-                            }
-                        }
-                        // Tasks
-                        if (taskStatus != null) {
-                            Row(verticalAlignment = Alignment.CenterVertically) {
-                                Icon(
-                                    Icons.Outlined.CheckBox,
-                                    contentDescription = null,
-                                    modifier = Modifier.size(16.dp),
-                                    tint = MaterialTheme.colorScheme.onSurfaceVariant
-                                )
-                                Text(
-                                    text = taskStatus,
-                                    modifier = Modifier.padding(start = 4.dp),
-                                    style = MaterialTheme.typography.labelMedium,
-                                    color = MaterialTheme.colorScheme.onSurfaceVariant
-                                )
-                            }
-                        }
-                        // Attachments
-                        if (attachmentsCount > 0) {
-                            Row(verticalAlignment = Alignment.CenterVertically) {
-                                Icon(
-                                    Icons.Outlined.AttachFile,
-                                    contentDescription = null,
-                                    modifier = Modifier.size(16.dp),
-                                    tint = MaterialTheme.colorScheme.onSurfaceVariant
-                                )
-                                Text(
-                                    text = attachmentsCount.toString(),
-                                    modifier = Modifier.padding(start = 4.dp),
-                                    style = MaterialTheme.typography.labelMedium,
-                                    color = MaterialTheme.colorScheme.onSurfaceVariant
-                                )
-                            }
-                        }
-                    }
-
-                    if (card.assignedToMe() && currentAccount != null) {
-                        UserAvatar(
-                            account = currentAccount,
-                            userId = User.ID(currentAccount.username()),
-                            size = 24.dp
-                        )
-                    } else if (card.assigneeCount() > 0) {
                         Text(
-                            text = "${card.assigneeCount()} assignees",
-                            style = MaterialTheme.typography.labelSmall,
-                            color = MaterialTheme.colorScheme.onSurfaceVariant
+                            text = card.dueDate().format(formatter),
+                            modifier = Modifier.padding(horizontal = 4.dp, vertical = 2.dp),
+                            style = MaterialTheme.typography.labelSmall
                         )
                     }
                 }
             }
+
+            if (card.excerpt().isNotBlank()) {
+                Spacer(modifier = Modifier.height(8.dp))
+                Text(
+                    text = card.excerpt(),
+                    style = MaterialTheme.typography.bodySmall,
+                    color = secondaryContentColor,
+                    maxLines = 2,
+                    overflow = TextOverflow.Ellipsis
+                )
+            }
+
+            if (card.labels().isNotEmpty()) {
+                Spacer(modifier = Modifier.height(8.dp))
+                FlowRow(
+                    horizontalArrangement = Arrangement.spacedBy(4.dp),
+                    verticalArrangement = Arrangement.spacedBy(4.dp)
+                ) {
+                    card.labels().forEach { labelPreview ->
+                        LabelChipPreview(labelPreview, compactMode)
+                    }
+                }
+            }
+
+            Spacer(modifier = Modifier.height(12.dp))
+
+            val taskStatus = if (card.checkboxTotalCount() > 0) {
+                "${card.checkboxDoneCount()}/${card.checkboxTotalCount()}"
+            } else null
+
+            val commentsCount = card.commentCount()
+            val attachmentsCount = card.attachmentCount()
+
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Row(
+                    modifier = Modifier.weight(1f),
+                    horizontalArrangement = Arrangement.spacedBy(12.dp),
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    // Remote ID
+                    if (card.remoteId() != null) {
+                        Text(
+                            text = "#${card.remoteId().value()}",
+                            style = MaterialTheme.typography.labelMedium,
+                            color = secondaryContentColor
+                        )
+                    }
+                    // Comments
+                    if (commentsCount > 0) {
+                        Row(verticalAlignment = Alignment.CenterVertically) {
+                            Icon(
+                                Icons.Outlined.ModeComment,
+                                contentDescription = null,
+                                modifier = Modifier.size(16.dp),
+                                tint = secondaryContentColor
+                            )
+                            Text(
+                                text = commentsCount.toString(),
+                                modifier = Modifier.padding(start = 4.dp),
+                                style = MaterialTheme.typography.labelMedium,
+                                color = secondaryContentColor
+                            )
+                        }
+                    }
+                    // Tasks
+                    if (taskStatus != null) {
+                        Row(verticalAlignment = Alignment.CenterVertically) {
+                            Icon(
+                                Icons.Outlined.CheckBox,
+                                contentDescription = null,
+                                modifier = Modifier.size(16.dp),
+                                tint = secondaryContentColor
+                            )
+                            Text(
+                                text = taskStatus,
+                                modifier = Modifier.padding(start = 4.dp),
+                                style = MaterialTheme.typography.labelMedium,
+                                color = secondaryContentColor
+                            )
+                        }
+                    }
+                    // Attachments
+                    if (attachmentsCount > 0) {
+                        Row(verticalAlignment = Alignment.CenterVertically) {
+                            Icon(
+                                Icons.Outlined.AttachFile,
+                                contentDescription = null,
+                                modifier = Modifier.size(16.dp),
+                                tint = secondaryContentColor
+                            )
+                            Text(
+                                text = attachmentsCount.toString(),
+                                modifier = Modifier.padding(start = 4.dp),
+                                style = MaterialTheme.typography.labelMedium,
+                                color = secondaryContentColor
+                            )
+                        }
+                    }
+                }
+
+                if (card.assignedToMe() && currentAccount != null) {
+                    UserAvatar(
+                        account = currentAccount,
+                        userId = User.ID(currentAccount.username()),
+                        size = 24.dp
+                    )
+                } else if (card.assigneeCount() > 0) {
+                    Text(
+                        text = "${card.assigneeCount()} assignees",
+                        style = MaterialTheme.typography.labelSmall,
+                        color = secondaryContentColor
+                    )
+                }
+            }
+        }
+    }
+
+    if (isDarkTheme) {
+        OutlinedCard(
+            modifier = cardModifier,
+            colors = CardDefaults.outlinedCardColors(
+                containerColor = containerColor,
+                contentColor = contentColor
+            ),
+            content = cardContent
+        )
+    } else {
+        ElevatedCard(
+            modifier = cardModifier,
+            colors = CardDefaults.elevatedCardColors(
+                containerColor = containerColor,
+                contentColor = contentColor
+            ),
+            content = cardContent
+        )
     }
 }
 

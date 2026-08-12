@@ -27,7 +27,7 @@ import it.niedermann.nextcloud.deck.domain.usecases.cards.ListCardsUseCase;
 import it.niedermann.nextcloud.deck.domain.usecases.columns.AddColumnUseCase;
 import it.niedermann.nextcloud.deck.domain.usecases.columns.DeleteColumnUseCase;
 import it.niedermann.nextcloud.deck.domain.usecases.columns.GetColumnUseCase;
-import it.niedermann.nextcloud.deck.domain.usecases.columns.ListColumnsUseCase;
+import it.niedermann.nextcloud.deck.domain.usecases.columns.ListColumnIDsUseCase;
 import it.niedermann.nextcloud.deck.domain.usecases.columns.UpdateColumnUseCase;
 import it.niedermann.nextcloud.deck.domain.usecases.labels.AddLabelUseCase;
 import it.niedermann.nextcloud.deck.domain.usecases.labels.DeleteLabelUseCase;
@@ -55,7 +55,7 @@ public class EditBoardStageContext extends Store<EditBoardStageContext.State, Ed
     private final AddColumnUseCase addColumnUseCase;
     private final UpdateColumnUseCase updateColumnUseCase;
     private final DeleteColumnUseCase deleteColumnUseCase;
-    private final ListColumnsUseCase listColumnsUseCase;
+    private final ListColumnIDsUseCase listColumnIDsUseCase;
     private final GetColumnUseCase getColumnUseCase;
 
     private final AddLabelUseCase addLabelUseCase;
@@ -76,7 +76,7 @@ public class EditBoardStageContext extends Store<EditBoardStageContext.State, Ed
             AddColumnUseCase addColumnUseCase,
             UpdateColumnUseCase updateColumnUseCase,
             DeleteColumnUseCase deleteColumnUseCase,
-            ListColumnsUseCase listColumnsUseCase,
+            ListColumnIDsUseCase listColumnIDsUseCase,
             GetColumnUseCase getColumnUseCase,
             AddLabelUseCase addLabelUseCase,
             UpdateLabelUseCase updateLabelUseCase,
@@ -94,7 +94,7 @@ public class EditBoardStageContext extends Store<EditBoardStageContext.State, Ed
         this.addColumnUseCase = addColumnUseCase;
         this.updateColumnUseCase = updateColumnUseCase;
         this.deleteColumnUseCase = deleteColumnUseCase;
-        this.listColumnsUseCase = listColumnsUseCase;
+        this.listColumnIDsUseCase = listColumnIDsUseCase;
         this.getColumnUseCase = getColumnUseCase;
         this.addLabelUseCase = addLabelUseCase;
         this.updateLabelUseCase = updateLabelUseCase;
@@ -124,7 +124,7 @@ public class EditBoardStageContext extends Store<EditBoardStageContext.State, Ed
         return Flowable.fromPublisher(getState())
                 .observeOn(Schedulers.virtual())
                 .map(State::boardId)
-                .switchMap(id -> Flowable.fromPublisher(listColumnsUseCase.execute(id)))
+                .switchMap(id -> Flowable.fromPublisher(listColumnIDsUseCase.execute(id)))
                 .switchMap(ids -> Flowable.fromIterable(ids)
                         .concatMap(id -> Flowable.fromPublisher(getColumnUseCase.execute(id)))
                         .toList()

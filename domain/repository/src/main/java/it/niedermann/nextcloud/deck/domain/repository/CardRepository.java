@@ -10,6 +10,7 @@ import it.niedermann.nextcloud.deck.domain.model.Board;
 import it.niedermann.nextcloud.deck.domain.model.Card;
 import it.niedermann.nextcloud.deck.domain.model.Column;
 import it.niedermann.nextcloud.deck.domain.model.CreateCard;
+import it.niedermann.nextcloud.deck.domain.model.FilterInformation;
 import it.niedermann.nextcloud.deck.domain.model.query.PreviewCard;
 
 public interface CardRepository {
@@ -24,9 +25,13 @@ public interface CardRepository {
 
     Flow.Publisher<List<PreviewCard>> getNotDeletedCardPreviews(Column.ID columnId);
 
+    Flow.Publisher<List<PreviewCard>> getNotDeletedCardPreviews(Column.ID columnId, FilterInformation filter);
+
     Flow.Publisher<Map<Column, List<Card>>> getNotDeletedCardsByColumn(Board.ID boardId);
 
     Flow.Publisher<Card> getCard(Card.ID cardId);
+
+    Flow.Publisher<Boolean> cardExists(Card.ID cardId);
 
     Flow.Publisher<Collection<Card>> find(String userText);
 }

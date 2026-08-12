@@ -21,6 +21,7 @@ import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.navigationBars
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
@@ -92,6 +93,8 @@ import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.platform.LocalClipboard
+import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.platform.LocalWindowInfo
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
@@ -222,8 +225,11 @@ fun CardDetailsScreen(
                 }
             }
         },
-        contentWindowInsets = WindowInsets(0, 0, 0, 0)
+        contentWindowInsets = WindowInsets.navigationBars
     ) { padding ->
+        val screenWidth = with(LocalDensity.current) { LocalWindowInfo.current.containerSize.width.toDp() }.value
+        val showLabels = screenWidth >= 600
+
         Column(modifier = Modifier.padding(padding).fillMaxSize()) {
             SecondaryTabRow(selectedTabIndex = pagerState.currentPage) {
                 tabs.forEachIndexed { index, title ->
@@ -234,7 +240,7 @@ fun CardDetailsScreen(
                                 pagerState.animateScrollToPage(index)
                             }
                         },
-                        text = { Text(title) },
+                        text = if (showLabels) { { Text(title) } } else null,
                         icon = { Icon(icons[index], contentDescription = title) }
                     )
                 }

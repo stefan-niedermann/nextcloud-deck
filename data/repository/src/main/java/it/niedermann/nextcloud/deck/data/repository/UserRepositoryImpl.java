@@ -3,10 +3,14 @@ package it.niedermann.nextcloud.deck.data.repository;
 import org.reactivestreams.FlowAdapters;
 
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.Collection;
+import java.util.List;
 import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.CompletionException;
 import java.util.concurrent.Flow;
 
+import io.reactivex.rxjava3.core.Flowable;
 import io.reactivex.rxjava3.schedulers.Schedulers;
 import it.niedermann.nextcloud.deck.data.local.dao.UserDao;
 import it.niedermann.nextcloud.deck.data.local.mapper.UserMapper;
@@ -39,11 +43,9 @@ public class UserRepositoryImpl implements UserRepository {
 
     @Override
     public CompletableFuture<Avatar> getAvatar(Account account, User.ID userId, int sizeInPx) {
-        return CompletableFuture.completedFuture(account)
-                .thenApplyAsync(apiFactory::create)
-                .thenApplyAsync(ApiProvider::getOcsApi)
-                .thenComposeAsync(ocsApi -> ocsApi.getAvatar(userId.value(), sizeInPx))
-                .thenComposeAsync(response -> {
+        final var ocsApi = apiFactory.create(account).getOcsApi();
+        return ocsApi.getAvatar(userId.value(), sizeInPx)
+                .thenApplyAsync(response -> {
                     if (response.isSuccessful()) {
                         try (final var body = response.body()) {
                             if (body != null) {
@@ -51,21 +53,15 @@ public class UserRepositoryImpl implements UserRepository {
                                 final var mimeType = contentType != null ? contentType.toString() : null;
                                 final var eTag = response.headers().get("ETag");
                                 final var content = body.bytes();
-                                return CompletableFuture.completedFuture(new Avatar(mimeType, eTag, sizeInPx, content));
+                                return new Avatar(mimeType, eTag, sizeInPx, content);
                             } else {
-                                final var future = new CompletableFuture<Avatar>();
-                                future.completeExceptionally(new IOException("Empty response body"));
-                                return future;
+                                throw new IOException("Empty response body");
                             }
-                        } catch (IOException | RuntimeException e) {
-                            final var future = new CompletableFuture<Avatar>();
-                            future.completeExceptionally(e);
-                            return future;
+                        } catch (IOException exception) {
+                            throw new CompletionException(exception);
                         }
                     } else {
-                        final var future = new CompletableFuture<Avatar>();
-                        future.completeExceptionally(new HttpException(response));
-                        return future;
+                        throw new HttpException(response);
                     }
                 });
     }
@@ -83,9 +79,9 @@ public class UserRepositoryImpl implements UserRepository {
     }
 
     @Override
-    public Flow.Publisher<Collection<?>> getNotDeletedUsers(long accountId) {
+    public Flow.Publisher<List<User>> getNotDeletedUsers(Account.ID accountId) {
         System.out.println("[Mock][" + UserRepositoryImpl.class.getSimpleName() + "/getNotDeletedUsers]: " + accountId);
-        return null;
+        return FlowAdapters.toFlowPublisher(Flowable.just(Arrays.asList(MockData.MOCK_USERS)));
     }
 
     @Override
