@@ -15,12 +15,14 @@ import java.net.URI;
 import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.Flow;
 
 import dagger.Module;
 import dagger.Provides;
 import io.reactivex.rxjava3.core.Flowable;
+import it.niedermann.nextcloud.deck.app.shared.di.NamedVerbose;
 import it.niedermann.nextcloud.deck.data.local.DeckDatabase;
 import it.niedermann.nextcloud.deck.domain.state.KeyValueStore;
 import jakarta.inject.Qualifier;
@@ -34,7 +36,17 @@ public class TestModule {
     URL provideUrl() {
         try {
             final var host = System.getenv("NEXTCLOUD_TRUSTED_DOMAINS");
-            return URI.create("http://" + host).toURL();
+            Objects.requireNonNull(host);
+
+            if (host.isBlank()) {
+                throw new IllegalArgumentException("Invalid host");
+            }
+
+            if (!host.startsWith("http")) {
+                return URI.create("http://" + host).toURL();
+            }
+
+            return URI.create(host).toURL();
         } catch (MalformedURLException e) {
             throw new RuntimeException(e);
         }
@@ -50,6 +62,12 @@ public class TestModule {
     @NamedPassword
     String providePassword() {
         return System.getenv("NEXTCLOUD_ADMIN_PASSWORD");
+    }
+
+    @Provides
+    @NamedVerbose
+    boolean provideVerbose() {
+        return true;
     }
 
     @Provides
