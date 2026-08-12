@@ -13,6 +13,7 @@ public interface CardMapper extends GenericMapper<CardEntity, Card> {
     CardMapper INSTANCE = Mappers.getMapper(CardMapper.class);
 
     @Override
+    @Mapping(target = "localId", source = "id")
     @Mapping(target = "columnId", source = "columnId")
     @Mapping(target = "remoteId", source = "remoteId")
     @Mapping(target = "userId", ignore = true)
@@ -21,13 +22,14 @@ public interface CardMapper extends GenericMapper<CardEntity, Card> {
     CardEntity toEntity(Card card);
 
     @Override
+    @Mapping(target = "id", source = "localId")
     @Mapping(target = "columnId", source = "columnId")
     @Mapping(target = "remoteId", source = "remoteId")
     @Mapping(target = "status", expression = "java(it.niedermann.nextcloud.deck.domain.model.DBStatus.findById(cardEntity.getStatus()))")
     @Mapping(target = "lastModified", source = "lastModified")
     @Mapping(target = "color", ignore = true)
-    @Mapping(target = "labels", ignore = true)
-    @Mapping(target = "assignees", ignore = true)
-    @Mapping(target = "dependents", ignore = true)
+    @Mapping(target = "labels", expression = "java(java.util.Collections.emptySet())")
+    @Mapping(target = "assignees", expression = "java(java.util.Collections.emptySet())")
+    @Mapping(target = "dependents", expression = "java(java.util.Collections.emptyList())")
     Card toTO(CardEntity cardEntity);
 }

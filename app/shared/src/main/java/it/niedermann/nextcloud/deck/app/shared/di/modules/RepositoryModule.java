@@ -2,8 +2,26 @@ package it.niedermann.nextcloud.deck.app.shared.di.modules;
 
 import dagger.Module;
 import dagger.Provides;
-import it.niedermann.nextcloud.deck.data.local.DeckDatabase;
+import it.niedermann.nextcloud.deck.data.local.dao.AccessControlDao;
+import it.niedermann.nextcloud.deck.data.local.dao.AccountDao;
+import it.niedermann.nextcloud.deck.data.local.dao.ActivityDao;
+import it.niedermann.nextcloud.deck.data.local.dao.AttachmentDao;
+import it.niedermann.nextcloud.deck.data.local.dao.BoardDao;
+import it.niedermann.nextcloud.deck.data.local.dao.CardDao;
+import it.niedermann.nextcloud.deck.data.local.dao.ColumnDao;
+import it.niedermann.nextcloud.deck.data.local.dao.CommentDao;
+import it.niedermann.nextcloud.deck.data.local.dao.LabelDao;
+import it.niedermann.nextcloud.deck.data.local.dao.UserDao;
+import it.niedermann.nextcloud.deck.data.local.mapper.AccessControlMapper;
 import it.niedermann.nextcloud.deck.data.local.mapper.AccountMapper;
+import it.niedermann.nextcloud.deck.data.local.mapper.ActivityMapper;
+import it.niedermann.nextcloud.deck.data.local.mapper.AttachmentMapper;
+import it.niedermann.nextcloud.deck.data.local.mapper.BoardMapper;
+import it.niedermann.nextcloud.deck.data.local.mapper.CardMapper;
+import it.niedermann.nextcloud.deck.data.local.mapper.ColumnMapper;
+import it.niedermann.nextcloud.deck.data.local.mapper.CommentMapper;
+import it.niedermann.nextcloud.deck.data.local.mapper.LabelMapper;
+import it.niedermann.nextcloud.deck.data.local.mapper.UserMapper;
 import it.niedermann.nextcloud.deck.data.repository.AccountRepositoryImpl;
 import it.niedermann.nextcloud.deck.data.repository.ActivityRepositoryImpl;
 import it.niedermann.nextcloud.deck.data.repository.AttachmentRepositoryImpl;
@@ -41,62 +59,79 @@ public class RepositoryModule {
 
     @Provides
     @Singleton
-    AccountRepository provideAccountRepository(DeckDatabase deckDatabase,
+    AccountRepository provideAccountRepository(AccountDao accountDao,
                                                AccountMapper accountMapper) {
-        return new AccountRepositoryImpl(deckDatabase.getAccountDao(), accountMapper);
+        return new AccountRepositoryImpl(accountDao, accountMapper);
     }
 
     @Provides
     @Singleton
-    BoardRepository provideBoardRepository() {
-        return new BoardRepositoryImpl();
+    BoardRepository provideBoardRepository(BoardDao boardDao,
+                                           BoardMapper boardMapper) {
+        return new BoardRepositoryImpl(boardDao, boardMapper);
     }
 
     @Provides
     @Singleton
-    ColumnRepository provideColumnRepository() {
-        return new ColumnRepositoryImpl();
+    ColumnRepository provideColumnRepository(ColumnDao columnDao,
+                                             ColumnMapper columnMapper) {
+        return new ColumnRepositoryImpl(columnDao, columnMapper);
     }
 
     @Provides
     @Singleton
-    CardRepository provideCardRepository() {
-        return new CardRepositoryImpl();
+    CardRepository provideCardRepository(CardDao cardDao,
+                                         CardMapper cardMapper,
+                                         LabelDao labelDao,
+                                         LabelMapper labelMapper,
+                                         CommentDao commentDao,
+                                         AttachmentDao attachmentDao) {
+        return new CardRepositoryImpl(cardDao, cardMapper, labelDao, labelMapper, commentDao, attachmentDao);
     }
 
     @Provides
     @Singleton
-    UserRepository provideUserRepository(ApiProvider.Factory apiProviderFactory, AccountRepository accountRepository) {
-        return new UserRepositoryImpl(apiProviderFactory, accountRepository);
+    UserRepository provideUserRepository(ApiProvider.Factory apiProviderFactory,
+                                         AccountRepository accountRepository,
+                                         UserDao userDao,
+                                         UserMapper userMapper) {
+        return new UserRepositoryImpl(apiProviderFactory, accountRepository, userDao, userMapper);
     }
 
     @Provides
     @Singleton
-    AttachmentRepository provideAttachmentRepository() {
-        return new AttachmentRepositoryImpl();
+    AttachmentRepository provideAttachmentRepository(AttachmentDao attachmentDao,
+                                                     AttachmentMapper attachmentMapper) {
+        return new AttachmentRepositoryImpl(attachmentDao, attachmentMapper);
     }
 
     @Provides
     @Singleton
-    LabelRepository provideLabelRepository() {
-        return new LabelRepositoryImpl();
+    LabelRepository provideLabelRepository(LabelDao labelDao,
+                                           LabelMapper labelMapper) {
+        return new LabelRepositoryImpl(labelDao, labelMapper);
     }
 
     @Provides
     @Singleton
-    CommentRepository provideCommentRepository(AccountRepository accountRepository) {
-        return new CommentRepositoryImpl(accountRepository);
+    CommentRepository provideCommentRepository(AccountRepository accountRepository,
+                                               CommentDao commentDao,
+                                               CommentMapper commentMapper) {
+        return new CommentRepositoryImpl(accountRepository, commentDao, commentMapper);
     }
 
     @Provides
     @Singleton
-    ActivityRepository provideActivityRepository(AccountRepository accountRepository) {
-        return new ActivityRepositoryImpl(accountRepository);
+    ActivityRepository provideActivityRepository(AccountRepository accountRepository,
+                                                 ActivityDao activityDao,
+                                                 ActivityMapper activityMapper) {
+        return new ActivityRepositoryImpl(accountRepository, activityDao, activityMapper);
     }
 
     @Provides
     @Singleton
-    ShareRepository provideShareRepository() {
-        return new ShareRepositoryImpl();
+    ShareRepository provideShareRepository(AccessControlDao accessControlDao,
+                                           AccessControlMapper accessControlMapper) {
+        return new ShareRepositoryImpl(accessControlDao, accessControlMapper);
     }
 }

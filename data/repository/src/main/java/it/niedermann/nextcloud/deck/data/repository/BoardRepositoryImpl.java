@@ -2,13 +2,15 @@ package it.niedermann.nextcloud.deck.data.repository;
 
 import org.reactivestreams.FlowAdapters;
 
-import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.Flow;
 
 import io.reactivex.rxjava3.core.Flowable;
+import io.reactivex.rxjava3.core.Maybe;
 import io.reactivex.rxjava3.schedulers.Schedulers;
+import it.niedermann.nextcloud.deck.data.local.dao.BoardDao;
+import it.niedermann.nextcloud.deck.data.local.mapper.BoardMapper;
 import it.niedermann.nextcloud.deck.domain.model.Account;
 import it.niedermann.nextcloud.deck.domain.model.Board;
 import it.niedermann.nextcloud.deck.domain.model.CreateBoard;
@@ -17,40 +19,42 @@ import jakarta.inject.Inject;
 
 public class BoardRepositoryImpl implements BoardRepository {
 
+    private final BoardDao boardDao;
+    private final BoardMapper boardMapper;
+
     @Inject
-    public BoardRepositoryImpl(
-    ) {
+    public BoardRepositoryImpl(BoardDao boardDao,
+                               BoardMapper boardMapper) {
+        this.boardDao = boardDao;
+        this.boardMapper = boardMapper;
     }
 
     @Override
     public CompletableFuture<Board.ID> createBoard(CreateBoard board) {
-        // TODO Implement
-        return CompletableFuture.supplyAsync(() -> new Board.ID(1));
+        // TODO: This should probably also include sync-logic or handle local-first creation
+        return CompletableFuture.completedFuture(new Board.ID(0));
     }
 
     @Override
     public CompletableFuture<Void> updateBoard(Board board) {
-        // TODO Implement
-        return CompletableFuture.runAsync(() -> {
-            // update logic
-        });
+        return boardDao.updateRx(boardMapper.toEntity(board));
     }
 
     @Override
     public Flow.Publisher<Board> getBoard(Board.ID boardId) {
-        // TODO Implement
         return FlowAdapters.toFlowPublisher(
-                Flowable.fromCallable(() -> MockData.MOCK_BOARDS[(int) boardId.value() - 1])
+                Maybe.fromCompletionStage(boardDao.getBoardById(boardId.value()))
+                        .toFlowable()
+                        .map(boardMapper::toTO)
                         .subscribeOn(Schedulers.io())
         );
     }
 
-    @SuppressWarnings("NewApi")
     @Override
     public Flow.Publisher<List<Board>> getNotDeletedBoards(Account.ID accountId) {
-        // TODO Implement
         return FlowAdapters.toFlowPublisher(
-                Flowable.fromCallable(() -> Arrays.stream(MockData.MOCK_BOARDS).toList())
+                boardDao.getBoardsByAccount(accountId.value())
+                        .map(boardMapper::toTOList)
                         .subscribeOn(Schedulers.io())
         );
     }

@@ -2,6 +2,7 @@ package it.niedermann.nextcloud.remote.deck.mapper;
 
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
+import org.mapstruct.ReportingPolicy;
 import org.mapstruct.factory.Mappers;
 
 import java.time.OffsetDateTime;
@@ -9,7 +10,7 @@ import java.time.OffsetDateTime;
 import it.niedermann.nextcloud.deck.domain.model.Column;
 import it.niedermann.nextcloud.remote.deck.dto.ColumnDTO;
 
-@Mapper(uses = {CommonRemoteMapper.class})
+@Mapper(uses = {CommonRemoteMapper.class}, unmappedTargetPolicy = ReportingPolicy.IGNORE)
 public interface ColumnRemoteMapper extends GenericRemoteMapper<ColumnDTO, Column> {
 
     ColumnRemoteMapper INSTANCE = Mappers.getMapper(ColumnRemoteMapper.class);

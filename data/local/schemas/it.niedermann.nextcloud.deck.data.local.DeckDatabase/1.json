@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "16952981fa1298c20cbfa4a821467a9f",
+    "identityHash": "21cdc7a90e08c5c51dba67556289f5bb",
     "entities": [
       {
         "tableName": "Account",
@@ -1551,7 +1551,7 @@
       },
       {
         "tableName": "Permission",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL)",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER NOT NULL, PRIMARY KEY(`id`))",
         "fields": [
           {
             "fieldPath": "id",
@@ -1561,7 +1561,7 @@
           }
         ],
         "primaryKey": {
-          "autoGenerate": true,
+          "autoGenerate": false,
           "columnNames": [
             "id"
           ]
@@ -1945,7 +1945,7 @@
     ],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '16952981fa1298c20cbfa4a821467a9f')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '21cdc7a90e08c5c51dba67556289f5bb')"
     ]
   }
 }

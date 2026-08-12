@@ -2,18 +2,24 @@ package it.niedermann.nextcloud.deck.data.repository;
 
 import org.reactivestreams.FlowAdapters;
 
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
-import java.util.NoSuchElementException;
-import java.util.Objects;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.Flow;
 import java.util.stream.Collectors;
 
 import io.reactivex.rxjava3.core.Flowable;
+import io.reactivex.rxjava3.core.Maybe;
+import io.reactivex.rxjava3.core.Single;
 import io.reactivex.rxjava3.schedulers.Schedulers;
+import it.niedermann.nextcloud.deck.data.local.dao.AttachmentDao;
+import it.niedermann.nextcloud.deck.data.local.dao.CardDao;
+import it.niedermann.nextcloud.deck.data.local.dao.CommentDao;
+import it.niedermann.nextcloud.deck.data.local.dao.LabelDao;
+import it.niedermann.nextcloud.deck.data.local.entity.LabelEntity;
+import it.niedermann.nextcloud.deck.data.local.mapper.CardMapper;
+import it.niedermann.nextcloud.deck.data.local.mapper.LabelMapper;
 import it.niedermann.nextcloud.deck.domain.model.Board;
 import it.niedermann.nextcloud.deck.domain.model.Card;
 import it.niedermann.nextcloud.deck.domain.model.Column;
@@ -25,38 +31,49 @@ import jakarta.inject.Inject;
 
 public class CardRepositoryImpl implements CardRepository {
 
+    private final CardDao cardDao;
+    private final CardMapper cardMapper;
+    private final LabelDao labelDao;
+    private final LabelMapper labelMapper;
+    private final CommentDao commentDao;
+    private final AttachmentDao attachmentDao;
+
     @Inject
-    public CardRepositoryImpl(
-    ) {
+    public CardRepositoryImpl(CardDao cardDao,
+                              CardMapper cardMapper,
+                              LabelDao labelDao,
+                              LabelMapper labelMapper,
+                              CommentDao commentDao,
+                              AttachmentDao attachmentDao) {
+        this.cardDao = cardDao;
+        this.cardMapper = cardMapper;
+        this.labelDao = labelDao;
+        this.labelMapper = labelMapper;
+        this.commentDao = commentDao;
+        this.attachmentDao = attachmentDao;
     }
 
     @Override
     public CompletableFuture<Void> createCard(CreateCard card) {
-        // TODO Mock Implementation
-        System.out.println("[Mock][" + CardRepositoryImpl.class.getSimpleName() + "/createCard]: " + card);
+        // TODO: Local-first or Sync?
         return CompletableFuture.completedFuture(null);
     }
 
     @Override
     public CompletableFuture<Void> updateCard(Card card) {
-        // TODO Mock Implementation
-        System.out.println("[Mock][" + CardRepositoryImpl.class.getSimpleName() + "/updateCard]: " + card);
-        return CompletableFuture.completedFuture(null);
+        return cardDao.updateRx(cardMapper.toEntity(card));
     }
 
     @Override
     public CompletableFuture<Void> deleteCard(Card.ID cardId) {
-        // TODO Mock Implementation
-        System.out.println("[Mock][" + CardRepositoryImpl.class.getSimpleName() + "/deleteCard]: " + cardId);
-        return CompletableFuture.completedFuture(null);
+        return cardDao.deleteById(cardId.value());
     }
 
-    @SuppressWarnings("NewApi")
     @Override
     public Flow.Publisher<List<Card>> getNotDeletedCards(Column.ID columnId) {
-        // TODO Mock Implementation
         return FlowAdapters.toFlowPublisher(
-                Flowable.fromCallable(() -> MockData.MOCK_CARDS.stream().filter(card -> Objects.equals(card.columnId(), columnId)).toList())
+                cardDao.getCardsByColumn(columnId.value())
+                        .map(cardMapper::toTOList)
                         .subscribeOn(Schedulers.io())
         );
     }
@@ -64,40 +81,35 @@ public class CardRepositoryImpl implements CardRepository {
     @Override
     public Flow.Publisher<List<PreviewCard>> getNotDeletedCardPreviews(Column.ID columnId) {
         return FlowAdapters.toFlowPublisher(
-                Flowable.fromCallable(() -> MockData.MOCK_CARDS.stream()
-                        .filter(card -> Objects.equals(card.columnId(), columnId))
-                        .map(this::toPreviewCard)
-                        .collect(Collectors.toList()))
+                cardDao.getCardsByColumn(columnId.value())
+                        .flatMapSingle(entities -> Flowable.fromIterable(entities)
+                                .flatMapSingle(entity -> {
+                                    final Card card = cardMapper.toTO(entity);
+                                    return Single.zip(
+                                            labelDao.getLabelsByCard(entity.getLocalId()).firstOrError(),
+                                            commentDao.getCommentsByCard(entity.getLocalId()).firstOrError(),
+                                            attachmentDao.getAttachmentsByCard(entity.getLocalId()).firstOrError(),
+                                            (labels, comments, attachments) -> toPreviewCard(card, labels, comments.size(), attachments.size())
+                                    );
+                                })
+                                .toList())
                         .subscribeOn(Schedulers.io())
         );
     }
 
-    private PreviewCard toPreviewCard(Card card) {
-        final var excerpt = card.description().length() > 300
+    private PreviewCard toPreviewCard(Card card, List<LabelEntity> labels, int commentCount, int attachmentCount) {
+        final String excerpt = card.description() != null && card.description().length() > 300
                 ? card.description().substring(0, 300)
                 : card.description();
 
-        final var labels = card.labels().stream()
-                .map(labelId -> Arrays.stream(MockData.MOCK_LABELS)
-                        .filter(l -> Objects.equals(l.id(), labelId))
-                        .findFirst()
-                        .map(l -> new PreviewCard.LabelPreview(l.title(), l.color()))
-                        .orElse(null))
-                .filter(Objects::nonNull)
+        final var labelPreviews = labels.stream()
+                .map(l -> new PreviewCard.LabelPreview(l.getTitle(), l.getColor()))
                 .collect(Collectors.toSet());
 
-        final var commentCount = (int) Arrays.stream(MockData.MOCK_COMMENTS)
-                .filter(comment -> Objects.equals(comment.cardId(), card.id()))
-                .count();
-
-        final var attachmentCount = (int) Arrays.stream(MockData.MOCK_ATTACHMENTS)
-                .filter(attachment -> Objects.equals(attachment.cardId(), card.id()))
-                .count();
-
-        final var description = card.description();
+        final String description = card.description() != null ? card.description() : "";
         int checkboxTotalCount = 0;
         int checkboxDoneCount = 0;
-        final var matcher = java.util.regex.Pattern.compile("\\[([ xX])]").matcher(description);
+        final java.util.regex.Matcher matcher = java.util.regex.Pattern.compile("\\[([ xX])]").matcher(description);
         while (matcher.find()) {
             checkboxTotalCount++;
             if (!matcher.group(1).isBlank()) {
@@ -110,11 +122,11 @@ public class CardRepositoryImpl implements CardRepository {
                 card.remoteId(),
                 card.title(),
                 excerpt,
-                labels,
+                labelPreviews,
                 commentCount,
                 attachmentCount,
                 card.assignees().size(),
-                card.assignees().contains(new User.ID("jdoe")),
+                card.assignees().contains(new User.ID("jdoe")), // TODO: Get current user
                 checkboxDoneCount,
                 checkboxTotalCount,
                 card.dueDate(),
@@ -124,44 +136,23 @@ public class CardRepositoryImpl implements CardRepository {
 
     @Override
     public Flow.Publisher<Map<Column, List<Card>>> getNotDeletedCardsByColumn(Board.ID boardId) {
-        // TODO Mock Implementation
-
-        return FlowAdapters.toFlowPublisher(
-                Flowable.fromCallable(() -> {
-                    final var columns = Arrays.stream(MockData.MOCK_COLUMNS)
-                            .filter(column -> Objects.equals(column.boardId(), boardId))
-                            .map(Column::id)
-                            .collect(Collectors.toList());
-
-                    return MockData.MOCK_CARDS.stream().filter(card -> columns.contains(card.columnId()))
-                            .collect(Collectors.groupingBy(card -> MockData.MOCK_COLUMNS[(int) card.columnId().value()]));
-                }).subscribeOn(Schedulers.io())
-        );
+        // TODO: Implement properly
+        return null;
     }
 
     @Override
     public Flow.Publisher<Card> getCard(Card.ID cardId) {
-        // TODO Mock Implementation
         return FlowAdapters.toFlowPublisher(
-                Flowable.fromCallable(() -> {
-                    if (cardId.value() < MockData.MOCK_CARDS.size()) {
-                        return MockData.MOCK_CARDS.get((int) cardId.value());
-                    }
-                    throw new NoSuchElementException("No card with id " + cardId);
-                }).subscribeOn(Schedulers.io())
+                Maybe.fromCompletionStage(cardDao.getCardById(cardId.value()))
+                        .toFlowable()
+                        .map(cardMapper::toTO)
+                        .subscribeOn(Schedulers.io())
         );
     }
 
     @Override
     public Flow.Publisher<Collection<Card>> find(String userText) {
-        // TODO Mock Implementation
-        return FlowAdapters.toFlowPublisher(
-                Flowable.fromCallable(() -> MockData.MOCK_CARDS.stream()
-                        .filter(card ->
-                                card.title().toLowerCase().contains(userText.toLowerCase()) ||
-                                        card.description().toLowerCase().contains(userText.toLowerCase()))
-                        .collect(Collectors.toList()))
-                        .subscribeOn(Schedulers.io())
-        );
+        // TODO: Implement search in CardDao
+        return null;
     }
 }

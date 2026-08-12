@@ -35,24 +35,55 @@ public class CommentSyncProvider implements SyncProvider<CardDTO> {
     }
 
     private CompletableFuture<Void> mergeComment(Account account, CommentDTO dto, Long cardId) {
-        CommentEntity serverEntity = CommentMapper.INSTANCE.toEntity(CommentRemoteMapper.INSTANCE.toTO(dto));
-        CommentEntity newLocal = new CommentEntity(
-                0,
-                account.id().value(),
-                serverEntity.getRemoteId(),
-                DBStatus.UP_TO_DATE.getId(),
-                serverEntity.getLastModified(),
-                serverEntity.getLastModified(),
-                serverEntity.getEtag(),
-                cardId,
-                serverEntity.getActorType(),
-                serverEntity.getActorId(),
-                serverEntity.getActorDisplayName(),
-                serverEntity.getMessage(),
-                serverEntity.getParentId(),
-                serverEntity.getCreatedAt(),
-                null
-        );
-        return commentDao.insert(newLocal).thenApply(v -> null);
+        if (dto.getId() == null) return CompletableFuture.completedFuture(null);
+        return commentDao.getCommentByRemoteId(account.id().value(), dto.getId())
+                .handle((localComment, throwable) -> {
+                    CommentEntity serverEntity = CommentMapper.INSTANCE.toEntity(CommentRemoteMapper.INSTANCE.toTO(dto));
+                    if (throwable != null || localComment == null) {
+                        CommentEntity newLocal = new CommentEntity(
+                                0,
+                                account.id().value(),
+                                serverEntity.getRemoteId(),
+                                DBStatus.UP_TO_DATE.getId(),
+                                serverEntity.getLastModified(),
+                                serverEntity.getLastModified(),
+                                serverEntity.getEtag(),
+                                cardId,
+                                serverEntity.getActorType(),
+                                serverEntity.getActorId(),
+                                serverEntity.getActorDisplayName(),
+                                serverEntity.getMessage(),
+                                serverEntity.getParentId(),
+                                serverEntity.getCreatedAt(),
+                                null
+                        );
+                        return commentDao.insertOrReplace(newLocal).thenApply(v -> (Void) null);
+                    } else {
+                        if (localComment.getStatus() == DBStatus.CONFLICT.getId()) {
+                            return CompletableFuture.<Void>completedFuture(null);
+                        }
+                        if (serverEntity.getEtag() != null && serverEntity.getEtag().equals(localComment.getEtag())) {
+                            return CompletableFuture.<Void>completedFuture(null);
+                        }
+                        CommentEntity updatedLocal = new CommentEntity(
+                                localComment.getLocalId(),
+                                localComment.getAccountId(),
+                                serverEntity.getRemoteId(),
+                                DBStatus.UP_TO_DATE.getId(),
+                                serverEntity.getLastModified(),
+                                serverEntity.getLastModified(),
+                                serverEntity.getEtag(),
+                                cardId,
+                                serverEntity.getActorType(),
+                                serverEntity.getActorId(),
+                                serverEntity.getActorDisplayName(),
+                                serverEntity.getMessage(),
+                                serverEntity.getParentId(),
+                                serverEntity.getCreatedAt(),
+                                null
+                        );
+                        return commentDao.updateRx(updatedLocal);
+                    }
+                }).thenCompose(f -> f);
     }
 }

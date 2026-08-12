@@ -16,6 +16,12 @@ import it.niedermann.nextcloud.deck.data.local.dao.LabelDao
 import it.niedermann.nextcloud.deck.data.local.dao.AttachmentDao
 import it.niedermann.nextcloud.deck.data.local.dao.CommentDao
 import it.niedermann.nextcloud.deck.data.local.dao.AccessControlDao
+import it.niedermann.nextcloud.deck.data.local.dao.JoinBoardWithLabelDao
+import it.niedermann.nextcloud.deck.data.local.dao.JoinBoardWithPermissionDao
+import it.niedermann.nextcloud.deck.data.local.dao.JoinBoardWithUserDao
+import it.niedermann.nextcloud.deck.data.local.dao.JoinCardWithLabelDao
+import it.niedermann.nextcloud.deck.data.local.dao.JoinCardWithUserDao
+import it.niedermann.nextcloud.deck.data.local.dao.UserDao
 import it.niedermann.nextcloud.deck.data.local.daoreturntypeconverter.rxjava.CfDaoReturnTypeConverters
 import it.niedermann.nextcloud.deck.data.local.daoreturntypeconverter.rxjava.RxDaoReturnTypeConverters
 import it.niedermann.nextcloud.deck.data.local.entity.AccountEntity
@@ -81,6 +87,13 @@ abstract class DeckDatabase : RoomDatabase() {
     abstract val attachmentDao: AttachmentDao
     abstract val commentDao: CommentDao
     abstract val accessControlDao: AccessControlDao
+    abstract val joinBoardWithLabelDao: JoinBoardWithLabelDao
+    abstract val joinBoardWithPermissionDao: JoinBoardWithPermissionDao
+    abstract val joinBoardWithUserDao: JoinBoardWithUserDao
+    abstract val joinCardWithLabelDao: JoinCardWithLabelDao
+    abstract val joinCardWithUserDao: JoinCardWithUserDao
+    abstract val userDao: UserDao
+    abstract val activityDao: it.niedermann.nextcloud.deck.data.local.dao.ActivityDao
 
     companion object {
 
@@ -93,6 +106,10 @@ abstract class DeckDatabase : RoomDatabase() {
                 .addCallback(object : Callback() {
                     override suspend fun onCreate(connection: SQLiteConnection) {
                         connection.execSQL("INSERT INTO Account (id, url, username, token, accountName) VALUES (-1, 'http://localhost', 'conflict_system', '', 'Conflict System')")
+                        connection.execSQL("INSERT INTO Permission (id) VALUES (1)")
+                        connection.execSQL("INSERT INTO Permission (id) VALUES (2)")
+                        connection.execSQL("INSERT INTO Permission (id) VALUES (3)")
+                        connection.execSQL("INSERT INTO Permission (id) VALUES (4)")
                     }
                 })
                 .fallbackToDestructiveMigration(true)
@@ -105,6 +122,10 @@ abstract class DeckDatabase : RoomDatabase() {
                 .addCallback(object : Callback() {
                     override suspend fun onCreate(connection: SQLiteConnection) {
                         connection.execSQL("INSERT INTO Account (id, url, username, token, accountName) VALUES (-1, 'http://localhost', 'conflict_system', '', 'Conflict System')")
+                        connection.execSQL("INSERT INTO Permission (id) VALUES (1)")
+                        connection.execSQL("INSERT INTO Permission (id) VALUES (2)")
+                        connection.execSQL("INSERT INTO Permission (id) VALUES (3)")
+                        connection.execSQL("INSERT INTO Permission (id) VALUES (4)")
                     }
                 })
                 .fallbackToDestructiveMigration(true)

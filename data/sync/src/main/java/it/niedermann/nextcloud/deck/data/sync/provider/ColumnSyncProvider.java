@@ -1,5 +1,6 @@
 package it.niedermann.nextcloud.deck.data.sync.provider;
 
+import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import java.util.function.Consumer;
 import java.util.logging.Logger;
@@ -165,44 +166,42 @@ public class ColumnSyncProvider implements SyncProvider<BoardDTO> {
     public CompletableFuture<Void> downSync(Account account, BoardDTO parent, Long parentLocalId, SyncStatus status, Consumer<SyncStatus> reporter) {
         if (parent == null) return CompletableFuture.completedFuture(null);
         if (parent.getStacks() != null && !parent.getStacks().isEmpty()) {
-            CompletableFuture<Void> future = CompletableFuture.completedFuture(null);
-            long total = parent.getStacks().size();
-            for (int i = 0; i < parent.getStacks().size(); i++) {
-                ColumnDTO columnDto = parent.getStacks().get(i);
-                if (columnDto == null) continue;
-                final long finished = i + 1;
-                final var finalFuture = future;
-                future = finalFuture.thenCompose(v -> mergeColumn(account, columnDto, parentLocalId))
-                        .thenCompose(localColumnId -> {
-                            SyncStatus newStatus = status.withColumns(total, finished, columnDto.getTitle());
-                            reporter.accept(newStatus);
-                            return cardSyncProvider.downSync(account, columnDto, localColumnId, newStatus, reporter);
-                        });
+            boolean allStacksHaveCards = true;
+            for (ColumnDTO stack : parent.getStacks()) {
+                if (stack.getCards() == null) {
+                    allStacksHaveCards = false;
+                    break;
+                }
             }
-            return future;
-        } else {
-            DeckApi api = apiFactory.create(account).getDeckApi();
-            if (parent.getId() == null) return CompletableFuture.completedFuture(null);
-            return api.getStacks(parent.getId(), null)
-                    .thenCompose(columns -> {
-                        if (columns == null) return CompletableFuture.completedFuture(null);
-                        CompletableFuture<Void> future = CompletableFuture.completedFuture(null);
-                        long total = columns.size();
-                        for (int i = 0; i < columns.size(); i++) {
-                            ColumnDTO columnDto = columns.get(i);
-                            if (columnDto == null) continue;
-                            final long finished = i + 1;
-                            final var finalFuture = future;
-                            future = finalFuture.thenCompose(v -> mergeColumn(account, columnDto, parentLocalId))
-                                    .thenCompose(localColumnId -> {
-                                        SyncStatus newStatus = status.withColumns(total, finished, columnDto.getTitle());
-                                        reporter.accept(newStatus);
-                                        return cardSyncProvider.downSync(account, columnDto, localColumnId, newStatus, reporter);
-                                    });
-                        }
-                        return future;
+            if (allStacksHaveCards) {
+                return syncStacks(account, parent.getStacks(), parentLocalId, status, reporter);
+            }
+        }
+        DeckApi api = apiFactory.create(account).getDeckApi();
+        if (parent.getId() == null) return CompletableFuture.completedFuture(null);
+        return api.getStacks(parent.getId(), null)
+                .thenCompose(columns -> syncStacks(account, columns, parentLocalId, status, reporter));
+    }
+
+    private CompletableFuture<Void> syncStacks(Account account, List<ColumnDTO> columns, Long parentLocalId, SyncStatus status, Consumer<SyncStatus> reporter) {
+        if (columns == null || columns.isEmpty()) return CompletableFuture.completedFuture(null);
+        long total = columns.size();
+        CompletableFuture<?>[] stackFutures = new CompletableFuture[columns.size()];
+        for (int i = 0; i < columns.size(); i++) {
+            ColumnDTO columnDto = columns.get(i);
+            if (columnDto == null) {
+                stackFutures[i] = CompletableFuture.completedFuture(null);
+                continue;
+            }
+            final long finished = i + 1;
+            stackFutures[i] = mergeColumn(account, columnDto, parentLocalId)
+                    .thenCompose(localColumnId -> {
+                        SyncStatus newStatus = status.withColumns(total, finished, columnDto.getTitle());
+                        reporter.accept(newStatus);
+                        return cardSyncProvider.downSync(account, columnDto, localColumnId, newStatus, reporter);
                     });
         }
+        return CompletableFuture.allOf(stackFutures);
     }
 
     private CompletableFuture<Long> mergeColumn(Account account, ColumnDTO columnDto, Long boardId) {
@@ -226,7 +225,7 @@ public class ColumnSyncProvider implements SyncProvider<BoardDTO> {
                                 serverColumn.getDeletedAt(),
                                 null
                         );
-                        return columnDao.insert(newLocal);
+                        return columnDao.insertOrReplace(newLocal);
                     } else {
                         if (localColumn.getStatus() == DBStatus.CONFLICT.getId()) {
                             return CompletableFuture.completedFuture(localColumn.getLocalId());

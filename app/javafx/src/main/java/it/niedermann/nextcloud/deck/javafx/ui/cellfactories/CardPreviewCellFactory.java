@@ -1,6 +1,7 @@
 package it.niedermann.nextcloud.deck.javafx.ui.cellfactories;
 
 import io.reactivex.rxjava4.core.Flowable;
+import io.reactivex.rxjava4.core.Maybe;
 import io.reactivex.rxjava4.disposables.CompositeDisposable;
 import it.niedermann.nextcloud.deck.domain.model.Account;
 import it.niedermann.nextcloud.deck.domain.model.query.PreviewCard;
@@ -43,7 +44,8 @@ public class CardPreviewCellFactory implements Callback<ListView<PreviewCard>, L
         this.keyValueStore = keyValueStore;
         this.colorUtil = colorUtil;
 
-        disposables.add(Flowable.fromCompletionStage(getCurrentAccountUseCase.execute())
+        disposables.add(Maybe.fromCompletionStage(getCurrentAccountUseCase.execute())
+                .toFlowable()
                 .switchMap(id -> Flowable.fromPublisher(getAccountUseCase.execute(id)))
                 .observeOn(JavaFxScheduler.platform())
                 .subscribe(account -> this.currentAccount = account));

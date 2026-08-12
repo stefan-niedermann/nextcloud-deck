@@ -10,6 +10,7 @@ import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.Flow;
 
 import io.reactivex.rxjava3.core.Maybe;
+import io.reactivex.rxjava3.core.Maybe;
 import io.reactivex.rxjava3.schedulers.Schedulers;
 import it.niedermann.nextcloud.deck.data.local.dao.AccountDao;
 import it.niedermann.nextcloud.deck.data.local.entity.AccountEntity;
@@ -54,7 +55,9 @@ public class AccountRepositoryImpl implements AccountRepository {
 
     @Override
     public CompletableFuture<Account> getAccountSync(Account.ID id) {
-        return Maybe.fromPublisher(FlowAdapters.toPublisher(getAccount(id)))
+        return accountDao.getAccountSingle(id.value())
+                .subscribeOn(Schedulers.io())
+                .map(accountMapper::toTO)
                 .toCompletionStage()
                 .toCompletableFuture();
     }

@@ -2,6 +2,7 @@ package it.niedermann.nextcloud.remote.deck.mapper;
 
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
+import org.mapstruct.ReportingPolicy;
 import org.mapstruct.factory.Mappers;
 
 import it.niedermann.nextcloud.deck.domain.model.Card;
@@ -9,7 +10,7 @@ import it.niedermann.nextcloud.remote.deck.dto.CardDTO;
 
 import java.time.OffsetDateTime;
 
-@Mapper(uses = {CommonRemoteMapper.class})
+@Mapper(uses = {CommonRemoteMapper.class}, unmappedTargetPolicy = ReportingPolicy.IGNORE)
 public interface CardRemoteMapper extends GenericRemoteMapper<CardDTO, Card> {
 
     CardRemoteMapper INSTANCE = Mappers.getMapper(CardRemoteMapper.class);
@@ -22,6 +23,10 @@ public interface CardRemoteMapper extends GenericRemoteMapper<CardDTO, Card> {
     @Mapping(target = "attachments", ignore = true)
     @Mapping(target = "owner", ignore = true)
     @Mapping(target = "etag", ignore = true)
+    @Mapping(target = "type", ignore = true)
+    @Mapping(target = "deletedAt", ignore = true)
+    @Mapping(target = "duedate", source = "dueDate")
+    @Mapping(target = "attachmentCount", ignore = true)
     CardDTO toDTO(Card card);
 
     @Override
@@ -38,6 +43,31 @@ public interface CardRemoteMapper extends GenericRemoteMapper<CardDTO, Card> {
     @Mapping(target = "archived", source = "archived")
     @Mapping(target = "startDate", ignore = true)
     @Mapping(target = "title", expression = "java(cardDTO.getTitle() != null ? cardDTO.getTitle() : \"Untitled\")")
+    @Mapping(target = "dueDate", source = "duedate")
+    @Mapping(target = "notified", ignore = true)
+    @Mapping(target = "with", ignore = true)
+    @Mapping(target = "withId", ignore = true)
+    @Mapping(target = "withRemoteId", ignore = true)
+    @Mapping(target = "withColumnId", ignore = true)
+    @Mapping(target = "withCreatedAt", ignore = true)
+    @Mapping(target = "withOrder", ignore = true)
+    @Mapping(target = "withTitle", ignore = true)
+    @Mapping(target = "withDescription", ignore = true)
+    @Mapping(target = "withLabels", ignore = true)
+    @Mapping(target = "withAssignees", ignore = true)
+    @Mapping(target = "withDependents", ignore = true)
+    @Mapping(target = "withStartDate", ignore = true)
+    @Mapping(target = "withDueDate", ignore = true)
+    @Mapping(target = "withDone", ignore = true)
+    @Mapping(target = "withColor", ignore = true)
+    @Mapping(target = "withArchived", ignore = true)
+    @Mapping(target = "withNotified", ignore = true)
+    @Mapping(target = "withOverdue", ignore = true)
+    @Mapping(target = "withCommentsUnread", ignore = true)
+    @Mapping(target = "withStatus", ignore = true)
+    @Mapping(target = "withLastModified", ignore = true)
+    @Mapping(target = "assign", ignore = true)
+    @Mapping(target = "unassign", ignore = true)
     Card toTO(CardDTO cardDTO);
 
     default OffsetDateTime mapTimestamp(Long timestamp) {

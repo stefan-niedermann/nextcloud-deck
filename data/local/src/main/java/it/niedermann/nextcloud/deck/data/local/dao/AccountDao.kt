@@ -24,6 +24,12 @@ interface AccountDao {
     @Query("SELECT * FROM Account a WHERE a.id = :id")
     fun getAccount(id: Long): Flowable<AccountEntity>
 
+    @Query("SELECT * FROM Account a WHERE a.id = :id")
+    fun getAccountSingle(id: Long): Single<AccountEntity>
+
+    @Query("SELECT * FROM Account a WHERE a.id = :id")
+    fun getAccountById(id: Long): java.util.concurrent.CompletableFuture<AccountEntity?>
+
     @Query("SELECT id FROM Account a WHERE id != -1 LIMIT 1")
     fun getAnyAccount(): Single<Long>
 

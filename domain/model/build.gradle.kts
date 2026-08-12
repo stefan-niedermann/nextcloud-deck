@@ -1,5 +1,6 @@
 plugins {
     java
+    alias(libs.plugins.jetbrains.kotlin.jvm)
 }
 
 java {

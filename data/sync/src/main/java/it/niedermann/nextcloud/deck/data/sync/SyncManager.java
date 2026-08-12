@@ -66,18 +66,38 @@ public class SyncManager {
 
         SyncStatus initialStatus = new SyncStatus(account);
 
+        logger.info("Starting sync for account: " + account.username());
         return ocsApi.getCapabilities(null).thenCompose(response -> {
             logger.info("Server capabilities received");
 
             reporter.accept(initialStatus);
             return boardSyncProvider.upSync(account, initialStatus, reporter)
-                    .thenCompose(v -> columnSyncProvider.upSync(account, initialStatus, reporter))
-                    .thenCompose(v -> cardSyncProvider.upSync(account, initialStatus, reporter))
-                    .thenCompose(v -> labelSyncProvider.upSync(account, initialStatus, reporter))
-                    .thenCompose(v -> attachmentSyncProvider.upSync(account, initialStatus, reporter))
-                    .thenCompose(v -> commentSyncProvider.upSync(account, initialStatus, reporter))
-                    .thenCompose(v -> accessControlSyncProvider.upSync(account, initialStatus, reporter));
+                    .thenCompose(v -> {
+                        logger.info("Board up-sync finished");
+                        return columnSyncProvider.upSync(account, initialStatus, reporter);
+                    })
+                    .thenCompose(v -> {
+                        logger.info("Column up-sync finished");
+                        return cardSyncProvider.upSync(account, initialStatus, reporter);
+                    })
+                    .thenCompose(v -> {
+                        logger.info("Card up-sync finished");
+                        return labelSyncProvider.upSync(account, initialStatus, reporter);
+                    })
+                    .thenCompose(v -> {
+                        logger.info("Label up-sync finished");
+                        return attachmentSyncProvider.upSync(account, initialStatus, reporter);
+                    })
+                    .thenCompose(v -> {
+                        logger.info("Attachment up-sync finished");
+                        return commentSyncProvider.upSync(account, initialStatus, reporter);
+                    })
+                    .thenCompose(v -> {
+                        logger.info("Comment up-sync finished");
+                        return accessControlSyncProvider.upSync(account, initialStatus, reporter);
+                    });
         }).thenCompose(v -> {
+            logger.info("Starting down-sync");
             return boardSyncProvider.downSync(account, null, null, initialStatus, reporter);
         }).thenAccept(v -> {
             logger.info("Sync finished for account: " + account.username());

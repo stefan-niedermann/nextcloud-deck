@@ -5,6 +5,7 @@ import java.util.concurrent.Callable;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import io.reactivex.rxjava4.core.Maybe;
 import io.reactivex.rxjava4.core.Single;
 import it.niedermann.nextcloud.deck.cli.commands.account.subcommands.AccountAddCmd;
 import it.niedermann.nextcloud.deck.cli.commands.account.subcommands.AccountListCmd;
@@ -30,7 +31,7 @@ public class AccountCmd implements Callable<Integer> {
     @Override
     public Integer call() {
         try {
-            final var account = Single.fromCompletionStage(getCurrentAccountUseCase.execute()).blockingGet();
+            final var account = Maybe.fromCompletionStage(getCurrentAccountUseCase.execute()).toSingle().blockingGet();
             System.out.println(account);
             return 0;
 

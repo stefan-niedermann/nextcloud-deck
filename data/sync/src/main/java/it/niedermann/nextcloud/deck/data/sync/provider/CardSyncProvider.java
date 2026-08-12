@@ -1,5 +1,6 @@
 package it.niedermann.nextcloud.deck.data.sync.provider;
 
+import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import java.util.function.Consumer;
 import java.util.logging.Logger;
@@ -7,11 +8,17 @@ import java.util.logging.Logger;
 import it.niedermann.nextcloud.deck.data.local.dao.CardDao;
 import it.niedermann.nextcloud.deck.data.local.dao.ColumnDao;
 import it.niedermann.nextcloud.deck.data.local.dao.BoardDao;
+import it.niedermann.nextcloud.deck.data.local.dao.LabelDao;
+import it.niedermann.nextcloud.deck.data.local.dao.JoinCardWithLabelDao;
+import it.niedermann.nextcloud.deck.data.local.dao.JoinCardWithUserDao;
 import it.niedermann.nextcloud.deck.data.local.entity.CardEntity;
 import it.niedermann.nextcloud.deck.data.local.mapper.CardMapper;
 import it.niedermann.nextcloud.deck.domain.model.Account;
 import it.niedermann.nextcloud.deck.domain.model.DBStatus;
 import it.niedermann.nextcloud.deck.domain.state.SyncStatus;
+import it.niedermann.nextcloud.deck.data.local.entity.UserEntity;
+import it.niedermann.nextcloud.deck.data.local.entity.JoinCardWithLabelEntity;
+import it.niedermann.nextcloud.deck.data.local.entity.JoinCardWithUserEntity;
 import it.niedermann.nextcloud.remote.ApiProvider;
 import it.niedermann.nextcloud.remote.deck.DeckApi;
 import it.niedermann.nextcloud.remote.deck.dto.CardDTO;
@@ -27,15 +34,23 @@ public class CardSyncProvider implements SyncProvider<ColumnDTO> {
     private final CardDao cardDao;
     private final ColumnDao columnDao;
     private final BoardDao boardDao;
+    private final LabelDao labelDao;
+    private final JoinCardWithLabelDao joinCardWithLabelDao;
+    private final JoinCardWithUserDao joinCardWithUserDao;
+    private final UserSyncHelper userSyncHelper;
     private final ApiProvider.Factory apiFactory;
     private AttachmentSyncProvider attachmentSyncProvider;
     private CommentSyncProvider commentSyncProvider;
 
     @Inject
-    public CardSyncProvider(CardDao cardDao, ColumnDao columnDao, BoardDao boardDao, ApiProvider.Factory apiFactory) {
+    public CardSyncProvider(CardDao cardDao, ColumnDao columnDao, BoardDao boardDao, LabelDao labelDao, JoinCardWithLabelDao joinCardWithLabelDao, JoinCardWithUserDao joinCardWithUserDao, UserSyncHelper userSyncHelper, ApiProvider.Factory apiFactory) {
         this.cardDao = cardDao;
         this.columnDao = columnDao;
         this.boardDao = boardDao;
+        this.labelDao = labelDao;
+        this.joinCardWithLabelDao = joinCardWithLabelDao;
+        this.joinCardWithUserDao = joinCardWithUserDao;
+        this.userSyncHelper = userSyncHelper;
         this.apiFactory = apiFactory;
     }
 
@@ -210,33 +225,122 @@ public class CardSyncProvider implements SyncProvider<ColumnDTO> {
 
     @Override
     public CompletableFuture<Void> downSync(Account account, ColumnDTO parent, Long parentLocalId, SyncStatus status, Consumer<SyncStatus> reporter) {
-        if (parent == null) return CompletableFuture.completedFuture(null);
+        if (parent == null || parent.getBoardId() == null || parent.getId() == null) return CompletableFuture.completedFuture(null);
         if (parent.getCards() != null && !parent.getCards().isEmpty()) {
-            CompletableFuture<Void> future = CompletableFuture.completedFuture(null);
-            long total = parent.getCards().size();
-            for (int i = 0; i < parent.getCards().size(); i++) {
-                CardDTO dto = parent.getCards().get(i);
-                if (dto == null) continue;
-                final long finished = i + 1;
-                final var finalFuture = future;
-                future = finalFuture.thenCompose(v -> mergeCard(account, dto, parentLocalId))
+            boolean allCardsHaveLabels = true;
+            for (CardDTO card : parent.getCards()) {
+                if (card.getLabels() == null) {
+                    allCardsHaveLabels = false;
+                    break;
+                }
+            }
+            if (allCardsHaveLabels) {
+                return syncCards(account, parent.getBoardId(), parent.getId(), parent.getCards(), parentLocalId, status, reporter);
+            }
+        }
+        DeckApi api = apiFactory.create(account).getDeckApi();
+        return api.getStack(parent.getBoardId(), parent.getId(), null)
+                .thenCompose(stack -> {
+                    if (stack == null || stack.getCards() == null) return CompletableFuture.completedFuture(null);
+                    return syncCards(account, parent.getBoardId(), parent.getId(), stack.getCards(), parentLocalId, status, reporter);
+                });
+    }
+
+    private CompletableFuture<Void> syncCards(Account account, long boardId, long stackId, List<CardDTO> cards, Long parentLocalId, SyncStatus status, Consumer<SyncStatus> reporter) {
+        if (cards == null || cards.isEmpty()) return CompletableFuture.completedFuture(null);
+        long total = cards.size();
+        CompletableFuture<?>[] cardFutures = new CompletableFuture[cards.size()];
+        for (int i = 0; i < cards.size(); i++) {
+            CardDTO dto = cards.get(i);
+            if (dto == null || dto.getId() == null) {
+                cardFutures[i] = CompletableFuture.completedFuture(null);
+                continue;
+            }
+            final long finished = i + 1;
+
+            CompletableFuture<CardDTO> fullCardFuture;
+            // Fetch always for now, as cards in stack response seem to have null labels
+            logger.info("Fetching full details for card: " + dto.getId());
+            DeckApi api = apiFactory.create(account).getDeckApi();
+            fullCardFuture = api.getCard_1_1(boardId, stackId, dto.getId(), null);
+
+            cardFutures[i] = fullCardFuture.thenCompose(fullDto -> {
+                if (fullDto == null) return CompletableFuture.completedFuture(null);
+                return mergeCard(account, fullDto, parentLocalId)
                         .thenCompose(localCardId -> {
                             SyncStatus newStatus = status.withCards(total, finished);
                             reporter.accept(newStatus);
                             return CompletableFuture.allOf(
-                                    attachmentSyncProvider.downSync(account, dto, localCardId, newStatus, reporter),
-                                    commentSyncProvider.downSync(account, dto, localCardId, newStatus, reporter)
+                                    syncLabels(account, fullDto, localCardId),
+                                    syncAssignedUsers(account, fullDto, localCardId),
+                                    attachmentSyncProvider.downSync(account, fullDto, localCardId, newStatus, reporter),
+                                    commentSyncProvider.downSync(account, fullDto, localCardId, newStatus, reporter)
                             );
                         });
-            }
-            return future;
+            }).exceptionally(throwable -> {
+                logger.log(java.util.logging.Level.SEVERE, "Failed to sync card " + dto.getId(), throwable);
+                return null;
+            });
         }
-        return CompletableFuture.completedFuture(null);
+        return CompletableFuture.allOf(cardFutures);
+    }
+
+    private CompletableFuture<Void> syncLabels(Account account, CardDTO cardDto, Long localCardId) {
+        if (cardDto.getLabels() == null) {
+            logger.warning("Labels are null for card " + cardDto.getId());
+            return CompletableFuture.completedFuture(null);
+        }
+        logger.info("Syncing " + cardDto.getLabels().size() + " labels for card " + cardDto.getId());
+        return joinCardWithLabelDao.deleteByCardId(localCardId)
+                .thenCompose(v -> {
+                    CompletableFuture<?>[] futures = new CompletableFuture[cardDto.getLabels().size()];
+                    for (int i = 0; i < cardDto.getLabels().size(); i++) {
+                        var labelDto = cardDto.getLabels().get(i);
+                        futures[i] = labelDao.getLabelByRemoteId(account.id().value(), labelDto.getId())
+                                .thenCompose(localLabel -> {
+                                    if (localLabel == null) {
+                                        logger.warning("Label " + labelDto.getId() + " not found locally for board!");
+                                        return CompletableFuture.completedFuture(null);
+                                    }
+                                    return joinCardWithLabelDao.upsert(new JoinCardWithLabelEntity(localCardId, localLabel.getLocalId(), DBStatus.UP_TO_DATE.getId()))
+                                            .thenApply(v3 -> null);
+                                });
+                    }
+                    return CompletableFuture.allOf(futures);
+                });
+    }
+
+    private CompletableFuture<Void> syncAssignedUsers(Account account, CardDTO cardDto, Long localCardId) {
+        if (cardDto.getAssignedUsers() == null) {
+            logger.warning("Assigned users are null for card " + cardDto.getId());
+            return CompletableFuture.completedFuture(null);
+        }
+        logger.info("Syncing " + cardDto.getAssignedUsers().size() + " assigned users for card " + cardDto.getId());
+        return joinCardWithUserDao.deleteByCardId(localCardId)
+                .thenCompose(v -> {
+                    CompletableFuture<?>[] futures = new CompletableFuture[cardDto.getAssignedUsers().size()];
+                    for (int i = 0; i < cardDto.getAssignedUsers().size(); i++) {
+                        var aclDto = cardDto.getAssignedUsers().get(i);
+                        if (aclDto.getParticipant() == null) {
+                            futures[i] = CompletableFuture.completedFuture(null);
+                        } else {
+                            futures[i] = userSyncHelper.syncUser(account, aclDto.getParticipant())
+                                    .thenCompose(localUser -> {
+                                        if (localUser == null) return CompletableFuture.completedFuture(null);
+                                        return joinCardWithUserDao.upsert(new JoinCardWithUserEntity(localCardId, localUser.getLocalId(), DBStatus.UP_TO_DATE.getId()))
+                                                .thenApply(v3 -> null);
+                                    });
+                        }
+                    }
+                    return CompletableFuture.allOf(futures);
+                });
     }
 
     private CompletableFuture<Long> mergeCard(Account account, CardDTO cardDto, Long columnId) {
         if (cardDto.getId() == null) return CompletableFuture.completedFuture(null);
-        return cardDao.getCardByRemoteId(account.id().value(), cardDto.getId())
+        CompletableFuture<Long> userIdFuture = userSyncHelper.syncUser(account, cardDto.getOwner())
+                .thenApply(user -> user != null ? user.getLocalId() : null);
+        return userIdFuture.thenCompose(ownerLocalId -> cardDao.getCardByRemoteId(account.id().value(), cardDto.getId())
                 .handle((localCard, throwable) -> {
                     CardEntity serverCard = CardMapper.INSTANCE.toEntity(CardRemoteMapper.INSTANCE.toTO(cardDto));
                     if (throwable != null || localCard == null) {
@@ -256,7 +360,7 @@ public class CardSyncProvider implements SyncProvider<ColumnDTO> {
                                 serverCard.getDeletedAt(),
                                 serverCard.getDone(),
                                 serverCard.getAttachmentCount(),
-                                serverCard.getUserId(),
+                                ownerLocalId,
                                 serverCard.getOrder(),
                                 serverCard.getArchived(),
                                 serverCard.getDueDate(),
@@ -265,7 +369,7 @@ public class CardSyncProvider implements SyncProvider<ColumnDTO> {
                                 serverCard.getCommentsUnread(),
                                 null
                         );
-                        return cardDao.insert(newLocal);
+                        return cardDao.insertOrReplace(newLocal);
                     } else {
                         if (localCard.getStatus() == DBStatus.CONFLICT.getId()) {
                             return CompletableFuture.completedFuture(localCard.getLocalId());
@@ -289,7 +393,7 @@ public class CardSyncProvider implements SyncProvider<ColumnDTO> {
                                 serverCard.getDeletedAt(),
                                 serverCard.getDone(),
                                 serverCard.getAttachmentCount(),
-                                serverCard.getUserId(),
+                                ownerLocalId,
                                 serverCard.getOrder(),
                                 serverCard.getArchived(),
                                 serverCard.getDueDate(),
@@ -300,6 +404,6 @@ public class CardSyncProvider implements SyncProvider<ColumnDTO> {
                         );
                         return cardDao.updateRx(updatedLocal).thenApply(v -> localCard.getLocalId());
                     }
-                }).thenCompose(f -> f);
+                }).thenCompose(f -> f));
     }
 }

@@ -3,6 +3,7 @@ package it.niedermann.nextcloud.deck.data.local.dao
 import androidx.room3.Delete
 import androidx.room3.Insert
 import androidx.room3.Update
+import androidx.room3.Upsert
 import java.util.concurrent.CompletableFuture
 
 interface GenericDao<T> {
@@ -12,6 +13,9 @@ interface GenericDao<T> {
 
     @Insert
     fun insert(vararg entity: T): CompletableFuture<List<Long>>
+
+    @Upsert
+    fun upsert(entity: T): CompletableFuture<Long>
 
     @Update
     fun updateRx(vararg entity: T): CompletableFuture<Void?>

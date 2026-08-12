@@ -3,13 +3,13 @@ package it.niedermann.nextcloud.deck.data.repository;
 import org.reactivestreams.FlowAdapters;
 
 import java.io.IOException;
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.Flow;
-import java.util.stream.Collectors;
 
-import io.reactivex.rxjava3.core.Flowable;
+import io.reactivex.rxjava3.schedulers.Schedulers;
+import it.niedermann.nextcloud.deck.data.local.dao.UserDao;
+import it.niedermann.nextcloud.deck.data.local.mapper.UserMapper;
 import it.niedermann.nextcloud.deck.domain.model.Account;
 import it.niedermann.nextcloud.deck.domain.model.Avatar;
 import it.niedermann.nextcloud.deck.domain.model.User;
@@ -23,11 +23,18 @@ public class UserRepositoryImpl implements UserRepository {
 
     private final ApiProvider.Factory apiFactory;
     private final AccountRepository accountRepository;
+    private final UserDao userDao;
+    private final UserMapper userMapper;
 
     @Inject
-    public UserRepositoryImpl(ApiProvider.Factory apiFactory, AccountRepository accountRepository) {
+    public UserRepositoryImpl(ApiProvider.Factory apiFactory,
+                              AccountRepository accountRepository,
+                              UserDao userDao,
+                              UserMapper userMapper) {
         this.apiFactory = apiFactory;
         this.accountRepository = accountRepository;
+        this.userDao = userDao;
+        this.userMapper = userMapper;
     }
 
     @Override
@@ -101,12 +108,10 @@ public class UserRepositoryImpl implements UserRepository {
 
     @Override
     public Flow.Publisher<Collection<User>> find(String userText) {
-        System.out.println("[Mock][" + UserRepositoryImpl.class.getSimpleName() + "/find]: " + userText);
-        return FlowAdapters.toFlowPublisher(Flowable.just(Arrays.stream(MockData.MOCK_USERS)
-                .filter(user ->
-                        user.displayName().toLowerCase().contains(userText.trim().toLowerCase()) ||
-                        user.id().value().toLowerCase().contains(userText.trim().toLowerCase())
-                )
-                .collect(Collectors.toSet())));
+        return FlowAdapters.toFlowPublisher(
+                userDao.findUsers(userText)
+                        .map(entities -> (Collection<User>) userMapper.toTOList(entities))
+                        .subscribeOn(Schedulers.io())
+        );
     }
 }

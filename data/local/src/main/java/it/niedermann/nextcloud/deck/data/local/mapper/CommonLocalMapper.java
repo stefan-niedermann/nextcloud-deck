@@ -9,6 +9,7 @@ import it.niedermann.nextcloud.deck.domain.model.Comment;
 import it.niedermann.nextcloud.deck.domain.model.Label;
 import it.niedermann.nextcloud.deck.domain.model.User;
 import it.niedermann.nextcloud.deck.domain.model.AccessControl;
+import it.niedermann.nextcloud.deck.domain.model.Activity;
 
 public class CommonLocalMapper {
 
@@ -145,6 +146,22 @@ public class CommonLocalMapper {
     }
 
     public Long fromAccessControlRemoteId(AccessControl.RemoteID id) {
+        return id != null ? id.value() : null;
+    }
+
+    public Activity.ID toActivityId(long value) {
+        return new Activity.ID(value);
+    }
+
+    public long fromActivityId(Activity.ID id) {
+        return id != null ? id.value() : 0L;
+    }
+
+    public Activity.RemoteID toActivityRemoteId(Long value) {
+        return value != null ? new Activity.RemoteID(value) : null;
+    }
+
+    public Long fromActivityRemoteId(Activity.RemoteID id) {
         return id != null ? id.value() : null;
     }
 }

@@ -2,14 +2,13 @@ package it.niedermann.nextcloud.deck.data.repository;
 
 import org.reactivestreams.FlowAdapters;
 
-import java.util.Arrays;
 import java.util.List;
-import java.util.Objects;
 import java.util.concurrent.Flow;
-import java.util.stream.Collectors;
 
-import io.reactivex.rxjava3.core.Flowable;
 import io.reactivex.rxjava3.processors.BehaviorProcessor;
+import io.reactivex.rxjava3.schedulers.Schedulers;
+import it.niedermann.nextcloud.deck.data.local.dao.AttachmentDao;
+import it.niedermann.nextcloud.deck.data.local.mapper.AttachmentMapper;
 import it.niedermann.nextcloud.deck.domain.model.Attachment;
 import it.niedermann.nextcloud.deck.domain.model.Card;
 import it.niedermann.nextcloud.deck.domain.repository.AttachmentRepository;
@@ -18,17 +17,23 @@ import jakarta.inject.Inject;
 
 public class AttachmentRepositoryImpl implements AttachmentRepository {
 
-    @Inject
-    public AttachmentRepositoryImpl() {
+    private final AttachmentDao attachmentDao;
+    private final AttachmentMapper attachmentMapper;
 
+    @Inject
+    public AttachmentRepositoryImpl(AttachmentDao attachmentDao,
+                                   AttachmentMapper attachmentMapper) {
+        this.attachmentDao = attachmentDao;
+        this.attachmentMapper = attachmentMapper;
     }
 
     @Override
     public Flow.Publisher<List<Attachment>> getNotDeletedAttachments(Card.ID cardId) {
-        return FlowAdapters.toFlowPublisher(Flowable.just(Arrays.stream(
-                        MockData.MOCK_ATTACHMENTS)
-                .filter(attachment -> Objects.equals(attachment.cardId(), cardId))
-                .collect(Collectors.toList())));
+        return FlowAdapters.toFlowPublisher(
+                attachmentDao.getAttachmentsByCard(cardId.value())
+                        .map(attachmentMapper::toTOList)
+                        .subscribeOn(Schedulers.io())
+        );
     }
 
     @Override

@@ -101,13 +101,11 @@ public interface DeckApi {
     @PUT("v1.0/boards/{boardId}/stacks/{stackId}/cards/{cardId}/removeLabel")
     CompletableFuture<Void> unassignLabelFromCard(@Path("boardId") long boardId, @Path("stackId") long stackId, @Path("cardId") long cardId, @Field("labelId") long labelId);
 
-    @FormUrlEncoded
     @PUT("v1.0/boards/{boardId}/stacks/{stackId}/cards/{cardId}/assignUser")
-    CompletableFuture<Void> assignUserToCard(@Path("boardId") long boardId, @Path("stackId") long stackId, @Path("cardId") long cardId, @Body() UserForAssignmentDTO assignment);
+    CompletableFuture<Void> assignUserToCard(@Path("boardId") long boardId, @Path("stackId") long stackId, @Path("cardId") long cardId, @Body UserForAssignmentDTO assignment);
 
-    @FormUrlEncoded
     @PUT("v1.0/boards/{boardId}/stacks/{stackId}/cards/{cardId}/unassignUser")
-    CompletableFuture<Void> unassignUserFromCard(@Path("boardId") long boardId, @Path("stackId") long stackId, @Path("cardId") long cardId, @Body() UserForAssignmentDTO assignment);
+    CompletableFuture<Void> unassignUserFromCard(@Path("boardId") long boardId, @Path("stackId") long stackId, @Path("cardId") long cardId, @Body UserForAssignmentDTO assignment);
 
     @PUT("v1.0/boards/{boardId}/stacks/{stackId}/cards/{cardId}/reorder")
     CompletableFuture<List<CardDTO>> moveCard(@Path("boardId") long boardId, @Path("stackId") long stackId, @Path("cardId") long cardId, @Body ReorderDTO reorder);
@@ -181,6 +179,6 @@ public interface DeckApi {
     CompletableFuture<AccessControlDTO> updateAccessControl(@Path("boardId") long boardId, @Path("aclId") long aclId, @Body AccessControlDTO acl);
 
     @DELETE("v1.0/boards/{boardId}/acl/{aclId}")
-    CompletableFuture<Void> deleteAccessControl(@Path("boardId") long boardId, @Path("aclId") long aclId, @Body AccessControlDTO acl);
+    CompletableFuture<Void> deleteAccessControl(@Path("boardId") long boardId, @Path("aclId") long aclId);
 
 }

@@ -14,6 +14,7 @@ public class Launcher {
         if (args.length == 1 && "--purge".equals(args[0])) {
             // TODO Provide Purge-Button in ExceptionDialog
             appComponent.getPurgeService().purge();
+            System.exit(0);
         }
 
         JavaFxApplication.inject(appComponent.getFxComponentFactory());

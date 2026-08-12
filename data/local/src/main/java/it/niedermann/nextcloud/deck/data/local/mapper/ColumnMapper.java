@@ -13,12 +13,14 @@ public interface ColumnMapper extends GenericMapper<ColumnEntity, Column> {
     ColumnMapper INSTANCE = Mappers.getMapper(ColumnMapper.class);
 
     @Override
+    @Mapping(target = "localId", source = "id")
     @Mapping(target = "boardId", source = "boardId")
     @Mapping(target = "accountId", source = "accountId")
     @Mapping(target = "remoteId", source = "remoteId")
     ColumnEntity toEntity(Column column);
 
     @Override
+    @Mapping(target = "id", source = "localId")
     @Mapping(target = "boardId", source = "boardId")
     @Mapping(target = "accountId", source = "accountId")
     @Mapping(target = "remoteId", source = "remoteId")

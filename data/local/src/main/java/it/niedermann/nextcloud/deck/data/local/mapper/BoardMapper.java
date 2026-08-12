@@ -13,6 +13,7 @@ public interface BoardMapper extends GenericMapper<BoardEntity, Board> {
     BoardMapper INSTANCE = Mappers.getMapper(BoardMapper.class);
 
     @Override
+    @Mapping(target = "localId", source = "id")
     @Mapping(target = "ownerId", source = "ownerId")
     @Mapping(target = "accountId", source = "accountId")
     @Mapping(target = "remoteId", source = "remoteId")
@@ -24,14 +25,18 @@ public interface BoardMapper extends GenericMapper<BoardEntity, Board> {
     BoardEntity toEntity(Board board);
 
     @Override
+    @Mapping(target = "id", source = "localId")
     @Mapping(target = "ownerId", source = "ownerId")
     @Mapping(target = "accountId", source = "accountId")
     @Mapping(target = "remoteId", source = "remoteId")
-    @Mapping(target = "permissions.permissionRead", source = "permissionRead")
-    @Mapping(target = "permissions.permissionEdit", source = "permissionEdit")
-    @Mapping(target = "permissions.permissionManage", source = "permissionManage")
-    @Mapping(target = "permissions.permissionShare", source = "permissionShare")
+    @Mapping(target = "permissions", expression = "java(mapPermissions(boardEntity))")
     @Mapping(target = "status", expression = "java(it.niedermann.nextcloud.deck.domain.model.DBStatus.findById(boardEntity.getStatus()))")
     @Mapping(target = "lastModified", source = "lastModified")
     Board toTO(BoardEntity boardEntity);
+
+    @Mapping(target = "permissionRead", source = "permissionRead")
+    @Mapping(target = "permissionEdit", source = "permissionEdit")
+    @Mapping(target = "permissionManage", source = "permissionManage")
+    @Mapping(target = "permissionShare", source = "permissionShare")
+    Board.Permissions mapPermissions(BoardEntity entity);
 }

@@ -33,42 +33,80 @@ public class AttachmentSyncProvider implements SyncProvider<CardDTO> {
     public CompletableFuture<Void> downSync(Account account, CardDTO parent, Long parentLocalId, SyncStatus status, Consumer<SyncStatus> reporter) {
         if (parent == null) return CompletableFuture.completedFuture(null);
         if (parent.getAttachments() != null && !parent.getAttachments().isEmpty()) {
-            CompletableFuture<Void> future = CompletableFuture.completedFuture(null);
-            for (AttachmentDTO dto : parent.getAttachments()) {
-                final var finalFuture = future;
-                future = finalFuture.thenCompose(v -> mergeAttachment(account, dto, parentLocalId));
+            CompletableFuture<?>[] futures = new CompletableFuture[parent.getAttachments().size()];
+            for (int i = 0; i < parent.getAttachments().size(); i++) {
+                AttachmentDTO dto = parent.getAttachments().get(i);
+                futures[i] = mergeAttachment(account, dto, parentLocalId);
             }
-            return future;
+            return CompletableFuture.allOf(futures);
         }
         return CompletableFuture.completedFuture(null);
     }
 
     private CompletableFuture<Void> mergeAttachment(Account account, AttachmentDTO dto, Long cardId) {
-        AttachmentEntity serverEntity = AttachmentMapper.INSTANCE.toEntity(AttachmentRemoteMapper.INSTANCE.toTO(dto));
-        AttachmentEntity newLocal = new AttachmentEntity(
-                0,
-                account.id().value(),
-                serverEntity.getRemoteId(),
-                DBStatus.UP_TO_DATE.getId(),
-                serverEntity.getLastModified(),
-                serverEntity.getLastModified(),
-                serverEntity.getEtag(),
-                cardId,
-                serverEntity.getType(),
-                serverEntity.getData(),
-                serverEntity.getCreatedAt(),
-                serverEntity.getCreatedBy(),
-                serverEntity.getDeletedAt(),
-                serverEntity.getFilesize(),
-                serverEntity.getMimetype(),
-                serverEntity.getDirname(),
-                serverEntity.getBasename(),
-                serverEntity.getExtension(),
-                serverEntity.getFilename(),
-                serverEntity.getLocalPath(),
-                serverEntity.getFileId(),
-                null
-        );
-        return attachmentDao.insert(newLocal).thenApply(v -> null);
+        if (dto.getId() == null) return CompletableFuture.completedFuture(null);
+        return attachmentDao.getAttachmentByRemoteId(account.id().value(), dto.getId())
+                .handle((localAttachment, throwable) -> {
+                    AttachmentEntity serverEntity = AttachmentMapper.INSTANCE.toEntity(AttachmentRemoteMapper.INSTANCE.toTO(dto));
+                    if (throwable != null || localAttachment == null) {
+                        AttachmentEntity newLocal = new AttachmentEntity(
+                                0,
+                                account.id().value(),
+                                serverEntity.getRemoteId(),
+                                DBStatus.UP_TO_DATE.getId(),
+                                serverEntity.getLastModified(),
+                                serverEntity.getLastModified(),
+                                serverEntity.getEtag(),
+                                cardId,
+                                serverEntity.getType(),
+                                serverEntity.getData(),
+                                serverEntity.getCreatedAt(),
+                                serverEntity.getCreatedBy(),
+                                serverEntity.getDeletedAt(),
+                                serverEntity.getFilesize(),
+                                serverEntity.getMimetype(),
+                                serverEntity.getDirname(),
+                                serverEntity.getBasename(),
+                                serverEntity.getExtension(),
+                                serverEntity.getFilename(),
+                                serverEntity.getLocalPath(),
+                                serverEntity.getFileId(),
+                                null
+                        );
+                        return attachmentDao.insertOrReplace(newLocal).thenApply(v -> (Void) null);
+                    } else {
+                        if (localAttachment.getStatus() == DBStatus.CONFLICT.getId()) {
+                            return CompletableFuture.<Void>completedFuture(null);
+                        }
+                        if (serverEntity.getEtag() != null && serverEntity.getEtag().equals(localAttachment.getEtag())) {
+                            return CompletableFuture.<Void>completedFuture(null);
+                        }
+                        AttachmentEntity updatedLocal = new AttachmentEntity(
+                                localAttachment.getLocalId(),
+                                localAttachment.getAccountId(),
+                                serverEntity.getRemoteId(),
+                                DBStatus.UP_TO_DATE.getId(),
+                                serverEntity.getLastModified(),
+                                serverEntity.getLastModified(),
+                                serverEntity.getEtag(),
+                                cardId,
+                                serverEntity.getType(),
+                                serverEntity.getData(),
+                                serverEntity.getCreatedAt(),
+                                serverEntity.getCreatedBy(),
+                                serverEntity.getDeletedAt(),
+                                serverEntity.getFilesize(),
+                                serverEntity.getMimetype(),
+                                serverEntity.getDirname(),
+                                serverEntity.getBasename(),
+                                serverEntity.getExtension(),
+                                serverEntity.getFilename(),
+                                serverEntity.getLocalPath(),
+                                serverEntity.getFileId(),
+                                null
+                        );
+                        return attachmentDao.updateRx(updatedLocal);
+                    }
+                }).thenCompose(f -> f);
     }
 }

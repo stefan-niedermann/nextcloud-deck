@@ -42,10 +42,31 @@ public class PurgeService {
         try {
             Platform.exit();
             database.close();
-            Files.delete(dbPath);
-            logger.info("✓ Deleted " + dbPath);
-        } catch (IOException e) {
-            logger.log(Level.SEVERE, "× Database file " + dbPath + " could not be deleted.", e);
+            deleteFile(dbPath);
+            deleteFile(dbPath.resolveSibling(dbPath.getFileName() + "-wal"));
+            deleteFile(dbPath.resolveSibling(dbPath.getFileName() + "-shm"));
+            deleteFile(dbPath.resolveSibling(dbPath.getFileName() + ".lck"));
+            logger.info("✓ Purge completed for " + dbPath);
+        } catch (Exception e) {
+            logger.log(Level.SEVERE, "× Database files could not be fully deleted.", e);
+        }
+    }
+
+    private void deleteFile(Path path) {
+        for (int i = 0; i < 5; i++) {
+            try {
+                if (Files.deleteIfExists(path)) {
+                    logger.info("✓ Deleted " + path);
+                }
+                return;
+            } catch (IOException e) {
+                logger.log(Level.WARNING, "× Could not delete " + path + " (attempt " + (i + 1) + "): " + e.getMessage());
+                try {
+                    Thread.sleep(100);
+                } catch (InterruptedException ignored) {
+                    Thread.currentThread().interrupt();
+                }
+            }
         }
     }
 }

@@ -5,6 +5,8 @@ import org.reactivestreams.FlowAdapters;
 import java.time.Instant;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
+import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.Flow;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -51,7 +53,7 @@ public class QueueingSyncScheduler implements SyncScheduler {
                 // Currently no sync is active. Let's start one!
 
                 logger.info("Scheduled (currently none active)");
-                final var sync = synchronize(accountId).doOnTerminate(() -> {
+                final var sync = synchronize(accountId).share().doOnTerminate(() -> {
 
                     synchronized (QueueingSyncScheduler.this) {
 
@@ -118,11 +120,8 @@ public class QueueingSyncScheduler implements SyncScheduler {
     }
 
     private Flowable<SyncStatus> synchronize(Account.ID accountId) {
-        final var accountFlowPublisher = accountRepository.getAccount(accountId);
-        final var accountPublisher = FlowAdapters.toPublisher(accountFlowPublisher);
-
-        return Maybe.fromPublisher(accountPublisher)
-                .flatMapPublisher(this::synchronize);
+        return Flowable.fromCompletionStage(accountRepository.getAccountSync(accountId))
+                .flatMap(this::synchronize);
     }
 
     private Flowable<SyncStatus> synchronize(Account account) {

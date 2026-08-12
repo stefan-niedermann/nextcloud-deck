@@ -78,7 +78,12 @@ public abstract class StageManager<TRawArgs> {
                 .subscribeOn(Schedulers.virtual())
                 .observeOn(JavaFxScheduler.platform())
                 .subscribe(hasAccounts -> {
+                    logger.info("StageManager :: hasAccounts changed: " + hasAccounts);
                     if (hasAccounts) {
+                        if (controller.get() instanceof LoginScene) {
+                            logger.info("StageManager :: hasAccounts is true but LoginScene is active. Ignoring trigger, LoginScene will handle the transition.");
+                            return;
+                        }
                         initialize();
                     } else {
                         showLogin();
@@ -87,6 +92,7 @@ public abstract class StageManager<TRawArgs> {
     }
 
     protected CompletableFuture<Void> initialize() {
+        logger.info("StageManager :: initialize()");
         return this.showSplashScreenScene()
                 .thenApplyAsync(_ -> args)
                 .thenComposeAsync(this::showContent)
@@ -95,17 +101,23 @@ public abstract class StageManager<TRawArgs> {
 
     /// @return [CompletableFuture] - completed when the splashscreen is shown
     private CompletableFuture<Void> showSplashScreenScene() {
+        logger.info("StageManager :: showSplashScreenScene()");
         final var bundle = inflater.inflate(splashScreenFactory.create());
         return this.setStageContent(bundle);
     }
 
     /// @return [CompletableFuture] - completed when an account has successfully been imported
-    protected CompletableFuture<Account.ID> showLogin() {
+    protected CompletableFuture<Void> showLogin() {
+        logger.info("StageManager :: showLogin()");
         final var accountImported = new CompletableFuture<Account.ID>();
         final var bundle = inflater.inflate(loginFactoryProvider.get().create(accountImported::complete));
         return this.setStageContent(bundle)
                 .thenComposeAsync(_ -> accountImported)
-                .thenComposeAsync(setCurrentAccountUseCase::execute);
+                .thenComposeAsync(setCurrentAccountUseCase::execute)
+                .thenComposeAsync(_ -> {
+                    logger.info("StageManager :: Login process complete, calling initialize()");
+                    return initialize();
+                });
     }
 
     /// @return [CompletableFuture] - completed when the content is visible
@@ -123,9 +135,11 @@ public abstract class StageManager<TRawArgs> {
     protected <T> CompletableFuture<Void> setStageContent(Inflater.FxBundle<T> controllerBundle) {
         final var cf = new CompletableFuture<Void>();
         final var controller = controllerBundle.controller();
+        logger.info("StageManager :: setting content to " + controller.getClass().getSimpleName());
         final var oldCtrl = this.controller.getAndSet(controller);
 
         if (oldCtrl instanceof Disposable oldDisposableCtrl && !oldDisposableCtrl.isDisposed()) {
+            logger.info("StageManager :: disposing old controller " + oldDisposableCtrl.getClass().getSimpleName());
             oldDisposableCtrl.dispose();
         }
 

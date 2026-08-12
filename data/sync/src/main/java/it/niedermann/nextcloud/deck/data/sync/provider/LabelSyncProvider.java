@@ -142,24 +142,33 @@ public class LabelSyncProvider implements SyncProvider<BoardDTO> {
     @Override
     public CompletableFuture<Void> downSync(Account account, BoardDTO parent, Long parentLocalId, SyncStatus status, Consumer<SyncStatus> reporter) {
         if (parent == null) return CompletableFuture.completedFuture(null);
-        if (parent.getLabels() != null && !parent.getLabels().isEmpty()) {
-            CompletableFuture<Void> future = CompletableFuture.completedFuture(null);
-            for (LabelDTO labelDto : parent.getLabels()) {
-                final var finalFuture = future;
-                future = finalFuture.thenCompose(v -> mergeLabel(account, labelDto, parentLocalId));
-            }
-            return future;
-        } else {
-            return CompletableFuture.completedFuture(null);
-        }
+        logger.info("Syncing labels for board " + parent.getId());
+        return labelDao.deleteByBoardId(parentLocalId)
+                .thenCompose(v -> {
+                    if (parent.getLabels() != null && !parent.getLabels().isEmpty()) {
+                        logger.info("Syncing " + parent.getLabels().size() + " labels for board " + parent.getId());
+                        CompletableFuture<?>[] futures = new CompletableFuture[parent.getLabels().size()];
+                        for (int i = 0; i < parent.getLabels().size(); i++) {
+                            LabelDTO labelDto = parent.getLabels().get(i);
+                            futures[i] = mergeLabel(account, labelDto, parentLocalId);
+                        }
+                        return CompletableFuture.allOf(futures);
+                    }
+                    return CompletableFuture.completedFuture(null);
+                });
     }
 
     private CompletableFuture<Void> mergeLabel(Account account, LabelDTO labelDto, Long boardId) {
         if (labelDto.getId() == null) return CompletableFuture.completedFuture(null);
+        logger.info("Merging label " + labelDto.getId() + " for board " + boardId);
         return labelDao.getLabelByRemoteId(account.id().value(), labelDto.getId())
                 .handle((localLabel, throwable) -> {
+                    if (throwable != null) {
+                        logger.log(java.util.logging.Level.SEVERE, "Failed to get local label " + labelDto.getId(), throwable);
+                    }
                     LabelEntity serverLabel = LabelMapper.INSTANCE.toEntity(LabelRemoteMapper.INSTANCE.toTO(labelDto));
                     if (throwable != null || localLabel == null) {
+                        logger.info("Inserting new label " + labelDto.getId());
                         LabelEntity newLocal = new LabelEntity(
                                 0,
                                 account.id().value(),
@@ -173,8 +182,9 @@ public class LabelSyncProvider implements SyncProvider<BoardDTO> {
                                 serverLabel.getColor(),
                                 null
                         );
-                        return labelDao.insert(newLocal).thenApply(v -> (Void) null);
+                        return labelDao.insertOrReplace(newLocal).thenApply(v -> (Void) null);
                     } else {
+                        logger.info("Updating existing label " + labelDto.getId());
                         if (localLabel.getStatus() == DBStatus.CONFLICT.getId()) {
                             return CompletableFuture.<Void>completedFuture(null);
                         }

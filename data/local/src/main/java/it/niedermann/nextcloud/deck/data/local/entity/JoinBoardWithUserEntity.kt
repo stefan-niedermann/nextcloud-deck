@@ -3,6 +3,7 @@ package it.niedermann.nextcloud.deck.data.local.entity
 import androidx.room3.Entity
 import androidx.room3.ForeignKey
 import androidx.room3.Index
+import it.niedermann.nextcloud.deck.domain.model.JoinEntity
 
 @Entity(
     tableName = "JoinBoardWithUser",
@@ -29,5 +30,5 @@ import androidx.room3.Index
 data class JoinBoardWithUserEntity(
     val boardId: Long,
     val userId: Long,
-    val status: Int
-)
+    override val status: Int
+) : JoinEntity

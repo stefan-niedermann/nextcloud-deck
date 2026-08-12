@@ -4,26 +4,25 @@ import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.factory.Mappers;
 
-import it.niedermann.nextcloud.deck.data.local.entity.AttachmentEntity;
-import it.niedermann.nextcloud.deck.domain.model.Attachment;
+import it.niedermann.nextcloud.deck.data.local.entity.ActivityEntity;
+import it.niedermann.nextcloud.deck.domain.model.Activity;
 
 @Mapper(uses = {CommonLocalMapper.class})
-public interface AttachmentMapper extends GenericMapper<AttachmentEntity, Attachment> {
+public interface ActivityMapper extends GenericMapper<ActivityEntity, Activity> {
 
-    AttachmentMapper INSTANCE = Mappers.getMapper(AttachmentMapper.class);
+    ActivityMapper INSTANCE = Mappers.getMapper(ActivityMapper.class);
 
     @Override
     @Mapping(target = "localId", source = "id")
     @Mapping(target = "remoteId", source = "remoteId")
     @Mapping(target = "etag", ignore = true)
-    AttachmentEntity toEntity(Attachment attachment);
+    ActivityEntity toEntity(Activity activity);
 
     @Override
     @Mapping(target = "id", source = "localId")
-    @Mapping(target = "title", expression = "java(entity.getData() != null ? entity.getData() : \"\")")
-    @Mapping(target = "size", source = "filesize")
+    @Mapping(target = "remoteId", source = "remoteId")
     @Mapping(target = "status", expression = "java(it.niedermann.nextcloud.deck.domain.model.DBStatus.findById(entity.getStatus()))")
     @Mapping(target = "lastModified", source = "lastModified")
-    @Mapping(target = "localPath", source = "localPath")
-    Attachment toTO(AttachmentEntity entity);
+    @Mapping(target = "author", ignore = true)
+    Activity toTO(ActivityEntity entity);
 }

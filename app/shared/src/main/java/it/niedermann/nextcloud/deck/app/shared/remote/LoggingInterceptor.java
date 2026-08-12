@@ -38,10 +38,16 @@ public class LoggingInterceptor implements Interceptor {
 
         final ResponseBody responseBody = response.body();
         if (responseBody != null) {
-            final BufferedSource source = responseBody.source();
-            source.request(Long.MAX_VALUE); // Buffer the entire body.
-            final Buffer buffer = source.getBuffer();
-            logger.info(() -> buffer.clone().readString(StandardCharsets.UTF_8));
+            final var contentType = responseBody.contentType();
+            final String contentTypeString = contentType != null ? contentType.toString() : "";
+            if (contentTypeString.contains("application/json") || contentTypeString.contains("application/problem+json") || contentTypeString.contains("application/problem-json")) {
+                final BufferedSource source = responseBody.source();
+                source.request(Long.MAX_VALUE); // Buffer the entire body.
+                final Buffer buffer = source.getBuffer();
+                logger.info(() -> buffer.clone().readString(StandardCharsets.UTF_8));
+            } else {
+                logger.info(() -> "[blob] (" + contentTypeString + ")");
+            }
         }
 
         return response;

@@ -5,6 +5,6 @@ import androidx.room3.PrimaryKey
 
 @Entity(tableName = "Permission")
 data class PermissionEntity(
-    @PrimaryKey(autoGenerate = true)
+    @PrimaryKey
     val id: Long
 )

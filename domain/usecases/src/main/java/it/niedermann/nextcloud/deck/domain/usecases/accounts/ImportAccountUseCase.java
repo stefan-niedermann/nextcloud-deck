@@ -6,6 +6,7 @@ import org.reactivestreams.FlowAdapters;
 import java.net.URL;
 import java.util.concurrent.Flow;
 import java.util.concurrent.atomic.AtomicReference;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import io.reactivex.rxjava3.core.Flowable;
@@ -48,7 +49,10 @@ public class ImportAccountUseCase {
                     logger.info("ImportAccountUseCase :: SyncStatus :: " + syncStatus);
                     return syncStatus;
                 })
-                .doOnError(e -> accountRepository.removeAccount(accountId.get()));
+                .doOnError(e -> {
+                    logger.log(Level.SEVERE, "ImportAccountUseCase :: Error during import", e);
+                    accountRepository.removeAccount(accountId.get());
+                });
 
         return FlowAdapters.toFlowPublisher(result);
     }

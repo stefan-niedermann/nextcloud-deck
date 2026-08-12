@@ -2,6 +2,7 @@ package it.niedermann.nextcloud.remote.deck.mapper;
 
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
+import org.mapstruct.ReportingPolicy;
 import org.mapstruct.factory.Mappers;
 
 import it.niedermann.nextcloud.deck.domain.model.Board;
@@ -10,7 +11,7 @@ import it.niedermann.nextcloud.remote.deck.dto.PermissionsDTO;
 
 import java.time.OffsetDateTime;
 
-@Mapper(uses = {CommonRemoteMapper.class})
+@Mapper(uses = {CommonRemoteMapper.class}, unmappedTargetPolicy = ReportingPolicy.IGNORE)
 public interface BoardRemoteMapper extends GenericRemoteMapper<BoardDTO, Board> {
 
     BoardRemoteMapper INSTANCE = Mappers.getMapper(BoardRemoteMapper.class);
@@ -25,6 +26,7 @@ public interface BoardRemoteMapper extends GenericRemoteMapper<BoardDTO, Board> 
     @Mapping(target = "acl", ignore = true)
     @Mapping(target = "users", ignore = true)
     @Mapping(target = "etag", ignore = true)
+    @Mapping(target = "deletedAt", ignore = true)
     BoardDTO toDTO(Board board);
 
     @Override

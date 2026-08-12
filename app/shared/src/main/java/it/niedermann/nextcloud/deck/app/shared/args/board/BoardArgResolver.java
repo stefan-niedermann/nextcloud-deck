@@ -40,7 +40,7 @@ public class BoardArgResolver implements ArgsResolver<BoardRawArgs, BoardParsedA
                     .flatMapSingle(hasAccounts -> {
                         // TODO No need to check for hasAccounts, better check fo accounts.exist(args)
                         if (hasAccounts) {
-                            return Single.fromCompletionStage(getCurrentAccountUseCase.execute());
+                            return Maybe.fromCompletionStage(getCurrentAccountUseCase.execute()).toSingle();
                         }
 
                         return Single.error(new BoardArgResolver.NoAccountConfiguredException());

@@ -2,12 +2,13 @@ package it.niedermann.nextcloud.remote.deck.mapper;
 
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
+import org.mapstruct.ReportingPolicy;
 import org.mapstruct.factory.Mappers;
 
 import it.niedermann.nextcloud.deck.domain.model.AccessControl;
 import it.niedermann.nextcloud.remote.deck.dto.AccessControlDTO;
 
-@Mapper(uses = {UserRemoteMapper.class, CommonRemoteMapper.class})
+@Mapper(uses = {UserRemoteMapper.class, CommonRemoteMapper.class}, unmappedTargetPolicy = ReportingPolicy.IGNORE)
 public interface AccessControlRemoteMapper extends GenericRemoteMapper<AccessControlDTO, AccessControl> {
 
     AccessControlRemoteMapper INSTANCE = Mappers.getMapper(AccessControlRemoteMapper.class);
@@ -32,5 +33,6 @@ public interface AccessControlRemoteMapper extends GenericRemoteMapper<AccessCon
     @Mapping(target = "accountId", ignore = true)
     @Mapping(target = "userId", ignore = true)
     @Mapping(target = "status", expression = "java(it.niedermann.nextcloud.deck.domain.model.DBStatus.UP_TO_DATE)")
+    @Mapping(target = "lastModified", ignore = true)
     AccessControl toTO(AccessControlDTO aclDTO);
 }

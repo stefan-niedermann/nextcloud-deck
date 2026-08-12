@@ -79,6 +79,14 @@ dependencies {
     implementation("io.swagger.core.v3:swagger-annotations:2.2.22")
     implementation("com.google.code.findbugs:jsr305:3.0.2")
     implementation("javax.annotation:javax.annotation-api:1.3.2")
+
+    testImplementation(platform(libs.junitBom))
+    testImplementation(libs.junitJupiter)
+    testRuntimeOnly("org.junit.platform:junit-platform-launcher")
+}
+
+tasks.named<Test>("test") {
+    useJUnitPlatform()
 }
 
 tasks.named("compileJava") {

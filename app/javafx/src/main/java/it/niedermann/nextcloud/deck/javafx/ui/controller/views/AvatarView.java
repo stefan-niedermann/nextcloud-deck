@@ -3,6 +3,7 @@ package it.niedermann.nextcloud.deck.javafx.ui.controller.views;
 import org.kordamp.ikonli.javafx.FontIcon;
 
 import java.io.ByteArrayInputStream;
+import java.util.Objects;
 import java.util.concurrent.CompletableFuture;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -49,13 +50,16 @@ public class AvatarView extends ImageView {
         fitWidthProperty().addListener((_, _, newValue) -> sizeProcessor.onNext(newValue.doubleValue()));
 
         Flowable.combineLatest(
-                requestProcessor,
-                sizeProcessor,
+                requestProcessor.distinctUntilChanged((r1, r2) ->
+                        Objects.equals(r1.account(), r2.account()) &&
+                        Objects.equals(r1.userId(), r2.userId())
+                ),
+                sizeProcessor.distinctUntilChanged().filter(size -> size > 0),
                 RequestSize::new
         ).subscribe(newValue -> loadImage(newValue.request(), newValue.size()));
     }
 
-    private record Request(Account account, User.ID userId, CompletableFuture<Void> onLoaded) {
+    private record Request(Account account, it.niedermann.nextcloud.deck.domain.model.User.ID userId, CompletableFuture<Void> onLoaded) {
     }
 
     private record RequestSize(Request request, double size) {

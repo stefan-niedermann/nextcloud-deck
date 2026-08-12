@@ -1,10 +1,15 @@
 package it.niedermann.nextcloud.deck.data.sync.provider;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import java.util.function.Consumer;
 import java.util.logging.Logger;
 
 import it.niedermann.nextcloud.deck.data.local.dao.BoardDao;
+import it.niedermann.nextcloud.deck.data.local.dao.UserDao;
+import it.niedermann.nextcloud.deck.data.local.dao.JoinBoardWithUserDao;
+import it.niedermann.nextcloud.deck.data.local.dao.JoinBoardWithPermissionDao;
 import it.niedermann.nextcloud.deck.data.local.entity.BoardEntity;
 import it.niedermann.nextcloud.deck.data.local.mapper.BoardMapper;
 import it.niedermann.nextcloud.deck.domain.model.Account;
@@ -13,6 +18,8 @@ import it.niedermann.nextcloud.deck.domain.state.SyncStatus;
 import it.niedermann.nextcloud.remote.ApiProvider;
 import it.niedermann.nextcloud.remote.deck.DeckApi;
 import it.niedermann.nextcloud.remote.deck.dto.BoardDTO;
+import it.niedermann.nextcloud.deck.data.local.entity.JoinBoardWithUserEntity;
+import it.niedermann.nextcloud.deck.data.local.entity.JoinBoardWithPermissionEntity;
 import it.niedermann.nextcloud.remote.deck.mapper.BoardRemoteMapper;
 import jakarta.inject.Inject;
 import retrofit2.HttpException;
@@ -22,14 +29,20 @@ public class BoardSyncProvider implements SyncProvider<Void> {
     private static final Logger logger = Logger.getLogger(BoardSyncProvider.class.getName());
 
     private final BoardDao boardDao;
+    private final JoinBoardWithUserDao joinBoardWithUserDao;
+    private final JoinBoardWithPermissionDao joinBoardWithPermissionDao;
+    private final UserSyncHelper userSyncHelper;
     private final ApiProvider.Factory apiFactory;
     private ColumnSyncProvider columnSyncProvider;
     private LabelSyncProvider labelSyncProvider;
     private AccessControlSyncProvider accessControlSyncProvider;
 
     @Inject
-    public BoardSyncProvider(BoardDao boardDao, ApiProvider.Factory apiFactory) {
+    public BoardSyncProvider(BoardDao boardDao, JoinBoardWithUserDao joinBoardWithUserDao, JoinBoardWithPermissionDao joinBoardWithPermissionDao, UserSyncHelper userSyncHelper, ApiProvider.Factory apiFactory) {
         this.boardDao = boardDao;
+        this.joinBoardWithUserDao = joinBoardWithUserDao;
+        this.joinBoardWithPermissionDao = joinBoardWithPermissionDao;
+        this.userSyncHelper = userSyncHelper;
         this.apiFactory = apiFactory;
     }
 
@@ -183,31 +196,78 @@ public class BoardSyncProvider implements SyncProvider<Void> {
         return api.getBoards(true, null, null)
                 .thenCompose(boards -> {
                     if (boards == null) return CompletableFuture.completedFuture(null);
-                    CompletableFuture<Void> future = CompletableFuture.completedFuture(null);
                     long total = boards.size();
+                    CompletableFuture<?>[] boardFutures = new CompletableFuture[boards.size()];
                     for (int i = 0; i < boards.size(); i++) {
                         BoardDTO boardDto = boards.get(i);
-                        if (boardDto == null) continue;
+                        if (boardDto == null) {
+                            boardFutures[i] = CompletableFuture.completedFuture(null);
+                            continue;
+                        }
                         final long finished = i + 1;
-                        final var finalFuture = future;
-                        future = finalFuture.thenCompose(v -> mergeBoard(account, boardDto))
+                        boardFutures[i] = mergeBoard(account, boardDto)
                                 .thenCompose(localBoardId -> {
                                     SyncStatus newStatus = status.withBoards(total, finished, boardDto.getTitle());
                                     reporter.accept(newStatus);
                                     return CompletableFuture.allOf(
-                                            columnSyncProvider.downSync(account, boardDto, localBoardId, newStatus, reporter),
+                                            syncBoardUsers(account, boardDto, localBoardId),
+                                            syncBoardPermissions(account, boardDto, localBoardId),
                                             labelSyncProvider.downSync(account, boardDto, localBoardId, newStatus, reporter),
                                             accessControlSyncProvider.downSync(account, boardDto, localBoardId, newStatus, reporter)
-                                    );
+                                    ).thenCompose(v -> columnSyncProvider.downSync(account, boardDto, localBoardId, newStatus, reporter));
                                 });
                     }
-                    return future;
+                    return CompletableFuture.allOf(boardFutures);
+                });
+    }
+
+    private CompletableFuture<Void> syncBoardUsers(Account account, BoardDTO boardDto, Long localBoardId) {
+        if (boardDto.getUsers() == null) return CompletableFuture.completedFuture(null);
+        logger.info("Syncing " + boardDto.getUsers().size() + " users for board " + boardDto.getId());
+        return joinBoardWithUserDao.deleteByBoardId(localBoardId)
+                .thenCompose(v -> {
+                    CompletableFuture<?>[] futures = new CompletableFuture[boardDto.getUsers().size()];
+                    for (int i = 0; i < boardDto.getUsers().size(); i++) {
+                        var userDto = boardDto.getUsers().get(i);
+                        futures[i] = userSyncHelper.syncUser(account, userDto)
+                                .thenCompose(localUser -> {
+                                    if (localUser == null) return CompletableFuture.completedFuture(null);
+                                    return joinBoardWithUserDao.upsert(new JoinBoardWithUserEntity(localBoardId, localUser.getLocalId(), DBStatus.UP_TO_DATE.getId()))
+                                            .thenApply(v3 -> null);
+                                });
+                    }
+                    return CompletableFuture.allOf(futures);
+                });
+    }
+
+    private CompletableFuture<Void> syncBoardPermissions(Account account, BoardDTO boardDto, Long localBoardId) {
+        if (boardDto.getPermissions() == null) return CompletableFuture.completedFuture(null);
+        logger.info("Syncing permissions for board " + boardDto.getId());
+        return joinBoardWithPermissionDao.deleteByBoardId(localBoardId)
+                .thenCompose(v -> {
+                    var permissions = boardDto.getPermissions();
+                    List<CompletableFuture<?>> futures = new ArrayList<>();
+                    if (Boolean.TRUE.equals(permissions.getPermissionRead())) {
+                        futures.add(joinBoardWithPermissionDao.upsert(new JoinBoardWithPermissionEntity(localBoardId, 1L, DBStatus.UP_TO_DATE.getId())));
+                    }
+                    if (Boolean.TRUE.equals(permissions.getPermissionEdit())) {
+                        futures.add(joinBoardWithPermissionDao.upsert(new JoinBoardWithPermissionEntity(localBoardId, 2L, DBStatus.UP_TO_DATE.getId())));
+                    }
+                    if (Boolean.TRUE.equals(permissions.getPermissionManage())) {
+                        futures.add(joinBoardWithPermissionDao.upsert(new JoinBoardWithPermissionEntity(localBoardId, 3L, DBStatus.UP_TO_DATE.getId())));
+                    }
+                    if (Boolean.TRUE.equals(permissions.getPermissionShare())) {
+                        futures.add(joinBoardWithPermissionDao.upsert(new JoinBoardWithPermissionEntity(localBoardId, 4L, DBStatus.UP_TO_DATE.getId())));
+                    }
+                    return CompletableFuture.allOf(futures.toArray(new CompletableFuture[0]));
                 });
     }
 
     private CompletableFuture<Long> mergeBoard(Account account, BoardDTO boardDto) {
         if (boardDto.getId() == null) return CompletableFuture.completedFuture(null);
-        return boardDao.getBoardByRemoteId(account.id().value(), boardDto.getId())
+        CompletableFuture<Long> userIdFuture = userSyncHelper.syncUser(account, boardDto.getOwner())
+                .thenApply(user -> user != null ? user.getLocalId() : null);
+        return userIdFuture.thenCompose(ownerLocalId -> boardDao.getBoardByRemoteId(account.id().value(), boardDto.getId())
                 .handle((localBoard, throwable) -> {
                     BoardEntity serverBoard = BoardMapper.INSTANCE.toEntity(BoardRemoteMapper.INSTANCE.toTO(boardDto));
                     if (throwable != null || localBoard == null) {
@@ -220,7 +280,7 @@ public class BoardSyncProvider implements SyncProvider<Void> {
                                 serverBoard.getLastModified(),
                                 serverBoard.getEtag(),
                                 serverBoard.getTitle(),
-                                serverBoard.getOwnerId(),
+                                ownerLocalId,
                                 serverBoard.getColor(),
                                 serverBoard.getArchived(),
                                 serverBoard.getShared(),
@@ -231,7 +291,7 @@ public class BoardSyncProvider implements SyncProvider<Void> {
                                 serverBoard.getPermissionShare(),
                                 null
                         );
-                        return boardDao.insert(newLocal);
+                        return boardDao.insertOrReplace(newLocal);
                     } else {
                         if (localBoard.getStatus() == DBStatus.CONFLICT.getId()) {
                             return CompletableFuture.completedFuture(localBoard.getLocalId());
@@ -248,7 +308,7 @@ public class BoardSyncProvider implements SyncProvider<Void> {
                                 serverBoard.getLastModified(),
                                 serverBoard.getEtag(),
                                 serverBoard.getTitle(),
-                                serverBoard.getOwnerId(),
+                                ownerLocalId,
                                 serverBoard.getColor(),
                                 serverBoard.getArchived(),
                                 serverBoard.getShared(),
@@ -261,6 +321,6 @@ public class BoardSyncProvider implements SyncProvider<Void> {
                         );
                         return boardDao.updateRx(updatedLocal).thenApply(v -> localBoard.getLocalId());
                     }
-                }).thenCompose(f -> f);
+                }).thenCompose(f -> f));
     }
 }

@@ -18,6 +18,7 @@ import dagger.assisted.Assisted;
 import dagger.assisted.AssistedFactory;
 import dagger.assisted.AssistedInject;
 import io.reactivex.rxjava4.core.Flowable;
+import io.reactivex.rxjava4.core.Maybe;
 import io.reactivex.rxjava4.core.Single;
 import io.reactivex.rxjava4.processors.BehaviorProcessor;
 import io.reactivex.rxjava4.processors.FlowableProcessor;
@@ -133,21 +134,25 @@ public class LoginScene extends DisposableController implements TitleReportable 
 
     public void submit() {
 
+        logger.info("Submit clicked, starting import process...");
         importInProgress.onNext(true);
 
         final var currentlyImportingAccountId = new AtomicReference<Account.ID>();
 
-        final var syncStatusDisposable = Single.fromCompletionStage(
+        final var syncStatusDisposable = Maybe.fromCompletionStage(
                         authenticateAccount(
                                 this.url.getText(),
                                 this.username.getText(),
                                 this.password.getText()))
+                .toSingle()
 
-                .flatMapPublisher(authenticatedAccount ->
-                        importAccountUseCase.execute(
-                                authenticatedAccount.url(),
-                                authenticatedAccount.username(),
-                                authenticatedAccount.token()))
+                .flatMapPublisher(authenticatedAccount -> {
+                    logger.info("Authentication successful, importing account: " + authenticatedAccount.username());
+                    return importAccountUseCase.execute(
+                            authenticatedAccount.url(),
+                            authenticatedAccount.username(),
+                            authenticatedAccount.token());
+                })
 
                 .observeOn(JavaFxScheduler.platform())
 
@@ -159,6 +164,7 @@ public class LoginScene extends DisposableController implements TitleReportable 
 
                 .doOnError(throwable -> {
 
+                    logger.log(Level.WARNING, "Import failed", throwable);
                     importInProgress.onNext(false);
 
                     if (throwable.getCause() instanceof SQLiteException) {
@@ -170,8 +176,16 @@ public class LoginScene extends DisposableController implements TitleReportable 
                 })
                 .ignoreElements()
                 .observeOn(JavaFxScheduler.platform())
-                .doFinally(() -> importInProgress.onNext(false))
-                .subscribe(() -> viewModel.onAccountImported(currentlyImportingAccountId.get()));
+                .doFinally(() -> {
+                    logger.info("Import process finished (finally)");
+                    importInProgress.onNext(false);
+                })
+                .subscribe(() -> {
+                    logger.info("Import process completed successfully for account: " + currentlyImportingAccountId.get());
+                    viewModel.onAccountImported(currentlyImportingAccountId.get());
+                }, throwable -> {
+                    logger.log(Level.SEVERE, "Unexpected error in import chain", throwable);
+                });
 
         addDisposable(syncStatusDisposable);
     }
