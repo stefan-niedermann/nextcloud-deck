@@ -34,6 +34,7 @@ import io.reactivex.rxjava4.core.Flowable;
 import it.niedermann.nextcloud.deck.app.shared.args.board.BoardArgResolver;
 import it.niedermann.nextcloud.deck.app.shared.args.board.BoardParsedArgs;
 import it.niedermann.nextcloud.deck.app.shared.args.board.BoardRawArgs;
+import it.niedermann.nextcloud.deck.data.repository.MockData;
 import it.niedermann.nextcloud.deck.domain.model.Account;
 import it.niedermann.nextcloud.deck.domain.model.Board;
 import it.niedermann.nextcloud.deck.domain.model.Card;
@@ -116,7 +117,7 @@ class MainStageIntegrationTest {
     private MainStageContext mainStageContext;
 
     private static final Account.ID ACCOUNT_ID = new Account.ID(1L);
-    private static final Account ACCOUNT = new Account(ACCOUNT_ID, createUrl("https://nextcloud.example.com"), "user", "token", "Account 1");
+    private static final Account ACCOUNT = new Account(ACCOUNT_ID, createUrl("https://nextcloud.example.com"), "user", "token", "Account 1", MockData.MOCK_CAPABILITIES);
     private static final Board BOARD_1 = new Board(new Board.ID(1L), "Board 1", new Color(0, 0, 255), new Board.Permissions(true, true, true, true));
     private static final Board BOARD_2 = new Board(new Board.ID(2L), "Board 2", new Color(0, 255, 0), new Board.Permissions(true, true, true, true));
     private static final Column COLUMN_1 = new Column(new Column.ID(1L), BOARD_1.id(), "Column 1", 0);

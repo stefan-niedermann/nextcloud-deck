@@ -25,6 +25,7 @@ import it.niedermann.nextcloud.deck.domain.usecases.comments.DeleteCommentUseCas
 import it.niedermann.nextcloud.deck.domain.usecases.comments.ListPreviewCommentsUseCase
 import it.niedermann.nextcloud.deck.domain.usecases.comments.UpdateCommentUseCase
 import it.niedermann.nextcloud.deck.domain.usecases.labels.ListLabelsUseCase
+import it.niedermann.nextcloud.deck.domain.usecases.state.GetCurrentAccountUseCase
 import it.niedermann.nextcloud.deck.domain.usecases.users.SearchUserUseCase
 import jakarta.inject.Inject
 import kotlinx.coroutines.Dispatchers
@@ -57,7 +58,8 @@ class CardDetailsViewModel @Inject constructor(
     private val searchUserUseCase: SearchUserUseCase,
     private val addCommentUseCase: AddCommentUseCase,
     private val updateCommentUseCase: UpdateCommentUseCase,
-    private val deleteCommentUseCase: DeleteCommentUseCase
+    private val deleteCommentUseCase: DeleteCommentUseCase,
+    private val getCurrentAccountUseCase: GetCurrentAccountUseCase
 ) : ViewModel() {
 
     private val _card = MutableStateFlow<Card?>(null)

@@ -31,6 +31,9 @@ dependencies {
 
     implementation(libs.rxjava4)
 
+    implementation(libs.record.builder.core)
+    annotationProcessor(libs.record.builder.processor)
+
     implementation(libs.openjfx.controls)
     implementation(libs.openjfx.fxml)
     implementation(libs.ikonli.javafx)

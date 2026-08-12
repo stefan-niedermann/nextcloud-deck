@@ -2,6 +2,7 @@ package it.niedermann.nextcloud.deck.data.repository;
 
 import org.reactivestreams.FlowAdapters;
 
+import java.time.OffsetDateTime;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
@@ -18,6 +19,7 @@ import it.niedermann.nextcloud.deck.domain.model.Board;
 import it.niedermann.nextcloud.deck.domain.model.Card;
 import it.niedermann.nextcloud.deck.domain.model.Column;
 import it.niedermann.nextcloud.deck.domain.model.CreateCard;
+import it.niedermann.nextcloud.deck.domain.model.FilterInformation;
 import it.niedermann.nextcloud.deck.domain.model.User;
 import it.niedermann.nextcloud.deck.domain.model.query.PreviewCard;
 import it.niedermann.nextcloud.deck.domain.repository.CardRepository;
@@ -63,13 +65,59 @@ public class CardRepositoryImpl implements CardRepository {
 
     @Override
     public Flow.Publisher<List<PreviewCard>> getNotDeletedCardPreviews(Column.ID columnId) {
+        return getNotDeletedCardPreviews(columnId, FilterInformation.EMPTY);
+    }
+
+    @Override
+    public Flow.Publisher<List<PreviewCard>> getNotDeletedCardPreviews(Column.ID columnId, FilterInformation filter) {
         return FlowAdapters.toFlowPublisher(
-                Flowable.fromCallable(() -> MockData.MOCK_CARDS.stream()
-                        .filter(card -> Objects.equals(card.columnId(), columnId))
-                        .map(this::toPreviewCard)
-                        .collect(Collectors.toList()))
-                        .subscribeOn(Schedulers.io())
+                Flowable.fromCallable(() -> {
+                    final var now = OffsetDateTime.now();
+                    return MockData.MOCK_CARDS.stream()
+                            .filter(card -> Objects.equals(card.columnId(), columnId))
+                            .filter(card -> applyFilter(card, filter, now))
+                            .map(this::toPreviewCard)
+                            .collect(Collectors.toList());
+                }).subscribeOn(Schedulers.io())
         );
+    }
+
+    private boolean applyFilter(Card card, FilterInformation filter, OffsetDateTime now) {
+        if (!filter.labelIds().isEmpty() && card.labels().stream().noneMatch(filter.labelIds()::contains)) {
+            return false;
+        }
+        if (!filter.assigneeIds().isEmpty() && card.assignees().stream().noneMatch(filter.assigneeIds()::contains)) {
+            return false;
+        }
+
+        switch (filter.doneState()) {
+            case DONE -> {
+                if (card.done() == null) return false;
+            }
+            case NOT_DONE -> {
+                if (card.done() != null) return false;
+            }
+        }
+
+        switch (filter.dueDateFilter()) {
+            case OVERDUE -> {
+                if (card.dueDate() == null || !card.dueDate().isBefore(now)) return false;
+            }
+            case TODAY -> {
+                if (card.dueDate() == null || !card.dueDate().toLocalDate().equals(now.toLocalDate())) return false;
+            }
+            case NEXT_7_DAYS -> {
+                if (card.dueDate() == null || card.dueDate().isBefore(now) || !card.dueDate().isBefore(now.plusDays(7))) return false;
+            }
+            case NEXT_30_DAYS -> {
+                if (card.dueDate() == null || card.dueDate().isBefore(now) || !card.dueDate().isBefore(now.plusDays(30))) return false;
+            }
+            case NO_DUE_DATE -> {
+                if (card.dueDate() != null) return false;
+            }
+        }
+
+        return true;
     }
 
     private PreviewCard toPreviewCard(Card card) {

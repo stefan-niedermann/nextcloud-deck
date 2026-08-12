@@ -9,6 +9,7 @@ import dagger.assisted.AssistedInject;
 import it.niedermann.nextcloud.deck.app.shared.args.board.BoardArgResolver;
 import it.niedermann.nextcloud.deck.app.shared.args.board.BoardParsedArgs;
 import it.niedermann.nextcloud.deck.app.shared.args.board.BoardRawArgs;
+import it.niedermann.nextcloud.deck.domain.model.FilterInformation;
 import it.niedermann.nextcloud.deck.domain.usecases.state.SetCurrentAccountUseCase;
 import it.niedermann.nextcloud.deck.javafx.exception.ExceptionUnwrapper;
 import it.niedermann.nextcloud.deck.javafx.services.application.ThemeService;
@@ -68,7 +69,8 @@ public class MainStageManager extends StageManager<BoardRawArgs, BoardParsedArgs
         final var stageContext = stageContextFactory.createStageContext(new MainStageContext.State(
                 Optional.ofNullable(parsedArgs.accountId()),
                 Optional.ofNullable(parsedArgs.boardId()),
-                Optional.empty()
+                Optional.empty(),
+                FilterInformation.EMPTY
         ));
 
         final var mainScene = mainSceneFactory.createMainScene(stageContext);

@@ -5,6 +5,7 @@ import org.reactivestreams.FlowAdapters;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CompletionException;
 import java.util.concurrent.Flow;
@@ -69,9 +70,9 @@ public class UserRepositoryImpl implements UserRepository {
     }
 
     @Override
-    public Flow.Publisher<Collection<?>> getNotDeletedUsers(long accountId) {
+    public Flow.Publisher<List<User>> getNotDeletedUsers(Account.ID accountId) {
         System.out.println("[Mock][" + UserRepositoryImpl.class.getSimpleName() + "/getNotDeletedUsers]: " + accountId);
-        return null;
+        return FlowAdapters.toFlowPublisher(Flowable.just(Arrays.asList(MockData.MOCK_USERS)));
     }
 
     @Override

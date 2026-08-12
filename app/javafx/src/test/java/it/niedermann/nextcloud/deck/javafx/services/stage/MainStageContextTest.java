@@ -18,6 +18,7 @@ import io.reactivex.rxjava4.core.Flowable;
 import io.reactivex.rxjava4.subscribers.TestSubscriber;
 import it.niedermann.nextcloud.deck.domain.model.Account;
 import it.niedermann.nextcloud.deck.domain.model.Board;
+import it.niedermann.nextcloud.deck.domain.model.FilterInformation;
 import it.niedermann.nextcloud.deck.domain.state.KeyValueStore;
 import it.niedermann.nextcloud.deck.domain.usecases.boards.GetBoardUseCase;
 import it.niedermann.nextcloud.deck.domain.usecases.cards.CopyCardUseCase;
@@ -85,7 +86,7 @@ class MainStageContextTest {
                 inflater,
                 pickStackFeatureFactory,
                 getBoardUseCase,
-                new MainStageContext.State(Optional.empty(), Optional.empty(), Optional.empty())
+                new MainStageContext.State(Optional.empty(), Optional.empty(), Optional.empty(), FilterInformation.EMPTY)
         );
     }
 
@@ -94,7 +95,7 @@ class MainStageContextTest {
         final var testSubscriber = new TestSubscriber<MainStageContext.State>();
         mainStageContext.getState().subscribe(testSubscriber);
 
-        testSubscriber.assertValue(new MainStageContext.State(Optional.empty(), Optional.empty(), Optional.empty()));
+        testSubscriber.assertValue(new MainStageContext.State(Optional.empty(), Optional.empty(), Optional.empty(), FilterInformation.EMPTY));
     }
 
     @Test
@@ -109,8 +110,8 @@ class MainStageContextTest {
         mainStageContext.onAccountSelected(accountId);
 
         testSubscriber.assertValues(
-                new MainStageContext.State(Optional.empty(), Optional.empty(), Optional.empty()),
-                new MainStageContext.State(Optional.of(accountId), Optional.empty(), Optional.empty())
+                new MainStageContext.State(Optional.empty(), Optional.empty(), Optional.empty(), FilterInformation.EMPTY),
+                new MainStageContext.State(Optional.of(accountId), Optional.empty(), Optional.empty(), FilterInformation.EMPTY)
         );
 
         verify(setCurrentAccountUseCase).execute(accountId);
@@ -132,8 +133,8 @@ class MainStageContextTest {
         mainStageContext.onBoardSelected(boardId);
 
         testSubscriber.assertValues(
-                new MainStageContext.State(Optional.of(accountId), Optional.empty(), Optional.empty()),
-                new MainStageContext.State(Optional.of(accountId), Optional.of(boardId), Optional.empty())
+                new MainStageContext.State(Optional.of(accountId), Optional.empty(), Optional.empty(), FilterInformation.EMPTY),
+                new MainStageContext.State(Optional.of(accountId), Optional.of(boardId), Optional.empty(), FilterInformation.EMPTY)
         );
 
         verify(setCurrentBoardUseCase).execute(accountId, boardId);

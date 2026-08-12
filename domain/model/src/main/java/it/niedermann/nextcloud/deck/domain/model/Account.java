@@ -8,13 +8,15 @@ public record Account(
         URL url,
         String username,
         String token,
-        String accountName) {
+        String accountName,
+        Capabilities capabilities) {
 
     public Account {
         Objects.requireNonNull(id);
         Objects.requireNonNull(url);
         Objects.requireNonNull(username);
         Objects.requireNonNull(accountName);
+        Objects.requireNonNull(capabilities);
     }
 
     public record ID(long value) {

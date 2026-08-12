@@ -17,6 +17,7 @@ import io.reactivex.rxjava4.processors.FlowableProcessor;
 import it.niedermann.nextcloud.deck.domain.model.Card;
 import it.niedermann.nextcloud.deck.domain.model.Column;
 import it.niedermann.nextcloud.deck.domain.model.CreateCard;
+import it.niedermann.nextcloud.deck.domain.model.FilterInformation;
 import it.niedermann.nextcloud.deck.domain.model.query.PreviewCard;
 import it.niedermann.nextcloud.deck.domain.usecases.cards.AddCardUseCase;
 import it.niedermann.nextcloud.deck.domain.usecases.cards.ListCardPreviewsUseCase;
@@ -123,7 +124,8 @@ public class ColumnFeature extends DisposableController {
             }
         });
 
-        final var disposable = Flowable.fromPublisher(listCardPreviewsUseCase.execute(columnId))
+        final var disposable = viewModel.getFilter()
+                .switchMap(filter -> Flowable.fromPublisher(listCardPreviewsUseCase.execute(columnId, filter)))
                 .observeOn(JavaFxScheduler.platform())
                 .subscribe(cards -> {
                     this.cards.getItems().setAll(cards);
@@ -294,5 +296,6 @@ public class ColumnFeature extends DisposableController {
     }
 
     public interface ViewModel extends CardPreviewView.CardPreviewActionListener {
+        Flowable<FilterInformation> getFilter();
     }
 }

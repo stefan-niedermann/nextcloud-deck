@@ -7,6 +7,7 @@ import java.util.Set;
 
 import it.niedermann.nextcloud.deck.domain.model.Attachment;
 import it.niedermann.nextcloud.deck.domain.model.Board;
+import it.niedermann.nextcloud.deck.domain.model.Capabilities;
 import it.niedermann.nextcloud.deck.domain.model.Card;
 import it.niedermann.nextcloud.deck.domain.model.Color;
 import it.niedermann.nextcloud.deck.domain.model.Column;
@@ -15,6 +16,8 @@ import it.niedermann.nextcloud.deck.domain.model.Label;
 import it.niedermann.nextcloud.deck.domain.model.User;
 
 public interface MockData {
+
+    Capabilities MOCK_CAPABILITIES = Capabilities.DEFAULT;
 
     Color[] MOCK_COLORS = new Color[]{
             Color.decode("#b6469d"),

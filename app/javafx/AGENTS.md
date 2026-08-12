@@ -7,6 +7,7 @@
 - A `*Scene` is usually one Window (Stage) content and is composed by multiple `Features`
 - Features do have own State and Access to Services and UseCases
 - Views directly inherit an existing JavaFx element like a Node or a Parent or Pane and do not have any access to any injected classes. They usually have a `bind()` method that accepts a domain query model (See `:domain:model` module, `query` package).
+- Prefer applying stylable properties (like padding or spacing) in the CSS file rather than in the FXML file
 
 ## Unit-Tests
 - Tests should exclusively use [`TestFX`](https://github.com/TestFX/TestFX)

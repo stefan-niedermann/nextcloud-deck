@@ -10,10 +10,12 @@ import dagger.assisted.Assisted;
 import dagger.assisted.AssistedFactory;
 import dagger.assisted.AssistedInject;
 import io.reactivex.rxjava4.core.Flowable;
+import io.soabase.recordbuilder.core.RecordBuilder;
 import it.niedermann.nextcloud.deck.domain.model.Account;
 import it.niedermann.nextcloud.deck.domain.model.Board;
 import it.niedermann.nextcloud.deck.domain.model.Card;
 import it.niedermann.nextcloud.deck.domain.model.Column;
+import it.niedermann.nextcloud.deck.domain.model.FilterInformation;
 import it.niedermann.nextcloud.deck.domain.usecases.boards.GetBoardUseCase;
 import it.niedermann.nextcloud.deck.domain.usecases.cards.CopyCardUseCase;
 import it.niedermann.nextcloud.deck.domain.usecases.cards.DeleteCardUseCase;
@@ -90,11 +92,12 @@ public class MainStageContext extends Store<MainStageContext.State, MainStageCon
         super(storeLogger, initialState);
 
         on(Action.Initialize.class, (_, action) -> action.initialState());
-        on(Action.SwitchAccountAction.class, (state, action) -> state.withAccountId(action.accountId()));
-        on(Action.DisplayBoardAction.class, (state, action) -> state.withBoardId(action.boardId()));
-        on(Action.EditCardAction.class, (state, action) -> state.withCardId(action.cardId()));
+        on(Action.SwitchAccountAction.class, (state, action) -> state.withAccountId(Optional.of(action.accountId())).withBoardId(Optional.empty()).withCardId(Optional.empty()).withFilter(FilterInformation.EMPTY));
+        on(Action.DisplayBoardAction.class, (state, action) -> state.withBoardId(Optional.of(action.boardId())).withCardId(Optional.empty()).withFilter(FilterInformation.EMPTY));
+        on(Action.EditCardAction.class, (state, action) -> state.withCardId(Optional.of(action.cardId())));
         on(Action.EditBoardAction.class, (state, _) -> state);
-        on(Action.CloseCardAction.class, (state, _) -> state.withCardId(null));
+        on(Action.CloseCardAction.class, (state, _) -> state.withCardId(Optional.empty()));
+        on(Action.SetFilterAction.class, (state, action) -> state.withFilter(action.filter()));
 
         effect(Action.SwitchAccountAction.class, (state, action) -> {
             final var accountIdOpt = state.accountId();
@@ -208,6 +211,18 @@ public class MainStageContext extends Store<MainStageContext.State, MainStageCon
                 .distinctUntilChanged(Board.ID::equals);
     }
 
+    @Override
+    public Flowable<FilterInformation> getFilter() {
+        return Flowable.fromPublisher(getState())
+                .map(State::filter)
+                .distinctUntilChanged();
+    }
+
+    @Override
+    public void setFilter(FilterInformation filter) {
+        dispatch(new Action.SetFilterAction(filter));
+    }
+
     public Flowable<Board> getBoard() {
         return Flowable.fromPublisher(getBoardId())
                 .switchMap(getBoardUseCase::execute)
@@ -272,31 +287,13 @@ public class MainStageContext extends Store<MainStageContext.State, MainStageCon
                 .filter(Boolean.TRUE::equals).ifPresent(_ -> dispatch(new MainStageContext.Action.DeleteCardAction(cardId)));
     }
 
+    @RecordBuilder
     public record State(
             Optional<Account.ID> accountId,
             Optional<Board.ID> boardId,
-            Optional<Card.ID> cardId
-    ) {
-
-        public State withAccountId(Account.ID id) {
-            if (Objects.equals(accountId().orElse(null), id)) {
-                return this;
-            }
-
-            return new State(Optional.ofNullable(id), Optional.empty(), Optional.empty());
-        }
-
-        public State withBoardId(Board.ID boardId) {
-            if (Objects.equals(boardId().orElse(null), boardId)) {
-                return this;
-            }
-
-            return new State(accountId(), Optional.ofNullable(boardId), Optional.empty());
-        }
-
-        public State withCardId(Card.ID cardId) {
-            return new State(accountId(), boardId(), Optional.ofNullable(cardId));
-        }
+            Optional<Card.ID> cardId,
+            FilterInformation filter
+    ) implements MainStageContextStateBuilder.With {
     }
 
     public sealed interface Action {
@@ -329,6 +326,9 @@ public class MainStageContext extends Store<MainStageContext.State, MainStageCon
         }
 
         record CopyCardAction(Card.ID cardId, Column column) implements Action {
+        }
+
+        record SetFilterAction(FilterInformation filter) implements Action {
         }
     }
 }

@@ -41,6 +41,7 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.FilterList
 import androidx.compose.material.icons.outlined.Add
 import androidx.compose.material.icons.outlined.AttachFile
 import androidx.compose.material.icons.outlined.CheckBox
@@ -102,6 +103,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import it.niedermann.nextcloud.deck.domain.model.Account
 import it.niedermann.nextcloud.deck.domain.model.Card
 import it.niedermann.nextcloud.deck.domain.model.Column
+import it.niedermann.nextcloud.deck.domain.model.FilterInformation
 import it.niedermann.nextcloud.deck.domain.model.Label
 import it.niedermann.nextcloud.deck.domain.model.User
 import it.niedermann.nextcloud.deck.domain.model.query.PreviewCard
@@ -138,6 +140,9 @@ fun BoardScreen(
 ) {
     val columns by viewModel.columns.collectAsStateWithLifecycle()
     val cardsByColumn by viewModel.cardsByColumn.collectAsStateWithLifecycle()
+    val labels by viewModel.labels.collectAsStateWithLifecycle()
+    val users by viewModel.users.collectAsStateWithLifecycle()
+    val filter by viewModel.filter.collectAsStateWithLifecycle()
     val currentAccount by viewModel.currentAccount.collectAsStateWithLifecycle()
     val isRefreshing by viewModel.isRefreshing.collectAsStateWithLifecycle()
     val syncStatus by viewModel.syncStatus.collectAsStateWithLifecycle()
@@ -145,6 +150,7 @@ fun BoardScreen(
     val state = rememberPullToRefreshState()
     var showAddCardDialog by remember { mutableStateOf<Long?>(null) }
     var showAddColumnDialog by remember { mutableStateOf(false) }
+    var showFilter by remember { mutableStateOf(false) }
     var showPickStack by remember { mutableStateOf<Pair<Card.ID, PickStackViewModel.Mode>?>(null) }
 
     val screenWidth = with(LocalDensity.current) { LocalWindowInfo.current.containerSize.width.toDp() }.value
@@ -186,7 +192,12 @@ fun BoardScreen(
             AppTopBar(
                 onAddAccount = onAddAccount,
                 onCardClick = onCardClick,
-                onGoToBoardList = onGoToBoardList
+                onGoToBoardList = onGoToBoardList,
+                extraActions = {
+                    IconButton(onClick = { showFilter = true }) {
+                        Icon(Icons.Default.FilterList, contentDescription = "Filter")
+                    }
+                }
             )
         },
         floatingActionButton = {
@@ -347,6 +358,17 @@ fun BoardScreen(
                 viewModel.addCard(showAddCardDialog!!, title)
                 showAddCardDialog = null
             }
+        )
+    }
+
+    if (showFilter) {
+        FilterBottomSheet(
+            availableLabels = labels.values.toList(),
+            availableUsers = users,
+            filter = filter,
+            onApply = { viewModel.updateFilter(it) },
+            onReset = { viewModel.updateFilter(FilterInformation.EMPTY) },
+            onDismiss = { showFilter = false }
         )
     }
 }
