@@ -13,12 +13,14 @@ import org.testfx.api.FxRobot;
 import org.testfx.framework.junit5.ApplicationExtension;
 import org.testfx.framework.junit5.Start;
 
+import java.net.URI;
 import java.util.concurrent.Flow;
 
 import io.reactivex.rxjava4.core.Flowable;
 import it.niedermann.nextcloud.deck.app.shared.args.board.BoardArgResolver;
 import it.niedermann.nextcloud.deck.app.shared.args.board.BoardParsedArgs;
 import it.niedermann.nextcloud.deck.app.shared.args.board.BoardRawArgs;
+import it.niedermann.nextcloud.deck.app.shared.di.model.BuildConfig;
 import it.niedermann.nextcloud.deck.domain.model.Account;
 import it.niedermann.nextcloud.deck.domain.model.Board;
 import it.niedermann.nextcloud.deck.domain.state.KeyValueStore;
@@ -52,6 +54,7 @@ import it.niedermann.nextcloud.deck.javafx.ui.controller.scenes.ExceptionScene;
 import it.niedermann.nextcloud.deck.javafx.ui.controller.scenes.LoginScene;
 import it.niedermann.nextcloud.deck.javafx.ui.controller.scenes.SplashScreenScene;
 import it.niedermann.nextcloud.deck.javafx.ui.fxml.Inflater;
+import javafx.application.HostServices;
 import javafx.stage.Stage;
 
 @ExtendWith(ApplicationExtension.class)
@@ -185,6 +188,8 @@ class EditBoardStageIntegrationTest {
                 editBoardSceneFactory,
                 stageContextFactory,
                 boardArgResolver,
+                mock(HostServices.class),
+                new BuildConfig(URI.create("https://example.com/help-uri")),
                 new BoardRawArgs.ExplicitBoard(accountId, boardId)
         );
         manager.initialize();

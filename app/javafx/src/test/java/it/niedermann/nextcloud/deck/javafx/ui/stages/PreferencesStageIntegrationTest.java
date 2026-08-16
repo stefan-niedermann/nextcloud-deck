@@ -17,8 +17,11 @@ import org.testfx.framework.junit5.ApplicationExtension;
 import org.testfx.framework.junit5.Start;
 import org.testfx.matcher.control.LabeledMatchers;
 
+import java.net.URI;
+
 import io.reactivex.rxjava4.core.Flowable;
 import it.niedermann.nextcloud.deck.app.shared.args.EmptyArgs;
+import it.niedermann.nextcloud.deck.app.shared.di.model.BuildConfig;
 import it.niedermann.nextcloud.deck.domain.state.KeyValueStore;
 import it.niedermann.nextcloud.deck.domain.usecases.accounts.GetAccountUseCase;
 import it.niedermann.nextcloud.deck.domain.usecases.accounts.GetAccountsUseCase;
@@ -37,6 +40,7 @@ import it.niedermann.nextcloud.deck.javafx.ui.controller.scenes.LoginScene;
 import it.niedermann.nextcloud.deck.javafx.ui.controller.scenes.PreferencesScene;
 import it.niedermann.nextcloud.deck.javafx.ui.controller.scenes.SplashScreenScene;
 import it.niedermann.nextcloud.deck.javafx.ui.fxml.Inflater;
+import javafx.application.HostServices;
 import javafx.stage.Stage;
 
 @ExtendWith(ApplicationExtension.class)
@@ -56,6 +60,7 @@ class PreferencesStageIntegrationTest {
         when(keyValueStore.getString(ThemeService.KEY_THEME)).thenReturn(Flowable.just("AUTO"));
         when(keyValueStore.getBoolean(PreferencesStageContext.KEY_BACKGROUND_SYNC)).thenReturn(Flowable.just(true));
         when(keyValueStore.getBoolean(PreferencesStageContext.KEY_COMPACT_MODE)).thenReturn(Flowable.just(false));
+        when(keyValueStore.getBoolean(it.niedermann.nextcloud.deck.javafx.services.application.ExceptionService.KEY_DEBUG_MODE)).thenReturn(Flowable.just(false));
         when(keyValueStore.containsKey(anyString())).thenReturn(java.util.concurrent.CompletableFuture.completedFuture(true));
 
         final var getAccountsUseCase = mock(GetAccountsUseCase.class);
@@ -101,6 +106,8 @@ class PreferencesStageIntegrationTest {
                 setCurrentAccountUseCase,
                 preferencesSceneFactory,
                 stageContextFactory,
+                mock(HostServices.class),
+                new BuildConfig(URI.create("https://example.com/help-uri")),
                 EmptyArgs.INSTANCE
         );
         manager.initialize();

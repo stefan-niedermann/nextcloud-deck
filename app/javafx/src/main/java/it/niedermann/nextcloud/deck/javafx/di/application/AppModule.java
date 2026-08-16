@@ -18,6 +18,13 @@ public class AppModule {
 
     @Provides
     @Singleton
+    @NamedPreferencesVersion
+    int providePreferencesVersion() {
+        return 0;
+    }
+
+    @Provides
+    @Singleton
     KeyValueStore provideKeyValueStore(@NamedPreferencesVersion int preferencesVersion) {
         final var prefs = Preferences.userRoot().node(String.valueOf(preferencesVersion));
         return new PreferencesKeyValueStore(prefs);

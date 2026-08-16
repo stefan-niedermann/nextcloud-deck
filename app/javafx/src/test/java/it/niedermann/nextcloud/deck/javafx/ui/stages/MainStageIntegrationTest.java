@@ -1,6 +1,7 @@
 package it.niedermann.nextcloud.deck.javafx.ui.stages;
 
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.atLeastOnce;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
@@ -34,6 +35,7 @@ import io.reactivex.rxjava4.core.Flowable;
 import it.niedermann.nextcloud.deck.app.shared.args.board.BoardArgResolver;
 import it.niedermann.nextcloud.deck.app.shared.args.board.BoardParsedArgs;
 import it.niedermann.nextcloud.deck.app.shared.args.board.BoardRawArgs;
+import it.niedermann.nextcloud.deck.app.shared.di.model.BuildConfig;
 import it.niedermann.nextcloud.deck.data.repository.MockData;
 import it.niedermann.nextcloud.deck.domain.model.Account;
 import it.niedermann.nextcloud.deck.domain.model.Board;
@@ -61,12 +63,14 @@ import it.niedermann.nextcloud.deck.domain.usecases.columns.GetColumnUseCase;
 import it.niedermann.nextcloud.deck.domain.usecases.columns.ListColumnIDsUseCase;
 import it.niedermann.nextcloud.deck.domain.usecases.comments.AddCommentUseCase;
 import it.niedermann.nextcloud.deck.domain.usecases.comments.ListPreviewCommentsUseCase;
+import it.niedermann.nextcloud.deck.domain.usecases.labels.ListLabelsUseCase;
 import it.niedermann.nextcloud.deck.domain.usecases.labels.SearchLabelsUseCase;
 import it.niedermann.nextcloud.deck.domain.usecases.state.GetCurrentAccountUseCase;
 import it.niedermann.nextcloud.deck.domain.usecases.state.GetCurrentBoardUseCase;
 import it.niedermann.nextcloud.deck.domain.usecases.state.SetCurrentAccountUseCase;
 import it.niedermann.nextcloud.deck.domain.usecases.state.SetCurrentBoardUseCase;
 import it.niedermann.nextcloud.deck.domain.usecases.sync.ScheduleSyncUseCase;
+import it.niedermann.nextcloud.deck.domain.usecases.users.ListUsersUseCase;
 import it.niedermann.nextcloud.deck.domain.usecases.users.SearchUserUseCase;
 import it.niedermann.nextcloud.deck.javafx.exception.ExceptionUnwrapper;
 import it.niedermann.nextcloud.deck.javafx.services.application.ApplicationRouter;
@@ -97,6 +101,7 @@ import it.niedermann.nextcloud.deck.javafx.ui.suggestionproviders.UserSuggestion
 import it.niedermann.nextcloud.deck.javafx.ui.tagviewfactories.LabelTagViewFactory;
 import it.niedermann.nextcloud.deck.javafx.ui.tagviewfactories.UserTagViewFactory;
 import it.niedermann.nextcloud.deck.util.ColorUtil;
+import javafx.application.HostServices;
 import javafx.stage.Stage;
 
 @ExtendWith(ApplicationExtension.class)
@@ -185,7 +190,8 @@ class MainStageIntegrationTest {
         when(getBoardUseCase.execute(BOARD_2.id())).thenReturn(Flowable.just(BOARD_2));
         when(listColumnIDsUseCase.execute(BOARD_1.id())).thenReturn(Flowable.just(List.of(COLUMN_1.id())));
         when(getColumnUseCase.execute(COLUMN_1.id())).thenReturn(Flowable.just(COLUMN_1));
-        when(listCardPreviewsUseCase.execute(COLUMN_1.id())).thenReturn(Flowable.just(List.of(CARD_1)));
+        when(listCardPreviewsUseCase.execute(any(it.niedermann.nextcloud.deck.domain.model.Column.ID.class), any())).thenReturn(Flowable.empty());
+        when(listCardPreviewsUseCase.execute(eq(COLUMN_1.id()), any())).thenReturn(Flowable.just(List.of(CARD_1)));
         
         when(setCurrentBoardUseCase.execute(any(), any())).thenAnswer(invocation -> CompletableFuture.completedFuture(invocation.getArgument(1)));
         when(getCurrentAccountUseCase.execute()).thenReturn(CompletableFuture.completedFuture(ACCOUNT_ID));
@@ -247,6 +253,10 @@ class MainStageIntegrationTest {
                 getAccountUseCase,
                 mock(ScheduleSyncUseCase.class),
                 mock(RemoveAccountUseCase.class),
+                (filterInfo, labels, users, onApply) -> mock(it.niedermann.nextcloud.deck.javafx.ui.controller.features.FilterFeature.class),
+                mock(ListLabelsUseCase.class),
+                mock(ListUsersUseCase.class),
+                themeService,
                 () -> new AccountSwitcherFeature(
                         new it.niedermann.nextcloud.deck.javafx.ui.cellfactories.AccountListItemCellFactory(),
                         getAccountUseCase,
@@ -328,6 +338,8 @@ class MainStageIntegrationTest {
                 stageContextFactory,
                 exceptionUnwrapper,
                 boardArgResolver,
+                mock(HostServices.class),
+                new BuildConfig(URI.create("https://example.com/help-uri")),
                 new BoardRawArgs.CurrentBoardOfCurrentAccount()
         );
         manager.initialize();

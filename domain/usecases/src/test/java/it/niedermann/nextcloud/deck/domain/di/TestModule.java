@@ -107,18 +107,21 @@ public class TestModule {
         }
 
         @Override
-        public Flow.@NotNull Publisher<@NotNull String> getString(@NotNull String key) {
-            return FlowAdapters.toFlowPublisher(Flowable.just(store.get(key).toString()));
+        public Flow.@NotNull Publisher<@NotNull String> getString(@NotNull String key, @NotNull String defaultValue) {
+            final var value = store.get(key);
+            return FlowAdapters.toFlowPublisher(Flowable.just(value != null ? value.toString() : defaultValue));
         }
 
         @Override
-        public Flow.@NotNull Publisher<@NotNull Long> getLong(@NotNull String key) {
-            return FlowAdapters.toFlowPublisher(Flowable.just((Long) store.get(key)));
+        public Flow.@NotNull Publisher<@NotNull Long> getLong(@NotNull String key, long defaultValue) {
+            final var value = store.get(key);
+            return FlowAdapters.toFlowPublisher(Flowable.just(value instanceof Long ? (Long) value : defaultValue));
         }
 
         @Override
-        public Flow.@NotNull Publisher<@NotNull Boolean> getBoolean(@NotNull String key) {
-            return FlowAdapters.toFlowPublisher(Flowable.just((Boolean) store.get(key)));
+        public Flow.@NotNull Publisher<@NotNull Boolean> getBoolean(@NotNull String key, boolean defaultValue) {
+            final var value = store.get(key);
+            return FlowAdapters.toFlowPublisher(Flowable.just(value instanceof Boolean ? (Boolean) value : defaultValue));
         }
 
         @Override

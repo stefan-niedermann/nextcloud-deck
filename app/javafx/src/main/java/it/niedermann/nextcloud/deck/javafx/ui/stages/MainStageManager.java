@@ -9,6 +9,7 @@ import dagger.assisted.AssistedInject;
 import it.niedermann.nextcloud.deck.app.shared.args.board.BoardArgResolver;
 import it.niedermann.nextcloud.deck.app.shared.args.board.BoardParsedArgs;
 import it.niedermann.nextcloud.deck.app.shared.args.board.BoardRawArgs;
+import it.niedermann.nextcloud.deck.app.shared.di.model.BuildConfig;
 import it.niedermann.nextcloud.deck.domain.model.FilterInformation;
 import it.niedermann.nextcloud.deck.domain.usecases.state.SetCurrentAccountUseCase;
 import it.niedermann.nextcloud.deck.javafx.exception.ExceptionUnwrapper;
@@ -22,6 +23,7 @@ import it.niedermann.nextcloud.deck.javafx.ui.controller.scenes.MainScene;
 import it.niedermann.nextcloud.deck.javafx.ui.controller.scenes.SplashScreenScene;
 import it.niedermann.nextcloud.deck.javafx.ui.fxml.Inflater;
 import jakarta.inject.Provider;
+import javafx.application.HostServices;
 import javafx.stage.Stage;
 
 public class MainStageManager extends StageManager<BoardRawArgs, BoardParsedArgs> {
@@ -43,6 +45,8 @@ public class MainStageManager extends StageManager<BoardRawArgs, BoardParsedArgs
                             MainStageContext.Factory stageContextFactory,
                             ExceptionUnwrapper exceptionUnwrapper,
                             BoardArgResolver boardArgResolver,
+                            HostServices hostServices,
+                            BuildConfig buildConfig,
                             @Assisted BoardRawArgs args) {
         super(stage,
                 themeService,
@@ -53,6 +57,8 @@ public class MainStageManager extends StageManager<BoardRawArgs, BoardParsedArgs
                 exceptionFactoryProvider,
                 setCurrentAccountUseCase,
                 boardArgResolver,
+                hostServices,
+                buildConfig,
                 args);
         this.mainSceneFactory = mainSceneFactory;
         this.stageContextFactory = stageContextFactory;

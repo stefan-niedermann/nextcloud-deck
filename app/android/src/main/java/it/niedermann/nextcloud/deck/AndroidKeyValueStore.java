@@ -40,33 +40,33 @@ public class AndroidKeyValueStore implements KeyValueStore {
 
     @NonNull
     @Override
-    public Flow.Publisher<String> getString(@NotNull String key) {
+    public Flow.Publisher<String> getString(@NotNull String key, @NotNull String defaultValue) {
         return FlowAdapters.toFlowPublisher(
                 dataStore.data().map(prefs -> {
                     String value = prefs.get(PreferencesKeys.stringKey(key));
-                    return value != null ? value : "";
+                    return value != null ? value : defaultValue;
                 })
         );
     }
 
     @NonNull
     @Override
-    public Flow.Publisher<Long> getLong(@NotNull String key) {
+    public Flow.Publisher<Long> getLong(@NotNull String key, long defaultValue) {
         return FlowAdapters.toFlowPublisher(
                 dataStore.data().map(prefs -> {
                     Long value = prefs.get(PreferencesKeys.longKey(key));
-                    return value != null ? value : -1L;
+                    return value != null ? value : defaultValue;
                 })
         );
     }
 
     @NonNull
     @Override
-    public Flow.Publisher<Boolean> getBoolean(@NotNull String key) {
+    public Flow.Publisher<Boolean> getBoolean(@NotNull String key, boolean defaultValue) {
         return FlowAdapters.toFlowPublisher(
                 dataStore.data().map(prefs -> {
                     Boolean value = prefs.get(PreferencesKeys.booleanKey(key));
-                    return value != null ? value : false;
+                    return value != null ? value : defaultValue;
                 })
         );
     }

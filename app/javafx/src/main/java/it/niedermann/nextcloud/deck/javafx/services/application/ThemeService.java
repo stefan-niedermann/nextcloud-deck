@@ -70,7 +70,10 @@ public class ThemeService {
     }
 
     private void updateAllScenes(boolean isDark) {
-        scenes.removeIf(ref -> ref.get() == null);
+        scenes.removeIf(ref -> {
+            final var scene = ref.get();
+            return scene == null || scene.getWindow() == null || !scene.getWindow().isShowing();
+        });
         for (final var sceneRef : scenes) {
             final var scene = sceneRef.get();
             if (scene != null) {

@@ -9,9 +9,14 @@ interface KeyValueStore {
     fun putLong(key: String, value: Long): CompletableFuture<Void>
     fun putBoolean(key: String, value: Boolean): CompletableFuture<Void>
 
-    fun getString(key: String): Flow.Publisher<String>
-    fun getLong(key: String): Flow.Publisher<Long>
-    fun getBoolean(key: String): Flow.Publisher<Boolean>
+    fun getString(key: String, defaultValue: String): Flow.Publisher<String>
+    fun getString(key: String): Flow.Publisher<String> = getString(key, "")
+
+    fun getLong(key: String, defaultValue: Long): Flow.Publisher<Long>
+    fun getLong(key: String): Flow.Publisher<Long> = getLong(key, -1L)
+
+    fun getBoolean(key: String, defaultValue: Boolean): Flow.Publisher<Boolean>
+    fun getBoolean(key: String): Flow.Publisher<Boolean> = getBoolean(key, false)
 
     fun containsKey(key: String): CompletableFuture<Boolean>
     fun clear(): CompletableFuture<Void>

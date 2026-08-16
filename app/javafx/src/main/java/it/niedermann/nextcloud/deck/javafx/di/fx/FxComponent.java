@@ -7,6 +7,7 @@ import it.niedermann.nextcloud.deck.domain.usecases.users.GetAvatarUseCase;
 import it.niedermann.nextcloud.deck.javafx.di.named.NamedPrimaryStage;
 import it.niedermann.nextcloud.deck.javafx.exception.FxUncaughtExceptionHandler;
 import it.niedermann.nextcloud.deck.javafx.services.application.ApplicationRouter;
+import javafx.application.HostServices;
 import javafx.stage.Stage;
 
 @FxScope
@@ -17,7 +18,8 @@ public interface FxComponent {
 
     @Subcomponent.Factory
     interface Factory {
-        FxComponent create(@BindsInstance @NamedPrimaryStage Stage primaryStage);
+        FxComponent create(@BindsInstance HostServices hostServices,
+                           @BindsInstance @NamedPrimaryStage Stage primaryStage);
     }
 
     ApplicationRouter getApplicationRouter();

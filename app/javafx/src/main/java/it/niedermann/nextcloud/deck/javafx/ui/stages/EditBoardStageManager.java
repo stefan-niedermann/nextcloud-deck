@@ -8,6 +8,7 @@ import dagger.assisted.AssistedInject;
 import it.niedermann.nextcloud.deck.app.shared.args.board.BoardArgResolver;
 import it.niedermann.nextcloud.deck.app.shared.args.board.BoardParsedArgs;
 import it.niedermann.nextcloud.deck.app.shared.args.board.BoardRawArgs;
+import it.niedermann.nextcloud.deck.app.shared.di.model.BuildConfig;
 import it.niedermann.nextcloud.deck.domain.usecases.state.SetCurrentAccountUseCase;
 import it.niedermann.nextcloud.deck.javafx.di.stage.StageScope;
 import it.niedermann.nextcloud.deck.javafx.services.application.ThemeService;
@@ -20,6 +21,7 @@ import it.niedermann.nextcloud.deck.javafx.ui.controller.scenes.LoginScene;
 import it.niedermann.nextcloud.deck.javafx.ui.controller.scenes.SplashScreenScene;
 import it.niedermann.nextcloud.deck.javafx.ui.fxml.Inflater;
 import jakarta.inject.Provider;
+import javafx.application.HostServices;
 import javafx.stage.Stage;
 
 public class EditBoardStageManager extends StageManager<BoardRawArgs, BoardParsedArgs> {
@@ -39,6 +41,8 @@ public class EditBoardStageManager extends StageManager<BoardRawArgs, BoardParse
                                  EditBoardScene.Factory editBoardSceneFactory,
                                  EditBoardStageContext.Factory stageContextFactory,
                                  BoardArgResolver boardArgResolver,
+                                 HostServices hostServices,
+                                 BuildConfig buildConfig,
                                  @Assisted BoardRawArgs args) {
         super(stage,
                 themeService,
@@ -49,6 +53,8 @@ public class EditBoardStageManager extends StageManager<BoardRawArgs, BoardParse
                 exceptionFactoryProvider,
                 setCurrentAccountUseCase,
                 boardArgResolver,
+                hostServices,
+                buildConfig,
                 args);
         this.editBoardSceneFactory = editBoardSceneFactory;
         this.stageContextFactory = stageContextFactory;

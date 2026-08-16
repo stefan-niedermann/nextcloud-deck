@@ -8,20 +8,12 @@ import java.nio.file.Paths;
 import dagger.Module;
 import dagger.Provides;
 import it.niedermann.nextcloud.deck.javafx.di.named.NamedDbPath;
-import it.niedermann.nextcloud.deck.javafx.di.named.NamedPreferencesVersion;
 import it.niedermann.nextcloud.deck.javafx.di.named.NamedUserHomePath;
 import jakarta.inject.Singleton;
 
 @Module()
 public class ConfigModule {
-
-    @Provides
-    @Singleton
-    @NamedPreferencesVersion
-    int providePreferencesVersion() {
-        return 0;
-    }
-
+    
     @Provides
     @Singleton
     @NamedUserHomePath

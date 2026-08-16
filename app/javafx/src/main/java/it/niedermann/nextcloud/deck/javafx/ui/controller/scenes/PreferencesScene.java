@@ -24,6 +24,8 @@ public class PreferencesScene extends DisposableController implements TitleRepor
     private CheckBox backgroundSyncCheckBox;
     @FXML
     private CheckBox compactModeCheckBox;
+    @FXML
+    private CheckBox debugModeCheckBox;
 
     private final PreferencesStageContext preferencesStageContext;
 
@@ -51,6 +53,7 @@ public class PreferencesScene extends DisposableController implements TitleRepor
                     themeComboBox.setValue(state.theme());
                     backgroundSyncCheckBox.setSelected(state.backgroundSync());
                     compactModeCheckBox.setSelected(state.compactMode());
+                    debugModeCheckBox.setSelected(state.debugMode());
                 });
 
         addDisposable(stateDisposable);
@@ -68,6 +71,16 @@ public class PreferencesScene extends DisposableController implements TitleRepor
         compactModeCheckBox.selectedProperty().addListener((_, _, newValue) -> {
             preferencesStageContext.dispatch(new PreferencesStageContext.Action.SetCompactMode(newValue));
         });
+
+        debugModeCheckBox.selectedProperty().addListener((_, _, newValue) -> {
+            preferencesStageContext.dispatch(new PreferencesStageContext.Action.SetDebugMode(newValue));
+        });
+    }
+
+    @Override
+    public void dispose() {
+        super.dispose();
+        preferencesStageContext.dispose();
     }
 
     @Override

@@ -13,12 +13,14 @@ import org.testfx.api.FxRobot;
 import org.testfx.framework.junit5.ApplicationExtension;
 import org.testfx.framework.junit5.Start;
 
+import java.net.URI;
 import java.util.Optional;
 import java.util.concurrent.Flow;
 
 import io.reactivex.rxjava4.core.Flowable;
 import it.niedermann.nextcloud.deck.app.shared.args.card.CardArgResolver;
 import it.niedermann.nextcloud.deck.app.shared.args.card.CardRawArgs;
+import it.niedermann.nextcloud.deck.app.shared.di.model.BuildConfig;
 import it.niedermann.nextcloud.deck.domain.model.Card;
 import it.niedermann.nextcloud.deck.domain.state.KeyValueStore;
 import it.niedermann.nextcloud.deck.domain.usecases.accounts.GetAccountUseCase;
@@ -46,6 +48,7 @@ import it.niedermann.nextcloud.deck.javafx.ui.controller.scenes.ExceptionScene;
 import it.niedermann.nextcloud.deck.javafx.ui.controller.scenes.LoginScene;
 import it.niedermann.nextcloud.deck.javafx.ui.controller.scenes.SplashScreenScene;
 import it.niedermann.nextcloud.deck.javafx.ui.fxml.Inflater;
+import javafx.application.HostServices;
 import javafx.stage.Stage;
 
 @ExtendWith(ApplicationExtension.class)
@@ -171,6 +174,8 @@ class EditCardStageIntegrationTest {
                 cardArgResolver,
                 editCardStageContextFactory,
                 editCardSceneFactory,
+                mock(HostServices.class),
+                new BuildConfig(URI.create("https://example.com/help-uri")),
                 new CardRawArgs.LocalCard(cardId)
         );
         manager.initialize();

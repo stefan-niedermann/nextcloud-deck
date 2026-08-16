@@ -29,7 +29,7 @@ public class JavaFxApplication extends Application {
 
     @Override
     public void start(Stage stage) {
-        final var fxComponent = fxComponentFactory.create(stage);
+        final var fxComponent = fxComponentFactory.create(getHostServices(), stage);
         final var exceptionHandler = fxComponent.getFxUncaughtExceptionHandler();
 
         try {

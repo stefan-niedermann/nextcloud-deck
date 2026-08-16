@@ -50,23 +50,23 @@ public class PreferencesKeyValueStore implements KeyValueStore {
 
     @NonNull
     @Override
-    public Flow.Publisher<String> getString(@NotNull String key) {
+    public Flow.Publisher<String> getString(@NotNull String key, @NotNull String defaultValue) {
         //noinspection unchecked
-        return (Flow.Publisher<String>) flowableValuesByKey.computeIfAbsent(key, k -> get(key, () -> prefs.get(key, null)));
+        return (Flow.Publisher<String>) flowableValuesByKey.computeIfAbsent(key, k -> get(key, () -> prefs.get(key, defaultValue)));
     }
 
     @NonNull
     @Override
-    public Flow.Publisher<Long> getLong(@NotNull String key) {
+    public Flow.Publisher<Long> getLong(@NotNull String key, long defaultValue) {
         //noinspection unchecked
-        return (Flow.Publisher<Long>) flowableValuesByKey.computeIfAbsent(key, k -> get(key, () -> prefs.getLong(key, -1L)));
+        return (Flow.Publisher<Long>) flowableValuesByKey.computeIfAbsent(key, k -> get(key, () -> prefs.getLong(key, defaultValue)));
     }
 
     @NonNull
     @Override
-    public Flow.Publisher<Boolean> getBoolean(@NotNull String key) {
+    public Flow.Publisher<Boolean> getBoolean(@NotNull String key, boolean defaultValue) {
         //noinspection unchecked
-        return (Flow.Publisher<Boolean>) flowableValuesByKey.computeIfAbsent(key, k -> get(key, () -> prefs.getBoolean(key, false)));
+        return (Flow.Publisher<Boolean>) flowableValuesByKey.computeIfAbsent(key, k -> get(key, () -> prefs.getBoolean(key, defaultValue)));
     }
 
     @Override

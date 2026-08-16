@@ -24,6 +24,9 @@
 
                 <Label text="Compact Mode" GridPane.columnIndex="0" GridPane.rowIndex="2" />
                 <CheckBox fx:id="compactModeCheckBox" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+
+                <Label text="Debug Mode" GridPane.columnIndex="0" GridPane.rowIndex="3" />
+                <CheckBox fx:id="debugModeCheckBox" GridPane.columnIndex="1" GridPane.rowIndex="3" />
             </children>
         </GridPane>
     </children>

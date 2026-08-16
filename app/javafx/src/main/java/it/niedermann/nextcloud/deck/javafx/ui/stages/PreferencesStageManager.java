@@ -7,6 +7,7 @@ import dagger.assisted.AssistedFactory;
 import dagger.assisted.AssistedInject;
 import it.niedermann.nextcloud.deck.app.shared.args.EmptyArgs;
 import it.niedermann.nextcloud.deck.app.shared.args.StaticArgsResolver;
+import it.niedermann.nextcloud.deck.app.shared.di.model.BuildConfig;
 import it.niedermann.nextcloud.deck.domain.usecases.state.SetCurrentAccountUseCase;
 import it.niedermann.nextcloud.deck.javafx.di.stage.StageScope;
 import it.niedermann.nextcloud.deck.javafx.services.application.ThemeService;
@@ -19,6 +20,7 @@ import it.niedermann.nextcloud.deck.javafx.ui.controller.scenes.PreferencesScene
 import it.niedermann.nextcloud.deck.javafx.ui.controller.scenes.SplashScreenScene;
 import it.niedermann.nextcloud.deck.javafx.ui.fxml.Inflater;
 import jakarta.inject.Provider;
+import javafx.application.HostServices;
 import javafx.stage.Stage;
 
 public class PreferencesStageManager extends StageManager<EmptyArgs, EmptyArgs> {
@@ -37,6 +39,8 @@ public class PreferencesStageManager extends StageManager<EmptyArgs, EmptyArgs> 
                                    SetCurrentAccountUseCase setCurrentAccountUseCase,
                                    PreferencesScene.Factory preferencesSceneFactory,
                                    PreferencesStageContext.Factory stageContextFactory,
+                                   HostServices hostServices,
+                                   BuildConfig buildConfig,
                                    @Assisted EmptyArgs args) {
         super(stage,
                 themeService,
@@ -47,6 +51,8 @@ public class PreferencesStageManager extends StageManager<EmptyArgs, EmptyArgs> 
                 exceptionFactoryProvider,
                 setCurrentAccountUseCase,
                 new StaticArgsResolver<>(),
+                hostServices,
+                buildConfig,
                 args);
         this.preferencesSceneFactory = preferencesSceneFactory;
         this.stageContextFactory = stageContextFactory;

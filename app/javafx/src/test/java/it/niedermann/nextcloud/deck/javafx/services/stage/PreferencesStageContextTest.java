@@ -35,6 +35,7 @@ class PreferencesStageContextTest {
         when(keyValueStore.getString(ThemeService.KEY_THEME)).thenReturn(Flowable.just("AUTO"));
         when(keyValueStore.getBoolean(PreferencesStageContext.KEY_BACKGROUND_SYNC)).thenReturn(Flowable.just(true));
         when(keyValueStore.getBoolean(PreferencesStageContext.KEY_COMPACT_MODE)).thenReturn(Flowable.just(false));
+        when(keyValueStore.getBoolean(it.niedermann.nextcloud.deck.javafx.services.application.ExceptionService.KEY_DEBUG_MODE)).thenReturn(Flowable.just(false));
         when(keyValueStore.containsKey(anyString())).thenReturn(CompletableFuture.completedFuture(true));
 
         preferencesStageContext = new PreferencesStageContext(
@@ -50,7 +51,7 @@ class PreferencesStageContextTest {
         preferencesStageContext.getState().subscribe(testSubscriber);
         
         testSubscriber.awaitCount(1);
-        testSubscriber.assertValue(new PreferencesStageContext.State(Theme.AUTO, true, false));
+        testSubscriber.assertValue(new PreferencesStageContext.State(Theme.AUTO, true, false, false));
     }
 
     @Test

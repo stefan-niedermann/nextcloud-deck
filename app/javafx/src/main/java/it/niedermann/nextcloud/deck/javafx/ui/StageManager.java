@@ -11,6 +11,7 @@ import io.reactivex.rxjava4.disposables.CompositeDisposable;
 import io.reactivex.rxjava4.disposables.Disposable;
 import io.reactivex.rxjava4.schedulers.Schedulers;
 import it.niedermann.nextcloud.deck.app.shared.args.ArgsResolver;
+import it.niedermann.nextcloud.deck.app.shared.di.model.BuildConfig;
 import it.niedermann.nextcloud.deck.domain.usecases.state.SetCurrentAccountUseCase;
 import it.niedermann.nextcloud.deck.javafx.services.application.ThemeService;
 import it.niedermann.nextcloud.deck.javafx.services.stage.LoginStageContext;
@@ -22,8 +23,11 @@ import it.niedermann.nextcloud.deck.javafx.ui.controller.scenes.SplashScreenScen
 import it.niedermann.nextcloud.deck.javafx.ui.fxml.Inflater;
 import it.niedermann.nextcloud.deck.javafx.util.JavaFxScheduler;
 import jakarta.inject.Provider;
+import javafx.application.HostServices;
 import javafx.application.Platform;
 import javafx.scene.Scene;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
 
@@ -46,8 +50,11 @@ public abstract class StageManager<TRawArgs, TParsedArgs> {
     private final Provider<ExceptionScene.Factory> exceptionFactoryProvider;
     private final SetCurrentAccountUseCase setCurrentAccountUseCase;
     private final ArgsResolver<TRawArgs, TParsedArgs> resolver;
+    private final HostServices hostServices;
+    private final BuildConfig buildConfig;
     protected final TRawArgs args;
 
+    private boolean closed = false;
 
     protected final AtomicReference<Object> controller = new AtomicReference<>();
     protected final AtomicReference<TParsedArgs> currentParsedArgs = new AtomicReference<>();
@@ -63,6 +70,8 @@ public abstract class StageManager<TRawArgs, TParsedArgs> {
                         Provider<ExceptionScene.Factory> exceptionFactoryProvider,
                         SetCurrentAccountUseCase setCurrentAccountUseCase,
                         ArgsResolver<TRawArgs, TParsedArgs> resolver,
+                        HostServices hostServices,
+                        BuildConfig buildConfig,
                         TRawArgs args) {
         this.stage = stage;
         this.themeService = themeService;
@@ -73,6 +82,8 @@ public abstract class StageManager<TRawArgs, TParsedArgs> {
         this.exceptionFactoryProvider = exceptionFactoryProvider;
         this.setCurrentAccountUseCase = setCurrentAccountUseCase;
         this.resolver = resolver;
+        this.hostServices = hostServices;
+        this.buildConfig = buildConfig;
         this.args = args;
     }
 
@@ -114,6 +125,10 @@ public abstract class StageManager<TRawArgs, TParsedArgs> {
                 cf.complete(null);
             }
         });
+
+        this.stage.setOnHidden(_ -> closed = true);
+
+        stage.setFullScreenExitHint("Press ESC to exit full screen");
 
         return cf;
     }
@@ -205,10 +220,26 @@ public abstract class StageManager<TRawArgs, TParsedArgs> {
         }
 
         Platform.runLater(() -> {
+            if (closed) {
+                cf.complete(null);
+                return;
+            }
             try {
 
                 final var scene = new Scene(controllerBundle.view());
                 themeService.bind(scene);
+                scene.addEventFilter(KeyEvent.KEY_PRESSED, event -> {
+                    if (event.getCode() == KeyCode.F1) {
+                        hostServices.showDocument(buildConfig.helpUri().toString());
+                        event.consume();
+                    } else if (event.getCode() == KeyCode.F5) {
+                        // TODO Trigger Synchronization
+                        event.consume();
+                    } else if (event.getCode() == KeyCode.F11) {
+                        stage.setFullScreen(!stage.isFullScreen());
+                        event.consume();
+                    }
+                });
                 stage.setScene(scene);
 
                 if (stage.isShowing()) {

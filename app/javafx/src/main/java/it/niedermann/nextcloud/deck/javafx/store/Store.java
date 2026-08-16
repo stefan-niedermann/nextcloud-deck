@@ -12,9 +12,11 @@ import java.util.function.BiFunction;
 import java.util.logging.Logger;
 
 import io.reactivex.rxjava4.core.Flowable;
+import io.reactivex.rxjava4.disposables.CompositeDisposable;
+import io.reactivex.rxjava4.disposables.Disposable;
 import io.reactivex.rxjava4.processors.BehaviorProcessor;
 
-public abstract class Store<TState, TAction> {
+public abstract class Store<TState, TAction> implements Disposable {
 
     private static final Logger logger = Logger.getLogger(Store.class.getName());
 
@@ -27,6 +29,8 @@ public abstract class Store<TState, TAction> {
 
     private final Map<Class<?>, List<BiFunction<TState, TAction, TState>>> reducers = new HashMap<>();
     private final Map<Class<?>, List<BiFunction<TState, TAction, CompletableFuture<Optional<? extends TAction>>>>> effects = new HashMap<>();
+
+    private final CompositeDisposable disposables = new CompositeDisposable();
 
     protected Store(StoreLogger storeLogger) {
         this(storeLogger, null);
@@ -57,7 +61,26 @@ public abstract class Store<TState, TAction> {
         this.effects.get(actionType).add((BiFunction<TState, TAction, CompletableFuture<Optional<? extends TAction>>>) effect);
     }
 
+    protected final void addDisposable(Disposable... disposables) {
+        for (var disposable : disposables) {
+            this.disposables.add(disposable);
+        }
+    }
+
+    @Override
+    public void dispose() {
+        disposables.dispose();
+    }
+
+    @Override
+    public boolean isDisposed() {
+        return disposables.isDisposed();
+    }
+
     public final void dispatch(TAction action) {
+        if (isDisposed()) {
+            return;
+        }
         final var oldState = this.state.getValue();
 
         final var newState = reduce(oldState, action);

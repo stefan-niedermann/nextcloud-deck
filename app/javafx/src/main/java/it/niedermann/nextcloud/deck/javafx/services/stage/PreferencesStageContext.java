@@ -9,7 +9,9 @@ import dagger.assisted.AssistedFactory;
 import dagger.assisted.AssistedInject;
 import io.reactivex.rxjava4.core.Flowable;
 import io.reactivex.rxjava4.schedulers.Schedulers;
+import io.soabase.recordbuilder.core.RecordBuilder;
 import it.niedermann.nextcloud.deck.domain.state.KeyValueStore;
+import it.niedermann.nextcloud.deck.javafx.services.application.ExceptionService;
 import it.niedermann.nextcloud.deck.javafx.services.application.Theme;
 import it.niedermann.nextcloud.deck.javafx.services.application.ThemeService;
 import it.niedermann.nextcloud.deck.javafx.store.Store;
@@ -38,6 +40,7 @@ public class PreferencesStageContext extends Store<PreferencesStageContext.State
         on(Action.SetTheme.class, (state, action) -> state.withTheme(action.theme()));
         on(Action.SetBackgroundSync.class, (state, action) -> state.withBackgroundSync(action.enabled()));
         on(Action.SetCompactMode.class, (state, action) -> state.withCompactMode(action.enabled()));
+        on(Action.SetDebugMode.class, (state, action) -> state.withDebugMode(action.enabled()));
 
         effect(Action.SetTheme.class, (_, action) ->
                 keyValueStore.putString(ThemeService.KEY_THEME, action.theme().name())
@@ -54,25 +57,43 @@ public class PreferencesStageContext extends Store<PreferencesStageContext.State
                         .thenApplyAsync(_ -> Optional.empty())
         );
 
-        final var themeDisposable = Flowable.fromPublisher(keyValueStore.getString(ThemeService.KEY_THEME))
-                .subscribeOn(Schedulers.virtual())
-                .observeOn(JavaFxScheduler.platform())
-                .subscribe(s -> dispatch(new Action.SetTheme(Theme.fromName(s))), throwable -> logger.log(Level.SEVERE, "Error while loading theme preference", throwable));
+        effect(Action.SetDebugMode.class, (_, action) ->
+                keyValueStore.putBoolean(ExceptionService.KEY_DEBUG_MODE, action.enabled())
+                        .thenApplyAsync(_ -> Optional.empty())
+        );
 
-        final var syncDisposable = Flowable.fromPublisher(keyValueStore.getBoolean(KEY_BACKGROUND_SYNC))
-                .subscribeOn(Schedulers.virtual())
-                .observeOn(JavaFxScheduler.platform())
-                .subscribe(enabled -> dispatch(new Action.SetBackgroundSync(enabled)), throwable -> logger.log(Level.SEVERE, "Error while loading background sync preference", throwable));
+        addDisposable(
+                Flowable.fromPublisher(keyValueStore.getString(ThemeService.KEY_THEME))
+                        .subscribeOn(Schedulers.virtual())
+                        .observeOn(JavaFxScheduler.platform())
+                        .subscribe(s -> dispatch(new Action.SetTheme(Theme.fromName(s))), throwable -> logger.log(Level.SEVERE, "Error while loading theme preference", throwable)),
 
-        final var compactDisposable = Flowable.fromPublisher(keyValueStore.getBoolean(KEY_COMPACT_MODE))
-                .subscribeOn(Schedulers.virtual())
-                .observeOn(JavaFxScheduler.platform())
-                .subscribe(enabled -> dispatch(new Action.SetCompactMode(enabled)), throwable -> logger.log(Level.SEVERE, "Error while loading compact mode preference", throwable));
+                Flowable.fromPublisher(keyValueStore.getBoolean(KEY_BACKGROUND_SYNC))
+                        .subscribeOn(Schedulers.virtual())
+                        .observeOn(JavaFxScheduler.platform())
+                        .subscribe(enabled -> dispatch(new Action.SetBackgroundSync(enabled)), throwable -> logger.log(Level.SEVERE, "Error while loading background sync preference", throwable)),
+
+                Flowable.fromPublisher(keyValueStore.getBoolean(KEY_COMPACT_MODE))
+                        .subscribeOn(Schedulers.virtual())
+                        .observeOn(JavaFxScheduler.platform())
+                        .subscribe(enabled -> dispatch(new Action.SetCompactMode(enabled)), throwable -> logger.log(Level.SEVERE, "Error while loading compact mode preference", throwable)),
+
+                Flowable.fromPublisher(keyValueStore.getBoolean(ExceptionService.KEY_DEBUG_MODE))
+                        .subscribeOn(Schedulers.virtual())
+                        .observeOn(JavaFxScheduler.platform())
+                        .subscribe(enabled -> dispatch(new Action.SetDebugMode(enabled)), throwable -> logger.log(Level.SEVERE, "Error while loading debug mode preference", throwable))
+        );
 
         // Handle defaults for keys that don't exist yet
         keyValueStore.containsKey(KEY_BACKGROUND_SYNC).thenAccept(exists -> {
             if (!exists) {
                 dispatch(new Action.SetBackgroundSync(true));
+            }
+        });
+
+        keyValueStore.containsKey(ExceptionService.KEY_DEBUG_MODE).thenAccept(exists -> {
+            if (!exists) {
+                dispatch(new Action.SetDebugMode(false));
             }
         });
 
@@ -84,21 +105,18 @@ public class PreferencesStageContext extends Store<PreferencesStageContext.State
         PreferencesStageContext create(State initialState);
     }
 
-    public record State(Theme theme, boolean backgroundSync, boolean compactMode) {
+    @RecordBuilder
+    public record State(
+            Theme theme,
+            boolean backgroundSync,
+            boolean compactMode,
+            boolean debugMode
+    ) implements PreferencesStageContextStateBuilder.With {
         public State() {
-            this(Theme.AUTO, true, false);
-        }
-
-        public State withTheme(Theme theme) {
-            return new State(theme, backgroundSync, compactMode);
-        }
-
-        public State withBackgroundSync(boolean enabled) {
-            return new State(theme, enabled, compactMode);
-        }
-
-        public State withCompactMode(boolean enabled) {
-            return new State(theme, backgroundSync, enabled);
+            this(Theme.AUTO,
+                    true,
+                    false,
+                    false);
         }
     }
 
@@ -113,6 +131,9 @@ public class PreferencesStageContext extends Store<PreferencesStageContext.State
         }
 
         record SetCompactMode(boolean enabled) implements Action {
+        }
+
+        record SetDebugMode(boolean enabled) implements Action {
         }
     }
 }
