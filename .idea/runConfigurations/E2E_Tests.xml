@@ -4,7 +4,7 @@
       <option name="executionName" />
       <option name="externalProjectPath" value="$PROJECT_DIR$" />
       <option name="externalSystemIdString" value="GRADLE" />
-      <option name="scriptParameters" value="--build-cache -PincludeE2E=true" />
+      <option name="scriptParameters" value="-PincludeE2E=true" />
       <option name="taskDescriptions">
         <list />
       </option>
