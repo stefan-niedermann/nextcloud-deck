@@ -11,6 +11,7 @@ import java.net.URL;
 import java.util.Objects;
 import java.util.logging.Logger;
 
+import io.reactivex.rxjava3.core.Flowable;
 import io.reactivex.rxjava3.core.Maybe;
 import it.niedermann.nextcloud.auth.apptoken.AppTokenAuthProvider;
 import it.niedermann.nextcloud.deck.data.local.DeckDatabase;
@@ -75,16 +76,21 @@ public class EndToEndTest {
 
         final var token = authProvider.generateToken(url, username, password);
         final var authenticatedAccount = new AuthenticatedAccount(url, username, token);
-        final var lastSyncStatus = Maybe.fromPublisher(FlowAdapters.toPublisher(importAccountUseCase.execute(authenticatedAccount))).blockingGet();
 
-        final var account = lastSyncStatus.account();
-        setCurrentAccountUseCase.execute(account.id()).join();
-        final var createBoard = new CreateBoard(account.id(), "Sample Board Title");
+        final var syncStatus = Flowable.fromPublisher(FlowAdapters.toPublisher(importAccountUseCase.execute(authenticatedAccount))).lastElement().blockingGet();
+        setCurrentAccountUseCase.execute(syncStatus.account().id()).join();
+    }
 
+    @Test
+    public void createBoard() throws IOException {
+
+        loginFlow();
+
+        final var accountId = getCurrentAccountUseCase.execute().join();
+        final var createBoard = new CreateBoard(accountId, "Sample Board Title");
         final var createdBoardId = addBoardUseCase.addBoard(createBoard).join();
-        final var boards = Maybe.fromPublisher(FlowAdapters.toPublisher(listBoardsUseCase.execute(account.id()))).blockingGet();
+        final var boards = Maybe.fromPublisher(FlowAdapters.toPublisher(listBoardsUseCase.execute(accountId))).blockingGet();
         Assertions.assertTrue(boards.stream().anyMatch(board -> Objects.equals(board.id(), createdBoardId)), "Should contain the created board");
 //        syncScheduler.scheduleSynchronization(account.id());
-
     }
 }
