@@ -113,7 +113,7 @@ jobs:
           cache-read-only: false
 
       - name: Build App
-        run: ./gradlew :app:javafx:shadowJar
+        run: ./gradlew :app:javafx:build
 
       - name: Upload Artifact
         uses: actions/upload-artifact@v7
