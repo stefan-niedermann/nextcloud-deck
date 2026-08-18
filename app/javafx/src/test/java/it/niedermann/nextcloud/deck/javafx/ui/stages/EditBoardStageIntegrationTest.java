@@ -44,16 +44,24 @@ import it.niedermann.nextcloud.deck.domain.usecases.labels.DeleteLabelUseCase;
 import it.niedermann.nextcloud.deck.domain.usecases.labels.ListLabelsUseCase;
 import it.niedermann.nextcloud.deck.domain.usecases.labels.UpdateLabelUseCase;
 import it.niedermann.nextcloud.deck.domain.usecases.state.SetCurrentAccountUseCase;
-import it.niedermann.nextcloud.deck.javafx.services.application.StageTitleResolver;
-import it.niedermann.nextcloud.deck.javafx.services.application.ThemeService;
-import it.niedermann.nextcloud.deck.javafx.services.stage.EditBoardStageContext;
-import it.niedermann.nextcloud.deck.javafx.services.stage.LoginStageContext;
+import it.niedermann.nextcloud.deck.javafx.fxml.Inflater;
 import it.niedermann.nextcloud.deck.javafx.store.StoreLogger;
-import it.niedermann.nextcloud.deck.javafx.ui.controller.scenes.EditBoardScene;
-import it.niedermann.nextcloud.deck.javafx.ui.controller.scenes.ExceptionScene;
-import it.niedermann.nextcloud.deck.javafx.ui.controller.scenes.LoginScene;
-import it.niedermann.nextcloud.deck.javafx.ui.controller.scenes.SplashScreenScene;
-import it.niedermann.nextcloud.deck.javafx.ui.fxml.Inflater;
+import it.niedermann.nextcloud.deck.javafx.ui.editboard.EditBoardScene;
+import it.niedermann.nextcloud.deck.javafx.ui.editboard.EditBoardService;
+import it.niedermann.nextcloud.deck.javafx.ui.editboard.EditBoardStage;
+import it.niedermann.nextcloud.deck.javafx.ui.editboard.features.EditBoardColumnsFeature;
+import it.niedermann.nextcloud.deck.javafx.ui.editboard.features.EditBoardDetailsFeature;
+import it.niedermann.nextcloud.deck.javafx.ui.editboard.features.EditBoardFeature;
+import it.niedermann.nextcloud.deck.javafx.ui.editboard.features.EditBoardLabelsFeature;
+import it.niedermann.nextcloud.deck.javafx.ui.editboard.features.EditBoardShareFeature;
+import it.niedermann.nextcloud.deck.javafx.ui.exception.ExceptionScene;
+import it.niedermann.nextcloud.deck.javafx.ui.login.LoginScene;
+import it.niedermann.nextcloud.deck.javafx.ui.login.LoginService;
+import it.niedermann.nextcloud.deck.javafx.ui.shared.searchviewconverter.UserSearchViewConverter;
+import it.niedermann.nextcloud.deck.javafx.ui.shared.services.StageTitleResolver;
+import it.niedermann.nextcloud.deck.javafx.ui.shared.services.ThemeService;
+import it.niedermann.nextcloud.deck.javafx.ui.shared.suggestionproviders.UserSuggestionProvider;
+import it.niedermann.nextcloud.deck.javafx.ui.splashscreen.SplashScreenScene;
 import javafx.application.HostServices;
 import javafx.stage.Stage;
 
@@ -106,7 +114,7 @@ class EditBoardStageIntegrationTest {
         when(listBoardSharesUseCase.execute(any())).thenReturn(Flowable.empty());
 
 
-        final var stageContext = new EditBoardStageContext(
+        final var stageContext = new EditBoardService(
                 storeLogger,
                 getBoardUseCase,
                 listCardsUseCase,
@@ -123,9 +131,9 @@ class EditBoardStageIntegrationTest {
                 mock(AddBoardShareUseCase.class),
                 mock(RemoveBoardShareUseCase.class),
                 mock(UpdateBoardShareUseCase.class),
-                new EditBoardStageContext.State(accountId, boardId)
+                new EditBoardService.State(accountId, boardId)
         );
-        final EditBoardStageContext.Factory stageContextFactory = initialState -> stageContext;
+        final EditBoardService.Factory stageContextFactory = initialState -> stageContext;
         
         final var inflater = Inflater.getInstance();
         
@@ -146,14 +154,14 @@ class EditBoardStageIntegrationTest {
                 getColumnUseCase
         );
 
-        final var userSearchViewConverter = new it.niedermann.nextcloud.deck.javafx.ui.searchviewconverter.UserSearchViewConverter();
-        final it.niedermann.nextcloud.deck.javafx.ui.controller.features.EditBoardFeature.Factory editBoardFeatureFactory = viewModel -> new it.niedermann.nextcloud.deck.javafx.ui.controller.features.EditBoardFeature(
+        final var userSearchViewConverter = new UserSearchViewConverter();
+        final EditBoardFeature.Factory editBoardFeatureFactory = viewModel -> new EditBoardFeature(
                 inflater,
-                it.niedermann.nextcloud.deck.javafx.ui.controller.features.EditBoardDetailsFeature::new,
-                it.niedermann.nextcloud.deck.javafx.ui.controller.features.EditBoardColumnsFeature::new,
-                it.niedermann.nextcloud.deck.javafx.ui.controller.features.EditBoardLabelsFeature::new,
-                vm -> new it.niedermann.nextcloud.deck.javafx.ui.controller.features.EditBoardShareFeature(
-                        new it.niedermann.nextcloud.deck.javafx.ui.suggestionproviders.UserSuggestionProvider(mock(it.niedermann.nextcloud.deck.domain.usecases.users.SearchUserUseCase.class)),
+                EditBoardDetailsFeature::new,
+                EditBoardColumnsFeature::new,
+                EditBoardLabelsFeature::new,
+                vm -> new EditBoardShareFeature(
+                        new UserSuggestionProvider(mock(it.niedermann.nextcloud.deck.domain.usecases.users.SearchUserUseCase.class)),
                         userSearchViewConverter,
                         vm
                 ),
@@ -170,13 +178,13 @@ class EditBoardStageIntegrationTest {
         final SplashScreenScene.Factory splashScreenFactory = SplashScreenScene::new;
         final var loginFactoryProvider = (jakarta.inject.Provider<LoginScene.Factory>) () -> mock(LoginScene.Factory.class);
         final var exceptionFactoryProvider = (jakarta.inject.Provider<ExceptionScene.Factory>) () -> mock(ExceptionScene.Factory.class);
-        final LoginStageContext.Factory loginStageContextFactory = url -> new LoginStageContext(
+        final LoginService.Factory loginStageContextFactory = url -> new LoginService(
                 storeLogger,
                 mock(it.niedermann.nextcloud.deck.domain.usecases.accounts.ImportAccountUseCase.class),
                 url
         );
 
-        final var manager = new EditBoardStageManager(
+        final var manager = new EditBoardStage(
                 inflater,
                 stage,
                 themeService,

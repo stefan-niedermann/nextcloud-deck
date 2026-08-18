@@ -3,10 +3,10 @@ package it.niedermann.nextcloud.deck.javafx.di.stage;
 
 import dagger.BindsInstance;
 import dagger.Subcomponent;
-import it.niedermann.nextcloud.deck.javafx.ui.stages.EditBoardStageManager;
-import it.niedermann.nextcloud.deck.javafx.ui.stages.EditCardStageManager;
-import it.niedermann.nextcloud.deck.javafx.ui.stages.MainStageManager;
-import it.niedermann.nextcloud.deck.javafx.ui.stages.PreferencesStageManager;
+import it.niedermann.nextcloud.deck.javafx.ui.editboard.EditBoardStage;
+import it.niedermann.nextcloud.deck.javafx.ui.editcard.EditCardStage;
+import it.niedermann.nextcloud.deck.javafx.ui.main.MainStage;
+import it.niedermann.nextcloud.deck.javafx.ui.preferences.PreferencesStage;
 import javafx.stage.Stage;
 
 @StageScope
@@ -20,11 +20,11 @@ public interface StageComponent {
         StageComponent create(@BindsInstance Stage stage);
     }
 
-    MainStageManager.Factory getMainStageFactory();
+    MainStage.Factory getMainStageFactory();
 
-    EditCardStageManager.Factory getEditCardStageFactory();
+    EditCardStage.Factory getEditCardStageFactory();
 
-    EditBoardStageManager.Factory getEditBoardStageFactory();
+    EditBoardStage.Factory getEditBoardStageFactory();
 
-    PreferencesStageManager.Factory getPreferencesStageFactory();
+    PreferencesStage.Factory getPreferencesStageFactory();
 }

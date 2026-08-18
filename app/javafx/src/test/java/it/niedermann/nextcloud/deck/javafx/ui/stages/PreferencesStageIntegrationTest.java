@@ -30,23 +30,25 @@ import it.niedermann.nextcloud.deck.domain.usecases.boards.GetBoardUseCase;
 import it.niedermann.nextcloud.deck.domain.usecases.cards.GetCardUseCase;
 import it.niedermann.nextcloud.deck.domain.usecases.columns.GetColumnUseCase;
 import it.niedermann.nextcloud.deck.domain.usecases.state.SetCurrentAccountUseCase;
-import it.niedermann.nextcloud.deck.javafx.services.application.StageTitleResolver;
-import it.niedermann.nextcloud.deck.javafx.services.application.ThemeService;
-import it.niedermann.nextcloud.deck.javafx.services.stage.LoginStageContext;
-import it.niedermann.nextcloud.deck.javafx.services.stage.PreferencesStageContext;
+import it.niedermann.nextcloud.deck.javafx.fxml.Inflater;
 import it.niedermann.nextcloud.deck.javafx.store.StoreLogger;
-import it.niedermann.nextcloud.deck.javafx.ui.controller.scenes.ExceptionScene;
-import it.niedermann.nextcloud.deck.javafx.ui.controller.scenes.LoginScene;
-import it.niedermann.nextcloud.deck.javafx.ui.controller.scenes.PreferencesScene;
-import it.niedermann.nextcloud.deck.javafx.ui.controller.scenes.SplashScreenScene;
-import it.niedermann.nextcloud.deck.javafx.ui.fxml.Inflater;
+import it.niedermann.nextcloud.deck.javafx.ui.exception.ExceptionScene;
+import it.niedermann.nextcloud.deck.javafx.ui.login.LoginScene;
+import it.niedermann.nextcloud.deck.javafx.ui.login.LoginService;
+import it.niedermann.nextcloud.deck.javafx.ui.preferences.PreferencesScene;
+import it.niedermann.nextcloud.deck.javafx.ui.preferences.PreferencesService;
+import it.niedermann.nextcloud.deck.javafx.ui.preferences.PreferencesStage;
+import it.niedermann.nextcloud.deck.javafx.ui.shared.services.ExceptionService;
+import it.niedermann.nextcloud.deck.javafx.ui.shared.services.StageTitleResolver;
+import it.niedermann.nextcloud.deck.javafx.ui.shared.services.ThemeService;
+import it.niedermann.nextcloud.deck.javafx.ui.splashscreen.SplashScreenScene;
 import javafx.application.HostServices;
 import javafx.stage.Stage;
 
 @ExtendWith(ApplicationExtension.class)
 class PreferencesStageIntegrationTest {
 
-    private PreferencesStageContext stageContext;
+    private PreferencesService stageContext;
 
     @Start
     void start(Stage stage) {
@@ -58,9 +60,9 @@ class PreferencesStageIntegrationTest {
         when(hasAccountsUseCase.execute()).thenReturn(Flowable.just(true));
         when(detector.isDark()).thenReturn(false);
         when(keyValueStore.getString(ThemeService.KEY_THEME)).thenReturn(Flowable.just("AUTO"));
-        when(keyValueStore.getBoolean(PreferencesStageContext.KEY_BACKGROUND_SYNC)).thenReturn(Flowable.just(true));
-        when(keyValueStore.getBoolean(PreferencesStageContext.KEY_COMPACT_MODE)).thenReturn(Flowable.just(false));
-        when(keyValueStore.getBoolean(it.niedermann.nextcloud.deck.javafx.services.application.ExceptionService.KEY_DEBUG_MODE)).thenReturn(Flowable.just(false));
+        when(keyValueStore.getBoolean(PreferencesService.KEY_BACKGROUND_SYNC)).thenReturn(Flowable.just(true));
+        when(keyValueStore.getBoolean(PreferencesService.KEY_COMPACT_MODE)).thenReturn(Flowable.just(false));
+        when(keyValueStore.getBoolean(ExceptionService.KEY_DEBUG_MODE)).thenReturn(Flowable.just(false));
         when(keyValueStore.containsKey(anyString())).thenReturn(java.util.concurrent.CompletableFuture.completedFuture(true));
 
         final var getAccountsUseCase = mock(GetAccountsUseCase.class);
@@ -84,18 +86,18 @@ class PreferencesStageIntegrationTest {
         final var loginFactoryProvider = (jakarta.inject.Provider<LoginScene.Factory>) () -> mock(LoginScene.Factory.class);
         final var exceptionFactoryProvider = (jakarta.inject.Provider<ExceptionScene.Factory>) () -> mock(ExceptionScene.Factory.class);
         final var storeLogger = new StoreLogger(new com.google.gson.Gson());
-        final LoginStageContext.Factory loginStageContextFactory = url -> new LoginStageContext(
+        final LoginService.Factory loginStageContextFactory = url -> new LoginService(
                 storeLogger,
                 mock(it.niedermann.nextcloud.deck.domain.usecases.accounts.ImportAccountUseCase.class),
                 url
         );
 
-        final var realStageContext = new PreferencesStageContext(storeLogger, keyValueStore, new PreferencesStageContext.State());
+        final var realStageContext = new PreferencesService(storeLogger, keyValueStore, new PreferencesService.State());
         stageContext = spy(realStageContext);
-        final PreferencesStageContext.Factory stageContextFactory = initialState -> stageContext;
+        final PreferencesService.Factory stageContextFactory = initialState -> stageContext;
         final PreferencesScene.Factory preferencesSceneFactory = PreferencesScene::new;
 
-        final var manager = new PreferencesStageManager(
+        final var manager = new PreferencesStage(
                 Inflater.getInstance(),
                 stage,
                 themeService,
@@ -132,8 +134,8 @@ class PreferencesStageIntegrationTest {
         robot.clickOn(LabeledMatchers.hasText("DARK"));
 
         // Verification
-        verify(stageContext, atLeastOnce()).dispatch(any(PreferencesStageContext.Action.SetBackgroundSync.class));
-        verify(stageContext, atLeastOnce()).dispatch(any(PreferencesStageContext.Action.SetCompactMode.class));
-        verify(stageContext, atLeastOnce()).dispatch(any(PreferencesStageContext.Action.SetTheme.class));
+        verify(stageContext, atLeastOnce()).dispatch(any(PreferencesService.Action.SetBackgroundSync.class));
+        verify(stageContext, atLeastOnce()).dispatch(any(PreferencesService.Action.SetCompactMode.class));
+        verify(stageContext, atLeastOnce()).dispatch(any(PreferencesService.Action.SetTheme.class));
     }
 }

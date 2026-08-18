@@ -36,18 +36,26 @@ import it.niedermann.nextcloud.deck.domain.usecases.comments.AddCommentUseCase;
 import it.niedermann.nextcloud.deck.domain.usecases.comments.ListPreviewCommentsUseCase;
 import it.niedermann.nextcloud.deck.domain.usecases.state.SetCurrentAccountUseCase;
 import it.niedermann.nextcloud.deck.javafx.di.stage.StageComponent;
-import it.niedermann.nextcloud.deck.javafx.services.application.ApplicationRouter;
-import it.niedermann.nextcloud.deck.javafx.services.application.StageTitleResolver;
-import it.niedermann.nextcloud.deck.javafx.services.application.ThemeService;
-import it.niedermann.nextcloud.deck.javafx.services.stage.EditCardStageContext;
-import it.niedermann.nextcloud.deck.javafx.services.stage.LoginStageContext;
+import it.niedermann.nextcloud.deck.javafx.fxml.Inflater;
+import it.niedermann.nextcloud.deck.javafx.services.ApplicationRouter;
 import it.niedermann.nextcloud.deck.javafx.store.StoreLogger;
-import it.niedermann.nextcloud.deck.javafx.ui.controller.features.EditCardFeature;
-import it.niedermann.nextcloud.deck.javafx.ui.controller.scenes.EditCardScene;
-import it.niedermann.nextcloud.deck.javafx.ui.controller.scenes.ExceptionScene;
-import it.niedermann.nextcloud.deck.javafx.ui.controller.scenes.LoginScene;
-import it.niedermann.nextcloud.deck.javafx.ui.controller.scenes.SplashScreenScene;
-import it.niedermann.nextcloud.deck.javafx.ui.fxml.Inflater;
+import it.niedermann.nextcloud.deck.javafx.ui.editcard.EditCardScene;
+import it.niedermann.nextcloud.deck.javafx.ui.editcard.EditCardService;
+import it.niedermann.nextcloud.deck.javafx.ui.editcard.EditCardStage;
+import it.niedermann.nextcloud.deck.javafx.ui.editcard.features.EditCardFeature;
+import it.niedermann.nextcloud.deck.javafx.ui.exception.ExceptionScene;
+import it.niedermann.nextcloud.deck.javafx.ui.login.LoginScene;
+import it.niedermann.nextcloud.deck.javafx.ui.login.LoginService;
+import it.niedermann.nextcloud.deck.javafx.ui.shared.cellfactories.CommentCellFactory;
+import it.niedermann.nextcloud.deck.javafx.ui.shared.searchviewconverter.LabelSearchViewConverter;
+import it.niedermann.nextcloud.deck.javafx.ui.shared.searchviewconverter.UserSearchViewConverter;
+import it.niedermann.nextcloud.deck.javafx.ui.shared.services.StageTitleResolver;
+import it.niedermann.nextcloud.deck.javafx.ui.shared.services.ThemeService;
+import it.niedermann.nextcloud.deck.javafx.ui.shared.suggestionproviders.LabelSuggestionProvider;
+import it.niedermann.nextcloud.deck.javafx.ui.shared.suggestionproviders.UserSuggestionProvider;
+import it.niedermann.nextcloud.deck.javafx.ui.shared.tagviewfactories.LabelTagViewFactory;
+import it.niedermann.nextcloud.deck.javafx.ui.shared.tagviewfactories.UserTagViewFactory;
+import it.niedermann.nextcloud.deck.javafx.ui.splashscreen.SplashScreenScene;
 import javafx.application.HostServices;
 import javafx.stage.Stage;
 
@@ -101,7 +109,7 @@ class EditCardStageIntegrationTest {
         when(listPreviewActivitiesUseCase.execute(any())).thenReturn(Flowable.empty());
 
 
-        final var stageContext = new EditCardStageContext(
+        final var stageContext = new EditCardService(
                 storeLogger,
                 applicationRouter,
                 getCardUseCase,
@@ -112,10 +120,10 @@ class EditCardStageIntegrationTest {
                 listPreviewCommentsUseCase,
                 listPreviewActivitiesUseCase,
                 mock(AddCommentUseCase.class),
-                new EditCardStageContext.State(Optional.empty(), false),
+                new EditCardService.State(Optional.empty(), false),
                 () -> {}
         );
-        final EditCardStageContext.Factory editCardStageContextFactory = (initialState, onClose) -> stageContext;
+        final EditCardService.Factory editCardStageContextFactory = (initialState, onClose) -> stageContext;
         
         final var inflater = Inflater.getInstance();
         
@@ -134,15 +142,15 @@ class EditCardStageIntegrationTest {
                 getColumnUseCase
         );
 
-        final var userSearchViewConverter = new it.niedermann.nextcloud.deck.javafx.ui.searchviewconverter.UserSearchViewConverter();
+        final var userSearchViewConverter = new UserSearchViewConverter();
         final var editCardFeatureFactory = (EditCardFeature.Factory) viewModel -> new EditCardFeature(
-                new it.niedermann.nextcloud.deck.javafx.ui.cellfactories.CommentCellFactory(),
-                new it.niedermann.nextcloud.deck.javafx.ui.suggestionproviders.LabelSuggestionProvider(mock(it.niedermann.nextcloud.deck.domain.usecases.labels.SearchLabelsUseCase.class)),
-                new it.niedermann.nextcloud.deck.javafx.ui.suggestionproviders.UserSuggestionProvider(mock(it.niedermann.nextcloud.deck.domain.usecases.users.SearchUserUseCase.class)),
-                new it.niedermann.nextcloud.deck.javafx.ui.searchviewconverter.LabelSearchViewConverter(),
-                new it.niedermann.nextcloud.deck.javafx.ui.tagviewfactories.LabelTagViewFactory(new it.niedermann.nextcloud.deck.util.ColorUtil()),
+                new CommentCellFactory(),
+                new LabelSuggestionProvider(mock(it.niedermann.nextcloud.deck.domain.usecases.labels.SearchLabelsUseCase.class)),
+                new UserSuggestionProvider(mock(it.niedermann.nextcloud.deck.domain.usecases.users.SearchUserUseCase.class)),
+                new LabelSearchViewConverter(),
+                new LabelTagViewFactory(new it.niedermann.nextcloud.deck.util.ColorUtil()),
                 userSearchViewConverter,
-                new it.niedermann.nextcloud.deck.javafx.ui.tagviewfactories.UserTagViewFactory(userSearchViewConverter),
+                new UserTagViewFactory(userSearchViewConverter),
                 viewModel
         );
 
@@ -156,13 +164,13 @@ class EditCardStageIntegrationTest {
         final SplashScreenScene.Factory splashScreenFactory = SplashScreenScene::new;
         final var loginFactoryProvider = (jakarta.inject.Provider<LoginScene.Factory>) () -> mock(LoginScene.Factory.class);
         final var exceptionFactoryProvider = (jakarta.inject.Provider<ExceptionScene.Factory>) () -> mock(ExceptionScene.Factory.class);
-        final LoginStageContext.Factory loginStageContextFactory = url -> new LoginStageContext(
+        final LoginService.Factory loginStageContextFactory = url -> new LoginService(
                 storeLogger,
                 mock(it.niedermann.nextcloud.deck.domain.usecases.accounts.ImportAccountUseCase.class),
                 url
         );
 
-        final var manager = new EditCardStageManager(
+        final var manager = new EditCardStage(
                 inflater,
                 stage,
                 themeService,

@@ -5,8 +5,8 @@ import dagger.BindsInstance;
 import dagger.Subcomponent;
 import it.niedermann.nextcloud.deck.domain.usecases.users.GetAvatarUseCase;
 import it.niedermann.nextcloud.deck.javafx.di.named.NamedPrimaryStage;
-import it.niedermann.nextcloud.deck.javafx.exception.FxUncaughtExceptionHandler;
-import it.niedermann.nextcloud.deck.javafx.services.application.ApplicationRouter;
+import it.niedermann.nextcloud.deck.javafx.services.ApplicationRouter;
+import it.niedermann.nextcloud.deck.javafx.ui.shared.services.FxUncaughtExceptionHandler;
 import javafx.application.HostServices;
 import javafx.stage.Stage;
 

@@ -6,7 +6,7 @@ import dagger.Component;
 import it.niedermann.nextcloud.deck.app.shared.di.NamedVerbose;
 import it.niedermann.nextcloud.deck.app.shared.di.SharedModule;
 import it.niedermann.nextcloud.deck.javafx.di.fx.FxComponent;
-import it.niedermann.nextcloud.deck.javafx.services.application.PurgeService;
+import it.niedermann.nextcloud.deck.javafx.services.PurgeService;
 import jakarta.inject.Singleton;
 
 @Singleton

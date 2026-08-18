@@ -1,0 +1,48 @@
+package it.niedermann.nextcloud.deck.javafx.ui.shared.views;
+
+import it.niedermann.nextcloud.deck.domain.model.Board;
+import it.niedermann.nextcloud.deck.javafx.fxml.Inflater;
+import javafx.fxml.FXML;
+import javafx.scene.control.ContextMenu;
+import javafx.scene.control.Label;
+import javafx.scene.control.MenuItem;
+import javafx.scene.layout.HBox;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Circle;
+
+public class BoardListItemView extends HBox {
+
+    @FXML
+    Circle circle;
+    @FXML
+    Label title;
+    @FXML
+    ContextMenu contextMenu;
+    @FXML
+    MenuItem editMenuItem;
+
+    public BoardListItemView() {
+        Inflater.getInstance().inflate(this);
+    }
+
+    public void bind(Board board, BoardListItemActionListener actionListener) {
+
+        circle.setFill(Color.rgb(board.color().getRed(), board.color().getGreen(), board.color().getBlue()));
+        title.setText(board.title());
+
+        editMenuItem.setOnAction(event -> {
+            actionListener.onEditBoard(board);
+            event.consume();
+        });
+
+        setOnContextMenuRequested(event -> {
+            contextMenu.show(this, event.getScreenX(), event.getScreenY());
+            event.consume();
+        });
+
+    }
+
+    public interface BoardListItemActionListener {
+        void onEditBoard(Board board);
+    }
+}

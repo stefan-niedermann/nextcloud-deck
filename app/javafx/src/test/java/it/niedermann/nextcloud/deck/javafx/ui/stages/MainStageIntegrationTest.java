@@ -72,34 +72,37 @@ import it.niedermann.nextcloud.deck.domain.usecases.state.SetCurrentBoardUseCase
 import it.niedermann.nextcloud.deck.domain.usecases.sync.ScheduleSyncUseCase;
 import it.niedermann.nextcloud.deck.domain.usecases.users.ListUsersUseCase;
 import it.niedermann.nextcloud.deck.domain.usecases.users.SearchUserUseCase;
-import it.niedermann.nextcloud.deck.javafx.exception.ExceptionUnwrapper;
-import it.niedermann.nextcloud.deck.javafx.services.application.ApplicationRouter;
-import it.niedermann.nextcloud.deck.javafx.services.application.StageTitleResolver;
-import it.niedermann.nextcloud.deck.javafx.services.application.ThemeService;
-import it.niedermann.nextcloud.deck.javafx.services.stage.EditCardStageContext;
-import it.niedermann.nextcloud.deck.javafx.services.stage.LoginStageContext;
-import it.niedermann.nextcloud.deck.javafx.services.stage.MainStageContext;
+import it.niedermann.nextcloud.deck.javafx.fxml.Inflater;
+import it.niedermann.nextcloud.deck.javafx.services.ApplicationRouter;
 import it.niedermann.nextcloud.deck.javafx.store.StoreLogger;
-import it.niedermann.nextcloud.deck.javafx.ui.cellfactories.CardPreviewCellFactory;
-import it.niedermann.nextcloud.deck.javafx.ui.cellfactories.CommentCellFactory;
-import it.niedermann.nextcloud.deck.javafx.ui.controller.features.AccountSwitcherFeature;
-import it.niedermann.nextcloud.deck.javafx.ui.controller.features.BoardFeature;
-import it.niedermann.nextcloud.deck.javafx.ui.controller.features.BoardListFeature;
-import it.niedermann.nextcloud.deck.javafx.ui.controller.features.ColumnFeature;
-import it.niedermann.nextcloud.deck.javafx.ui.controller.features.EditCardFeature;
-import it.niedermann.nextcloud.deck.javafx.ui.controller.features.HeaderFeature;
-import it.niedermann.nextcloud.deck.javafx.ui.controller.features.PickStackFeature;
-import it.niedermann.nextcloud.deck.javafx.ui.controller.scenes.ExceptionScene;
-import it.niedermann.nextcloud.deck.javafx.ui.controller.scenes.LoginScene;
-import it.niedermann.nextcloud.deck.javafx.ui.controller.scenes.MainScene;
-import it.niedermann.nextcloud.deck.javafx.ui.controller.scenes.SplashScreenScene;
-import it.niedermann.nextcloud.deck.javafx.ui.fxml.Inflater;
-import it.niedermann.nextcloud.deck.javafx.ui.searchviewconverter.LabelSearchViewConverter;
-import it.niedermann.nextcloud.deck.javafx.ui.searchviewconverter.UserSearchViewConverter;
-import it.niedermann.nextcloud.deck.javafx.ui.suggestionproviders.LabelSuggestionProvider;
-import it.niedermann.nextcloud.deck.javafx.ui.suggestionproviders.UserSuggestionProvider;
-import it.niedermann.nextcloud.deck.javafx.ui.tagviewfactories.LabelTagViewFactory;
-import it.niedermann.nextcloud.deck.javafx.ui.tagviewfactories.UserTagViewFactory;
+import it.niedermann.nextcloud.deck.javafx.ui.editcard.EditCardService;
+import it.niedermann.nextcloud.deck.javafx.ui.editcard.features.EditCardFeature;
+import it.niedermann.nextcloud.deck.javafx.ui.exception.ExceptionScene;
+import it.niedermann.nextcloud.deck.javafx.ui.login.LoginScene;
+import it.niedermann.nextcloud.deck.javafx.ui.login.LoginService;
+import it.niedermann.nextcloud.deck.javafx.ui.main.MainScene;
+import it.niedermann.nextcloud.deck.javafx.ui.main.MainService;
+import it.niedermann.nextcloud.deck.javafx.ui.main.MainStage;
+import it.niedermann.nextcloud.deck.javafx.ui.main.features.AccountSwitcherFeature;
+import it.niedermann.nextcloud.deck.javafx.ui.main.features.BoardFeature;
+import it.niedermann.nextcloud.deck.javafx.ui.main.features.BoardListFeature;
+import it.niedermann.nextcloud.deck.javafx.ui.main.features.ColumnFeature;
+import it.niedermann.nextcloud.deck.javafx.ui.main.features.FilterFeature;
+import it.niedermann.nextcloud.deck.javafx.ui.main.features.HeaderFeature;
+import it.niedermann.nextcloud.deck.javafx.ui.shared.cellfactories.AccountListItemCellFactory;
+import it.niedermann.nextcloud.deck.javafx.ui.shared.cellfactories.CardPreviewCellFactory;
+import it.niedermann.nextcloud.deck.javafx.ui.shared.cellfactories.CommentCellFactory;
+import it.niedermann.nextcloud.deck.javafx.ui.shared.features.PickStackFeature;
+import it.niedermann.nextcloud.deck.javafx.ui.shared.searchviewconverter.LabelSearchViewConverter;
+import it.niedermann.nextcloud.deck.javafx.ui.shared.searchviewconverter.UserSearchViewConverter;
+import it.niedermann.nextcloud.deck.javafx.ui.shared.services.StageTitleResolver;
+import it.niedermann.nextcloud.deck.javafx.ui.shared.services.ThemeService;
+import it.niedermann.nextcloud.deck.javafx.ui.shared.suggestionproviders.LabelSuggestionProvider;
+import it.niedermann.nextcloud.deck.javafx.ui.shared.suggestionproviders.UserSuggestionProvider;
+import it.niedermann.nextcloud.deck.javafx.ui.shared.tagviewfactories.LabelTagViewFactory;
+import it.niedermann.nextcloud.deck.javafx.ui.shared.tagviewfactories.UserTagViewFactory;
+import it.niedermann.nextcloud.deck.javafx.ui.splashscreen.SplashScreenScene;
+import it.niedermann.nextcloud.deck.javafx.util.ExceptionUnwrapper;
 import it.niedermann.nextcloud.deck.util.ColorUtil;
 import javafx.application.HostServices;
 import javafx.stage.Stage;
@@ -119,7 +122,7 @@ class MainStageIntegrationTest {
     private SetCurrentBoardUseCase setCurrentBoardUseCase;
     private GetCurrentAccountUseCase getCurrentAccountUseCase;
     private ApplicationRouter applicationRouter;
-    private MainStageContext mainStageContext;
+    private MainService mainService;
 
     private static final Account.ID ACCOUNT_ID = new Account.ID(1L);
     private static final Account ACCOUNT = new Account(ACCOUNT_ID, createUrl("https://nextcloud.example.com"), "user", "token", "Account 1", MockData.MOCK_CAPABILITIES);
@@ -210,8 +213,8 @@ class MainStageIntegrationTest {
 
         final var inflater = Inflater.getInstance();
 
-        final MainStageContext.Factory stageContextFactory = initialState -> {
-            mainStageContext = new MainStageContext(
+        final MainService.Factory stageContextFactory = initialState -> {
+            mainService = new MainService(
                     storeLogger,
                     themeService,
                     applicationRouter,
@@ -226,7 +229,7 @@ class MainStageIntegrationTest {
                     getBoardUseCase,
                     initialState
             );
-            return mainStageContext;
+            return mainService;
         };
 
         final var getAccountsUseCase = mock(GetAccountsUseCase.class);
@@ -253,12 +256,12 @@ class MainStageIntegrationTest {
                 getAccountUseCase,
                 mock(ScheduleSyncUseCase.class),
                 mock(RemoveAccountUseCase.class),
-                (filterInfo, labels, users, onApply) -> mock(it.niedermann.nextcloud.deck.javafx.ui.controller.features.FilterFeature.class),
+                (filterInfo, labels, users, onApply) -> mock(FilterFeature.class),
                 mock(ListLabelsUseCase.class),
                 mock(ListUsersUseCase.class),
                 themeService,
                 () -> new AccountSwitcherFeature(
-                        new it.niedermann.nextcloud.deck.javafx.ui.cellfactories.AccountListItemCellFactory(),
+                        new AccountListItemCellFactory(),
                         getAccountUseCase,
                         getAccountsUseCase,
                         mock(ScheduleSyncUseCase.class),
@@ -288,7 +291,7 @@ class MainStageIntegrationTest {
         final var listPreviewActivitiesUseCase = mock(ListPreviewActivitiesUseCase.class, Answers.RETURNS_MOCKS);
         when(listPreviewActivitiesUseCase.execute(any())).thenReturn(Flowable.just(Collections.emptyList()));
 
-        final EditCardStageContext.Factory editCardStageContextFactory = (initialState, onClose) -> new EditCardStageContext(
+        final EditCardService.Factory editCardStageContextFactory = (initialState, onClose) -> new EditCardService(
                 storeLogger,
                 applicationRouter,
                 getCardUseCase,
@@ -318,14 +321,14 @@ class MainStageIntegrationTest {
         final SplashScreenScene.Factory splashScreenFactory = SplashScreenScene::new;
         final var loginFactoryProvider = (jakarta.inject.Provider<LoginScene.Factory>) () -> mock(LoginScene.Factory.class);
         final var exceptionFactoryProvider = (jakarta.inject.Provider<ExceptionScene.Factory>) () -> mock(ExceptionScene.Factory.class);
-        final LoginStageContext.Factory loginStageContextFactory = url -> new LoginStageContext(
+        final LoginService.Factory loginStageContextFactory = url -> new LoginService(
                 storeLogger,
                 mock(it.niedermann.nextcloud.deck.domain.usecases.accounts.ImportAccountUseCase.class),
                 url
         );
         final var exceptionUnwrapper = new ExceptionUnwrapper();
 
-        final var manager = new MainStageManager(
+        final var manager = new MainStage(
                 inflater,
                 stage,
                 themeService,

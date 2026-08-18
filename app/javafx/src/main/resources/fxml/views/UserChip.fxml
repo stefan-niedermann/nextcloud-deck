@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import it.niedermann.nextcloud.deck.javafx.ui.controller.views.AvatarView?>
+<?import it.niedermann.nextcloud.deck.javafx.ui.shared.views.AvatarView?>
 <?import javafx.scene.control.Label?>
 <fx:root xmlns:fx="http://javafx.com/fxml/1" type="Label" xmlns="http://javafx.com/javafx/24.0.1">
     <graphic>

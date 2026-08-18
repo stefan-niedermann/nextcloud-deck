@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.layout.StackPane?><?import it.niedermann.nextcloud.deck.javafx.ui.controller.views.AvatarView?><?import javafx.scene.layout.Region?><?import javafx.scene.control.MenuItem?><?import javafx.scene.control.MenuButton?><?import javafx.scene.control.Button?><?import javafx.scene.shape.Circle?><?import javafx.scene.control.Label?><?import javafx.scene.control.ListView?><?import javafx.scene.layout.BorderPane?><?import javafx.scene.layout.FlowPane?><?import javafx.scene.layout.GridPane?><?import javafx.scene.layout.HBox?><?import javafx.scene.layout.VBox?>
+<?import javafx.scene.layout.StackPane?><?import it.niedermann.nextcloud.deck.javafx.ui.shared.views.AvatarView?><?import javafx.scene.layout.Region?><?import javafx.scene.control.MenuItem?><?import javafx.scene.control.MenuButton?><?import javafx.scene.control.Button?><?import javafx.scene.shape.Circle?><?import javafx.scene.control.Label?><?import javafx.scene.control.ListView?><?import javafx.scene.layout.BorderPane?><?import javafx.scene.layout.FlowPane?><?import javafx.scene.layout.GridPane?><?import javafx.scene.layout.HBox?><?import javafx.scene.layout.VBox?>
 
 <fx:root xmlns:fx="http://javafx.com/fxml/1" id="root"
     stylesheets="css/views/AccountListItemView.css" type="HBox"

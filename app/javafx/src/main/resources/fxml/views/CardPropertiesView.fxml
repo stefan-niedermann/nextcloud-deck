@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import it.niedermann.nextcloud.deck.javafx.ui.controller.views.IconCounterView?><?import org.kordamp.ikonli.javafx.FontIcon?><?import javafx.scene.image.ImageView?><?import javafx.scene.control.Label?><?import javafx.scene.layout.HBox?>
+<?import it.niedermann.nextcloud.deck.javafx.ui.shared.views.IconCounterView?><?import org.kordamp.ikonli.javafx.FontIcon?><?import javafx.scene.image.ImageView?><?import javafx.scene.control.Label?><?import javafx.scene.layout.HBox?>
 
 <fx:root xmlns:fx="http://javafx.com/fxml/1" stylesheets="css/views/CardPropertiesView.css"
     type="HBox" fx:id="root">

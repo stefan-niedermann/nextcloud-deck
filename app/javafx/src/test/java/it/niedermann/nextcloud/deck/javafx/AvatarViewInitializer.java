@@ -8,7 +8,7 @@ import org.junit.jupiter.api.extension.ExtensionContext;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 import it.niedermann.nextcloud.deck.domain.usecases.users.GetAvatarUseCase;
-import it.niedermann.nextcloud.deck.javafx.ui.controller.views.AvatarView;
+import it.niedermann.nextcloud.deck.javafx.ui.shared.views.AvatarView;
 
 public class AvatarViewInitializer implements BeforeAllCallback {
 

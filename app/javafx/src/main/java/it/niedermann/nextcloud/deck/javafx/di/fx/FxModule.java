@@ -5,7 +5,7 @@ import com.jthemedetecor.OsThemeDetector;
 import dagger.Module;
 import dagger.Provides;
 import it.niedermann.nextcloud.deck.javafx.di.stage.StageComponent;
-import it.niedermann.nextcloud.deck.javafx.ui.fxml.Inflater;
+import it.niedermann.nextcloud.deck.javafx.fxml.Inflater;
 
 @Module(subcomponents = StageComponent.class)
 public class FxModule {

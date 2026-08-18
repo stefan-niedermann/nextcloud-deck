@@ -4,7 +4,7 @@ import java.util.Objects;
 import java.util.logging.Logger;
 
 import it.niedermann.nextcloud.deck.javafx.di.fx.FxComponent;
-import it.niedermann.nextcloud.deck.javafx.ui.controller.views.AvatarView;
+import it.niedermann.nextcloud.deck.javafx.ui.shared.views.AvatarView;
 import javafx.application.Application;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
