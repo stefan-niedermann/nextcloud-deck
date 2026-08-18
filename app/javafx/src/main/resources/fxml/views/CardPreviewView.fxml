@@ -31,6 +31,7 @@
     <fx:define>
         <ContextMenu fx:id="contextMenu">
             <items>
+                <MenuItem mnemonicParsing="false" text="Open in new window" fx:id="openInNewWindow" />
                 <MenuItem mnemonicParsing="false" text="Assign to me" fx:id="assign" />
                 <MenuItem mnemonicParsing="false" text="Unassign from me" fx:id="unassign" />
                 <MenuItem mnemonicParsing="false" text="Move" fx:id="move" />

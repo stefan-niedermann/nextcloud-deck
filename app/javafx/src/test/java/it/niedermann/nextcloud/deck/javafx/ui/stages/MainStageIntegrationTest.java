@@ -423,4 +423,17 @@ class MainStageIntegrationTest {
         robot.clickOn("#popOutBtn");
         verify(applicationRouter, atLeastOnce()).launchEditCardStage(CARD_1.id());
     }
+
+    @Test
+    void testOpenCardInNewWindowFromContextMenu(FxRobot robot) throws TimeoutException {
+        WaitForAsyncUtils.waitFor(10, TimeUnit.SECONDS, () -> robot.lookup("Board 1").tryQuery().isPresent());
+        robot.clickOn("Board 1");
+        WaitForAsyncUtils.waitFor(10, TimeUnit.SECONDS, () -> robot.lookup("Card 1").tryQuery().isPresent());
+
+        robot.rightClickOn("Card 1");
+        WaitForAsyncUtils.waitFor(10, TimeUnit.SECONDS, () -> robot.lookup("Open in new window").tryQuery().isPresent());
+        robot.clickOn("Open in new window");
+
+        verify(applicationRouter, atLeastOnce()).launchEditCardStage(CARD_1.id());
+    }
 }

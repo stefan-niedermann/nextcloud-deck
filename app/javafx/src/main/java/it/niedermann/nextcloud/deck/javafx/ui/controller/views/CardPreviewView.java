@@ -30,6 +30,8 @@ public class CardPreviewView extends BorderPane {
     @FXML
     ContextMenu contextMenu;
     @FXML
+    MenuItem openInNewWindow;
+    @FXML
     MenuItem assign;
     @FXML
     MenuItem unassign;
@@ -91,6 +93,11 @@ public class CardPreviewView extends BorderPane {
             event.consume();
         });
 
+        openInNewWindow.setOnAction(event -> {
+            cardPreviewActionListener.onOpenCardInNewWindow(card.id());
+            event.consume();
+        });
+
         assign.setOnAction(event -> {
             cardPreviewActionListener.onAssignCard(card.id());
             event.consume();
@@ -124,6 +131,8 @@ public class CardPreviewView extends BorderPane {
 
     public interface CardPreviewActionListener {
         void onOpenCard(Card.ID cardId);
+
+        void onOpenCardInNewWindow(Card.ID cardId);
 
         void onAssignCard(Card.ID cardId);
 

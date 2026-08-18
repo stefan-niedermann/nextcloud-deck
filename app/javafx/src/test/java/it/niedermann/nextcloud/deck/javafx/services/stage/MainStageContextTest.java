@@ -153,4 +153,13 @@ class MainStageContextTest {
 
         verify(applicationRouter).launchEditBoardStage(accountId, boardId);
     }
+
+    @Test
+    void testOnOpenCardInNewWindow() {
+        final var cardId = new it.niedermann.nextcloud.deck.domain.model.Card.ID(1);
+        
+        mainStageContext.onOpenCardInNewWindow(cardId);
+        
+        verify(applicationRouter).launchEditCardStage(cardId);
+    }
 }

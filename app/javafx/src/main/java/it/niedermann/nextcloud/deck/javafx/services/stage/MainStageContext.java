@@ -256,6 +256,11 @@ public class MainStageContext extends Store<MainStageContext.State, MainStageCon
     }
 
     @Override
+    public void onOpenCardInNewWindow(Card.ID cardId) {
+        applicationRouter.launchEditCardStage(cardId);
+    }
+
+    @Override
     public void onAssignCard(Card.ID cardId) {
         System.out.println("[Mock] onAssignCard " + cardId);
     }
