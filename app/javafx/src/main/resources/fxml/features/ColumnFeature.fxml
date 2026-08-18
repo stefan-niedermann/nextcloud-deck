@@ -19,16 +19,6 @@
             <fx:define>
                 <SubmitTextField promptText="Add column" fx:id="addCardSubmitTextField" />
             </fx:define>
-
-            <MenuButton mnemonicParsing="false">
-                <graphic>
-                    <FontIcon iconLiteral="fltfmz-more-vertical-20" iconSize="16" />
-                </graphic>
-                <items>
-                    <MenuItem mnemonicParsing="false" text="Action 1" />
-                    <MenuItem mnemonicParsing="false" text="Action 2" />
-                </items>
-            </MenuButton>
         </HBox>
     </HBox>
     <ListView VBox.vgrow="ALWAYS" fx:id="cards" />
