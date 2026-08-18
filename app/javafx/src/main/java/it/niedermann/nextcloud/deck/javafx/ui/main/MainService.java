@@ -27,7 +27,6 @@ import it.niedermann.nextcloud.deck.javafx.fxml.Inflater;
 import it.niedermann.nextcloud.deck.javafx.services.ApplicationRouter;
 import it.niedermann.nextcloud.deck.javafx.store.Store;
 import it.niedermann.nextcloud.deck.javafx.store.StoreLogger;
-import it.niedermann.nextcloud.deck.javafx.ui.features.main.MainStageContextStateBuilder;
 import it.niedermann.nextcloud.deck.javafx.ui.main.features.BoardFeature;
 import it.niedermann.nextcloud.deck.javafx.ui.main.features.BoardListFeature;
 import it.niedermann.nextcloud.deck.javafx.ui.main.features.ColumnFeature;
@@ -299,7 +298,7 @@ public class MainService extends Store<MainService.State, MainService.Action> im
             Optional<Board.ID> boardId,
             Optional<Card.ID> cardId,
             FilterInformation filter
-    ) implements MainStageContextStateBuilder.With {
+    ) implements MainServiceStateBuilder.With {
     }
 
     public sealed interface Action {

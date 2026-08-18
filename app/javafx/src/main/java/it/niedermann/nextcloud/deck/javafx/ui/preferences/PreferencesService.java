@@ -13,7 +13,6 @@ import io.soabase.recordbuilder.core.RecordBuilder;
 import it.niedermann.nextcloud.deck.domain.state.KeyValueStore;
 import it.niedermann.nextcloud.deck.javafx.store.Store;
 import it.niedermann.nextcloud.deck.javafx.store.StoreLogger;
-import it.niedermann.nextcloud.deck.javafx.ui.features.preferences.PreferencesStageContextStateBuilder;
 import it.niedermann.nextcloud.deck.javafx.ui.shared.services.ExceptionService;
 import it.niedermann.nextcloud.deck.javafx.ui.shared.services.ThemeService;
 import it.niedermann.nextcloud.deck.javafx.util.JavaFxScheduler;
@@ -111,7 +110,7 @@ public class PreferencesService extends Store<PreferencesService.State, Preferen
             boolean backgroundSync,
             boolean compactMode,
             boolean debugMode
-    ) implements PreferencesStageContextStateBuilder.With {
+    ) implements PreferencesServiceStateBuilder.With {
         public State() {
             this(ThemeService.Theme.AUTO,
                     true,
