@@ -340,6 +340,6 @@
     <string name="label_no_startdate">No start date</string>
     <string name="label_dependent_cards">Dependent cards</string>
     <string name="label_color">Colour</string>
-    <string name="label_clear_color">Clear color</string>
+    <string name="label_clear_color">Clear colour</string>
     <string name="choose_color">Choose colour</string>
 </resources>
