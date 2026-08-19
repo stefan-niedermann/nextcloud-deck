@@ -17,7 +17,7 @@ import it.niedermann.nextcloud.deck.domain.model.Board;
 import it.niedermann.nextcloud.deck.javafx.fxml.Inflater;
 import it.niedermann.nextcloud.deck.javafx.ui.editcard.EditCardService;
 import it.niedermann.nextcloud.deck.javafx.ui.editcard.features.EditCardFeature;
-import it.niedermann.nextcloud.deck.javafx.ui.main.features.BoardFeature;
+import it.niedermann.nextcloud.deck.javafx.ui.main.features.BoardKanbanFeature;
 import it.niedermann.nextcloud.deck.javafx.ui.main.features.BoardListFeature;
 import it.niedermann.nextcloud.deck.javafx.ui.main.features.CreateBoardFeature;
 import it.niedermann.nextcloud.deck.javafx.ui.main.features.HeaderFeature;
@@ -64,7 +64,7 @@ public class MainScene extends AbstractScene {
             Inflater inflater,
             BoardListFeature.Factory boardListFactory,
             HeaderFeature.Factory headerFactory,
-            BoardFeature.Factory boardFactory,
+            BoardKanbanFeature.Factory boardFactory,
             EditCardFeature.Factory editCardFactory,
             EditCardService.Factory editCardStageContextFactory,
             StageTitleResolver stageTitleResolver,

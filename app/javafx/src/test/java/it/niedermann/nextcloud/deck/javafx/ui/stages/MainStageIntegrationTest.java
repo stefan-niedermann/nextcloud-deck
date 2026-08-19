@@ -85,7 +85,7 @@ import it.niedermann.nextcloud.deck.javafx.ui.main.MainScene;
 import it.niedermann.nextcloud.deck.javafx.ui.main.MainService;
 import it.niedermann.nextcloud.deck.javafx.ui.main.MainStage;
 import it.niedermann.nextcloud.deck.javafx.ui.main.features.AccountSwitcherFeature;
-import it.niedermann.nextcloud.deck.javafx.ui.main.features.BoardFeature;
+import it.niedermann.nextcloud.deck.javafx.ui.main.features.BoardKanbanFeature;
 import it.niedermann.nextcloud.deck.javafx.ui.main.features.BoardListFeature;
 import it.niedermann.nextcloud.deck.javafx.ui.main.features.ColumnFeature;
 import it.niedermann.nextcloud.deck.javafx.ui.main.features.FilterFeature;
@@ -244,7 +244,7 @@ class MainStageIntegrationTest {
                 getColumnUseCase
         );
 
-        final BoardFeature.Factory boardFeatureFactory = getFactory(getAccountUseCase, keyValueStore, inflater);
+        final BoardKanbanFeature.Factory boardFeatureFactory = getFactory(getAccountUseCase, keyValueStore, inflater);
 
         final BoardListFeature.Factory boardListFeatureFactory = viewModel -> new BoardListFeature(
                 getBoardUseCase,
@@ -354,7 +354,7 @@ class MainStageIntegrationTest {
     }
 
     @NonNull
-    private BoardFeature.Factory getFactory(GetAccountUseCase getAccountUseCase, KeyValueStore keyValueStore, Inflater inflater) {
+    private BoardKanbanFeature.Factory getFactory(GetAccountUseCase getAccountUseCase, KeyValueStore keyValueStore, Inflater inflater) {
         final var cardPreviewCellFactory = new CardPreviewCellFactory(
                 getCurrentAccountUseCase,
                 getAccountUseCase,
@@ -372,7 +372,7 @@ class MainStageIntegrationTest {
                 viewModel
         );
 
-        return viewModel -> new BoardFeature(
+        return viewModel -> new BoardKanbanFeature(
                 inflater,
                 getBoardUseCase,
                 columnFeatureFactory,

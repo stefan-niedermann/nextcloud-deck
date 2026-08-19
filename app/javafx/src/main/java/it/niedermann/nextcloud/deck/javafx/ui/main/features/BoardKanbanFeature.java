@@ -22,7 +22,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.ProgressIndicator;
 import javafx.scene.layout.HBox;
 
-public class BoardFeature extends AbstractScene {
+public class BoardKanbanFeature extends AbstractScene {
 
     @FXML
     ProgressIndicator progress;
@@ -38,7 +38,7 @@ public class BoardFeature extends AbstractScene {
     private final ViewModel viewModel;
 
     @AssistedInject
-    public BoardFeature(
+    public BoardKanbanFeature(
             Inflater inflater,
             GetBoardUseCase getBoardUseCase,
             ColumnFeature.Factory columnFactory,
@@ -54,7 +54,7 @@ public class BoardFeature extends AbstractScene {
 
     @AssistedFactory
     public interface Factory {
-        BoardFeature create(ViewModel viewModel);
+        BoardKanbanFeature create(ViewModel viewModel);
     }
 
     @Override

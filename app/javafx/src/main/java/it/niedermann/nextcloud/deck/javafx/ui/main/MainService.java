@@ -29,7 +29,7 @@ import it.niedermann.nextcloud.deck.javafx.fxml.Inflater;
 import it.niedermann.nextcloud.deck.javafx.services.ApplicationRouter;
 import it.niedermann.nextcloud.deck.javafx.store.Store;
 import it.niedermann.nextcloud.deck.javafx.store.StoreLogger;
-import it.niedermann.nextcloud.deck.javafx.ui.main.features.BoardFeature;
+import it.niedermann.nextcloud.deck.javafx.ui.main.features.BoardKanbanFeature;
 import it.niedermann.nextcloud.deck.javafx.ui.main.features.BoardListFeature;
 import it.niedermann.nextcloud.deck.javafx.ui.main.features.ColumnFeature;
 import it.niedermann.nextcloud.deck.javafx.ui.main.features.HeaderFeature;
@@ -43,7 +43,7 @@ import javafx.scene.control.ButtonType;
 
 public class MainService extends Store<MainService.State, MainService.Action> implements
         HeaderFeature.ViewModel,
-        BoardFeature.ViewModel,
+        BoardKanbanFeature.ViewModel,
         BoardListFeature.ViewModel,
         ColumnFeature.ViewModel {
 
