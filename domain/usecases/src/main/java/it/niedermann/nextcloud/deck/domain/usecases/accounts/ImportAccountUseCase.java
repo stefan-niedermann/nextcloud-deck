@@ -13,7 +13,7 @@ import it.niedermann.nextcloud.deck.domain.model.Account;
 import it.niedermann.nextcloud.deck.domain.model.AuthenticatedAccount;
 import it.niedermann.nextcloud.deck.domain.repository.AccountRepository;
 import it.niedermann.nextcloud.deck.domain.state.SyncStatus;
-import it.niedermann.nextcloud.deck.domain.sync.SyncScheduler;
+import it.niedermann.nextcloud.deck.domain.usecases.sync.ScheduleSyncUseCase;
 import jakarta.inject.Inject;
 
 public class ImportAccountUseCase {
@@ -21,15 +21,15 @@ public class ImportAccountUseCase {
     private static final Logger logger = Logger.getLogger(ImportAccountUseCase.class.getName());
 
     private final AccountRepository accountRepository;
-    private final SyncScheduler syncScheduler;
+    private final ScheduleSyncUseCase scheduleSyncUseCase;
 
     @Inject
     public ImportAccountUseCase(
             AccountRepository accountRepository,
-            SyncScheduler syncScheduler
+            ScheduleSyncUseCase scheduleSyncUseCase
     ) {
         this.accountRepository = accountRepository;
-        this.syncScheduler = syncScheduler;
+        this.scheduleSyncUseCase = scheduleSyncUseCase;
     }
 
     public Flow.Publisher<SyncStatus> execute(AuthenticatedAccount authenticatedAccount) {
@@ -44,7 +44,7 @@ public class ImportAccountUseCase {
                     logger.info("Workaround for first Board is different. Call endpoint, expect HTTP 200. See https://github.com/nextcloud/deck/issues/3229");
                     // TODO Workaround for first Board is different. Call endpoint, expect HTTP 200
                 })
-                .map(syncScheduler::scheduleSynchronization)
+                .map(scheduleSyncUseCase::execute)
 
                 .flatMap(FlowAdapters::toPublisher)
 

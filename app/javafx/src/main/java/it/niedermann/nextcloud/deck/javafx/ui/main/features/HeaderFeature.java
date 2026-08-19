@@ -22,6 +22,7 @@ import it.niedermann.nextcloud.deck.domain.model.FilterInformation;
 import it.niedermann.nextcloud.deck.domain.usecases.accounts.GetAccountUseCase;
 import it.niedermann.nextcloud.deck.domain.usecases.accounts.RemoveAccountUseCase;
 import it.niedermann.nextcloud.deck.domain.usecases.labels.ListLabelsUseCase;
+import it.niedermann.nextcloud.deck.domain.usecases.sync.GetSyncStatusUseCase;
 import it.niedermann.nextcloud.deck.domain.usecases.sync.ScheduleSyncUseCase;
 import it.niedermann.nextcloud.deck.domain.usecases.users.ListUsersUseCase;
 import it.niedermann.nextcloud.deck.javafx.fxml.Inflater;
@@ -60,6 +61,7 @@ public class HeaderFeature extends AbstractScene {
 
     private final Inflater inflater;
     private final GetAccountUseCase getAccountUseCase;
+    private final GetSyncStatusUseCase getSyncStatusUseCase;
     private final ScheduleSyncUseCase scheduleSyncUseCase;
     private final RemoveAccountUseCase removeAccountUseCase;
     private final FilterFeature.Factory filterFeatureFactory;
@@ -76,6 +78,7 @@ public class HeaderFeature extends AbstractScene {
     public HeaderFeature(
             Inflater inflater,
             GetAccountUseCase getAccountUseCase,
+            GetSyncStatusUseCase getSyncStatusUseCase,
             ScheduleSyncUseCase scheduleSyncUseCase,
             RemoveAccountUseCase removeAccountUseCase,
             FilterFeature.Factory filterFeatureFactory,
@@ -87,6 +90,7 @@ public class HeaderFeature extends AbstractScene {
     ) {
         this.inflater = inflater;
         this.getAccountUseCase = getAccountUseCase;
+        this.getSyncStatusUseCase = getSyncStatusUseCase;
         this.scheduleSyncUseCase = scheduleSyncUseCase;
         this.removeAccountUseCase = removeAccountUseCase;
         this.filterFeatureFactory = filterFeatureFactory;
@@ -113,6 +117,13 @@ public class HeaderFeature extends AbstractScene {
                 .subscribe(avatar::setAvatar);
 
         addDisposable(currentAccount);
+
+        final var syncStatusDisposable = viewModel.getAccountId()
+                .switchMap(getSyncStatusUseCase::execute)
+                .observeOn(JavaFxScheduler.platform())
+                .subscribe(optionalSyncStatus -> avatar.setSyncStatus(optionalSyncStatus.orElse(null)));
+
+        addDisposable(syncStatusDisposable);
 
         final var currentBoardDisposable = viewModel.getBoard()
                 .observeOn(JavaFxScheduler.platform())
@@ -182,7 +193,13 @@ public class HeaderFeature extends AbstractScene {
 
         preferencesBtn.setOnAction(_ -> viewModel.onLaunchPreferences());
 
-        scheduleSyncBtn.setOnAction(_ -> this.scheduleSync());
+        scheduleSyncBtn.setOnAction(_ -> {
+            final var disposable = viewModel.getAccountId().firstElement()
+                    .flatMapPublisher(accountId -> Flowable.fromPublisher(this.scheduleSyncUseCase.execute(accountId)))
+                    .subscribe();
+
+            addDisposable(disposable);
+        });
         removeAccountBtn.setOnAction(_ -> this.removeAccount());
 
         avatar.setOnMouseClicked(event -> {
@@ -193,22 +210,6 @@ public class HeaderFeature extends AbstractScene {
             popover.show(avatar);
             event.consume();
         });
-    }
-
-    public void scheduleSync() {
-        if (!this.syncInProgress.getAndSet(true)) {
-
-            var disposable = viewModel.getAccountId()
-                    .firstElement()
-                    .flatMapPublisher(this.scheduleSyncUseCase::execute)
-                    .observeOn(JavaFxScheduler.platform())
-                    .doOnNext(avatar::setSyncStatus)
-                    .onErrorComplete()
-                    .ignoreElements()
-                    .subscribe(() -> this.syncInProgress.set(false));
-
-            addDisposable(disposable);
-        }
     }
 
     public void removeAccount() {

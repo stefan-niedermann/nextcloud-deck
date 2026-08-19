@@ -1,6 +1,7 @@
 package it.niedermann.nextcloud.deck.javafx.services.stage;
 
 import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -57,7 +58,7 @@ class PreferencesServiceTest {
 
     @Test
     void testSetTheme() {
-        when(keyValueStore.putString(ThemeService.KEY_THEME, "DARK")).thenReturn(CompletableFuture.completedFuture(null));
+        doReturn(CompletableFuture.completedFuture(null)).when(keyValueStore).putString(ThemeService.KEY_THEME, "DARK");
 
         final var testSubscriber = new TestSubscriber<PreferencesService.State>();
         preferencesService.getState().subscribe(testSubscriber);
@@ -72,7 +73,7 @@ class PreferencesServiceTest {
 
     @Test
     void testSetBackgroundSync() {
-        when(keyValueStore.putBoolean(PreferencesService.KEY_BACKGROUND_SYNC, false)).thenReturn(CompletableFuture.completedFuture(null));
+        doReturn(CompletableFuture.completedFuture(null)).when(keyValueStore).putBoolean(PreferencesService.KEY_BACKGROUND_SYNC, false);
 
         final var testSubscriber = new TestSubscriber<PreferencesService.State>();
         preferencesService.getState().subscribe(testSubscriber);

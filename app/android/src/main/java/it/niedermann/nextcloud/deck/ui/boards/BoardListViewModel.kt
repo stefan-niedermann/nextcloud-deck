@@ -9,10 +9,10 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import it.niedermann.nextcloud.deck.domain.model.Board
 import it.niedermann.nextcloud.deck.domain.model.CreateBoard
 import it.niedermann.nextcloud.deck.domain.state.SyncStatus
-import it.niedermann.nextcloud.deck.domain.sync.SyncScheduler
 import it.niedermann.nextcloud.deck.domain.usecases.boards.AddBoardUseCase
 import it.niedermann.nextcloud.deck.domain.usecases.boards.ListBoardsUseCase
 import it.niedermann.nextcloud.deck.domain.usecases.state.GetCurrentAccountUseCase
+import it.niedermann.nextcloud.deck.domain.usecases.sync.ScheduleSyncUseCase
 import jakarta.inject.Inject
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -28,7 +28,7 @@ class BoardListViewModel @Inject constructor(
     private val getCurrentAccountUseCase: GetCurrentAccountUseCase,
     private val listBoardsUseCase: ListBoardsUseCase,
     private val addBoardUseCase: AddBoardUseCase,
-    private val syncScheduler: SyncScheduler
+    private val scheduleSyncUseCase: ScheduleSyncUseCase
 ) : ViewModel() {
 
     private val _boards = MutableStateFlow<List<Board>>(emptyList())
@@ -91,7 +91,7 @@ class BoardListViewModel @Inject constructor(
                 }
                 if (accountId != null) {
                     launch(Dispatchers.IO) {
-                        FlowAdapters.toPublisher(syncScheduler.scheduleSynchronization(accountId))
+                        FlowAdapters.toPublisher(scheduleSyncUseCase.execute(accountId))
                             .asFlow()
                             .collect { status ->
                                 _syncStatus.value = status

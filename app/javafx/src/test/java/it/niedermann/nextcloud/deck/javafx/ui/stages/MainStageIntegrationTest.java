@@ -69,6 +69,7 @@ import it.niedermann.nextcloud.deck.domain.usecases.state.GetCurrentAccountUseCa
 import it.niedermann.nextcloud.deck.domain.usecases.state.GetCurrentBoardUseCase;
 import it.niedermann.nextcloud.deck.domain.usecases.state.SetCurrentAccountUseCase;
 import it.niedermann.nextcloud.deck.domain.usecases.state.SetCurrentBoardUseCase;
+import it.niedermann.nextcloud.deck.domain.usecases.sync.GetSyncStatusUseCase;
 import it.niedermann.nextcloud.deck.domain.usecases.sync.ScheduleSyncUseCase;
 import it.niedermann.nextcloud.deck.domain.usecases.users.ListUsersUseCase;
 import it.niedermann.nextcloud.deck.domain.usecases.users.SearchUserUseCase;
@@ -251,9 +252,13 @@ class MainStageIntegrationTest {
                 viewModel
         );
 
+        final var getSyncStatusUseCase = mock(GetSyncStatusUseCase.class);
+        when(getSyncStatusUseCase.execute(any())).thenReturn(Flowable.empty());
+
         final HeaderFeature.Factory headerFeatureFactory = viewModel -> new HeaderFeature(
                 inflater,
                 getAccountUseCase,
+                getSyncStatusUseCase,
                 mock(ScheduleSyncUseCase.class),
                 mock(RemoveAccountUseCase.class),
                 (filterInfo, labels, users, onApply) -> mock(FilterFeature.class),

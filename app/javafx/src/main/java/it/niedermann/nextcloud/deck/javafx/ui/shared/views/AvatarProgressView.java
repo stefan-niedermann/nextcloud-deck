@@ -67,6 +67,13 @@ public class AvatarProgressView extends StackPane {
 
     public void setSyncStatus(SyncStatus syncStatus) {
 
+        if (syncStatus == null) {
+            this.progress.setVisible(false);
+            this.progress.setDisable(true);
+            this.progress.setProgress(ProgressIndicator.INDETERMINATE_PROGRESS);
+            return;
+        }
+
         avatar.setAvatar(syncStatus.account());
 
         if (syncStatus.boardsFinished() == 0) {

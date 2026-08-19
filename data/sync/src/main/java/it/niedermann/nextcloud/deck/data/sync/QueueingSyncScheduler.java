@@ -5,14 +5,13 @@ import org.reactivestreams.FlowAdapters;
 import java.time.Instant;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Objects;
-import java.util.concurrent.CompletableFuture;
+import java.util.Optional;
 import java.util.concurrent.Flow;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import io.reactivex.rxjava3.core.Flowable;
-import io.reactivex.rxjava3.core.Maybe;
+import io.reactivex.rxjava3.processors.BehaviorProcessor;
 import io.reactivex.rxjava3.processors.ReplayProcessor;
 import it.niedermann.nextcloud.deck.domain.model.Account;
 import it.niedermann.nextcloud.deck.domain.repository.AccountRepository;
@@ -27,6 +26,8 @@ public class QueueingSyncScheduler implements SyncScheduler {
 
     private final Map<Account.ID, Flowable<SyncStatus>> currentSyncs = new HashMap<>(1);
     private final Map<Account.ID, Flowable<SyncStatus>> scheduledSyncs = new HashMap<>(1);
+
+    private final Map<Account.ID, BehaviorProcessor<Optional<SyncStatus>>> accountToSyncStatus = new HashMap<>(1);
 
     private final SyncManager syncManager;
     private final AccountRepository accountRepository;
@@ -119,13 +120,18 @@ public class QueueingSyncScheduler implements SyncScheduler {
 
     }
 
+    @Override
+    public Flow.Publisher<Optional<SyncStatus>> getSyncStatus(Account.ID accountId) {
+        return FlowAdapters.toFlowPublisher(accountToSyncStatus.computeIfAbsent(accountId, id -> BehaviorProcessor.createDefault(Optional.empty())));
+    }
+
     private Flowable<SyncStatus> synchronize(Account.ID accountId) {
         return Flowable.fromCompletionStage(accountRepository.getAccountSync(accountId))
                 .flatMap(this::synchronize);
     }
 
     private Flowable<SyncStatus> synchronize(Account account) {
-
+        final var accountSyncStatus = accountToSyncStatus.computeIfAbsent(account.id(), accountId -> BehaviorProcessor.createDefault(Optional.empty()));
         final var reporter = ReplayProcessor.<SyncStatus>createWithSize(1);
 
         logger.info("Start " + account.accountName() + ": " + Instant.now());
@@ -143,7 +149,9 @@ public class QueueingSyncScheduler implements SyncScheduler {
         });
 
         // We don't cancel the future anymore, as it's better to let the sync finish
-        return reporter;
+        return reporter
+                .doOnNext(syncStatus -> accountSyncStatus.onNext(Optional.of(syncStatus)))
+                .doOnTerminate(() -> accountSyncStatus.onNext(Optional.empty()));
     }
 
     @Override

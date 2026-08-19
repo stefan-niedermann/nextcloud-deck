@@ -19,7 +19,6 @@ import it.niedermann.nextcloud.deck.domain.model.User
 import it.niedermann.nextcloud.deck.domain.model.query.PreviewCard
 import it.niedermann.nextcloud.deck.domain.state.KeyValueStore
 import it.niedermann.nextcloud.deck.domain.state.SyncStatus
-import it.niedermann.nextcloud.deck.domain.sync.SyncScheduler
 import it.niedermann.nextcloud.deck.domain.usecases.accounts.GetAccountUseCase
 import it.niedermann.nextcloud.deck.domain.usecases.cards.AddCardUseCase
 import it.niedermann.nextcloud.deck.domain.usecases.cards.AssignCardUseCase
@@ -32,6 +31,7 @@ import it.niedermann.nextcloud.deck.domain.usecases.columns.ListColumnIDsUseCase
 import it.niedermann.nextcloud.deck.domain.usecases.labels.ListLabelsUseCase
 import it.niedermann.nextcloud.deck.domain.usecases.state.GetCurrentAccountUseCase
 import it.niedermann.nextcloud.deck.domain.usecases.state.SetCurrentBoardUseCase
+import it.niedermann.nextcloud.deck.domain.usecases.sync.ScheduleSyncUseCase
 import it.niedermann.nextcloud.deck.domain.usecases.users.ListUsersUseCase
 import jakarta.inject.Inject
 import kotlinx.coroutines.Dispatchers
@@ -60,7 +60,7 @@ class BoardViewModel @Inject constructor(
     private val getCurrentAccountUseCase: GetCurrentAccountUseCase,
     private val getAccountUseCase: GetAccountUseCase,
     private val setCurrentBoardUseCase: SetCurrentBoardUseCase,
-    private val syncScheduler: SyncScheduler,
+    private val scheduleSyncUseCase: ScheduleSyncUseCase,
     private val keyValueStore: KeyValueStore
 ) : ViewModel() {
 
@@ -176,7 +176,7 @@ class BoardViewModel @Inject constructor(
                 }
                 if (accountId != null) {
                     launch(Dispatchers.IO) {
-                        FlowAdapters.toPublisher(syncScheduler.scheduleSynchronization(accountId))
+                        FlowAdapters.toPublisher(scheduleSyncUseCase.execute(accountId))
                             .asFlow()
                             .collect { status ->
                                 _syncStatus.value = status
