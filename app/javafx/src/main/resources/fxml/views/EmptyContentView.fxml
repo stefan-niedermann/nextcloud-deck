@@ -6,5 +6,5 @@
     <Label fx:id="title" />
     <Label fx:id="description" />
     <ImageView fx:id="imageView" />
-    <Button fx:id="actionButton" />
+    <Button fx:id="actionButton" id="actionButton" />
 </fx:root>

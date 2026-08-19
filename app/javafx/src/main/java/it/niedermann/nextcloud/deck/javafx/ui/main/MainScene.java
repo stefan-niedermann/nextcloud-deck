@@ -1,8 +1,13 @@
 package it.niedermann.nextcloud.deck.javafx.ui.main;
 
+import com.dlsc.gemsfx.PopOver;
+
+import org.kordamp.ikonli.javafx.FontIcon;
+
 import java.net.URL;
 import java.util.Optional;
 import java.util.ResourceBundle;
+import java.util.concurrent.atomic.AtomicReference;
 
 import dagger.assisted.Assisted;
 import dagger.assisted.AssistedFactory;
@@ -14,13 +19,17 @@ import it.niedermann.nextcloud.deck.javafx.ui.editcard.EditCardService;
 import it.niedermann.nextcloud.deck.javafx.ui.editcard.features.EditCardFeature;
 import it.niedermann.nextcloud.deck.javafx.ui.main.features.BoardFeature;
 import it.niedermann.nextcloud.deck.javafx.ui.main.features.BoardListFeature;
+import it.niedermann.nextcloud.deck.javafx.ui.main.features.CreateBoardFeature;
 import it.niedermann.nextcloud.deck.javafx.ui.main.features.HeaderFeature;
 import it.niedermann.nextcloud.deck.javafx.ui.shared.AbstractScene;
 import it.niedermann.nextcloud.deck.javafx.ui.shared.services.StageTitleResolver;
+import it.niedermann.nextcloud.deck.javafx.ui.shared.services.ThemeService;
+import it.niedermann.nextcloud.deck.javafx.ui.shared.views.EmptyContentView;
 import it.niedermann.nextcloud.deck.javafx.util.FxUtils;
 import it.niedermann.nextcloud.deck.javafx.util.JavaFxScheduler;
 import javafx.fxml.FXML;
 import javafx.scene.Scene;
+import javafx.scene.SnapshotParameters;
 import javafx.scene.control.SplitPane;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.Pane;
@@ -33,10 +42,15 @@ public class MainScene extends AbstractScene {
     Pane headerHost;
     @FXML
     SplitPane splitPane;
+    @FXML
+    EmptyContentView emptyContentView;
 
     private final MainService mainService;
     private final EditCardService sidebarContext;
     private final StageTitleResolver stageTitleResolver;
+    private final Inflater inflater;
+    private final CreateBoardFeature.Factory createBoardFeatureFactory;
+    private final ThemeService themeService;
 
     private final Inflater.FxBundle<?> boardListBundle;
     private final Inflater.FxBundle<?> headerBundle;
@@ -54,10 +68,15 @@ public class MainScene extends AbstractScene {
             EditCardFeature.Factory editCardFactory,
             EditCardService.Factory editCardStageContextFactory,
             StageTitleResolver stageTitleResolver,
+            CreateBoardFeature.Factory createBoardFeatureFactory,
+            ThemeService themeService,
             @Assisted MainService mainService
     ) {
         this.mainService = mainService;
         this.stageTitleResolver = stageTitleResolver;
+        this.inflater = inflater;
+        this.createBoardFeatureFactory = createBoardFeatureFactory;
+        this.themeService = themeService;
 
         this.sidebarContext = editCardStageContextFactory.create(new EditCardService.State(Optional.empty(), false), () -> mainService.dispatch(new MainService.Action.CloseCardAction()));
 
@@ -82,6 +101,38 @@ public class MainScene extends AbstractScene {
         headerHost.getChildren().add(headerBundle.view());
         splitPane.getItems().addAll(boardListBundle.view(), boardBundle.view());
 
+        final var placeholderIcon = new FontIcon("fltfmz-search-28");
+        placeholderIcon.setIconSize(128);
+        final var image = placeholderIcon.snapshot(new SnapshotParameters(), null);
+        emptyContentView.setImage(image);
+
+        emptyContentView.setOnAction(_ -> {
+            final AtomicReference<PopOver> popOverRef = new AtomicReference<>();
+            final var feature = createBoardFeatureFactory.create(title -> {
+                mainService.dispatch(new MainService.Action.AddBoardAction(title));
+                if (popOverRef.get() != null) {
+                    popOverRef.get().hide();
+                }
+            });
+            final var bundle = inflater.inflate(feature);
+            final var popOver = new PopOver(bundle.view());
+            popOverRef.set(popOver);
+            popOver.setArrowLocation(PopOver.ArrowLocation.BOTTOM_CENTER);
+            themeService.bind(popOver.getScene());
+            popOver.show(emptyContentView.lookup("#actionButton"));
+        });
+
+        final var boardVisibilityDisposable = Flowable.fromPublisher(mainService.getState())
+                .map(state -> state.boardId().isPresent())
+                .distinctUntilChanged()
+                .observeOn(JavaFxScheduler.platform())
+                .subscribe(boardPresent -> {
+                    splitPane.setVisible(boardPresent);
+                    splitPane.setManaged(boardPresent);
+                    emptyContentView.setVisible(!boardPresent);
+                    emptyContentView.setManaged(!boardPresent);
+                });
+
         final var accentColorDisposable = mainService.getBoard()
                 .map(Board::color)
                 .map(FxUtils::createAccentColorCss)
@@ -103,7 +154,7 @@ public class MainScene extends AbstractScene {
                     }
                 });
 
-        addDisposable(accentColorDisposable, cardSidebarDisposable);
+        addDisposable(boardVisibilityDisposable, accentColorDisposable, cardSidebarDisposable);
 
         root.setOnKeyPressed(event -> {
             if (event.getCode() == KeyCode.ESCAPE) {

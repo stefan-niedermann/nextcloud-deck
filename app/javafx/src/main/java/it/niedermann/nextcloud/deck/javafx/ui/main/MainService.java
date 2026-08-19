@@ -15,7 +15,9 @@ import it.niedermann.nextcloud.deck.domain.model.Account;
 import it.niedermann.nextcloud.deck.domain.model.Board;
 import it.niedermann.nextcloud.deck.domain.model.Card;
 import it.niedermann.nextcloud.deck.domain.model.Column;
+import it.niedermann.nextcloud.deck.domain.model.CreateBoard;
 import it.niedermann.nextcloud.deck.domain.model.FilterInformation;
+import it.niedermann.nextcloud.deck.domain.usecases.boards.AddBoardUseCase;
 import it.niedermann.nextcloud.deck.domain.usecases.boards.GetBoardUseCase;
 import it.niedermann.nextcloud.deck.domain.usecases.cards.CopyCardUseCase;
 import it.niedermann.nextcloud.deck.domain.usecases.cards.DeleteCardUseCase;
@@ -58,6 +60,7 @@ public class MainService extends Store<MainService.State, MainService.Action> im
     private final PickStackFeature.Factory pickStackFeatureFactory;
 
     private final GetBoardUseCase getBoardUseCase;
+    private final AddBoardUseCase addBoardUseCase;
 
     private PopOver pickStackPopOver;
 
@@ -75,6 +78,7 @@ public class MainService extends Store<MainService.State, MainService.Action> im
             Inflater inflater,
             PickStackFeature.Factory pickStackFeatureFactory,
             GetBoardUseCase getBoardUseCase,
+            AddBoardUseCase addBoardUseCase,
             @Assisted State initialState
     ) {
         this.themeService = themeService;
@@ -83,6 +87,7 @@ public class MainService extends Store<MainService.State, MainService.Action> im
         this.getCurrentBoardUseCase = getCurrentBoardUseCase;
         this.setCurrentBoardUseCase = setCurrentBoardUseCase;
         this.getBoardUseCase = getBoardUseCase;
+        this.addBoardUseCase = addBoardUseCase;
         this.deleteCardUseCase = deleteCardUseCase;
         this.moveCardUseCase = moveCardUseCase;
         this.copyCardUseCase = copyCardUseCase;
@@ -98,6 +103,7 @@ public class MainService extends Store<MainService.State, MainService.Action> im
         on(Action.EditBoardAction.class, (state, _) -> state);
         on(Action.CloseCardAction.class, (state, _) -> state.withCardId(Optional.empty()));
         on(Action.SetFilterAction.class, (state, action) -> state.withFilter(action.filter()));
+        on(Action.AddBoardAction.class, (state, _) -> state);
 
         effect(Action.SwitchAccountAction.class, (state, action) -> {
             final var accountIdOpt = state.accountId();
@@ -180,6 +186,16 @@ public class MainService extends Store<MainService.State, MainService.Action> im
             });
 
             return CompletableFuture.completedFuture(Optional.empty());
+        });
+
+        effect(Action.AddBoardAction.class, (state, action) -> {
+            final var accountId = state.accountId();
+            if (accountId.isEmpty()) {
+                return CompletableFuture.failedFuture(new IllegalStateException());
+            }
+            return addBoardUseCase.addBoard(new CreateBoard(accountId.get(), action.title()))
+                    .thenApplyAsync(Action.DisplayBoardAction::new)
+                    .thenApply(Optional::of);
         });
     }
 
@@ -334,6 +350,9 @@ public class MainService extends Store<MainService.State, MainService.Action> im
         }
 
         record SetFilterAction(FilterInformation filter) implements Action {
+        }
+
+        record AddBoardAction(String title) implements Action {
         }
     }
 }

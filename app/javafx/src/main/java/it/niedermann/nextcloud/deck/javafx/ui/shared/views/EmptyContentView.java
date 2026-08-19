@@ -72,6 +72,10 @@ public class EmptyContentView extends VBox {
         imageView.setImage(new Image(value));
     }
 
+    public void setImage(Image image) {
+        imageView.setImage(image);
+    }
+
     public String getActionLabel() {
         return actionButton.getText();
     }

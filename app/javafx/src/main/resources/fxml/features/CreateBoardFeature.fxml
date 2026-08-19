@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import it.niedermann.nextcloud.deck.javafx.ui.shared.views.SubmitTextField?>
+
+<SubmitTextField xmlns:fx="http://javafx.com/fxml/1"
+    fx:id="submitTextField"
+    promptText="%create.board.popover.prompt" />
