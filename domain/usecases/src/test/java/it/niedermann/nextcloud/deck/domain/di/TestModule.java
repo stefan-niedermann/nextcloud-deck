@@ -1,67 +1,47 @@
 package it.niedermann.nextcloud.deck.domain.di;
 
-import static java.lang.annotation.ElementType.FIELD;
-import static java.lang.annotation.ElementType.METHOD;
-import static java.lang.annotation.ElementType.PARAMETER;
-
-import org.jetbrains.annotations.NotNull;
-import org.reactivestreams.FlowAdapters;
-
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
-import java.lang.annotation.Target;
 import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URL;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Objects;
-import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.Flow;
 
 import dagger.Module;
 import dagger.Provides;
-import io.reactivex.rxjava3.core.Flowable;
 import it.niedermann.nextcloud.deck.app.shared.di.NamedVerbose;
-import it.niedermann.nextcloud.deck.data.local.DeckDatabase;
-import it.niedermann.nextcloud.deck.domain.state.KeyValueStore;
-import jakarta.inject.Qualifier;
+import it.niedermann.nextcloud.deck.app.shared.remote.LoggingInterceptor;
+import it.niedermann.nextcloud.deck.domain.e2e.RandomUtil;
+import it.niedermann.nextcloud.deck.domain.e2e.ServerManager;
 import jakarta.inject.Singleton;
+import okhttp3.OkHttpClient;
 
 @Module
 public class TestModule {
 
     @Provides
-    @NamedUrl
-    URL provideUrl() {
+    @Singleton
+    public ServerManager provideServerManager(OkHttpClient httpClient,
+                                              RandomUtil randomUtil) {
+
+        final String username = System.getenv("NEXTCLOUD_ADMIN_USER");
+        final String password = System.getenv("NEXTCLOUD_ADMIN_PASSWORD");
+        final URL url;
+
         try {
             final var host = System.getenv("NEXTCLOUD_TRUSTED_DOMAINS");
             Objects.requireNonNull(host);
-
             if (host.isBlank()) {
                 throw new IllegalArgumentException("Invalid host");
             }
-
             if (!host.startsWith("http")) {
-                return URI.create("http://" + host).toURL();
+                url = URI.create("http://" + host).toURL();
+            } else {
+                url = URI.create(host).toURL();
             }
-
-            return URI.create(host).toURL();
         } catch (MalformedURLException e) {
             throw new RuntimeException(e);
         }
-    }
 
-    @Provides
-    @NamedUsername
-    String provideUsername() {
-        return System.getenv("NEXTCLOUD_ADMIN_USER");
-    }
-
-    @Provides
-    @NamedPassword
-    String providePassword() {
-        return System.getenv("NEXTCLOUD_ADMIN_PASSWORD");
+        return new ServerManager(httpClient, randomUtil, url, username, password);
     }
 
     @Provides
@@ -72,91 +52,7 @@ public class TestModule {
 
     @Provides
     @Singleton
-    KeyValueStore provideKeyValueStore() {
-        return new InMemoryKeyValueStore();
-    }
-
-    @Provides
-    @Singleton
-    DeckDatabase provideDeckDatabase() {
-        return DeckDatabase.Companion
-                .getInMemoryDatabaseBuilder()
-                .build();
-    }
-
-    private static class InMemoryKeyValueStore implements KeyValueStore {
-
-        private final Map<String, Object> store = new HashMap<>();
-
-        @Override
-        public CompletableFuture<Void> putString(@NotNull String key, @NotNull String value) {
-            store.put(key, value);
-            return CompletableFuture.completedFuture(null);
-        }
-
-        @Override
-        public CompletableFuture<Void> putLong(@NotNull String key, long value) {
-            store.put(key, value);
-            return CompletableFuture.completedFuture(null);
-        }
-
-        @Override
-        public CompletableFuture<Void> putBoolean(@NotNull String key, boolean value) {
-            store.put(key, value);
-            return CompletableFuture.completedFuture(null);
-        }
-
-        @Override
-        public Flow.@NotNull Publisher<@NotNull String> getString(@NotNull String key, @NotNull String defaultValue) {
-            final var value = store.get(key);
-            return FlowAdapters.toFlowPublisher(Flowable.just(value != null ? value.toString() : defaultValue));
-        }
-
-        @Override
-        public Flow.@NotNull Publisher<@NotNull Long> getLong(@NotNull String key, long defaultValue) {
-            final var value = store.get(key);
-            return FlowAdapters.toFlowPublisher(Flowable.just(value instanceof Long ? (Long) value : defaultValue));
-        }
-
-        @Override
-        public Flow.@NotNull Publisher<@NotNull Boolean> getBoolean(@NotNull String key, boolean defaultValue) {
-            final var value = store.get(key);
-            return FlowAdapters.toFlowPublisher(Flowable.just(value instanceof Boolean ? (Boolean) value : defaultValue));
-        }
-
-        @Override
-        public CompletableFuture<Boolean> containsKey(@NotNull String key) {
-            return CompletableFuture.completedFuture(store.containsKey(key));
-        }
-
-        @Override
-        public CompletableFuture<Void> clear() {
-            store.clear();
-            return CompletableFuture.completedFuture(null);
-        }
-
-        @Override
-        public CompletableFuture<Void> remove(@NotNull String key) {
-            store.remove(key);
-            return CompletableFuture.completedFuture(null);
-        }
-    }
-
-    @Qualifier
-    @Retention(RetentionPolicy.RUNTIME)
-    @Target({FIELD, METHOD, PARAMETER})
-    public @interface NamedUrl {
-    }
-
-    @Qualifier
-    @Retention(RetentionPolicy.RUNTIME)
-    @Target({FIELD, METHOD, PARAMETER})
-    public @interface NamedUsername {
-    }
-
-    @Qualifier
-    @Retention(RetentionPolicy.RUNTIME)
-    @Target({FIELD, METHOD, PARAMETER})
-    public @interface NamedPassword {
+    LoggingInterceptor provideLoggingInterceptor(@NamedVerbose boolean verbose) {
+        return new LoggingInterceptor(verbose);
     }
 }

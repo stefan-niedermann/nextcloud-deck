@@ -1,96 +1,76 @@
 package it.niedermann.nextcloud.deck.domain.e2e;
 
 import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
 import org.reactivestreams.FlowAdapters;
 
 import java.io.IOException;
-import java.net.URL;
-import java.util.Objects;
-import java.util.logging.Logger;
+import java.util.HashMap;
+import java.util.Map;
 
+import io.reactivex.rxjava3.core.Completable;
 import io.reactivex.rxjava3.core.Flowable;
-import io.reactivex.rxjava3.core.Maybe;
 import it.niedermann.nextcloud.auth.apptoken.AppTokenAuthProvider;
-import it.niedermann.nextcloud.deck.data.local.DeckDatabase;
 import it.niedermann.nextcloud.deck.domain.di.DaggerTestComponent;
-import it.niedermann.nextcloud.deck.domain.di.TestModule;
+import it.niedermann.nextcloud.deck.domain.di.VirtualDeviceComponent;
+import it.niedermann.nextcloud.deck.domain.model.Account;
 import it.niedermann.nextcloud.deck.domain.model.AuthenticatedAccount;
-import it.niedermann.nextcloud.deck.domain.model.CreateBoard;
-import it.niedermann.nextcloud.deck.domain.state.KeyValueStore;
-import it.niedermann.nextcloud.deck.domain.sync.SyncScheduler;
-import it.niedermann.nextcloud.deck.domain.usecases.accounts.ImportAccountUseCase;
-import it.niedermann.nextcloud.deck.domain.usecases.boards.AddBoardUseCase;
-import it.niedermann.nextcloud.deck.domain.usecases.boards.ListBoardsUseCase;
-import it.niedermann.nextcloud.deck.domain.usecases.state.GetCurrentAccountUseCase;
-import it.niedermann.nextcloud.deck.domain.usecases.state.SetCurrentAccountUseCase;
 import jakarta.inject.Inject;
 
-public class EndToEndTest {
-
-    private static final Logger logger = Logger.getLogger(EndToEndTest.class.getName());
+public abstract class EndToEndTest {
 
     @Inject
-    @TestModule.NamedUrl
-    URL url;
+    protected ServerManager serverManager;
     @Inject
-    @TestModule.NamedUsername
-    String username;
+    protected AppTokenAuthProvider authProvider;
     @Inject
-    @TestModule.NamedPassword
-    String password;
+    protected VirtualDeviceComponent.Factory virtualDeviceFactory;
     @Inject
-    DeckDatabase db;
-    @Inject
-    KeyValueStore prefs;
-    @Inject
-    AppTokenAuthProvider authProvider;
-    @Inject
-    SyncScheduler syncScheduler;
-    @Inject
-    ImportAccountUseCase importAccountUseCase;
-    @Inject
-    GetCurrentAccountUseCase getCurrentAccountUseCase;
-    @Inject
-    SetCurrentAccountUseCase setCurrentAccountUseCase;
-    @Inject
-    AddBoardUseCase addBoardUseCase;
-    @Inject
-    ListBoardsUseCase listBoardsUseCase;
+    protected RandomUtil randomUtil;
+
+    private final Map<String, VirtualDeviceComponent> virtualDevices = new HashMap<>();
+
+    protected EndToEndTest() {
+        DaggerTestComponent.create().inject(this);
+    }
 
     @BeforeEach
-    public void setup() {
-        DaggerTestComponent.create().inject(this);
+    public void setup() throws IOException {
+        serverManager.setup();
     }
 
     @AfterEach
     public void close() {
-        db.close();
-        prefs.clear();
+        virtualDevices.clear();
+        serverManager.close();
     }
 
-    @Test
-    public void loginFlow() throws IOException {
-
-        final var token = authProvider.generateToken(url, username, password);
-        final var authenticatedAccount = new AuthenticatedAccount(url, username, token);
-
-        final var syncStatus = Flowable.fromPublisher(FlowAdapters.toPublisher(importAccountUseCase.execute(authenticatedAccount))).lastElement().blockingGet();
-        setCurrentAccountUseCase.execute(syncStatus.account().id()).join();
+    protected VirtualDeviceComponent createVirtualDevice() {
+        final var deviceName = randomUtil.randomString(20);
+        return createVirtualDevice(deviceName);
     }
 
-    @Test
-    public void createBoard() throws IOException {
+    protected VirtualDeviceComponent createVirtualDevice(String deviceName) {
+        return virtualDevices.computeIfAbsent(deviceName, name -> virtualDeviceFactory.create(deviceName));
+    }
 
-        loginFlow();
+    protected VirtualDeviceAndAccount getOrCreateRemoteAccountAndImport(VirtualDeviceComponent virtualDevice, String remoteAccountUsername) throws IOException {
+        final var user = serverManager.getOrCreateRemoteAccount(remoteAccountUsername);
+        final var importAccountUseCase = virtualDevice.getImportAccountUseCase();
 
-        final var accountId = getCurrentAccountUseCase.execute().join();
-        final var createBoard = new CreateBoard(accountId, "Sample Board Title");
-        final var createdBoardId = addBoardUseCase.addBoard(createBoard).join();
-        final var boards = Maybe.fromPublisher(FlowAdapters.toPublisher(listBoardsUseCase.execute(accountId))).blockingGet();
-        Assertions.assertTrue(boards.stream().anyMatch(board -> Objects.equals(board.id(), createdBoardId)), "Should contain the created board");
-//        syncScheduler.scheduleSynchronization(account.id());
+        final var token = authProvider.generateToken(user.url(), user.username(), user.password());
+        final var account = new AuthenticatedAccount(user.url(), user.username(), token);
+        final var importedAccount = Flowable.fromPublisher(FlowAdapters.toPublisher(importAccountUseCase.execute(account))).lastElement().blockingGet().account();
+        return new VirtualDeviceAndAccount(virtualDevice, importedAccount);
+    }
+
+    protected void synchronize(VirtualDeviceAndAccount virtualDeviceAndAccount) {
+        final var virtualDevice = virtualDeviceAndAccount.virtualDevice();
+        final var account = virtualDeviceAndAccount.account();
+        final var scheduleSyncUseCase = virtualDevice.getScheduleSyncUseCase();
+        Completable.fromPublisher(FlowAdapters.toPublisher(scheduleSyncUseCase.execute(account.id()))).blockingAwait();
+    }
+
+    public record VirtualDeviceAndAccount(VirtualDeviceComponent virtualDevice, Account account) {
     }
 }
