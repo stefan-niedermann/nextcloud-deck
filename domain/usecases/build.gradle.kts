@@ -27,6 +27,7 @@ dependencies {
 tasks.withType<Test> {
     useJUnitPlatform()
     failOnNoDiscoveredTests = false
+    maxParallelForks = 50
     if (!project.hasProperty("includeE2E")) {
         exclude("**/it/niedermann/nextcloud/deck/domain/e2e/**")
     }
