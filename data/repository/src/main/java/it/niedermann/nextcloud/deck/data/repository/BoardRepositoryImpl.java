@@ -2,6 +2,7 @@ package it.niedermann.nextcloud.deck.data.repository;
 
 import org.reactivestreams.FlowAdapters;
 
+import java.time.OffsetDateTime;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.Flow;
@@ -9,10 +10,12 @@ import java.util.concurrent.Flow;
 import io.reactivex.rxjava3.core.Maybe;
 import io.reactivex.rxjava3.schedulers.Schedulers;
 import it.niedermann.nextcloud.deck.data.local.dao.BoardDao;
+import it.niedermann.nextcloud.deck.data.local.entity.BoardEntity;
 import it.niedermann.nextcloud.deck.data.local.mapper.BoardMapper;
 import it.niedermann.nextcloud.deck.domain.model.Account;
 import it.niedermann.nextcloud.deck.domain.model.Board;
 import it.niedermann.nextcloud.deck.domain.model.CreateBoard;
+import it.niedermann.nextcloud.deck.domain.model.DBStatus;
 import it.niedermann.nextcloud.deck.domain.repository.BoardRepository;
 import jakarta.inject.Inject;
 
@@ -30,8 +33,27 @@ public class BoardRepositoryImpl implements BoardRepository {
 
     @Override
     public CompletableFuture<Board.ID> createBoard(CreateBoard board) {
-        // TODO: This should probably also include sync-logic or handle local-first creation
-        return CompletableFuture.completedFuture(new Board.ID(0));
+        final var entity = new BoardEntity(
+                0,
+                board.accountId().value(),
+                null,
+                DBStatus.LOCAL_EDITED.getId(),
+                null,
+                OffsetDateTime.now(),
+                null,
+                board.title(),
+                null,
+                null,
+                false,
+                0,
+                null,
+                true,
+                true,
+                true,
+                true,
+                null
+        );
+        return boardDao.insertOrReplace(entity).thenApply(Board.ID::new);
     }
 
     @Override

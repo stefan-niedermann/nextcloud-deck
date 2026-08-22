@@ -16,6 +16,7 @@ public interface AttachmentMapper extends GenericMapper<AttachmentEntity, Attach
     @Mapping(target = "localId", source = "id")
     @Mapping(target = "remoteId", source = "remoteId")
     @Mapping(target = "etag", ignore = true)
+    @Mapping(target = "filesize", source = "size")
     AttachmentEntity toEntity(Attachment attachment);
 
     @Override

@@ -20,6 +20,7 @@ import it.niedermann.nextcloud.deck.domain.model.Account;
 import it.niedermann.nextcloud.deck.domain.model.Board;
 import it.niedermann.nextcloud.deck.domain.model.FilterInformation;
 import it.niedermann.nextcloud.deck.domain.state.KeyValueStore;
+import it.niedermann.nextcloud.deck.domain.usecases.boards.AddBoardUseCase;
 import it.niedermann.nextcloud.deck.domain.usecases.boards.GetBoardUseCase;
 import it.niedermann.nextcloud.deck.domain.usecases.cards.CopyCardUseCase;
 import it.niedermann.nextcloud.deck.domain.usecases.cards.DeleteCardUseCase;
@@ -49,6 +50,7 @@ class MainServiceTest {
     private Inflater inflater;
     private PickStackFeature.Factory pickStackFeatureFactory;
     private GetBoardUseCase getBoardUseCase;
+    private AddBoardUseCase addBoardUseCase;
 
     private MainService mainService;
 
@@ -73,6 +75,7 @@ class MainServiceTest {
         inflater = mock(Inflater.class);
         pickStackFeatureFactory = mock(PickStackFeature.Factory.class);
         getBoardUseCase = mock(GetBoardUseCase.class);
+        addBoardUseCase = mock(AddBoardUseCase.class);
 
         mainService = new MainService(
                 storeLogger,
@@ -87,7 +90,8 @@ class MainServiceTest {
                 inflater,
                 pickStackFeatureFactory,
                 getBoardUseCase,
-                new MainService.State(Optional.empty(), Optional.empty(), Optional.empty(), FilterInformation.EMPTY)
+                addBoardUseCase,
+                new MainService.State(Optional.empty(), Optional.empty(), Optional.empty(), FilterInformation.EMPTY, MainService.ViewMode.KANBAN)
         );
     }
 
@@ -96,7 +100,7 @@ class MainServiceTest {
         final var testSubscriber = new TestSubscriber<MainService.State>();
         mainService.getState().subscribe(testSubscriber);
 
-        testSubscriber.assertValue(new MainService.State(Optional.empty(), Optional.empty(), Optional.empty(), FilterInformation.EMPTY));
+        testSubscriber.assertValue(new MainService.State(Optional.empty(), Optional.empty(), Optional.empty(), FilterInformation.EMPTY, MainService.ViewMode.KANBAN));
     }
 
     @Test
@@ -111,8 +115,8 @@ class MainServiceTest {
         mainService.onAccountSelected(accountId);
 
         testSubscriber.assertValues(
-                new MainService.State(Optional.empty(), Optional.empty(), Optional.empty(), FilterInformation.EMPTY),
-                new MainService.State(Optional.of(accountId), Optional.empty(), Optional.empty(), FilterInformation.EMPTY)
+                new MainService.State(Optional.empty(), Optional.empty(), Optional.empty(), FilterInformation.EMPTY, MainService.ViewMode.KANBAN),
+                new MainService.State(Optional.of(accountId), Optional.empty(), Optional.empty(), FilterInformation.EMPTY, MainService.ViewMode.KANBAN)
         );
 
         verify(setCurrentAccountUseCase).execute(accountId);
@@ -134,8 +138,8 @@ class MainServiceTest {
         mainService.onBoardSelected(boardId);
 
         testSubscriber.assertValues(
-                new MainService.State(Optional.of(accountId), Optional.empty(), Optional.empty(), FilterInformation.EMPTY),
-                new MainService.State(Optional.of(accountId), Optional.of(boardId), Optional.empty(), FilterInformation.EMPTY)
+                new MainService.State(Optional.of(accountId), Optional.empty(), Optional.empty(), FilterInformation.EMPTY, MainService.ViewMode.KANBAN),
+                new MainService.State(Optional.of(accountId), Optional.of(boardId), Optional.empty(), FilterInformation.EMPTY, MainService.ViewMode.KANBAN)
         );
 
         verify(setCurrentBoardUseCase).execute(accountId, boardId);

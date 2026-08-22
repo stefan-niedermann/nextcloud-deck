@@ -17,6 +17,7 @@ import it.niedermann.nextcloud.deck.domain.model.Board;
 import it.niedermann.nextcloud.deck.javafx.fxml.Inflater;
 import it.niedermann.nextcloud.deck.javafx.ui.editcard.EditCardService;
 import it.niedermann.nextcloud.deck.javafx.ui.editcard.features.EditCardFeature;
+import it.niedermann.nextcloud.deck.javafx.ui.main.features.BoardGanttFeature;
 import it.niedermann.nextcloud.deck.javafx.ui.main.features.BoardKanbanFeature;
 import it.niedermann.nextcloud.deck.javafx.ui.main.features.BoardListFeature;
 import it.niedermann.nextcloud.deck.javafx.ui.main.features.CreateBoardFeature;
@@ -55,6 +56,7 @@ public class MainScene extends AbstractScene {
     private final Inflater.FxBundle<?> boardListBundle;
     private final Inflater.FxBundle<?> headerBundle;
     private final Inflater.FxBundle<?> boardBundle;
+    private final Inflater.FxBundle<?> ganttBundle;
     private final Inflater.FxBundle<EditCardFeature> editCardBundle;
 
     private double[] dividerPositions;
@@ -65,6 +67,7 @@ public class MainScene extends AbstractScene {
             BoardListFeature.Factory boardListFactory,
             HeaderFeature.Factory headerFactory,
             BoardKanbanFeature.Factory boardFactory,
+            BoardGanttFeature.Factory ganttFactory,
             EditCardFeature.Factory editCardFactory,
             EditCardService.Factory editCardStageContextFactory,
             StageTitleResolver stageTitleResolver,
@@ -83,6 +86,7 @@ public class MainScene extends AbstractScene {
         this.boardListBundle = inflater.inflate(boardListFactory.create(mainService));
         this.headerBundle = inflater.inflate(headerFactory.create(mainService));
         this.boardBundle = inflater.inflate(boardFactory.create(mainService));
+        this.ganttBundle = inflater.inflate(ganttFactory.create(mainService));
         this.editCardBundle = inflater.inflate(editCardFactory.create(sidebarContext));
     }
 
@@ -123,14 +127,23 @@ public class MainScene extends AbstractScene {
         });
 
         final var boardVisibilityDisposable = Flowable.fromPublisher(mainService.getState())
-                .map(state -> state.boardId().isPresent())
-                .distinctUntilChanged()
                 .observeOn(JavaFxScheduler.platform())
-                .subscribe(boardPresent -> {
+                .subscribe(state -> {
+                    final boolean boardPresent = state.boardId().isPresent();
                     splitPane.setVisible(boardPresent);
                     splitPane.setManaged(boardPresent);
                     emptyContentView.setVisible(!boardPresent);
                     emptyContentView.setManaged(!boardPresent);
+
+                    if (boardPresent) {
+                        splitPane.getItems().remove(boardBundle.view());
+                        splitPane.getItems().remove(ganttBundle.view());
+                        if (state.viewMode() == MainService.ViewMode.GANTT) {
+                            splitPane.getItems().add(1, ganttBundle.view());
+                        } else {
+                            splitPane.getItems().add(1, boardBundle.view());
+                        }
+                    }
                 });
 
         final var accentColorDisposable = mainService.getBoard()

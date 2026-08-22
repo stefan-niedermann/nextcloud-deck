@@ -29,6 +29,7 @@ import it.niedermann.nextcloud.deck.javafx.fxml.Inflater;
 import it.niedermann.nextcloud.deck.javafx.services.ApplicationRouter;
 import it.niedermann.nextcloud.deck.javafx.store.Store;
 import it.niedermann.nextcloud.deck.javafx.store.StoreLogger;
+import it.niedermann.nextcloud.deck.javafx.ui.main.features.BoardGanttFeature;
 import it.niedermann.nextcloud.deck.javafx.ui.main.features.BoardKanbanFeature;
 import it.niedermann.nextcloud.deck.javafx.ui.main.features.BoardListFeature;
 import it.niedermann.nextcloud.deck.javafx.ui.main.features.ColumnFeature;
@@ -44,6 +45,7 @@ import javafx.scene.control.ButtonType;
 public class MainService extends Store<MainService.State, MainService.Action> implements
         HeaderFeature.ViewModel,
         BoardKanbanFeature.ViewModel,
+        BoardGanttFeature.ViewModel,
         BoardListFeature.ViewModel,
         ColumnFeature.ViewModel {
 
@@ -104,6 +106,7 @@ public class MainService extends Store<MainService.State, MainService.Action> im
         on(Action.CloseCardAction.class, (state, _) -> state.withCardId(Optional.empty()));
         on(Action.SetFilterAction.class, (state, action) -> state.withFilter(action.filter()));
         on(Action.AddBoardAction.class, (state, _) -> state);
+        on(Action.SwitchViewMode.class, (state, action) -> state.withViewMode(action.mode()));
 
         effect(Action.SwitchAccountAction.class, (state, action) -> {
             final var accountIdOpt = state.accountId();
@@ -261,6 +264,18 @@ public class MainService extends Store<MainService.State, MainService.Action> im
     }
 
     @Override
+    public Flowable<ViewMode> getViewMode() {
+        return Flowable.fromPublisher(getState())
+                .map(State::viewMode)
+                .distinctUntilChanged();
+    }
+
+    @Override
+    public void onViewModeSelected(ViewMode viewMode) {
+        dispatch(new Action.SwitchViewMode(viewMode));
+    }
+
+    @Override
     public void onBoardSelected(Board.ID boardId) {
         System.out.println("onBoardSelected: " + boardId);
         dispatch(new MainService.Action.DisplayBoardAction(boardId));
@@ -308,12 +323,17 @@ public class MainService extends Store<MainService.State, MainService.Action> im
                 .filter(Boolean.TRUE::equals).ifPresent(_ -> dispatch(new MainService.Action.DeleteCardAction(cardId)));
     }
 
+    public enum ViewMode {
+        KANBAN, GANTT
+    }
+
     @RecordBuilder
     public record State(
             Optional<Account.ID> accountId,
             Optional<Board.ID> boardId,
             Optional<Card.ID> cardId,
-            FilterInformation filter
+            FilterInformation filter,
+            ViewMode viewMode
     ) implements MainServiceStateBuilder.With {
     }
 
@@ -353,6 +373,9 @@ public class MainService extends Store<MainService.State, MainService.Action> im
         }
 
         record AddBoardAction(String title) implements Action {
+        }
+
+        record SwitchViewMode(ViewMode mode) implements Action {
         }
     }
 }

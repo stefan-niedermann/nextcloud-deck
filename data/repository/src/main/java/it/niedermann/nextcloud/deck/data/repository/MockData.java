@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Set;
 
 import it.niedermann.nextcloud.deck.domain.model.Attachment;
+import it.niedermann.nextcloud.deck.domain.model.AttachmentType;
 import it.niedermann.nextcloud.deck.domain.model.Board;
 import it.niedermann.nextcloud.deck.domain.model.Capabilities;
 import it.niedermann.nextcloud.deck.domain.model.Card;
@@ -99,7 +100,7 @@ public interface MockData {
             new Card(new Card.ID(1), new Card.RemoteID(101), new Column.ID(1), OffsetDateTime.now(), 1, "Card-Title #1", "", Collections.emptySet(), Collections.emptySet(), Collections.emptyList(), false, false, 0, 0),
             new Card(new Card.ID(2), null, new Column.ID(1), OffsetDateTime.now(), 2, "Card-Title #2", "- [ ] Check 1\n- [x] Check 2\n- [ ] Check 3", Set.of(new Label.ID(3)), Set.of(new User.ID("jdoe")), Collections.emptyList(), false, false, 0, 4),
             new Card(new Card.ID(3), new Card.RemoteID(103), new Column.ID(1), OffsetDateTime.now(), 3, "Card-Title #3", "Card-Description 3 Lorem Ipsum Dolor sit Amet", Set.of(new Label.ID(4), new Label.ID(5)), Set.of(new User.ID("smith")), Collections.emptyList(), false, false, 0, 6),
-            new Card(new Card.ID(4), null, new Column.ID(2), OffsetDateTime.now(), 4, "Card-Title #4", "Card-Description 4 Lorem Ipsum Dolor sit Amet", Collections.emptySet(), Collections.emptySet(), Collections.emptyList(), false, false, 0, 0),
+            new Card(new Card.ID(2), null, new Column.ID(2), OffsetDateTime.now(), 4, "Card-Title #4", "Card-Description 4 Lorem Ipsum Dolor sit Amet", Collections.emptySet(), Collections.emptySet(), Collections.emptyList(), false, false, 0, 0),
             new Card(new Card.ID(5), new Card.RemoteID(105), new Column.ID(2), OffsetDateTime.now(), 5, "Card-Title #5", "Card-Description 5 Lorem Ipsum Dolor sit Amet", Set.of(new Label.ID(1)), Collections.emptySet(), Collections.emptyList(), false, false, 0, 1),
             new Card(new Card.ID(6), null, new Column.ID(3), OffsetDateTime.now(), 6, "Card-Title #6", "Card-Description 6 Lorem Ipsum Dolor sit Amet", Set.of(new Label.ID(6), new Label.ID(7)), Collections.emptySet(), Collections.emptyList(), false, false, 0, 0),
             new Card(new Card.ID(7), new Card.RemoteID(107), new Column.ID(3), OffsetDateTime.now(), 7, "Card-Title #7", "Card-Description 7 Lorem Ipsum Dolor sit Amet", Collections.emptySet(), Collections.emptySet(), Collections.emptyList(), false, false, 0, 0),
@@ -108,7 +109,7 @@ public interface MockData {
     );
 
     Attachment[] MOCK_ATTACHMENTS = new Attachment[]{
-            new Attachment(new Attachment.ID(1), new Card.ID(1), "Sample File", OffsetDateTime.now(), new User.ID("jdoe"), new Attachment.FileSize(310_340), "image/png"),
-            new Attachment(new Attachment.ID(2), new Card.ID(1), "Sample Image", OffsetDateTime.now(), new User.ID("smith"), new Attachment.FileSize(140_000_000), "image/png")
+            new Attachment(new Attachment.ID(1), new Card.ID(1), AttachmentType.FILE, "Sample File", OffsetDateTime.now(), new User.ID("jdoe"), new Attachment.FileSize(310_340), "image/png"),
+            new Attachment(new Attachment.ID(2), new Card.ID(1), AttachmentType.FILE, "Sample Image", OffsetDateTime.now(), new User.ID("smith"), new Attachment.FileSize(140_000_000), "image/png")
     };
 }

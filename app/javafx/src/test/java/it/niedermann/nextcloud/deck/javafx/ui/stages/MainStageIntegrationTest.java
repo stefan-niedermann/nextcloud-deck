@@ -50,6 +50,7 @@ import it.niedermann.nextcloud.deck.domain.usecases.accounts.HasAccountsUseCase;
 import it.niedermann.nextcloud.deck.domain.usecases.accounts.RemoveAccountUseCase;
 import it.niedermann.nextcloud.deck.domain.usecases.activities.ListPreviewActivitiesUseCase;
 import it.niedermann.nextcloud.deck.domain.usecases.attachments.ListAttachmentsUseCase;
+import it.niedermann.nextcloud.deck.domain.usecases.boards.AddBoardUseCase;
 import it.niedermann.nextcloud.deck.domain.usecases.boards.GetBoardUseCase;
 import it.niedermann.nextcloud.deck.domain.usecases.boards.ListBoardsUseCase;
 import it.niedermann.nextcloud.deck.domain.usecases.cards.AddCardUseCase;
@@ -85,9 +86,11 @@ import it.niedermann.nextcloud.deck.javafx.ui.main.MainScene;
 import it.niedermann.nextcloud.deck.javafx.ui.main.MainService;
 import it.niedermann.nextcloud.deck.javafx.ui.main.MainStage;
 import it.niedermann.nextcloud.deck.javafx.ui.main.features.AccountSwitcherFeature;
+import it.niedermann.nextcloud.deck.javafx.ui.main.features.BoardGanttFeature;
 import it.niedermann.nextcloud.deck.javafx.ui.main.features.BoardKanbanFeature;
 import it.niedermann.nextcloud.deck.javafx.ui.main.features.BoardListFeature;
 import it.niedermann.nextcloud.deck.javafx.ui.main.features.ColumnFeature;
+import it.niedermann.nextcloud.deck.javafx.ui.main.features.CreateBoardFeature;
 import it.niedermann.nextcloud.deck.javafx.ui.main.features.FilterFeature;
 import it.niedermann.nextcloud.deck.javafx.ui.main.features.HeaderFeature;
 import it.niedermann.nextcloud.deck.javafx.ui.shared.cellfactories.AccountListItemCellFactory;
@@ -130,7 +133,7 @@ class MainStageIntegrationTest {
     private static final Board BOARD_1 = new Board(new Board.ID(1L), "Board 1", new Color(0, 0, 255), new Board.Permissions(true, true, true, true));
     private static final Board BOARD_2 = new Board(new Board.ID(2L), "Board 2", new Color(0, 255, 0), new Board.Permissions(true, true, true, true));
     private static final Column COLUMN_1 = new Column(new Column.ID(1L), BOARD_1.id(), "Column 1", 0);
-    private static final PreviewCard CARD_1 = new PreviewCard(new Card.ID(1L), new Card.RemoteID(1L), "Card 1", "", Collections.emptySet(), 0, 0, 0, false, 0, 0, null, new Color(255, 0, 0));
+    private static final PreviewCard CARD_1 = new PreviewCard(new Card.ID(1L), new Card.RemoteID(1L), "Card 1", "", Collections.emptySet(), 0, 0, 0, false, 0, 0, null, null, new Color(255, 0, 0));
 
     private static URL createUrl(String url) {
         try {
@@ -228,6 +231,7 @@ class MainStageIntegrationTest {
                     inflater,
                     pickStackFeatureFactory,
                     getBoardUseCase,
+                    mock(AddBoardUseCase.class),
                     initialState
             );
             return mainService;
@@ -317,9 +321,12 @@ class MainStageIntegrationTest {
                 boardListFeatureFactory,
                 headerFeatureFactory,
                 boardFeatureFactory,
+                viewModel -> mock(BoardGanttFeature.class),
                 editCardFeatureFactory,
                 editCardStageContextFactory,
                 stageTitleResolver,
+                _ -> mock(CreateBoardFeature.class),
+                themeService,
                 context
         );
 

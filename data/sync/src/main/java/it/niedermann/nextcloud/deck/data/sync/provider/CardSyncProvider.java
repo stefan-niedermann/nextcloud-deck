@@ -5,25 +5,24 @@ import java.util.concurrent.CompletableFuture;
 import java.util.function.Consumer;
 import java.util.logging.Logger;
 
+import it.niedermann.nextcloud.deck.data.local.dao.BoardDao;
 import it.niedermann.nextcloud.deck.data.local.dao.CardDao;
 import it.niedermann.nextcloud.deck.data.local.dao.ColumnDao;
-import it.niedermann.nextcloud.deck.data.local.dao.BoardDao;
-import it.niedermann.nextcloud.deck.data.local.dao.LabelDao;
 import it.niedermann.nextcloud.deck.data.local.dao.JoinCardWithLabelDao;
 import it.niedermann.nextcloud.deck.data.local.dao.JoinCardWithUserDao;
+import it.niedermann.nextcloud.deck.data.local.dao.LabelDao;
 import it.niedermann.nextcloud.deck.data.local.entity.CardEntity;
+import it.niedermann.nextcloud.deck.data.local.entity.JoinCardWithLabelEntity;
+import it.niedermann.nextcloud.deck.data.local.entity.JoinCardWithUserEntity;
 import it.niedermann.nextcloud.deck.data.local.mapper.CardMapper;
 import it.niedermann.nextcloud.deck.domain.model.Account;
 import it.niedermann.nextcloud.deck.domain.model.DBStatus;
 import it.niedermann.nextcloud.deck.domain.state.SyncStatus;
-import it.niedermann.nextcloud.deck.data.local.entity.UserEntity;
-import it.niedermann.nextcloud.deck.data.local.entity.JoinCardWithLabelEntity;
-import it.niedermann.nextcloud.deck.data.local.entity.JoinCardWithUserEntity;
 import it.niedermann.nextcloud.remote.ApiProvider;
 import it.niedermann.nextcloud.remote.deck.DeckApi;
 import it.niedermann.nextcloud.remote.deck.dto.CardDTO;
-import it.niedermann.nextcloud.remote.deck.mapper.CardRemoteMapper;
 import it.niedermann.nextcloud.remote.deck.dto.ColumnDTO;
+import it.niedermann.nextcloud.remote.deck.mapper.CardRemoteMapper;
 import jakarta.inject.Inject;
 import retrofit2.HttpException;
 
@@ -123,6 +122,7 @@ public class CardSyncProvider implements SyncProvider<ColumnDTO> {
                                         updatedLocal.getUserId(),
                                         updatedLocal.getOrder(),
                                         updatedLocal.getArchived(),
+                                        updatedLocal.getStartDate(),
                                         updatedLocal.getDueDate(),
                                         updatedLocal.getNotified(),
                                         updatedLocal.getOverdue(),
@@ -183,6 +183,7 @@ public class CardSyncProvider implements SyncProvider<ColumnDTO> {
                                                 serverCard.getUserId(),
                                                 serverCard.getOrder(),
                                                 serverCard.getArchived(),
+                                                serverCard.getStartDate(),
                                                 serverCard.getDueDate(),
                                                 serverCard.getNotified(),
                                                 serverCard.getOverdue(),
@@ -211,6 +212,7 @@ public class CardSyncProvider implements SyncProvider<ColumnDTO> {
                                                             localCard.getUserId(),
                                                             localCard.getOrder(),
                                                             localCard.getArchived(),
+                                                            localCard.getStartDate(),
                                                             localCard.getDueDate(),
                                                             localCard.getNotified(),
                                                             localCard.getOverdue(),
@@ -363,6 +365,7 @@ public class CardSyncProvider implements SyncProvider<ColumnDTO> {
                                 ownerLocalId,
                                 serverCard.getOrder(),
                                 serverCard.getArchived(),
+                                serverCard.getStartDate(),
                                 serverCard.getDueDate(),
                                 serverCard.getNotified(),
                                 serverCard.getOverdue(),
@@ -396,6 +399,7 @@ public class CardSyncProvider implements SyncProvider<ColumnDTO> {
                                 ownerLocalId,
                                 serverCard.getOrder(),
                                 serverCard.getArchived(),
+                                serverCard.getStartDate(),
                                 serverCard.getDueDate(),
                                 serverCard.getNotified(),
                                 serverCard.getOverdue(),

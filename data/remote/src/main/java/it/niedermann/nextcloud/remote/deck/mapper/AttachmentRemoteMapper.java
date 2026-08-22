@@ -25,7 +25,7 @@ public interface AttachmentRemoteMapper extends GenericRemoteMapper<AttachmentDT
     @Mapping(target = "extendedData.info.filename", source = "filename")
     @Mapping(target = "data", source = "title")
     @Mapping(target = "etag", ignore = true)
-    @Mapping(target = "type", ignore = true)
+    @Mapping(target = "type", expression = "java(attachment.type().getValue())")
     AttachmentDTO toDTO(Attachment attachment);
 
     @Override
@@ -43,5 +43,6 @@ public interface AttachmentRemoteMapper extends GenericRemoteMapper<AttachmentDT
     @Mapping(target = "title", source = "data")
     @Mapping(target = "localPath", ignore = true)
     @Mapping(target = "accountId", ignore = true)
+    @Mapping(target = "type", expression = "java(it.niedermann.nextcloud.deck.domain.model.AttachmentType.findByValue(attachmentDTO.getType()))")
     Attachment toTO(AttachmentDTO attachmentDTO);
 }

@@ -2,6 +2,8 @@ package it.niedermann.nextcloud.deck.javafx.ui.main.features;
 
 import com.dlsc.gemsfx.PopOver;
 
+import org.kordamp.ikonli.javafx.FontIcon;
+
 import java.net.URL;
 import java.time.format.DateTimeFormatter;
 import java.time.format.FormatStyle;
@@ -26,6 +28,7 @@ import it.niedermann.nextcloud.deck.domain.usecases.sync.GetSyncStatusUseCase;
 import it.niedermann.nextcloud.deck.domain.usecases.sync.ScheduleSyncUseCase;
 import it.niedermann.nextcloud.deck.domain.usecases.users.ListUsersUseCase;
 import it.niedermann.nextcloud.deck.javafx.fxml.Inflater;
+import it.niedermann.nextcloud.deck.javafx.ui.main.MainService;
 import it.niedermann.nextcloud.deck.javafx.ui.shared.AbstractScene;
 import it.niedermann.nextcloud.deck.javafx.ui.shared.services.ThemeService;
 import it.niedermann.nextcloud.deck.javafx.ui.shared.views.AvatarProgressView;
@@ -33,6 +36,8 @@ import it.niedermann.nextcloud.deck.javafx.util.JavaFxScheduler;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.MenuItem;
+import javafx.scene.control.SplitMenuButton;
 import javafx.scene.control.Tooltip;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
@@ -50,6 +55,12 @@ public class HeaderFeature extends AbstractScene {
     Button editBoardBtn;
     @FXML
     Button filterBtn;
+    @FXML
+    SplitMenuButton viewModeBtn;
+    @FXML
+    MenuItem kanbanMenuItem;
+    @FXML
+    MenuItem ganttMenuItem;
     @FXML
     Button preferencesBtn;
     @FXML
@@ -147,6 +158,33 @@ public class HeaderFeature extends AbstractScene {
 
         addDisposable(currentBoardDisposable);
 
+        final var viewModeDisposable = viewModel.getViewMode()
+                .observeOn(JavaFxScheduler.platform())
+                .subscribe(viewMode -> {
+                    switch (viewMode) {
+                        case KANBAN -> {
+                            viewModeBtn.setText(resources.getString("main.view.kanban"));
+                            viewModeBtn.setGraphic(new FontIcon("fltfal-board-20"));
+                        }
+                        case GANTT -> {
+                            viewModeBtn.setText(resources.getString("main.view.gantt"));
+                            viewModeBtn.setGraphic(new FontIcon("fltfal-clock-20"));
+                        }
+                    }
+                });
+
+        addDisposable(viewModeDisposable);
+
+        kanbanMenuItem.setText(resources.getString("main.view.kanban"));
+        ganttMenuItem.setText(resources.getString("main.view.gantt"));
+        kanbanMenuItem.setOnAction(_ -> viewModel.onViewModeSelected(MainService.ViewMode.KANBAN));
+        ganttMenuItem.setOnAction(_ -> viewModel.onViewModeSelected(MainService.ViewMode.GANTT));
+        viewModeBtn.setOnAction(_ -> {
+            // Toggle
+            final var current = viewModel.getViewMode().blockingFirst();
+            viewModel.onViewModeSelected(current == MainService.ViewMode.KANBAN ? MainService.ViewMode.GANTT : MainService.ViewMode.KANBAN);
+        });
+
         editBoardBtn.setOnAction(_ -> {
             var disposable = viewModel.getBoard()
                     .firstElement()
@@ -242,5 +280,9 @@ public class HeaderFeature extends AbstractScene {
         void onLaunchPreferences();
 
         void onAccountRemoved();
+
+        Flowable<MainService.ViewMode> getViewMode();
+
+        void onViewModeSelected(MainService.ViewMode viewMode);
     }
 }

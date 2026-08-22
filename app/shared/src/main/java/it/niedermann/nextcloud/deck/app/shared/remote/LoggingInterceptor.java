@@ -8,9 +8,6 @@ import it.niedermann.nextcloud.deck.app.shared.di.NamedVerbose;
 import jakarta.inject.Inject;
 import okhttp3.Interceptor;
 import okhttp3.Response;
-import okhttp3.ResponseBody;
-import okio.Buffer;
-import okio.BufferedSource;
 
 public class LoggingInterceptor implements Interceptor {
 
@@ -36,14 +33,14 @@ public class LoggingInterceptor implements Interceptor {
 
         logger.info(() -> "<-- " + response.code() + " " + request.url());
 
-        final ResponseBody responseBody = response.body();
+        final var responseBody = response.body();
         if (responseBody != null) {
             final var contentType = responseBody.contentType();
             final String contentTypeString = contentType != null ? contentType.toString() : "";
             if (contentTypeString.contains("application/json") || contentTypeString.contains("application/problem+json") || contentTypeString.contains("application/problem-json")) {
-                final BufferedSource source = responseBody.source();
-                source.request(Long.MAX_VALUE); // Buffer the entire body.
-                final Buffer buffer = source.getBuffer();
+                final var source = responseBody.source();
+                source.request(Long.MAX_VALUE);
+                final var buffer = source.getBuffer();
                 logger.info(() -> buffer.clone().readString(StandardCharsets.UTF_8));
             } else {
                 logger.info(() -> "[blob] (" + contentTypeString + ")");

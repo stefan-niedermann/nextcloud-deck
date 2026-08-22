@@ -83,6 +83,7 @@ dependencies {
     implementation(libs.androidx.preference)
     implementation(libs.androidx.preference.ktx)
     implementation(libs.materialColorUtilities)
+    implementation(libs.drafter)
 
     implementation(libs.hilt.android)
     implementation(libs.jakarta.inject)

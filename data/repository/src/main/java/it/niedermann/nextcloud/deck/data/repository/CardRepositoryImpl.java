@@ -175,6 +175,7 @@ public class CardRepositoryImpl implements CardRepository {
                 card.assignees().contains(new User.ID("jdoe")), // TODO: Get current user
                 checkboxDoneCount,
                 checkboxTotalCount,
+                card.startDate(),
                 card.dueDate(),
                 card.color()
         );

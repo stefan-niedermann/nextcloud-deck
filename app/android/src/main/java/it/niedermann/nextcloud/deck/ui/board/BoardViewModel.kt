@@ -91,6 +91,9 @@ class BoardViewModel @Inject constructor(
     private val _syncStatus = MutableStateFlow<SyncStatus?>(null)
     val syncStatus = _syncStatus.asStateFlow()
 
+    private val _viewMode = MutableStateFlow(ViewMode.KANBAN)
+    val viewMode = _viewMode.asStateFlow()
+
     private val _compactMode = MutableStateFlow(false)
     val compactMode = _compactMode.asStateFlow()
 
@@ -209,6 +212,10 @@ class BoardViewModel @Inject constructor(
         _filter.value = filter
     }
 
+    fun updateViewMode(viewMode: ViewMode) {
+        _viewMode.value = viewMode
+    }
+
     fun addCard(columnId: Long, title: String) {
         viewModelScope.launch(Dispatchers.IO) {
             try {
@@ -262,5 +269,9 @@ class BoardViewModel @Inject constructor(
                 }
             }
         }
+    }
+
+    enum class ViewMode {
+        KANBAN, GANTT
     }
 }

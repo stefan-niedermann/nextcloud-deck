@@ -11,9 +11,7 @@ import it.niedermann.nextcloud.deck.domain.model.Account;
 import it.niedermann.nextcloud.deck.domain.model.DBStatus;
 import it.niedermann.nextcloud.remote.deck.dto.UserDTO;
 import jakarta.inject.Inject;
-import jakarta.inject.Singleton;
 
-@Singleton
 public class UserSyncHelper {
 
     private static final Logger logger = Logger.getLogger(UserSyncHelper.class.getName());

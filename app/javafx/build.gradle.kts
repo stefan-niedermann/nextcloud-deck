@@ -21,6 +21,29 @@ javafx {
     modules = listOf("javafx.controls", "javafx.fxml")
 }
 
+val flexganttfxVersion = "11.12.8"
+val flexganttfxUrl = "https://www.flexganttfx.com/downloads/flexganttfx-$flexganttfxVersion-bin.zip"
+val flexganttfxDir = layout.buildDirectory.dir("flexganttfx")
+val flexganttfxZip = flexganttfxDir.map { it.file("flexganttfx.zip") }
+val flexganttfxExtractDir = flexganttfxDir.map { it.dir("extracted") }
+
+val downloadFlexGanttFX = tasks.register("downloadFlexGanttFX") {
+    outputs.file(flexganttfxZip)
+    doLast {
+        flexganttfxDir.get().asFile.mkdirs()
+        println("Downloading FlexGanttFX from $flexganttfxUrl ...")
+        ant.withGroovyBuilder {
+            "get"("src" to flexganttfxUrl, "dest" to flexganttfxZip.get().asFile)
+        }
+    }
+}
+
+val extractFlexGanttFX = tasks.register<Copy>("extractFlexGanttFX") {
+    dependsOn(downloadFlexGanttFX)
+    from(zipTree(flexganttfxZip.get().asFile))
+    into(flexganttfxExtractDir)
+}
+
 dependencies {
     implementation(project(":app:shared"))
     implementation(project(":auth:webloginflowv2"))
@@ -39,6 +62,17 @@ dependencies {
     implementation(libs.ikonli.javafx)
     implementation(libs.gemsfx)
     implementation(libs.ikonli.fluentui)
+    
+    val jars = files(
+        flexganttfxExtractDir.map { it.dir("lib").file("flexganttfx-core-$flexganttfxVersion.jar") },
+        flexganttfxExtractDir.map { it.dir("lib").file("flexganttfx-model-$flexganttfxVersion.jar") },
+        flexganttfxExtractDir.map { it.dir("lib").file("flexganttfx-view-$flexganttfxVersion.jar") },
+        flexganttfxExtractDir.map { it.dir("lib").file("flexganttfx-extras-$flexganttfxVersion.jar") },
+        flexganttfxExtractDir.map { it.dir("ext").file("controlsfx-11.1.1.jar") },
+        flexganttfxExtractDir.map { it.dir("ext").file("license4j-1.4.0.jar") }
+    ).builtBy(extractFlexGanttFX)
+    implementation(jars)
+
     implementation(libs.jsystemthemedetector) {
         exclude(group = "net.java.dev.jna", module = "jna-platform")
     }

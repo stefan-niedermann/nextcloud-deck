@@ -41,6 +41,8 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.List
+import androidx.compose.material.icons.filled.DateRange
 import androidx.compose.material.icons.filled.FilterList
 import androidx.compose.material.icons.outlined.Add
 import androidx.compose.material.icons.outlined.AttachFile
@@ -143,6 +145,7 @@ fun BoardScreen(
     val labels by viewModel.labels.collectAsStateWithLifecycle()
     val users by viewModel.users.collectAsStateWithLifecycle()
     val filter by viewModel.filter.collectAsStateWithLifecycle()
+    val viewMode by viewModel.viewMode.collectAsStateWithLifecycle()
     val currentAccount by viewModel.currentAccount.collectAsStateWithLifecycle()
     val isRefreshing by viewModel.isRefreshing.collectAsStateWithLifecycle()
     val syncStatus by viewModel.syncStatus.collectAsStateWithLifecycle()
@@ -194,6 +197,14 @@ fun BoardScreen(
                 onCardClick = onCardClick,
                 onGoToBoardList = onGoToBoardList,
                 extraActions = {
+                    IconButton(onClick = {
+                        viewModel.updateViewMode(if (viewMode == BoardViewModel.ViewMode.KANBAN) BoardViewModel.ViewMode.GANTT else BoardViewModel.ViewMode.KANBAN)
+                    }) {
+                        Icon(
+                            imageVector = if (viewMode == BoardViewModel.ViewMode.KANBAN) Icons.Default.DateRange else Icons.AutoMirrored.Filled.List,
+                            contentDescription = "Switch View"
+                        )
+                    }
                     IconButton(onClick = { showFilter = true }) {
                         Icon(Icons.Default.FilterList, contentDescription = "Filter")
                     }
@@ -253,78 +264,91 @@ fun BoardScreen(
         ) {
             Box(modifier = Modifier.fillMaxSize()) {
                 if (viewModel.isLoading && columns.isEmpty()) {
-                        CircularProgressIndicator(modifier = Modifier.align(Alignment.Center))
-                    } else if (columns.isEmpty()) {
-                        Text(
-                            text = "No columns. Create one!",
-                            modifier = Modifier.align(Alignment.Center)
-                        )
-                    } else {
-                        LazyRow(
-                            modifier = Modifier
-                                .fillMaxSize()
-                                .onGloballyPositioned {
-                                    rowWidth = it.size.width
-                                }
-                                .dragAndDropTarget(
-                                    shouldStartDragAndDrop = { true },
-                                    target = remember(onDragLocation, onDragExited) {
-                                        object : DragAndDropTarget {
-                                            override fun onMoved(event: DragAndDropEvent) {
-                                                val dragEvent = event.toAndroidDragEvent()
-                                                onDragLocation(Offset(dragEvent.x, dragEvent.y))
-                                            }
-
-                                            override fun onExited(event: DragAndDropEvent) {
-                                                onDragExited()
-                                            }
-
-                                            override fun onEnded(event: DragAndDropEvent) {
-                                                onDragExited()
-                                            }
-
-                                            override fun onDrop(event: DragAndDropEvent): Boolean = false
+                    CircularProgressIndicator(modifier = Modifier.align(Alignment.Center))
+                } else if (columns.isEmpty()) {
+                    Text(
+                        text = "No columns. Create one!",
+                        modifier = Modifier.align(Alignment.Center)
+                    )
+                } else {
+                    Crossfade(targetState = viewMode, label = "ViewMode") { mode ->
+                        when (mode) {
+                            BoardViewModel.ViewMode.KANBAN -> {
+                                LazyRow(
+                                    modifier = Modifier
+                                        .fillMaxSize()
+                                        .onGloballyPositioned {
+                                            rowWidth = it.size.width
                                         }
+                                        .dragAndDropTarget(
+                                            shouldStartDragAndDrop = { true },
+                                            target = remember(onDragLocation, onDragExited) {
+                                                object : DragAndDropTarget {
+                                                    override fun onMoved(event: DragAndDropEvent) {
+                                                        val dragEvent = event.toAndroidDragEvent()
+                                                        onDragLocation(Offset(dragEvent.x, dragEvent.y))
+                                                    }
+
+                                                    override fun onExited(event: DragAndDropEvent) {
+                                                        onDragExited()
+                                                    }
+
+                                                    override fun onEnded(event: DragAndDropEvent) {
+                                                        onDragExited()
+                                                    }
+
+                                                    override fun onDrop(event: DragAndDropEvent): Boolean = false
+                                                }
+                                            }
+                                        ),
+                                    state = lazyListState,
+                                    contentPadding = PaddingValues(16.dp),
+                                    horizontalArrangement = Arrangement.spacedBy(16.dp),
+                                    flingBehavior = if (isSmallScreen) snapFlingBehavior else ScrollableDefaults.flingBehavior()
+                                ) {
+                                    itemsIndexed(columns, key = { _, column -> column.id.value() }) { _, column ->
+                                        BoardColumn(
+                                            column = column,
+                                            cards = cardsByColumn[column.id.value()] ?: emptyList(),
+                                            draggingCardId = viewModel.draggingCardId,
+                                            dropTargetColumnId = viewModel.dropTargetColumnId,
+                                            dropTargetIndex = viewModel.dropTargetIndex,
+                                            onCardClick = onCardClick,
+                                            onAddCardClick = { showAddCardDialog = column.id.value() },
+                                            onAssignToggle = { cardId, assigned -> viewModel.toggleAssignment(cardId, assigned) },
+                                            onMove = { cardId -> showPickStack = cardId to PickStackViewModel.Mode.MOVE },
+                                            onCopy = { cardId -> showPickStack = cardId to PickStackViewModel.Mode.COPY },
+                                            currentAccount = currentAccount,
+                                            compactMode = compactMode,
+                                            onDragStart = { viewModel.draggingCardId = it },
+                                            onDragOver = { colId, index ->
+                                                viewModel.dropTargetColumnId = colId
+                                                viewModel.dropTargetIndex = index
+                                            },
+                                            onDrop = { cardId, colId, index ->
+                                                viewModel.moveCard(cardId, colId, index)
+                                                viewModel.draggingCardId = null
+                                                viewModel.dropTargetColumnId = null
+                                                viewModel.dropTargetIndex = -1
+                                            },
+                                            onDragLocation = onDragLocation,
+                                            onDragExited = onDragExited
+                                        )
                                     }
-                                ),
-                            state = lazyListState,
-                            contentPadding = PaddingValues(16.dp),
-                            horizontalArrangement = Arrangement.spacedBy(16.dp),
-                            flingBehavior = if (isSmallScreen) snapFlingBehavior else ScrollableDefaults.flingBehavior()
-                        ) {
-                            itemsIndexed(columns, key = { _, column -> column.id.value() }) { _, column ->
-                                BoardColumn(
-                                    column = column,
-                                    cards = cardsByColumn[column.id.value()] ?: emptyList(),
-                                    draggingCardId = viewModel.draggingCardId,
-                                    dropTargetColumnId = viewModel.dropTargetColumnId,
-                                    dropTargetIndex = viewModel.dropTargetIndex,
-                                    onCardClick = onCardClick,
-                                    onAddCardClick = { showAddCardDialog = column.id.value() },
-                                    onAssignToggle = { cardId, assigned -> viewModel.toggleAssignment(cardId, assigned) },
-                                    onMove = { cardId -> showPickStack = cardId to PickStackViewModel.Mode.MOVE },
-                                    onCopy = { cardId -> showPickStack = cardId to PickStackViewModel.Mode.COPY },
-                                    currentAccount = currentAccount,
-                                    compactMode = compactMode,
-                                    onDragStart = { viewModel.draggingCardId = it },
-                                    onDragOver = { colId, index ->
-                                        viewModel.dropTargetColumnId = colId
-                                        viewModel.dropTargetIndex = index
-                                    },
-                                    onDrop = { cardId, colId, index ->
-                                        viewModel.moveCard(cardId, colId, index)
-                                        viewModel.draggingCardId = null
-                                        viewModel.dropTargetColumnId = null
-                                        viewModel.dropTargetIndex = -1
-                                    },
-                                    onDragLocation = onDragLocation,
-                                    onDragExited = onDragExited
+                                }
+                            }
+
+                            BoardViewModel.ViewMode.GANTT -> {
+                                BoardGanttScreen(
+                                    cards = cardsByColumn.values.flatten(),
+                                    onCardClick = onCardClick
                                 )
                             }
                         }
                     }
+                }
 
-                    if (viewModel.error != null) {
+                if (viewModel.error != null) {
                         Box(modifier = Modifier.align(Alignment.BottomCenter).padding(16.dp)) {
                             Text(viewModel.error!!, color = MaterialTheme.colorScheme.error)
                         }

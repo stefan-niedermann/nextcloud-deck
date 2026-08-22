@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "21cdc7a90e08c5c51dba67556289f5bb",
+    "identityHash": "27d3b652ee7db6fcfa4f1968594ee746",
     "entities": [
       {
         "tableName": "Account",
@@ -582,7 +582,7 @@
       },
       {
         "tableName": "Card",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`localId` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `accountId` INTEGER NOT NULL, `remoteId` INTEGER, `status` INTEGER NOT NULL, `lastModified` TEXT, `lastModifiedLocal` TEXT, `etag` TEXT, `title` TEXT NOT NULL, `description` TEXT, `columnId` INTEGER NOT NULL, `type` TEXT, `createdAt` TEXT, `deletedAt` TEXT, `done` TEXT, `attachmentCount` INTEGER NOT NULL, `userId` INTEGER, `order` INTEGER NOT NULL, `archived` INTEGER NOT NULL, `dueDate` TEXT, `notified` INTEGER NOT NULL, `overdue` INTEGER NOT NULL, `commentsUnread` INTEGER NOT NULL, `conflictWithId` INTEGER, FOREIGN KEY(`columnId`) REFERENCES `Column`(`localId`) ON UPDATE NO ACTION ON DELETE CASCADE , FOREIGN KEY(`accountId`) REFERENCES `Account`(`id`) ON UPDATE NO ACTION ON DELETE CASCADE )",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`localId` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `accountId` INTEGER NOT NULL, `remoteId` INTEGER, `status` INTEGER NOT NULL, `lastModified` TEXT, `lastModifiedLocal` TEXT, `etag` TEXT, `title` TEXT NOT NULL, `description` TEXT, `columnId` INTEGER NOT NULL, `type` TEXT, `createdAt` TEXT, `deletedAt` TEXT, `done` TEXT, `attachmentCount` INTEGER NOT NULL, `userId` INTEGER, `order` INTEGER NOT NULL, `archived` INTEGER NOT NULL, `startDate` TEXT, `dueDate` TEXT, `notified` INTEGER NOT NULL, `overdue` INTEGER NOT NULL, `commentsUnread` INTEGER NOT NULL, `conflictWithId` INTEGER, FOREIGN KEY(`columnId`) REFERENCES `Column`(`localId`) ON UPDATE NO ACTION ON DELETE CASCADE , FOREIGN KEY(`accountId`) REFERENCES `Account`(`id`) ON UPDATE NO ACTION ON DELETE CASCADE )",
         "fields": [
           {
             "fieldPath": "localId",
@@ -681,6 +681,11 @@
             "columnName": "archived",
             "affinity": "INTEGER",
             "notNull": true
+          },
+          {
+            "fieldPath": "startDate",
+            "columnName": "startDate",
+            "affinity": "TEXT"
           },
           {
             "fieldPath": "dueDate",
@@ -1945,7 +1950,7 @@
     ],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '21cdc7a90e08c5c51dba67556289f5bb')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '27d3b652ee7db6fcfa4f1968594ee746')"
     ]
   }
 }

@@ -21,6 +21,7 @@ public record PreviewCard(
         boolean assignedToMe,
         int checkboxDoneCount,
         int checkboxTotalCount,
+        OffsetDateTime startDate,
         OffsetDateTime dueDate,
         Color color
 ) implements Serializable {
