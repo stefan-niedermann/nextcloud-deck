@@ -47,6 +47,7 @@ import it.niedermann.nextcloud.deck.domain.state.KeyValueStore;
 import it.niedermann.nextcloud.deck.domain.usecases.accounts.GetAccountUseCase;
 import it.niedermann.nextcloud.deck.domain.usecases.accounts.GetAccountsUseCase;
 import it.niedermann.nextcloud.deck.domain.usecases.accounts.HasAccountsUseCase;
+import it.niedermann.nextcloud.deck.domain.usecases.accounts.ImportAccountUseCase;
 import it.niedermann.nextcloud.deck.domain.usecases.accounts.RemoveAccountUseCase;
 import it.niedermann.nextcloud.deck.domain.usecases.activities.ListPreviewActivitiesUseCase;
 import it.niedermann.nextcloud.deck.domain.usecases.attachments.ListAttachmentsUseCase;
@@ -79,6 +80,7 @@ import it.niedermann.nextcloud.deck.javafx.services.ApplicationRouter;
 import it.niedermann.nextcloud.deck.javafx.store.StoreLogger;
 import it.niedermann.nextcloud.deck.javafx.ui.editcard.EditCardService;
 import it.niedermann.nextcloud.deck.javafx.ui.editcard.features.EditCardFeature;
+import it.niedermann.nextcloud.deck.javafx.ui.exception.ExceptionDialog;
 import it.niedermann.nextcloud.deck.javafx.ui.exception.ExceptionScene;
 import it.niedermann.nextcloud.deck.javafx.ui.login.LoginScene;
 import it.niedermann.nextcloud.deck.javafx.ui.login.LoginService;
@@ -133,7 +135,7 @@ class MainStageIntegrationTest {
     private static final Board BOARD_1 = new Board(new Board.ID(1L), "Board 1", new Color(0, 0, 255), new Board.Permissions(true, true, true, true));
     private static final Board BOARD_2 = new Board(new Board.ID(2L), "Board 2", new Color(0, 255, 0), new Board.Permissions(true, true, true, true));
     private static final Column COLUMN_1 = new Column(new Column.ID(1L), BOARD_1.id(), "Column 1", 0);
-    private static final PreviewCard CARD_1 = new PreviewCard(new Card.ID(1L), new Card.RemoteID(1L), "Card 1", "", Collections.emptySet(), 0, 0, 0, false, 0, 0, null, null, new Color(255, 0, 0));
+    private static final PreviewCard CARD_1 = new PreviewCard(new Card.ID(1L), new Card.RemoteID(1L), "Card 1", "", Collections.emptySet(), 0, 0, 0, false, 0, 0, OffsetDateTime.now(), OffsetDateTime.now().plusDays(1), new Color(255, 0, 0));
 
     private static URL createUrl(String url) {
         try {
@@ -197,7 +199,7 @@ class MainStageIntegrationTest {
         when(getBoardUseCase.execute(BOARD_2.id())).thenReturn(Flowable.just(BOARD_2));
         when(listColumnIDsUseCase.execute(BOARD_1.id())).thenReturn(Flowable.just(List.of(COLUMN_1.id())));
         when(getColumnUseCase.execute(COLUMN_1.id())).thenReturn(Flowable.just(COLUMN_1));
-        when(listCardPreviewsUseCase.execute(any(it.niedermann.nextcloud.deck.domain.model.Column.ID.class), any())).thenReturn(Flowable.empty());
+        when(listCardPreviewsUseCase.execute(any(Column.ID.class), any())).thenReturn(Flowable.empty());
         when(listCardPreviewsUseCase.execute(eq(COLUMN_1.id()), any())).thenReturn(Flowable.just(List.of(CARD_1)));
         
         when(setCurrentBoardUseCase.execute(any(), any())).thenAnswer(invocation -> CompletableFuture.completedFuture(invocation.getArgument(1)));
@@ -265,7 +267,7 @@ class MainStageIntegrationTest {
                 getSyncStatusUseCase,
                 mock(ScheduleSyncUseCase.class),
                 mock(RemoveAccountUseCase.class),
-                (filterInfo, labels, users, onApply) -> mock(FilterFeature.class),
+                (_, _, _, _) -> mock(FilterFeature.class),
                 mock(ListLabelsUseCase.class),
                 mock(ListUsersUseCase.class),
                 themeService,
@@ -332,10 +334,13 @@ class MainStageIntegrationTest {
 
         final SplashScreenScene.Factory splashScreenFactory = SplashScreenScene::new;
         final var loginFactoryProvider = (jakarta.inject.Provider<LoginScene.Factory>) () -> mock(LoginScene.Factory.class);
-        final var exceptionFactoryProvider = (jakarta.inject.Provider<ExceptionScene.Factory>) () -> mock(ExceptionScene.Factory.class);
+        final var exceptionFactoryProvider = (jakarta.inject.Provider<ExceptionScene.Factory>) () -> throwable -> new ExceptionScene(
+                mock(ExceptionDialog.Factory.class),
+                throwable
+        );
         final LoginService.Factory loginStageContextFactory = url -> new LoginService(
                 storeLogger,
-                mock(it.niedermann.nextcloud.deck.domain.usecases.accounts.ImportAccountUseCase.class),
+                mock(ImportAccountUseCase.class),
                 url
         );
         final var exceptionUnwrapper = new ExceptionUnwrapper();

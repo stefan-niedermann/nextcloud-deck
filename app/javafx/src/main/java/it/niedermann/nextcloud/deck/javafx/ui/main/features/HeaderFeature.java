@@ -164,7 +164,7 @@ public class HeaderFeature extends AbstractScene {
                     switch (viewMode) {
                         case KANBAN -> {
                             viewModeBtn.setText(resources.getString("main.view.kanban"));
-                            viewModeBtn.setGraphic(new FontIcon("fltfal-board-20"));
+                            viewModeBtn.setGraphic(new FontIcon("fltfal-list-20"));
                         }
                         case GANTT -> {
                             viewModeBtn.setText(resources.getString("main.view.gantt"));
