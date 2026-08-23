@@ -1,9 +1,7 @@
 package it.niedermann.nextcloud.deck.javafx.ui.shared.views;
 
-import java.net.MalformedURLException;
 import java.net.URI;
-import java.net.URL;
-import java.nio.file.Path;
+import java.util.Optional;
 
 import it.niedermann.nextcloud.deck.domain.model.Attachment;
 import it.niedermann.nextcloud.deck.javafx.fxml.Inflater;
@@ -41,24 +39,13 @@ public class AttachmentView extends HBox {
     }
 
     public void bind(Attachment attachment) {
-        final var previewImageUrl = attachment
-                .localFullPath()
-                .or(attachment::localCachePath)
-                .map(Path::toUri)
-                .map(uri -> {
-                    try {
-                        return uri.toURL();
-                    } catch (MalformedURLException e) {
-                        return null;
-                    }
-                })
-                .map(URL::toString)
+        final var previewImageUrl = Optional.ofNullable(attachment.localPath())
                 // TODO Trigger Download?
                 .orElseGet(() -> getPreviewImage(attachment.mimetype()));
 
         preview.setImage(new Image(previewImageUrl, true));
         name.setText(attachment.filename());
-        size.setText(FileUtil.humanReadableSize(attachment.fileSize()));
+        size.setText(FileUtil.humanReadableSize(attachment.size()));
 
         delete.setOnAction(event -> {
             // TODO Prompt user for "Delete local" vs. "Delete remote"?
