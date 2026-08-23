@@ -50,6 +50,7 @@ public class WebLoginV2Feature extends AbstractScene {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         super.initialize(location, resources);
+        url.setOnAction(_ -> submit());
         submit.setOnAction(_ -> submit());
     }
 
@@ -62,6 +63,7 @@ public class WebLoginV2Feature extends AbstractScene {
         final String urlText;
         if (!rawUrlText.startsWith("http://") && !rawUrlText.startsWith("https://")) {
             urlText = "https://" + rawUrlText;
+            this.url.setText(urlText);
         } else {
             urlText = rawUrlText;
         }

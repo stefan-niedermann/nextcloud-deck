@@ -37,8 +37,18 @@ class LoginViewModel @Inject constructor(
     val loginSuccess = _loginSuccess.asSharedFlow()
 
     fun login() {
+        val rawUrl = url.trim()
+        val urlToParse = if (!rawUrl.startsWith("http://") && !rawUrl.startsWith("https://") && rawUrl.isNotEmpty()) {
+            "https://$rawUrl"
+        } else {
+            rawUrl
+        }
+        if (urlToParse != url) {
+            url = urlToParse
+        }
+
         val serverUrl = try {
-            URL(url)
+            URL(urlToParse)
         } catch (e: Exception) {
             error = "Invalid URL"
             return
