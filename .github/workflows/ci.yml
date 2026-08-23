@@ -80,7 +80,48 @@ jobs:
           cache-read-only: false
 
       - name: Run E2E
-        run: ./gradlew :domain:usecases:test -PincludeE2E=true -Pe2eParallel=5 --stacktrace
+        run: ./gradlew :domain:usecases:test -PincludeE2E=true -Pe2eParallel=1 --stacktrace
+
+      - name: Generate E2E Report
+        if: always()
+        env:
+          NC_VER: ${{ matrix.nextcloud-version }}
+        run: |
+          python3 - <<EOF
+          import xml.etree.ElementTree as ET
+          import glob
+          import os
+
+          total = 0
+          passed = 0
+          rows = []
+
+          for f in glob.glob('domain/usecases/build/test-results/test/*.xml'):
+              try:
+                  tree = ET.parse(f)
+                  for tc in tree.iter('testcase'):
+                      total += 1
+                      name = tc.get('name')
+                      cls = tc.get('classname')
+                      time = tc.get('time')
+                      
+                      is_failed = tc.find('failure') is not None or tc.find('error') is not None
+                      status = "❌ Failure" if is_failed else "✅ Success"
+                      if not is_failed:
+                          passed += 1
+                      
+                      rows.append(f"| {cls}.{name} | {status} | {time}s |")
+              except Exception:
+                  pass
+
+          if total > 0:
+              with open(os.environ['GITHUB_STEP_SUMMARY'], 'a') as s:
+                  s.write(f"### E2E Test Results ({os.environ.get('NC_VER')})\n\n")
+                  s.write(f'<progress value="{passed}" max="{total}"></progress> {passed}/{total} tests passed\n\n')
+                  s.write("| Test | Status | Time |\n")
+                  s.write("| :--- | :--- | :--- |\n")
+                  s.write("\n".join(rows) + "\n")
+          EOF
 
       - name: Upload Reports
         if: failure()
