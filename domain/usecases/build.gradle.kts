@@ -27,8 +27,12 @@ dependencies {
 tasks.withType<Test> {
     useJUnitPlatform()
     failOnNoDiscoveredTests = false
-    maxParallelForks = 50
-    if (!project.hasProperty("includeE2E")) {
+    if (project.hasProperty("includeE2E")) {
+        val parallelLimit = project.findProperty("e2eParallel")?.toString()?.toInt() ?: 1
+        maxParallelForks = parallelLimit
+        systemProperty("junit.jupiter.execution.parallel.enabled", "false")
+    } else {
+        maxParallelForks = (Runtime.getRuntime().availableProcessors() / 2).takeIf { it > 0 } ?: 1
         exclude("**/it/niedermann/nextcloud/deck/domain/e2e/**")
     }
 }

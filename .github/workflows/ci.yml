@@ -80,7 +80,7 @@ jobs:
           cache-read-only: false
 
       - name: Run E2E
-        run: ./gradlew :domain:usecases:test -PincludeE2E=true --stacktrace
+        run: ./gradlew :domain:usecases:test -PincludeE2E=true -Pe2eParallel=5 --stacktrace
 
       - name: Upload Reports
         if: failure()

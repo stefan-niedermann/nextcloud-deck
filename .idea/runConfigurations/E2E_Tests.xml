@@ -12,7 +12,7 @@
         <list>
           <option value=":domain:usecases:test" />
           <option value="--tests" />
-          <option value="&quot;it.niedermann.nextcloud.deck.domain.e2e.*&quot;" />
+          <option value="&quot;it.niedermann.nextcloud.deck.domain.e2e.usecases.*&quot;" />
         </list>
       </option>
       <option name="vmOptions" />

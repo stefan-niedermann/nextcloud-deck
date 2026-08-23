@@ -1,15 +1,13 @@
 package it.niedermann.nextcloud.deck.domain.e2e.usecases.boards;
 
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.reactivestreams.FlowAdapters;
 
 import java.io.IOException;
-import java.util.Objects;
 
-import io.reactivex.rxjava3.core.Maybe;
 import it.niedermann.nextcloud.deck.domain.e2e.EndToEndTest;
+import it.niedermann.nextcloud.deck.domain.e2e.EndToEndUtil;
+import it.niedermann.nextcloud.deck.domain.model.Board;
 import it.niedermann.nextcloud.deck.domain.model.CreateBoard;
 
 public class BoardEndToEndTest extends EndToEndTest {
@@ -33,19 +31,52 @@ public class BoardEndToEndTest extends EndToEndTest {
 
         DEVICE_A_JOHN.virtualDevice().getAddBoardUseCase().addBoard(createBoard).join();
 
-        assertBoardExists(DEVICE_A_JOHN, boardTitle);
+        EndToEndUtil.assertBoardExists(DEVICE_A_JOHN, boardTitle);
 
-//        synchronize(DEVICE_A_JOHN);
-//        synchronize(DEVICE_B_JOHN);
-//
-//        assertBoardExists(DEVICE_B_JOHN, boardTitle);
+        synchronize(DEVICE_A_JOHN);
+        synchronize(DEVICE_B_JOHN);
+
+        EndToEndUtil.assertBoardExists(DEVICE_B_JOHN, boardTitle);
     }
 
-    private void assertBoardExists(VirtualDeviceAndAccount virtualDeviceAndAccount, String title) {
-        final var virtualDevice = virtualDeviceAndAccount.virtualDevice();
-        final var account = virtualDeviceAndAccount.account();
-        final var listBoardsUseCase = virtualDevice.getListBoardsUseCase();
-        final var boardsOnDeviceB = Maybe.fromPublisher(FlowAdapters.toPublisher(listBoardsUseCase.execute(account.id()))).blockingGet();
-        Assertions.assertTrue(boardsOnDeviceB.stream().anyMatch(board -> Objects.equals(board.title(), title)), "Should contain board \"" + title + "\" in account \"" + account.accountName() + "\" on device \"" + virtualDevice.getDeviceName() + "\"");
+    @Test
+    public void updateBoard() {
+        final var boardTitle = randomUtil.randomize("boardToUpdate");
+        final var board = EndToEndUtil.createBoard(DEVICE_A_JOHN, boardTitle);
+
+        synchronize(DEVICE_A_JOHN);
+        synchronize(DEVICE_B_JOHN);
+        EndToEndUtil.assertBoardExists(DEVICE_B_JOHN, boardTitle);
+
+        final var newTitle = randomUtil.randomize("updatedBoard");
+        final var updatedBoard = new Board(board.id(), newTitle, board.color(), board.ownerId(), board.archived(), board.permissions(), board.accountId(), board.remoteId(), board.status(), board.lastModified());
+
+        DEVICE_A_JOHN.virtualDevice().getUpdateBoardUseCase().execute(updatedBoard).join();
+
+        synchronize(DEVICE_A_JOHN);
+        synchronize(DEVICE_B_JOHN);
+
+        EndToEndUtil.assertBoardExists(DEVICE_A_JOHN, newTitle);
+        EndToEndUtil.assertBoardExists(DEVICE_B_JOHN, newTitle);
+        EndToEndUtil.assertBoardDoesNotExist(DEVICE_B_JOHN, boardTitle);
     }
+
+    @Test
+    public void deleteBoard() {
+        final var boardTitle = randomUtil.randomize("boardToDelete");
+        final var board = EndToEndUtil.createBoard(DEVICE_A_JOHN, boardTitle);
+
+        synchronize(DEVICE_A_JOHN);
+        synchronize(DEVICE_B_JOHN);
+        EndToEndUtil.assertBoardExists(DEVICE_B_JOHN, boardTitle);
+
+        DEVICE_A_JOHN.virtualDevice().getDeleteBoardUseCase().execute(board.id()).join();
+
+        synchronize(DEVICE_A_JOHN);
+        synchronize(DEVICE_B_JOHN);
+
+        EndToEndUtil.assertBoardDoesNotExist(DEVICE_A_JOHN, boardTitle);
+        EndToEndUtil.assertBoardDoesNotExist(DEVICE_B_JOHN, boardTitle);
+    }
+
 }
