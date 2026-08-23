@@ -139,9 +139,13 @@ jobs:
             ${{ runner.temp }}/.gradle-actions/build-results/*.json
 
   javafx:
-    name: App (PC)
-    runs-on: ubuntu-latest
+    name: App (PC) - ${{ matrix.os }}
+    runs-on: ${{ matrix.os }}
     needs: domain
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ ubuntu-latest, windows-latest, macos-latest ]
 
     steps:
       - name: Checkout
@@ -159,10 +163,14 @@ jobs:
           cache-provider: basic
           cache-read-only: false
 
+      - name: Run Tests
+        run: ./gradlew :app:javafx:test --stacktrace
+
       - name: Build App
-        run: xvfb-run -a ./gradlew :app:javafx:build -Pheadless=true
+        run: ./gradlew :app:javafx:build
 
       - name: Upload Artifact
+        if: matrix.os == 'ubuntu-latest'
         uses: actions/upload-artifact@v7
         with:
           name: jar

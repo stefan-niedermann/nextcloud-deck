@@ -50,7 +50,6 @@ openapiGenerator = "7.8.0"
 splashscreen = "1.0.1"
 sqlite = "2.7.0"
 testfx = "4.0.18"
-monocle = "21.0.2"
 assertj = "3.27.3"
 
 [libraries]
@@ -131,7 +130,6 @@ rxjava3-jdk9-interop = { group = "com.github.akarnokd", name = "rxjava3-jdk9-int
 rxjava4 = { group = "io.reactivex.rxjava4", name = "rxjava", version.ref = "rxjava4" }
 testfx-core = { module = "org.testfx:testfx-core", version.ref = "testfx" }
 testfx-junit5 = { module = "org.testfx:testfx-junit5", version.ref = "testfx" }
-testfx-monocle = { module = "org.testfx:openjfx-monocle", version.ref = "monocle" }
 assertj-core = { module = "org.assertj:assertj-core", version.ref = "assertj" }
 
 [plugins]

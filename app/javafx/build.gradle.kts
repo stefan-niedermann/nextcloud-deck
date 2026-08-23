@@ -89,7 +89,6 @@ dependencies {
     testImplementation(libs.hamcrest)
     testImplementation(libs.testfx.core)
     testImplementation(libs.testfx.junit5)
-    testImplementation(libs.testfx.monocle)
     testImplementation(libs.assertj.core)
 }
 
@@ -97,20 +96,15 @@ tasks.withType<Test> {
     useJUnitPlatform()
     systemProperty("junit.jupiter.extensions.autodetection.enabled", "true")
 
-    val isHeadless = project.hasProperty("headless") && project.property("headless") == "true"
-    if (isHeadless) {
-        systemProperty("testfx.robot", "glass")
-        systemProperty("testfx.headless", "true")
-        systemProperty("glass.platform", "Monocle")
-        systemProperty("monocle.platform", "Headless")
-        systemProperty("prism.order", "sw")
-    } else {
-        systemProperty("testfx.robot", "glass")
-        systemProperty("testfx.headless", "false")
-    }
+    // Force headless execution using JavaFX 26+ Headless platform
+    systemProperty("testfx.robot", "glass")
+    systemProperty("testfx.headless", "false") // Prevents TestFX from trying to use legacy Monocle
+    systemProperty("glass.platform", "headless")
+    systemProperty("prism.order", "sw")
 
     jvmArgs(
         "--enable-native-access=ALL-UNNAMED",
+        "--enable-native-access=javafx.graphics",
         "--add-exports=javafx.graphics/com.sun.glass.ui=ALL-UNNAMED",
         "--add-exports=javafx.graphics/com.sun.javafx.application=ALL-UNNAMED",
         "--add-opens=javafx.graphics/com.sun.glass.ui=ALL-UNNAMED",
