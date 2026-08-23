@@ -5,10 +5,10 @@ import org.mapstruct.Mapping;
 import org.mapstruct.ReportingPolicy;
 import org.mapstruct.factory.Mappers;
 
+import java.time.OffsetDateTime;
+
 import it.niedermann.nextcloud.deck.domain.model.Card;
 import it.niedermann.nextcloud.remote.deck.dto.CardDTO;
-
-import java.time.OffsetDateTime;
 
 @Mapper(uses = {CommonRemoteMapper.class}, unmappedTargetPolicy = ReportingPolicy.IGNORE)
 public interface CardRemoteMapper extends GenericRemoteMapper<CardDTO, Card> {
@@ -27,21 +27,30 @@ public interface CardRemoteMapper extends GenericRemoteMapper<CardDTO, Card> {
     @Mapping(target = "deletedAt", ignore = true)
     @Mapping(target = "duedate", source = "dueDate")
     @Mapping(target = "attachmentCount", ignore = true)
+    @Mapping(target = "startdate", source = "startDate")
+    @Mapping(target = "color", source = "color")
+    @Mapping(target = "dependentCards", source = "dependents")
     CardDTO toDTO(Card card);
 
+    @Mapping(target = "stackId", source = "columnId")
+    @Mapping(target = "duedate", source = "dueDate")
+    @Mapping(target = "startdate", source = "startDate")
+    @Mapping(target = "color", source = "color")
+    it.niedermann.nextcloud.remote.deck.dto.CardUpdateDTO toUpdateDTO(Card card);
+
     @Override
-    @Mapping(target = "id", expression = "java(mapId(cardDTO.getId()))")
-    @Mapping(target = "columnId", expression = "java(mapColumnId(cardDTO.getStackId()))")
+    @Mapping(target = "id", source = "id")
+    @Mapping(target = "columnId", source = "stackId")
     @Mapping(target = "remoteId", source = "id")
     @Mapping(target = "status", expression = "java(it.niedermann.nextcloud.deck.domain.model.DBStatus.UP_TO_DATE)")
     @Mapping(target = "createdAt", expression = "java(mapTimestamp(cardDTO.getCreatedAt()))")
     @Mapping(target = "lastModified", expression = "java(mapTimestamp(cardDTO.getLastModified()))")
     @Mapping(target = "labels", expression = "java(java.util.Collections.emptySet())")
     @Mapping(target = "assignees", expression = "java(java.util.Collections.emptySet())")
-    @Mapping(target = "dependents", expression = "java(java.util.Collections.emptyList())")
-    @Mapping(target = "color", ignore = true)
+    @Mapping(target = "dependents", source = "dependentCards")
+    @Mapping(target = "color", source = "color")
     @Mapping(target = "archived", source = "archived")
-    @Mapping(target = "startDate", ignore = true)
+    @Mapping(target = "startDate", source = "startdate")
     @Mapping(target = "title", expression = "java(cardDTO.getTitle() != null ? cardDTO.getTitle() : \"Untitled\")")
     @Mapping(target = "dueDate", source = "duedate")
     @Mapping(target = "notified", ignore = true)
@@ -75,13 +84,5 @@ public interface CardRemoteMapper extends GenericRemoteMapper<CardDTO, Card> {
             return OffsetDateTime.now();
         }
         return new CommonRemoteMapper().toOffsetDateTime(timestamp);
-    }
-
-    default it.niedermann.nextcloud.deck.domain.model.Card.ID mapId(Long id) {
-        return new it.niedermann.nextcloud.deck.domain.model.Card.ID(id != null ? id : 0L);
-    }
-
-    default it.niedermann.nextcloud.deck.domain.model.Column.ID mapColumnId(Long id) {
-        return new it.niedermann.nextcloud.deck.domain.model.Column.ID(id != null ? id : 0L);
     }
 }

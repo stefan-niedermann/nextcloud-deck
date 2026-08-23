@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "27d3b652ee7db6fcfa4f1968594ee746",
+    "identityHash": "e552c75f594a0476babf43d89e27e008",
     "entities": [
       {
         "tableName": "Account",
@@ -582,7 +582,7 @@
       },
       {
         "tableName": "Card",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`localId` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `accountId` INTEGER NOT NULL, `remoteId` INTEGER, `status` INTEGER NOT NULL, `lastModified` TEXT, `lastModifiedLocal` TEXT, `etag` TEXT, `title` TEXT NOT NULL, `description` TEXT, `columnId` INTEGER NOT NULL, `type` TEXT, `createdAt` TEXT, `deletedAt` TEXT, `done` TEXT, `attachmentCount` INTEGER NOT NULL, `userId` INTEGER, `order` INTEGER NOT NULL, `archived` INTEGER NOT NULL, `startDate` TEXT, `dueDate` TEXT, `notified` INTEGER NOT NULL, `overdue` INTEGER NOT NULL, `commentsUnread` INTEGER NOT NULL, `conflictWithId` INTEGER, FOREIGN KEY(`columnId`) REFERENCES `Column`(`localId`) ON UPDATE NO ACTION ON DELETE CASCADE , FOREIGN KEY(`accountId`) REFERENCES `Account`(`id`) ON UPDATE NO ACTION ON DELETE CASCADE )",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`localId` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `accountId` INTEGER NOT NULL, `remoteId` INTEGER, `status` INTEGER NOT NULL, `lastModified` TEXT, `lastModifiedLocal` TEXT, `etag` TEXT, `title` TEXT NOT NULL, `description` TEXT, `columnId` INTEGER NOT NULL, `type` TEXT, `createdAt` TEXT, `deletedAt` TEXT, `done` TEXT, `attachmentCount` INTEGER NOT NULL, `userId` INTEGER, `order` INTEGER NOT NULL, `archived` INTEGER NOT NULL, `color` INTEGER, `startDate` TEXT, `dueDate` TEXT, `notified` INTEGER NOT NULL, `overdue` INTEGER NOT NULL, `commentsUnread` INTEGER NOT NULL, `conflictWithId` INTEGER, FOREIGN KEY(`columnId`) REFERENCES `Column`(`localId`) ON UPDATE NO ACTION ON DELETE CASCADE , FOREIGN KEY(`accountId`) REFERENCES `Account`(`id`) ON UPDATE NO ACTION ON DELETE CASCADE )",
         "fields": [
           {
             "fieldPath": "localId",
@@ -681,6 +681,11 @@
             "columnName": "archived",
             "affinity": "INTEGER",
             "notNull": true
+          },
+          {
+            "fieldPath": "color",
+            "columnName": "color",
+            "affinity": "INTEGER"
           },
           {
             "fieldPath": "startDate",
@@ -1946,11 +1951,75 @@
             ]
           }
         ]
+      },
+      {
+        "tableName": "JoinCardWithDependentCard",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`cardId` INTEGER NOT NULL, `dependentRemoteId` INTEGER NOT NULL, `status` INTEGER NOT NULL, PRIMARY KEY(`cardId`, `dependentRemoteId`), FOREIGN KEY(`cardId`) REFERENCES `Card`(`localId`) ON UPDATE NO ACTION ON DELETE CASCADE )",
+        "fields": [
+          {
+            "fieldPath": "cardId",
+            "columnName": "cardId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "dependentRemoteId",
+            "columnName": "dependentRemoteId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "status",
+            "columnName": "status",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": false,
+          "columnNames": [
+            "cardId",
+            "dependentRemoteId"
+          ]
+        },
+        "indices": [
+          {
+            "name": "index_JoinCardWithDependentCard_cardId",
+            "unique": false,
+            "columnNames": [
+              "cardId"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_JoinCardWithDependentCard_cardId` ON `${TABLE_NAME}` (`cardId`)"
+          },
+          {
+            "name": "index_JoinCardWithDependentCard_dependentRemoteId",
+            "unique": false,
+            "columnNames": [
+              "dependentRemoteId"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_JoinCardWithDependentCard_dependentRemoteId` ON `${TABLE_NAME}` (`dependentRemoteId`)"
+          }
+        ],
+        "foreignKeys": [
+          {
+            "table": "Card",
+            "onDelete": "CASCADE",
+            "onUpdate": "NO ACTION",
+            "columns": [
+              "cardId"
+            ],
+            "referencedColumns": [
+              "localId"
+            ]
+          }
+        ]
       }
     ],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '27d3b652ee7db6fcfa4f1968594ee746')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'e552c75f594a0476babf43d89e27e008')"
     ]
   }
 }

@@ -2,7 +2,9 @@ package it.niedermann.nextcloud.deck.data.sync.provider;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.Consumer;
 import java.util.logging.Logger;
 
@@ -33,6 +35,7 @@ public class BoardSyncProvider implements SyncProvider<Void> {
     private final JoinBoardWithPermissionDao joinBoardWithPermissionDao;
     private final UserSyncHelper userSyncHelper;
     private final ApiProvider.Factory apiFactory;
+    private final Map<String, CompletableFuture<Long>> inFlightBoardSyncs = new ConcurrentHashMap<>();
     private ColumnSyncProvider columnSyncProvider;
     private LabelSyncProvider labelSyncProvider;
     private AccessControlSyncProvider accessControlSyncProvider;
@@ -205,20 +208,33 @@ public class BoardSyncProvider implements SyncProvider<Void> {
                             continue;
                         }
                         final long finished = i + 1;
-                        boardFutures[i] = mergeBoard(account, boardDto)
-                                .thenCompose(localBoardId -> {
-                                    SyncStatus newStatus = status.withBoards(total, finished, boardDto.getTitle());
-                                    reporter.accept(newStatus);
-                                    return CompletableFuture.allOf(
-                                            syncBoardUsers(account, boardDto, localBoardId),
-                                            syncBoardPermissions(account, boardDto, localBoardId),
-                                            labelSyncProvider.downSync(account, boardDto, localBoardId, newStatus, reporter),
-                                            accessControlSyncProvider.downSync(account, boardDto, localBoardId, newStatus, reporter)
-                                    ).thenCompose(v -> columnSyncProvider.downSync(account, boardDto, localBoardId, newStatus, reporter));
-                                });
+                        boardFutures[i] = syncFullBoard(account, boardDto, total, finished, status, reporter);
                     }
                     return CompletableFuture.allOf(boardFutures);
                 });
+    }
+
+    private CompletableFuture<Void> syncFullBoard(Account account, BoardDTO boardDto, long total, long finished, SyncStatus status, Consumer<SyncStatus> reporter) {
+        final String key = account.id().value() + ":" + boardDto.getId();
+        return inFlightBoardSyncs.compute(key, (k, existingFuture) -> {
+            if (existingFuture != null && !existingFuture.isCompletedExceptionally()) {
+                return existingFuture;
+            }
+            final var future = mergeBoard(account, boardDto)
+                    .thenCompose(localBoardId -> {
+                        SyncStatus newStatus = status.withBoards(total, finished, boardDto.getTitle());
+                        reporter.accept(newStatus);
+                        return CompletableFuture.allOf(
+                                syncBoardUsers(account, boardDto, localBoardId),
+                                syncBoardPermissions(account, boardDto, localBoardId),
+                                labelSyncProvider.downSync(account, boardDto, localBoardId, newStatus, reporter),
+                                accessControlSyncProvider.downSync(account, boardDto, localBoardId, newStatus, reporter)
+                        ).thenCompose(v -> columnSyncProvider.downSync(account, boardDto, localBoardId, newStatus, reporter))
+                                .thenApply(v -> localBoardId);
+                    });
+            future.whenComplete((v, t) -> inFlightBoardSyncs.remove(key));
+            return future;
+        }).thenApply(v -> null);
     }
 
     private CompletableFuture<Void> syncBoardUsers(Account account, BoardDTO boardDto, Long localBoardId) {
@@ -265,14 +281,17 @@ public class BoardSyncProvider implements SyncProvider<Void> {
 
     private CompletableFuture<Long> mergeBoard(Account account, BoardDTO boardDto) {
         if (boardDto.getId() == null) return CompletableFuture.completedFuture(null);
+        logger.info("Merging board: " + boardDto.getId());
         CompletableFuture<Long> userIdFuture = userSyncHelper.syncUser(account, boardDto.getOwner())
                 .thenApply(user -> user != null ? user.getLocalId() : null);
+
         return userIdFuture.thenCompose(ownerLocalId -> boardDao.getBoardByRemoteId(account.id().value(), boardDto.getId())
-                .handle((localBoard, throwable) -> {
+                .thenCompose(localBoard -> {
+                    final long existingLocalId = localBoard != null ? localBoard.getLocalId() : 0;
                     BoardEntity serverBoard = BoardMapper.INSTANCE.toEntity(BoardRemoteMapper.INSTANCE.toTO(boardDto));
-                    if (throwable != null || localBoard == null) {
+                    if (localBoard == null || serverBoard.getEtag() == null || !serverBoard.getEtag().equals(localBoard.getEtag())) {
                         BoardEntity newLocal = new BoardEntity(
-                                0,
+                                existingLocalId,
                                 account.id().value(),
                                 serverBoard.getRemoteId(),
                                 DBStatus.UP_TO_DATE.getId(),
@@ -291,36 +310,19 @@ public class BoardSyncProvider implements SyncProvider<Void> {
                                 serverBoard.getPermissionShare(),
                                 null
                         );
-                        return boardDao.insertOrReplace(newLocal);
+                        return boardDao.upsert(newLocal).thenCompose(id -> {
+                            if (id != -1) {
+                                return CompletableFuture.completedFuture(id);
+                            } else if (existingLocalId != 0) {
+                                return CompletableFuture.completedFuture(existingLocalId);
+                            } else {
+                                return boardDao.getBoardByRemoteId(account.id().value(), boardDto.getId())
+                                        .thenApply(b -> b != null ? b.getLocalId() : null);
+                            }
+                        });
                     } else {
-                        if (localBoard.getStatus() == DBStatus.CONFLICT.getId()) {
-                            return CompletableFuture.completedFuture(localBoard.getLocalId());
-                        }
-                        if (serverBoard.getEtag() != null && serverBoard.getEtag().equals(localBoard.getEtag())) {
-                            return CompletableFuture.completedFuture(localBoard.getLocalId());
-                        }
-                        BoardEntity updatedLocal = new BoardEntity(
-                                localBoard.getLocalId(),
-                                localBoard.getAccountId(),
-                                serverBoard.getRemoteId(),
-                                DBStatus.UP_TO_DATE.getId(),
-                                serverBoard.getLastModified(),
-                                serverBoard.getLastModified(),
-                                serverBoard.getEtag(),
-                                serverBoard.getTitle(),
-                                ownerLocalId,
-                                serverBoard.getColor(),
-                                serverBoard.getArchived(),
-                                serverBoard.getShared(),
-                                serverBoard.getDeletedAt(),
-                                serverBoard.getPermissionRead(),
-                                serverBoard.getPermissionEdit(),
-                                serverBoard.getPermissionManage(),
-                                serverBoard.getPermissionShare(),
-                                null
-                        );
-                        return boardDao.updateRx(updatedLocal).thenApply(v -> localBoard.getLocalId());
+                        return CompletableFuture.completedFuture(localBoard.getLocalId());
                     }
-                }).thenCompose(f -> f));
+                }));
     }
 }

@@ -123,6 +123,12 @@ public interface DeckApi {
     @GET("v1.1/boards/{boardId}/stacks/{stackId}/cards/{cardId}")
     CompletableFuture<CardDTO> getCard_1_1(@Path("boardId") long boardId, @Path("stackId") long stackId, @Path("cardId") long cardId, @Header(MODIFIED_SINCE_HEADER) String lastSync);
 
+    @POST("v1.0/boards/{boardId}/stacks/{stackId}/cards/{cardId}/dependentCards/{dependentCardId}")
+    CompletableFuture<Void> assignDependentToCard(@Path("boardId") long boardId, @Path("stackId") long stackId, @Path("cardId") long cardId, @Path("dependentCardId") long dependentCardId);
+
+    @DELETE("v1.0/boards/{boardId}/stacks/{stackId}/cards/{cardId}/dependentCards/{dependentCardId}")
+    CompletableFuture<Void> unassignDependentFromCard(@Path("boardId") long boardId, @Path("stackId") long stackId, @Path("cardId") long cardId, @Path("dependentCardId") long dependentCardId);
+
 
     // Labels
 

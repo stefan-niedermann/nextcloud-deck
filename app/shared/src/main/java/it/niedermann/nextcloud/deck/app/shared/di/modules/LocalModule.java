@@ -14,6 +14,7 @@ import it.niedermann.nextcloud.deck.data.local.dao.CommentDao;
 import it.niedermann.nextcloud.deck.data.local.dao.JoinBoardWithLabelDao;
 import it.niedermann.nextcloud.deck.data.local.dao.JoinBoardWithPermissionDao;
 import it.niedermann.nextcloud.deck.data.local.dao.JoinBoardWithUserDao;
+import it.niedermann.nextcloud.deck.data.local.dao.JoinCardWithDependentCardDao;
 import it.niedermann.nextcloud.deck.data.local.dao.JoinCardWithLabelDao;
 import it.niedermann.nextcloud.deck.data.local.dao.JoinCardWithUserDao;
 import it.niedermann.nextcloud.deck.data.local.dao.LabelDao;
@@ -99,6 +100,12 @@ public class LocalModule {
     @Singleton
     public JoinCardWithUserDao provideJoinCardWithUserDao(DeckDatabase deckDatabase) {
         return deckDatabase.getJoinCardWithUserDao();
+    }
+
+    @Provides
+    @Singleton
+    public JoinCardWithDependentCardDao provideJoinCardWithDependentCardDao(DeckDatabase deckDatabase) {
+        return deckDatabase.getJoinCardWithDependentCardDao();
     }
 
     @Provides

@@ -64,5 +64,20 @@ data class FullCard(
         parentColumns = ["localId"],
         entityColumns = ["cardId"]
     )
-    val comments: List<CommentEntity>
+    val comments: List<CommentEntity>,
+
+    /**
+     * Many-to-many relationship: Dependent cards.
+     * Note: We match by remoteId of the target card since dependents are stored by remote ID.
+     */
+    @Relation(
+        associateBy = Junction(
+            value = JoinCardWithDependentCardEntity::class,
+            parentColumns = ["cardId"],
+            entityColumns = ["dependentRemoteId"]
+        ),
+        parentColumns = ["localId"],
+        entityColumns = ["remoteId"]
+    )
+    val dependents: List<CardEntity>
 )

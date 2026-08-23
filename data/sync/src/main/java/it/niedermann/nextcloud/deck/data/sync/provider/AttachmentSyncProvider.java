@@ -73,7 +73,7 @@ public class AttachmentSyncProvider implements SyncProvider<CardDTO> {
                                 serverEntity.getFileId(),
                                 null
                         );
-                        return attachmentDao.insertOrReplace(newLocal).thenApply(v -> (Void) null);
+                        return attachmentDao.upsert(newLocal).thenApply(v -> (Void) null);
                     } else {
                         if (localAttachment.getStatus() == DBStatus.CONFLICT.getId()) {
                             return CompletableFuture.<Void>completedFuture(null);

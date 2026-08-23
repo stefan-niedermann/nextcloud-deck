@@ -23,6 +23,7 @@ import it.niedermann.nextcloud.deck.data.local.dao.CommentDao;
 import it.niedermann.nextcloud.deck.data.local.dao.JoinBoardWithLabelDao;
 import it.niedermann.nextcloud.deck.data.local.dao.JoinBoardWithPermissionDao;
 import it.niedermann.nextcloud.deck.data.local.dao.JoinBoardWithUserDao;
+import it.niedermann.nextcloud.deck.data.local.dao.JoinCardWithDependentCardDao;
 import it.niedermann.nextcloud.deck.data.local.dao.JoinCardWithLabelDao;
 import it.niedermann.nextcloud.deck.data.local.dao.JoinCardWithUserDao;
 import it.niedermann.nextcloud.deck.data.local.dao.LabelDao;
@@ -134,6 +135,12 @@ public class TestLocalModule {
     @VirtualDeviceScope
     JoinCardWithLabelDao provideJoinCardWithLabelDao(DeckDatabase db) {
         return db.getJoinCardWithLabelDao();
+    }
+
+    @Provides
+    @VirtualDeviceScope
+    JoinCardWithDependentCardDao provideJoinCardWithDependentCardDao(DeckDatabase db) {
+        return db.getJoinCardWithDependentCardDao();
     }
 
     private static class InMemoryKeyValueStore implements KeyValueStore {

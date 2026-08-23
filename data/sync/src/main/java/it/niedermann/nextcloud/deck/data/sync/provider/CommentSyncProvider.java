@@ -57,7 +57,7 @@ public class CommentSyncProvider implements SyncProvider<CardDTO> {
                                 serverEntity.getCreatedAt(),
                                 null
                         );
-                        return commentDao.insertOrReplace(newLocal).thenApply(v -> (Void) null);
+                        return commentDao.upsert(newLocal).thenApply(v -> (Void) null);
                     } else {
                         if (localComment.getStatus() == DBStatus.CONFLICT.getId()) {
                             return CompletableFuture.<Void>completedFuture(null);

@@ -1,7 +1,9 @@
 package it.niedermann.nextcloud.deck.data.sync.provider;
 
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.Consumer;
 import java.util.logging.Logger;
 
@@ -27,6 +29,7 @@ public class ColumnSyncProvider implements SyncProvider<BoardDTO> {
     private final ColumnDao columnDao;
     private final BoardDao boardDao;
     private final ApiProvider.Factory apiFactory;
+    private final Map<String, CompletableFuture<Long>> inFlightColumnSyncs = new ConcurrentHashMap<>();
     private CardSyncProvider cardSyncProvider;
 
     @Inject
@@ -194,24 +197,36 @@ public class ColumnSyncProvider implements SyncProvider<BoardDTO> {
                 continue;
             }
             final long finished = i + 1;
-            stackFutures[i] = mergeColumn(account, columnDto, parentLocalId)
-                    .thenCompose(localColumnId -> {
-                        SyncStatus newStatus = status.withColumns(total, finished, columnDto.getTitle());
-                        reporter.accept(newStatus);
-                        return cardSyncProvider.downSync(account, columnDto, localColumnId, newStatus, reporter);
-                    });
+
+            final String key = account.id().value() + ":" + columnDto.getId();
+            stackFutures[i] = inFlightColumnSyncs.compute(key, (k, existingFuture) -> {
+                if (existingFuture != null && !existingFuture.isCompletedExceptionally()) {
+                    return existingFuture;
+                }
+                final var future = mergeColumn(account, columnDto, parentLocalId)
+                        .thenCompose(localColumnId -> {
+                            SyncStatus newStatus = status.withColumns(total, finished, columnDto.getTitle());
+                            reporter.accept(newStatus);
+                            return cardSyncProvider.downSync(account, columnDto, localColumnId, newStatus, reporter)
+                                    .thenApply(v -> localColumnId);
+                        });
+                future.whenComplete((v, t) -> inFlightColumnSyncs.remove(key));
+                return future;
+            }).thenApply(v -> null);
         }
         return CompletableFuture.allOf(stackFutures);
     }
 
     private CompletableFuture<Long> mergeColumn(Account account, ColumnDTO columnDto, Long boardId) {
         if (columnDto.getId() == null) return CompletableFuture.completedFuture(null);
+        logger.info("Merging column: " + columnDto.getId());
         return columnDao.getColumnByRemoteId(account.id().value(), columnDto.getId())
-                .handle((localColumn, throwable) -> {
+                .thenCompose(localColumn -> {
+                    final long existingLocalId = localColumn != null ? localColumn.getLocalId() : 0;
                     ColumnEntity serverColumn = ColumnMapper.INSTANCE.toEntity(ColumnRemoteMapper.INSTANCE.toTO(columnDto));
-                    if (throwable != null || localColumn == null) {
+                    if (localColumn == null || serverColumn.getEtag() == null || !serverColumn.getEtag().equals(localColumn.getEtag())) {
                         ColumnEntity newLocal = new ColumnEntity(
-                                0,
+                                existingLocalId,
                                 account.id().value(),
                                 serverColumn.getRemoteId(),
                                 DBStatus.UP_TO_DATE.getId(),
@@ -225,31 +240,19 @@ public class ColumnSyncProvider implements SyncProvider<BoardDTO> {
                                 serverColumn.getDeletedAt(),
                                 null
                         );
-                        return columnDao.insertOrReplace(newLocal);
+                        return columnDao.upsert(newLocal).thenCompose(id -> {
+                            if (id != -1) {
+                                return CompletableFuture.completedFuture(id);
+                            } else if (existingLocalId != 0) {
+                                return CompletableFuture.completedFuture(existingLocalId);
+                            } else {
+                                return columnDao.getColumnByRemoteId(account.id().value(), columnDto.getId())
+                                        .thenApply(c -> c != null ? c.getLocalId() : null);
+                            }
+                        });
                     } else {
-                        if (localColumn.getStatus() == DBStatus.CONFLICT.getId()) {
-                            return CompletableFuture.completedFuture(localColumn.getLocalId());
-                        }
-                        if (serverColumn.getEtag() != null && serverColumn.getEtag().equals(localColumn.getEtag())) {
-                            return CompletableFuture.completedFuture(localColumn.getLocalId());
-                        }
-                        ColumnEntity updatedLocal = new ColumnEntity(
-                                localColumn.getLocalId(),
-                                localColumn.getAccountId(),
-                                serverColumn.getRemoteId(),
-                                DBStatus.UP_TO_DATE.getId(),
-                                serverColumn.getLastModified(),
-                                serverColumn.getLastModified(),
-                                serverColumn.getEtag(),
-                                boardId,
-                                serverColumn.getTitle(),
-                                serverColumn.getOrder(),
-                                serverColumn.getArchived(),
-                                serverColumn.getDeletedAt(),
-                                null
-                        );
-                        return columnDao.updateRx(updatedLocal).thenApply(v -> localColumn.getLocalId());
+                        return CompletableFuture.completedFuture(localColumn.getLocalId());
                     }
-                }).thenCompose(f -> f);
+                });
     }
 }

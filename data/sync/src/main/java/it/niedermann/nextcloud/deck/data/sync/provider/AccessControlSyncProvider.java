@@ -81,7 +81,7 @@ public class AccessControlSyncProvider implements SyncProvider<BoardDTO> {
                                         localUserId,
                                         null
                                 );
-                                return accessControlDao.insertOrReplace(newLocal);
+                                return accessControlDao.upsert(newLocal);
                             } else {
                                 logger.info("Updating existing ACL " + dto.getId());
                                 if (localAcl.getStatus() == DBStatus.CONFLICT.getId()) {

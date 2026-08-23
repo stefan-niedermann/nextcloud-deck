@@ -51,6 +51,7 @@ data class CardEntity(
     val userId: Long?,
     val order: Int,
     val archived: Boolean,
+    val color: it.niedermann.nextcloud.deck.domain.model.Color?,
     val startDate: OffsetDateTime?,
     val dueDate: OffsetDateTime?,
     val notified: Boolean,

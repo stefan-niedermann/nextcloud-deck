@@ -11,7 +11,9 @@ import it.niedermann.nextcloud.deck.domain.model.Account;
 import it.niedermann.nextcloud.deck.domain.model.DBStatus;
 import it.niedermann.nextcloud.remote.deck.dto.UserDTO;
 import jakarta.inject.Inject;
+import jakarta.inject.Singleton;
 
+@Singleton
 public class UserSyncHelper {
 
     private static final Logger logger = Logger.getLogger(UserSyncHelper.class.getName());
@@ -44,8 +46,9 @@ public class UserSyncHelper {
             logger.info("Syncing user: " + uid);
             final var future = userDao.getUserByRemoteId(account.id().value(), uid)
                     .thenCompose(localUser -> {
+                        final long existingLocalId = localUser != null ? localUser.getLocalId() : 0;
                         UserEntity entity = new UserEntity(
-                                localUser != null ? localUser.getLocalId() : 0,
+                                existingLocalId,
                                 account.id().value(),
                                 uid,
                                 DBStatus.UP_TO_DATE.getId(),
@@ -54,22 +57,35 @@ public class UserSyncHelper {
                                 null,
                                 displayName != null ? displayName : uid
                         );
-                        if (localUser == null) {
-                            logger.info("Inserting new user: " + uid);
-                            return userDao.insert(entity).thenApply(id -> new UserEntity(
-                                    id,
-                                    entity.getAccountId(),
-                                    entity.getRemoteId(),
-                                    entity.getStatus(),
-                                    entity.getLastModified(),
-                                    entity.getLastModifiedLocal(),
-                                    entity.getEtag(),
-                                    entity.getDisplayName()
-                            ));
-                        } else {
-                            logger.info("Updating existing user: " + uid);
-                            return userDao.updateRx(entity).thenApply(v -> entity);
-                        }
+                        logger.info((localUser == null ? "Inserting" : "Updating") + " user: " + uid);
+                        return userDao.upsert(entity).thenCompose(id -> {
+                            if (id != -1) {
+                                return CompletableFuture.completedFuture(new UserEntity(
+                                        id,
+                                        entity.getAccountId(),
+                                        entity.getRemoteId(),
+                                        entity.getStatus(),
+                                        entity.getLastModified(),
+                                        entity.getLastModifiedLocal(),
+                                        entity.getEtag(),
+                                        entity.getDisplayName()
+                                ));
+                            } else if (existingLocalId != 0) {
+                                return CompletableFuture.completedFuture(new UserEntity(
+                                        existingLocalId,
+                                        entity.getAccountId(),
+                                        entity.getRemoteId(),
+                                        entity.getStatus(),
+                                        entity.getLastModified(),
+                                        entity.getLastModifiedLocal(),
+                                        entity.getEtag(),
+                                        entity.getDisplayName()
+                                ));
+                            } else {
+                                // Someone else inserted it in the meantime
+                                return userDao.getUserByRemoteId(account.id().value(), uid);
+                            }
+                        });
                     });
 
             future.whenComplete((v, throwable) -> inFlightSyncs.remove(key));

@@ -19,6 +19,7 @@ import it.niedermann.nextcloud.deck.data.local.dao.AccessControlDao
 import it.niedermann.nextcloud.deck.data.local.dao.JoinBoardWithLabelDao
 import it.niedermann.nextcloud.deck.data.local.dao.JoinBoardWithPermissionDao
 import it.niedermann.nextcloud.deck.data.local.dao.JoinBoardWithUserDao
+import it.niedermann.nextcloud.deck.data.local.dao.JoinCardWithDependentCardDao
 import it.niedermann.nextcloud.deck.data.local.dao.JoinCardWithLabelDao
 import it.niedermann.nextcloud.deck.data.local.dao.JoinCardWithUserDao
 import it.niedermann.nextcloud.deck.data.local.dao.UserDao
@@ -40,6 +41,7 @@ import it.niedermann.nextcloud.deck.data.local.entity.JoinBoardWithPermissionEnt
 import it.niedermann.nextcloud.deck.data.local.entity.JoinBoardWithUserEntity
 import it.niedermann.nextcloud.deck.data.local.entity.JoinCardWithLabelEntity
 import it.niedermann.nextcloud.deck.data.local.entity.JoinCardWithUserEntity
+import it.niedermann.nextcloud.deck.data.local.entity.JoinCardWithDependentCardEntity
 import it.niedermann.nextcloud.deck.data.local.typeconverter.AttachmentTypeConverter
 import it.niedermann.nextcloud.deck.data.local.typeconverter.ColorConverter
 import it.niedermann.nextcloud.deck.data.local.typeconverter.OffsetDateTimeConverter
@@ -66,7 +68,8 @@ import kotlin.io.path.absolutePathString
         JoinBoardWithPermissionEntity::class,
         JoinBoardWithUserEntity::class,
         JoinCardWithLabelEntity::class,
-        JoinCardWithUserEntity::class
+        JoinCardWithUserEntity::class,
+        JoinCardWithDependentCardEntity::class
     ],
     exportSchema = true
 )
@@ -92,6 +95,7 @@ abstract class DeckDatabase : RoomDatabase() {
     abstract val joinBoardWithUserDao: JoinBoardWithUserDao
     abstract val joinCardWithLabelDao: JoinCardWithLabelDao
     abstract val joinCardWithUserDao: JoinCardWithUserDao
+    abstract val joinCardWithDependentCardDao: JoinCardWithDependentCardDao
     abstract val userDao: UserDao
     abstract val activityDao: it.niedermann.nextcloud.deck.data.local.dao.ActivityDao
 

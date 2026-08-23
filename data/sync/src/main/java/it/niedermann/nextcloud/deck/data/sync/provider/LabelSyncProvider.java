@@ -182,7 +182,7 @@ public class LabelSyncProvider implements SyncProvider<BoardDTO> {
                                 serverLabel.getColor(),
                                 null
                         );
-                        return labelDao.insertOrReplace(newLocal).thenApply(v -> (Void) null);
+                        return labelDao.upsert(newLocal).thenApply(v -> (Void) null);
                     } else {
                         logger.info("Updating existing label " + labelDto.getId());
                         if (localLabel.getStatus() == DBStatus.CONFLICT.getId()) {

@@ -31,4 +31,16 @@ interface CardDao : GenericDao<CardEntity> {
 
     @Query("DELETE FROM Card WHERE localId = :localId")
     fun deleteById(localId: Long): CompletableFuture<Void?>
+
+    @Query("SELECT done FROM Card WHERE localId = :localCardId")
+    fun getDoneStateOfCard(localCardId: Long): CompletableFuture<java.time.OffsetDateTime?>
+
+    @Query("UPDATE Card SET done = :done, status = :status WHERE localId = :localCardId")
+    fun setDoneStateOfCard(localCardId: Long, done: java.time.OffsetDateTime?, status: Int): CompletableFuture<Void?>
+
+    @Query("SELECT Board.remoteId FROM Card JOIN Column ON Column.localId = Card.columnId JOIN Board ON Board.localId = Column.boardId WHERE Card.localId = :localId")
+    fun getBoardRemoteIdByLocalId(localId: Long): CompletableFuture<Long?>
+
+    @Query("SELECT Column.remoteId FROM Card JOIN Column ON Column.localId = Card.columnId WHERE Card.localId = :localId")
+    fun getStackRemoteIdByLocalId(localId: Long): CompletableFuture<Long?>
 }

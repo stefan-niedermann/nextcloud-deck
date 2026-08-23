@@ -295,6 +295,9 @@ components:
         done:
           type: string
           format: date-time
+        startdate:
+          type: string
+          format: date-time
         archived:
           type: boolean
         order:
@@ -308,6 +311,8 @@ components:
           type: integer
         attachmentCount:
           type: integer
+        color:
+          type: string
         ETag:
           type: string
         labels:
@@ -324,6 +329,11 @@ components:
             $ref: '#/components/schemas/AttachmentDTO'
         owner:
           $ref: '#/components/schemas/UserDTO'
+        dependentCards:
+          type: array
+          items:
+            type: integer
+            format: int64
 
     UserDTO:
       type: object
@@ -482,6 +492,11 @@ components:
         duedate:
           type: string
           format: date-time
+        startdate:
+          type: string
+          format: date-time
+        color:
+          type: string
 
     CardUpdateOwnerStringDTO:
       type: object

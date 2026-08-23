@@ -20,6 +20,7 @@ public interface CardMapper extends GenericMapper<CardEntity, Card> {
     @Mapping(target = "etag", ignore = true)
     @Mapping(target = "accountId", ignore = true)
     @Mapping(target = "startDate", source = "startDate")
+    @Mapping(target = "color", source = "color")
     CardEntity toEntity(Card card);
 
     @Override
@@ -29,7 +30,7 @@ public interface CardMapper extends GenericMapper<CardEntity, Card> {
     @Mapping(target = "status", expression = "java(it.niedermann.nextcloud.deck.domain.model.DBStatus.findById(cardEntity.getStatus()))")
     @Mapping(target = "lastModified", source = "lastModified")
     @Mapping(target = "startDate", source = "startDate")
-    @Mapping(target = "color", ignore = true)
+    @Mapping(target = "color", source = "color")
     @Mapping(target = "labels", expression = "java(java.util.Collections.emptySet())")
     @Mapping(target = "assignees", expression = "java(java.util.Collections.emptySet())")
     @Mapping(target = "dependents", expression = "java(java.util.Collections.emptyList())")
