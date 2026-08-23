@@ -66,6 +66,8 @@
     <string name="hint_assign_people">Assigna utentes</string>
     <string name="hint_due_date_date">Data de iscadèntzia</string>
     <string name="hint_due_date_time">Ora</string>
+    <string name="hint_start_date_date">Data de cumintzu</string>
+    <string name="hint_start_date_time">Ora</string>
 
     <string name="card_not_found">Ischeda no agatada</string>
     <string name="card_not_found_message">S\'ischeda non s\'agatat. Mancari de reghente nch\'est istada cantzellada. </string>
@@ -198,7 +200,6 @@
 
     <string name="error_dialog_title">Oh no - E immoe? 🙁</string>
     <string name="error_dialog_tip_token_mismatch_retry">Proa a fortzare sa serrada de s\'aplicatzione e torra·dda a aviare de nou. Diat pòdere àere àpidu unu problema de connessione in s\'aplicatzione Nextcloud. </string>
-    <string name="error_dialog_tip_clear_storage_might_help">Si sighit su problema, proa a cantzellare s\'archiviatzione de ambas is aplicatziones Nextcloud e Nextcloud Notes pro isorvere su problema.</string>
     <string name="error_dialog_tip_database_upgrade_failed">S\'agiornamentu de sa base de datos no est andadu bene. Sinnala su problema e lìmpia s\'archiviatzione pro impreare s\'aplicatzione comente a su sòlitu.</string>
     <string name="error_dialog_tip_clear_storage">Podes limpiare s\'archiviatzione aberende is informatziones de s\'aplicatzione e seberende Archiviatzione → Lìmpia archiviatzione. </string>
     <string name="error_dialog_tip_offline_no_internet">Paret chi as proadu a esecutare una sincronizatzione chene connessione internet.</string>
@@ -211,7 +212,6 @@
     <string name="error_dialog_check_maintenance">Controlla si immoe s\'istantza tua de Nextcloud non siat in  la tua istanza di Nextcloud non siat in fase de mantenidura.</string>
     <string name="error_dialog_insufficient_storage">S\'istanza tua de Nextcloud non at prus logu lìberu. Cantzella unos cantos documentos pro sincronizare is modìficas locales in sa nue virtuale tua.</string>
     <string name="error_dialog_we_need_info">Nos bisòngiat s\'informatzione tècnica in fatu pro t\'agiudare:</string>
-    <string name="error_dialog_redirect">Su serbidore tuo at rispostu cun unu còdighe de istadu HTTP 302, chi cheret nàrrere chi ancora no as  installadu s\'aplicatzione Deck in su serbidore tuo o calicuna cosa no est cunfigurada in manera curreta. Custu podet èssere dèpidu a cunfiguratziones personalizadas in su documentu .htaccess o a aplicatziones de Nextcloud comente a OID Client.</string>
     <string name="error_dialog_version_not_parsable">Impossìbile a determinare sa versione de s\'aplicatzione Deck dae s\'ala de su serbidore. Segura·ti chi siat installada e ativada.</string>
     <string name="error_dialog_account_might_not_be_authorized">Su contu de s\'aplicatzione Nextcloud tua diat pòdere èssere non prus autorizadu.</string>
     <string name="error_dialog_user_not_found_in_database">S\'utente atuale non currispondet a s\'utente chi tenimus in sa base de datos. Si ses impreende LDAP in s\'istantza Nextcloud, s\'aplicatzione Nextcloud tua diat dèpere àere memorizadu unu identificativu utente bèciu. </string>
@@ -305,4 +305,5 @@
     <string name="title_mandatory">Tìtulu (rechertu)</string>
     <string name="saving_new_card">Sarvende s\'ischeda noa...</string>
     <string name="no_search_results_title">Perunu resurtadu de chirca</string>
+    <string name="label_color">Colore</string>
     </resources>

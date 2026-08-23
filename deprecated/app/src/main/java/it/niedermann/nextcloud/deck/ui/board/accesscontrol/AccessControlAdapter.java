@@ -83,8 +83,8 @@ public class AccessControlAdapter extends RecyclerView.Adapter<RecyclerView.View
                 Glide.with(ownerHolder.binding.avatar.getContext())
                         .load(account.getAvatarUrl(ownerHolder.binding.avatar.getResources().getDimensionPixelSize(R.dimen.avatar_size), ac.getUser().getUid()))
                         .apply(RequestOptions.circleCropTransform())
-                        .placeholder(R.drawable.ic_person_24dp)
-                        .error(R.drawable.ic_person_24dp)
+                        .placeholder(R.drawable.ic_outline_person_24)
+                        .error(R.drawable.ic_outline_person_24)
                         .into(ownerHolder.binding.avatar);
                 break;
             }
@@ -94,8 +94,8 @@ public class AccessControlAdapter extends RecyclerView.Adapter<RecyclerView.View
                 Glide.with(acHolder.binding.avatar.getContext())
                         .load(account.getAvatarUrl(acHolder.binding.avatar.getResources().getDimensionPixelSize(R.dimen.avatar_size), ac.getUser().getUid()))
                         .apply(RequestOptions.circleCropTransform())
-                        .placeholder(R.drawable.ic_person_24dp)
-                        .error(R.drawable.ic_person_24dp)
+                        .placeholder(R.drawable.ic_outline_person_24)
+                        .error(R.drawable.ic_outline_person_24)
                         .into(acHolder.binding.avatar);
 
                 acHolder.binding.username.setText(ac.getUser().getDisplayname());

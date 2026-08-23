@@ -66,6 +66,8 @@
     <string name="hint_assign_people">Задужите кориснике</string>
     <string name="hint_due_date_date">Рок</string>
     <string name="hint_due_date_time">Време</string>
+    <string name="hint_start_date_date">Датум почетка</string>
+    <string name="hint_start_date_time">Време</string>
 
     <string name="card_not_found">Картица није нађена</string>
     <string name="card_not_found_message">Картица није нађена. Можда је недавно обрисана.</string>
@@ -209,7 +211,6 @@
 
     <string name="error_dialog_title">О, не - шта сад? 🙁</string>
     <string name="error_dialog_tip_token_mismatch_retry">Покушајте да форсирано затворите апликацију и стартујете је поново. Можда је била неисправна конекција ка Некстклауд апликацији.</string>
-    <string name="error_dialog_tip_clear_storage_might_help">Ако проблем настави да се дешава, пробајте да очистите податке од обе апликације: и Некстклауд и Некстклауд Шпила да бисте решили проблем.</string>
     <string name="error_dialog_tip_database_upgrade_failed">Ажурирање базе није успело. Пријавите овај проблем и очистите складиште да користите апликацију нормално.</string>
     <string name="error_dialog_tip_clear_storage">Складиште можете очистити ако отворите информације о апликацији и бирањем Меморија → Обриши податке.</string>
     <string name="error_dialog_tip_offline_no_internet">Изгледа да сте покушали да покренете синхронизацију без везе са интернетом.</string>
@@ -226,7 +227,6 @@
     <string name="error_dialog_check_maintenance">Проверите да ли Вам инстанца можда тренутно ради у режиму одржавања.</string>
     <string name="error_dialog_insufficient_storage">На Некстклауд инстанци више нема простора. Обришите неке фајлове да синхронизујете локалне измене на облак.</string>
     <string name="error_dialog_we_need_info">Потребне су нам следеће техничке информација да бисмо Вам помогли:</string>
-    <string name="error_dialog_redirect">Сервер је одговорио са HTTP 302 кодом, што значи да немате инсталирану Deck апликацију или да Вам сервер није правилно конфигурисан. Ово може да буде проузорковано произвољним додавањима у .htaccess фајлу или другим Некстклауд апликацијама као што је OID Client.</string>
     <string name="error_dialog_version_not_parsable">Не можемо да одредимо серверску верзију апликације Шпила. Проверите да ли је инсталирана и укључена.</string>
     <string name="error_dialog_account_might_not_be_authorized">Ваш налог од Некстклауд апликације можда више није ауторизован.</string>
     <string name="error_dialog_user_not_found_in_database">Тренутни корисник се не поклапа са корисником у нашој бази података. Ако користите LDAP у тренутној Некстклауд сесији, вероватно Вам је Некстклауд апликација сачувала стари кориснички ИД.</string>
@@ -336,4 +336,6 @@
     <string name="enter_search_term_description">Унесите појам за претрагу да пронађете картице у овој табли</string>
     <string name="no_search_results_title">Нема резултата претраге</string>
     <string name="no_search_results_description">Нисмо пронашли ниједан резултат који задовољава наведени термин за претрагу</string>
+    <string name="label_color">Боја</string>
+    <string name="choose_color">Изаберите бој</string>
 </resources>

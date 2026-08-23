@@ -15,7 +15,6 @@ public class BoardWithAclDownSyncDataProvider extends BoardDataProvider {
 
     @Override
     public void goDeeper(SyncHelper syncHelper, FullBoard existingEntity, FullBoard entityFromServer, ResponseCallback<Boolean> callback) {
-
         List<AccessControl> acl = entityFromServer.getParticipants();
         if (acl != null && !acl.isEmpty()){
             for (AccessControl ac : acl){

@@ -1,6 +1,5 @@
 package it.niedermann.nextcloud.deck.ui.card.attachments.picker;
 
-import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
@@ -14,8 +13,6 @@ import com.nextcloud.android.common.ui.theme.utils.ColorRole;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-import java.util.concurrent.CompletableFuture;
-import java.util.function.Consumer;
 
 import it.niedermann.nextcloud.deck.databinding.ItemAttachmentPickerTypeBinding;
 import it.niedermann.nextcloud.deck.ui.theme.ThemeUtils;
@@ -29,16 +26,12 @@ public class AttachmentPickerAdapter extends RecyclerView.Adapter<AttachmentPick
     private Integer color;
     @NonNull
     private final List<AttachmentPicker<?, ?>> picker = new ArrayList<>();
-    @NonNull
-    private final Consumer<CompletableFuture<List<Uri>>> resultConsumer;
 
     public AttachmentPickerAdapter(
-            @NonNull Collection<AttachmentPicker<?, ?>> pickers,
-            @NonNull Consumer<CompletableFuture<List<Uri>>> resultConsumer
+            @NonNull Collection<AttachmentPicker<?, ?>> pickers
     ) {
         super();
         this.picker.addAll(pickers);
-        this.resultConsumer = resultConsumer;
         setHasStableIds(true);
     }
 
@@ -51,7 +44,7 @@ public class AttachmentPickerAdapter extends RecyclerView.Adapter<AttachmentPick
 
     @Override
     public void onBindViewHolder(@NonNull AttachmentPickerViewHolder holder, int position) {
-        holder.bind(picker.get(position), resultConsumer);
+        holder.bind(picker.get(position));
         if (color != null) {
             holder.applyTheme(color);
         }
@@ -82,14 +75,12 @@ public class AttachmentPickerAdapter extends RecyclerView.Adapter<AttachmentPick
             this.binding = binding;
         }
 
-        public void bind(@NonNull AttachmentPicker<?, ?> picker,
-                         @NonNull Consumer<CompletableFuture<List<Uri>>> resultConsumer) {
+        public void bind(@NonNull AttachmentPicker<?, ?> picker) {
             binding.icon.setImageResource(picker.icon);
             binding.label.setText(picker.label);
             binding.getRoot().setOnClickListener((v) -> {
                 final var context = binding.getRoot().getContext();
-                final var result = picker.ensurePermissionsAndLaunchPicker(context);
-                resultConsumer.accept(result);
+                picker.ensurePermissionsAndLaunchPicker(context);
             });
         }
 

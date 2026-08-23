@@ -66,6 +66,8 @@
     <string name="hint_assign_people">Tugaskan pengguna</string>
     <string name="hint_due_date_date">Tenggat</string>
     <string name="hint_due_date_time">Waktu</string>
+    <string name="hint_start_date_date">Tanggal mulai</string>
+    <string name="hint_start_date_time">Waktu</string>
 
     <string name="card_not_found">Kartu tidak ditemukan</string>
     <string name="card_not_found_message">Kartu tidak dapat ditemukan. Mungkin telah dihapus baru-baru ini.</string>
@@ -205,7 +207,6 @@
 
     <string name="error_dialog_title">Aduh — apa sekarang? 🙁</string>
     <string name="error_dialog_tip_token_mismatch_retry">Silakan mencoba untuk menutup aplikasi secara paksa dan mulai ulang. Mungkin ada koneksi yang tidak benar ke aplikasi Nextcloud.</string>
-    <string name="error_dialog_tip_clear_storage_might_help">Jika masalah ini masih ada, coba menghapus penyimpanan kedua-dua aplikasi: Nextcloud dan Nextcloud Deck untuk menyelesaikan masalah ini.</string>
     <string name="error_dialog_tip_database_upgrade_failed">Pembaruan basis data gagal. Silakan laporkan masalah ini dan hapus penyimpanan untuk menggunakan aplikasi secara normal.</string>
     <string name="error_dialog_tip_clear_storage">Anda dapat menghapus penyimpanan dengan membuka informasi aplikasi dan memilih Penyimpanan → Hapus penyimpanan.</string>
     <string name="error_dialog_tip_offline_no_internet">Sepertinya Anda mencoba untuk sinkronisasi tanpa koneksi internet.</string>
@@ -222,7 +223,6 @@
     <string name="error_dialog_check_maintenance">Tolong periksa apakah instansi Nextcloud Anda saat ini tidak dalam mode pemeliharaan.</string>
     <string name="error_dialog_insufficient_storage">Instansi Nextcloud Anda tidak memiliki penyimpanan gratis yang tersisa. Silakan hapus beberapa berkas untuk menyinkronkan perubahan lokal Anda ke awan Anda.</string>
     <string name="error_dialog_we_need_info">Kami membutuhkan informasi teknis berikut untuk membantu Anda.</string>
-    <string name="error_dialog_redirect">Server Anda merespons dengan kode status HTTP 302, yang berarti Anda belum menginstal aplikasi Deck di server Anda atau ada konfigurasi yang salah. Hal ini dapat disebabkan oleh pengaturan kustom di berkas .htaccess atau oleh aplikasi Nextcloud seperti OID Client.</string>
     <string name="error_dialog_version_not_parsable">Kami tidak dapat menentukan versi aplikasi Longgok sisi server. Pastikan aplikasi tersebut terinstal dan diaktifkan.</string>
     <string name="error_dialog_account_might_not_be_authorized">Akun aplikasi Nextcloud Anda mungkin tidak lagi diotorisasi.</string>
     <string name="error_dialog_user_not_found_in_database">Pengguna saat ini tidak sesuai dengan pengguna yang terdaftar di database kami. Jika Anda menggunakan LDAP pada instance Nextcloud Anda, aplikasi Nextcloud Anda mungkin telah menyimpan ID pengguna yang lama.</string>
@@ -328,4 +328,6 @@
     <string name="enter_search_term_description">Masukkan istilah pencarian untuk menemukan kartu di papan ini</string>
     <string name="no_search_results_title">Tidak ada hasil pencarian</string>
     <string name="no_search_results_description">Kami tidak menemukan hasil untuk istilah pencarian yang diberikan</string>
+    <string name="label_color">Warna</string>
+    <string name="choose_color">Pilih warna</string>
 </resources>

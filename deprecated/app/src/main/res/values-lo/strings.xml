@@ -66,6 +66,8 @@
     <string name="hint_assign_people">ມອບໝາຍໃຫ້ຄົນ</string>
     <string name="hint_due_date_date">ກຳນົດສົ່ງ</string>
     <string name="hint_due_date_time">ເວລາ</string>
+    <string name="hint_start_date_date">ວັນທີເລີ່ມຕົ້ນ</string>
+    <string name="hint_start_date_time">ເວລາ</string>
 
     <string name="card_not_found">ບໍ່ພົບກາດ</string>
     <string name="card_not_found_message">ກາດທີ່ທ່ານກຳລັງຊອກຫາອາດຈະຖືກລຶບ ຫຼື ຍ້າຍໄປບ່ອນອື່ນແລ້ວ.</string>
@@ -205,7 +207,6 @@
 
     <string name="error_dialog_title">ໂອ້ ບໍ່ - ເຮັດແນວໃດຕໍ່? 🙁</string>
     <string name="error_dialog_tip_token_mismatch_retry">ກະລຸນາລອງບັງຄັບປິດແອັບແລ້ວເປີດໃໝ່. ອາດຈະມີການເຊື່ອມຕໍ່ທີ່ບໍ່ຖືກຕ້ອງກັບແອັບ Nextcloud.</string>
-    <string name="error_dialog_tip_clear_storage_might_help">ການລ້າງບ່ອນຈັດເກັບຂໍ້ມູນຂອງແອັບອາດຈະຊ່ວຍແກ້ໄຂບັນຫາໄດ້.</string>
     <string name="error_dialog_tip_database_upgrade_failed">ການອັບເກຣດຖານຂໍ້ມູນລົ້ມເຫຼວ. ການລ້າງບ່ອນຈັດເກັບຂໍ້ມູນອາດຈະຊ່ວຍໄດ້.</string>
     <string name="error_dialog_tip_clear_storage">ກະລຸນາລອງລ້າງບ່ອນຈັດເກັບຂໍ້ມູນຂອງແອັບ.</string>
     <string name="error_dialog_tip_offline_no_internet">ທ່ານອອຟລາຍຢູ່. ກະລຸນາກວດສອບການເຊື່ອມຕໍ່ອິນເຕີເນັດຂອງທ່ານ.</string>
@@ -222,7 +223,6 @@
     <string name="error_dialog_check_maintenance">ກະລຸນາກວດສອບວ່າ Nextcloud ຂອງທ່ານບໍ່ໄດ້ຢູ່ໃນໂໝດບຳລຸງຮັກສາ.</string>
     <string name="error_dialog_insufficient_storage">ພື້ນທີ່ຈັດເກັບຂໍ້ມູນ Nextcloud ຂອງທ່ານເຕັມແລ້ວ. ກະລຸນາລຶບໄຟລ໌ບາງຢ່າງເພື່ອຊິ້ງຂໍ້ມູນການປ່ຽນແປງຂອງທ່ານໃສ່ຄລາວ.</string>
     <string name="error_dialog_we_need_info">ພວກເຮົາຕ້ອງການຂໍ້ມູນທາງເທັກນິກຕໍ່ໄປນີ້ເພື່ອຊ່ວຍທ່ານ:</string>
-    <string name="error_dialog_redirect">ການປ່ຽນເສັ້ນທາງບໍ່ໄດ້ຮັບການຮອງຮັບ.</string>
     <string name="error_dialog_version_not_parsable">ບໍ່ສາມາດວິເຄາະສະຕຣິງເວີຊັນໄດ້.</string>
     <string name="error_dialog_account_might_not_be_authorized">ບັນຊີອາດຈະບໍ່ໄດ້ຮັບການອະນຸຍາດ. ກະລຸນາລອງນຳເຂົ້າບັນຊີໃໝ່.</string>
     <string name="error_dialog_user_not_found_in_database">ບໍ່ພົບຜູ້ໃຊ້ໃນຖານຂໍ້ມູນ.</string>
@@ -328,4 +328,6 @@
     <string name="enter_search_term_description">ປ້ອນຄຳທີ່ທ່ານຕ້ອງການຄົ້ນຫາເພື່ອເລີ່ມ.</string>
     <string name="no_search_results_title">ບໍ່ພົບຜົນການຄົ້ນຫາ</string>
     <string name="no_search_results_description">ລອງໃຊ້ຄຳຄົ້ນຫາອື່ນເບິ່ງ.</string>
+    <string name="label_color">ສີ</string>
+    <string name="choose_color">ເລືອກສີ</string>
 </resources>

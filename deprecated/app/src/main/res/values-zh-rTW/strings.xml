@@ -61,17 +61,19 @@
     <string name="about_license_tab_title">授權</string>
     <string name="seconds_ago">幾秒前</string>
     <string name="edit">編輯</string>
-    <string name="label_labels">選擇標籤</string>
+    <string name="label_labels">選取標籤</string>
     <string name="label_description">描述</string>
     <string name="hint_assign_people">分派使用者</string>
     <string name="hint_due_date_date">截止日</string>
     <string name="hint_due_date_time">時間</string>
+    <string name="hint_start_date_date">開始日期</string>
+    <string name="hint_start_date_time">時間</string>
 
     <string name="card_not_found">找不到卡片</string>
     <string name="card_not_found_message">找不到卡片。或許它已經被刪除。</string>
 
-    <string name="add_account">新增帳戶</string>
-    <string name="choose_account">選擇帳戶</string>
+    <string name="add_account">新增帳號</string>
+    <string name="choose_account">選擇帳號</string>
     <string name="add_card">新增卡片</string>
     <string name="activity">活動</string>
     <string name="add_list">新增清單</string>
@@ -85,8 +87,10 @@
     <string name="add_board">新增佈告欄</string>
 
     <string name="label_clear_due_date">清除截止日</string>
+    <string name="label_clear_start_date">清除開始日期</string>
     <string name="label_clear_done">未完成</string>
     <string name="label_due_at">到期日：%1$s</string>
+    <string name="label_start_at">開始於：%1$s</string>
     <string name="label_add">新增%1$s</string>
 
     <string name="card_edit_details">詳細資料</string>
@@ -135,7 +139,7 @@
     <string name="no_activities">此卡片沒有活動。您需要連線至網際網路，才能載入並顯示活動。</string>
     <string name="share_board">分享佈告欄</string>
     <string name="you_are_currently_offline">目前離線中</string>
-    <string name="you_have_to_be_connected_to_the_internet_in_order_to_add_an_account">您必須連線到網際網路才能新增帳戶。</string>
+    <string name="you_have_to_be_connected_to_the_internet_in_order_to_add_an_account">您必須連線到網際網路才能新增帳號。</string>
     <string name="owner">擁有者</string>
     <string name="attachment_delete_message">這會永久刪除此附件。</string>
     <string name="no_content">目前還沒有內容</string>
@@ -204,8 +208,9 @@
     <string name="error_edit_activity_killed_by_android">Android 完成了編輯模式，因為它需要更多的系統資源來服務其他應用程式。</string>
 
     <string name="error_dialog_title">喔不 - 現在怎麼辦？🙁</string>
+    <string name="error_dialog_tip_parsing_failed">無法如預期般解析您的伺服器回應。請確認您已在 Nextcloud 伺服器上啟用 Deck 應用程式。</string>
     <string name="error_dialog_tip_token_mismatch_retry">請嘗試強制關閉該 APP，然後重新啟動。與 Nextcloud APP 的連線可能不正確。</string>
-    <string name="error_dialog_tip_clear_storage_might_help">如果問題仍然存在，請嘗試清除兩個應用程式的存儲區：Nextcloud 和 Nextcloud Deck 以解決此問題。</string>
+    <string name="error_dialog_tip_clear_storage_might_help">如果問題仍然存在，請嘗試清除兩款應用程式（Nextcloud 與 Nextcloud Deck）的儲存資料，然後重新匯入您的帳號。</string>
     <string name="error_dialog_tip_database_upgrade_failed">資料庫升級失敗。請回報問題，並清除儲存區以正常使用該應用程式。</string>
     <string name="error_dialog_tip_clear_storage">您可以透過開啟應用程式資訊並選擇 儲存區 → 清除儲存區 來清除儲存區。</string>
     <string name="error_dialog_tip_offline_no_internet">似乎您試圖在沒有網際網路連線的情況下觸發同步。</string>
@@ -222,7 +227,7 @@
     <string name="error_dialog_check_maintenance">請確認您的 Nextcloud 現在不是處於維護模式。</string>
     <string name="error_dialog_insufficient_storage">您的 Nextcloud 已無可用空間，請刪除部份檔案以將您的本地變更同步至雲端。</string>
     <string name="error_dialog_we_need_info">我們需要以下的技術資訊來幫助您：</string>
-    <string name="error_dialog_redirect">您的伺服器以 HTTP 302 狀態代碼回應，這表示您尚未在伺服器上安裝 Deck 應用程式或配置錯誤。這可能是由於 .htaccess 檔案中的自訂覆寫或 Nextcloud 應用程式（如 OID 客戶端）引起的。</string>
+    <string name="error_dialog_redirect">您的伺服器確實回傳了 HTTP 302 狀態碼，這表示您的伺服器上尚未安裝 Deck 應用程式，或是某處設定有誤。此問題可能是由於 .htaccess 檔案中的自訂覆寫設定，或是 Nextcloud 應用程式（例如 OID 客戶媏）所導致。</string>
     <string name="error_dialog_version_not_parsable">我們無法確定伺服器端 Deck 應用程式的版本。請確保已安裝並啟用它。</string>
     <string name="error_dialog_account_might_not_be_authorized">您的 Nextcloud APP 帳號可能不再被授權。</string>
     <string name="error_dialog_user_not_found_in_database">目前使用者與我們資料庫中的使用者不符。如果您在 Nextcloud 實例上使用 LDAP，則 Nextcloud APP 可能已存儲了舊的使用者 ID。</string>
@@ -328,4 +333,9 @@
     <string name="enter_search_term_description">輸入要在此看板中尋找卡片的字詞</string>
     <string name="no_search_results_title">無搜尋結果</string>
     <string name="no_search_results_description">對於指定的搜尋詞，我們沒有找到任何結果</string>
+    <string name="label_no_startdate">沒有開始日期</string>
+    <string name="label_dependent_cards">被依賴的卡片</string>
+    <string name="label_color">顏色</string>
+    <string name="label_clear_color">清除顏色</string>
+    <string name="choose_color">選擇顏色</string>
 </resources>

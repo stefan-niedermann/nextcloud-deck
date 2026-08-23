@@ -66,6 +66,8 @@
     <string name="hint_assign_people">Benutzer zuweisen</string>
     <string name="hint_due_date_date">Fälligkeitsdatum</string>
     <string name="hint_due_date_time">Zeit</string>
+    <string name="hint_start_date_date">Startdatum</string>
+    <string name="hint_start_date_time">Zeit</string>
 
     <string name="card_not_found">Karte nicht gefunden</string>
     <string name="card_not_found_message">Die Karte konnte nicht gefunden werden. Möglicherweise wurde sie zwischenzeitlich gelöscht.</string>
@@ -78,15 +80,17 @@
     <string name="rename_list">Liste umbenennen</string>
     <string name="delete_list">Liste löschen</string>
     <string name="label_menu">Menü</string>
-    <string name="action_card_assign">Karte mir zuordnen</string>
-    <string name="action_card_unassign">Zuordnung der Karte für mich aufheben</string>
+    <string name="action_card_assign">Karte mir zuweisen</string>
+    <string name="action_card_unassign">Karte mir nicht zuweisen</string>
     <string name="action_card_archive">Karte archivieren</string>
     <string name="action_card_delete">Karte löschen</string>
     <string name="add_board">Board hinzufügen</string>
 
     <string name="label_clear_due_date">Fälligkeitsdatum entfernen</string>
+    <string name="label_clear_start_date">Startdatum löschen</string>
     <string name="label_clear_done">Nicht erledigt</string>
     <string name="label_due_at">Fällig am: %1$s</string>
+    <string name="label_start_at">Beginn um: %1$s</string>
     <string name="label_add">%1$s hinzufügen</string>
 
     <string name="card_edit_details">Details</string>
@@ -162,7 +166,7 @@
     <string name="choose_board">Board auswählen</string>
     <string name="task_count">%1$s/%2$s</string>
     <string name="open_in_browser">Im Browser öffnen</string>
-    <string name="updating_card">Karte wird aktualisiert…</string>
+    <string name="updating_card">Karte wird aktualisiert …</string>
 
     <string name="move_list_right">Liste nach rechts schieben</string>
     <string name="move_list_left">Liste nach links schieben</string>
@@ -182,7 +186,7 @@
 
     <string name="archived_cards">Archivierte Karten</string>
     <string name="attachment_already_exists">Anhang existiert bereits</string>
-    <string name="pick_custom_color">Wählen Sie eine benutzerdefinierte Farbe aus</string>
+    <string name="pick_custom_color">Eine benutzerdefinierte Farbe auswählen</string>
     <string name="manage_tags">Schlagworte verwalten</string>
     <string name="add_tag">Schlagwort hinzufügen</string>
     <string name="tag_already_exists">%1$s existiert bereits</string>
@@ -206,8 +210,9 @@
     <string name="error_edit_activity_killed_by_android">Android hat den Bearbeitungsmodus beendet, da mehr Systemressourcen für andere Apps benötigt wurden.</string>
 
     <string name="error_dialog_title">Oh nein - Was jetzt? 🙁</string>
+    <string name="error_dialog_tip_parsing_failed">Die Antwort des Servers konnte nicht wie erwartet verarbeitet werden. Bitte sicherstellen, dass die Deck-App auf dem Nextcloud-Server aktiviert ist.</string>
     <string name="error_dialog_tip_token_mismatch_retry">Bitte versuchen Sie, das Schließen der App zu erzwingen und erneut zu starten. Möglicherweise bestand eine gestörte Verbindung zur Nextcloud-App.</string>
-    <string name="error_dialog_tip_clear_storage_might_help">Falls dieser Fehler weiterhin besteht können Sie versuchen den Speicherinhalt der beiden Apps Nextcloud und Nextcloud Deck zu leeren um das Problem zu beheben.</string>
+    <string name="error_dialog_tip_clear_storage_might_help">Sollte das Problem weiterhin bestehen, bitte versuchen, den Speicher beider Apps – Nextcloud und Nextcloud Deck – zu löschen und Ihr Konto erneut zu importieren.</string>
     <string name="error_dialog_tip_database_upgrade_failed">Die Aktualisierung der Datenbank ist fehlgeschlagen. Bitte melden Sie das Problem und leeren Sie den Speicher, um die App normal zu verwenden.</string>
     <string name="error_dialog_tip_clear_storage">Sie können den Speicherinhalt leeren indem Sie die App öffnen und Speicher → Speicherinhalt löschen auswählen.</string>
     <string name="error_dialog_tip_offline_no_internet">Es sieht so aus, als hätten Sie versucht, eine Synchronisation ohne Internetverbindung auszulösen.</string>
@@ -224,7 +229,7 @@
     <string name="error_dialog_check_maintenance">Bitte prüfen Sie ob sich Ihr Nextcloud-Server derzeit  im Wartungsmodus befindet.</string>
     <string name="error_dialog_insufficient_storage">Ihre Nextcloud-Installation hat keinen freien Speicherplatz mehr. Bitte löschen Sie einige Dateien, um Ihre lokalen Änderungen mit Ihrer Cloud synchronisieren zu können.</string>
     <string name="error_dialog_we_need_info">Wir benötigen die folgenden technischen Informationen, um Ihnen helfen zu können:</string>
-    <string name="error_dialog_redirect">Ihr Server hat mit einem HTTP 302-Statuscode geantwortet, was bedeutet, dass Sie die Deck-App nicht auf Ihrem Server installiert haben oder etwas falsch konfiguriert ist. Dies kann durch benutzerdefinierte Überschreibungen in einer .htaccess-Datei oder durch Nextcloud-Apps wie OID-Client verursacht werden.</string>
+    <string name="error_dialog_redirect">Ihr Server antwortete mit dem HTTP-Statuscode 302. Dies deutet darauf hin, dass die Deck-App nicht auf Ihrem Server installiert ist oder eine Fehlkonfiguration vorliegt. Ursachen hierfür können benutzerdefinierte Einstellungen in einer .htaccess-Datei oder Nextcloud-Apps wie der OID Client sein.</string>
     <string name="error_dialog_version_not_parsable">Version der auf dem Server installierten Deck-App konnte nicht ermittelt werden. Bitte sicherstellen, dass die Deck-App intstalliert und aktiviert ist.</string>
     <string name="error_dialog_account_might_not_be_authorized">Das Konto Ihrer Nextcloud-App ist möglicherweise nicht mehr autorisiert.</string>
     <string name="error_dialog_user_not_found_in_database">Der aktuelle Benutzer stimmt nicht mit dem Benutzer überein, den wir in unserer Datenbank haben. Wenn Sie LDAP in Ihrer Nextcloud-Instanz verwenden, hat Ihre Nextcloud-App möglicherweise eine alte Benutzer-ID gespeichert.</string>
@@ -265,7 +270,7 @@
     <string name="error_action_open_battery_settings">Batterie-Einstellungen</string>
     <string name="move_warning">Beim Verschieben einer Karte auf ein anderes Board werden weder Kommentare noch Anhänge transferriert.</string>
     <string name="clone_board">Board klonen</string>
-    <string name="cloning_board">Klone %1$s…</string>
+    <string name="cloning_board">Klone %1$s …</string>
     <string name="successfully_cloned_board">%1$s geklont</string>
     <string name="attachment_does_not_yet_exist">Anhang existiert bislang nicht in Deck</string>
     <string name="card_does_not_yet_exist">Karte existiert bislang nicht in Deck</string>
@@ -317,14 +322,14 @@
     <string name="copy_logs">Protokolldateien in die Zwischenablage kopieren</string>
     <string name="app_logo">App-Logo</string>
     <string name="log_file">Protokolldatei</string>
-    <string name="copying_logs_to_file">Protokolldateien in Datei kopieren…</string>
+    <string name="copying_logs_to_file">Protokolldateien in Datei kopieren …</string>
     <string name="account_imported">Konto importiert</string>
     <string name="simple_search">Suche</string>
     <!-- Label for a title input field that is required to be filled out -->
     <string name="title_mandatory">Titel (erforderlich)</string>
-    <string name="saving_new_card">Speichere neue Karte …</string>
-    <string name="progress_import">Importiere Board %1$d von %2$d…</string>
-    <string name="progress_import_indeterminate">Importiere Boards…</string>
+    <string name="saving_new_card">Speichere neue Karte …</string>
+    <string name="progress_import">Importiere Board %1$d von %2$d …</string>
+    <string name="progress_import_indeterminate">Importiere Boards …</string>
     <string name="card_outdated">Der Inhalt dieser Karte ist möglicherweise veraltet.</string>
     <string name="show_error">Fehler anzeigen</string>
     <string name="push_notification_link_empty">Aufgrund eines bekannten Problems in der Deck-Server-App können wir diese Karte leider nicht anzeigen. Weitere Informationen finden Sie unter: %1$s</string>
@@ -332,4 +337,9 @@
     <string name="enter_search_term_description">Einen Suchbegriff eingeben, um Karten in diesem Board zu finden</string>
     <string name="no_search_results_title">Keine Suchergebnisse</string>
     <string name="no_search_results_description">Keine Ergebnisse für diesen Suchbegriff gefunden</string>
+    <string name="label_no_startdate">Kein Startdatum</string>
+    <string name="label_dependent_cards">Abhängige Karten</string>
+    <string name="label_color">Farbe</string>
+    <string name="label_clear_color">Farbe löschen</string>
+    <string name="choose_color">Farbe wählen</string>
 </resources>

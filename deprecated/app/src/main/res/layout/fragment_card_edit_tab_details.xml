@@ -3,7 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="match_parent"
+    android:clipToPadding="false"
     android:fillViewport="true">
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -20,7 +21,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:startIconDrawable="@drawable/ic_label_24dp">
+            app:startIconDrawable="@drawable/ic_outline_label_24">
 
             <it.niedermann.nextcloud.deck.ui.view.ToggleAutoCompleteTextView
                 android:id="@+id/labels"
@@ -51,7 +52,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/labelsGroup"
-            app:startIconDrawable="@drawable/ic_person_24dp">
+            app:startIconDrawable="@drawable/ic_outline_person_24">
 
             <it.niedermann.nextcloud.deck.ui.view.ToggleAutoCompleteTextView
                 android:id="@+id/people"
@@ -69,22 +70,92 @@
             android:layout_marginTop="@dimen/spacer_1x"
             android:layout_marginBottom="@dimen/spacer_1hx"
             app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
-            app:layout_constraintBottom_toTopOf="@id/cardDueDateView"
+            app:layout_constraintBottom_toTopOf="@id/cardStartDateView"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/peopleWrapper"
-            tools:listitem="@tools:sample/avatars" />
+            tools:itemCount="1"
+            tools:listitem="@layout/item_assignee" />
+
+        <it.niedermann.nextcloud.deck.ui.card.details.CardStartDateView
+            android:id="@+id/cardStartDateView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/spacer_2x"
+            app:layout_constraintBottom_toTopOf="@id/cardDueDateView"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/assignees" />
 
         <it.niedermann.nextcloud.deck.ui.card.details.CardDueDateView
             android:id="@+id/cardDueDateView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/spacer_2x"
+            app:layout_constraintBottom_toTopOf="@id/cardColorWrapper"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/cardStartDateView" />
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/cardColorWrapper"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/spacer_2x"
+            android:hint="@string/label_color"
+            app:layout_constraintBottom_toTopOf="@id/dependentsWrapper"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/cardDueDateView"
+            app:startIconDrawable="@drawable/ic_colorize_24dp"
+            app:endIconDrawable="@drawable/circle_24dp"
+            app:endIconMode="custom">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/cardColor"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:clickable="true"
+                android:cursorVisible="false"
+                android:focusable="false"
+                android:focusableInTouchMode="false"
+                android:inputType="none" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/dependentsWrapper"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/spacer_2x"
+            android:hint="@string/label_dependent_cards"
+            app:layout_constraintBottom_toTopOf="@id/dependentsGroup"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/cardColorWrapper"
+            app:startIconDrawable="@drawable/ic_outline_list_alt_24">
+
+            <it.niedermann.nextcloud.deck.ui.view.ToggleAutoCompleteTextView
+                android:id="@+id/dependents_auto_complete"
+                style="@style/Widget.Material3.AutoCompleteTextView.OutlinedBox.Dense"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:completionThreshold="1"
+                android:inputType="text" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/dependentsGroup"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/spacer_1x"
+            android:layout_marginBottom="@dimen/spacer_1hx"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             app:layout_constraintBottom_toTopOf="@id/descriptionWrapper"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/assignees" />
-
+            app:layout_constraintTop_toBottomOf="@id/dependentsWrapper"
+            tools:itemCount="2"
+            tools:listitem="@layout/item_dependent" />
 
         <RelativeLayout
             android:id="@+id/descriptionWrapper"
@@ -94,7 +165,7 @@
             app:layout_constraintBottom_toTopOf="@id/projectsTitle"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/cardDueDateView">
+            app:layout_constraintTop_toBottomOf="@id/dependentsGroup">
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/descriptionEditorWrapper"

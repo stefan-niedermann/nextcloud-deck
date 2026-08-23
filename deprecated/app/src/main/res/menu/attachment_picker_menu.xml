@@ -8,12 +8,12 @@
         app:showAsAction="ifRoom" />
     <item
         android:id="@+id/contacts"
-        android:icon="@drawable/ic_person_24dp"
+        android:icon="@drawable/ic_outline_person_24"
         android:title="@string/contacts"
         app:showAsAction="ifRoom" />
     <item
         android:id="@+id/files"
-        android:icon="@drawable/ic_attach_file_24dp"
+        android:icon="@drawable/ic_outline_attach_file_24"
         android:title="@string/files"
         app:showAsAction="ifRoom" />
 </menu>

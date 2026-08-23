@@ -66,6 +66,8 @@
     <string name="hint_assign_people">Priradiť užívateľov</string>
     <string name="hint_due_date_date">Termín dokončenia</string>
     <string name="hint_due_date_time">Čas</string>
+    <string name="hint_start_date_date">Dátum začatia</string>
+    <string name="hint_start_date_time">Čas</string>
 
     <string name="card_not_found">Karta sa nenašla</string>
     <string name="card_not_found_message">Kartu sa nepodarilo nájsť. Možno bola nedávno odstránená.</string>
@@ -85,8 +87,10 @@
     <string name="add_board">Pridať nástenk</string>
 
     <string name="label_clear_due_date">Odstrániť termín dokončenia</string>
+    <string name="label_clear_start_date">Vymazať dátum začiatku</string>
     <string name="label_clear_done">Neurobené</string>
     <string name="label_due_at">K dátumu: %1$s</string>
+    <string name="label_start_at">Začať o: %1$s</string>
     <string name="label_add">Pridať %1$s</string>
 
     <string name="card_edit_details">Podrobnosti</string>
@@ -211,7 +215,6 @@
 
     <string name="error_dialog_title">Ale nie - Čo teraz? 🙁</string>
     <string name="error_dialog_tip_token_mismatch_retry">Skúste vyinútiť zatvorenie aplikácie a znova ju reštartovať. Možno došlo k chybnému pripojeniu k aplikácii Nextcloud.</string>
-    <string name="error_dialog_tip_clear_storage_might_help">Ak problém pretrváva, pokúste sa tento problém vyriešiť vymazaním úložiska oboch aplikácií: Nextcloud a Nextcloud Deck.</string>
     <string name="error_dialog_tip_database_upgrade_failed">Aktualizácia databázy zlyhala. Nahláste problém a vymažte ukladací priestor, aby ste aplikáciu mohli normálne používať.</string>
     <string name="error_dialog_tip_clear_storage">Úložisko môžete vyčistiť otvorením informácii o aplikácii a výberom Úložisko → Vyčistiť úložisko.</string>
     <string name="error_dialog_tip_offline_no_internet">Vyzerá, že sa snažíte spustiť synchronizáciu bez pripojenia k internetu.</string>
@@ -228,7 +231,6 @@
     <string name="error_dialog_check_maintenance">Prosím skontrolujte, či vaša inštancia Nextcloudu nie je práve v móde údržby.</string>
     <string name="error_dialog_insufficient_storage">Vo vašej inštancii Nexcloudu nie je na úložisku voľné miesto. Aby bolo možné synchronizovať vaše miestne zmeny s vaším cloudom, je potrebné najprv zmazať niektoré súbory.</string>
     <string name="error_dialog_we_need_info">Aby sme vám pomohli, potrebujeme následovné technické informácie:</string>
-    <string name="error_dialog_redirect">Váš server odpovedal stavovým kódom HTTP 302, čo znamená, že na svojom serveri nemáte nainštalovanú aplikáciu Deck alebo je niečo nesprávne nastavené. Môže to byť spôsobené vlastnými zmenami v súbore .htaccess alebo aplikáciami Nextcloud, ako je OID Client.</string>
     <string name="error_dialog_version_not_parsable">Nepodarilo sa určiť verziu aplikácie Deck na strane servera. Skontrolujte, či je nainštalovaný a povolený.</string>
     <string name="error_dialog_account_might_not_be_authorized">Účet vašej aplikácie Nextcloud už nemusí byť autorizovaný.</string>
     <string name="error_dialog_user_not_found_in_database">Aktuálny používateľ sa nezhoduje s používateľom, ktorý máme v našej databáze. Ak používate server LDAP vo vašej inštancii Nextcloud, vaša aplikácia Nextcloud pravdepodobne uložila staré ID používateľa.</string>
@@ -340,4 +342,7 @@
     <string name="enter_search_term_description">Zadajte vyhľadávací výraz pre nájdenie kariet na tejto nástenke.</string>
     <string name="no_search_results_title">Žiadne výsledky vyhľadávania</string>
     <string name="no_search_results_description">Nenašli sme žiadne výsledky pre zadaný vyhľadávací výraz</string>
+    <string name="label_no_startdate">Žiadny dátum začiatku</string>
+    <string name="label_color">Farba</string>
+    <string name="choose_color">Vyberte farbu</string>
 </resources>

@@ -8,6 +8,9 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import java.io.PrintWriter;
+import java.io.StringWriter;
+
 import it.niedermann.android.util.ClipboardUtil;
 import it.niedermann.nextcloud.deck.BuildConfig;
 import it.niedermann.nextcloud.deck.R;
@@ -37,14 +40,26 @@ public class ExceptionActivity extends AppCompatActivity {
         }
 
         final var adapter = new TipsAdapter(this::startActivity);
-        final String debugInfo = "Full Crash:\n\n" + ExceptionUtil.getDebugInfos(this, throwable, BuildConfig.FLAVOR);
+        String debugInfo;
+
+        try {
+            debugInfo = "Full Crash:\n\n" + ExceptionUtil.getDebugInfos(this, throwable, BuildConfig.FLAVOR);
+
+        } catch (Exception e) {
+            StringWriter sw = new StringWriter();
+            PrintWriter pw = new PrintWriter(sw);
+            throwable.printStackTrace(pw);
+            debugInfo = "Full Crash:\n\n" + sw;
+        }
+
+        final var finalDebugInfo = debugInfo;
 
         binding.tips.setAdapter(adapter);
         binding.tips.setNestedScrollingEnabled(false);
         binding.toolbar.setTitle(R.string.error);
         binding.message.setText(throwable.getMessage());
-        binding.stacktrace.setText(debugInfo);
-        binding.copy.setOnClickListener((v) -> ClipboardUtil.copyToClipboard(this, getString(R.string.simple_exception), "```\n" + debugInfo + "\n```"));
+        binding.stacktrace.setText(finalDebugInfo);
+        binding.copy.setOnClickListener((v) -> ClipboardUtil.copyToClipboard(this, getString(R.string.simple_exception), "```\n" + finalDebugInfo + "\n```"));
         binding.close.setOnClickListener((v) -> finish());
 
         final var utils = ThemeUtils.defaultBrand(this);

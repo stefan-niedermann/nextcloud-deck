@@ -26,6 +26,7 @@ import it.niedermann.nextcloud.deck.ui.pickstack.PickStackListener;
 import it.niedermann.nextcloud.deck.ui.pickstack.PickStackViewModel;
 import it.niedermann.nextcloud.deck.ui.theme.ThemeUtils;
 import it.niedermann.nextcloud.deck.ui.theme.Themed;
+import it.niedermann.nextcloud.deck.util.CallbackUtil;
 import it.niedermann.nextcloud.deck.util.OnTextChangedWatcher;
 import okhttp3.Headers;
 
@@ -65,13 +66,13 @@ public abstract class PickStackActivity extends AppCompatActivity implements The
             onSubmit(viewModel.getAccount(), viewModel.getBoardLocalId(), viewModel.getStackLocalId(), new IResponseCallback<>() {
                 @Override
                 public void onResponse(EmptyResponse response, Headers headers) {
-                    runOnUiThread(() -> viewModel.setSubmitInProgress(false));
+                    CallbackUtil.runOnUiThread(PickStackActivity.this, () -> viewModel.setSubmitInProgress(false));
                 }
 
                 @Override
                 public void onError(Throwable throwable) {
                     IResponseCallback.super.onError(throwable);
-                    runOnUiThread(() -> {
+                    CallbackUtil.runOnUiThread(PickStackActivity.this, () -> {
                         viewModel.setSubmitInProgress(false);
                         ExceptionDialogFragment
                                 .newInstance(throwable, viewModel.getAccount())

@@ -29,26 +29,27 @@
                 app:srcCompat="@drawable/circle_alpha_colorize_36dp" />
         </com.google.android.flexbox.FlexboxLayout>
 
+        <com.skydoves.colorpickerview.sliders.BrightnessSlideBar
+            android:id="@+id/brightnessSlide"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="@dimen/spacer_2x"
+            android:layout_marginBottom="@dimen/spacer_1x"
+            android:visibility="gone"
+            app:borderColor_BrightnessSlider="@android:color/transparent"
+            app:borderSize_BrightnessSlider="0"
+            app:selector_BrightnessSlider="@drawable/colorpickerview_wheel"
+            tools:visibility="visible" />
+
         <com.skydoves.colorpickerview.ColorPickerView
             android:id="@+id/customColorPicker"
             android:layout_width="200dp"
             android:layout_height="200dp"
             android:layout_gravity="center"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="@dimen/spacer_1x"
             android:visibility="gone"
             app:selector="@drawable/colorpickerview_wheel"
-            tools:visibility="visible" />
-
-        <com.skydoves.colorpickerview.sliders.BrightnessSlideBar
-            android:id="@+id/brightnessSlide"
-            android:layout_width="200dp"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginTop="10dp"
-            android:visibility="gone"
-            app:borderColor_BrightnessSlider="@android:color/darker_gray"
-            app:borderSize_BrightnessSlider="5"
-            app:selector_BrightnessSlider="@drawable/colorpickerview_wheel"
             tools:visibility="visible" />
     </LinearLayout>
 </ScrollView>

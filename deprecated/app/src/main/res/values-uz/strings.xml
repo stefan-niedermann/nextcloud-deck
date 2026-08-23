@@ -66,6 +66,7 @@
     <string name="hint_assign_people">Foydalanuvchilarni tayinlash</string>
     <string name="hint_due_date_date">Muddati</string>
     <string name="hint_due_date_time">Vaqt</string>
+    <string name="hint_start_date_time">Vaqt</string>
 
     <string name="card_not_found">Karta topilmadi</string>
     <string name="card_not_found_message">Karta topilmadi. Ehtimol, u yaqinda o\'chirilgan.</string>
@@ -205,7 +206,6 @@
 
     <string name="error_dialog_title">Yo\'q - Endi nima? 🙁</string>
     <string name="error_dialog_tip_token_mismatch_retry">Iltimos, ilovani majburan yopishga urinib koʻring va uni qayta ishga tushiring. Nextcloud ilovasiga notoʻgʻri ulanish boʻlishi mumkin.</string>
-    <string name="error_dialog_tip_clear_storage_might_help">Muammo davom etsa, ushbu muammoni hal qilish uchun ikkala ilovaning xotirasini tozalashga harakat qiling: Nextcloud va Nextcloud Deck.</string>
     <string name="error_dialog_tip_database_upgrade_failed">Ma\'lumotlar bazasini yangilash amalga oshmadi. Ilovadan normal foydalanish uchun muammo haqida xabar bering va xotirani tozalang.</string>
     <string name="error_dialog_tip_clear_storage">Ilova maʼlumotlarini ochib, Xotira → Xotirani tozalash ni tanlash orqali xotirani tozalashingiz mumkin.</string>
     <string name="error_dialog_tip_offline_no_internet">Siz sinxronizatsiyani internetga ulanmasdan ishga tushirishga uringanga o\'xshaysiz.</string>
@@ -222,7 +222,6 @@
     <string name="error_dialog_check_maintenance">Iltimos, Nextcloud namunangiz hozirda texnik rejimda emasligini tekshiring.</string>
     <string name="error_dialog_insufficient_storage">Nextcloud nusxangizda bepul xotira qolmaydi. Mahalliy oʻzgarishlarni bulutga sinxronlashtirish uchun baʼzi fayllarni oʻchirib tashlang.</string>
     <string name="error_dialog_we_need_info">Sizga yordam berish uchun bizga quyidagi texnik ma\'lumotlar kerak:</string>
-    <string name="error_dialog_redirect">Sizning serveringiz HTTP 302 holat kodi bilan javob berdi, bu sizning serveringizda Deck ilovasini o\'rnatmaganingizni yoki biror narsa noto\'g\'ri sozlanganligini anglatadi. Bunga .htaccess faylidagi maxsus bekor qilinganlar yoki OID Client kabi Nextcloud ilovalari sabab bo\'lishi mumkin.</string>
     <string name="error_dialog_version_not_parsable">Biz server tomonidagi Deck ilovasining versiyasini aniqlay olmadik. Iltimos, u o\'rnatilgan va yoqilganligiga ishonch hosil qiling.</string>
     <string name="error_dialog_account_might_not_be_authorized">Nextcloud ilovangiz hisobiga endi ruxsat berilmasligi mumkin.</string>
     <string name="error_dialog_user_not_found_in_database">Joriy foydalanuvchi bizning ma\'lumotlar bazamizdagi foydalanuvchiga mos kelmaydi. Agar siz Nextcloud misolingizda LDAP dan foydalanayotgan bo‘lsangiz, Nextcloud ilovangiz eski foydalanuvchi identifikatorini saqlagan bo‘lishi mumkin.</string>
@@ -328,4 +327,5 @@
     <string name="enter_search_term_description">Ushbu panelda kartalarni topish uchun qidiruv so\'zini kiriting</string>
     <string name="no_search_results_title">Qidiruv natijalari yo‘q</string>
     <string name="no_search_results_description">Berilgan qidiruv soʻzi boʻyicha hech qanday natija topilmadi</string>
-</resources>
+    <string name="label_color">Rang</string>
+    </resources>

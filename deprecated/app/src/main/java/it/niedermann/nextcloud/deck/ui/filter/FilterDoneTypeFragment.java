@@ -35,8 +35,8 @@ public class FilterDoneTypeFragment extends Fragment implements SelectionListene
     }
 
     @Override
-    public void onDestroy() {
-        super.onDestroy();
+    public void onDestroyView() {
+        super.onDestroyView();
         this.binding = null;
     }
 

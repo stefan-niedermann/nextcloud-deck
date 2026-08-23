@@ -72,7 +72,7 @@ public class StackDataProvider extends AbstractSyncDataProvider<FullStack> {
             }
             syncHelper.doSyncFor(new CardDataProvider(this, board.getBoard(), existingEntity));
         } else {
-            childDone(this, callback, true);
+            childDone(syncHelper, this, callback, true);
         }
     }
 

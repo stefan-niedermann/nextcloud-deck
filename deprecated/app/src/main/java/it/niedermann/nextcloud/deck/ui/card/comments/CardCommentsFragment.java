@@ -41,6 +41,7 @@ import it.niedermann.nextcloud.deck.ui.exception.ExceptionDialogFragment;
 import it.niedermann.nextcloud.deck.ui.theme.ThemeUtils;
 import it.niedermann.nextcloud.deck.ui.theme.Themed;
 import it.niedermann.nextcloud.deck.ui.viewmodel.SyncViewModel;
+import it.niedermann.nextcloud.deck.util.CallbackUtil;
 import it.niedermann.nextcloud.deck.util.KeyboardUtils;
 import okhttp3.Headers;
 
@@ -99,8 +100,8 @@ public class CardCommentsFragment extends Fragment implements Themed, CommentEdi
         Glide.with(binding.avatar.getContext())
                 .load(editCardViewModel.getAccount().getAvatarUrl(binding.avatar.getResources().getDimensionPixelSize(R.dimen.icon_size_details)))
                 .apply(RequestOptions.circleCropTransform())
-                .placeholder(R.drawable.ic_person_24dp)
-                .error(R.drawable.ic_person_24dp)
+                .placeholder(R.drawable.ic_outline_person_24)
+                .error(R.drawable.ic_outline_person_24)
                 .into(binding.avatar);
 
         commentsViewModel.getReplyToComment().observe(getViewLifecycleOwner(), (comment) -> {
@@ -162,9 +163,10 @@ public class CardCommentsFragment extends Fragment implements Themed, CommentEdi
     }
 
     @Override
-    public void onDestroy() {
-        super.onDestroy();
+    public void onDestroyView() {
+        super.onDestroyView();
         this.binding = null;
+        this.adapter = null;
     }
 
     @Override
@@ -184,7 +186,7 @@ public class CardCommentsFragment extends Fragment implements Themed, CommentEdi
             public void onError(Throwable throwable) {
                 if (SyncRepository.isNoOnVoidError(throwable)) {
                     IResponseCallback.super.onError(throwable);
-                    requireActivity().runOnUiThread(() -> ExceptionDialogFragment.newInstance(throwable, editCardViewModel.getAccount()).show(getChildFragmentManager(), ExceptionDialogFragment.class.getSimpleName()));
+                    CallbackUtil.runOnUiThread(CardCommentsFragment.this, () -> ExceptionDialogFragment.newInstance(throwable, editCardViewModel.getAccount()).show(getChildFragmentManager(), ExceptionDialogFragment.class.getSimpleName()));
                 }
             }
         });

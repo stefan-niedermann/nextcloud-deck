@@ -31,7 +31,7 @@
         android:layout_gravity="center|end"
         android:background="?attr/selectableItemBackgroundBorderless"
         android:padding="@dimen/spacer_1x"
-        app:srcCompat="@drawable/ic_edit_24dp" />
+        app:srcCompat="@drawable/ic_outline_edit_24" />
 
     <androidx.appcompat.widget.AppCompatImageButton
         android:id="@+id/delete"

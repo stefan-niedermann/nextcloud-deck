@@ -66,6 +66,8 @@
     <string name="hint_assign_people">Assegna utenti</string>
     <string name="hint_due_date_date">Data di scadenza</string>
     <string name="hint_due_date_time">Ora</string>
+    <string name="hint_start_date_date">Data iniziale</string>
+    <string name="hint_start_date_time">Ora</string>
 
     <string name="card_not_found">Scheda non trovata</string>
     <string name="card_not_found_message">Impossibile trovare la scheda. Forse è stata eliminata di recente.</string>
@@ -209,7 +211,6 @@
 
     <string name="error_dialog_title">Oh no - E adesso? 🙁</string>
     <string name="error_dialog_tip_token_mismatch_retry">Prova a forzare la chiusura dell\'applicazione e riavviarla nuovamente. Potrebbe essersi verificato un problema di connessione all\'applicazione Nextcloud. </string>
-    <string name="error_dialog_tip_clear_storage_might_help">Se il problema persiste, prova a cancellare l\'archiviazione di entrambe le applicazioni Nextcloud e Nextcloud Deck per risolvere il problema.</string>
     <string name="error_dialog_tip_database_upgrade_failed">L\'aggiornamento del database non è riuscito. Segnala il problema e cancella l\'archiviazione per utilizzare l\'applicazione normalmente.</string>
     <string name="error_dialog_tip_clear_storage">Puoi a cancellare l\'archiviazione aprendo le informazioni dell\'applicazione e selezionando Archiviazione → Cancella archiviazione.</string>
     <string name="error_dialog_tip_offline_no_internet">Sembra che tu abbia provato a eseguire una sincronizzazione senza connessione internet.</string>
@@ -226,7 +227,6 @@
     <string name="error_dialog_check_maintenance">Controlla che la tua istanza di Nextcloud non sia attualmente in manutenzione.</string>
     <string name="error_dialog_insufficient_storage">La tua istanza di Nextcloud non ha più spazio libero. Elimina alcuni file per sincronizzare le modifiche locali con il tuo cloud.</string>
     <string name="error_dialog_we_need_info">Ci servono le seguenti informazioni tecniche per aiutarti:</string>
-    <string name="error_dialog_redirect">Il tuo server ha risposto con un codice di stato HTTP 302, che implica che non hai installato l\'applicazione Deck sul tuo server o qualcosa non è configurato correttamente. Questo può essere causato da configurazioni personalizzate nel file .htaccess o da applicazioni di Nextcloud come OID Client.</string>
     <string name="error_dialog_version_not_parsable">Impossibile determinare la versione dell\'applicazione Deck lato server. Assicurati che sia installata e abilitata.</string>
     <string name="error_dialog_account_might_not_be_authorized">L\'account della tua applicazione Nextcloud potrebbe non essere più autorizzato.</string>
     <string name="error_dialog_user_not_found_in_database">L\'utente attuale non corrisponde all\'utente presente nel nostro database. Se stai usando LDAP sulla tua istanza di Nextcloud, la tua applicazione potrebbe aver memorizzato un vecchio identificativo utente.</string>
@@ -336,4 +336,6 @@
     <string name="enter_search_term_description">Inserisci il termine di ricerca per trovare schede in questa lavagna</string>
     <string name="no_search_results_title">Nessun risultato di ricerca</string>
     <string name="no_search_results_description">Non abbiamo trovato alcun risultato per il termine di ricerca scelto</string>
+    <string name="label_color">Colore</string>
+    <string name="choose_color">Scegli il colore</string>
 </resources>

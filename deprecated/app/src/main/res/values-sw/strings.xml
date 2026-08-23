@@ -66,6 +66,8 @@
     <string name="hint_assign_people">Wape kazi watumiaji</string>
     <string name="hint_due_date_date">Tarehe ya ukomo</string>
     <string name="hint_due_date_time">Muda</string>
+    <string name="hint_start_date_date">Tarehe ya kuanza</string>
+    <string name="hint_start_date_time">Muda</string>
 
     <string name="card_not_found">Kadi haipatikani</string>
     <string name="card_not_found_message">Kadi haikuweza kupatikana. Labda imefutwa hivi karibuni.</string>
@@ -85,8 +87,10 @@
     <string name="add_board">Ongeza bodi</string>
 
     <string name="label_clear_due_date">Futa tarehe ya mwisho</string>
+    <string name="label_clear_start_date">Futa tarehe ya kuanza</string>
     <string name="label_clear_done">Haijatendeka</string>
     <string name="label_due_at">Inayopasa katika: %1$s</string>
+    <string name="label_start_at">Anza katika: %1$s</string>
     <string name="label_add">Ongeza %1$s</string>
 
     <string name="card_edit_details">Maelezo ya kina</string>
@@ -207,7 +211,6 @@
 
     <string name="error_dialog_title">Oh hapana- nini sasa?</string>
     <string name="error_dialog_tip_token_mismatch_retry">Tafadhali jaribu kulazimisha kufunga programu na uiwashe upya. Huenda kulikuwa na muunganisho usio sahihi kwa programu ya Nextcloud.</string>
-    <string name="error_dialog_tip_clear_storage_might_help">Tatizo likiendelea, jaribu kufuta hifadhi ya programu zote mbili: Nextcloud na Nextcloud Deck ili kutatua suala hili.</string>
     <string name="error_dialog_tip_database_upgrade_failed">Uboreshaji wa hifadhidata umeshindikana. Tafadhali ripoti tatizo na ufute hifadhi ili utumie programu kama kawaida.</string>
     <string name="error_dialog_tip_clear_storage">Unaweza kufuta hifadhi kwa kufungua maelezo ya programu na kuchagua Hifadhi → Futa hifadhi.</string>
     <string name="error_dialog_tip_offline_no_internet">Inaonekana ulijaribu kuanzisha ulandanishi bila muunganisho wa intaneti.</string>
@@ -224,7 +227,6 @@
     <string name="error_dialog_check_maintenance">Tafadhali angalia ikiwa mfano wako wa Nextcloud hauko katika hali ya matengenezo kwa sasa.</string>
     <string name="error_dialog_insufficient_storage">Mfano wako wa Nextcloud hauna hifadhi isiyolipishwa iliyosalia. Tafadhali futa baadhi ya faili ili kusawazisha mabadiliko yako ya ndani kwenye wingu lako.</string>
     <string name="error_dialog_we_need_info">Tunahitaji maelezo yafuatayo ya kiufundi ili kukusaidia:</string>
-    <string name="error_dialog_redirect">Seva yako ilijibu kwa msimbo wa hali ya HTTP 302, ambayo inamaanisha, kuwa hujasakinisha programu ya Deck kwenye seva yako au kitu kimebadilishwa vibaya. Hii inaweza kusababishwa na ubatilishaji maalum katika faili ya .htaccess au programu za Nextcloud kama vile OID Client.</string>
     <string name="error_dialog_version_not_parsable">Hatukuweza kubainisha toleo la programu ya Deck ya upande wa seva. Tafadhali hakikisha kuwa imesakinishwa na kuwezeshwa.</string>
     <string name="error_dialog_account_might_not_be_authorized">Huenda akaunti ya programu yako ya Nextcloud isiidhinishwe tena.</string>
     <string name="error_dialog_user_not_found_in_database">Mtumiaji wa sasa halingani na mtumiaji tuliye naye kwenye hifadhidata yetu. Ikiwa unatumia LDAP kwenye mfano wako wa Nextcloud, programu yako ya Nextcloud inaweza kuwa imehifadhi kitambulisho cha zamani cha mtumiaji.</string>
@@ -332,4 +334,8 @@
     <string name="enter_search_term_description">Weka neno la utafutaji ili kupata kadi katika ubao huu</string>
     <string name="no_search_results_title">Hakuna matokeo ya utafutaji</string>
     <string name="no_search_results_description">Hatujapata matokeo yoyote ya neno hili la utafutaji</string>
+    <string name="label_no_startdate">Hakuna tarehe ya kuanza</string>
+    <string name="label_dependent_cards">Kadi tegemezi</string>
+    <string name="label_color">Rangi</string>
+    <string name="choose_color">Chagua rangi</string>
 </resources>

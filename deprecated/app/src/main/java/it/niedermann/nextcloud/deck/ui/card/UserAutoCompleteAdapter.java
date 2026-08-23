@@ -83,8 +83,8 @@ public class UserAutoCompleteAdapter extends AutoCompleteAdapter<User> {
         Glide.with(binding.icon.getContext())
                 .load(account.getAvatarUrl(binding.icon.getResources().getDimensionPixelSize(R.dimen.avatar_size), getItem(position).getUid()))
                 .apply(RequestOptions.circleCropTransform())
-                .placeholder(R.drawable.ic_person_24dp)
-                .error(R.drawable.ic_person_24dp)
+                .placeholder(R.drawable.ic_outline_person_24)
+                .error(R.drawable.ic_outline_person_24)
                 .into(binding.icon);
         binding.label.setText(getItem(position).getDisplayname());
 

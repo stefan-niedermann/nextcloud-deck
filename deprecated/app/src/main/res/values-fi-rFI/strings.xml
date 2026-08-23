@@ -64,6 +64,8 @@
     <string name="hint_assign_people">Määritä käyttäjät</string>
     <string name="hint_due_date_date">Eräpäivä</string>
     <string name="hint_due_date_time">Aika</string>
+    <string name="hint_start_date_date">Aloituspäivä</string>
+    <string name="hint_start_date_time">Aika</string>
 
     <string name="card_not_found">Korttia ei löydy</string>
     <string name="card_not_found_message">Korttia ei löytynyt. Se voi olla äskettäin poistettu.</string>
@@ -196,7 +198,6 @@
 
     <string name="error_dialog_title">Voi ei - Mitä nyt? 🙁</string>
     <string name="error_dialog_tip_token_mismatch_retry">Yritä pakottaa sovelluksen sulkeminen ja käynnistä se uudelleen. Nextcloud-sovellukseen on saattanut olla virheellinen yhteys.</string>
-    <string name="error_dialog_tip_clear_storage_might_help">Jos ongelma jatkuu, tyhjennä Nextcloudin ja Nextcloud Deckin tallennustila laitteesta ratkaistaaksesi ongelman.</string>
     <string name="error_dialog_tip_database_upgrade_failed">Tietokannan päivittäminen epäonnistui. Ole hyvä ja raportoi ongelmasta ja tyhjennä tallennustila käyttääksesi sovellusta normaalisti.</string>
     <string name="error_dialog_tip_clear_storage">Voit tyhjentää tallennustilan avaamalla sovelluksen tiedot ja valitsemalla Tallennustila → Tyhjennä tallennustila.</string>
     <string name="error_dialog_tip_offline_no_internet">Näyttää siltä, että yritit käynnistää synkronoinnin ilman internet-yhteyttä.</string>
@@ -211,7 +212,6 @@
     <string name="error_dialog_check_maintenance">Varmista, ettei Nextcloud-palvelin ole ylläpitotilassa.</string>
     <string name="error_dialog_insufficient_storage">Nextcloud-palvelimellasi ei ole vapaata tallennustilaa. Poista tiedostoja, jotta paikallisten muutosten synkronointi pilveen onnistuu.</string>
     <string name="error_dialog_we_need_info">Tarvitsemme seuraavat tekniset tiedot auttaaksemme sinua:</string>
-    <string name="error_dialog_redirect">Palvelimesi vastasi HTTP-tilakoodilla 302, joka viittaa siihen, että Deckiä ei ole asennettu tai se on määritelty virheellisesti. Syynä saattaa olla muokattu .htaccess-tiedosto tai jokin Nextcloud-sovellus, kuten OID Client.</string>
     <string name="error_dialog_version_not_parsable">Palvelimen Deck-sovelluksen versiota ei voitu määrittää. Varmista, että se on asennettu ja otettu käyttöön.</string>
     <string name="error_dialog_account_might_not_be_authorized">Tilisi valtuutus Nextcloud-sovellukseen saattaa olla päättynyt.</string>
     <string name="error_dialog_user_not_found_in_database">Käyttäjää ei löydy tietokannastamme. Jos  LDAP on käytössä Nextcloudissa, Nextcloud-sovellksessa saattaa olla tallennettuna vanha käyttäjän tunnus.</string>
@@ -299,4 +299,6 @@
     <string name="progress_import_indeterminate">Tuodaan tauluja…</string>
     <string name="show_error">Näytä virhe</string>
     <string name="no_search_results_title">Ei hakutuloksia</string>
-    </resources>
+    <string name="label_color">Väri</string>
+    <string name="choose_color">Valitse väri</string>
+</resources>

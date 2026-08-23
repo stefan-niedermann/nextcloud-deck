@@ -66,6 +66,7 @@
     <string name="hint_assign_people">Desemnează utilizatori</string>
     <string name="hint_due_date_date">Data limită </string>
     <string name="hint_due_date_time">Timp</string>
+    <string name="hint_start_date_time">Interval orar</string>
 
     <string name="card_not_found">Card negăsit </string>
     <string name="card_not_found_message">Cardul nu a putut fi găsit. Poate a fost șters recent. </string>
@@ -205,7 +206,6 @@
 
     <string name="error_dialog_title">Ooo nu - Acum ce? 🙁</string>
     <string name="error_dialog_tip_token_mismatch_retry">Vă rugăm să încercați să închideți forțat aplicația și să o reporniți din nou. Este posibil să fi existat o conexiune incorectă cu aplicația Nextcloud.</string>
-    <string name="error_dialog_tip_clear_storage_might_help">Dacă problema persistă, încercați să ștergeți stocarea ambelor aplicații: Nextcloud și Nextcloud Deck pentru a rezolva această problemă.</string>
     <string name="error_dialog_tip_database_upgrade_failed">Actualizarea bazei de date a eșuat. Vă rugăm să raportați problema și să goliți spațiul de stocare pentru a utiliza aplicația în mod normal.</string>
     <string name="error_dialog_tip_clear_storage">Puteți șterge spațiul de stocare deschizând informațiile despre aplicație și selectând Stocare → Ștergeți spațiul de stocare.</string>
     <string name="error_dialog_tip_offline_no_internet">Se pare ca ai incercat sa pornesti o sincronizare fara o conexiune la internet.</string>
@@ -220,7 +220,6 @@
     <string name="error_dialog_check_maintenance">Vă rugăm să verificați dacă instanța dvs. Nextcloud nu este în prezent în modul de mentenanță.</string>
     <string name="error_dialog_insufficient_storage">Instanța dvs. Nextcloud nu mai are spațiu de stocare disponibil. Ștergeți câteva fișiere pentru a vă sincroniza modificările locale în cloud.</string>
     <string name="error_dialog_we_need_info">Avem nevoie de următoarele informații tehnice pentru a vă ajuta:</string>
-    <string name="error_dialog_redirect">Serverul dvs. a răspuns cu un cod de stare HTTP 302, ceea ce implică faptul că nu ați instalat aplicația Deck pe serverul dvs. sau ceva este configurat greșit. Acest lucru poate fi cauzat de suprascrieri personalizate într-un fișier .htaccess sau de aplicațiile Nextcloud, cum ar fi clientul OID.</string>
     <string name="error_dialog_version_not_parsable">Nu am putut determina versiunea aplicației Deck de pe server. Vă rugăm să vă asigurați că este instalat și activat.</string>
     <string name="error_dialog_account_might_not_be_authorized">Este posibil ca contul aplicației dvs. Nextcloud să nu mai fie autorizat.</string>
     <string name="error_dialog_user_not_found_in_database">Utilizatorul actual nu se potrivește cu cel pe care îl avem în baza noastră de date. Dacă utilizați LDAP în instanța dvs. Nextcloud, este posibil ca aplicația dvs. Nextcloud să fi stocat un vechi ID de utilizator.</string>
@@ -325,4 +324,5 @@
     <string name="enter_search_term_title">Introdu termenul de căutare</string>
     <string name="no_search_results_title">Căutarea nu are rezultate</string>
     <string name="no_search_results_description">Nu am găsit nici un rezultat pentru termenul de căutare introdus</string>
-</resources>
+    <string name="label_color">Culoare</string>
+    </resources>

@@ -8,10 +8,10 @@
     <string name="simple_more">Rohkem</string>
     <string name="simple_title">Pealkiri</string>
     <string name="simple_copy">Kopeeri</string>
-    <string name="simple_synchronization">Sünkroniseerimine</string>
+    <string name="simple_synchronization">Sünkroonimine</string>
     <string name="simple_appearance">Välimus</string>
     <string name="simple_error">Viga</string>
-    <string name="simple_exception">Erand</string>
+    <string name="simple_exception">Viga</string>
     <string name="simple_close">Sulge</string>
     <string name="simple_filter">Filter</string>
     <string name="simple_reset">Lähtesta</string>
@@ -20,7 +20,7 @@
     <string name="simple_delete">Kustuta</string>
     <string name="simple_rename">Muuda nime</string>
     <string name="simple_settings">Seadistused</string>
-    <string name="simple_undo">Tühista</string>
+    <string name="simple_undo">Võta tegevus tagasi</string>
     <string name="simple_manage">halda</string>
     <string name="simple_share">jaga</string>
     <string name="simple_select">Vali</string>
@@ -35,7 +35,7 @@
     <string name="delete_board">Kustuta tahvel</string>
     <string name="delete_something">Kustuta %1$s</string>
 
-    <string name="about">Info</string>
+    <string name="about">Teave</string>
     <string name="about_version_title">Versioon</string>
     <string name="about_version">Sul on hetkel kasutusel: %1$s</string>
     <string name="about_maintainer_title">Haldaja</string>
@@ -66,6 +66,8 @@
     <string name="hint_assign_people">Määra kasutajaid</string>
     <string name="hint_due_date_date">Tähtaeg</string>
     <string name="hint_due_date_time">Aeg</string>
+    <string name="hint_start_date_date">Alguskuupäev</string>
+    <string name="hint_start_date_time">Aeg</string>
 
     <string name="card_not_found">Kaarti ei leidu</string>
     <string name="card_not_found_message">Kaarti ei õnnestu leida. Kas ta võib olla hiljuti kustutatud?</string>
@@ -85,8 +87,10 @@
     <string name="add_board">Lisa tahvel</string>
 
     <string name="label_clear_due_date">Eemalda tähtaeg</string>
+    <string name="label_clear_start_date">Eemalda alguskuupäev</string>
     <string name="label_clear_done">Pole valmis</string>
     <string name="label_due_at">Tähtaeg: %1$s</string>
+    <string name="label_start_at">Algus: %1$s</string>
     <string name="label_add">Lisa %1$s</string>
 
     <string name="card_edit_details">Üksikasjad</string>
@@ -113,7 +117,7 @@
     </plurals>
     <string name="add_a_new_list_using_the_button">+ nupuga saad lisada uue loendi</string>
     <string name="add_a_new_card_using_the_button">+ nupuga saad lisada uue kaardi</string>
-    <string name="deck_outdated_please_update">Serveris töötav kanbani rakenduse versioon (Nextcloud Deck %1$s) on liiga vana. Kasutamaks seda Androidi rakendust  kliendina peab serveri tarkvara olema uuendtud.</string>
+    <string name="deck_outdated_please_update">Serveris töötav kanbani rakenduse versioon (Nextcloud Deck %1$s) on liiga vana. Kasutamaks seda Androidi rakendust  kliendina peab serveri tarkvara olema uuendatud.</string>
     <string name="delete_board_message">Sellega kustutad antud tahvli koos kõikide tema loendite ja kaartidega.</string>
     <string name="settings_theme_title">Kujundus</string>
     <string name="settings_compact_title">Kompaktne vaade</string>
@@ -198,7 +202,7 @@
     <string name="archived_boards">Arhiveeritud tahvlid</string>
 
     <string name="error">Tekkis viga</string>
-    <string name="synchronization_failed">Sünkroniseerimine ei õnnestunud</string>
+    <string name="synchronization_failed">Sünkroonimine ei õnnestunud</string>
     <string name="operation_not_yet_supported">Pole veel toetatud</string>
     <string name="error_revoking_ac">%1$s kasutaja ligipääsu eemaldamisel tekkis viga</string>
     <string name="error_create_label">%1$s sildi loomisel tekkis viga</string>
@@ -206,15 +210,16 @@
     <string name="error_edit_activity_killed_by_android">Kuna muud rakendused vajasid süsteemi ressursse, siis Android sulges muutmisvaate.</string>
 
     <string name="error_dialog_title">Appikene, mis nüüd saab? 🙁</string>
+    <string name="error_dialog_tip_parsing_failed">Sinu serverist saadud vastuse töötlemine eeldatud kujul polnud võimalik. Palun kontrolli, et sinu Nextcloudi serverisse on paigaldatud Kanbani serverirakendus.</string>
     <string name="error_dialog_tip_token_mismatch_retry">Palun  proovi sundkorras rakendus kinni panna ja siis uuesti käivitada. Tegemist võis olla ühenduse veaga Nextcloudi serveri ja rakenduse vahel.</string>
-    <string name="error_dialog_tip_clear_storage_might_help">Kui probleem jätkub, siis proovi selle lahendamiseks tühjendada mõlema rakenduse andmeruumid: Nextcloud ja Nextcloudi Deck.</string>
+    <string name="error_dialog_tip_clear_storage_might_help">Kui probleem jätkub, siis proovi selle lahendamiseks tühjendada mõlema rakenduse andmeruumid: Nextcloud ja Nextcloudi Deck. Seejärel lisa om konto uuesti.</string>
     <string name="error_dialog_tip_database_upgrade_failed">Ei õnnestunud uuendada andmebaasi. Palun teata sellest veast arendajatele ning rakenduse tavapäraseks kasutamiseks kustuta andmeruum.</string>
     <string name="error_dialog_tip_clear_storage">Andmeruumi saad tühjendada, kui avad rakenduse teabe ning valid „Andmeruum“ → „Tühjenda andmeruum“.</string>
-    <string name="error_dialog_tip_offline_no_internet">Tundub, et sa proovisid käivitada sünkroniseerimist nii, et nutiseadmes polnud toimivat internetiühendust.</string>
+    <string name="error_dialog_tip_offline_no_internet">Tundub, et sa proovisid käivitada sünkroonimist nii, et nutiseadmes polnud toimivat internetiühendust.</string>
     <string name="error_dialog_tip_offline_connection_refused">Server keeldus ühenduse loomisest. Palun kontrolli, kas sa saad oma serverit kasutada veebibrauserist.</string>
     <string name="error_dialog_tip_offline_connection_timeout">Ühenduse loomine aegus, palun kontrolli, kas nutiseadmes on toimiv internetiühendus. See viga võib ka tekkida olukorras, kus server on koormuse all või hõivatud.</string>
     <string name="error_dialog_tip_connection_rejected">Server keeldus päringule vastamast. Palun kontrolli, kas seal on kasutusel mõni liigsete päringute tõkestamise lahendus. Olukord võib tekkida nii Nextcloudi serveris, kui siis, kui kasutusel on Cloudflare\'i teenused.</string>
-    <string name="error_dialog_tip_sync_only_on_wifi">Kui sa oled eelistuseks valinud „Sünkroniseeri vaid WiFi võrgus“, siis sünkroniseerimine toimib vaid WiFi ühenduse olemasolul.</string>
+    <string name="error_dialog_tip_sync_only_on_wifi">Kui sa oled eelistuseks valinud „Sünkrooni vaid WiFi võrgus“, siis sünkroonimine toimib vaid WiFi ühenduse olemasolul.</string>
     <string name="error_dialog_tip_files_force_stop">Midagi on valesti sinu Nextcloudi rakendusega. Proovi jõuga peatada nii Nextcloudi kliendi kui Nextcloudi Kanbani rakenduse töö.</string>
     <string name="error_dialog_tip_files_delete_storage">Kui rakenduste jõuga peatamine ei eita, siis proovi tühjendada mõlema andmeruumid.</string>
     <string name="error_dialog_timeout_instance">Sinu server ei vastanud päringule etteantud aja jooksul. Palun kontrolli, et server toimib korralikult.</string>
@@ -222,23 +227,23 @@
     <string name="error_dialog_check_server">Serveri vastus päringule polnud korrektne. Palun kontrolli, kas sa saad Kanbani rakendust kasutada veebiliidesest.</string>
     <string name="error_dialog_check_server_logs">Sinu Nextcloud paigalduses on üks viga. Täpsem teave leidub serveri logides.</string>
     <string name="error_dialog_check_maintenance">Palun kontrolli, et Nextcloudi server ei oleks hetkel hooldusrežiimis!</string>
-    <string name="error_dialog_insufficient_storage">Sinu Nextcloudi serveris pole enam vaba andmeruumi. Selleks, et kohalike failide sünkroniseerimine pilve toimiks, palun kustuta serverist mittevajalikke faile.</string>
+    <string name="error_dialog_insufficient_storage">Sinu Nextcloudi serveris pole enam vaba andmeruumi. Selleks, et kohalike failide sünkroonimine pilve toimiks, palun kustuta serverist mittevajalikke faile.</string>
     <string name="error_dialog_we_need_info">Me vajame sinult järgnevat tehnilist teavet:</string>
-    <string name="error_dialog_redirect">Sinu server vastas päringule http-protokolli olekukukoodiga 302, mis tähendab, et kas serverisse on paigaldamata Kanbani rakendus või mõni seadistus on vigane. Samuti võib seda põhjustada .htaccess faili eraldi tehtud muudatused  või Nextcloudi rakendused nagu OID Klient.</string>
+    <string name="error_dialog_redirect">Sinu server vastas päringule http-protokolli olekukukoodiga 302, mis tähendab, et kas serverisse on paigaldamata Kanbani rakendus või mõni seadistus on vigane. Samuti võib seda põhjustada .htaccess faili eraldi tehtud muudatused või Nextcloudi rakendused nagu OID Klient.</string>
     <string name="error_dialog_version_not_parsable">Me ei suutnud serverpoolse Kanbani rakenduse versiooni tuvastada. Palun kontrolli, et ta oleks paigaldatud ja sisse lülitatud.</string>
     <string name="error_dialog_account_might_not_be_authorized">Sinu Nextcloudi rakenduse kasutajakonto autoriseerimine võib olla lõppenud.</string>
-    <string name="error_dialog_user_not_found_in_database">Praegune kasutajanimi ei vasta sellele mis meil on andmebaasis kirjas. Kui kasutad oma Nextcloudi serveris LDAP-i teenust, siis võib sinu Nextcloudi rakenduses veel kirjas olla vana kasutajatunnus.</string>
+    <string name="error_dialog_user_not_found_in_database">Praegune kasutajanimi ei vasta sellele, mis meil on andmebaasis kirjas. Kui kasutad oma Nextcloudi serveris LDAP-i teenust, siis võib sinu Nextcloudi rakenduses veel kirjas olla vana kasutajatunnus.</string>
     <string name="error_dialog_capabilities_not_parsable">Me ei suutnud laadida sinu serveri võimekuse teavet. Palun kontrolli, kas sinu server ikka toimib korralikult ja muud klientrakendused saavad ligi Nextcloudi teenustele.</string>
     <string name="error_dialog_attachment_upload_failed">Manust polnud võimalik üles laadida. Palun proovi seda jagada muul viisil ja anna arendajatele sellest veast teada.</string>
     <string name="error_dialog_certificate">Midagi on serveri sertifikaadi puhul valesti. Lisateavet leiad, kui kontrollid Nextcloudi rakenduse kõikide kasutajakontode olekuid.</string>
     <string name="error_dialog_tip_disable_battery_optimizations">Palun keela Nextcloudi kliendi ja selle rakenduste jaoks akukasutuse optimeerimine.</string>
-    <string name="error_dialog_unknown_error">Sinu Nextcloudi server ei tundu olema kättesaadav. Please check your internet connection and whether you are able to connect to your instance via browser.</string>
+    <string name="error_dialog_unknown_error">Sinu Nextcloudi server ei tundu olema kättesaadav. Palun kontrolli, kas sinu nutiseadme internetiühendus on korras ja kas sa saad oma serverit kasutada veebibrauserist.</string>
     <string name="error_dialog_min_version">Deck ehk kanbani rakendus Androidile eeldab, et Nextcloudi Androidi rakenduse versioon on vähemalt 3.18.</string>
     <string name="error_action_open_deck_info">Näita rakenduse teavet</string>
     <string name="error_action_open_nextcloud_app">Ava Nextcloudi rakendus</string>
     <string name="error_action_open_network">Võrgu seadistused</string>
     <string name="error_action_server_logs">Serveri logid</string>
-    <string name="error_action_open_in_browser">Ava veebilehitsejas</string>
+    <string name="error_action_open_in_browser">Ava veebibrauseris</string>
     <string name="error_action_install">Paigalda</string>
     <string name="error_action_report_issue">Teata</string>
     <string name="error_action_update_files_app">Uuenda</string>
@@ -266,7 +271,7 @@
     <string name="move_warning">Kaardi tõstmisel teisele tahvlile ei lähe kaasa ei kommentaarid ega manused.</string>
     <string name="clone_board">Tee tahvlist koopia</string>
     <string name="cloning_board">Teen koopiat tahvlist %1$s…</string>
-    <string name="successfully_cloned_board">%1$s tahvlist koopia tegemine õnnestud</string>
+    <string name="successfully_cloned_board">%1$s tahvlist koopia tegemine õnnestus</string>
     <string name="attachment_does_not_yet_exist">Manust pole veel kanbani rakenduses olemas</string>
     <string name="card_does_not_yet_exist">Kaarti pole veel kanbani rakenduses olemas</string>
 
@@ -284,7 +289,7 @@
     <string name="no_assigned_label">Määratud silti pole</string>
     <string name="single_card">Üksik kaart</string>
     <string name="project_type_room">Jututuba</string>
-    <string name="simple_move">Liiguta</string>
+    <string name="simple_move">Tõsta ümber</string>
     <string name="cannot_upload_files_without_permission">Ilma õigusteta ei saa faile üles laadida</string>
     <string name="insufficient_permission">Pole piisavalt õigusi</string>
     <string name="no_matching_app_installed">Vastavat rakendust pole paigaldatud</string>
@@ -313,7 +318,7 @@
     <string name="edit_description">Muuda kirjeldust</string>
     <string name="widget_upcoming_title">Tulevased kaardid</string>
     <!-- Category header for a section in the settings which contain features for advanced users -->
-    <string name="simple_expert_settings">Eksperdi seadistused</string>
+    <string name="simple_expert_settings">Seadistused asjatundjatele</string>
     <string name="copy_logs">Kopeeri logid lõikelauale</string>
     <string name="app_logo">Rakenduse logo</string>
     <string name="log_file">Logifail</string>
@@ -325,11 +330,16 @@
     <string name="saving_new_card">Salvestan uut kaarti…</string>
     <string name="progress_import">Tahvlid on importimisel: %1$d/%2$d…</string>
     <string name="progress_import_indeterminate">Impordin tahvleid...</string>
-    <string name="card_outdated">Selle kaardis isu võib olla aegunud.</string>
+    <string name="card_outdated">Selle kaardi sisu võib olla aegunud.</string>
     <string name="show_error">Näita viga</string>
     <string name="push_notification_link_empty">Kanbani veebirakenduses tekkinud tundmatu vea tõttu me ei saa selle kaardi andmeid kuvada. Lisateavet leiad siit: %1$s</string>
     <string name="enter_search_term_title">Sisesta otsingusõna</string>
     <string name="enter_search_term_description">Selle tahvli kaartide otsimiseks sisesta soovitud otsingusõna</string>
     <string name="no_search_results_title">Otsingul pole tulemusi</string>
     <string name="no_search_results_description">Selle otsingusõnaga ei õnnestu leida mitte midagi</string>
+    <string name="label_no_startdate">Alguskuupäeva pole</string>
+    <string name="label_dependent_cards">Sõltuvad kaardid</string>
+    <string name="label_color">Värv</string>
+    <string name="label_clear_color">Eemalda värv</string>
+    <string name="choose_color">Vali värv</string>
 </resources>

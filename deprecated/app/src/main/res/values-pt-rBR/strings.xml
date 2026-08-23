@@ -66,6 +66,8 @@
     <string name="hint_assign_people">Atribuir usuários</string>
     <string name="hint_due_date_date">Data de vencimento</string>
     <string name="hint_due_date_time">Horário</string>
+    <string name="hint_start_date_date">Data de início</string>
+    <string name="hint_start_date_time">Hora</string>
 
     <string name="card_not_found">Cartão não encontrado</string>
     <string name="card_not_found_message">O cartão não foi encontrado. Talvez tenha sido recentemente excluído.</string>
@@ -85,8 +87,10 @@
     <string name="add_board">Adicionar painel</string>
 
     <string name="label_clear_due_date">Remover data de vencimento</string>
+    <string name="label_clear_start_date">Limpar data de início</string>
     <string name="label_clear_done">Não concluído</string>
     <string name="label_due_at">Vencimento em: %1$s</string>
+    <string name="label_start_at">Início em: %1$s</string>
     <string name="label_add">Adicionar %1$s</string>
 
     <string name="card_edit_details">Detalhes</string>
@@ -142,7 +146,7 @@
     <string name="you_have_to_be_connected_to_the_internet_in_order_to_add_an_account">Você precisa estar conectado à Internet para adicionar uma conta.</string>
     <string name="owner">Proprietário</string>
     <string name="attachment_delete_message">Isso excluirá permanentemente este anexo.</string>
-    <string name="no_content">Sem contexto ainda</string>
+    <string name="no_content">Sem conteúdo ainda</string>
     <string name="last_background_sync">Última sincronização em segundo plano:</string>
     <string name="simple_off">Desligar</string>
     <string name="minutes_15">15 minutos</string>
@@ -208,8 +212,9 @@
     <string name="error_edit_activity_killed_by_android">O Android terminou o modo de edição porque precisava de mais recursos do sistema para outros aplicativos.</string>
 
     <string name="error_dialog_title">Oh não - E agora? 🙁</string>
+    <string name="error_dialog_tip_parsing_failed">Não foi possível analisar a resposta do seu servidor conforme o esperado. Verifique se o aplicativo Deck está habilitado no seu servidor Nextcloud.</string>
     <string name="error_dialog_tip_token_mismatch_retry">Tente forçar o fechamento do aplicativo e reinicie-o novamente. Pode ter havido uma conexão incorreta com o aplicativo Nextcloud.</string>
-    <string name="error_dialog_tip_clear_storage_might_help">Se o problema persistir, tente limpar o armazenamento dos dois aplicativos: Nextcloud e Nextcloud Deck para resolver esse problema.</string>
+    <string name="error_dialog_tip_clear_storage_might_help">Se o problema persistir, tente limpar o armazenamento dos dois aplicativos: Nextcloud e Nextcloud Deck, e reimporte sua conta.</string>
     <string name="error_dialog_tip_database_upgrade_failed">A atualização do banco de dados falhou. Relate o problema e limpe o armazenamento para usar o aplicativo normalmente.</string>
     <string name="error_dialog_tip_clear_storage">Você pode limpar o armazenamento abrindo as informações do aplicativo e selecionando Armazenamento → Limpar Armazenamento</string>
     <string name="error_dialog_tip_offline_no_internet">Parece que você tentou iniciar uma sincronização sem uma conexão com a internet.</string>
@@ -226,7 +231,7 @@
     <string name="error_dialog_check_maintenance">Verifique se sua instância do Nextcloud não está no modo de manutenção.</string>
     <string name="error_dialog_insufficient_storage">Sua instância do Nextcloud não possui mais espaço livre. Exclua alguns arquivos para sincronizar suas alterações locais com a nuvem.</string>
     <string name="error_dialog_we_need_info">Precisamos das seguintes informações técnicas para ajudar você:</string>
-    <string name="error_dialog_redirect">Seu servidor respondeu com um código de status HTTP 302, o que implica que você não instalou o aplicativo Deck no servidor ou que algo está configurado incorretamente. Isso pode ser causado por alterações no arquivo .htaccess ou por aplicativos Nextcloud como o Client OID.</string>
+    <string name="error_dialog_redirect">Seu servidor respondeu com um código de status HTTP 302, o que indica que você não tem o aplicativo Deck instalado no servidor ou que há alguma configuração incorreta. Isso pode ser causado por substituições personalizadas em um arquivo .htaccess ou por aplicativos do Nextcloud, como o OID Client.</string>
     <string name="error_dialog_version_not_parsable">Não conseguimos determinar a versão do servidor do aplicativo Deck. Confirme se ele está instalado e ativo.</string>
     <string name="error_dialog_account_might_not_be_authorized">A conta do seu aplicativo Nextcloud pode não estar mais autorizada.</string>
     <string name="error_dialog_user_not_found_in_database">O usuário atual não corresponde ao usuário que temos em nosso banco de dados. Se você estiver usando LDAP na sua instância do Nextcloud, seu aplicativo Nextcloud pode ter armazenado um ID do usuário antigo.</string>
@@ -336,4 +341,9 @@
     <string name="enter_search_term_description">Digite o termo de pesquisa para encontrar cartões neste painel</string>
     <string name="no_search_results_title">Nenhum resultado de pesquisa</string>
     <string name="no_search_results_description">Não encontramos nenhum resultado para o termo de pesquisa fornecido</string>
+    <string name="label_no_startdate">Sem data de início</string>
+    <string name="label_dependent_cards">Cartões dependentes</string>
+    <string name="label_color">Cor</string>
+    <string name="label_clear_color">Limpar cor</string>
+    <string name="choose_color">Escolher cor</string>
 </resources>

@@ -66,6 +66,8 @@
     <string name="hint_assign_people">Felhasználók hozzárendelése</string>
     <string name="hint_due_date_date">Határidő</string>
     <string name="hint_due_date_time">Idő</string>
+    <string name="hint_start_date_date">Kezdés ideje</string>
+    <string name="hint_start_date_time">Idő</string>
 
     <string name="card_not_found">A kártya nem található</string>
     <string name="card_not_found_message">A kártya nem található. Lehet, hogy nemrég törölték.</string>
@@ -207,7 +209,6 @@
 
     <string name="error_dialog_title">Jaj ne – Most mi legyen? 🙁</string>
     <string name="error_dialog_tip_token_mismatch_retry">Próbálja kényszeríteni az alkalmazás bezárását, és indítsa újra. Lehet, hogy hibás volt a kapcsolat a többi Nextcloud alkalmazással.</string>
-    <string name="error_dialog_tip_clear_storage_might_help">Ha a probléma továbbra is fennáll, próbálja kiüríteni mindkét alkalmazás tárolóját: a Nextcloudét és a Nextcloud Kártyákét.</string>
     <string name="error_dialog_tip_database_upgrade_failed">Az adatbázis frissítése sikertelen. Jelentse a problémát és az alkalmazás normális használatához törölje a tárolót.</string>
     <string name="error_dialog_tip_clear_storage">A tárolót az alkalmazásinformáció megnyitásával, és a Tárhely → Tárhely ürítése választásával törölheti.</string>
     <string name="error_dialog_tip_offline_no_internet">Úgy néz ki, hogy internetkapcsolat nélkül próbált meg szinkronizálást kezdeményezni.</string>
@@ -224,7 +225,6 @@
     <string name="error_dialog_check_maintenance">Ellenőrizze, hogy a Nextcloud példánya nincs-e karbantartási módban.</string>
     <string name="error_dialog_insufficient_storage">A Nextcloud példányán elfogyott a szabad hely. Töröljön pár fájlt, hogy szinkronizálhassa a helyi változtatásait a felhővel.</string>
     <string name="error_dialog_we_need_info">A következő műszaki információkra van szükségünk, hogy segíthessünk:</string>
-    <string name="error_dialog_redirect">A kiszolgálója 302-es HTTP állapotkóddal válaszolt, amely arra utal, hogy nincs telepítve a Kártyák alkalmazás a kiszolgálón, vagy valami hibásan van beállítva. Ezt egyéni felülírások is okozhatják, mint egy .htaccess-fájl vagy az OID klienshez hasonló Nextcloud alkalmazások.</string>
     <string name="error_dialog_version_not_parsable">Nem sikerült meghatározni a kiszolgálóoldali Kártyák alkalmazás verzióját. Győződjön meg róla, hogy telepítve és engedélyezve van.</string>
     <string name="error_dialog_account_might_not_be_authorized">A Nextcloud alkalmazáshoz tartozó fiókja lehet hogy már lehet, hogy nincs hitelesítve.</string>
     <string name="error_dialog_user_not_found_in_database">A jelenlegi felhasználó nem egyezik az adatbázisban tárolttal. Ha LDAP-ot használt a Nextcloud példányán, akkor lehet, hogy a Nextcloud alkalmazás még egy régebbi felhasználóazonosítót tárol.</string>
@@ -332,4 +332,6 @@
     <string name="enter_search_term_description">Adja meg a keresési kifejezést a táblán lévő kártyák kereséséhez</string>
     <string name="no_search_results_title">Nincs találat</string>
     <string name="no_search_results_description">Nincs találat a megadott keresési kifejezésre</string>
+    <string name="label_color">Szín</string>
+    <string name="choose_color">Válasszon színt</string>
 </resources>

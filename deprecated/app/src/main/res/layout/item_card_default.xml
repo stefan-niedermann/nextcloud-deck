@@ -92,7 +92,7 @@
                     android:drawablePadding="@dimen/spacer_1hx"
                     android:gravity="center_vertical"
                     android:padding="@dimen/spacer_1hx"
-                    app:drawableStartCompat="@drawable/ic_comment_24dp"
+                    app:drawableStartCompat="@drawable/ic_outline_comment_24"
                     tools:text="2" />
 
                 <com.google.android.material.textview.MaterialTextView
@@ -102,7 +102,7 @@
                     android:drawablePadding="@dimen/spacer_1qx"
                     android:gravity="center_vertical"
                     android:padding="@dimen/spacer_1hx"
-                    tools:drawableStartCompat="@drawable/ic_check_box_24"
+                    tools:drawableStartCompat="@drawable/ic_outline_check_box_24"
                     tools:text="1/2" />
 
                 <com.google.android.material.textview.MaterialTextView
@@ -111,7 +111,7 @@
                     android:layout_height="wrap_content"
                     android:gravity="center_vertical"
                     android:padding="@dimen/spacer_1hx"
-                    app:drawableStartCompat="@drawable/ic_attach_file_24dp"
+                    app:drawableStartCompat="@drawable/ic_outline_attach_file_24"
                     tools:text="3" />
             </LinearLayout>
 

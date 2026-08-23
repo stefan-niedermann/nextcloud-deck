@@ -66,6 +66,8 @@
     <string name="hint_assign_people">Tildel brugere</string>
     <string name="hint_due_date_date">Forfaldsdato</string>
     <string name="hint_due_date_time">Tid</string>
+    <string name="hint_start_date_date">Startdato</string>
+    <string name="hint_start_date_time">Tid</string>
 
     <string name="card_not_found">Kort ikke fundet</string>
     <string name="card_not_found_message">Kortet kunne ikke findes. Måske er det blevet slettet for nyligt?</string>
@@ -207,7 +209,6 @@
 
     <string name="error_dialog_title">Åh nej - hvad nu? 🙁</string>
     <string name="error_dialog_tip_token_mismatch_retry">Forsøg venligst at tvinge app\'en til at lukke og start den påny igen. Der kan have været en ukorrekt forbindelse til Nextcloud-app\'en.</string>
-    <string name="error_dialog_tip_clear_storage_might_help">Hvis problemet fortsætter, så prøv at rydde lagringen for begge apps: Nextcloud og Nextcloud Opslag, for at løse problemet.</string>
     <string name="error_dialog_tip_database_upgrade_failed">Opgraderingen af databasen mislykkedes. Rapporter venligst problemet og ryd lageret for at bruge appen normalt.</string>
     <string name="error_dialog_tip_clear_storage">Du kan rydde lageret ved at åbne appoplysningerne og vælge Lager → Ryd lager.</string>
     <string name="error_dialog_tip_offline_no_internet">Det ser ud til at du forsøgte at udløse en synkronisering uden en internetforbindelse.</string>
@@ -224,7 +225,6 @@
     <string name="error_dialog_check_maintenance">Sørg venligst for at din Nextcloud-instans ikke er i vedligeholdelsestilstand. </string>
     <string name="error_dialog_insufficient_storage">Din Nextcloud-instans har ikke mere ledig lagerplads. Slet venligst nogle filer for at synkronisere dine lokale ændringer ind i skyen.</string>
     <string name="error_dialog_we_need_info">Vi har brug for følgende tekniske information for at hjælpe dig:</string>
-    <string name="error_dialog_redirect">Din server svarede med en HTTP 302 statuskode, hvilket antyder, at du ikke har installeret Opslags app\'en, eller at noget er fejlkonfigureret. Dette kan være forårsaget af en brugerdefineret overskrivning i en .htaccess-fil eller af Nextcloud apps, såsom OID klient.</string>
     <string name="error_dialog_version_not_parsable">Vi kunne ikke bestemme versionen af server-side Opslags app\'en. Vær venligst sikker på at den er installeret og aktiveret.</string>
     <string name="error_dialog_account_might_not_be_authorized">Kontoen for din Nextcloud app er måske ikke længere autoriseret.</string>
     <string name="error_dialog_user_not_found_in_database">Den aktuelle bruger matcher ikke brugeren som vi har i vores database. Hvis du anvender LDAP på din Nextcloud instans, så har din Nextcloud app måske gemt et gammelt bruger ID.</string>
@@ -332,4 +332,6 @@
     <string name="enter_search_term_description">Angiv søgeterm for at finde kort til denne tavle</string>
     <string name="no_search_results_title">Ingen søgeresultater</string>
     <string name="no_search_results_description">Vi har ikke fundet nogle resultater for den givne søgeterm</string>
+    <string name="label_color">Farve</string>
+    <string name="choose_color">Vælg farve</string>
 </resources>

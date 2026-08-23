@@ -66,6 +66,8 @@
     <string name="hint_assign_people">Assigna usuaris</string>
     <string name="hint_due_date_date">Data de venciment</string>
     <string name="hint_due_date_time">Hora</string>
+    <string name="hint_start_date_date">Data d\'inici</string>
+    <string name="hint_start_date_time">Hora</string>
 
     <string name="card_not_found">Targeta no trobada</string>
     <string name="card_not_found_message">No s\'ha pogut trobar la targeta. Potser s\'ha esborrat recentment.</string>
@@ -207,7 +209,6 @@
 
     <string name="error_dialog_title">Oh no! - I ara què? 🙁</string>
     <string name="error_dialog_tip_token_mismatch_retry">Si us plau, mireu de forçar el tancament de l\'aplicació i reiniciar-la de nou. Hi deu haver hagut una connexió incorrecta a l\'aplicació Nextcloud.</string>
-    <string name="error_dialog_tip_clear_storage_might_help">Si el problema persisteix, mireu de netejar l\'emmagatzematge de totes dues aplicacions: Nextcloud i Nextcloud Deck per tal de resoldre el problema.</string>
     <string name="error_dialog_tip_database_upgrade_failed">Ha fallat l\'actualització de la base de dades. Informeu del problema i esborreu l\'emmagatzematge per utilitzar l\'aplicació normalment.</string>
     <string name="error_dialog_tip_clear_storage">Podeu netejar l\'emmagatzematge obrint la informació de l\'aplicació i seleccionant Emmagatzematge → Neteja l\'emmagatzematge.</string>
     <string name="error_dialog_tip_offline_no_internet">Sembla que heu intentat activar una sincronització sense connexió a Internet.</string>
@@ -224,7 +225,6 @@
     <string name="error_dialog_check_maintenance">Si us plau, comproveu que la vostra instància de Nextcloud no sigui en mode de manteniment.</string>
     <string name="error_dialog_insufficient_storage">A la vostra instància de Nextcloud no li queda espai d\'emmagatzematge lliure. Si us plau, esborreu alguns fitxers per sincronitzar els canvis locals al vostre núvol.</string>
     <string name="error_dialog_we_need_info">Ens cal la següent informació tècnica per poder-vos ajudar:</string>
-    <string name="error_dialog_redirect">El vostre servidor ha respost amb un codi d\'estat HTTP 302, que vol dir que no teniu instal·lada l\'aplicació Deck al vostre servidor o que alguna cosa està mal configurada. Això pot estar causat per una sobreescriptura a .htaccess-file o per aplicacions de Nextcloud com  OID Client.</string>
     <string name="error_dialog_version_not_parsable">No hem pogut determinar la versió de l\'aplicació Deck de la part del servidor. Si us plau, assegureu-vos que està instal·lada i habilitada.</string>
     <string name="error_dialog_account_might_not_be_authorized">És possible que el compte de la vostra aplicació Nextcloud ja no estigui autoritzat.</string>
     <string name="error_dialog_user_not_found_in_database">L’usuari actual no coincideix amb l’usuari que tenim a la nostra base de dades. Si feu servir LDAP a la vostra instància de Nextcloud, és possible que l\'aplicació Nextcloud hagi emmagatzemat un ID d\'usuari antic.</string>
@@ -332,4 +332,5 @@
     <string name="enter_search_term_description">Introduïu el terme de cerca per a trobar les targetes en aquest tauler</string>
     <string name="no_search_results_title">No s\'han trobat resultats</string>
     <string name="no_search_results_description">No s\'ha trobat cap resultat per al terme de cerca indicat</string>
-</resources>
+    <string name="label_color">Color</string>
+    </resources>

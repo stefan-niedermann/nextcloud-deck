@@ -23,6 +23,7 @@ public abstract class AbstractSyncDataProvider<T extends IRemoteEntity> {
     protected final AbstractSyncDataProvider<?> parent;
     protected final List<AbstractSyncDataProvider<?>> children = new ArrayList<>();
     protected boolean stillGoingDeeper = false;
+    protected List<T> allFromServer;
 
     public AbstractSyncDataProvider(@Nullable AbstractSyncDataProvider<?> parent) {
         this.parent = parent;
@@ -102,7 +103,7 @@ public abstract class AbstractSyncDataProvider<T extends IRemoteEntity> {
     }
 
     public void goDeeper(SyncHelper syncHelper, T existingEntity, T entityFromServer, ResponseCallback<Boolean> callback) {
-        childDone(this, callback, true);
+        childDone(syncHelper, this, callback, true);
     }
 
     public abstract void createOnServer(ServerAdapter serverAdapter, DataBaseAdapter dataBaseAdapter, long accountId, ResponseCallback<T> responder, T entity);
@@ -111,24 +112,25 @@ public abstract class AbstractSyncDataProvider<T extends IRemoteEntity> {
 
     public abstract void deleteOnServer(ServerAdapter serverAdapter, long accountId, ResponseCallback<EmptyResponse> callback, T entity, DataBaseAdapter dataBaseAdapter);
 
-    public void childDone(AbstractSyncDataProvider<?> child, ResponseCallback<Boolean> responseCallback, boolean syncChangedSomething) {
-        removeChild(child);
+    public void childDone(SyncHelper syncHelper, AbstractSyncDataProvider<?> child, ResponseCallback<Boolean> responseCallback, boolean syncChangedSomething) {
+        removeChild(syncHelper, child);
         if (!stillGoingDeeper && children.isEmpty()) {
             if (parent != null) {
-                parent.childDone(this, responseCallback, syncChangedSomething);
+                parent.childDone(syncHelper, this, responseCallback, syncChangedSomething);
             } else {
                 responseCallback.onResponse(syncChangedSomething, IResponseCallback.EMPTY_HEADERS);
             }
         }
     }
 
-    protected boolean removeChild(AbstractSyncDataProvider<?> child) {
+    protected boolean removeChild(SyncHelper syncHelper, AbstractSyncDataProvider<?> child) {
+        syncHelper.doneWithDownsync(child.allFromServer);
         return children.remove(child);
     }
 
-    public void doneGoingDeeper(ResponseCallback<Boolean> responseCallback, boolean syncChangedSomething) {
+    public void doneGoingDeeper(SyncHelper syncHelper, ResponseCallback<Boolean> responseCallback, boolean syncChangedSomething) {
         stillGoingDeeper = false;
-        childDone(this, responseCallback, syncChangedSomething);
+        childDone(syncHelper, this, responseCallback, syncChangedSomething);
     }
 
     public void goingDeeper() {
@@ -141,9 +143,9 @@ public abstract class AbstractSyncDataProvider<T extends IRemoteEntity> {
         //do nothing
     }
 
-    public void onError(ResponseCallback<Boolean> responseCallback) {
+    public void onError(SyncHelper syncHelper, ResponseCallback<Boolean> responseCallback) {
         if (parent != null) {
-            parent.childDone(this, responseCallback, false);
+            parent.childDone(syncHelper, this, responseCallback, false);
         }
     }
 
@@ -153,5 +155,9 @@ public abstract class AbstractSyncDataProvider<T extends IRemoteEntity> {
 
     public void onInsertFailed(DataBaseAdapter dataBaseAdapter, RuntimeException cause, Account account, long accountId, List<T> response, T entityFromServer) {
         throw cause;
+    }
+
+    public void setAllFromServer(List<T> allFromServer) {
+        this.allFromServer = allFromServer;
     }
 }

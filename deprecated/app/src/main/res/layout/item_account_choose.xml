@@ -21,7 +21,7 @@
             android:contentDescription="@null"
             android:focusable="false"
             android:scaleType="center"
-            app:srcCompat="@drawable/ic_person_24dp" />
+            app:srcCompat="@drawable/ic_outline_person_24" />
 
         <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/currentAccountIndicator"

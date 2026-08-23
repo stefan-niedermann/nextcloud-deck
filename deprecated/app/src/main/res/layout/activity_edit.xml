@@ -23,8 +23,7 @@
                 android:id="@+id/titleWrapper"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="@string/simple_title"
-                app:startIconDrawable="@drawable/ic_label_24dp">
+                android:hint="@string/simple_title">
 
                 <EditText
                     android:id="@+id/title"

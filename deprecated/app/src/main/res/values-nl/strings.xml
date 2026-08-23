@@ -66,6 +66,8 @@
     <string name="hint_assign_people">Toewijzen gebruikers</string>
     <string name="hint_due_date_date">Vervaldatum</string>
     <string name="hint_due_date_time">Tijd</string>
+    <string name="hint_start_date_date">Startdatum</string>
+    <string name="hint_start_date_time">Tijd</string>
 
     <string name="card_not_found">Kaart niet gevonden</string>
     <string name="card_not_found_message">De kaart kon niet worden gevonden. Misschien is die recent verwijderd.</string>
@@ -207,7 +209,6 @@
 
     <string name="error_dialog_title">Oh nee - wat nu? 🙁</string>
     <string name="error_dialog_tip_token_mismatch_retry">Probeer de app te sluiten en opnieuw te starten. Er was misschien een onjuiste verbinding met de Nextcloud-app.</string>
-    <string name="error_dialog_tip_clear_storage_might_help">Als het probleem blijft aanhouden, probeer dan de gegevensopslag van beide apps te wissen: zowel Nextcloud als Nextcloud Deck.</string>
     <string name="error_dialog_tip_database_upgrade_failed">Het upgraden van de database is mislukt. Gelieve het probleem te melden en opslagruimte vrij te maken om de app naar behoren te kunnen gebruiken.</string>
     <string name="error_dialog_tip_clear_storage">Je kunt de opslag leegmaken door in Android de app info te openen en kies dan Opslag →  Gegevens verwijderen.</string>
     <string name="error_dialog_tip_offline_no_internet">Het lijkt erop dat u een synchronisatie probeerde te starten zonder internetverbinding.</string>
@@ -224,7 +225,6 @@
     <string name="error_dialog_check_maintenance">Controleer alstublieft of je Nextcloud instantie momenteel niet in onderhouds-modus draait.</string>
     <string name="error_dialog_insufficient_storage">Je Nextcloud instantie heeft geen vrije ruimte meer. Verwijder alsjeblieft enkele bestanden om je lokale gegevens te kunnen synchroniseren.</string>
     <string name="error_dialog_we_need_info">We hebben de volgende technische informatie nodig om je te kunnen helpen: </string>
-    <string name="error_dialog_redirect">Je server heeft gereageerd met een HTTP 302-statuscode, wat inhoudt dat je de Deck-app niet op je server hebt geïnstalleerd of dat er iets verkeerd is geconfigureerd. Dit kan worden veroorzaakt door maatwerk aanpassingen in een .htaccess-bestand of door Nextcloud-apps zoals de OID Client.</string>
     <string name="error_dialog_version_not_parsable">We konden de versie van de Deck-app aan de serverzijde niet bepalen. Zorg ervoor dat de app is geïnstalleerd en ingeschakeld.</string>
     <string name="error_dialog_account_might_not_be_authorized">Het account van je Nextcloud-app is mogelijk niet langer geautoriseerd.</string>
     <string name="error_dialog_user_not_found_in_database">De huidige gebruiker komt niet overeen met de gebruiker die we in onze database hebben. Als je LDAP gebruikt op je Nextcloud-instantie, heeft je Nextcloud-app mogelijk een oude gebruikers-ID opgeslagen.</string>
@@ -333,4 +333,5 @@ Controleer a.u.b. uw internet verbinding en of U in staat bent verbinding te mak
     <string name="enter_search_term_description">Voer een zoekterm in om kaarten in dit bord te vinden</string>
     <string name="no_search_results_title">Geen zoekresultaten</string>
     <string name="no_search_results_description">We hebben geen resultaten gevonden voor de opgegeven zoekterm</string>
-</resources>
+    <string name="label_color">Kleur</string>
+    </resources>

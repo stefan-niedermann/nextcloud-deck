@@ -132,6 +132,12 @@ public interface DeckAPI {
     @GET("v1.1/boards/{boardId}/stacks/{stackId}/cards/{cardId}")
     Call<FullCard> getCard_1_1(@Path("boardId") long boardId, @Path("stackId") long stackId, @Path("cardId") long cardId, @Header(MODIFIED_SINCE_HEADER) String lastSync);
 
+    @POST("v1.0/boards/{boardId}/stacks/{stackId}/cards/{cardId}/dependentCards/{dependentCardId}")
+    Call<EmptyResponse> assignDependentToCard(@Path("boardId") long boardId, @Path("stackId") long stackId, @Path("cardId") long cardId, @Path("dependentCardId") long dependentRemoteID);
+
+    @DELETE("v1.0/boards/{boardId}/stacks/{stackId}/cards/{cardId}/dependentCards/{dependentCardId}")
+    Call<EmptyResponse> unassignDependentToCard(@Path("boardId") long boardId, @Path("stackId") long stackId, @Path("cardId") long cardId, @Path("dependentCardId") long dependentRemoteID);
+
 
     // Labels
 

@@ -42,10 +42,12 @@ import it.niedermann.nextcloud.deck.DeckLog;
 import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.databinding.FragmentCardEditTabDetailsBinding;
 import it.niedermann.nextcloud.deck.model.Account;
+import it.niedermann.nextcloud.deck.model.Card;
 import it.niedermann.nextcloud.deck.model.Label;
 import it.niedermann.nextcloud.deck.model.User;
 import it.niedermann.nextcloud.deck.model.full.FullCard;
 import it.niedermann.nextcloud.deck.remote.api.IResponseCallback;
+import it.niedermann.nextcloud.deck.ui.card.DependentAutoCompleteAdapter;
 import it.niedermann.nextcloud.deck.ui.card.EditCardViewModel;
 import it.niedermann.nextcloud.deck.ui.card.LabelAutoCompleteAdapter;
 import it.niedermann.nextcloud.deck.ui.card.UserAutoCompleteAdapter;
@@ -54,13 +56,18 @@ import it.niedermann.nextcloud.deck.ui.card.assignee.CardAssigneeListener;
 import it.niedermann.nextcloud.deck.ui.exception.ExceptionDialogFragment;
 import it.niedermann.nextcloud.deck.ui.theme.ThemeUtils;
 import it.niedermann.nextcloud.deck.ui.theme.ThemedSnackbar;
+import it.niedermann.nextcloud.deck.util.CallbackUtil;
 import okhttp3.Headers;
 
-public class CardDetailsFragment extends Fragment implements CardDueDateView.DueDateChangedListener, CardAssigneeListener {
+public class CardDetailsFragment extends Fragment implements
+        CardStartDateView.StartDateChangedListener,
+        CardDueDateView.DueDateChangedListener,
+        CardAssigneeListener {
 
     private FragmentCardEditTabDetailsBinding binding;
     private EditCardViewModel viewModel;
-    private AssigneeAdapter adapter;
+    private AssigneeAdapter assigneeAdapter;
+    private DependentsAdapter dependentsAdapter;
     private static final String KEY_ACCOUNT = "account";
 
     public static Fragment newInstance(@NonNull Account account) {
@@ -99,7 +106,10 @@ public class CardDetailsFragment extends Fragment implements CardDueDateView.Due
 
         setupAssignees();
         setupLabels((Account) requireNonNull(args.getSerializable(KEY_ACCOUNT)));
+        setupStartDate();
         setupDueDate();
+        setupColor();
+        setupDependents();
         setupDescription();
         setupProjects();
 
@@ -109,6 +119,9 @@ public class CardDetailsFragment extends Fragment implements CardDueDateView.Due
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        if (viewModel.getFullCard() == null) {
+            return;
+        }
         final var ssoAccount = viewModel.getAccount().getSingleSignOnAccount(requireContext()).orElse(null);
 
         viewModel.getBoardColor().observe(getViewLifecycleOwner(), color -> {
@@ -129,24 +142,40 @@ public class CardDetailsFragment extends Fragment implements CardDueDateView.Due
 //        if (dpd != null) dpd.setOnDateSetListener(this);
 //    }
 
+
     @Override
-    public void onDestroy() {
-        super.onDestroy();
+    public void onDestroyView() {
+        super.onDestroyView();
         this.binding = null;
+        this.assigneeAdapter = null;
+        this.dependentsAdapter = null;
     }
 
     private void applyTheme(@ColorInt int color) {
+        if (binding == null) {
+            return;
+        }
         final var utils = ThemeUtils.of(color, requireContext());
 
         Stream.of(
                 binding.labelsWrapper,
                 binding.peopleWrapper,
-                binding.descriptionEditorWrapper
+                binding.descriptionEditorWrapper,
+                binding.dependentsWrapper
         ).forEach(utils.material::colorTextInputLayout);
 
         utils.platform.colorImageView(binding.descriptionToggle, ColorRole.SECONDARY);
 
+        if (viewModel.getAccount().getServerDeckVersionAsObject().supportsStartDate()) {
+            binding.cardStartDateView.applyTheme(color);
+            utils.material.colorTextInputLayout(binding.cardColorWrapper);
+        }
+
         binding.cardDueDateView.applyTheme(color);
+
+        if (viewModel.getAccount().getServerDeckVersionAsObject().supportsDependents() && dependentsAdapter != null) {
+            dependentsAdapter.applyTheme(color);
+        }
 
         // TODO apply correct branding on the BrandedDatePicker
     }
@@ -162,7 +191,7 @@ public class CardDetailsFragment extends Fragment implements CardDueDateView.Due
             viewModel.getDescriptionMode().observe(getViewLifecycleOwner(), isPreviewMode -> {
                 if (isPreviewMode) {
                     toggleEditorView(binding.descriptionViewer, binding.descriptionEditorWrapper, binding.descriptionViewer);
-                    binding.descriptionToggle.setImageResource(R.drawable.ic_edit_24dp);
+                    binding.descriptionToggle.setImageResource(R.drawable.ic_outline_edit_24);
                 } else {
                     toggleEditorView(binding.descriptionEditorWrapper, binding.descriptionViewer, binding.descriptionEditor);
                     binding.descriptionToggle.setImageResource(R.drawable.ic_eye_24);
@@ -224,12 +253,51 @@ public class CardDetailsFragment extends Fragment implements CardDueDateView.Due
         viewToShow.setVisibility(VISIBLE);
     }
 
+    private void setupStartDate() {
+        if (!viewModel.getAccount().getServerDeckVersionAsObject().supportsStartDate()) {
+            binding.cardStartDateView.setVisibility(GONE);
+            return;
+        }
+
+        final var version = this.viewModel.getAccount().getServerDeckVersionAsObject();
+        final var card = this.viewModel.getFullCard().getCard();
+        binding.cardStartDateView.setStartDateListener(this);
+        binding.cardStartDateView.setEnabled(this.viewModel.canEdit());
+        binding.cardStartDateView.setStartDate(getChildFragmentManager(), version, card.getStartDate(), card.getDone());
+    }
+
     private void setupDueDate() {
         final var version = this.viewModel.getAccount().getServerDeckVersionAsObject();
         final var card = this.viewModel.getFullCard().getCard();
         binding.cardDueDateView.setDueDateListener(this);
         binding.cardDueDateView.setEnabled(this.viewModel.canEdit());
         binding.cardDueDateView.setDueDate(getChildFragmentManager(), version, card.getDueDate(), card.getDone());
+    }
+
+    private void setupColor() {
+        if (!viewModel.getAccount().getServerDeckVersionAsObject().supportsCardColor()) {
+            binding.cardColorWrapper.setVisibility(GONE);
+            return;
+        }
+        binding.cardColor.setOnClickListener(v -> PickColorDialogFragment.newInstance(viewModel.getCardColor().getValue()).show(getChildFragmentManager(), PickColorDialogFragment.class.getSimpleName()));
+        viewModel.getCardColor().observe(getViewLifecycleOwner(), color -> {
+            if (color != null) {
+                binding.cardColor.setText(String.format("#%06X", (0xFFFFFF & color)));
+                binding.cardColorWrapper.setEndIconTintList(ColorStateList.valueOf(color));
+            } else {
+                binding.cardColor.setText("");
+                binding.cardColorWrapper.setEndIconTintList(null);
+            }
+        });
+        binding.cardColor.setEnabled(viewModel.canEdit());
+    }
+
+    @Override
+    public void onStartDateChanged(@Nullable Instant startDate) {
+        final var version = this.viewModel.getAccount().getServerDeckVersionAsObject();
+        final var card = this.viewModel.getFullCard().getCard();
+        card.setStartDate(startDate);
+        binding.cardStartDateView.setStartDate(getChildFragmentManager(), version, card.getStartDate(), card.getDone());
     }
 
     @Override
@@ -245,7 +313,17 @@ public class CardDetailsFragment extends Fragment implements CardDueDateView.Due
         final var version = this.viewModel.getAccount().getServerDeckVersionAsObject();
         final var card = this.viewModel.getFullCard().getCard();
         card.setDone(done);
+
+        if (viewModel.getAccount().getServerDeckVersionAsObject().supportsStartDate()) {
+            binding.cardStartDateView.setStartDate(getChildFragmentManager(), version, card.getStartDate(), card.getDone());
+        }
+
         binding.cardDueDateView.setDueDate(getChildFragmentManager(), version, card.getDueDate(), card.getDone());
+
+        if (viewModel.getAccount().getServerDeckVersionAsObject().supportsDependents()) {
+            binding.dependentsAutoComplete.setEnabled(viewModel.canEdit() && done == null);
+            dependentsAdapter.setEnabled(viewModel.canEdit() && done == null);
+        }
     }
 
     private void setupLabels(@NonNull Account account) {
@@ -267,7 +345,7 @@ public class CardDetailsFragment extends Fragment implements CardDueDateView.Due
                     viewModel.createLabel(accountId, label, boardId, new IResponseCallback<>() {
                         @Override
                         public void onResponse(Label response, Headers headers) {
-                            requireActivity().runOnUiThread(() -> {
+                            CallbackUtil.runOnUiThread(CardDetailsFragment.this, () -> {
                                 label.setLocalId(response.getLocalId());
                                 ((LabelAutoCompleteAdapter) binding.labels.getAdapter()).exclude(response);
                                 viewModel.getFullCard().getLabels().add(response);
@@ -335,8 +413,8 @@ public class CardDetailsFragment extends Fragment implements CardDueDateView.Due
     }
 
     private void setupAssignees() {
-        adapter = new AssigneeAdapter((user) -> CardAssigneeDialog.newInstance(user).show(getChildFragmentManager(), CardAssigneeDialog.class.getSimpleName()), viewModel.getAccount());
-        binding.assignees.setAdapter(adapter);
+        assigneeAdapter = new AssigneeAdapter((user) -> CardAssigneeDialog.newInstance(user).show(getChildFragmentManager(), CardAssigneeDialog.class.getSimpleName()), viewModel.getAccount());
+        binding.assignees.setAdapter(assigneeAdapter);
         binding.assignees.post(() -> {
             @Px final int gutter = getResources().getDimensionPixelSize(R.dimen.spacer_1x);
             final int spanCount = (int) (float) binding.labelsWrapper.getWidth() / (getResources().getDimensionPixelSize(R.dimen.avatar_size) + gutter);
@@ -357,7 +435,7 @@ public class CardDetailsFragment extends Fragment implements CardDueDateView.Due
                 final var user = (User) adapterView.getItemAtPosition(position);
                 viewModel.getFullCard().getAssignedUsers().add(user);
                 ((UserAutoCompleteAdapter) binding.people.getAdapter()).exclude(user);
-                adapter.addUser(user);
+                assigneeAdapter.addUser(user);
                 binding.people.setText("");
             });
         } else {
@@ -365,8 +443,55 @@ public class CardDetailsFragment extends Fragment implements CardDueDateView.Due
         }
 
         if (this.viewModel.getFullCard().getAssignedUsers() != null) {
-            adapter.setUsers(this.viewModel.getFullCard().getAssignedUsers());
+            assigneeAdapter.setUsers(this.viewModel.getFullCard().getAssignedUsers());
         }
+    }
+
+    private void setupDependents() {
+        if (!viewModel.getAccount().getServerDeckVersionAsObject().supportsDependents()) {
+            binding.dependentsWrapper.setVisibility(GONE);
+            binding.dependentsGroup.setVisibility(GONE);
+            return;
+        }
+
+        dependentsAdapter = new DependentsAdapter(
+                requireContext(),
+                card -> viewModel.getFullCard().getCard().setDone(card.getDone()),
+                card -> {
+                    viewModel.getFullCard().getDependentCardRemoteIDs().remove(card.getId());
+                    viewModel.getFullCard().getDependents().remove(card);
+                    ((DependentAutoCompleteAdapter) binding.dependentsAutoComplete.getAdapter()).doNotLongerExclude(card);
+                }, viewModel.getAccount(), viewModel.canEdit() && viewModel.getFullCard().getCard().getDone() == null);
+        binding.dependentsGroup.setAdapter(dependentsAdapter);
+
+        binding.dependentsAutoComplete.setEnabled(viewModel.canEdit() && viewModel.getFullCard().getCard().getDone() == null);
+        binding.dependentsGroup.setEnabled(viewModel.canEdit() && viewModel.getFullCard().getCard().getDone() == null);
+
+        if (viewModel.canEdit()) {
+            Long localCardId = viewModel.getFullCard().getCard().getLocalId();
+            localCardId = localCardId == null ? -1 : localCardId;
+            try {
+                binding.dependentsAutoComplete.setAdapter(new DependentAutoCompleteAdapter(requireActivity(), viewModel.getAccount(), viewModel.getBoardId(), localCardId));
+            } catch (NextcloudFilesAppAccountNotFoundException e) {
+                ExceptionDialogFragment.newInstance(e, viewModel.getAccount()).show(getChildFragmentManager(), ExceptionDialogFragment.class.getSimpleName());
+                // TODO Handle error
+            }
+            binding.dependentsAutoComplete.setOnItemClickListener((adapterView, view, position, id) -> {
+                final var card = (Card) adapterView.getItemAtPosition(position);
+
+                if (!viewModel.getFullCard().getDependentCardRemoteIDs().contains(card.getId()))
+                    viewModel.getFullCard().getDependentCardRemoteIDs().add(card.getId());
+                if (!viewModel.getFullCard().getDependents().contains(card))
+                    viewModel.getFullCard().getDependents().add(card);
+
+                ((DependentAutoCompleteAdapter) binding.dependentsAutoComplete.getAdapter()).exclude(card);
+                dependentsAdapter.addCard(card);
+                binding.dependentsAutoComplete.setText("");
+            });
+        }
+
+        dependentsAdapter.setCards(this.viewModel.getFullCard().getDependents());
+        this.viewModel.getFullCard().getDependents().forEach(((DependentAutoCompleteAdapter) binding.dependentsAutoComplete.getAdapter())::exclude);
     }
 
     private void setupProjects() {
@@ -385,7 +510,7 @@ public class CardDetailsFragment extends Fragment implements CardDueDateView.Due
     @Override
     public void onUnassignUser(@NonNull User user) {
         viewModel.getFullCard().getAssignedUsers().remove(user);
-        adapter.removeUser(user);
+        assigneeAdapter.removeUser(user);
         ((UserAutoCompleteAdapter) binding.people.getAdapter()).doNotLongerExclude(user);
 
         viewModel.getCurrentBoardColor(viewModel.getAccount().getId(), viewModel.getBoardId())
@@ -393,7 +518,7 @@ public class CardDetailsFragment extends Fragment implements CardDueDateView.Due
                         .setAction(R.string.simple_undo, v1 -> {
                             viewModel.getFullCard().getAssignedUsers().add(user);
                             ((UserAutoCompleteAdapter) binding.people.getAdapter()).exclude(user);
-                            adapter.addUser(user);
+                            assigneeAdapter.addUser(user);
                         })
                         .show(), ContextCompat.getMainExecutor(requireContext()));
     }

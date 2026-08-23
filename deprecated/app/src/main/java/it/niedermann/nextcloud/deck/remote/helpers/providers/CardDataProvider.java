@@ -21,6 +21,7 @@ import it.niedermann.nextcloud.deck.model.Account;
 import it.niedermann.nextcloud.deck.model.Attachment;
 import it.niedermann.nextcloud.deck.model.Board;
 import it.niedermann.nextcloud.deck.model.Card;
+import it.niedermann.nextcloud.deck.model.JoinCardWithDependentCard;
 import it.niedermann.nextcloud.deck.model.JoinCardWithLabel;
 import it.niedermann.nextcloud.deck.model.JoinCardWithUser;
 import it.niedermann.nextcloud.deck.model.Label;
@@ -118,11 +119,11 @@ public class CardDataProvider extends AbstractSyncDataProvider<FullCard> {
             User u = dataBaseAdapter.getUserByUidDirectly(accountId, user.getUid());
             if (u == null) {
                 dataBaseAdapter.createUser(accountId, user);
+                u = user;
             } else {
                 user.setLocalId(u.getLocalId());
                 dataBaseAdapter.updateUser(accountId, user, false);
             }
-            u = dataBaseAdapter.getUserByUidDirectly(accountId, user.getUid());
 
             user.setLocalId(u.getLocalId());
             entity.getCard().setUserId(u.getLocalId());
@@ -158,6 +159,7 @@ public class CardDataProvider extends AbstractSyncDataProvider<FullCard> {
         List<Attachment> attachments = entityFromServer.getAttachments();
         existingEntity.setAttachments(attachments);
 
+        syncHelper.fixRelations(new CardDependantCardRelationshipProvider(existingEntity.getCard(), entityFromServer.getDependentCardRemoteIDs()));
         syncHelper.fixRelations(new CardLabelRelationshipProvider(existingEntity.getCard(), existingEntity.getLabels()));
         if (assignedUsers != null && !assignedUsers.isEmpty()) {
             syncHelper.doSyncFor(new UserDataProvider(this, board, stack, existingEntity, existingEntity.getAssignedUsers()));
@@ -202,7 +204,7 @@ public class CardDataProvider extends AbstractSyncDataProvider<FullCard> {
             }
 
             @SuppressLint("MissingSuperCall")
-            @Override
+        @Override
             public void onError(Throwable throwable) {
                 if (throwable.getClass() == NextcloudHttpRequestFailedException.class &&
                         throwable.getCause() != null &&
@@ -308,6 +310,8 @@ public class CardDataProvider extends AbstractSyncDataProvider<FullCard> {
             }
         }
 
+        fixDependantsStatically(serverAdapter, dataBaseAdapter, account);
+
         List<JoinCardWithUser> changedUsers;
         if (this.stack == null) {
             changedUsers = dataBaseAdapter.getAllChangedUserJoinsWithRemoteIDs();
@@ -396,6 +400,47 @@ public class CardDataProvider extends AbstractSyncDataProvider<FullCard> {
         callback.onResponse(Boolean.TRUE, IResponseCallback.EMPTY_HEADERS);
     }
 
+    private static synchronized void fixDependantsStatically(ServerAdapter serverAdapter, DataBaseAdapter dataBaseAdapter, Account account) {
+        List<JoinCardWithDependentCard> changedDependents = dataBaseAdapter.getAllChangedDependentJoinsForAccount(account.getId());
+
+        for (JoinCardWithDependentCard changedDependentLocal : changedDependents) {
+            Card card = dataBaseAdapter.getCardByLocalIdDirectly(account.getId(), changedDependentLocal.getLocalCardId());
+            if (card == null) {
+                // https://github.com/stefan-niedermann/nextcloud-deck/issues/683#issuecomment-759116820
+                continue;
+            }
+
+            Long boardId = dataBaseAdapter.getBoardRemoteIdByCardLocalIdDirectly(card.getLocalId());
+            Long stackId = dataBaseAdapter.getStackRemoteIdByCardLocalIdDirectly(card.getLocalId());
+
+            if (changedDependentLocal.getStatusEnum() == DBStatus.LOCAL_DELETED) {
+                serverAdapter.unassignDependentToCard(boardId, stackId, card.getId(), changedDependentLocal.getDependentRemoteCardId(), new ResponseCallback<>(account) {
+                    @Override
+                    public void onResponse(EmptyResponse response, Headers headers) {
+                        dataBaseAdapter.deleteJoinedDependentForCardPhysically(changedDependentLocal.getLocalCardId(), changedDependentLocal.getDependentRemoteCardId());
+                    }
+
+                    @Override
+                    public void onError(Throwable throwable) {
+                        super.onError(throwable);
+                    }
+                });
+            } else if (changedDependentLocal.getStatusEnum() == DBStatus.LOCAL_EDITED) {
+                serverAdapter.assignDependentToCard(boardId, stackId, card.getId(), changedDependentLocal.getDependentRemoteCardId(), new ResponseCallback<>(account) {
+                    @Override
+                    public void onResponse(EmptyResponse response, Headers headers) {
+                        dataBaseAdapter.setStatusForJoinCardWithDependent(changedDependentLocal.getLocalCardId(), changedDependentLocal.getDependentRemoteCardId(), DBStatus.UP_TO_DATE.getId());
+                    }
+
+                    @Override
+                    public void onError(Throwable throwable) {
+                        super.onError(throwable);
+                    }
+                });
+            }
+        }
+    }
+
     @Override
     public void handleDeletes(ServerAdapter serverAdapter, DataBaseAdapter dataBaseAdapter, long accountId, List<FullCard> entitiesFromServer) {
         List<FullCard> localCards = dataBaseAdapter.getFullCardsForStackDirectly(accountId, stack.getLocalId(), null);
@@ -407,7 +452,7 @@ public class CardDataProvider extends AbstractSyncDataProvider<FullCard> {
             }
             if (cardToDelete.getStatus() == DBStatus.LOCAL_MOVED.getId()) {
                 //only delete, if the card isn't availible on server anymore.
-                serverAdapter.getCard(board.getId(), stack.getId(), cardToDelete.getId(), new ResponseCallback<>(new Account(accountId)) {
+                serverAdapter.getCard(board.getId(), stack.getId(), cardToDelete.getId(), new ResponseCallback<>(dataBaseAdapter.getAccountByIdDirectly(accountId)) {
                     @Override
                     public void onResponse(FullCard response, Headers headers) {
                         // do not delete, it's still there and was just moved!

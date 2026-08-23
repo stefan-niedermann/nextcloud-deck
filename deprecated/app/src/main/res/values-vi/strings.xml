@@ -66,6 +66,7 @@
     <string name="hint_assign_people">Thêm người dùng</string>
     <string name="hint_due_date_date">Thời hạn</string>
     <string name="hint_due_date_time">Thời gian</string>
+    <string name="hint_start_date_time">Thời gian</string>
 
     <string name="card_not_found">Không tìm thấy thẻ</string>
     <string name="card_not_found_message">Không thể tìm thấy thẻ. Có lẽ nó đã bị xoá mới đây.</string>
@@ -205,7 +206,6 @@
 
     <string name="error_dialog_title">Ôi không - Làm gì bây giờ? 🙁</string>
     <string name="error_dialog_tip_token_mismatch_retry">Vui lòng cố gắng buộc dừng và khởi động lại ứng dụng. Có thể đã có một kết nối không chính xác đến ứng dụng Nextcloud.</string>
-    <string name="error_dialog_tip_clear_storage_might_help">Nếu vấn đề vẫn tiếp diễn, hãy cố gắng xoá bộ nhớ của cả hai ứng dụng: Nextcloud và Nextcloud Deck để giải quyết vấn đề này.</string>
     <string name="error_dialog_tip_database_upgrade_failed">Nâng cấp cơ sở dữ liệu thất bại. Vui lòng báo cáo vấn đề và xoá bộ nhớ để sử dụng ứng dụng bình thường.</string>
     <string name="error_dialog_tip_clear_storage">Bạn có thể xoá bộ nhớ bằng cách mở thông tin ứng dụng và chọn Bộ nhớ → Xoá bộ nhớ.</string>
     <string name="error_dialog_tip_offline_no_internet">Có vẻ như bạn đã cố đồng bộ hoá mà không có kết nối internet.</string>
@@ -222,7 +222,6 @@
     <string name="error_dialog_check_maintenance">Vui lòng kiểm tra xem bản sao Nextcloud của bạn hiện tại có đang không ở trong chế độ bảo trì không.</string>
     <string name="error_dialog_insufficient_storage">Bản sao Nextcloud của bạn không còn bộ nhớ trống. Vui lòng xoá một số tệp để đồng bộ các thay đổi cục bộ của bạn vào đám mây của bạn.</string>
     <string name="error_dialog_we_need_info">Chúng tôi cần thông tin kỹ thuật sau đây để giúp bạn:</string>
-    <string name="error_dialog_redirect">Máy chủ của bạn đã phản hồi bằng mã trạng thái HTTP 302, nó có nghĩa là bạn chưa cài đặt ứng dụng Deck trên máy chủ của bạn hoặc có gì đó bị thiết lập sai. Điều này có thể bị gây ra bởi những sự ghi đè tuỳ chỉnh trong tệp .htaccess hoặc bởi các ứng dụng Nextcloud như OID Client.</string>
     <string name="error_dialog_version_not_parsable">Chúng tôi không thể xác định phiên bản của ứng dụng Deck trên máy chủ. Vui lòng chắc chắn rằng nó đã được cài đặt và bật.</string>
     <string name="error_dialog_account_might_not_be_authorized">Tài khoản của ứng dụng Nextcloud của bạn có thể không được uỷ quyền nữa.</string>
     <string name="error_dialog_user_not_found_in_database">Người dùng hiện tại không khớp với người dùng mà chúng tôi có trong cơ sở dữ liệu của chúng tôi. Nếu bạn đang sử dụng LDAP trên bản sao Nextcloud của bạn, ứng dụng Nextcloud của bạn có thể đã lưu trữ một ID người dùng cũ.</string>
@@ -328,4 +327,5 @@
     <string name="enter_search_term_description">Nhập từ khoá để tìm kiếm thẻ trong bảng này</string>
     <string name="no_search_results_title">Không tìm thấy</string>
     <string name="no_search_results_description">Chúng tôi không tìm thấy bất kỳ kết quả nào cho từ khoá vừa tìm kiếm.</string>
-</resources>
+    <string name="label_color">Màu sắc</string>
+    </resources>

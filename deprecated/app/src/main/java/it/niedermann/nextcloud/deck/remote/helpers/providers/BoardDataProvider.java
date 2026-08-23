@@ -121,8 +121,8 @@ public class BoardDataProvider extends AbstractSyncDataProvider<FullBoard> {
     }
 
     @Override
-    protected boolean removeChild(AbstractSyncDataProvider<?> child) {
-        boolean isRemoved = super.removeChild(child);
+    protected boolean removeChild(SyncHelper syncHelper, AbstractSyncDataProvider<?> child) {
+        boolean isRemoved = super.removeChild(syncHelper, child);
         if (isRemoved && child.getClass() == StackDataProvider.class) {
             progressDone++;
             updateProgress();
@@ -169,6 +169,7 @@ public class BoardDataProvider extends AbstractSyncDataProvider<FullBoard> {
         User owner = dataBaseAdapter.getUserByUidDirectly(accountId, remoteUser.getUid());
         if (owner == null) {
             dataBaseAdapter.createUser(accountId, remoteUser);
+            return remoteUser;
         } else {
             remoteUser.setLocalId(owner.getLocalId());
             dataBaseAdapter.updateUser(accountId, remoteUser, false);
@@ -233,11 +234,11 @@ public class BoardDataProvider extends AbstractSyncDataProvider<FullBoard> {
     }
 
     @Override
-    public void childDone(AbstractSyncDataProvider<?> child, ResponseCallback<Boolean> responseCallback, boolean syncChangedSomething) {
-        removeChild(child);
+    public void childDone(SyncHelper syncHelper, AbstractSyncDataProvider<?> child, ResponseCallback<Boolean> responseCallback, boolean syncChangedSomething) {
+        removeChild(syncHelper, child);
         if (!stillGoingDeeper && children.isEmpty()) {
             if (parent != null) {
-                parent.childDone(this, responseCallback, syncChangedSomething);
+                parent.childDone(syncHelper,this, responseCallback, syncChangedSomething);
             } else {
                 responseCallback.onResponse(syncChangedSomething, IResponseCallback.EMPTY_HEADERS);
             }

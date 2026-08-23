@@ -1,7 +1,6 @@
 package it.niedermann.nextcloud.deck.ui.theme;
 
 import static com.nextcloud.android.common.ui.util.ColorStateListUtilsKt.buildColorStateList;
-import static com.nextcloud.android.common.ui.util.PlatformThemeUtil.isDarkMode;
 
 import android.app.Activity;
 import android.content.Context;
@@ -74,12 +73,8 @@ public class DeckViewThemeUtils extends ViewThemeUtilsBase {
 
     public void themeSearchBar(@NonNull SearchBar searchBar) {
         withScheme(searchBar.getContext(), scheme -> {
-            final var colorStateList = ColorStateList.valueOf(
-                    isDarkMode(searchBar.getContext())
-                            ? scheme.getSurface()
-                            : scheme.getSurfaceVariant());
-
-            searchBar.setBackgroundTintList(colorStateList);
+            searchBar.setBackgroundTintList(ColorStateList.valueOf(scheme.getSurfaceContainerHigh()));
+            searchBar.setTitleTextColor(ColorStateList.valueOf(scheme.getOnSurface()));
 
             final var menu = searchBar.getMenu();
             for (int i = 0; i < menu.size(); i++) {

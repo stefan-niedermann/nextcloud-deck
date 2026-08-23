@@ -66,6 +66,8 @@
     <string name="hint_assign_people">指派用戶</string>
     <string name="hint_due_date_date">到期日</string>
     <string name="hint_due_date_time">時間</string>
+    <string name="hint_start_date_date">開始日期</string>
+    <string name="hint_start_date_time">時間</string>
 
     <string name="card_not_found">找不到 card</string>
     <string name="card_not_found_message">找不到 card。或許它已經被刪除了？</string>
@@ -85,8 +87,10 @@
     <string name="add_board">新增佈告欄</string>
 
     <string name="label_clear_due_date">清除到期日期</string>
+    <string name="label_clear_start_date">清除開始日期</string>
     <string name="label_clear_done">未完成</string>
     <string name="label_due_at">到期日：%1$s</string>
+    <string name="label_start_at">開始於：%1$s</string>
     <string name="label_add">新增%1$s</string>
 
     <string name="card_edit_details">詳細資料</string>
@@ -204,8 +208,9 @@
     <string name="error_edit_activity_killed_by_android">Android 完成了編輯模式，因為它需要更多的系統資源來服務其他應用程式。</string>
 
     <string name="error_dialog_title">喔不 - 現在怎麼辦？🙁</string>
+    <string name="error_dialog_tip_parsing_failed">無法如預期般解析您的伺服器回應。請確認您已在 Nextcloud 伺服器上啟用 Deck 應用程式。</string>
     <string name="error_dialog_tip_token_mismatch_retry">請嘗試強制關閉該應用，然後重新啟動。與 Nextcloud 應用的連接可能不正確。</string>
-    <string name="error_dialog_tip_clear_storage_might_help">如果問題仍然存在，請嘗試清除兩個應用程序的存儲：Nextcloud 和 Nextcloud Deck 以解決此問題。</string>
+    <string name="error_dialog_tip_clear_storage_might_help">如果問題仍然存在，請嘗試清除兩款應用程式（Nextcloud 與 Nextcloud Deck）的儲存資料，然後重新匯入您的帳號。</string>
     <string name="error_dialog_tip_database_upgrade_failed">數據庫升級失敗。請報告問題，並清除存儲空間以正常使用該應用程序。</string>
     <string name="error_dialog_tip_clear_storage">您可以通過打開應用程式信息並選擇 存儲→清除存儲 來清除存儲。</string>
     <string name="error_dialog_tip_offline_no_internet">似乎您試圖在沒有 Internet 連接的情況下觸發同步。</string>
@@ -328,4 +333,9 @@
     <string name="enter_search_term_description">輸入要在此面板中尋找卡片的字詞</string>
     <string name="no_search_results_title">無搜尋結果</string>
     <string name="no_search_results_description">我們無法根據您指定的搜尋字詞找到任何結果</string>
+    <string name="label_no_startdate">沒有開始日期</string>
+    <string name="label_dependent_cards">相依卡片</string>
+    <string name="label_color">顏色</string>
+    <string name="label_clear_color">清除顏色</string>
+    <string name="choose_color">選擇顏色</string>
 </resources>

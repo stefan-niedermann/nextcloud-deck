@@ -66,6 +66,8 @@
     <string name="hint_assign_people">指派用户</string>
     <string name="hint_due_date_date">截止日期</string>
     <string name="hint_due_date_time">时间</string>
+    <string name="hint_start_date_date">开始日期</string>
+    <string name="hint_start_date_time">时间</string>
 
     <string name="card_not_found">未找到卡片</string>
     <string name="card_not_found_message">无法找到此卡片，此卡片最近可能已被删除。</string>
@@ -205,7 +207,6 @@
 
     <string name="error_dialog_title">哦，糟糕。所以会怎么样？🙁</string>
     <string name="error_dialog_tip_token_mismatch_retry">请尝试强行关闭应用并重新打开。可能与 Nextcloud 应用的连接不正确。</string>
-    <string name="error_dialog_tip_clear_storage_might_help">如果问题持续存在，尝试通过清除Nextcloud和Nextcloud看板两个应用的存储空间来解决问题。</string>
     <string name="error_dialog_tip_database_upgrade_failed">数据库升级失败。请报告问题并清除应用存储来正常使用此应用。</string>
     <string name="error_dialog_tip_clear_storage">您可以通过打开应用信息，选择“存储>清除存储”来清除存储。</string>
     <string name="error_dialog_tip_offline_no_internet">看起来您试图在没有互联网连接的情况下触发同步。 </string>
@@ -222,7 +223,6 @@
     <string name="error_dialog_check_maintenance">请检查您的 Nextcloud 实例是否处于维护模式。</string>
     <string name="error_dialog_insufficient_storage">您的 Nextcloud 实例已经没有可用的存储空间了。请删除一些文件来允许本地的变更同步到云。</string>
     <string name="error_dialog_we_need_info">我们需要以下技术信息来帮助您：</string>
-    <string name="error_dialog_redirect">您的服务器确实响应了一个HTTP 302状态码，这意味着您没有在您的服务器上安装看板应用程序或有什么配置错误。这可能是由 .htaccess 文件中的自定义覆盖或由 Nextcloud应用程序 (如OID Client)引起的。</string>
     <string name="error_dialog_version_not_parsable">我们无法确定服务端看板应用程序的版本。请确保它已安装并启用。</string>
     <string name="error_dialog_account_might_not_be_authorized">您的Nextcloud应用账号可能不再被授权。</string>
     <string name="error_dialog_user_not_found_in_database">当前用户与数据库中的用户不匹配。如果你在 Nextcloud 实例上使用 LDAP，那么 Nextcloud 应用程序可能存储了一个旧的用户ID。</string>
@@ -328,4 +328,5 @@
     <string name="enter_search_term_description">输入搜索词以查找此面板中的卡片</string>
     <string name="no_search_results_title">无搜索结果</string>
     <string name="no_search_results_description">对于给定的搜索词，我们没有找到任何结果</string>
-</resources>
+    <string name="label_color">颜色</string>
+    </resources>

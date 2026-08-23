@@ -1,5 +1,6 @@
 package it.niedermann.nextcloud.deck.ui.card;
 
+import android.content.res.ColorStateList;
 import android.text.TextUtils;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -7,10 +8,12 @@ import android.view.View.OnLongClickListener;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.annotation.ColorInt;
 import androidx.annotation.MenuRes;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
+import androidx.core.widget.TextViewCompat;
 
 import com.google.android.material.card.MaterialCardView;
 import com.nextcloud.android.common.ui.theme.utils.ColorRole;
@@ -44,7 +47,7 @@ public class DefaultCardViewHolder extends AbstractCardViewHolder {
 
         final var context = itemView.getContext();
 
-        if (fullCard.getAssignedUsers() != null && fullCard.getAssignedUsers().size() > 0) {
+        if (fullCard.getAssignedUsers() != null && !fullCard.getAssignedUsers().isEmpty()) {
             binding.overlappingAvatars.setAvatars(account, fullCard.getAssignedUsers());
             binding.overlappingAvatars.setVisibility(View.VISIBLE);
         } else {
@@ -71,7 +74,7 @@ public class DefaultCardViewHolder extends AbstractCardViewHolder {
         }
 
         final var labels = fullCard.getLabels();
-        if (labels != null && labels.size() > 0) {
+        if (labels != null && !labels.isEmpty()) {
             binding.labels.updateLabels(labels);
             binding.labels.setVisibility(View.VISIBLE);
         } else {
@@ -82,7 +85,7 @@ public class DefaultCardViewHolder extends AbstractCardViewHolder {
         final var taskStatus = fullCard.getCard().getTaskStatus();
         if (taskStatus.taskCount > 0) {
             binding.cardCountTasks.setText(context.getResources().getString(R.string.task_count, String.valueOf(taskStatus.doneCount), String.valueOf(taskStatus.taskCount)));
-            binding.cardCountTasks.setCompoundDrawablesWithIntrinsicBounds(ContextCompat.getDrawable(context, R.drawable.ic_check_box_24), null, null, null);
+            binding.cardCountTasks.setCompoundDrawablesWithIntrinsicBounds(ContextCompat.getDrawable(context, R.drawable.ic_outline_check_box_24), null, null, null);
             binding.cardCountTasks.setVisibility(View.VISIBLE);
         } else {
             final String description = fullCard.getCard().getDescription();
@@ -111,6 +114,20 @@ public class DefaultCardViewHolder extends AbstractCardViewHolder {
                 utils.platform.colorTextView(v, ColorRole.ON_SURFACE_VARIANT);
             });
         }
+    }
+
+    @Override
+    protected void applyForegroundColor(@ColorInt int color) {
+        super.applyForegroundColor(color);
+        final var colorStateList = ColorStateList.valueOf(color);
+        Stream.of(
+                binding.cardCountAttachments,
+                binding.cardCountTasks,
+                binding.cardCountComments
+        ).forEach(v -> {
+            v.setTextColor(color);
+            TextViewCompat.setCompoundDrawableTintList(v, colorStateList);
+        });
     }
 
     @Override
@@ -149,7 +166,6 @@ public class DefaultCardViewHolder extends AbstractCardViewHolder {
     public MaterialCardView getDraggable() {
         return binding.card;
     }
-
 
     private static void setupCounter(@NonNull TextView textView, @NonNull String counterMaxValue, int count) {
         if (count > 99) {

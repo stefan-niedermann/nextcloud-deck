@@ -50,7 +50,10 @@ public class AttachmentPicker<I, O> implements DefaultLifecycleObserver {
     @Nullable
     private ActivityResultLauncher<String[]> permissionLauncher = null;
     @NonNull
-    private CompletableFuture<O> future = new CompletableFuture<>();
+    private CompletableFuture<O> future = CompletableFuture.completedFuture(null);
+    @Nullable
+    private Consumer<CompletableFuture<List<Uri>>> resultListener = null;
+    private boolean picking = false;
 
     protected AttachmentPicker(@NonNull ActivityResultRegistry registry,
                                @StringRes int label,
@@ -66,8 +69,6 @@ public class AttachmentPicker<I, O> implements DefaultLifecycleObserver {
         this.permissions.addAll(sanitizePermissions(permissions));
         this.input = input;
         this.outputMapper = outputMapper;
-
-        this.future.cancel(true);
     }
 
     private Collection<String> sanitizePermissions(@NonNull Collection<String> permissions) {
@@ -77,62 +78,81 @@ public class AttachmentPicker<I, O> implements DefaultLifecycleObserver {
             return permissions
                     .stream()
                     .filter(permission -> !Manifest.permission.READ_EXTERNAL_STORAGE.equals(permission))
-                    .collect(Collectors.toUnmodifiableList());
+                    .toList();
         }
     }
 
     @Override
     public void onCreate(@NonNull LifecycleOwner owner) {
-        launcher = registry.register(getClass().getCanonicalName() + "_launcher_" + this, owner, contract, this::handleLauncherResult);
-        permissionLauncher = registry.register(getClass().getCanonicalName() + "_permissions_" + this, owner, new ActivityResultContracts.RequestMultiplePermissions(), this::handlePermissionResult);
+        launcher = registry.register(getClass().getCanonicalName() + "_launcher_" + label, owner, contract, this::handleLauncherResult);
+        permissionLauncher = registry.register(getClass().getCanonicalName() + "_permissions_" + label, owner, new ActivityResultContracts.RequestMultiplePermissions(), this::handlePermissionResult);
+    }
+
+    public CompletableFuture<List<Uri>> getFuture() {
+        return future.thenApply(outputMapper);
+    }
+
+    public void setResultListener(@Nullable Consumer<CompletableFuture<List<Uri>>> resultListener) {
+        this.resultListener = resultListener;
+        notifyListener();
+    }
+
+    private void notifyListener() {
+        if (resultListener != null) {
+            resultListener.accept(getFuture());
+        }
     }
 
     public CompletableFuture<List<Uri>> ensurePermissionsAndLaunchPicker(@NonNull Context context) {
         // TODO Thread safety?
-        if (future.isDone()) {
-            future = new CompletableFuture<>();
+        if (!picking) {
+            picking = true;
+            if (future.isDone()) {
+                future = new CompletableFuture<>();
+                notifyListener();
+            }
 
             if (hasPermissions(context)) {
                 launchPicker();
             } else if (permissionLauncher == null) {
+                picking = false;
                 future.completeExceptionally(new IllegalStateException("permissionLauncher is null"));
             } else {
                 permissionLauncher.launch(permissions.toArray(new String[0]));
             }
         }
 
-        return future.thenApply(outputMapper);
-    }
-
-    public boolean targetAppExists(@NonNull Context context) {
-        if (launcher == null) {
-            throw new IllegalStateException("This method must be called after onCreate");
-        }
-
-        return context.getPackageManager().resolveActivity(launcher.getContract().createIntent(context, input), 0) != null;
+        return getFuture();
     }
 
     private void launchPicker() {
         if (launcher == null) {
+            picking = false;
             future.completeExceptionally(new IllegalStateException("This method must be called after onCreate"));
         } else {
             try {
                 launcher.launch(this.input);
             } catch (Throwable t) {
+                picking = false;
                 future.completeExceptionally(t);
             }
         }
     }
 
     private void handleLauncherResult(@Nullable O output) {
-        if (future.isDone()) {
-            throw new IllegalStateException("Expected future not to be done yet.");
-        }
+        if (picking || future.isDone()) {
+            if (future.isDone()) {
+                future = new CompletableFuture<>();
+                notifyListener();
+            }
 
-        try {
-            future.complete(output);
-        } catch (UnsupportedOperationException e) {
-            future.completeExceptionally(e);
+            try {
+                future.complete(output);
+            } catch (UnsupportedOperationException e) {
+                future.completeExceptionally(e);
+            } finally {
+                picking = false;
+            }
         }
     }
 
@@ -147,6 +167,7 @@ public class AttachmentPicker<I, O> implements DefaultLifecycleObserver {
         if (missingPermissions.isEmpty()) {
             launchPicker();
         } else {
+            picking = false;
             future.completeExceptionally(new SecurityException("Missing permissions: " + String.join(", ", missingPermissions)));
         }
     }

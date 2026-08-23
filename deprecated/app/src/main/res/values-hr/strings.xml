@@ -66,6 +66,8 @@
     <string name="hint_assign_people">Dodijeli korisnike</string>
     <string name="hint_due_date_date">Datum dospijeća</string>
     <string name="hint_due_date_time">Vrijeme</string>
+    <string name="hint_start_date_date">Datum početka</string>
+    <string name="hint_start_date_time">Vrijeme</string>
 
     <string name="card_not_found">Kartica nije pronadjena</string>
     <string name="card_not_found_message">Kartica nije pronađena. Možda je nedavno izbrisana.</string>
@@ -209,7 +211,6 @@
 
     <string name="error_dialog_title">Ups, što sada? 🙁</string>
     <string name="error_dialog_tip_token_mismatch_retry">Pokušajte prisilno zatvoriti aplikaciju i ponovo je pokrenuti. Možda se radi o nepravilnoj vezi s aplikacijom Nextcloud.</string>
-    <string name="error_dialog_tip_clear_storage_might_help">Ako problem i dalje nije otklonjen, pokušajte izbrisati pohranjene podatke iz obje aplikacije: Nextcloud i Nextcloud Deck.</string>
     <string name="error_dialog_tip_database_upgrade_failed">Nadogradnja baze podataka nije uspjela. Prijavite ovu poteškoću i izbrišite pohranu kako biste se koristili aplikacijom na uobičajeni način.</string>
     <string name="error_dialog_tip_clear_storage">Pohranjene podatke možete izbrisati tako da otvorite informacije o aplikaciji i odaberete Pohrana → Brisanje pohrane podataka.</string>
     <string name="error_dialog_tip_offline_no_internet">Čini se da ste pokušali pokrenuti sinkronizaciju bez internetske veze.</string>
@@ -226,7 +227,6 @@
     <string name="error_dialog_check_maintenance">Provjerite je li vaša instanca Nextclouda trenutno u načinu održavanja.</string>
     <string name="error_dialog_insufficient_storage">Nema slobodnog prostora za pohranu u vašoj instanci Nextclouda. Izbrišite dio datoteka kako biste sinkronizirali lokalne promjene u oblak.</string>
     <string name="error_dialog_we_need_info">Potrebne su nam sljedeće tehničke informacije kako bismo vam pomogli:</string>
-    <string name="error_dialog_redirect">Vaš je poslužitelj vratio šifru statusa HTTP 302, što znači da aplikacija Deck nije instalirana na poslužitelju ili postoji pogreška u konfiguraciji. To mogu uzrokovati prilagođena prepisivanja u datoteci .htaccess ili određene aplikacije u Nextcloudu, kao što je OID Client.</string>
     <string name="error_dialog_version_not_parsable">Nismo mogli utvrditi inačicu aplikacije Deck na strani poslužitelja. Provjerite je li instalirana i omogućena.</string>
     <string name="error_dialog_account_might_not_be_authorized">Račun vaše aplikacije Nextcloud možda više nije ovlašten.</string>
     <string name="error_dialog_user_not_found_in_database">Trenutačni korisnik ne odgovara korisniku kojeg imamo u našoj bazi podataka. Ako upotrebljavate LDAP na svojoj instanci Nextclouda, vaša aplikacija Nextcloud možda je pohranila stari ID korisnika.</string>
@@ -336,4 +336,5 @@
     <string name="enter_search_term_description">Unesite pojam za pretraživanje kako biste pronašli kartice na ovoj ploči</string>
     <string name="no_search_results_title">Nema rezultata pretraživanja</string>
     <string name="no_search_results_description">Nismo pronašli nijedan rezultat za zadani pojam pretraživanja</string>
-</resources>
+    <string name="label_color">Boja</string>
+    </resources>
