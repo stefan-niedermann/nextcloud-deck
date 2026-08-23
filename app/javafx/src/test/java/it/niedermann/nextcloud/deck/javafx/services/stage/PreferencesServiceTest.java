@@ -1,5 +1,6 @@
 package it.niedermann.nextcloud.deck.javafx.services.stage;
 
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.mock;
@@ -34,11 +35,14 @@ class PreferencesServiceTest {
         storeLogger = mock(StoreLogger.class);
         keyValueStore = mock(KeyValueStore.class);
 
+        when(keyValueStore.getString(anyString())).thenReturn(Flowable.empty());
         when(keyValueStore.getString(ThemeService.KEY_THEME)).thenReturn(Flowable.just("AUTO"));
         when(keyValueStore.getBoolean(PreferencesService.KEY_BACKGROUND_SYNC)).thenReturn(Flowable.just(true));
         when(keyValueStore.getBoolean(PreferencesService.KEY_COMPACT_MODE)).thenReturn(Flowable.just(false));
         when(keyValueStore.getBoolean(ExceptionService.KEY_DEBUG_MODE)).thenReturn(Flowable.just(false));
         when(keyValueStore.containsKey(anyString())).thenReturn(CompletableFuture.completedFuture(true));
+        when(keyValueStore.putString(anyString(), anyString())).thenReturn(CompletableFuture.completedFuture(null));
+        when(keyValueStore.putBoolean(anyString(), any(Boolean.class))).thenReturn(CompletableFuture.completedFuture(null));
 
         preferencesService = new PreferencesService(
                 storeLogger,

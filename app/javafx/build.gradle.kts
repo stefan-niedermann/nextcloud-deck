@@ -18,7 +18,7 @@ application {
 
 javafx {
     version = "26"
-    modules = listOf("javafx.controls", "javafx.fxml")
+    modules = listOf("javafx.controls", "javafx.fxml", "javafx.graphics", "javafx.base")
 }
 
 val flexganttfxVersion = "11.12.8"
@@ -96,9 +96,21 @@ dependencies {
 tasks.withType<Test> {
     useJUnitPlatform()
     systemProperty("junit.jupiter.extensions.autodetection.enabled", "true")
-    systemProperty("testfx.robot", "glass")
-    systemProperty("testfx.headless", "false")
+
+    val isHeadless = project.hasProperty("headless") && project.property("headless") == "true"
+    if (isHeadless) {
+        systemProperty("testfx.robot", "glass")
+        systemProperty("testfx.headless", "true")
+        systemProperty("glass.platform", "Monocle")
+        systemProperty("monocle.platform", "Headless")
+        systemProperty("prism.order", "sw")
+    } else {
+        systemProperty("testfx.robot", "glass")
+        systemProperty("testfx.headless", "false")
+    }
+
     jvmArgs(
+        "--enable-native-access=ALL-UNNAMED",
         "--add-exports=javafx.graphics/com.sun.glass.ui=ALL-UNNAMED",
         "--add-exports=javafx.graphics/com.sun.javafx.application=ALL-UNNAMED",
         "--add-opens=javafx.graphics/com.sun.glass.ui=ALL-UNNAMED",

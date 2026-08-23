@@ -160,7 +160,7 @@ jobs:
           cache-read-only: false
 
       - name: Build App
-        run: ./gradlew :app:javafx:build
+        run: xvfb-run -a ./gradlew :app:javafx:build -Pheadless=true
 
       - name: Upload Artifact
         uses: actions/upload-artifact@v7
