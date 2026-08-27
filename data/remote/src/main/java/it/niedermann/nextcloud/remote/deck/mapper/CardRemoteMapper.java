@@ -16,7 +16,7 @@ public interface CardRemoteMapper extends GenericRemoteMapper<CardDTO, Card> {
     CardRemoteMapper INSTANCE = Mappers.getMapper(CardRemoteMapper.class);
 
     @Override
-    @Mapping(target = "id", source = "id")
+    @Mapping(target = "id", source = "remoteId")
     @Mapping(target = "stackId", source = "columnId")
     @Mapping(target = "labels", ignore = true)
     @Mapping(target = "assignedUsers", ignore = true)

@@ -14,7 +14,7 @@ public interface LabelRemoteMapper extends GenericRemoteMapper<LabelDTO, Label> 
     LabelRemoteMapper INSTANCE = Mappers.getMapper(LabelRemoteMapper.class);
 
     @Override
-    @Mapping(target = "id", source = "id")
+    @Mapping(target = "id", source = "remoteId")
     @Mapping(target = "color", source = "color")
     @Mapping(target = "etag", ignore = true)
     LabelDTO toDTO(Label label);

@@ -16,7 +16,7 @@ public interface ColumnRemoteMapper extends GenericRemoteMapper<ColumnDTO, Colum
     ColumnRemoteMapper INSTANCE = Mappers.getMapper(ColumnRemoteMapper.class);
 
     @Override
-    @Mapping(target = "id", source = "id")
+    @Mapping(target = "id", source = "remoteId")
     @Mapping(target = "boardId", source = "boardId")
     @Mapping(target = "cards", ignore = true)
     @Mapping(target = "etag", source = "etag")

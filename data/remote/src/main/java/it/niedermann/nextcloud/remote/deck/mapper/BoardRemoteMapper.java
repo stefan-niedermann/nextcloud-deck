@@ -5,11 +5,11 @@ import org.mapstruct.Mapping;
 import org.mapstruct.ReportingPolicy;
 import org.mapstruct.factory.Mappers;
 
+import java.time.OffsetDateTime;
+
 import it.niedermann.nextcloud.deck.domain.model.Board;
 import it.niedermann.nextcloud.remote.deck.dto.BoardDTO;
 import it.niedermann.nextcloud.remote.deck.dto.PermissionsDTO;
-
-import java.time.OffsetDateTime;
 
 @Mapper(uses = {CommonRemoteMapper.class}, unmappedTargetPolicy = ReportingPolicy.IGNORE)
 public interface BoardRemoteMapper extends GenericRemoteMapper<BoardDTO, Board> {
@@ -17,7 +17,7 @@ public interface BoardRemoteMapper extends GenericRemoteMapper<BoardDTO, Board> 
     BoardRemoteMapper INSTANCE = Mappers.getMapper(BoardRemoteMapper.class);
 
     @Override
-    @Mapping(target = "id", source = "id")
+    @Mapping(target = "id", source = "remoteId")
     @Mapping(target = "lastModified", source = "lastModified")
     @Mapping(target = "permissions", source = "permissions")
     @Mapping(target = "owner", ignore = true)
