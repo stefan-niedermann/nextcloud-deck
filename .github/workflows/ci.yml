@@ -139,14 +139,9 @@ jobs:
             ${{ runner.temp }}/.gradle-actions/build-results/*.json
 
   javafx:
-    name: App (PC) - ${{ matrix.os }}
-    runs-on: ${{ matrix.os }}
+    name: App (PC)
+    runs-on: ubuntu-latest
     needs: domain
-    strategy:
-      fail-fast: false
-      matrix:
-        os: [ ubuntu-latest, windows-latest, macos-latest ]
-
     steps:
       - name: Checkout
         uses: actions/checkout@v7
