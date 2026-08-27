@@ -4,6 +4,7 @@ import java.time.Instant;
 import java.time.OffsetDateTime;
 import java.time.ZoneOffset;
 
+import it.niedermann.nextcloud.deck.domain.model.AccessControl;
 import it.niedermann.nextcloud.deck.domain.model.Account;
 import it.niedermann.nextcloud.deck.domain.model.Attachment;
 import it.niedermann.nextcloud.deck.domain.model.Board;
@@ -12,7 +13,6 @@ import it.niedermann.nextcloud.deck.domain.model.Column;
 import it.niedermann.nextcloud.deck.domain.model.Comment;
 import it.niedermann.nextcloud.deck.domain.model.Label;
 import it.niedermann.nextcloud.deck.domain.model.User;
-import it.niedermann.nextcloud.deck.domain.model.AccessControl;
 
 public class CommonRemoteMapper {
 
@@ -158,6 +158,6 @@ public class CommonRemoteMapper {
 
     public String fromColor(it.niedermann.nextcloud.deck.domain.model.Color color) {
         if (color == null) return null;
-        return String.format("#%06X", (0xFFFFFF & color.argb()));
+        return String.format("%06X", (0xFFFFFF & color.argb()));
     }
 }

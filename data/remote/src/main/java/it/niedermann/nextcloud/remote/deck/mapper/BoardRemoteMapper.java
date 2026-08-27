@@ -19,7 +19,7 @@ public interface BoardRemoteMapper extends GenericRemoteMapper<BoardDTO, Board> 
     @Override
     @Mapping(target = "id", source = "remoteId")
     @Mapping(target = "lastModified", source = "lastModified")
-    @Mapping(target = "permissions", source = "permissions")
+    @Mapping(target = "permissions", ignore = true)
     @Mapping(target = "owner", ignore = true)
     @Mapping(target = "labels", ignore = true)
     @Mapping(target = "stacks", ignore = true)

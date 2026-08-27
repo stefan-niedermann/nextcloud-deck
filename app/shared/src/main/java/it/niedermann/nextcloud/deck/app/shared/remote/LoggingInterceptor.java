@@ -28,6 +28,12 @@ public class LoggingInterceptor implements Interceptor {
         }
 
         logger.info(() -> "--> " + request.method() + " " + request.url());
+        final var requestBody = request.body();
+        if (requestBody != null) {
+            final var buffer = new okio.Buffer();
+            requestBody.writeTo(buffer);
+            logger.info(() -> buffer.readString(StandardCharsets.UTF_8));
+        }
 
         final var response = chain.proceed(request);
 
