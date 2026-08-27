@@ -161,11 +161,19 @@ jobs:
       - name: Run Tests
         run: ./gradlew :app:javafx:test --stacktrace
 
+      - name: Upload Reports
+        if: failure()
+        uses: actions/upload-artifact@v7
+        with:
+          name: javafx-test-report
+          path: |
+            app/javafx/build/reports/tests/test/**
+            ${{ runner.temp }}/.gradle-actions/build-results/*.json
+
       - name: Build App
         run: ./gradlew :app:javafx:build
 
       - name: Upload Artifact
-        if: matrix.os == 'ubuntu-latest'
         uses: actions/upload-artifact@v7
         with:
           name: jar
@@ -194,6 +202,18 @@ jobs:
 
       - name: Build App
         run: ./gradlew :app:android:assemble
+
+      - name: Run Tests
+        run: ./gradlew :app:android:testDebugUnitTest --stacktrace
+
+      - name: Upload Reports
+        if: failure()
+        uses: actions/upload-artifact@v7
+        with:
+          name: android-test-report
+          path: |
+            app/android/build/reports/tests/testDebugUnitTest/**
+            ${{ runner.temp }}/.gradle-actions/build-results/*.json
 
       - name: Upload Artifact
         uses: actions/upload-artifact@v7
@@ -224,6 +244,15 @@ jobs:
 
       - name: Build App
         run: ./gradlew :app:cli:build
+
+      - name: Upload Reports
+        if: failure()
+        uses: actions/upload-artifact@v7
+        with:
+          name: cli-test-report
+          path: |
+            app/cli/build/reports/tests/test/**
+            ${{ runner.temp }}/.gradle-actions/build-results/*.json
 
       - name: Upload Artifact
         uses: actions/upload-artifact@v7
