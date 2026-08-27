@@ -1,33 +1,46 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.ComboBox?><?import javafx.scene.control.Label?><?import javafx.scene.control.CheckBox?><?import javafx.scene.layout.VBox?><?import javafx.scene.layout.GridPane?><?import javafx.geometry.Insets?><?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.control.ComboBox?><?import javafx.scene.control.Label?><?import javafx.scene.control.CheckBox?><?import javafx.scene.layout.VBox?><?import javafx.scene.layout.GridPane?><?import javafx.geometry.Insets?><?import javafx.scene.layout.ColumnConstraints?><?import javafx.scene.layout.HBox?><?import javafx.scene.control.ListView?><?import javafx.scene.layout.StackPane?><?import javafx.scene.layout.Priority?>
 
-<VBox xmlns:fx="http://javafx.com/fxml/1" prefHeight="400.0" prefWidth="600.0" maxWidth="Infinity" maxHeight="Infinity"
-    xmlns="http://javafx.com/javafx/24.0.1" spacing="20">
-    <padding>
-        <Insets top="20" right="20" bottom="20" left="20" />
-    </padding>
+<HBox xmlns:fx="http://javafx.com/fxml/1" prefHeight="500.0" prefWidth="800.0" maxWidth="Infinity" maxHeight="Infinity"
+    xmlns="http://javafx.com/javafx/24.0.1">
     <children>
-        <Label text="Preferences" style="-fx-font-size: 24; -fx-font-weight: bold;" />
-
-        <GridPane hgap="10" vgap="10">
-            <columnConstraints>
-                <ColumnConstraints minWidth="150" />
-                <ColumnConstraints hgrow="ALWAYS" />
-            </columnConstraints>
+        <VBox spacing="10" minWidth="200" style="-fx-background-color: -fx-background;">
+            <padding>
+                <Insets top="10" right="10" bottom="10" left="10" />
+            </padding>
             <children>
-                <Label text="Theme" GridPane.columnIndex="0" GridPane.rowIndex="0" />
-                <ComboBox fx:id="themeComboBox" GridPane.columnIndex="1" GridPane.rowIndex="0" />
-
-                <Label text="Background Sync" GridPane.columnIndex="0" GridPane.rowIndex="1" />
-                <CheckBox fx:id="backgroundSyncCheckBox" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-
-                <Label text="Compact Mode" GridPane.columnIndex="0" GridPane.rowIndex="2" />
-                <CheckBox fx:id="compactModeCheckBox" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-
-                <Label text="Debug Mode" GridPane.columnIndex="0" GridPane.rowIndex="3" />
-                <CheckBox fx:id="debugModeCheckBox" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                <ListView fx:id="navigationListView" VBox.vgrow="ALWAYS" />
             </children>
-        </GridPane>
+        </VBox>
+        <StackPane fx:id="contentArea" HBox.hgrow="ALWAYS">
+            <padding>
+                <Insets top="20" right="20" bottom="20" left="20" />
+            </padding>
+            <children>
+                <VBox fx:id="generalPreferences" spacing="20">
+                    <children>
+                        <Label text="General" style="-fx-font-size: 24; -fx-font-weight: bold;" />
+
+                        <GridPane hgap="10" vgap="10">
+                            <columnConstraints>
+                                <ColumnConstraints minWidth="150" />
+                                <ColumnConstraints hgrow="ALWAYS" />
+                            </columnConstraints>
+                            <children>
+                                <Label text="Theme" GridPane.columnIndex="0" GridPane.rowIndex="0" />
+                                <ComboBox fx:id="themeComboBox" GridPane.columnIndex="1" GridPane.rowIndex="0" />
+
+                                <Label text="Compact Mode" GridPane.columnIndex="0" GridPane.rowIndex="1" />
+                                <CheckBox fx:id="compactModeCheckBox" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+
+                                <Label text="Debug Mode" GridPane.columnIndex="0" GridPane.rowIndex="2" />
+                                <CheckBox fx:id="debugModeCheckBox" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                            </children>
+                        </GridPane>
+                    </children>
+                </VBox>
+            </children>
+        </StackPane>
     </children>
-</VBox>
+</HBox>

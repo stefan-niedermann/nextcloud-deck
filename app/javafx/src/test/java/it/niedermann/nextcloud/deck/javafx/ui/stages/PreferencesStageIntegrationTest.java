@@ -60,13 +60,13 @@ class PreferencesStageIntegrationTest {
         when(hasAccountsUseCase.execute()).thenReturn(Flowable.just(true));
         when(detector.isDark()).thenReturn(false);
         when(keyValueStore.getString(ThemeService.KEY_THEME)).thenReturn(Flowable.just("AUTO"));
-        when(keyValueStore.getBoolean(PreferencesService.KEY_BACKGROUND_SYNC)).thenReturn(Flowable.just(true));
         when(keyValueStore.getBoolean(PreferencesService.KEY_COMPACT_MODE)).thenReturn(Flowable.just(false));
         when(keyValueStore.getBoolean(ExceptionService.KEY_DEBUG_MODE)).thenReturn(Flowable.just(false));
         when(keyValueStore.containsKey(anyString())).thenReturn(java.util.concurrent.CompletableFuture.completedFuture(true));
 
         final var getAccountsUseCase = mock(GetAccountsUseCase.class);
-        when(getAccountsUseCase.execute()).thenReturn(Flowable.empty());
+        when(getAccountsUseCase.execute()).thenReturn(Flowable.just(java.util.Collections.emptyList()));
+
         final var getAccountUseCase = mock(GetAccountUseCase.class);
         final var getBoardUseCase = mock(GetBoardUseCase.class);
         final var getCardUseCase = mock(GetCardUseCase.class);
@@ -82,7 +82,7 @@ class PreferencesStageIntegrationTest {
 
         final var themeService = new ThemeService(detector, keyValueStore);
         final SplashScreenScene.Factory splashScreenFactory = SplashScreenScene::new;
-        
+
         final var loginFactoryProvider = (jakarta.inject.Provider<LoginScene.Factory>) () -> mock(LoginScene.Factory.class);
         final var exceptionFactoryProvider = (jakarta.inject.Provider<ExceptionScene.Factory>) () -> mock(ExceptionScene.Factory.class);
         final var storeLogger = new StoreLogger(new com.google.gson.Gson());
@@ -92,10 +92,15 @@ class PreferencesStageIntegrationTest {
                 url
         );
 
-        final var realStageContext = new PreferencesService(storeLogger, keyValueStore, new PreferencesService.State());
+        final var realStageContext = new PreferencesService(storeLogger, keyValueStore, getAccountsUseCase, new PreferencesService.State());
         stageContext = spy(realStageContext);
         final PreferencesService.Factory stageContextFactory = initialState -> stageContext;
-        final PreferencesScene.Factory preferencesSceneFactory = PreferencesScene::new;
+        final PreferencesScene.Factory preferencesSceneFactory = (PreferencesService ps) -> new PreferencesScene(
+                ps,
+                mock(Inflater.class),
+                mock(it.niedermann.nextcloud.deck.javafx.ui.preferences.features.AccountPreferencesFeature.Factory.class),
+                mock(it.niedermann.nextcloud.deck.javafx.ui.preferences.features.AccountPreferencesService.Factory.class)
+        );
 
         final var manager = new PreferencesStage(
                 Inflater.getInstance(),
@@ -117,16 +122,14 @@ class PreferencesStageIntegrationTest {
 
     @Test
     void testPreferencesSceneIsShown(FxRobot robot) {
-        robot.lookup("Preferences").query();
+        robot.lookup("General").query();
         robot.lookup("#themeComboBox").query();
-        robot.lookup("#backgroundSyncCheckBox").query();
         robot.lookup("#compactModeCheckBox").query();
     }
 
     @Test
     void testChangePreferences(FxRobot robot) {
         // Interaction with CheckBoxes
-        robot.clickOn("#backgroundSyncCheckBox");
         robot.clickOn("#compactModeCheckBox");
 
         // Interaction with ComboBox
@@ -134,7 +137,6 @@ class PreferencesStageIntegrationTest {
         robot.clickOn(LabeledMatchers.hasText("DARK"));
 
         // Verification
-        verify(stageContext, atLeastOnce()).dispatch(any(PreferencesService.Action.SetBackgroundSync.class));
         verify(stageContext, atLeastOnce()).dispatch(any(PreferencesService.Action.SetCompactMode.class));
         verify(stageContext, atLeastOnce()).dispatch(any(PreferencesService.Action.SetTheme.class));
     }

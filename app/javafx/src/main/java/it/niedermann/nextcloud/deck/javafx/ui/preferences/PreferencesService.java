@@ -1,5 +1,7 @@
 package it.niedermann.nextcloud.deck.javafx.ui.preferences;
 
+import java.util.Collection;
+import java.util.Collections;
 import java.util.Optional;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -10,7 +12,9 @@ import dagger.assisted.AssistedInject;
 import io.reactivex.rxjava4.core.Flowable;
 import io.reactivex.rxjava4.schedulers.Schedulers;
 import io.soabase.recordbuilder.core.RecordBuilder;
+import it.niedermann.nextcloud.deck.domain.model.Account;
 import it.niedermann.nextcloud.deck.domain.state.KeyValueStore;
+import it.niedermann.nextcloud.deck.domain.usecases.accounts.GetAccountsUseCase;
 import it.niedermann.nextcloud.deck.javafx.store.Store;
 import it.niedermann.nextcloud.deck.javafx.store.StoreLogger;
 import it.niedermann.nextcloud.deck.javafx.ui.shared.services.ExceptionService;
@@ -21,7 +25,6 @@ public class PreferencesService extends Store<PreferencesService.State, Preferen
 
     private static final Logger logger = Logger.getLogger(PreferencesService.class.getName());
 
-    public static final String KEY_BACKGROUND_SYNC = "background_sync";
     public static final String KEY_COMPACT_MODE = "compact_mode";
 
     private final KeyValueStore keyValueStore;
@@ -30,6 +33,7 @@ public class PreferencesService extends Store<PreferencesService.State, Preferen
     public PreferencesService(
             StoreLogger storeLogger,
             KeyValueStore keyValueStore,
+            GetAccountsUseCase getAccountsUseCase,
             @Assisted State initialState
     ) {
         super(storeLogger, initialState);
@@ -37,17 +41,13 @@ public class PreferencesService extends Store<PreferencesService.State, Preferen
 
         on(Action.Initialize.class, (state, action) -> action.initialState());
         on(Action.SetTheme.class, (state, action) -> state.withTheme(action.theme()));
-        on(Action.SetBackgroundSync.class, (state, action) -> state.withBackgroundSync(action.enabled()));
         on(Action.SetCompactMode.class, (state, action) -> state.withCompactMode(action.enabled()));
         on(Action.SetDebugMode.class, (state, action) -> state.withDebugMode(action.enabled()));
+        on(Action.SetAccounts.class, (state, action) -> state.withAccounts(action.accounts()));
+        on(Action.SwitchSection.class, (state, action) -> state.withSelectedSection(action.section()).withSelectedAccount(action.account()));
 
         effect(Action.SetTheme.class, (_, action) ->
                 keyValueStore.putString(ThemeService.KEY_THEME, action.theme().name())
-                        .thenApplyAsync(_ -> Optional.empty())
-        );
-
-        effect(Action.SetBackgroundSync.class, (_, action) ->
-                keyValueStore.putBoolean(KEY_BACKGROUND_SYNC, action.enabled())
                         .thenApplyAsync(_ -> Optional.empty())
         );
 
@@ -67,11 +67,6 @@ public class PreferencesService extends Store<PreferencesService.State, Preferen
                         .observeOn(JavaFxScheduler.platform())
                         .subscribe(s -> dispatch(new Action.SetTheme(ThemeService.Theme.fromName(s))), throwable -> logger.log(Level.SEVERE, "Error while loading theme preference", throwable)),
 
-                Flowable.fromPublisher(keyValueStore.getBoolean(KEY_BACKGROUND_SYNC))
-                        .subscribeOn(Schedulers.virtual())
-                        .observeOn(JavaFxScheduler.platform())
-                        .subscribe(enabled -> dispatch(new Action.SetBackgroundSync(enabled)), throwable -> logger.log(Level.SEVERE, "Error while loading background sync preference", throwable)),
-
                 Flowable.fromPublisher(keyValueStore.getBoolean(KEY_COMPACT_MODE))
                         .subscribeOn(Schedulers.virtual())
                         .observeOn(JavaFxScheduler.platform())
@@ -80,16 +75,15 @@ public class PreferencesService extends Store<PreferencesService.State, Preferen
                 Flowable.fromPublisher(keyValueStore.getBoolean(ExceptionService.KEY_DEBUG_MODE))
                         .subscribeOn(Schedulers.virtual())
                         .observeOn(JavaFxScheduler.platform())
-                        .subscribe(enabled -> dispatch(new Action.SetDebugMode(enabled)), throwable -> logger.log(Level.SEVERE, "Error while loading debug mode preference", throwable))
+                        .subscribe(enabled -> dispatch(new Action.SetDebugMode(enabled)), throwable -> logger.log(Level.SEVERE, "Error while loading debug mode preference", throwable)),
+
+                Flowable.fromPublisher(getAccountsUseCase.execute())
+                        .subscribeOn(Schedulers.virtual())
+                        .observeOn(JavaFxScheduler.platform())
+                        .subscribe(accounts -> dispatch(new Action.SetAccounts(accounts)), throwable -> logger.log(Level.SEVERE, "Error while loading accounts", throwable))
         );
 
         // Handle defaults for keys that don't exist yet
-        keyValueStore.containsKey(KEY_BACKGROUND_SYNC).thenAccept(exists -> {
-            if (!exists) {
-                dispatch(new Action.SetBackgroundSync(true));
-            }
-        });
-
         keyValueStore.containsKey(ExceptionService.KEY_DEBUG_MODE).thenAccept(exists -> {
             if (!exists) {
                 dispatch(new Action.SetDebugMode(false));
@@ -104,18 +98,26 @@ public class PreferencesService extends Store<PreferencesService.State, Preferen
         PreferencesService create(State initialState);
     }
 
+    public enum Section {
+        GENERAL, ACCOUNT
+    }
+
     @RecordBuilder
     public record State(
             ThemeService.Theme theme,
-            boolean backgroundSync,
             boolean compactMode,
-            boolean debugMode
+            boolean debugMode,
+            Collection<Account> accounts,
+            Section selectedSection,
+            Optional<Account> selectedAccount
     ) implements PreferencesServiceStateBuilder.With {
         public State() {
             this(ThemeService.Theme.AUTO,
-                    true,
                     false,
-                    false);
+                    false,
+                    Collections.emptyList(),
+                    Section.GENERAL,
+                    Optional.empty());
         }
     }
 
@@ -126,13 +128,16 @@ public class PreferencesService extends Store<PreferencesService.State, Preferen
         record SetTheme(ThemeService.Theme theme) implements Action {
         }
 
-        record SetBackgroundSync(boolean enabled) implements Action {
-        }
-
         record SetCompactMode(boolean enabled) implements Action {
         }
 
         record SetDebugMode(boolean enabled) implements Action {
+        }
+
+        record SetAccounts(Collection<Account> accounts) implements Action {
+        }
+
+        record SwitchSection(Section section, Optional<Account> account) implements Action {
         }
     }
 }

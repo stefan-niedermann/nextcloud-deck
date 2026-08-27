@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?><?import javafx.scene.control.CheckBox?><?import javafx.scene.control.Label?><?import javafx.scene.layout.ColumnConstraints?><?import javafx.scene.layout.GridPane?><?import javafx.scene.layout.VBox?>
+
+<VBox xmlns:fx="http://javafx.com/fxml/1" maxWidth="Infinity" maxHeight="Infinity"
+    xmlns="http://javafx.com/javafx/24.0.1" spacing="20">
+    <padding>
+        <Insets top="20" right="20" bottom="20" left="20" />
+    </padding>
+    <children>
+        <Label fx:id="accountNameLabel" style="-fx-font-size: 24; -fx-font-weight: bold;" />
+
+        <GridPane hgap="10" vgap="10">
+            <columnConstraints>
+                <ColumnConstraints minWidth="150" />
+                <ColumnConstraints hgrow="ALWAYS" />
+            </columnConstraints>
+            <children>
+                <Label text="Background synchronization" GridPane.columnIndex="0" GridPane.rowIndex="0" />
+                <CheckBox fx:id="backgroundSyncCheckBox" GridPane.columnIndex="1" GridPane.rowIndex="0" />
+            </children>
+        </GridPane>
+    </children>
+</VBox>
