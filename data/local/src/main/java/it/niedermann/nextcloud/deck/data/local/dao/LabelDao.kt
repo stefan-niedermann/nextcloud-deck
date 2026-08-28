@@ -11,8 +11,11 @@ import java.util.concurrent.CompletableFuture
 @Dao
 interface LabelDao : GenericDao<LabelEntity> {
 
-    @Query("SELECT * FROM Label WHERE boardId = :boardId ORDER BY title ASC")
+    @Query("SELECT * FROM Label WHERE boardId = :boardId AND status != 3 ORDER BY title ASC")
     fun getLabelsByBoard(boardId: Long): Flowable<List<LabelEntity>>
+
+    @Query("SELECT * FROM Label WHERE boardId = :boardId")
+    fun getLabelsByBoardSync(boardId: Long): CompletableFuture<List<LabelEntity>>
 
     @Query("SELECT * FROM Label WHERE accountId = :accountId AND remoteId = :remoteId")
     fun getLabelByRemoteId(accountId: Long, remoteId: Long): CompletableFuture<LabelEntity?>
@@ -29,6 +32,15 @@ interface LabelDao : GenericDao<LabelEntity> {
     @Query("DELETE FROM Label WHERE localId = :localId")
     fun deleteById(localId: Long): CompletableFuture<Void?>
 
+    @Query("SELECT * FROM Label WHERE localId = :localId")
+    fun getLabelById(localId: Long): CompletableFuture<LabelEntity?>
+
+    @Query("SELECT * FROM Label WHERE localId = :localId")
+    fun getLabelByIdRx(localId: Long): Flowable<LabelEntity>
+
     @Query("SELECT * FROM Label INNER JOIN JoinCardWithLabel ON Label.localId = JoinCardWithLabel.labelId WHERE JoinCardWithLabel.cardId = :cardId")
     fun getLabelsByCard(cardId: Long): Flowable<List<LabelEntity>>
+
+    @Query("SELECT * FROM Label WHERE title LIKE '%' || :userText || '%' AND status != 3 ORDER BY title ASC")
+    fun find(userText: String): Flowable<List<LabelEntity>>
 }

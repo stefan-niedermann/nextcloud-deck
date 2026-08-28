@@ -35,6 +35,10 @@ public record Color(int argb) implements Serializable {
         if (nm.startsWith("#")) {
             nm = nm.substring(1);
         }
-        return new Color((int) Long.parseLong(nm, 16));
+        int value = (int) Long.parseLong(nm, 16);
+        if (nm.length() <= 6) {
+            value |= 0xFF000000;
+        }
+        return new Color(value);
     }
 }

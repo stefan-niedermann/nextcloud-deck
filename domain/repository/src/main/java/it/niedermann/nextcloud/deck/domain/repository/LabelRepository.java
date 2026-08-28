@@ -19,4 +19,6 @@ public interface LabelRepository {
     Flow.Publisher<Set<Label>> getLabel(Label.ID labelId);
 
     Flow.Publisher<Collection<Label>> find(String userText);
+
+    CompletableFuture<Void> deleteLabel(Label.ID labelId);
 }
