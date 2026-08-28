@@ -13,6 +13,7 @@ import org.testfx.api.FxRobot;
 import org.testfx.framework.junit5.ApplicationExtension;
 import org.testfx.framework.junit5.Start;
 
+import java.io.IOException;
 import java.net.URI;
 import java.util.Optional;
 import java.util.concurrent.Flow;
@@ -35,6 +36,7 @@ import it.niedermann.nextcloud.deck.domain.usecases.columns.GetColumnUseCase;
 import it.niedermann.nextcloud.deck.domain.usecases.comments.AddCommentUseCase;
 import it.niedermann.nextcloud.deck.domain.usecases.comments.ListPreviewCommentsUseCase;
 import it.niedermann.nextcloud.deck.domain.usecases.state.SetCurrentAccountUseCase;
+import it.niedermann.nextcloud.deck.javafx.ScreenshotUtil;
 import it.niedermann.nextcloud.deck.javafx.di.stage.StageComponent;
 import it.niedermann.nextcloud.deck.javafx.fxml.Inflater;
 import it.niedermann.nextcloud.deck.javafx.services.ApplicationRouter;
@@ -190,6 +192,7 @@ class EditCardStageIntegrationTest {
     }
 
     @Test
-    void testEditCardSceneIsShown(FxRobot robot) {
+    void testEditCardSceneIsShown(FxRobot robot) throws IOException {
+        ScreenshotUtil.captureScene(robot, "EditCard");
     }
 }

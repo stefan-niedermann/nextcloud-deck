@@ -21,6 +21,7 @@ import org.testfx.framework.junit5.Start;
 import org.testfx.matcher.base.NodeMatchers;
 import org.testfx.util.WaitForAsyncUtils;
 
+import java.io.IOException;
 import java.net.URI;
 import java.net.URL;
 import java.time.OffsetDateTime;
@@ -75,6 +76,7 @@ import it.niedermann.nextcloud.deck.domain.usecases.sync.GetSyncStatusUseCase;
 import it.niedermann.nextcloud.deck.domain.usecases.sync.ScheduleSyncUseCase;
 import it.niedermann.nextcloud.deck.domain.usecases.users.ListUsersUseCase;
 import it.niedermann.nextcloud.deck.domain.usecases.users.SearchUserUseCase;
+import it.niedermann.nextcloud.deck.javafx.ScreenshotUtil;
 import it.niedermann.nextcloud.deck.javafx.fxml.Inflater;
 import it.niedermann.nextcloud.deck.javafx.services.ApplicationRouter;
 import it.niedermann.nextcloud.deck.javafx.store.StoreLogger;
@@ -394,8 +396,9 @@ class MainStageIntegrationTest {
     }
 
     @Test
-    void testMainSceneIsShown(FxRobot robot) throws TimeoutException {
+    void testMainSceneIsShown(FxRobot robot) throws TimeoutException, IOException {
         WaitForAsyncUtils.waitFor(10, TimeUnit.SECONDS, () -> robot.lookup("#boardList").tryQuery().isPresent());
+        ScreenshotUtil.captureScene(robot, "Main");
         FxAssert.verifyThat("#boardList", NodeMatchers.isVisible());
     }
 
@@ -407,12 +410,13 @@ class MainStageIntegrationTest {
     }
 
     @Test
-    void testOpenCard(FxRobot robot) throws TimeoutException {
+    void testOpenCard(FxRobot robot) throws TimeoutException, IOException {
         WaitForAsyncUtils.waitFor(10, TimeUnit.SECONDS, () -> robot.lookup("Board 1").tryQuery().isPresent());
         robot.clickOn("Board 1");
         WaitForAsyncUtils.waitFor(10, TimeUnit.SECONDS, () -> robot.lookup("Card 1").tryQuery().isPresent());
         robot.clickOn("Card 1");
         WaitForAsyncUtils.waitFor(10, TimeUnit.SECONDS, () -> robot.lookup("#popOutBtn").tryQuery().isPresent());
+        ScreenshotUtil.captureScene(robot, "Main_CardSidebar");
         FxAssert.verifyThat("#popOutBtn", NodeMatchers.isVisible());
     }
 

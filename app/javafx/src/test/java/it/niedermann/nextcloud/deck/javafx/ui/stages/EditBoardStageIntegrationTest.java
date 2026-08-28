@@ -13,6 +13,7 @@ import org.testfx.api.FxRobot;
 import org.testfx.framework.junit5.ApplicationExtension;
 import org.testfx.framework.junit5.Start;
 
+import java.io.IOException;
 import java.net.URI;
 import java.util.concurrent.Flow;
 
@@ -44,6 +45,7 @@ import it.niedermann.nextcloud.deck.domain.usecases.labels.DeleteLabelUseCase;
 import it.niedermann.nextcloud.deck.domain.usecases.labels.ListLabelsUseCase;
 import it.niedermann.nextcloud.deck.domain.usecases.labels.UpdateLabelUseCase;
 import it.niedermann.nextcloud.deck.domain.usecases.state.SetCurrentAccountUseCase;
+import it.niedermann.nextcloud.deck.javafx.ScreenshotUtil;
 import it.niedermann.nextcloud.deck.javafx.fxml.Inflater;
 import it.niedermann.nextcloud.deck.javafx.store.StoreLogger;
 import it.niedermann.nextcloud.deck.javafx.ui.editboard.EditBoardScene;
@@ -75,7 +77,7 @@ class EditBoardStageIntegrationTest {
         final var setCurrentAccountUseCase = mock(SetCurrentAccountUseCase.class);
 
         when(hasAccountsUseCase.execute()).thenReturn(Flowable.just(true));
-        
+
         final var accountId = new Account.ID(1);
         final var boardId = new Board.ID(2);
         final var boardParsedArgs = new BoardParsedArgs(accountId, boardId);
@@ -90,7 +92,7 @@ class EditBoardStageIntegrationTest {
             public void cancel() {
             }
         }));
-        
+
         final var storeLogger = new StoreLogger(new com.google.gson.Gson());
         final var detector = mock(OsThemeDetector.class);
         when(detector.isDark()).thenReturn(false);
@@ -134,9 +136,9 @@ class EditBoardStageIntegrationTest {
                 new EditBoardService.State(accountId, boardId)
         );
         final EditBoardService.Factory stageContextFactory = initialState -> stageContext;
-        
+
         final var inflater = Inflater.getInstance();
-        
+
         final var getAccountUseCase = mock(GetAccountUseCase.class, Answers.RETURNS_MOCKS);
         when(getAccountUseCase.execute(any())).thenReturn(Flowable.empty());
         final var getAccountsUseCase = mock(GetAccountsUseCase.class, Answers.RETURNS_MOCKS);
@@ -145,7 +147,6 @@ class EditBoardStageIntegrationTest {
         when(getCardUseCase.execute(any())).thenReturn(Flowable.empty());
 
 
-        
         final var stageTitleResolver = new StageTitleResolver(
                 getAccountUseCase,
                 getAccountsUseCase,
@@ -204,6 +205,7 @@ class EditBoardStageIntegrationTest {
     }
 
     @Test
-    void testEditBoardSceneIsShown(FxRobot robot) {
+    void testEditBoardSceneIsShown(FxRobot robot) throws IOException {
+        ScreenshotUtil.captureScene(robot, "EditBoard");
     }
 }

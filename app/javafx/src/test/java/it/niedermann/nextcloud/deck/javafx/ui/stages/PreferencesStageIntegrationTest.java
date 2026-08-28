@@ -17,6 +17,7 @@ import org.testfx.framework.junit5.ApplicationExtension;
 import org.testfx.framework.junit5.Start;
 import org.testfx.matcher.control.LabeledMatchers;
 
+import java.io.IOException;
 import java.net.URI;
 
 import io.reactivex.rxjava4.core.Flowable;
@@ -30,6 +31,7 @@ import it.niedermann.nextcloud.deck.domain.usecases.boards.GetBoardUseCase;
 import it.niedermann.nextcloud.deck.domain.usecases.cards.GetCardUseCase;
 import it.niedermann.nextcloud.deck.domain.usecases.columns.GetColumnUseCase;
 import it.niedermann.nextcloud.deck.domain.usecases.state.SetCurrentAccountUseCase;
+import it.niedermann.nextcloud.deck.javafx.ScreenshotUtil;
 import it.niedermann.nextcloud.deck.javafx.fxml.Inflater;
 import it.niedermann.nextcloud.deck.javafx.store.StoreLogger;
 import it.niedermann.nextcloud.deck.javafx.ui.exception.ExceptionScene;
@@ -121,10 +123,11 @@ class PreferencesStageIntegrationTest {
     }
 
     @Test
-    void testPreferencesSceneIsShown(FxRobot robot) {
+    void testPreferencesSceneIsShown(FxRobot robot) throws IOException {
         robot.lookup("General").query();
         robot.lookup("#themeComboBox").query();
         robot.lookup("#compactModeCheckBox").query();
+        ScreenshotUtil.captureScene(robot, "Preferences");
     }
 
     @Test

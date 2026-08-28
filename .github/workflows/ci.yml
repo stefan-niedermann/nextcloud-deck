@@ -170,13 +170,19 @@ jobs:
             app/javafx/build/reports/tests/test/**
             ${{ runner.temp }}/.gradle-actions/build-results/*.json
 
+      - name: Upload Screenshots
+        uses: actions/upload-artifact@v7
+        with:
+          name: javafx-screenshots
+          path: app/javafx/build/screenshots
+
       - name: Build App
         run: ./gradlew :app:javafx:build
 
       - name: Upload Artifact
         uses: actions/upload-artifact@v7
         with:
-          name: jar
+          name: javafx-jar
           path: app/javafx/build/libs/*all.jar
 
   android:
@@ -218,7 +224,7 @@ jobs:
       - name: Upload Artifact
         uses: actions/upload-artifact@v7
         with:
-          name: apk
+          name: android-apk
           path: app/android/build/outputs/apk/debug/android-debug.apk
 
       - name: Upload Screenshots
@@ -263,5 +269,5 @@ jobs:
       - name: Upload Artifact
         uses: actions/upload-artifact@v7
         with:
-          name: cli
+          name: cli-jar
           path: app/cli/build/libs/cli-all.jar
