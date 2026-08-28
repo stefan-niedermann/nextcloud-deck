@@ -2,7 +2,7 @@ package it.niedermann.nextcloud.deck.javafx.services;
 
 import java.net.URL;
 
-import it.niedermann.nextcloud.deck.app.shared.args.EmptyArgs;
+import it.niedermann.nextcloud.deck.app.shared.args.account.AccountRawArgs;
 import it.niedermann.nextcloud.deck.app.shared.args.board.BoardRawArgs;
 import it.niedermann.nextcloud.deck.app.shared.args.card.CardRawArgs;
 import it.niedermann.nextcloud.deck.domain.model.Account;
@@ -50,7 +50,11 @@ public class ApplicationRouter {
     }
 
     public void launchPreferencesStage() {
-        launchPreferencesStage(new Stage());
+        launchPreferencesStage(new Stage(), new AccountRawArgs.None());
+    }
+
+    public void launchPreferencesStage(Account.ID accountId) {
+        launchPreferencesStage(new Stage(), new AccountRawArgs.ExplicitAccount(accountId));
     }
 
     // endregion
@@ -72,9 +76,9 @@ public class ApplicationRouter {
         stageComponent.getEditBoardStageFactory().create(args).initialize();
     }
 
-    private void launchPreferencesStage(Stage stage) {
+    private void launchPreferencesStage(Stage stage, AccountRawArgs args) {
         final var stageComponent = stageComponentFactory.create(stage);
-        stageComponent.getPreferencesStageFactory().create(EmptyArgs.INSTANCE).initialize();
+        stageComponent.getPreferencesStageFactory().create(args).initialize();
     }
 
     // endregion

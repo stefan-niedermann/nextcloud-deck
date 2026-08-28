@@ -1,12 +1,16 @@
 package it.niedermann.nextcloud.deck.javafx.ui.preferences;
 
+import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
 
 import dagger.assisted.Assisted;
 import dagger.assisted.AssistedFactory;
 import dagger.assisted.AssistedInject;
-import it.niedermann.nextcloud.deck.app.shared.args.EmptyArgs;
-import it.niedermann.nextcloud.deck.app.shared.args.StaticArgsResolver;
+import it.niedermann.nextcloud.deck.app.shared.args.ArgsResolver;
+import it.niedermann.nextcloud.deck.app.shared.args.account.AccountParsedArgs;
+import it.niedermann.nextcloud.deck.app.shared.args.account.AccountRawArgs;
+import it.niedermann.nextcloud.deck.app.shared.di.model.BuildConfig;
+import it.niedermann.nextcloud.deck.domain.model.Account;
 import it.niedermann.nextcloud.deck.domain.usecases.state.SetCurrentAccountUseCase;
 import it.niedermann.nextcloud.deck.javafx.di.stage.StageScope;
 import it.niedermann.nextcloud.deck.javafx.fxml.Inflater;
@@ -19,7 +23,7 @@ import it.niedermann.nextcloud.deck.javafx.ui.splashscreen.SplashScreenScene;
 import jakarta.inject.Provider;
 import javafx.stage.Stage;
 
-public class PreferencesStage extends AbstractStage<EmptyArgs, EmptyArgs> {
+public class PreferencesStage extends AbstractStage<AccountRawArgs, AccountParsedArgs> {
 
     private final PreferencesScene.Factory preferencesSceneFactory;
     private final PreferencesService.Factory stageContextFactory;
@@ -34,7 +38,8 @@ public class PreferencesStage extends AbstractStage<EmptyArgs, EmptyArgs> {
                             SetCurrentAccountUseCase setCurrentAccountUseCase,
                             PreferencesScene.Factory preferencesSceneFactory,
                             PreferencesService.Factory stageContextFactory,
-                            @Assisted EmptyArgs args) {
+                            ArgsResolver<AccountRawArgs, AccountParsedArgs> resolver,
+                            @Assisted AccountRawArgs args) {
         super(stage,
                 inflater,
                 splashScreenFactory,
@@ -42,7 +47,7 @@ public class PreferencesStage extends AbstractStage<EmptyArgs, EmptyArgs> {
                 loginFactoryProvider,
                 exceptionFactoryProvider,
                 setCurrentAccountUseCase,
-                new StaticArgsResolver<>(),
+                resolver,
                 args);
         this.preferencesSceneFactory = preferencesSceneFactory;
         this.stageContextFactory = stageContextFactory;
@@ -51,12 +56,12 @@ public class PreferencesStage extends AbstractStage<EmptyArgs, EmptyArgs> {
     @StageScope
     @AssistedFactory
     public interface Factory {
-        PreferencesStage create(EmptyArgs args);
+        PreferencesStage create(AccountRawArgs args);
     }
 
     @Override
-    protected CompletableFuture<AbstractScene> showContent(EmptyArgs args) {
-        final var stageContext = stageContextFactory.create(new PreferencesService.State());
+    protected CompletableFuture<AbstractScene> showContent(AccountParsedArgs parsedArgs) {
+        final var stageContext = stageContextFactory.create(new PreferencesService.State().withInitialSelectedAccountId(parsedArgs.accountId()));
         final var preferencesScene = preferencesSceneFactory.create(stageContext);
         return CompletableFuture.completedFuture(preferencesScene);
     }

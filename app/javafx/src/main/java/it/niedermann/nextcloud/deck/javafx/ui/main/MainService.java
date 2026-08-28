@@ -252,8 +252,12 @@ public class MainService extends Store<MainService.State, MainService.Action> im
     }
 
     @Override
-    public void onLaunchPreferences() {
-        applicationRouter.launchPreferencesStage();
+    public void onLaunchPreferences(Account.ID accountId) {
+        if (accountId != null) {
+            applicationRouter.launchPreferencesStage(accountId);
+        } else {
+            applicationRouter.launchPreferencesStage();
+        }
     }
 
     @Override
