@@ -12,11 +12,14 @@ import org.mockito.Answers;
 import org.testfx.api.FxRobot;
 import org.testfx.framework.junit5.ApplicationExtension;
 import org.testfx.framework.junit5.Start;
+import org.testfx.util.WaitForAsyncUtils;
 
 import java.io.IOException;
 import java.net.URI;
 import java.util.Optional;
 import java.util.concurrent.Flow;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.TimeoutException;
 
 import io.reactivex.rxjava4.core.Flowable;
 import it.niedermann.nextcloud.deck.app.shared.args.card.CardArgResolver;
@@ -64,8 +67,11 @@ import javafx.stage.Stage;
 @ExtendWith(ApplicationExtension.class)
 class EditCardStageIntegrationTest {
 
+    private Stage stage;
+
     @Start
     void start(Stage stage) {
+        this.stage = stage;
         final var hasAccountsUseCase = mock(HasAccountsUseCase.class);
         final var cardArgResolver = mock(CardArgResolver.class);
         final var setCurrentAccountUseCase = mock(SetCurrentAccountUseCase.class);
@@ -192,7 +198,9 @@ class EditCardStageIntegrationTest {
     }
 
     @Test
-    void testEditCardSceneIsShown(FxRobot robot) throws IOException {
+    void testEditCardSceneIsShown(FxRobot robot) throws IOException, TimeoutException {
+        robot.targetWindow(stage);
+        WaitForAsyncUtils.waitFor(10, TimeUnit.SECONDS, () -> robot.lookup("#title").tryQuery().isPresent());
         ScreenshotUtil.captureScene(robot, "EditCard");
     }
 }
