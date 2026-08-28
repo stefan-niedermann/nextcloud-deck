@@ -221,6 +221,12 @@ jobs:
           name: apk
           path: app/android/build/outputs/apk/debug/android-debug.apk
 
+      - name: Upload Screenshots
+        uses: actions/upload-artifact@v7
+        with:
+          name: android-screenshots
+          path: app/android/fastlane/metadata/android/en-US/images/phoneScreenshots
+
   cli:
     name: App (CLI)
     runs-on: ubuntu-latest

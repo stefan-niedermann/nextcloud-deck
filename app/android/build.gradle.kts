@@ -39,7 +39,6 @@ android {
     }
     testOptions {
         unitTests.all {
-            it.useJUnitPlatform()
             it.systemProperty("roborazzi.test.record", "true")
         }
         unitTests.isIncludeAndroidResources = true

@@ -5,7 +5,6 @@ import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.rxjava3.RxPreferenceDataStoreBuilder
 import androidx.datastore.rxjava3.RxDataStore
 import androidx.room3.Room
-import androidx.sqlite.driver.bundled.BundledSQLiteDriver
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.android.qualifiers.ApplicationContext
@@ -13,12 +12,11 @@ import dagger.hilt.components.SingletonComponent
 import dagger.hilt.testing.TestInstallIn
 import it.niedermann.nextcloud.deck.AndroidKeyValueStore
 import it.niedermann.nextcloud.deck.app.shared.Constants.DECK_DB_NAME
+import it.niedermann.nextcloud.deck.app.shared.di.NamedVerbose
 import it.niedermann.nextcloud.deck.app.shared.di.SharedModule
 import it.niedermann.nextcloud.deck.data.local.DeckDatabase
 import it.niedermann.nextcloud.deck.domain.state.KeyValueStore
-import it.niedermann.nextcloud.remote.ApiProvider
 import jakarta.inject.Singleton
-import org.mockito.Mockito.mock
 
 @Module
 @TestInstallIn(
@@ -28,10 +26,15 @@ import org.mockito.Mockito.mock
 object TestAppModule {
 
     @Provides
+    @NamedVerbose
+    fun provideVerbose(): Boolean {
+        return false
+    }
+
+    @Provides
     @Singleton
     fun provideDatabase(@ApplicationContext context: Context): DeckDatabase {
         return Room.inMemoryDatabaseBuilder(context, DeckDatabase::class.java)
-            .setDriver(BundledSQLiteDriver())
             .allowMainThreadQueries()
             .build()
     }
@@ -54,10 +57,4 @@ object TestAppModule {
     components = [SingletonComponent::class],
     replaces = [DataModule::class]
 )
-object TestDataModule {
-    @Provides
-    @Singleton
-    fun provideApiProviderFactory(): ApiProvider.Factory {
-        return mock(ApiProvider.Factory::class.java)
-    }
-}
+object TestDataModule
