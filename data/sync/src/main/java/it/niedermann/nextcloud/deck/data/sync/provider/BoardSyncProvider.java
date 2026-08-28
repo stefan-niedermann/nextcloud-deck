@@ -68,7 +68,11 @@ public class BoardSyncProvider implements SyncProvider<Void> {
     public CompletableFuture<Void> upSync(Account account, SyncStatus status, Consumer<SyncStatus> reporter) {
         return boardDao.getChangedBoards(account.id().value())
                 .thenCompose(changedBoards -> {
-                    if (changedBoards == null) return CompletableFuture.completedFuture(null);
+                    if (changedBoards == null || changedBoards.isEmpty()) {
+                        logger.info("No changed boards found for account: " + account.id().value());
+                        return CompletableFuture.completedFuture(null);
+                    }
+                    logger.info("Found " + changedBoards.size() + " changed boards for account: " + account.id().value());
                     CompletableFuture<Void> future = CompletableFuture.completedFuture(null);
                     for (BoardEntity localBoard : changedBoards) {
                         final var finalFuture = future;
@@ -84,12 +88,18 @@ public class BoardSyncProvider implements SyncProvider<Void> {
 
         CompletableFuture<BoardDTO> call;
         if (localBoard.getRemoteId() == null) {
+            logger.info("Creating board: " + localBoard.getTitle());
             call = api.createBoard(dto);
         } else if (localBoard.getStatus() == DBStatus.LOCAL_DELETED.getId()) {
+            logger.info("Deleting board: " + localBoard.getRemoteId());
+            if (localBoard.getRemoteId() == null) {
+                return boardDao.deleteRx(localBoard).thenApply(v -> null);
+            }
             return api.deleteBoard(localBoard.getRemoteId())
                     .thenCompose(v -> boardDao.deleteRx(localBoard))
                     .thenApply(v -> null);
         } else {
+            logger.info("Updating board: " + localBoard.getRemoteId());
             call = api.updateBoard(localBoard.getRemoteId(), dto);
         }
 
@@ -199,18 +209,40 @@ public class BoardSyncProvider implements SyncProvider<Void> {
         return api.getBoards(true, null, null)
                 .thenCompose(boards -> {
                     if (boards == null) return CompletableFuture.completedFuture(null);
-                    long total = boards.size();
-                    CompletableFuture<?>[] boardFutures = new CompletableFuture[boards.size()];
-                    for (int i = 0; i < boards.size(); i++) {
-                        BoardDTO boardDto = boards.get(i);
-                        if (boardDto == null) {
-                            boardFutures[i] = CompletableFuture.completedFuture(null);
-                            continue;
+
+                    // Identify boards to delete locally (present in DB but missing from server response)
+                    List<Long> remoteIdsFromServer = new ArrayList<>();
+                    for (BoardDTO b : boards) {
+                        if (b.getId() != null) {
+                            remoteIdsFromServer.add(b.getId());
                         }
-                        final long finished = i + 1;
-                        boardFutures[i] = syncFullBoard(account, boardDto, total, finished, status, reporter);
                     }
-                    return CompletableFuture.allOf(boardFutures);
+
+                    return boardDao.getAllBoardsByAccount(account.id().value())
+                            .thenCompose(localBoards -> {
+                                List<CompletableFuture<?>> deleteFutures = new ArrayList<>();
+                                for (BoardEntity local : localBoards) {
+                                    if (local.getRemoteId() != null && !remoteIdsFromServer.contains(local.getRemoteId())) {
+                                        logger.info("Board missing on server, deleting locally: " + local.getRemoteId());
+                                        deleteFutures.add(boardDao.deleteRx(local));
+                                    }
+                                }
+                                return CompletableFuture.allOf(deleteFutures.toArray(new CompletableFuture[0]));
+                            })
+                            .thenCompose(v -> {
+                                long total = boards.size();
+                                CompletableFuture<?>[] boardFutures = new CompletableFuture[boards.size()];
+                                for (int i = 0; i < boards.size(); i++) {
+                                    BoardDTO boardDto = boards.get(i);
+                                    if (boardDto == null) {
+                                        boardFutures[i] = CompletableFuture.completedFuture(null);
+                                        continue;
+                                    }
+                                    final long finished = i + 1;
+                                    boardFutures[i] = syncFullBoard(account, boardDto, total, finished, status, reporter);
+                                }
+                                return CompletableFuture.allOf(boardFutures);
+                            });
                 });
     }
 
@@ -234,7 +266,25 @@ public class BoardSyncProvider implements SyncProvider<Void> {
                     });
             future.whenComplete((v, t) -> inFlightBoardSyncs.remove(key));
             return future;
-        }).thenApply(v -> null);
+        }).handle((v, t) -> {
+            if (t != null) {
+                Throwable cause = t.getCause();
+                if (cause instanceof HttpException && (((HttpException) cause).code() == 403 || ((HttpException) cause).code() == 404)) {
+                    logger.warning("Board " + boardDto.getId() + " disappeared during sync (403/404)");
+                    return boardDao.getBoardByRemoteId(account.id().value(), boardDto.getId())
+                            .thenCompose(localBoard -> {
+                                if (localBoard != null) {
+                                    return boardDao.deleteRx(localBoard);
+                                }
+                                return CompletableFuture.completedFuture(null);
+                            });
+                }
+                CompletableFuture<Void> f = new CompletableFuture<>();
+                f.completeExceptionally(t);
+                return f;
+            }
+            return CompletableFuture.completedFuture((Void) null);
+        }).thenCompose(f -> f);
     }
 
     private CompletableFuture<Void> syncBoardUsers(Account account, BoardDTO boardDto, Long localBoardId) {

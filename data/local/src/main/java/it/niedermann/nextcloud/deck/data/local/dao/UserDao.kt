@@ -23,6 +23,9 @@ interface UserDao : GenericDao<UserEntity> {
     @Query("SELECT * FROM User WHERE accountId = :accountId AND remoteId = :userId")
     fun getUserByRemoteId(accountId: Long, userId: String): CompletableFuture<UserEntity?>
 
+    @Query("SELECT * FROM User WHERE localId = :localId")
+    fun getUserByLocalId(localId: Long): CompletableFuture<UserEntity?>
+
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertOrReplace(entity: UserEntity): CompletableFuture<Long>
 }

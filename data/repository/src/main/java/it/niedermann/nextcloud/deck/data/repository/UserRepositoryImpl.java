@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CompletionException;
 import java.util.concurrent.Flow;
+import java.util.logging.Logger;
 
 import io.reactivex.rxjava3.core.Flowable;
 import io.reactivex.rxjava3.schedulers.Schedulers;
@@ -24,6 +25,8 @@ import jakarta.inject.Inject;
 import retrofit2.HttpException;
 
 public class UserRepositoryImpl implements UserRepository {
+
+    private static final Logger logger = Logger.getLogger(UserRepositoryImpl.class.getName());
 
     private final ApiProvider.Factory apiFactory;
     private final AccountRepository accountRepository;
@@ -80,25 +83,25 @@ public class UserRepositoryImpl implements UserRepository {
 
     @Override
     public Flow.Publisher<List<User>> getNotDeletedUsers(Account.ID accountId) {
-        System.out.println("[Mock][" + UserRepositoryImpl.class.getSimpleName() + "/getNotDeletedUsers]: " + accountId);
+        logger.info("[Mock][getNotDeletedUsers]: " + accountId);
         return FlowAdapters.toFlowPublisher(Flowable.just(Arrays.asList(MockData.MOCK_USERS)));
     }
 
     @Override
     public Flow.Publisher<Collection<User>> getUser(String userId) {
-        System.out.println("[Mock][" + UserRepositoryImpl.class.getSimpleName() + "/getUser]: " + userId);
+        logger.info("[Mock][getUser]: " + userId);
         return null;
     }
 
     @Override
     public Flow.Publisher<User> getUserByAccountId(Account.ID accountId) {
-        System.out.println("[Mock][" + UserRepositoryImpl.class.getSimpleName() + "/getUserByAccountId]: " + accountId);
+        logger.info("[Mock][getUserByAccountId]: " + accountId);
         return null;
     }
 
     @Override
     public CompletableFuture<Account.ID> getAccountIdByUserId(User.ID userId) {
-        System.out.println("[Mock][" + UserRepositoryImpl.class.getSimpleName() + "/getUserByAccountId]: " + userId);
+        logger.info("[Mock][getUserByAccountId]: " + userId);
         return CompletableFuture.completedFuture(new Account.ID(1L));
     }
 

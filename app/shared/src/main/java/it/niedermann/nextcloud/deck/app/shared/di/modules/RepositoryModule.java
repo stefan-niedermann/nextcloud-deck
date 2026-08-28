@@ -131,7 +131,9 @@ public class RepositoryModule {
     @Provides
     @Singleton
     ShareRepository provideShareRepository(AccessControlDao accessControlDao,
+                                           BoardDao boardDao,
+                                           UserDao userDao,
                                            AccessControlMapper accessControlMapper) {
-        return new ShareRepositoryImpl(accessControlDao, accessControlMapper);
+        return new ShareRepositoryImpl(accessControlDao, boardDao, userDao, accessControlMapper);
     }
 }

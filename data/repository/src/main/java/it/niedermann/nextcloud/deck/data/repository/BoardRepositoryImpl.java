@@ -14,6 +14,7 @@ import it.niedermann.nextcloud.deck.data.local.entity.BoardEntity;
 import it.niedermann.nextcloud.deck.data.local.mapper.BoardMapper;
 import it.niedermann.nextcloud.deck.domain.model.Account;
 import it.niedermann.nextcloud.deck.domain.model.Board;
+import it.niedermann.nextcloud.deck.domain.model.Color;
 import it.niedermann.nextcloud.deck.domain.model.CreateBoard;
 import it.niedermann.nextcloud.deck.domain.model.DBStatus;
 import it.niedermann.nextcloud.deck.domain.repository.BoardRepository;
@@ -43,7 +44,7 @@ public class BoardRepositoryImpl implements BoardRepository {
                 null,
                 board.title(),
                 null,
-                null,
+                new Color(0, 103, 158),
                 false,
                 0,
                 null,
@@ -58,7 +59,28 @@ public class BoardRepositoryImpl implements BoardRepository {
 
     @Override
     public CompletableFuture<Void> updateBoard(Board board) {
-        return boardDao.updateRx(boardMapper.toEntity(board));
+        final var entity = boardMapper.toEntity(board);
+        final var editedEntity = new BoardEntity(
+                entity.getLocalId(),
+                entity.getAccountId(),
+                entity.getRemoteId(),
+                DBStatus.LOCAL_EDITED.getId(),
+                entity.getLastModified(),
+                OffsetDateTime.now(),
+                entity.getEtag(),
+                entity.getTitle(),
+                entity.getOwnerId(),
+                entity.getColor(),
+                entity.getArchived(),
+                entity.getShared(),
+                entity.getDeletedAt(),
+                entity.getPermissionRead(),
+                entity.getPermissionEdit(),
+                entity.getPermissionManage(),
+                entity.getPermissionShare(),
+                entity.getConflictWithId()
+        );
+        return boardDao.updateRx(editedEntity);
     }
 
     @Override
@@ -78,5 +100,40 @@ public class BoardRepositoryImpl implements BoardRepository {
                         .map(boardMapper::toTOList)
                         .subscribeOn(Schedulers.io())
         );
+    }
+
+    @Override
+    public CompletableFuture<Void> deleteBoard(Board.ID boardId) {
+        return boardDao.getBoardById(boardId.value())
+                .thenCompose(entity -> {
+                    if (entity == null) {
+                        return CompletableFuture.completedFuture(null);
+                    }
+                    if (entity.getRemoteId() == null) {
+                        return boardDao.deleteRx(entity);
+                    } else {
+                        final var deletedEntity = new BoardEntity(
+                                entity.getLocalId(),
+                                entity.getAccountId(),
+                                entity.getRemoteId(),
+                                DBStatus.LOCAL_DELETED.getId(),
+                                entity.getLastModified(),
+                                OffsetDateTime.now(),
+                                entity.getEtag(),
+                                entity.getTitle(),
+                                entity.getOwnerId(),
+                                entity.getColor(),
+                                entity.getArchived(),
+                                entity.getShared(),
+                                OffsetDateTime.now(),
+                                entity.getPermissionRead(),
+                                entity.getPermissionEdit(),
+                                entity.getPermissionManage(),
+                                entity.getPermissionShare(),
+                                entity.getConflictWithId()
+                        );
+                        return boardDao.updateRx(deletedEntity);
+                    }
+                });
     }
 }
