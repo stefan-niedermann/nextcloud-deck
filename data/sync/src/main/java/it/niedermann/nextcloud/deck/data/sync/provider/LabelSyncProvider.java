@@ -1,9 +1,12 @@
 package it.niedermann.nextcloud.deck.data.sync.provider;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import java.util.function.Consumer;
 import java.util.logging.Logger;
 
+import it.niedermann.nextcloud.deck.data.local.dao.BoardDao;
 import it.niedermann.nextcloud.deck.data.local.dao.LabelDao;
 import it.niedermann.nextcloud.deck.data.local.entity.LabelEntity;
 import it.niedermann.nextcloud.deck.data.local.mapper.LabelMapper;
@@ -23,11 +26,13 @@ public class LabelSyncProvider implements SyncProvider<BoardDTO> {
     private static final Logger logger = Logger.getLogger(LabelSyncProvider.class.getName());
 
     private final LabelDao labelDao;
+    private final BoardDao boardDao;
     private final ApiProvider.Factory apiFactory;
 
     @Inject
-    public LabelSyncProvider(LabelDao labelDao, ApiProvider.Factory apiFactory) {
+    public LabelSyncProvider(LabelDao labelDao, BoardDao boardDao, ApiProvider.Factory apiFactory) {
         this.labelDao = labelDao;
+        this.boardDao = boardDao;
         this.apiFactory = apiFactory;
     }
 
@@ -46,62 +51,69 @@ public class LabelSyncProvider implements SyncProvider<BoardDTO> {
     }
 
     private CompletableFuture<Void> upSyncSingle(Account account, LabelEntity localLabel) {
-        DeckApi api = apiFactory.create(account).getDeckApi();
-        LabelDTO dto = LabelRemoteMapper.INSTANCE.toDTO(LabelMapper.INSTANCE.toTO(localLabel));
+        return boardDao.getBoardById(localLabel.getBoardId())
+                .thenCompose(board -> {
+                    if (board == null || board.getRemoteId() == null) {
+                        return CompletableFuture.completedFuture(null);
+                    }
+                    final long remoteBoardId = board.getRemoteId();
+                    DeckApi api = apiFactory.create(account).getDeckApi();
+                    LabelDTO dto = LabelRemoteMapper.INSTANCE.toDTO(LabelMapper.INSTANCE.toTO(localLabel));
 
-        CompletableFuture<LabelDTO> call;
-        if (localLabel.getRemoteId() == null) {
-            call = api.createLabel(localLabel.getBoardId(), dto);
-        } else if (localLabel.getStatus() == DBStatus.LOCAL_DELETED.getId()) {
-            return api.deleteLabel(localLabel.getBoardId(), localLabel.getRemoteId())
-                    .thenCompose(v -> labelDao.deleteRx(localLabel))
-                    .thenApply(v -> null);
-        } else {
-            call = api.updateLabel(localLabel.getBoardId(), localLabel.getRemoteId(), dto);
-        }
+                    CompletableFuture<LabelDTO> call;
+                    if (localLabel.getRemoteId() == null) {
+                        call = api.createLabel(remoteBoardId, dto);
+                    } else if (localLabel.getStatus() == DBStatus.LOCAL_DELETED.getId()) {
+                        return api.deleteLabel(remoteBoardId, localLabel.getRemoteId())
+                                .thenCompose(v -> labelDao.deleteRx(localLabel))
+                                .thenApply(v -> null);
+                    } else {
+                        call = api.updateLabel(remoteBoardId, localLabel.getRemoteId(), dto);
+                    }
 
-        return call.thenCompose(response -> {
-            if (response == null) return CompletableFuture.completedFuture((Void) null);
-            LabelEntity updatedLocal = LabelMapper.INSTANCE.toEntity(LabelRemoteMapper.INSTANCE.toTO(response));
-            updatedLocal = new LabelEntity(
-                    localLabel.getLocalId(),
-                    localLabel.getAccountId(),
-                    updatedLocal.getRemoteId(),
-                    DBStatus.UP_TO_DATE.getId(),
-                    updatedLocal.getLastModified(),
-                    updatedLocal.getLastModified(),
-                    updatedLocal.getEtag(),
-                    localLabel.getBoardId(),
-                    updatedLocal.getTitle(),
-                    updatedLocal.getColor(),
-                    null
-            );
+                    return call.thenCompose(response -> {
+                        if (response == null) return CompletableFuture.completedFuture((Void) null);
+                        LabelEntity updatedLocal = LabelMapper.INSTANCE.toEntity(LabelRemoteMapper.INSTANCE.toTO(response));
+                        updatedLocal = new LabelEntity(
+                                localLabel.getLocalId(),
+                                localLabel.getAccountId(),
+                                updatedLocal.getRemoteId(),
+                                DBStatus.UP_TO_DATE.getId(),
+                                updatedLocal.getLastModified(),
+                                updatedLocal.getLastModified(),
+                                response.getEtag(),
+                                localLabel.getBoardId(),
+                                updatedLocal.getTitle(),
+                                updatedLocal.getColor(),
+                                null
+                        );
 
-            CompletableFuture<Void> cleanupFuture = CompletableFuture.completedFuture(null);
-            if (localLabel.getStatus() == DBStatus.RESOLVED.getId() && localLabel.getConflictWithId() != null) {
-                cleanupFuture = labelDao.deleteById(localLabel.getConflictWithId()).thenApply(v -> null);
-            }
+                        CompletableFuture<Void> cleanupFuture = CompletableFuture.completedFuture(null);
+                        if (localLabel.getStatus() == DBStatus.RESOLVED.getId() && localLabel.getConflictWithId() != null) {
+                            cleanupFuture = labelDao.deleteById(localLabel.getConflictWithId()).thenApply(v -> null);
+                        }
 
-            LabelEntity finalUpdatedLocal = updatedLocal;
-            return cleanupFuture.thenCompose(v -> labelDao.updateRx(finalUpdatedLocal));
-        }).handle((v, throwable) -> {
-            if (throwable != null) {
-                Throwable cause = throwable.getCause();
-                if (cause instanceof HttpException && ((HttpException) cause).code() == 412) {
-                    return handleConflict(account, localLabel);
-                }
-                CompletableFuture<Void> failed = new CompletableFuture<>();
-                failed.completeExceptionally(throwable);
-                return failed;
-            }
-            return CompletableFuture.completedFuture((Void) null);
-        }).thenCompose(f -> f);
+                        LabelEntity finalUpdatedLocal = updatedLocal;
+                        return cleanupFuture.thenCompose(v -> labelDao.updateRx(finalUpdatedLocal));
+                    }).handle((v, throwable) -> {
+                        if (throwable != null) {
+                            Throwable cause = throwable.getCause();
+                            if (cause instanceof HttpException && ((HttpException) cause).code() == 412) {
+                                return handleConflict(account, localLabel, remoteBoardId);
+                            }
+                            CompletableFuture<Void> failed = new CompletableFuture<>();
+                            failed.completeExceptionally(throwable);
+                            return failed;
+                        }
+                        return CompletableFuture.completedFuture((Void) null);
+                    }).thenCompose(f -> f);
+                });
     }
 
-    private CompletableFuture<Void> handleConflict(Account account, LabelEntity localLabel) {
+    private CompletableFuture<Void> handleConflict(Account account, LabelEntity localLabel, long remoteBoardId) {
         DeckApi api = apiFactory.create(account).getDeckApi();
         if (localLabel.getRemoteId() == null) return CompletableFuture.completedFuture(null);
-        return api.getLabel(localLabel.getBoardId(), localLabel.getRemoteId(), null)
+        return api.getLabel(remoteBoardId, localLabel.getRemoteId(), null)
                 .thenCompose(serverDto -> {
                     if (serverDto == null) return CompletableFuture.completedFuture(null);
                     LabelEntity serverLabel = LabelMapper.INSTANCE.toEntity(LabelRemoteMapper.INSTANCE.toTO(serverDto));
@@ -112,7 +124,7 @@ public class LabelSyncProvider implements SyncProvider<BoardDTO> {
                             DBStatus.UP_TO_DATE.getId(),
                             serverLabel.getLastModified(),
                             serverLabel.getLastModified(),
-                            serverLabel.getEtag(),
+                            serverDto.getEtag(),
                             localLabel.getBoardId(),
                             serverLabel.getTitle(),
                             serverLabel.getColor(),
@@ -141,20 +153,36 @@ public class LabelSyncProvider implements SyncProvider<BoardDTO> {
 
     @Override
     public CompletableFuture<Void> downSync(Account account, BoardDTO parent, Long parentLocalId, SyncStatus status, Consumer<SyncStatus> reporter) {
-        if (parent == null) return CompletableFuture.completedFuture(null);
+        if (parent == null || parent.getId() == null) return CompletableFuture.completedFuture(null);
         logger.info("Syncing labels for board " + parent.getId());
-        return labelDao.deleteByBoardId(parentLocalId)
-                .thenCompose(v -> {
-                    if (parent.getLabels() != null && !parent.getLabels().isEmpty()) {
-                        logger.info("Syncing " + parent.getLabels().size() + " labels for board " + parent.getId());
-                        CompletableFuture<?>[] futures = new CompletableFuture[parent.getLabels().size()];
-                        for (int i = 0; i < parent.getLabels().size(); i++) {
-                            LabelDTO labelDto = parent.getLabels().get(i);
-                            futures[i] = mergeLabel(account, labelDto, parentLocalId);
+
+        List<LabelDTO> serverLabels = parent.getLabels();
+        if (serverLabels == null) {
+            return CompletableFuture.completedFuture(null);
+        }
+
+        List<Long> remoteIdsFromServer = new ArrayList<>();
+        for (LabelDTO l : serverLabels) {
+            if (l.getId() != null) {
+                remoteIdsFromServer.add(l.getId());
+            }
+        }
+
+        return labelDao.getLabelsByBoardSync(parentLocalId)
+                .thenCompose(localLabels -> {
+                    List<CompletableFuture<?>> futures = new ArrayList<>();
+                    // Delete local labels that are missing on server
+                    for (LabelEntity local : localLabels) {
+                        if (local.getRemoteId() != null && !remoteIdsFromServer.contains(local.getRemoteId())) {
+                            logger.info("Label missing on server, deleting locally: " + local.getRemoteId());
+                            futures.add(labelDao.deleteRx(local));
                         }
-                        return CompletableFuture.allOf(futures);
                     }
-                    return CompletableFuture.completedFuture(null);
+                    // Merge server labels
+                    for (LabelDTO labelDto : serverLabels) {
+                        futures.add(mergeLabel(account, labelDto, parentLocalId));
+                    }
+                    return CompletableFuture.allOf(futures.toArray(new CompletableFuture[0]));
                 });
     }
 
@@ -176,7 +204,7 @@ public class LabelSyncProvider implements SyncProvider<BoardDTO> {
                                 DBStatus.UP_TO_DATE.getId(),
                                 serverLabel.getLastModified(),
                                 serverLabel.getLastModified(),
-                                serverLabel.getEtag(),
+                                labelDto.getEtag(),
                                 boardId,
                                 serverLabel.getTitle(),
                                 serverLabel.getColor(),
@@ -198,7 +226,7 @@ public class LabelSyncProvider implements SyncProvider<BoardDTO> {
                                 DBStatus.UP_TO_DATE.getId(),
                                 serverLabel.getLastModified(),
                                 serverLabel.getLastModified(),
-                                serverLabel.getEtag(),
+                                labelDto.getEtag(),
                                 boardId,
                                 serverLabel.getTitle(),
                                 serverLabel.getColor(),

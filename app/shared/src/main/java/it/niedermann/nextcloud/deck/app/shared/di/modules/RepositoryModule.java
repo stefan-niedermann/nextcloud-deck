@@ -108,8 +108,9 @@ public class RepositoryModule {
     @Provides
     @Singleton
     LabelRepository provideLabelRepository(LabelDao labelDao,
+                                           BoardDao boardDao,
                                            LabelMapper labelMapper) {
-        return new LabelRepositoryImpl(labelDao, labelMapper);
+        return new LabelRepositoryImpl(labelDao, boardDao, labelMapper);
     }
 
     @Provides
