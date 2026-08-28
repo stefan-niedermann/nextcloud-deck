@@ -9,7 +9,6 @@ import dagger.assisted.AssistedInject;
 import it.niedermann.nextcloud.deck.app.shared.args.board.BoardArgResolver;
 import it.niedermann.nextcloud.deck.app.shared.args.board.BoardParsedArgs;
 import it.niedermann.nextcloud.deck.app.shared.args.board.BoardRawArgs;
-import it.niedermann.nextcloud.deck.app.shared.di.model.BuildConfig;
 import it.niedermann.nextcloud.deck.domain.model.FilterInformation;
 import it.niedermann.nextcloud.deck.domain.usecases.state.SetCurrentAccountUseCase;
 import it.niedermann.nextcloud.deck.javafx.fxml.Inflater;
@@ -18,11 +17,9 @@ import it.niedermann.nextcloud.deck.javafx.ui.login.LoginScene;
 import it.niedermann.nextcloud.deck.javafx.ui.login.LoginService;
 import it.niedermann.nextcloud.deck.javafx.ui.shared.AbstractScene;
 import it.niedermann.nextcloud.deck.javafx.ui.shared.AbstractStage;
-import it.niedermann.nextcloud.deck.javafx.ui.shared.services.ThemeService;
 import it.niedermann.nextcloud.deck.javafx.ui.splashscreen.SplashScreenScene;
 import it.niedermann.nextcloud.deck.javafx.util.ExceptionUnwrapper;
 import jakarta.inject.Provider;
-import javafx.application.HostServices;
 import javafx.stage.Stage;
 
 public class MainStage extends AbstractStage<BoardRawArgs, BoardParsedArgs> {
@@ -34,7 +31,6 @@ public class MainStage extends AbstractStage<BoardRawArgs, BoardParsedArgs> {
     @AssistedInject
     public MainStage(Inflater inflater,
                      Stage stage,
-                     ThemeService themeService,
                      SplashScreenScene.Factory splashScreenFactory,
                      LoginService.Factory loginStageContextFactory,
                      Provider<LoginScene.Factory> loginFactoryProvider,
@@ -44,11 +40,8 @@ public class MainStage extends AbstractStage<BoardRawArgs, BoardParsedArgs> {
                      MainService.Factory stageContextFactory,
                      ExceptionUnwrapper exceptionUnwrapper,
                      BoardArgResolver boardArgResolver,
-                     HostServices hostServices,
-                     BuildConfig buildConfig,
                      @Assisted BoardRawArgs args) {
         super(stage,
-                themeService,
                 inflater,
                 splashScreenFactory,
                 loginStageContextFactory,
@@ -56,8 +49,6 @@ public class MainStage extends AbstractStage<BoardRawArgs, BoardParsedArgs> {
                 exceptionFactoryProvider,
                 setCurrentAccountUseCase,
                 boardArgResolver,
-                hostServices,
-                buildConfig,
                 args);
         this.mainSceneFactory = mainSceneFactory;
         this.stageContextFactory = stageContextFactory;
@@ -70,7 +61,7 @@ public class MainStage extends AbstractStage<BoardRawArgs, BoardParsedArgs> {
     }
 
     @Override
-    protected CompletableFuture<Inflater.FxBundle<AbstractScene>> showContent(BoardParsedArgs parsedArgs) {
+    protected CompletableFuture<AbstractScene> showContent(BoardParsedArgs parsedArgs) {
         final var stageContext = stageContextFactory.createStageContext(new MainService.State(
                 Optional.ofNullable(parsedArgs.accountId()),
                 Optional.ofNullable(parsedArgs.boardId()),
@@ -79,8 +70,8 @@ public class MainStage extends AbstractStage<BoardRawArgs, BoardParsedArgs> {
                 MainService.ViewMode.KANBAN
         ));
 
-        final AbstractScene mainScene = mainSceneFactory.createMainScene(stageContext);
-        return CompletableFuture.completedFuture(inflater.inflate(mainScene));
+        final var mainScene = mainSceneFactory.createMainScene(stageContext);
+        return CompletableFuture.completedFuture(mainScene);
     }
 
     @Override

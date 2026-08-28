@@ -13,7 +13,8 @@ import it.niedermann.nextcloud.deck.domain.model.Column;
 import it.niedermann.nextcloud.deck.domain.usecases.accounts.GetAccountsUseCase;
 import it.niedermann.nextcloud.deck.domain.usecases.boards.ListBoardsUseCase;
 import it.niedermann.nextcloud.deck.domain.usecases.columns.ListColumnsUseCase;
-import it.niedermann.nextcloud.deck.javafx.ui.shared.AbstractScene;
+import it.niedermann.nextcloud.deck.javafx.fxml.Inflater;
+import it.niedermann.nextcloud.deck.javafx.ui.shared.AbstractFeature;
 import it.niedermann.nextcloud.deck.javafx.util.JavaFxScheduler;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
@@ -27,7 +28,7 @@ import javafx.scene.control.ToggleGroup;
 import javafx.scene.layout.VBox;
 import javafx.util.StringConverter;
 
-public class PickStackFeature extends AbstractScene {
+public class PickStackFeature extends AbstractFeature {
 
     private final GetAccountsUseCase getAccountsUseCase;
     private final ListBoardsUseCase listBoardsUseCase;
@@ -49,12 +50,15 @@ public class PickStackFeature extends AbstractScene {
 
     @AssistedInject
     public PickStackFeature(
+            Inflater inflater,
             GetAccountsUseCase getAccountsUseCase,
             ListBoardsUseCase listBoardsUseCase,
             ListColumnsUseCase listColumnsUseCase,
             @Assisted Mode mode,
             @Assisted ViewModel viewModel
     ) {
+        super(inflater);
+
         this.getAccountsUseCase = getAccountsUseCase;
         this.listBoardsUseCase = listBoardsUseCase;
         this.listColumnsUseCase = listColumnsUseCase;

@@ -14,13 +14,14 @@ import dagger.assisted.AssistedFactory;
 import dagger.assisted.AssistedInject;
 import it.niedermann.nextcloud.auth.apptoken.AppTokenAuthProvider;
 import it.niedermann.nextcloud.deck.domain.model.AuthenticatedAccount;
-import it.niedermann.nextcloud.deck.javafx.ui.shared.AbstractScene;
+import it.niedermann.nextcloud.deck.javafx.fxml.Inflater;
+import it.niedermann.nextcloud.deck.javafx.ui.shared.AbstractFeature;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 
-public class AppTokenLoginFeature extends AbstractScene {
+public class AppTokenLoginFeature extends AbstractFeature {
 
     private static final Logger logger = Logger.getLogger(AppTokenLoginFeature.class.getName());
 
@@ -38,9 +39,12 @@ public class AppTokenLoginFeature extends AbstractScene {
 
     @AssistedInject
     public AppTokenLoginFeature(
+            Inflater inflater,
             AppTokenAuthProvider appTokenAuthProvider,
             @Assisted ViewModel viewModel
     ) {
+        super(inflater);
+
         this.appTokenAuthProvider = appTokenAuthProvider;
         this.viewModel = viewModel;
     }

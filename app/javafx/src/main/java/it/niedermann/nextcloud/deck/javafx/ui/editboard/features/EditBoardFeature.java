@@ -9,11 +9,11 @@ import dagger.assisted.AssistedInject;
 import io.reactivex.rxjava4.core.Flowable;
 import it.niedermann.nextcloud.deck.domain.model.Board;
 import it.niedermann.nextcloud.deck.javafx.fxml.Inflater;
-import it.niedermann.nextcloud.deck.javafx.ui.shared.AbstractScene;
+import it.niedermann.nextcloud.deck.javafx.ui.shared.AbstractFeature;
 import javafx.fxml.FXML;
 import javafx.scene.control.Tab;
 
-public class EditBoardFeature extends AbstractScene {
+public class EditBoardFeature extends AbstractFeature {
 
     @FXML
     Tab detailsTab;
@@ -24,7 +24,6 @@ public class EditBoardFeature extends AbstractScene {
     @FXML
     Tab shareTab;
 
-    private final Inflater inflater;
     private final EditBoardDetailsFeature.Factory detailsFeatureFactory;
     private final EditBoardColumnsFeature.Factory columnsFeatureFactory;
     private final EditBoardLabelsFeature.Factory labelsFeatureFactory;
@@ -38,7 +37,8 @@ public class EditBoardFeature extends AbstractScene {
                             EditBoardLabelsFeature.Factory labelsFeatureFactory,
                             EditBoardShareFeature.Factory shareFeatureFactory,
                             @Assisted ViewModel viewModel) {
-        this.inflater = inflater;
+        super(inflater);
+
         this.detailsFeatureFactory = detailsFeatureFactory;
         this.columnsFeatureFactory = columnsFeatureFactory;
         this.labelsFeatureFactory = labelsFeatureFactory;
@@ -55,10 +55,10 @@ public class EditBoardFeature extends AbstractScene {
     public void initialize(URL location, ResourceBundle resources) {
         super.initialize(location, resources);
 
-        detailsTab.setContent(inflater.inflate(detailsFeatureFactory.create(viewModel)).view());
-        columnsTab.setContent(inflater.inflate(columnsFeatureFactory.create(viewModel)).view());
-        labelsTab.setContent(inflater.inflate(labelsFeatureFactory.create(viewModel)).view());
-        shareTab.setContent(inflater.inflate(shareFeatureFactory.create(viewModel)).view());
+        detailsTab.setContent(detailsFeatureFactory.create(viewModel).getRoot());
+        columnsTab.setContent(columnsFeatureFactory.create(viewModel).getRoot());
+        labelsTab.setContent(labelsFeatureFactory.create(viewModel).getRoot());
+        shareTab.setContent(shareFeatureFactory.create(viewModel).getRoot());
     }
 
     public interface ViewModel extends

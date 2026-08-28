@@ -8,21 +8,20 @@ import dagger.assisted.Assisted;
 import dagger.assisted.AssistedFactory;
 import dagger.assisted.AssistedInject;
 import io.reactivex.rxjava4.core.Flowable;
-import io.reactivex.rxjava4.disposables.Disposable;
 import io.reactivex.rxjava4.schedulers.Schedulers;
 import it.niedermann.nextcloud.deck.domain.model.Board;
 import it.niedermann.nextcloud.deck.domain.model.Column;
 import it.niedermann.nextcloud.deck.domain.usecases.boards.GetBoardUseCase;
 import it.niedermann.nextcloud.deck.domain.usecases.columns.ListColumnIDsUseCase;
 import it.niedermann.nextcloud.deck.javafx.fxml.Inflater;
-import it.niedermann.nextcloud.deck.javafx.ui.shared.AbstractScene;
+import it.niedermann.nextcloud.deck.javafx.ui.shared.AbstractFeature;
 import it.niedermann.nextcloud.deck.javafx.ui.shared.views.EmptyContentView;
 import it.niedermann.nextcloud.deck.javafx.util.JavaFxScheduler;
 import javafx.fxml.FXML;
 import javafx.scene.control.ProgressIndicator;
 import javafx.scene.layout.HBox;
 
-public class BoardKanbanFeature extends AbstractScene {
+public class BoardKanbanFeature extends AbstractFeature {
 
     @FXML
     ProgressIndicator progress;
@@ -31,7 +30,6 @@ public class BoardKanbanFeature extends AbstractScene {
     @FXML
     HBox columns;
 
-    private final Inflater inflater;
     private final GetBoardUseCase getBoardUseCase;
     private final ColumnFeature.Factory columnFactory;
     private final ListColumnIDsUseCase listColumnIDsUseCase;
@@ -45,8 +43,9 @@ public class BoardKanbanFeature extends AbstractScene {
             ListColumnIDsUseCase listColumnIDsUseCase,
             @Assisted ViewModel viewModel
     ) {
+        super(inflater);
+
         this.viewModel = viewModel;
-        this.inflater = inflater;
         this.getBoardUseCase = getBoardUseCase;
         this.columnFactory = columnFactory;
         this.listColumnIDsUseCase = listColumnIDsUseCase;
@@ -87,15 +86,13 @@ public class BoardKanbanFeature extends AbstractScene {
 
         boolean first = true;
         for (final var columnId : columnIds) {
-            final var fxBundle = this.inflater.inflate(columnFactory.create(columnId, viewModel));
-            if (first && fxBundle.controller() instanceof ColumnFeature columnFeature) {
+            final var columnFeature = columnFactory.create(columnId, viewModel);
+            if (first) {
                 columnFeature.setShouldRequestInitialFocus(true);
                 first = false;
             }
-            if (fxBundle.controller() instanceof Disposable d) {
-                addDisposable(d);
-            }
-            this.columns.getChildren().add(fxBundle.view());
+            addDisposable(columnFeature);
+            this.columns.getChildren().add(columnFeature.getRoot());
         }
 
         if (columnIds.isEmpty()) {

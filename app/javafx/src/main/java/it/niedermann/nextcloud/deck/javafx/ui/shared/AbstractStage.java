@@ -11,21 +11,15 @@ import io.reactivex.rxjava4.disposables.CompositeDisposable;
 import io.reactivex.rxjava4.disposables.Disposable;
 import io.reactivex.rxjava4.schedulers.Schedulers;
 import it.niedermann.nextcloud.deck.app.shared.args.ArgsResolver;
-import it.niedermann.nextcloud.deck.app.shared.di.model.BuildConfig;
 import it.niedermann.nextcloud.deck.domain.usecases.state.SetCurrentAccountUseCase;
 import it.niedermann.nextcloud.deck.javafx.fxml.Inflater;
 import it.niedermann.nextcloud.deck.javafx.ui.exception.ExceptionScene;
 import it.niedermann.nextcloud.deck.javafx.ui.login.LoginScene;
 import it.niedermann.nextcloud.deck.javafx.ui.login.LoginService;
-import it.niedermann.nextcloud.deck.javafx.ui.shared.services.ThemeService;
 import it.niedermann.nextcloud.deck.javafx.ui.splashscreen.SplashScreenScene;
 import it.niedermann.nextcloud.deck.javafx.util.JavaFxScheduler;
 import jakarta.inject.Provider;
-import javafx.application.HostServices;
 import javafx.application.Platform;
-import javafx.scene.Scene;
-import javafx.scene.input.KeyCode;
-import javafx.scene.input.KeyEvent;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
 
@@ -56,15 +50,12 @@ public abstract class AbstractStage<TRawArgs, TParsedArgs> {
 
     protected final Inflater inflater;
     protected final Stage stage;
-    private final ThemeService themeService;
     private final SplashScreenScene.Factory splashScreenFactory;
     private final LoginService.Factory loginStageContextFactory;
     private final Provider<LoginScene.Factory> loginFactoryProvider;
     private final Provider<ExceptionScene.Factory> exceptionFactoryProvider;
     private final SetCurrentAccountUseCase setCurrentAccountUseCase;
     private final ArgsResolver<TRawArgs, TParsedArgs> resolver;
-    private final HostServices hostServices;
-    private final BuildConfig buildConfig;
     protected final TRawArgs args;
 
     private boolean closed = false;
@@ -75,7 +66,6 @@ public abstract class AbstractStage<TRawArgs, TParsedArgs> {
     protected final CompositeDisposable lifecycleDisposables = new CompositeDisposable();
 
     public AbstractStage(Stage stage,
-                         ThemeService themeService,
                          Inflater inflater,
                          SplashScreenScene.Factory splashScreenFactory,
                          LoginService.Factory loginStageContextFactory,
@@ -83,11 +73,8 @@ public abstract class AbstractStage<TRawArgs, TParsedArgs> {
                          Provider<ExceptionScene.Factory> exceptionFactoryProvider,
                          SetCurrentAccountUseCase setCurrentAccountUseCase,
                          ArgsResolver<TRawArgs, TParsedArgs> resolver,
-                         HostServices hostServices,
-                         BuildConfig buildConfig,
                          TRawArgs args) {
         this.stage = stage;
-        this.themeService = themeService;
         this.inflater = inflater;
         this.splashScreenFactory = splashScreenFactory;
         this.loginStageContextFactory = loginStageContextFactory;
@@ -95,8 +82,6 @@ public abstract class AbstractStage<TRawArgs, TParsedArgs> {
         this.exceptionFactoryProvider = exceptionFactoryProvider;
         this.setCurrentAccountUseCase = setCurrentAccountUseCase;
         this.resolver = resolver;
-        this.hostServices = hostServices;
-        this.buildConfig = buildConfig;
         this.args = args;
     }
 
@@ -187,36 +172,31 @@ public abstract class AbstractStage<TRawArgs, TParsedArgs> {
 
     /// @return [CompletableFuture] - completed when the splashscreen is shown
     protected CompletableFuture<Void> showSplashScreenScene() {
-        final var bundle = inflater.inflate(splashScreenFactory.create());
-        return this.setStageContent(bundle);
+        return this.setStageContent(splashScreenFactory.create());
     }
 
     /// @return [CompletableFuture] - completed when an account has successfully been imported
     protected CompletableFuture<Void> showLoginScene() {
         final var stageContext = loginStageContextFactory.create(null);
-        final var bundle = inflater.inflate(loginFactoryProvider.get().create(stageContext));
-        return this.setStageContent(bundle)
+        return this.setStageContent(loginFactoryProvider.get().create(stageContext))
                 .thenComposeAsync(_ -> stageContext.getImportedAccount())
                 .thenComposeAsync(setCurrentAccountUseCase::execute)
                 .thenApply(_ -> null);
     }
 
     /// @return [CompletableFuture] - completed when the content is visible
-    abstract protected CompletableFuture<Inflater.FxBundle<AbstractScene>> showContent(TParsedArgs args);
+    abstract protected CompletableFuture<AbstractScene> showContent(TParsedArgs args);
 
     /// @return [CompletableFuture] - failed with the passed [Throwable] after it has been displayed
     private CompletableFuture<Void> showErrorScene(Throwable throwable) {
-        final var exceptionScene = exceptionFactoryProvider.get().create(throwable);
-        final var bundle = inflater.inflate(exceptionScene);
-        return this.setStageContent(bundle)
+        return this.setStageContent(exceptionFactoryProvider.get().create(throwable))
                 .thenComposeAsync(_ -> CompletableFuture.failedFuture(throwable));
     }
 
     /// @return [CompletableFuture] - completed when the content is visible
-    protected CompletableFuture<Void> setStageContent(Inflater.FxBundle<? extends AbstractScene> controllerBundle) {
+    protected CompletableFuture<Void> setStageContent(AbstractScene controller) {
 
         final var cf = new CompletableFuture<Void>();
-        final var controller = controllerBundle.controller();
         final var oldCtrl = this.controller.getAndSet(controller);
 
         if (oldCtrl instanceof Disposable oldDisposableCtrl && !oldDisposableCtrl.isDisposed()) {
@@ -236,22 +216,7 @@ public abstract class AbstractStage<TRawArgs, TParsedArgs> {
                 return;
             }
             try {
-
-                final var scene = new Scene(controllerBundle.view());
-                themeService.bind(scene);
-                scene.addEventFilter(KeyEvent.KEY_PRESSED, event -> {
-                    if (event.getCode() == KeyCode.F1) {
-                        hostServices.showDocument(buildConfig.helpUri().toString());
-                        event.consume();
-                    } else if (event.getCode() == KeyCode.F5) {
-                        // TODO Trigger Synchronization
-                        event.consume();
-                    } else if (event.getCode() == KeyCode.F11) {
-                        stage.setFullScreen(!stage.isFullScreen());
-                        event.consume();
-                    }
-                });
-                stage.setScene(scene);
+                stage.setScene(controller.getScene());
 
                 if (stage.isShowing()) {
 

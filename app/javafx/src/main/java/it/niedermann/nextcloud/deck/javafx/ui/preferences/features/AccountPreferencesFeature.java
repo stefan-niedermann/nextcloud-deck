@@ -8,13 +8,14 @@ import dagger.assisted.AssistedFactory;
 import dagger.assisted.AssistedInject;
 import io.reactivex.rxjava4.disposables.Disposable;
 import it.niedermann.nextcloud.deck.domain.model.Account;
-import it.niedermann.nextcloud.deck.javafx.ui.shared.AbstractScene;
+import it.niedermann.nextcloud.deck.javafx.fxml.Inflater;
+import it.niedermann.nextcloud.deck.javafx.ui.shared.AbstractFeature;
 import it.niedermann.nextcloud.deck.javafx.util.JavaFxScheduler;
 import javafx.fxml.FXML;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
 
-public class AccountPreferencesFeature extends AbstractScene {
+public class AccountPreferencesFeature extends AbstractFeature {
 
     public interface ViewModel extends Disposable {
         Account getAccount();
@@ -31,8 +32,11 @@ public class AccountPreferencesFeature extends AbstractScene {
 
     @AssistedInject
     public AccountPreferencesFeature(
+            Inflater inflater,
             @Assisted ViewModel viewModel
     ) {
+        super(inflater);
+
         this.viewModel = viewModel;
     }
 

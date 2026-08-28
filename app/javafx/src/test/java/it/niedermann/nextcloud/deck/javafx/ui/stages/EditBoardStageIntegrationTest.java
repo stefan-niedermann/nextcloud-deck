@@ -15,7 +15,6 @@ import org.testfx.framework.junit5.Start;
 import org.testfx.util.WaitForAsyncUtils;
 
 import java.io.IOException;
-import java.net.URI;
 import java.util.concurrent.Flow;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
@@ -28,6 +27,7 @@ import it.niedermann.nextcloud.deck.app.shared.di.model.BuildConfig;
 import it.niedermann.nextcloud.deck.domain.model.Account;
 import it.niedermann.nextcloud.deck.domain.model.Board;
 import it.niedermann.nextcloud.deck.domain.state.KeyValueStore;
+import it.niedermann.nextcloud.deck.domain.sync.SyncScheduler;
 import it.niedermann.nextcloud.deck.domain.usecases.accounts.GetAccountUseCase;
 import it.niedermann.nextcloud.deck.domain.usecases.accounts.GetAccountsUseCase;
 import it.niedermann.nextcloud.deck.domain.usecases.accounts.HasAccountsUseCase;
@@ -75,9 +75,16 @@ class EditBoardStageIntegrationTest {
 
     private Stage stage;
 
+    private HostServices hostServices;
+    private BuildConfig buildConfig;
+    private SyncScheduler syncScheduler;
+
     @Start
     void start(Stage stage) {
         this.stage = stage;
+        hostServices = mock(HostServices.class);
+        buildConfig = mock(BuildConfig.class);
+        syncScheduler = mock(SyncScheduler.class);
         final var hasAccountsUseCase = mock(HasAccountsUseCase.class);
         final var boardArgResolver = mock(BoardArgResolver.class);
         final var setCurrentAccountUseCase = mock(SetCurrentAccountUseCase.class);
@@ -164,10 +171,11 @@ class EditBoardStageIntegrationTest {
         final var userSearchViewConverter = new UserSearchViewConverter();
         final EditBoardFeature.Factory editBoardFeatureFactory = viewModel -> new EditBoardFeature(
                 inflater,
-                EditBoardDetailsFeature::new,
-                EditBoardColumnsFeature::new,
-                EditBoardLabelsFeature::new,
+                vm -> new EditBoardDetailsFeature(inflater, vm),
+                vm -> new EditBoardColumnsFeature(inflater, vm),
+                vm -> new EditBoardLabelsFeature(inflater, vm),
                 vm -> new EditBoardShareFeature(
+                        inflater,
                         new UserSuggestionProvider(mock(it.niedermann.nextcloud.deck.domain.usecases.users.SearchUserUseCase.class)),
                         userSearchViewConverter,
                         vm
@@ -179,10 +187,14 @@ class EditBoardStageIntegrationTest {
                 inflater,
                 editBoardFeatureFactory,
                 stageTitleResolver,
+                themeService,
+                hostServices,
+                buildConfig,
+                syncScheduler,
                 context
         );
 
-        final SplashScreenScene.Factory splashScreenFactory = SplashScreenScene::new;
+        final SplashScreenScene.Factory splashScreenFactory = () -> new SplashScreenScene(inflater, themeService, hostServices, buildConfig, syncScheduler);
         final var loginFactoryProvider = (jakarta.inject.Provider<LoginScene.Factory>) () -> mock(LoginScene.Factory.class);
         final var exceptionFactoryProvider = (jakarta.inject.Provider<ExceptionScene.Factory>) () -> mock(ExceptionScene.Factory.class);
         final LoginService.Factory loginStageContextFactory = url -> new LoginService(
@@ -194,7 +206,6 @@ class EditBoardStageIntegrationTest {
         final var manager = new EditBoardStage(
                 inflater,
                 stage,
-                themeService,
                 splashScreenFactory,
                 loginStageContextFactory,
                 loginFactoryProvider,
@@ -203,8 +214,6 @@ class EditBoardStageIntegrationTest {
                 editBoardSceneFactory,
                 stageContextFactory,
                 boardArgResolver,
-                mock(HostServices.class),
-                new BuildConfig(URI.create("https://example.com/help-uri")),
                 new BoardRawArgs.ExplicitBoard(accountId, boardId)
         );
         manager.initialize();

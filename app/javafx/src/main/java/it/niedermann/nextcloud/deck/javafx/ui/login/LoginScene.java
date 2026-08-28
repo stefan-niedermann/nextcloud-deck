@@ -9,9 +9,13 @@ import dagger.assisted.AssistedFactory;
 import dagger.assisted.AssistedInject;
 import io.reactivex.rxjava4.core.Flowable;
 import io.reactivex.rxjava4.disposables.Disposable;
+import it.niedermann.nextcloud.deck.app.shared.di.model.BuildConfig;
+import it.niedermann.nextcloud.deck.domain.sync.SyncScheduler;
 import it.niedermann.nextcloud.deck.javafx.fxml.Inflater;
 import it.niedermann.nextcloud.deck.javafx.ui.shared.AbstractScene;
+import it.niedermann.nextcloud.deck.javafx.ui.shared.services.ThemeService;
 import it.niedermann.nextcloud.deck.javafx.util.JavaFxScheduler;
+import javafx.application.HostServices;
 import javafx.fxml.FXML;
 import javafx.scene.control.ProgressBar;
 import javafx.scene.layout.Pane;
@@ -30,7 +34,6 @@ public class LoginScene extends AbstractScene {
 
     private final LoginService stageContext;
 
-    private final Inflater inflater;
     private final WebLoginV2Feature.Factory webLoginFactory;
     private final AppTokenLoginFeature.Factory appTokenFactory;
 
@@ -44,10 +47,15 @@ public class LoginScene extends AbstractScene {
             Inflater inflater,
             WebLoginV2Feature.Factory webLoginFactory,
             AppTokenLoginFeature.Factory appTokenFactory,
+            ThemeService themeService,
+            HostServices hostServices,
+            BuildConfig buildConfig,
+            SyncScheduler syncScheduler,
             @Assisted LoginService stageContext
     ) {
+        super(themeService, hostServices, buildConfig, syncScheduler, inflater);
+
         this.stageContext = stageContext;
-        this.inflater = inflater;
         this.webLoginFactory = webLoginFactory;
         this.appTokenFactory = appTokenFactory;
     }
@@ -92,10 +100,10 @@ public class LoginScene extends AbstractScene {
                                     featureHost.setUserData(null);
                                 }
                                 if (featureHost.getUserData() == null) {
-                                    final Inflater.FxBundle<AppTokenLoginFeature> fxmlBundle = inflater.inflate(appTokenFactory.create(stageContext));
-                                    featureHost.setUserData(fxmlBundle.controller());
-                                    state.url().ifPresent(fxmlBundle.controller()::setUrl);
-                                    featureHost.getChildren().setAll(fxmlBundle.view());
+                                    final var appTokenLoginFeature = appTokenFactory.create(stageContext);
+                                    featureHost.setUserData(appTokenLoginFeature);
+                                    state.url().ifPresent(appTokenLoginFeature::setUrl);
+                                    featureHost.getChildren().setAll(appTokenLoginFeature.getRoot());
                                 }
                             }
                             case WEBLOGIN_FLOW_V2 -> {
@@ -105,10 +113,10 @@ public class LoginScene extends AbstractScene {
                                     featureHost.setUserData(null);
                                 }
                                 if (featureHost.getUserData() == null) {
-                                    final Inflater.FxBundle<WebLoginV2Feature> fxmlBundle = inflater.inflate(webLoginFactory.create(stageContext));
-                                    featureHost.setUserData(fxmlBundle.controller());
-                                    state.url().ifPresent(fxmlBundle.controller()::setUrl);
-                                    featureHost.getChildren().setAll(fxmlBundle.view());
+                                    final var webLoginV2Feature = webLoginFactory.create(stageContext);
+                                    featureHost.setUserData(webLoginV2Feature);
+                                    state.url().ifPresent(webLoginV2Feature::setUrl);
+                                    featureHost.getChildren().setAll(webLoginV2Feature.getRoot());
                                 }
                             }
                         }

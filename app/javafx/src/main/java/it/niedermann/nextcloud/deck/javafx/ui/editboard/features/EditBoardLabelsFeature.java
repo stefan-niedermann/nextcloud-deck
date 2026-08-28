@@ -11,7 +11,8 @@ import io.reactivex.rxjava4.core.Flowable;
 import it.niedermann.nextcloud.deck.domain.model.Board;
 import it.niedermann.nextcloud.deck.domain.model.Color;
 import it.niedermann.nextcloud.deck.domain.model.Label;
-import it.niedermann.nextcloud.deck.javafx.ui.shared.AbstractScene;
+import it.niedermann.nextcloud.deck.javafx.fxml.Inflater;
+import it.niedermann.nextcloud.deck.javafx.ui.shared.AbstractFeature;
 import it.niedermann.nextcloud.deck.javafx.util.JavaFxScheduler;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -23,7 +24,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.Region;
 
-public class EditBoardLabelsFeature extends AbstractScene {
+public class EditBoardLabelsFeature extends AbstractFeature {
 
     @FXML
     ListView<Label> labels;
@@ -38,7 +39,10 @@ public class EditBoardLabelsFeature extends AbstractScene {
     private final ViewModel viewModel;
 
     @AssistedInject
-    public EditBoardLabelsFeature(@Assisted ViewModel viewModel) {
+    public EditBoardLabelsFeature(Inflater inflater,
+                                  @Assisted ViewModel viewModel) {
+        super(inflater);
+
         this.viewModel = viewModel;
     }
 
@@ -132,9 +136,13 @@ public class EditBoardLabelsFeature extends AbstractScene {
 
     public interface ViewModel {
         Flowable<Board> getBoard();
+
         Flowable<Collection<Label>> getLabels();
+
         void onAddLabel(String title, Color color);
+
         void onDeleteLabel(Label label);
+
         void onUpdateLabel(Label label, String newTitle, Color newColor);
     }
 }

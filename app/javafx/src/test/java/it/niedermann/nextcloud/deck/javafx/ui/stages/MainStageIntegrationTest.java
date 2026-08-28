@@ -45,6 +45,7 @@ import it.niedermann.nextcloud.deck.domain.model.Color;
 import it.niedermann.nextcloud.deck.domain.model.Column;
 import it.niedermann.nextcloud.deck.domain.model.query.PreviewCard;
 import it.niedermann.nextcloud.deck.domain.state.KeyValueStore;
+import it.niedermann.nextcloud.deck.domain.sync.SyncScheduler;
 import it.niedermann.nextcloud.deck.domain.usecases.accounts.GetAccountUseCase;
 import it.niedermann.nextcloud.deck.domain.usecases.accounts.GetAccountsUseCase;
 import it.niedermann.nextcloud.deck.domain.usecases.accounts.HasAccountsUseCase;
@@ -132,6 +133,9 @@ class MainStageIntegrationTest {
     private ApplicationRouter applicationRouter;
     private MainService mainService;
     private Stage stage;
+    private HostServices hostServices;
+    private BuildConfig buildConfig;
+    private SyncScheduler syncScheduler;
 
     private static final Account.ID ACCOUNT_ID = new Account.ID(1L);
     private static final Account ACCOUNT = new Account(ACCOUNT_ID, createUrl("https://nextcloud.example.com"), "user", "token", "Account 1", MockData.MOCK_CAPABILITIES);
@@ -151,6 +155,9 @@ class MainStageIntegrationTest {
     @Start
     void start(Stage stage) {
         this.stage = stage;
+        hostServices = mock(HostServices.class);
+        buildConfig = mock(BuildConfig.class);
+        syncScheduler = mock(SyncScheduler.class);
         hasAccountsUseCase = mock(HasAccountsUseCase.class, Answers.RETURNS_MOCKS);
         boardArgResolver = mock(BoardArgResolver.class, Answers.RETURNS_MOCKS);
         setCurrentAccountUseCase = mock(SetCurrentAccountUseCase.class, Answers.RETURNS_MOCKS);
@@ -257,6 +264,7 @@ class MainStageIntegrationTest {
         final BoardKanbanFeature.Factory boardFeatureFactory = getFactory(getAccountUseCase, keyValueStore, inflater);
 
         final BoardListFeature.Factory boardListFeatureFactory = viewModel -> new BoardListFeature(
+                inflater,
                 getBoardUseCase,
                 listBoardsUseCase,
                 viewModel
@@ -276,6 +284,7 @@ class MainStageIntegrationTest {
                 mock(ListUsersUseCase.class),
                 themeService,
                 () -> new AccountSwitcherFeature(
+                        inflater,
                         new AccountListItemCellFactory(),
                         getAccountUseCase,
                         getAccountsUseCase,
@@ -288,6 +297,7 @@ class MainStageIntegrationTest {
         final EditCardFeature.Factory editCardFeatureFactory = viewModel -> {
             final var userSearchViewConverter = new UserSearchViewConverter();
             return new EditCardFeature(
+                    inflater,
                     new CommentCellFactory(),
                     new LabelSuggestionProvider(mock(SearchLabelsUseCase.class)),
                     new UserSuggestionProvider(mock(SearchUserUseCase.class)),
@@ -333,13 +343,21 @@ class MainStageIntegrationTest {
                 stageTitleResolver,
                 _ -> mock(CreateBoardFeature.class),
                 themeService,
+                hostServices,
+                buildConfig,
+                syncScheduler,
                 context
         );
 
-        final SplashScreenScene.Factory splashScreenFactory = SplashScreenScene::new;
+        final SplashScreenScene.Factory splashScreenFactory = () -> new SplashScreenScene(inflater, themeService, hostServices, buildConfig, syncScheduler);
         final var loginFactoryProvider = (jakarta.inject.Provider<LoginScene.Factory>) () -> mock(LoginScene.Factory.class);
         final var exceptionFactoryProvider = (jakarta.inject.Provider<ExceptionScene.Factory>) () -> throwable -> new ExceptionScene(
                 mock(ExceptionDialog.Factory.class),
+                inflater,
+                themeService,
+                hostServices,
+                buildConfig,
+                syncScheduler,
                 throwable
         );
         final LoginService.Factory loginStageContextFactory = url -> new LoginService(
@@ -352,7 +370,6 @@ class MainStageIntegrationTest {
         final var manager = new MainStage(
                 inflater,
                 stage,
-                themeService,
                 splashScreenFactory,
                 loginStageContextFactory,
                 loginFactoryProvider,
@@ -362,8 +379,6 @@ class MainStageIntegrationTest {
                 stageContextFactory,
                 exceptionUnwrapper,
                 boardArgResolver,
-                mock(HostServices.class),
-                new BuildConfig(URI.create("https://example.com/help-uri")),
                 new BoardRawArgs.CurrentBoardOfCurrentAccount()
         );
         manager.initialize();
@@ -379,6 +394,7 @@ class MainStageIntegrationTest {
         );
 
         final ColumnFeature.Factory columnFeatureFactory = (columnId, viewModel) -> new ColumnFeature(
+                inflater,
                 listCardPreviewsUseCase,
                 mock(MoveCardUseCase.class),
                 cardPreviewCellFactory,

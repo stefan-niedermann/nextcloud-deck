@@ -13,7 +13,8 @@ import dagger.assisted.AssistedInject;
 import it.niedermann.nextcloud.deck.domain.model.FilterInformation;
 import it.niedermann.nextcloud.deck.domain.model.Label;
 import it.niedermann.nextcloud.deck.domain.model.User;
-import it.niedermann.nextcloud.deck.javafx.ui.shared.AbstractScene;
+import it.niedermann.nextcloud.deck.javafx.fxml.Inflater;
+import it.niedermann.nextcloud.deck.javafx.ui.shared.AbstractFeature;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
@@ -22,7 +23,7 @@ import javafx.scene.control.ListView;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.ToggleGroup;
 
-public class FilterFeature extends AbstractScene {
+public class FilterFeature extends AbstractFeature {
 
     @FXML
     private ListView<Label> labelList;
@@ -65,11 +66,14 @@ public class FilterFeature extends AbstractScene {
 
     @AssistedInject
     public FilterFeature(
+            Inflater inflater,
             @Assisted FilterInformation initialFilter,
             @Assisted List<Label> labels,
             @Assisted List<User> users,
             @Assisted Consumer<FilterInformation> onApply
     ) {
+        super(inflater);
+
         this.initialFilter = initialFilter;
         this.labels = labels;
         this.users = users;
