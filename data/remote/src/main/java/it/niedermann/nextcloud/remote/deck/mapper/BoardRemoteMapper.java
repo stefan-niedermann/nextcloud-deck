@@ -18,6 +18,9 @@ public interface BoardRemoteMapper extends GenericRemoteMapper<BoardDTO, Board> 
 
     @Override
     @Mapping(target = "id", source = "remoteId")
+    @Mapping(target = "title", source = "title")
+    @Mapping(target = "color", source = "color")
+    @Mapping(target = "archived", source = "archived")
     @Mapping(target = "lastModified", source = "lastModified")
     @Mapping(target = "permissions", ignore = true)
     @Mapping(target = "owner", ignore = true)
@@ -28,7 +31,7 @@ public interface BoardRemoteMapper extends GenericRemoteMapper<BoardDTO, Board> 
     @Mapping(target = "etag", ignore = true)
     @Mapping(target = "deletedAt", ignore = true)
     BoardDTO toDTO(Board board);
-
+    
     @Override
     @Mapping(target = "id", expression = "java(mapId(boardDTO.getId()))")
     @Mapping(target = "remoteId", source = "id")
@@ -39,6 +42,7 @@ public interface BoardRemoteMapper extends GenericRemoteMapper<BoardDTO, Board> 
     @Mapping(target = "status", expression = "java(it.niedermann.nextcloud.deck.domain.model.DBStatus.UP_TO_DATE)")
     @Mapping(target = "color", source = "color")
     @Mapping(target = "title", expression = "java(boardDTO.getTitle() != null ? boardDTO.getTitle() : \"Untitled\")")
+    @Mapping(target = "archived", source = "archived")
     Board toTO(BoardDTO boardDTO);
 
     @Mapping(target = "permissionRead", source = "permissionRead")

@@ -4,6 +4,7 @@ import org.reactivestreams.FlowAdapters;
 
 import java.util.List;
 import java.util.concurrent.Flow;
+import java.util.logging.Logger;
 
 import io.reactivex.rxjava3.processors.BehaviorProcessor;
 import io.reactivex.rxjava3.schedulers.Schedulers;
@@ -16,6 +17,8 @@ import it.niedermann.nextcloud.deck.domain.state.AttachmentDownloadProgress;
 import jakarta.inject.Inject;
 
 public class AttachmentRepositoryImpl implements AttachmentRepository {
+
+    private static final Logger logger = Logger.getLogger(AttachmentRepositoryImpl.class.getName());
 
     private final AttachmentDao attachmentDao;
     private final AttachmentMapper attachmentMapper;
@@ -39,7 +42,7 @@ public class AttachmentRepositoryImpl implements AttachmentRepository {
     @Override
     public Flow.Publisher<AttachmentDownloadProgress> download(Attachment.ID attachmentId) {
         final var result = BehaviorProcessor.<AttachmentDownloadProgress>create();
-        System.out.println("[Mock][" + AttachmentRepositoryImpl.class.getSimpleName() + "/download]: " + attachmentId);
+        logger.info("[Mock][download]: " + attachmentId);
 
         new Thread(() -> {
 

@@ -42,9 +42,11 @@ public class BoardEndToEndTest extends EndToEndTest {
     @Test
     public void updateBoard() {
         final var boardTitle = randomUtil.randomize("boardToUpdate");
-        final var board = EndToEndUtil.createBoard(DEVICE_A_JOHN, boardTitle);
+        var board = EndToEndUtil.createBoard(DEVICE_A_JOHN, boardTitle);
 
         synchronize(DEVICE_A_JOHN);
+        board = EndToEndUtil.getBoard(DEVICE_A_JOHN, board.id());
+
         synchronize(DEVICE_B_JOHN);
         EndToEndUtil.assertBoardExists(DEVICE_B_JOHN, boardTitle);
 

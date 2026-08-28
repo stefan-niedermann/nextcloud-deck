@@ -11,8 +11,11 @@ import java.util.concurrent.CompletableFuture
 @Dao
 interface BoardDao : GenericDao<BoardEntity> {
 
-    @Query("SELECT * FROM Board WHERE accountId = :accountId ORDER BY archived ASC, title ASC")
+    @Query("SELECT * FROM Board WHERE accountId = :accountId AND status != 3 ORDER BY archived ASC, title ASC")
     fun getBoardsByAccount(accountId: Long): Flowable<List<BoardEntity>>
+
+    @Query("SELECT * FROM Board WHERE accountId = :accountId")
+    fun getAllBoardsByAccount(accountId: Long): CompletableFuture<List<BoardEntity>>
 
     @Query("SELECT * FROM Board WHERE accountId = :accountId AND remoteId = :remoteId")
     fun getBoardByRemoteId(accountId: Long, remoteId: Long): CompletableFuture<BoardEntity?>
