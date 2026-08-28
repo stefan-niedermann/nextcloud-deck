@@ -131,6 +131,7 @@ class MainStageIntegrationTest {
     private GetCurrentAccountUseCase getCurrentAccountUseCase;
     private ApplicationRouter applicationRouter;
     private MainService mainService;
+    private Stage stage;
 
     private static final Account.ID ACCOUNT_ID = new Account.ID(1L);
     private static final Account ACCOUNT = new Account(ACCOUNT_ID, createUrl("https://nextcloud.example.com"), "user", "token", "Account 1", MockData.MOCK_CAPABILITIES);
@@ -149,6 +150,7 @@ class MainStageIntegrationTest {
 
     @Start
     void start(Stage stage) {
+        this.stage = stage;
         hasAccountsUseCase = mock(HasAccountsUseCase.class, Answers.RETURNS_MOCKS);
         boardArgResolver = mock(BoardArgResolver.class, Answers.RETURNS_MOCKS);
         setCurrentAccountUseCase = mock(SetCurrentAccountUseCase.class, Answers.RETURNS_MOCKS);
@@ -397,13 +399,15 @@ class MainStageIntegrationTest {
 
     @Test
     void testMainSceneIsShown(FxRobot robot) throws TimeoutException, IOException {
+        robot.targetWindow(stage);
         WaitForAsyncUtils.waitFor(10, TimeUnit.SECONDS, () -> robot.lookup("#boardList").tryQuery().isPresent());
+         FxAssert.verifyThat("#boardList", NodeMatchers.isVisible());
         ScreenshotUtil.captureScene(robot, "Main");
-        FxAssert.verifyThat("#boardList", NodeMatchers.isVisible());
     }
 
     @Test
     void testSwitchBetweenBoards(FxRobot robot) throws TimeoutException {
+        robot.targetWindow(stage);
         WaitForAsyncUtils.waitFor(10, TimeUnit.SECONDS, () -> robot.lookup("Board 2").tryQuery().isPresent());
         robot.clickOn("Board 2");
         verify(setCurrentBoardUseCase, atLeastOnce()).execute(ACCOUNT_ID, BOARD_2.id());
@@ -411,17 +415,19 @@ class MainStageIntegrationTest {
 
     @Test
     void testOpenCard(FxRobot robot) throws TimeoutException, IOException {
+        robot.targetWindow(stage);
         WaitForAsyncUtils.waitFor(10, TimeUnit.SECONDS, () -> robot.lookup("Board 1").tryQuery().isPresent());
         robot.clickOn("Board 1");
         WaitForAsyncUtils.waitFor(10, TimeUnit.SECONDS, () -> robot.lookup("Card 1").tryQuery().isPresent());
         robot.clickOn("Card 1");
         WaitForAsyncUtils.waitFor(10, TimeUnit.SECONDS, () -> robot.lookup("#popOutBtn").tryQuery().isPresent());
-        ScreenshotUtil.captureScene(robot, "Main_CardSidebar");
         FxAssert.verifyThat("#popOutBtn", NodeMatchers.isVisible());
+        ScreenshotUtil.captureScene(robot, "Main_CardSidebar");
     }
 
     @Test
     void testCloseCard(FxRobot robot) throws TimeoutException {
+        robot.targetWindow(stage);
         WaitForAsyncUtils.waitFor(10, TimeUnit.SECONDS, () -> robot.lookup("Board 1").tryQuery().isPresent());
         robot.clickOn("Board 1");
         WaitForAsyncUtils.waitFor(10, TimeUnit.SECONDS, () -> robot.lookup("Card 1").tryQuery().isPresent());
@@ -439,6 +445,7 @@ class MainStageIntegrationTest {
 
     @Test
     void testPopOutCard(FxRobot robot) throws TimeoutException {
+        robot.targetWindow(stage);
         WaitForAsyncUtils.waitFor(10, TimeUnit.SECONDS, () -> robot.lookup("Board 1").tryQuery().isPresent());
         robot.clickOn("Board 1");
         WaitForAsyncUtils.waitFor(10, TimeUnit.SECONDS, () -> robot.lookup("Card 1").tryQuery().isPresent());
@@ -450,6 +457,7 @@ class MainStageIntegrationTest {
 
     @Test
     void testOpenCardInNewWindowFromContextMenu(FxRobot robot) throws TimeoutException {
+        robot.targetWindow(stage);
         WaitForAsyncUtils.waitFor(10, TimeUnit.SECONDS, () -> robot.lookup("Board 1").tryQuery().isPresent());
         robot.clickOn("Board 1");
         WaitForAsyncUtils.waitFor(10, TimeUnit.SECONDS, () -> robot.lookup("Card 1").tryQuery().isPresent());

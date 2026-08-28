@@ -16,9 +16,11 @@ import org.testfx.api.FxRobot;
 import org.testfx.framework.junit5.ApplicationExtension;
 import org.testfx.framework.junit5.Start;
 import org.testfx.matcher.control.LabeledMatchers;
+import org.testfx.util.WaitForAsyncUtils;
 
 import java.io.IOException;
 import java.net.URI;
+import java.util.concurrent.TimeUnit;
 
 import io.reactivex.rxjava4.core.Flowable;
 import it.niedermann.nextcloud.deck.app.shared.args.EmptyArgs;
@@ -51,9 +53,11 @@ import javafx.stage.Stage;
 class PreferencesStageIntegrationTest {
 
     private PreferencesService stageContext;
+    private Stage stage;
 
     @Start
     void start(Stage stage) {
+        this.stage = stage;
         final var hasAccountsUseCase = mock(HasAccountsUseCase.class);
         final var keyValueStore = mock(KeyValueStore.class);
         final var detector = mock(OsThemeDetector.class);
@@ -99,7 +103,7 @@ class PreferencesStageIntegrationTest {
         final PreferencesService.Factory stageContextFactory = initialState -> stageContext;
         final PreferencesScene.Factory preferencesSceneFactory = (PreferencesService ps) -> new PreferencesScene(
                 ps,
-                mock(Inflater.class),
+                Inflater.getInstance(),
                 mock(it.niedermann.nextcloud.deck.javafx.ui.preferences.features.AccountPreferencesFeature.Factory.class),
                 mock(it.niedermann.nextcloud.deck.javafx.ui.preferences.features.AccountPreferencesService.Factory.class)
         );
@@ -123,7 +127,9 @@ class PreferencesStageIntegrationTest {
     }
 
     @Test
-    void testPreferencesSceneIsShown(FxRobot robot) throws IOException {
+    void testPreferencesSceneIsShown(FxRobot robot) throws IOException, java.util.concurrent.TimeoutException {
+        robot.targetWindow(stage);
+        WaitForAsyncUtils.waitFor(10, TimeUnit.SECONDS, () -> robot.lookup("General").tryQuery().isPresent());
         robot.lookup("General").query();
         robot.lookup("#themeComboBox").query();
         robot.lookup("#compactModeCheckBox").query();
@@ -131,7 +137,9 @@ class PreferencesStageIntegrationTest {
     }
 
     @Test
-    void testChangePreferences(FxRobot robot) {
+    void testChangePreferences(FxRobot robot) throws java.util.concurrent.TimeoutException {
+        robot.targetWindow(stage);
+        WaitForAsyncUtils.waitFor(10, TimeUnit.SECONDS, () -> robot.lookup("#compactModeCheckBox").tryQuery().isPresent());
         // Interaction with CheckBoxes
         robot.clickOn("#compactModeCheckBox");
 
