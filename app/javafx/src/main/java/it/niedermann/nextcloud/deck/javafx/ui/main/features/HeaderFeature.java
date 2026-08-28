@@ -29,7 +29,7 @@ import it.niedermann.nextcloud.deck.domain.usecases.sync.ScheduleSyncUseCase;
 import it.niedermann.nextcloud.deck.domain.usecases.users.ListUsersUseCase;
 import it.niedermann.nextcloud.deck.javafx.fxml.Inflater;
 import it.niedermann.nextcloud.deck.javafx.ui.main.MainService;
-import it.niedermann.nextcloud.deck.javafx.ui.shared.AbstractScene;
+import it.niedermann.nextcloud.deck.javafx.ui.shared.AbstractFeature;
 import it.niedermann.nextcloud.deck.javafx.ui.shared.services.ThemeService;
 import it.niedermann.nextcloud.deck.javafx.ui.shared.views.AvatarProgressView;
 import it.niedermann.nextcloud.deck.javafx.util.JavaFxScheduler;
@@ -43,7 +43,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.stage.PopupWindow;
 
-public class HeaderFeature extends AbstractScene {
+public class HeaderFeature extends AbstractFeature {
 
     private static final Logger logger = Logger.getLogger(HeaderFeature.class.getName());
 
@@ -70,7 +70,6 @@ public class HeaderFeature extends AbstractScene {
     @FXML
     Button removeAccountBtn;
 
-    private final Inflater inflater;
     private final GetAccountUseCase getAccountUseCase;
     private final GetSyncStatusUseCase getSyncStatusUseCase;
     private final ScheduleSyncUseCase scheduleSyncUseCase;
@@ -99,7 +98,8 @@ public class HeaderFeature extends AbstractScene {
             AccountSwitcherFeature.Factory accountSwitcherFactory,
             @Assisted ViewModel viewModel
     ) {
-        this.inflater = inflater;
+        super(inflater);
+
         this.getAccountUseCase = getAccountUseCase;
         this.getSyncStatusUseCase = getSyncStatusUseCase;
         this.scheduleSyncUseCase = scheduleSyncUseCase;
@@ -220,8 +220,7 @@ public class HeaderFeature extends AbstractScene {
                     })
                     .observeOn(JavaFxScheduler.platform())
                     .subscribe(feature -> {
-                        final var bundle = inflater.inflate(feature);
-                        filterPopOver = new PopOver(bundle.view());
+                        filterPopOver = new PopOver(feature.getRoot());
                         filterPopOver.setArrowLocation(PopOver.ArrowLocation.TOP_LEFT);
                         themeService.bind(filterPopOver.getScene());
                         filterPopOver.show(filterBtn);
@@ -241,8 +240,8 @@ public class HeaderFeature extends AbstractScene {
         removeAccountBtn.setOnAction(_ -> this.removeAccount());
 
         avatar.setOnMouseClicked(event -> {
-            final var accountSwitcher = inflater.inflate(accountSwitcherFactory.create());
-            final var popover = new PopOver(accountSwitcher.view());
+            final var accountSwitcher = accountSwitcherFactory.create();
+            final var popover = new PopOver(accountSwitcher.getRoot());
             popover.setArrowLocation(PopOver.ArrowLocation.TOP_RIGHT);
             popover.setAnchorLocation(PopupWindow.AnchorLocation.CONTENT_TOP_RIGHT);
             popover.show(avatar);

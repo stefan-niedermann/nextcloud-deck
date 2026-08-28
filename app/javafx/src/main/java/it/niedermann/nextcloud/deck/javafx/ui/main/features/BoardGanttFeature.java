@@ -20,7 +20,8 @@ import it.niedermann.nextcloud.deck.domain.model.Board;
 import it.niedermann.nextcloud.deck.domain.model.query.PreviewCard;
 import it.niedermann.nextcloud.deck.domain.usecases.cards.ListCardPreviewsUseCase;
 import it.niedermann.nextcloud.deck.domain.usecases.columns.ListColumnIDsUseCase;
-import it.niedermann.nextcloud.deck.javafx.ui.shared.AbstractScene;
+import it.niedermann.nextcloud.deck.javafx.fxml.Inflater;
+import it.niedermann.nextcloud.deck.javafx.ui.shared.AbstractFeature;
 import it.niedermann.nextcloud.deck.javafx.ui.shared.views.EmptyContentView;
 import it.niedermann.nextcloud.deck.javafx.util.JavaFxScheduler;
 import javafx.fxml.FXML;
@@ -28,7 +29,7 @@ import javafx.scene.control.ProgressIndicator;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 
-public class BoardGanttFeature extends AbstractScene {
+public class BoardGanttFeature extends AbstractFeature {
 
     @FXML
     VBox root;
@@ -47,10 +48,13 @@ public class BoardGanttFeature extends AbstractScene {
 
     @AssistedInject
     public BoardGanttFeature(
+            Inflater inflater,
             ListCardPreviewsUseCase listCardPreviewsUseCase,
             ListColumnIDsUseCase listColumnIDsUseCase,
             @Assisted ViewModel viewModel
     ) {
+        super(inflater);
+
         this.listCardPreviewsUseCase = listCardPreviewsUseCase;
         this.listColumnIDsUseCase = listColumnIDsUseCase;
         this.viewModel = viewModel;

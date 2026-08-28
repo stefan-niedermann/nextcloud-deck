@@ -24,7 +24,8 @@ import it.niedermann.nextcloud.deck.domain.model.Card;
 import it.niedermann.nextcloud.deck.domain.model.User;
 import it.niedermann.nextcloud.deck.domain.model.query.PreviewActivity;
 import it.niedermann.nextcloud.deck.domain.model.query.PreviewComment;
-import it.niedermann.nextcloud.deck.javafx.ui.shared.AbstractScene;
+import it.niedermann.nextcloud.deck.javafx.fxml.Inflater;
+import it.niedermann.nextcloud.deck.javafx.ui.shared.AbstractFeature;
 import it.niedermann.nextcloud.deck.javafx.ui.shared.cellfactories.ActivityCellFactory;
 import it.niedermann.nextcloud.deck.javafx.ui.shared.cellfactories.AttachmentCellFactory;
 import it.niedermann.nextcloud.deck.javafx.ui.shared.cellfactories.CommentCellFactory;
@@ -53,7 +54,7 @@ import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
 import one.jpro.platform.mdfx.MarkdownView;
 
-public class EditCardFeature extends AbstractScene {
+public class EditCardFeature extends AbstractFeature {
 
     private static final Logger logger = Logger.getLogger(EditCardFeature.class.getName());
 
@@ -121,6 +122,7 @@ public class EditCardFeature extends AbstractScene {
 
     @AssistedInject
     public EditCardFeature(
+            Inflater inflater,
             CommentCellFactory commentCellFactory,
             LabelSuggestionProvider labelSuggestionProvider,
             UserSuggestionProvider userSuggestionProvider,
@@ -130,6 +132,8 @@ public class EditCardFeature extends AbstractScene {
             UserTagViewFactory userTagViewFactory,
             @Assisted ViewModel viewModel
     ) {
+        super(inflater);
+
         this.commentCellFactory = commentCellFactory;
         this.labelSuggestionProvider = labelSuggestionProvider;
         this.userSuggestionProvider = userSuggestionProvider;

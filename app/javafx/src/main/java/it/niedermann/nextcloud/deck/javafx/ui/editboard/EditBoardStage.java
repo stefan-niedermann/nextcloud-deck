@@ -8,7 +8,6 @@ import dagger.assisted.AssistedInject;
 import it.niedermann.nextcloud.deck.app.shared.args.board.BoardArgResolver;
 import it.niedermann.nextcloud.deck.app.shared.args.board.BoardParsedArgs;
 import it.niedermann.nextcloud.deck.app.shared.args.board.BoardRawArgs;
-import it.niedermann.nextcloud.deck.app.shared.di.model.BuildConfig;
 import it.niedermann.nextcloud.deck.domain.usecases.state.SetCurrentAccountUseCase;
 import it.niedermann.nextcloud.deck.javafx.di.stage.StageScope;
 import it.niedermann.nextcloud.deck.javafx.fxml.Inflater;
@@ -17,10 +16,8 @@ import it.niedermann.nextcloud.deck.javafx.ui.login.LoginScene;
 import it.niedermann.nextcloud.deck.javafx.ui.login.LoginService;
 import it.niedermann.nextcloud.deck.javafx.ui.shared.AbstractScene;
 import it.niedermann.nextcloud.deck.javafx.ui.shared.AbstractStage;
-import it.niedermann.nextcloud.deck.javafx.ui.shared.services.ThemeService;
 import it.niedermann.nextcloud.deck.javafx.ui.splashscreen.SplashScreenScene;
 import jakarta.inject.Provider;
-import javafx.application.HostServices;
 import javafx.stage.Stage;
 
 public class EditBoardStage extends AbstractStage<BoardRawArgs, BoardParsedArgs> {
@@ -31,7 +28,6 @@ public class EditBoardStage extends AbstractStage<BoardRawArgs, BoardParsedArgs>
     @AssistedInject
     public EditBoardStage(Inflater inflater,
                           Stage stage,
-                          ThemeService themeService,
                           SplashScreenScene.Factory splashScreenFactory,
                           LoginService.Factory loginStageContextFactory,
                           Provider<LoginScene.Factory> loginFactoryProvider,
@@ -40,11 +36,8 @@ public class EditBoardStage extends AbstractStage<BoardRawArgs, BoardParsedArgs>
                           EditBoardScene.Factory editBoardSceneFactory,
                           EditBoardService.Factory stageContextFactory,
                           BoardArgResolver boardArgResolver,
-                          HostServices hostServices,
-                          BuildConfig buildConfig,
                           @Assisted BoardRawArgs args) {
         super(stage,
-                themeService,
                 inflater,
                 splashScreenFactory,
                 loginStageContextFactory,
@@ -52,8 +45,6 @@ public class EditBoardStage extends AbstractStage<BoardRawArgs, BoardParsedArgs>
                 exceptionFactoryProvider,
                 setCurrentAccountUseCase,
                 boardArgResolver,
-                hostServices,
-                buildConfig,
                 args);
         this.editBoardSceneFactory = editBoardSceneFactory;
         this.stageContextFactory = stageContextFactory;
@@ -66,14 +57,14 @@ public class EditBoardStage extends AbstractStage<BoardRawArgs, BoardParsedArgs>
     }
 
     @Override
-    protected CompletableFuture<Inflater.FxBundle<AbstractScene>> showContent(BoardParsedArgs parsedArgs) {
+    protected CompletableFuture<AbstractScene> showContent(BoardParsedArgs parsedArgs) {
         final var stageContext = stageContextFactory.create(new EditBoardService.State(
                 parsedArgs.accountId(),
                 parsedArgs.boardId()
         ));
 
-        final AbstractScene editBoardScene = editBoardSceneFactory.create(stageContext);
-        return CompletableFuture.completedFuture(inflater.inflate(editBoardScene));
+        final var editBoardScene = editBoardSceneFactory.create(stageContext);
+        return CompletableFuture.completedFuture(editBoardScene);
     }
 
 }

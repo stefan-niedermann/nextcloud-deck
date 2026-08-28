@@ -14,13 +14,16 @@ import dagger.assisted.Assisted;
 import dagger.assisted.AssistedFactory;
 import dagger.assisted.AssistedInject;
 import io.reactivex.rxjava4.core.Flowable;
+import it.niedermann.nextcloud.deck.app.shared.di.model.BuildConfig;
 import it.niedermann.nextcloud.deck.domain.model.Account;
+import it.niedermann.nextcloud.deck.domain.sync.SyncScheduler;
 import it.niedermann.nextcloud.deck.javafx.fxml.Inflater;
 import it.niedermann.nextcloud.deck.javafx.ui.preferences.features.AccountPreferencesFeature;
 import it.niedermann.nextcloud.deck.javafx.ui.preferences.features.AccountPreferencesService;
 import it.niedermann.nextcloud.deck.javafx.ui.shared.AbstractScene;
 import it.niedermann.nextcloud.deck.javafx.ui.shared.services.ThemeService;
 import it.niedermann.nextcloud.deck.javafx.util.JavaFxScheduler;
+import javafx.application.HostServices;
 import javafx.fxml.FXML;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ComboBox;
@@ -45,21 +48,25 @@ public class PreferencesScene extends AbstractScene {
     private CheckBox debugModeCheckBox;
 
     private final PreferencesService preferencesService;
-    private final Inflater inflater;
     private final AccountPreferencesFeature.Factory accountPreferencesFeatureFactory;
     private final AccountPreferencesService.Factory accountPreferencesServiceFactory;
 
-    private final Map<Account.ID, Inflater.FxBundle<AccountPreferencesFeature>> accountFeatures = new HashMap<>();
+    private final Map<Account.ID, AccountPreferencesFeature> accountFeatures = new HashMap<>();
 
     @AssistedInject
     public PreferencesScene(
             @Assisted PreferencesService preferencesService,
             Inflater inflater,
             AccountPreferencesFeature.Factory accountPreferencesFeatureFactory,
-            AccountPreferencesService.Factory accountPreferencesServiceFactory
+            AccountPreferencesService.Factory accountPreferencesServiceFactory,
+            ThemeService themeService,
+            HostServices hostServices,
+            BuildConfig buildConfig,
+            SyncScheduler syncScheduler
     ) {
+        super(themeService, hostServices, buildConfig, syncScheduler, inflater);
+
         this.preferencesService = preferencesService;
-        this.inflater = inflater;
         this.accountPreferencesFeatureFactory = accountPreferencesFeatureFactory;
         this.accountPreferencesServiceFactory = accountPreferencesServiceFactory;
     }
@@ -99,10 +106,9 @@ public class PreferencesScene extends AbstractScene {
                         case ACCOUNT -> state.selectedAccount().ifPresent(account -> {
                             final var bundle = accountFeatures.computeIfAbsent(account.id(), _ -> {
                                 final var service = accountPreferencesServiceFactory.create(account);
-                                final var feature = accountPreferencesFeatureFactory.create(service);
-                                return inflater.inflate(feature);
+                                return accountPreferencesFeatureFactory.create(service);
                             });
-                            contentArea.getChildren().setAll(bundle.view());
+                            contentArea.getChildren().setAll(bundle.getRoot());
                         });
                     }
                 });
@@ -135,7 +141,7 @@ public class PreferencesScene extends AbstractScene {
     public void dispose() {
         super.dispose();
         preferencesService.dispose();
-        accountFeatures.values().forEach(bundle -> bundle.controller().dispose());
+        accountFeatures.values().forEach(AccountPreferencesFeature::dispose);
     }
 
     @Override

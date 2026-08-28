@@ -23,7 +23,8 @@ import it.niedermann.nextcloud.deck.domain.usecases.cards.AddCardUseCase;
 import it.niedermann.nextcloud.deck.domain.usecases.cards.ListCardPreviewsUseCase;
 import it.niedermann.nextcloud.deck.domain.usecases.cards.MoveCardUseCase;
 import it.niedermann.nextcloud.deck.domain.usecases.columns.GetColumnUseCase;
-import it.niedermann.nextcloud.deck.javafx.ui.shared.AbstractScene;
+import it.niedermann.nextcloud.deck.javafx.fxml.Inflater;
+import it.niedermann.nextcloud.deck.javafx.ui.shared.AbstractFeature;
 import it.niedermann.nextcloud.deck.javafx.ui.shared.cellfactories.CardPreviewCellFactory;
 import it.niedermann.nextcloud.deck.javafx.ui.shared.views.CardPreviewView;
 import it.niedermann.nextcloud.deck.javafx.ui.shared.views.SubmitTextField;
@@ -39,7 +40,7 @@ import javafx.scene.input.DragEvent;
 import javafx.scene.input.TransferMode;
 import javafx.stage.PopupWindow;
 
-public class ColumnFeature extends AbstractScene {
+public class ColumnFeature extends AbstractFeature {
 
     private static final Logger logger = Logger.getLogger(ColumnFeature.class.getName());
 
@@ -70,6 +71,7 @@ public class ColumnFeature extends AbstractScene {
 
     @AssistedInject
     public ColumnFeature(
+            Inflater inflater,
             ListCardPreviewsUseCase listCardPreviewsUseCase,
             MoveCardUseCase moveCardUseCase,
             CardPreviewCellFactory cardPreviewCellFactory,
@@ -78,6 +80,8 @@ public class ColumnFeature extends AbstractScene {
             @Assisted Column.ID columnId,
             @Assisted ViewModel viewModel
     ) {
+        super(inflater);
+
         this.listCardPreviewsUseCase = listCardPreviewsUseCase;
         this.moveCardUseCase = moveCardUseCase;
         this.cardPreviewCellFactory = cardPreviewCellFactory;

@@ -16,12 +16,13 @@ import dagger.assisted.AssistedFactory;
 import dagger.assisted.AssistedInject;
 import it.niedermann.nextcloud.auth.webloginflowv2.WebLoginFlowV2AuthProvider;
 import it.niedermann.nextcloud.deck.domain.model.AuthenticatedAccount;
-import it.niedermann.nextcloud.deck.javafx.ui.shared.AbstractScene;
+import it.niedermann.nextcloud.deck.javafx.fxml.Inflater;
+import it.niedermann.nextcloud.deck.javafx.ui.shared.AbstractFeature;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 
-public class WebLoginV2Feature extends AbstractScene {
+public class WebLoginV2Feature extends AbstractFeature {
 
     private static final Logger logger = Logger.getLogger(WebLoginV2Feature.class.getName());
 
@@ -35,9 +36,12 @@ public class WebLoginV2Feature extends AbstractScene {
 
     @AssistedInject
     public WebLoginV2Feature(
+            Inflater inflater,
             WebLoginFlowV2AuthProvider webLoginV2AuthProvider,
             @Assisted ViewModel viewModel
     ) {
+        super(inflater);
+
         this.webLoginV2AuthProvider = webLoginV2AuthProvider;
         this.viewModel = viewModel;
     }

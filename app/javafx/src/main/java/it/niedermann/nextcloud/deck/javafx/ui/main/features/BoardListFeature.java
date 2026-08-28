@@ -13,7 +13,8 @@ import it.niedermann.nextcloud.deck.domain.model.Account;
 import it.niedermann.nextcloud.deck.domain.model.Board;
 import it.niedermann.nextcloud.deck.domain.usecases.boards.GetBoardUseCase;
 import it.niedermann.nextcloud.deck.domain.usecases.boards.ListBoardsUseCase;
-import it.niedermann.nextcloud.deck.javafx.ui.shared.AbstractScene;
+import it.niedermann.nextcloud.deck.javafx.fxml.Inflater;
+import it.niedermann.nextcloud.deck.javafx.ui.shared.AbstractFeature;
 import it.niedermann.nextcloud.deck.javafx.ui.shared.cellfactories.BoardListItemCellFactory;
 import it.niedermann.nextcloud.deck.javafx.ui.shared.views.BoardListItemView;
 import it.niedermann.nextcloud.deck.javafx.util.JavaFxScheduler;
@@ -22,7 +23,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.ListView;
 import javafx.util.Pair;
 
-public class BoardListFeature extends AbstractScene {
+public class BoardListFeature extends AbstractFeature {
 
     private static final Logger logger = Logger.getLogger(BoardListFeature.class.getName());
 
@@ -35,10 +36,13 @@ public class BoardListFeature extends AbstractScene {
 
     @AssistedInject
     public BoardListFeature(
+            Inflater inflater,
             GetBoardUseCase getBoardUseCase,
             ListBoardsUseCase listBoardsUseCase,
             @Assisted ViewModel viewModel
     ) {
+        super(inflater);
+
         this.getBoardUseCase = getBoardUseCase;
         this.listBoardsUseCase = listBoardsUseCase;
         this.viewModel = viewModel;

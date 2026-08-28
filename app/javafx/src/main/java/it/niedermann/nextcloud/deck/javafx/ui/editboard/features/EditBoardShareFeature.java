@@ -13,7 +13,8 @@ import io.reactivex.rxjava4.core.Flowable;
 import it.niedermann.nextcloud.deck.domain.model.Board;
 import it.niedermann.nextcloud.deck.domain.model.BoardShare;
 import it.niedermann.nextcloud.deck.domain.model.User;
-import it.niedermann.nextcloud.deck.javafx.ui.shared.AbstractScene;
+import it.niedermann.nextcloud.deck.javafx.fxml.Inflater;
+import it.niedermann.nextcloud.deck.javafx.ui.shared.AbstractFeature;
 import it.niedermann.nextcloud.deck.javafx.ui.shared.searchviewconverter.UserSearchViewConverter;
 import it.niedermann.nextcloud.deck.javafx.ui.shared.suggestionproviders.UserSuggestionProvider;
 import it.niedermann.nextcloud.deck.javafx.ui.shared.views.UserChip;
@@ -27,7 +28,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.Region;
 
-public class EditBoardShareFeature extends AbstractScene {
+public class EditBoardShareFeature extends AbstractFeature {
 
     @FXML
     SearchField<User> userSearch;
@@ -40,9 +41,12 @@ public class EditBoardShareFeature extends AbstractScene {
     private final ViewModel viewModel;
 
     @AssistedInject
-    public EditBoardShareFeature(UserSuggestionProvider userSuggestionProvider,
+    public EditBoardShareFeature(Inflater inflater,
+                                 UserSuggestionProvider userSuggestionProvider,
                                  UserSearchViewConverter userSearchViewConverter,
                                  @Assisted ViewModel viewModel) {
+        super(inflater);
+
         this.userSuggestionProvider = userSuggestionProvider;
         this.userSearchViewConverter = userSearchViewConverter;
         this.viewModel = viewModel;

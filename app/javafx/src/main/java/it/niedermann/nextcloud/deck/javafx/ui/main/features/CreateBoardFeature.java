@@ -7,11 +7,12 @@ import java.util.function.Consumer;
 import dagger.assisted.Assisted;
 import dagger.assisted.AssistedFactory;
 import dagger.assisted.AssistedInject;
-import it.niedermann.nextcloud.deck.javafx.ui.shared.AbstractScene;
+import it.niedermann.nextcloud.deck.javafx.fxml.Inflater;
+import it.niedermann.nextcloud.deck.javafx.ui.shared.AbstractFeature;
 import it.niedermann.nextcloud.deck.javafx.ui.shared.views.SubmitTextField;
 import javafx.fxml.FXML;
 
-public class CreateBoardFeature extends AbstractScene {
+public class CreateBoardFeature extends AbstractFeature {
 
     @FXML
     SubmitTextField submitTextField;
@@ -19,7 +20,10 @@ public class CreateBoardFeature extends AbstractScene {
     private final Consumer<String> onBoardCreated;
 
     @AssistedInject
-    public CreateBoardFeature(@Assisted Consumer<String> onBoardCreated) {
+    public CreateBoardFeature(Inflater inflater,
+                              @Assisted Consumer<String> onBoardCreated) {
+        super(inflater);
+
         this.onBoardCreated = onBoardCreated;
     }
 

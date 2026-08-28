@@ -10,7 +10,8 @@ import dagger.assisted.AssistedFactory;
 import dagger.assisted.AssistedInject;
 import io.reactivex.rxjava4.core.Flowable;
 import it.niedermann.nextcloud.deck.domain.model.Board;
-import it.niedermann.nextcloud.deck.javafx.ui.shared.AbstractScene;
+import it.niedermann.nextcloud.deck.javafx.fxml.Inflater;
+import it.niedermann.nextcloud.deck.javafx.ui.shared.AbstractFeature;
 import it.niedermann.nextcloud.deck.javafx.util.JavaFxScheduler;
 import javafx.fxml.FXML;
 import javafx.scene.control.ColorPicker;
@@ -18,7 +19,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.paint.Color;
 
-public class EditBoardDetailsFeature extends AbstractScene {
+public class EditBoardDetailsFeature extends AbstractFeature {
 
     @FXML
     TextField title;
@@ -30,7 +31,10 @@ public class EditBoardDetailsFeature extends AbstractScene {
     private final ViewModel viewModel;
 
     @AssistedInject
-    public EditBoardDetailsFeature(@Assisted ViewModel viewModel) {
+    public EditBoardDetailsFeature(Inflater inflater,
+                                   @Assisted ViewModel viewModel) {
+        super(inflater);
+
         this.viewModel = viewModel;
     }
 

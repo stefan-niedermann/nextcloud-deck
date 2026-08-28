@@ -13,7 +13,9 @@ import dagger.assisted.Assisted;
 import dagger.assisted.AssistedFactory;
 import dagger.assisted.AssistedInject;
 import io.reactivex.rxjava4.core.Flowable;
+import it.niedermann.nextcloud.deck.app.shared.di.model.BuildConfig;
 import it.niedermann.nextcloud.deck.domain.model.Board;
+import it.niedermann.nextcloud.deck.domain.sync.SyncScheduler;
 import it.niedermann.nextcloud.deck.javafx.fxml.Inflater;
 import it.niedermann.nextcloud.deck.javafx.ui.editcard.EditCardService;
 import it.niedermann.nextcloud.deck.javafx.ui.editcard.features.EditCardFeature;
@@ -22,12 +24,14 @@ import it.niedermann.nextcloud.deck.javafx.ui.main.features.BoardKanbanFeature;
 import it.niedermann.nextcloud.deck.javafx.ui.main.features.BoardListFeature;
 import it.niedermann.nextcloud.deck.javafx.ui.main.features.CreateBoardFeature;
 import it.niedermann.nextcloud.deck.javafx.ui.main.features.HeaderFeature;
+import it.niedermann.nextcloud.deck.javafx.ui.shared.AbstractFeature;
 import it.niedermann.nextcloud.deck.javafx.ui.shared.AbstractScene;
 import it.niedermann.nextcloud.deck.javafx.ui.shared.services.StageTitleResolver;
 import it.niedermann.nextcloud.deck.javafx.ui.shared.services.ThemeService;
 import it.niedermann.nextcloud.deck.javafx.ui.shared.views.EmptyContentView;
 import it.niedermann.nextcloud.deck.javafx.util.FxUtils;
 import it.niedermann.nextcloud.deck.javafx.util.JavaFxScheduler;
+import javafx.application.HostServices;
 import javafx.fxml.FXML;
 import javafx.scene.Scene;
 import javafx.scene.SnapshotParameters;
@@ -49,15 +53,14 @@ public class MainScene extends AbstractScene {
     private final MainService mainService;
     private final EditCardService sidebarContext;
     private final StageTitleResolver stageTitleResolver;
-    private final Inflater inflater;
     private final CreateBoardFeature.Factory createBoardFeatureFactory;
     private final ThemeService themeService;
 
-    private final Inflater.FxBundle<?> boardListBundle;
-    private final Inflater.FxBundle<?> headerBundle;
-    private final Inflater.FxBundle<?> boardBundle;
-    private final Inflater.FxBundle<?> ganttBundle;
-    private final Inflater.FxBundle<EditCardFeature> editCardBundle;
+    private final AbstractFeature boardListFeature;
+    private final AbstractFeature headerFeature;
+    private final AbstractFeature boardFeature;
+    private final AbstractFeature ganttFeature;
+    private final AbstractFeature editCardFeature;
 
     private double[] dividerPositions;
 
@@ -73,21 +76,25 @@ public class MainScene extends AbstractScene {
             StageTitleResolver stageTitleResolver,
             CreateBoardFeature.Factory createBoardFeatureFactory,
             ThemeService themeService,
+            HostServices hostServices,
+            BuildConfig buildConfig,
+            SyncScheduler syncScheduler,
             @Assisted MainService mainService
     ) {
+        super(themeService, hostServices, buildConfig, syncScheduler, inflater);
+
         this.mainService = mainService;
         this.stageTitleResolver = stageTitleResolver;
-        this.inflater = inflater;
         this.createBoardFeatureFactory = createBoardFeatureFactory;
         this.themeService = themeService;
 
         this.sidebarContext = editCardStageContextFactory.create(new EditCardService.State(Optional.empty(), false), () -> mainService.dispatch(new MainService.Action.CloseCardAction()));
 
-        this.boardListBundle = inflater.inflate(boardListFactory.create(mainService));
-        this.headerBundle = inflater.inflate(headerFactory.create(mainService));
-        this.boardBundle = inflater.inflate(boardFactory.create(mainService));
-        this.ganttBundle = inflater.inflate(ganttFactory.create(mainService));
-        this.editCardBundle = inflater.inflate(editCardFactory.create(sidebarContext));
+        this.boardListFeature = boardListFactory.create(mainService);
+        this.headerFeature = headerFactory.create(mainService);
+        this.boardFeature = boardFactory.create(mainService);
+        this.ganttFeature = ganttFactory.create(mainService);
+        this.editCardFeature = editCardFactory.create(sidebarContext);
     }
 
     @AssistedFactory
@@ -102,8 +109,8 @@ public class MainScene extends AbstractScene {
         root.prefWidthProperty().bind(root.sceneProperty().flatMap(Scene::widthProperty));
         root.prefHeightProperty().bind(root.sceneProperty().flatMap(Scene::heightProperty));
 
-        headerHost.getChildren().add(headerBundle.view());
-        splitPane.getItems().addAll(boardListBundle.view(), boardBundle.view());
+        headerHost.getChildren().add(headerFeature.getRoot());
+        splitPane.getItems().addAll(boardListFeature.getRoot(), boardFeature.getRoot());
 
         final var placeholderIcon = new FontIcon("fltfmz-search-28");
         placeholderIcon.setIconSize(128);
@@ -118,8 +125,7 @@ public class MainScene extends AbstractScene {
                     popOverRef.get().hide();
                 }
             });
-            final var bundle = inflater.inflate(feature);
-            final var popOver = new PopOver(bundle.view());
+            final var popOver = new PopOver(feature.getRoot());
             popOverRef.set(popOver);
             popOver.setArrowLocation(PopOver.ArrowLocation.BOTTOM_CENTER);
             themeService.bind(popOver.getScene());
@@ -136,12 +142,12 @@ public class MainScene extends AbstractScene {
                     emptyContentView.setManaged(!boardPresent);
 
                     if (boardPresent) {
-                        splitPane.getItems().remove(boardBundle.view());
-                        splitPane.getItems().remove(ganttBundle.view());
+                        splitPane.getItems().remove(boardFeature.getRoot());
+                        splitPane.getItems().remove(ganttFeature.getRoot());
                         if (state.viewMode() == MainService.ViewMode.GANTT) {
-                            splitPane.getItems().add(1, ganttBundle.view());
+                            splitPane.getItems().add(1, ganttFeature.getRoot());
                         } else {
-                            splitPane.getItems().add(1, boardBundle.view());
+                            splitPane.getItems().add(1, boardFeature.getRoot());
                         }
                     }
                 });
@@ -157,11 +163,11 @@ public class MainScene extends AbstractScene {
                 .subscribe(state -> {
                     sidebarContext.dispatch(new EditCardService.Action.SelectCard(state.cardId()));
                     if (state.cardId().isEmpty()) {
-                        splitPane.getItems().remove(editCardBundle.view());
+                        splitPane.getItems().remove(editCardFeature.getRoot());
 
                     } else {
-                        if (!splitPane.getItems().contains(editCardBundle.view())) {
-                            splitPane.getItems().add(editCardBundle.view());
+                        if (!splitPane.getItems().contains(editCardFeature.getRoot())) {
+                            splitPane.getItems().add(editCardFeature.getRoot());
                             splitPane.setDividerPositions(splitPane.getDividerPositions()[0], .8);
                         }
                     }

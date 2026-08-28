@@ -11,7 +11,8 @@ import io.reactivex.rxjava4.core.Flowable;
 import io.reactivex.rxjava4.disposables.Disposable;
 import it.niedermann.nextcloud.deck.domain.model.Board;
 import it.niedermann.nextcloud.deck.domain.model.Column;
-import it.niedermann.nextcloud.deck.javafx.ui.shared.AbstractScene;
+import it.niedermann.nextcloud.deck.javafx.fxml.Inflater;
+import it.niedermann.nextcloud.deck.javafx.ui.shared.AbstractFeature;
 import it.niedermann.nextcloud.deck.javafx.util.JavaFxScheduler;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -22,7 +23,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.Region;
 
-public class EditBoardColumnsFeature extends AbstractScene {
+public class EditBoardColumnsFeature extends AbstractFeature {
 
     @FXML
     ListView<Column> columns;
@@ -35,7 +36,10 @@ public class EditBoardColumnsFeature extends AbstractScene {
     private final ViewModel viewModel;
 
     @AssistedInject
-    public EditBoardColumnsFeature(@Assisted ViewModel viewModel) {
+    public EditBoardColumnsFeature(Inflater inflater,
+                                   @Assisted ViewModel viewModel) {
+        super(inflater);
+
         this.viewModel = viewModel;
     }
 
@@ -120,9 +124,13 @@ public class EditBoardColumnsFeature extends AbstractScene {
 
     public interface ViewModel {
         Flowable<Board> getBoard();
+
         Flowable<List<Column>> getColumns();
+
         void onAddColumn(String title);
+
         Disposable onDeleteColumn(Column column);
+
         void onUpdateColumn(Column column, String newTitle);
     }
 }

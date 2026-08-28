@@ -2,6 +2,7 @@ package it.niedermann.nextcloud.deck.javafx.fxml;
 
 import java.io.IOException;
 
+import it.niedermann.nextcloud.deck.javafx.ui.shared.AbstractFeature;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 
@@ -21,13 +22,23 @@ public class Inflater {
     }
 
     /// Inflates the corresponding view and attaches the passed controller instance
-    public <T> FxBundle<T> inflate(T controller) {
+    public <T> FxBundle<T> inflate(Parent controller) {
         final var loader = createLoader(controller.getClass());
         loader.setController(controller);
+        loader.setRoot(controller);
 
-        if (controller instanceof Parent) {
-            loader.setRoot(controller);
+        try {
+            final Parent parent = loader.load();
+            return new FxBundle<>(loader.getController(), parent);
+        } catch (IOException e) {
+            throw new InflateException(e);
         }
+    }
+
+    /// Inflates the corresponding view and attaches the passed controller instance
+    public <T> FxBundle<T> inflate(AbstractFeature controller) {
+        final var loader = createLoader(controller.getClass());
+        loader.setController(controller);
 
         try {
             final Parent parent = loader.load();

@@ -168,9 +168,7 @@ public class MainService extends Store<MainService.State, MainService.Action> im
                     }
                 });
 
-                final var bundle = inflater.inflate(feature);
-
-                final var popOver = new PopOver(bundle.view());
+                final var popOver = new PopOver(feature.getRoot());
                 popOver.setArrowLocation(PopOver.ArrowLocation.TOP_CENTER);
                 popOver.setAnimated(false);
                 this.pickStackPopOver = popOver;

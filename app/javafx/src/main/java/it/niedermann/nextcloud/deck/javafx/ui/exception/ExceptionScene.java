@@ -7,8 +7,13 @@ import dagger.assisted.Assisted;
 import dagger.assisted.AssistedFactory;
 import dagger.assisted.AssistedInject;
 import io.reactivex.rxjava4.core.Flowable;
+import it.niedermann.nextcloud.deck.app.shared.di.model.BuildConfig;
+import it.niedermann.nextcloud.deck.domain.sync.SyncScheduler;
+import it.niedermann.nextcloud.deck.javafx.fxml.Inflater;
 import it.niedermann.nextcloud.deck.javafx.ui.shared.AbstractScene;
+import it.niedermann.nextcloud.deck.javafx.ui.shared.services.ThemeService;
 import it.niedermann.nextcloud.deck.javafx.ui.shared.views.EmptyContentView;
+import javafx.application.HostServices;
 import javafx.fxml.FXML;
 
 public class ExceptionScene extends AbstractScene {
@@ -21,7 +26,14 @@ public class ExceptionScene extends AbstractScene {
 
     @AssistedInject
     public ExceptionScene(ExceptionDialog.Factory exceptionDialogFactory,
+                          Inflater inflater,
+                          ThemeService themeService,
+                          HostServices hostServices,
+                          BuildConfig buildConfig,
+                          SyncScheduler syncScheduler,
                           @Assisted Throwable exception) {
+        super(themeService, hostServices, buildConfig, syncScheduler, inflater);
+
         this.exceptionDialogFactory = exceptionDialogFactory;
         this.exception = exception;
     }
