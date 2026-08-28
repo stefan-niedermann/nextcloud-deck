@@ -2,6 +2,7 @@ package it.niedermann.nextcloud.deck.domain.sync;
 
 import java.time.Instant;
 import java.util.Optional;
+import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.Flow;
 
 import it.niedermann.nextcloud.deck.domain.model.Account;
@@ -12,6 +13,9 @@ public interface SyncScheduler {
     /// @implSpec The implementation must ensure that calling this API multiple times must never cause conflicting synchronization issues
     ///   for example by queuing or rejecting multiple schedule requests
     Flow.Publisher<SyncStatus> scheduleSynchronization(Account.ID accountId);
+
+    /// Calls [#scheduleSynchronization(Account.ID)] for each configured account
+    CompletableFuture<Void> scheduleSynchronization();
 
     Flow.Publisher<Optional<SyncStatus>> getSyncStatus(Account.ID accountId);
 

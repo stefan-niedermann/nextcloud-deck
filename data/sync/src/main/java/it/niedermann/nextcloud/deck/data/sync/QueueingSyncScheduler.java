@@ -6,11 +6,14 @@ import java.time.Instant;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
+import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.Flow;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import io.reactivex.rxjava3.core.Completable;
 import io.reactivex.rxjava3.core.Flowable;
+import io.reactivex.rxjava3.core.Maybe;
 import io.reactivex.rxjava3.processors.BehaviorProcessor;
 import io.reactivex.rxjava3.processors.ReplayProcessor;
 import it.niedermann.nextcloud.deck.domain.model.Account;
@@ -118,6 +121,23 @@ public class QueueingSyncScheduler implements SyncScheduler {
 
         return subscriber -> subscriber.onError(new IllegalStateException("currentSync is null but scheduledSync is not null."));
 
+    }
+
+    @Override
+    public CompletableFuture<Void> scheduleSynchronization() {
+        return Maybe.fromPublisher(FlowAdapters.toPublisher(accountRepository.getAccounts()))
+                .flatMapCompletable(accounts -> {
+                    @SuppressWarnings("NewApi") final var synchronizations = accounts.stream()
+                            .map(Account::id)
+                            .map(this::scheduleSynchronization)
+                            .map(FlowAdapters::toPublisher)
+                            .map(Completable::fromPublisher)
+                            .toList();
+
+                    return Completable.mergeDelayError(synchronizations);
+                })
+                .toCompletionStage((Void) null)
+                .toCompletableFuture();
     }
 
     @Override
