@@ -43,8 +43,23 @@ public class PreferencesService extends Store<PreferencesService.State, Preferen
         on(Action.SetTheme.class, (state, action) -> state.withTheme(action.theme()));
         on(Action.SetCompactMode.class, (state, action) -> state.withCompactMode(action.enabled()));
         on(Action.SetDebugMode.class, (state, action) -> state.withDebugMode(action.enabled()));
-        on(Action.SetAccounts.class, (state, action) -> state.withAccounts(action.accounts()));
+        on(Action.SetAccounts.class, (state, action) -> {
+            final var newState = state.withAccounts(action.accounts());
+            return newState.initialSelectedAccountId()
+                    .map(initialAccountId -> {
+                        final var matchingAccount = action.accounts().stream()
+                                .filter(account -> account.id().equals(initialAccountId))
+                                .findFirst();
+                        if (matchingAccount.isPresent()) {
+                            return newState.withSelectedSection(Section.ACCOUNT)
+                                    .withSelectedAccount(matchingAccount)
+                                    .withInitialSelectedAccountId(Optional.empty());
+                        }
+                        return newState;
+                    }).orElse(newState);
+        });
         on(Action.SwitchSection.class, (state, action) -> state.withSelectedSection(action.section()).withSelectedAccount(action.account()));
+        on(Action.SetInitialSelectedAccountId.class, (state, action) -> state.withInitialSelectedAccountId(action.accountId()));
 
         effect(Action.SetTheme.class, (_, action) ->
                 keyValueStore.putString(ThemeService.KEY_THEME, action.theme().name())
@@ -109,7 +124,8 @@ public class PreferencesService extends Store<PreferencesService.State, Preferen
             boolean debugMode,
             Collection<Account> accounts,
             Section selectedSection,
-            Optional<Account> selectedAccount
+            Optional<Account> selectedAccount,
+            Optional<Account.ID> initialSelectedAccountId
     ) implements PreferencesServiceStateBuilder.With {
         public State() {
             this(ThemeService.Theme.AUTO,
@@ -117,6 +133,7 @@ public class PreferencesService extends Store<PreferencesService.State, Preferen
                     false,
                     Collections.emptyList(),
                     Section.GENERAL,
+                    Optional.empty(),
                     Optional.empty());
         }
     }
@@ -138,6 +155,9 @@ public class PreferencesService extends Store<PreferencesService.State, Preferen
         }
 
         record SwitchSection(Section section, Optional<Account> account) implements Action {
+        }
+
+        record SetInitialSelectedAccountId(Optional<Account.ID> accountId) implements Action {
         }
     }
 }

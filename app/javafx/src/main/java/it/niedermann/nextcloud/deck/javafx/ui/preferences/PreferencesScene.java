@@ -9,6 +9,8 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import dagger.assisted.Assisted;
 import dagger.assisted.AssistedFactory;
@@ -22,16 +24,21 @@ import it.niedermann.nextcloud.deck.javafx.ui.preferences.features.AccountPrefer
 import it.niedermann.nextcloud.deck.javafx.ui.preferences.features.AccountPreferencesService;
 import it.niedermann.nextcloud.deck.javafx.ui.shared.AbstractScene;
 import it.niedermann.nextcloud.deck.javafx.ui.shared.services.ThemeService;
+import it.niedermann.nextcloud.deck.javafx.ui.shared.views.AccountListItemView;
+import it.niedermann.nextcloud.deck.javafx.ui.shared.views.IconListViewItem;
 import it.niedermann.nextcloud.deck.javafx.util.JavaFxScheduler;
 import javafx.application.HostServices;
 import javafx.fxml.FXML;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 
 public class PreferencesScene extends AbstractScene {
+
+    private static final Logger logger = Logger.getLogger(PreferencesScene.class.getName());
 
     @FXML
     private ListView<NavigationItem> navigationListView;
@@ -80,12 +87,42 @@ public class PreferencesScene extends AbstractScene {
     public void initialize(URL location, ResourceBundle resources) {
         super.initialize(location, resources);
 
+        navigationListView.setCellFactory(lv -> new ListCell<>() {
+            private final IconListViewItem iconItem = new IconListViewItem();
+            private final AccountListItemView accountItem = new AccountListItemView();
+
+            @Override
+            protected void updateItem(NavigationItem item, boolean empty) {
+                super.updateItem(item, empty);
+                if (empty || item == null) {
+                    setText(null);
+                    setGraphic(null);
+                } else {
+                    switch (item.section()) {
+                        case GENERAL -> {
+                            iconItem.bind("fltrmz-settings-24", resources.getString("preferences.section.general"));
+                            setGraphic(iconItem);
+                        }
+                        case ACCOUNT -> item.account().ifPresent(account -> {
+                            accountItem.bind(account, false);
+                            setGraphic(accountItem);
+                        });
+                    }
+                    setText(null);
+                }
+            }
+        });
+
+        // select 0...
+
         themeComboBox.getItems().setAll(ThemeService.Theme.values());
 
         final var stateDisposable = Flowable.fromPublisher(preferencesService.getState())
                 .observeOn(JavaFxScheduler.platform())
                 .subscribe(state -> {
-                    themeComboBox.setValue(state.theme());
+                    if (!themeComboBox.isShowing()) {
+                        themeComboBox.setValue(state.theme());
+                    }
                     compactModeCheckBox.setSelected(state.compactMode());
                     debugModeCheckBox.setSelected(state.debugMode());
 
@@ -102,16 +139,31 @@ public class PreferencesScene extends AbstractScene {
 
                     // Handle section switching
                     switch (state.selectedSection()) {
-                        case GENERAL -> contentArea.getChildren().setAll(generalPreferences);
+                        case GENERAL -> {
+                            if (contentArea.getChildren().isEmpty() || !contentArea.getChildren().contains(generalPreferences)) {
+                                contentArea.getChildren().setAll(generalPreferences);
+                            }
+                        }
                         case ACCOUNT -> state.selectedAccount().ifPresent(account -> {
                             final var bundle = accountFeatures.computeIfAbsent(account.id(), _ -> {
                                 final var service = accountPreferencesServiceFactory.create(account);
                                 return accountPreferencesFeatureFactory.create(service);
                             });
-                            contentArea.getChildren().setAll(bundle.getRoot());
+                            if (contentArea.getChildren().isEmpty() || !contentArea.getChildren().contains(bundle.getRoot())) {
+                                contentArea.getChildren().setAll(bundle.getRoot());
+                            }
+
+                            navigationListView.getItems().stream()
+                                    .filter(item -> item.section() == PreferencesService.Section.ACCOUNT && item.account().isPresent() && item.account().get().id().equals(account.id()))
+                                    .findFirst()
+                                    .ifPresent(item -> {
+                                        if (!Objects.equals(navigationListView.getSelectionModel().getSelectedItem(), item)) {
+                                            navigationListView.getSelectionModel().select(item);
+                                        }
+                                    });
                         });
                     }
-                });
+                }, throwable -> logger.log(Level.SEVERE, "Error in PreferencesScene state subscriber", throwable));
 
         addDisposable(stateDisposable);
 

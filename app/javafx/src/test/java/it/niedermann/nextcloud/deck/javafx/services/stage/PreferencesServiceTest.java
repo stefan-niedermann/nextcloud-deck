@@ -63,7 +63,7 @@ class PreferencesServiceTest {
         preferencesService.getState().subscribe(testSubscriber);
 
         testSubscriber.awaitCount(1);
-        testSubscriber.assertValue(new PreferencesService.State(ThemeService.Theme.AUTO, false, false, Collections.emptyList(), PreferencesService.Section.GENERAL, Optional.empty()));
+        testSubscriber.assertValue(new PreferencesService.State(ThemeService.Theme.AUTO, false, false, Collections.emptyList(), PreferencesService.Section.GENERAL, Optional.empty(), Optional.empty()));
     }
 
     @Test

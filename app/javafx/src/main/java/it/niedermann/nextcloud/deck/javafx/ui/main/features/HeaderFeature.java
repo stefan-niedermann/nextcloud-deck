@@ -228,7 +228,17 @@ public class HeaderFeature extends AbstractFeature {
             addDisposable(filterDisposable);
         });
 
-        preferencesBtn.setOnAction(_ -> viewModel.onLaunchPreferences());
+        preferencesBtn.setOnAction(_ -> {
+            var disposable = viewModel.getAccountId()
+                    .firstElement()
+                    .observeOn(JavaFxScheduler.platform())
+                    .subscribe(
+                            viewModel::onLaunchPreferences,
+                            _ -> viewModel.onLaunchPreferences(null),
+                            () -> viewModel.onLaunchPreferences(null)
+                    );
+            addDisposable(disposable);
+        });
 
         scheduleSyncBtn.setOnAction(_ -> {
             final var disposable = viewModel.getAccountId().firstElement()
@@ -276,7 +286,7 @@ public class HeaderFeature extends AbstractFeature {
 
         void onEditBoard(Board board);
 
-        void onLaunchPreferences();
+        void onLaunchPreferences(Account.ID accountId);
 
         void onAccountRemoved();
 
