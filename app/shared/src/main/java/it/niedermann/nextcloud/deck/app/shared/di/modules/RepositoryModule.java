@@ -134,7 +134,9 @@ public class RepositoryModule {
     ShareRepository provideShareRepository(AccessControlDao accessControlDao,
                                            BoardDao boardDao,
                                            UserDao userDao,
-                                           AccessControlMapper accessControlMapper) {
-        return new ShareRepositoryImpl(accessControlDao, boardDao, userDao, accessControlMapper);
+                                           AccessControlMapper accessControlMapper,
+                                           ApiProvider.Factory apiFactory,
+                                           AccountRepository accountRepository) {
+        return new ShareRepositoryImpl(accessControlDao, boardDao, userDao, accessControlMapper, apiFactory, accountRepository);
     }
 }

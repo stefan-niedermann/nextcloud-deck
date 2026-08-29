@@ -20,6 +20,9 @@ interface AccessControlDao : GenericDao<AccessControlEntity> {
     @Query("SELECT * FROM AccessControl WHERE accountId = :accountId AND remoteId = :remoteId")
     fun getAclByRemoteId(accountId: Long, remoteId: Long): CompletableFuture<AccessControlEntity?>
 
+    @Query("SELECT * FROM AccessControl WHERE boardId = :boardId AND userId = :userId AND status != 3")
+    fun getAclByBoardAndUser(boardId: Long, userId: Long): CompletableFuture<AccessControlEntity?>
+
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertOrReplace(entity: AccessControlEntity): CompletableFuture<Long>
 
