@@ -22,6 +22,7 @@ public interface BoardMapper extends GenericMapper<BoardEntity, Board> {
     @Mapping(target = "permissionManage", source = "permissions.permissionManage")
     @Mapping(target = "permissionShare", source = "permissions.permissionShare")
     @Mapping(target = "etag", ignore = true)
+    @Mapping(target = "status", expression = "java(board.status().getId())")
     BoardEntity toEntity(Board board);
 
     @Override

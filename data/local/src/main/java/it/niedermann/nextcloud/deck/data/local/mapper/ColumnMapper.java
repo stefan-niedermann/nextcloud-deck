@@ -17,6 +17,7 @@ public interface ColumnMapper extends GenericMapper<ColumnEntity, Column> {
     @Mapping(target = "boardId", source = "boardId")
     @Mapping(target = "accountId", source = "accountId")
     @Mapping(target = "remoteId", source = "remoteId")
+    @Mapping(target = "status", expression = "java(column.status().getId())")
     ColumnEntity toEntity(Column column);
 
     @Override

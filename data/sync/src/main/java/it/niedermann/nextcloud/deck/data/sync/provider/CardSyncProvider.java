@@ -94,8 +94,10 @@ public class CardSyncProvider implements SyncProvider<ColumnDTO> {
                             }
                             long remoteBoardId = board.getRemoteId();
                             long remoteColumnId = column.getRemoteId();
+                            logger.info("Creating card \"" + localCard.getTitle() + "\" on remote board " + remoteBoardId + " and stack " + remoteColumnId);
                             DeckApi api = apiFactory.create(account).getDeckApi();
                             CardDTO dto = CardRemoteMapper.INSTANCE.toDTO(CardMapper.INSTANCE.toTO(localCard));
+                            dto.setStackId(remoteColumnId);
 
                             CompletableFuture<CardDTO> call;
                             if (localCard.getRemoteId() == null) {
@@ -124,7 +126,7 @@ public class CardSyncProvider implements SyncProvider<ColumnDTO> {
                                         updatedLocal.getEtag(),
                                         updatedLocal.getTitle(),
                                         updatedLocal.getDescription(),
-                                        updatedLocal.getColumnId(),
+                                        localCard.getColumnId(),
                                         updatedLocal.getType(),
                                         updatedLocal.getCreatedAt(),
                                         updatedLocal.getDeletedAt(),
