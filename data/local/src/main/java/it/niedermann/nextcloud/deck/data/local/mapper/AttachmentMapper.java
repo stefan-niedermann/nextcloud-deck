@@ -21,9 +21,9 @@ public interface AttachmentMapper extends GenericMapper<AttachmentEntity, Attach
 
     @Override
     @Mapping(target = "id", source = "localId")
-    @Mapping(target = "title", expression = "java(entity.getData() != null ? entity.getData() : \"\")")
+    @Mapping(target = "title", source = "data")
     @Mapping(target = "size", source = "filesize")
-    @Mapping(target = "status", expression = "java(it.niedermann.nextcloud.deck.domain.model.DBStatus.findById(entity.getStatus()))")
+    @Mapping(target = "status", source = "status")
     @Mapping(target = "lastModified", source = "lastModified")
     @Mapping(target = "localPath", source = "localPath")
     Attachment toTO(AttachmentEntity entity);

@@ -11,6 +11,7 @@ import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
 import dagger.hilt.android.testing.HiltTestApplication
 import io.reactivex.rxjava3.core.Flowable
+import it.niedermann.nextcloud.deck.data.repository.MockData
 import it.niedermann.nextcloud.deck.domain.model.Account
 import it.niedermann.nextcloud.deck.domain.model.Capabilities
 import it.niedermann.nextcloud.deck.domain.state.SyncStatus
@@ -95,7 +96,7 @@ class ScreenshotTest {
             "jdoe",
             "token",
             "jdoe@nextcloud.example.com",
-            Capabilities.DEFAULT
+            MockData.MOCK_CAPABILITIES
         )
         val syncStatus = SyncStatus(account)
 

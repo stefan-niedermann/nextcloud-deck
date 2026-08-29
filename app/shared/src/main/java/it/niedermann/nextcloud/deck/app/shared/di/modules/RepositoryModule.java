@@ -74,8 +74,9 @@ public class RepositoryModule {
     @Provides
     @Singleton
     ColumnRepository provideColumnRepository(ColumnDao columnDao,
+                                             BoardDao boardDao,
                                              ColumnMapper columnMapper) {
-        return new ColumnRepositoryImpl(columnDao, columnMapper);
+        return new ColumnRepositoryImpl(columnDao, boardDao, columnMapper);
     }
 
     @Provides

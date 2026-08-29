@@ -24,8 +24,8 @@ public interface ColumnMapper extends GenericMapper<ColumnEntity, Column> {
     @Mapping(target = "boardId", source = "boardId")
     @Mapping(target = "accountId", source = "accountId")
     @Mapping(target = "remoteId", source = "remoteId")
-    @Mapping(target = "status", expression = "java(it.niedermann.nextcloud.deck.domain.model.DBStatus.findById(columnEntity.getStatus()))")
+    @Mapping(target = "status", source = "status")
     @Mapping(target = "lastModified", source = "lastModified")
     @Mapping(target = "lastModifiedLocal", source = "lastModifiedLocal")
-    Column toTO(ColumnEntity columnEntity);
+    Column toTO(ColumnEntity entity);
 }

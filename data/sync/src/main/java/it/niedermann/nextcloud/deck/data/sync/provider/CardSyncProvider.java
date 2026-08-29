@@ -96,6 +96,7 @@ public class CardSyncProvider implements SyncProvider<ColumnDTO> {
                             long remoteColumnId = column.getRemoteId();
                             DeckApi api = apiFactory.create(account).getDeckApi();
                             CardDTO dto = CardRemoteMapper.INSTANCE.toDTO(CardMapper.INSTANCE.toTO(localCard));
+                            dto.setStackId(remoteColumnId);
 
                             CompletableFuture<CardDTO> call;
                             if (localCard.getRemoteId() == null) {

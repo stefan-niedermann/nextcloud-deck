@@ -7,7 +7,7 @@ import org.mapstruct.factory.Mappers;
 import it.niedermann.nextcloud.deck.data.local.entity.AccountEntity;
 import it.niedermann.nextcloud.deck.domain.model.Account;
 
-@Mapper
+@Mapper(uses = {CapabilitiesMapper.class})
 public interface AccountMapper extends GenericMapper<AccountEntity, Account> {
 
     AccountMapper INSTANCE = Mappers.getMapper(AccountMapper.class);
@@ -16,7 +16,6 @@ public interface AccountMapper extends GenericMapper<AccountEntity, Account> {
     AccountEntity toEntity(Account account);
 
     @Override
-    @Mapping(target = "capabilities", expression = "java(it.niedermann.nextcloud.deck.domain.model.Capabilities.DEFAULT)")
     Account toTO(AccountEntity accountEntity);
 
     default Account.ID toAccountId(long value) {

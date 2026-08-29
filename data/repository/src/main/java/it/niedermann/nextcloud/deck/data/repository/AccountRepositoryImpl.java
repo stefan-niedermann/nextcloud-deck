@@ -14,6 +14,7 @@ import io.reactivex.rxjava3.core.Maybe;
 import io.reactivex.rxjava3.schedulers.Schedulers;
 import it.niedermann.nextcloud.deck.data.local.dao.AccountDao;
 import it.niedermann.nextcloud.deck.data.local.entity.AccountEntity;
+import it.niedermann.nextcloud.deck.data.local.entity.CapabilitiesEntity;
 import it.niedermann.nextcloud.deck.data.local.mapper.AccountMapper;
 import it.niedermann.nextcloud.deck.domain.model.Account;
 import it.niedermann.nextcloud.deck.domain.model.Card;
@@ -87,7 +88,8 @@ public class AccountRepositoryImpl implements AccountRepository {
 
     @Override
     public CompletableFuture<Account.ID> addAccount(URL url, String username, String token) {
-        final var accountEntity = new AccountEntity(0L, url, username, token, "");
+        final var capabilities = new CapabilitiesEntity(null, null, false, false);
+        final var accountEntity = new AccountEntity(0L, url, username, token, "", capabilities);
 
         return accountDao.insert(accountEntity)
                 .toCompletionStage()

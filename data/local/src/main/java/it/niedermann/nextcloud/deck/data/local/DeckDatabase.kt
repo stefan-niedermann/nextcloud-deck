@@ -46,6 +46,7 @@ import it.niedermann.nextcloud.deck.data.local.typeconverter.AttachmentTypeConve
 import it.niedermann.nextcloud.deck.data.local.typeconverter.ColorConverter
 import it.niedermann.nextcloud.deck.data.local.typeconverter.OffsetDateTimeConverter
 import it.niedermann.nextcloud.deck.data.local.typeconverter.URLConverter
+import it.niedermann.nextcloud.deck.data.local.typeconverter.VersionConverter
 import kotlinx.coroutines.Dispatchers
 import java.nio.file.Path
 import kotlin.io.path.absolutePathString
@@ -79,7 +80,7 @@ import kotlin.io.path.absolutePathString
         CfDaoReturnTypeConverters::class
     ]
 )
-@ColumnTypeConverters(URLConverter::class, OffsetDateTimeConverter::class, ColorConverter::class, AttachmentTypeConverter::class)
+@ColumnTypeConverters(URLConverter::class, OffsetDateTimeConverter::class, ColorConverter::class, AttachmentTypeConverter::class, VersionConverter::class)
 abstract class DeckDatabase : RoomDatabase() {
 
     abstract val accountDao: AccountDao
@@ -109,7 +110,7 @@ abstract class DeckDatabase : RoomDatabase() {
                 .setDriver(BundledSQLiteDriver())
                 .addCallback(object : Callback() {
                     override suspend fun onCreate(connection: SQLiteConnection) {
-                        connection.execSQL("INSERT INTO Account (id, url, username, token, accountName) VALUES (-1, 'http://localhost', 'conflict_system', '', 'Conflict System')")
+                        connection.execSQL("INSERT INTO Account (id, url, username, token, accountName, serverVersion, themingColor, commentsEnabled, activityEnabled) VALUES (-1, 'http://localhost', 'conflict_system', '', 'Conflict System', NULL, NULL, 0, 0)")
                         connection.execSQL("INSERT INTO Permission (id) VALUES (1)")
                         connection.execSQL("INSERT INTO Permission (id) VALUES (2)")
                         connection.execSQL("INSERT INTO Permission (id) VALUES (3)")
@@ -125,7 +126,7 @@ abstract class DeckDatabase : RoomDatabase() {
                 .setDriver(BundledSQLiteDriver())
                 .addCallback(object : Callback() {
                     override suspend fun onCreate(connection: SQLiteConnection) {
-                        connection.execSQL("INSERT INTO Account (id, url, username, token, accountName) VALUES (-1, 'http://localhost', 'conflict_system', '', 'Conflict System')")
+                        connection.execSQL("INSERT INTO Account (id, url, username, token, accountName, serverVersion, themingColor, commentsEnabled, activityEnabled) VALUES (-1, 'http://localhost', 'conflict_system', '', 'Conflict System', NULL, NULL, 0, 0)")
                         connection.execSQL("INSERT INTO Permission (id) VALUES (1)")
                         connection.execSQL("INSERT INTO Permission (id) VALUES (2)")
                         connection.execSQL("INSERT INTO Permission (id) VALUES (3)")

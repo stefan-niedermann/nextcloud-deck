@@ -2,11 +2,11 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "e552c75f594a0476babf43d89e27e008",
+    "identityHash": "c043438ebd24a3ec3124030ff938c828",
     "entities": [
       {
         "tableName": "Account",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `url` TEXT NOT NULL, `username` TEXT NOT NULL, `token` TEXT NOT NULL, `accountName` TEXT NOT NULL)",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `url` TEXT NOT NULL, `username` TEXT NOT NULL, `token` TEXT NOT NULL, `accountName` TEXT NOT NULL, `serverVersion` TEXT, `themingColor` INTEGER, `commentsEnabled` INTEGER NOT NULL, `activityEnabled` INTEGER NOT NULL)",
         "fields": [
           {
             "fieldPath": "id",
@@ -36,6 +36,28 @@
             "fieldPath": "accountName",
             "columnName": "accountName",
             "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "capabilities.serverVersion",
+            "columnName": "serverVersion",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "capabilities.themingColor",
+            "columnName": "themingColor",
+            "affinity": "INTEGER"
+          },
+          {
+            "fieldPath": "capabilities.commentsEnabled",
+            "columnName": "commentsEnabled",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "capabilities.activityEnabled",
+            "columnName": "activityEnabled",
+            "affinity": "INTEGER",
             "notNull": true
           }
         ],
@@ -2019,7 +2041,7 @@
     ],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'e552c75f594a0476babf43d89e27e008')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'c043438ebd24a3ec3124030ff938c828')"
     ]
   }
 }

@@ -102,8 +102,8 @@ public class LoginScene extends AbstractScene {
                                 if (featureHost.getUserData() == null) {
                                     final var appTokenLoginFeature = appTokenFactory.create(stageContext);
                                     featureHost.setUserData(appTokenLoginFeature);
-                                    state.url().ifPresent(appTokenLoginFeature::setUrl);
                                     featureHost.getChildren().setAll(appTokenLoginFeature.getRoot());
+                                    state.url().ifPresent(appTokenLoginFeature::setUrl);
                                 }
                             }
                             case WEBLOGIN_FLOW_V2 -> {
@@ -115,8 +115,8 @@ public class LoginScene extends AbstractScene {
                                 if (featureHost.getUserData() == null) {
                                     final var webLoginV2Feature = webLoginFactory.create(stageContext);
                                     featureHost.setUserData(webLoginV2Feature);
-                                    state.url().ifPresent(webLoginV2Feature::setUrl);
                                     featureHost.getChildren().setAll(webLoginV2Feature.getRoot());
+                                    state.url().ifPresent(webLoginV2Feature::setUrl);
                                 }
                             }
                         }

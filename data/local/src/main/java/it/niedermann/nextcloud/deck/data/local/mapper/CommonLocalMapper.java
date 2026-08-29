@@ -10,8 +10,21 @@ import it.niedermann.nextcloud.deck.domain.model.Label;
 import it.niedermann.nextcloud.deck.domain.model.User;
 import it.niedermann.nextcloud.deck.domain.model.AccessControl;
 import it.niedermann.nextcloud.deck.domain.model.Activity;
+import it.niedermann.nextcloud.deck.domain.model.DBStatus;
 
 public class CommonLocalMapper {
+
+    public DBStatus toDBStatus(int id) {
+        return DBStatus.findById(id);
+    }
+
+    public int fromDBStatus(DBStatus status) {
+        return status != null ? status.getId() : 0;
+    }
+
+    public String mapUserDisplayName(String displayName) {
+        return displayName != null ? displayName : "";
+    }
 
     public Board.ID toBoardId(long value) {
         return new Board.ID(value);

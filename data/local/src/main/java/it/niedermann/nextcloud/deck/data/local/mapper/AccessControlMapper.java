@@ -23,8 +23,8 @@ public interface AccessControlMapper extends GenericMapper<AccessControlEntity, 
 
     @Override
     @Mapping(target = "remoteId", source = "remoteId")
-    @Mapping(target = "permissions", expression = "java(mapPermissions(entity))")
-    @Mapping(target = "status", expression = "java(it.niedermann.nextcloud.deck.domain.model.DBStatus.findById(entity.getStatus()))")
+    @Mapping(target = "permissions", source = ".")
+    @Mapping(target = "status", source = "status")
     @Mapping(target = "lastModified", source = "lastModified")
     AccessControl toTO(AccessControlEntity entity);
 

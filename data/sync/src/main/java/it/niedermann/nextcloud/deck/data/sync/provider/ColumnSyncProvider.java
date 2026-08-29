@@ -67,6 +67,7 @@ public class ColumnSyncProvider implements SyncProvider<BoardDTO> {
                     long remoteBoardId = board.getRemoteId();
                     DeckApi api = apiFactory.create(account).getDeckApi();
                     ColumnDTO dto = ColumnRemoteMapper.INSTANCE.toDTO(ColumnMapper.INSTANCE.toTO(localColumn));
+                    dto.setBoardId(remoteBoardId);
 
                     CompletableFuture<ColumnDTO> call;
                     if (localColumn.getRemoteId() == null) {

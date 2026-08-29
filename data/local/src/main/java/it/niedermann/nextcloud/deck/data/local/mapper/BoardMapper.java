@@ -29,10 +29,10 @@ public interface BoardMapper extends GenericMapper<BoardEntity, Board> {
     @Mapping(target = "ownerId", source = "ownerId")
     @Mapping(target = "accountId", source = "accountId")
     @Mapping(target = "remoteId", source = "remoteId")
-    @Mapping(target = "permissions", expression = "java(mapPermissions(boardEntity))")
-    @Mapping(target = "status", expression = "java(it.niedermann.nextcloud.deck.domain.model.DBStatus.findById(boardEntity.getStatus()))")
+    @Mapping(target = "permissions", source = ".")
+    @Mapping(target = "status", source = "status")
     @Mapping(target = "lastModified", source = "lastModified")
-    Board toTO(BoardEntity boardEntity);
+    Board toTO(BoardEntity entity);
 
     @Mapping(target = "permissionRead", source = "permissionRead")
     @Mapping(target = "permissionEdit", source = "permissionEdit")

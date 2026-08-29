@@ -14,6 +14,8 @@ public interface ColumnRepository {
 
     CompletableFuture<Void> updateColumn(Column column);
 
+    CompletableFuture<Void> deleteColumn(Column.ID columnId);
+
     /// @implSpec Result is ordered ascending by [Column#order()]
     Flow.Publisher<List<Column.ID>> getColumnIDs(Board.ID boardId);
 

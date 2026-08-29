@@ -11,7 +11,7 @@ import java.util.concurrent.CompletableFuture
 @Dao
 interface ColumnDao : GenericDao<ColumnEntity> {
 
-    @Query("SELECT * FROM `Column` WHERE boardId = :boardId ORDER BY `order` ASC")
+    @Query("SELECT * FROM `Column` WHERE boardId = :boardId AND status != 3 ORDER BY `order` ASC")
     fun getColumnsByBoard(boardId: Long): Flowable<List<ColumnEntity>>
 
     @Query("SELECT * FROM `Column` WHERE accountId = :accountId AND remoteId = :remoteId")

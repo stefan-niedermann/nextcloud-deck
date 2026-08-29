@@ -21,8 +21,8 @@ public interface UserMapper extends GenericMapper<UserEntity, User> {
 
     @Override
     @Mapping(target = "accountId", source = "accountId")
-    @Mapping(target = "id", expression = "java(new it.niedermann.nextcloud.deck.domain.model.User.ID(entity.getRemoteId() != null ? entity.getRemoteId() : \"\"))")
-    @Mapping(target = "displayName", expression = "java(entity.getDisplayName() != null ? entity.getDisplayName() : \"\")")
+    @Mapping(target = "id", source = "remoteId")
+    @Mapping(target = "displayName", source = "displayName")
     @Mapping(target = "status", ignore = true)
     @Mapping(target = "lastModified", ignore = true)
     @Mapping(target = "remoteId", ignore = true)

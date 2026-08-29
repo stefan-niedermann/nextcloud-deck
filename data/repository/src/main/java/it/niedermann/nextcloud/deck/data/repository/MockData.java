@@ -15,10 +15,16 @@ import it.niedermann.nextcloud.deck.domain.model.Column;
 import it.niedermann.nextcloud.deck.domain.model.Comment;
 import it.niedermann.nextcloud.deck.domain.model.Label;
 import it.niedermann.nextcloud.deck.domain.model.User;
+import it.niedermann.nextcloud.deck.domain.model.Version;
 
 public interface MockData {
 
-    Capabilities MOCK_CAPABILITIES = Capabilities.DEFAULT;
+    Capabilities MOCK_CAPABILITIES = new Capabilities(
+            new Version("1.11.0", 1, 11, 0),
+            Color.decode("#0082c9"),
+            true,
+            true
+    );
 
     Color[] MOCK_COLORS = new Color[]{
             Color.decode("#b6469d"),
