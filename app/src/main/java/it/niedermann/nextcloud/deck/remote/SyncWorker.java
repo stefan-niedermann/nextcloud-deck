@@ -26,6 +26,7 @@ import it.niedermann.nextcloud.deck.DeckLog;
 import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.model.Account;
 import it.niedermann.nextcloud.deck.remote.api.ResponseCallback;
+import it.niedermann.nextcloud.deck.reminders.DueReminderScheduler;
 import it.niedermann.nextcloud.deck.repository.BaseRepository;
 import it.niedermann.nextcloud.deck.repository.SyncRepository;
 import okhttp3.Headers;
@@ -54,7 +55,9 @@ public class SyncWorker extends Worker {
         editor.apply();
 
         try {
-            return synchronizeEverything(getApplicationContext(), baseRepository.readAccountsDirectly());
+            final var result = synchronizeEverything(getApplicationContext(), baseRepository.readAccountsDirectly());
+            DueReminderScheduler.rescheduleAll(getApplicationContext());
+            return result;
         } catch (NextcloudFilesAppAccountNotFoundException e) {
             return Result.failure();
         } finally {
