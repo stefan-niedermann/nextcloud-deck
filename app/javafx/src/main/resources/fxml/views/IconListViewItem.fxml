@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import org.kordamp.ikonli.javafx.FontIcon?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.HBox?>
+
+<fx:root xmlns:fx="http://javafx.com/fxml/1" id="iconListItemRoot"
+    stylesheets="/css/views/IconListViewItem.css" type="HBox"
+    xmlns="http://javafx.com/javafx/24.0.1">
+
+    <FontIcon fx:id="icon" iconSize="24" />
+    <Label fx:id="title" />
+
+</fx:root>

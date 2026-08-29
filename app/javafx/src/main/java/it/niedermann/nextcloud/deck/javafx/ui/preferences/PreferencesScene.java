@@ -24,6 +24,8 @@ import it.niedermann.nextcloud.deck.javafx.ui.preferences.features.AccountPrefer
 import it.niedermann.nextcloud.deck.javafx.ui.preferences.features.AccountPreferencesService;
 import it.niedermann.nextcloud.deck.javafx.ui.shared.AbstractScene;
 import it.niedermann.nextcloud.deck.javafx.ui.shared.services.ThemeService;
+import it.niedermann.nextcloud.deck.javafx.ui.shared.views.AccountListItemView;
+import it.niedermann.nextcloud.deck.javafx.ui.shared.views.IconListViewItem;
 import it.niedermann.nextcloud.deck.javafx.util.JavaFxScheduler;
 import javafx.application.HostServices;
 import javafx.fxml.FXML;
@@ -86,18 +88,32 @@ public class PreferencesScene extends AbstractScene {
         super.initialize(location, resources);
 
         navigationListView.setCellFactory(lv -> new ListCell<>() {
+            private final IconListViewItem iconItem = new IconListViewItem();
+            private final AccountListItemView accountItem = new AccountListItemView();
+
             @Override
             protected void updateItem(NavigationItem item, boolean empty) {
                 super.updateItem(item, empty);
                 if (empty || item == null) {
                     setText(null);
-                    setAccessibleText(null);
+                    setGraphic(null);
                 } else {
-                    setText(item.toString());
-                    setAccessibleText(item.toString());
+                    switch (item.section()) {
+                        case GENERAL -> {
+                            iconItem.bind("fltrmz-settings-24", resources.getString("preferences.section.general"));
+                            setGraphic(iconItem);
+                        }
+                        case ACCOUNT -> item.account().ifPresent(account -> {
+                            accountItem.bind(account, false);
+                            setGraphic(accountItem);
+                        });
+                    }
+                    setText(null);
                 }
             }
         });
+        
+        // select 0...
 
         themeComboBox.getItems().setAll(ThemeService.Theme.values());
 
