@@ -67,7 +67,8 @@ public class MainStage extends AbstractStage<BoardRawArgs, BoardParsedArgs> {
                 Optional.ofNullable(parsedArgs.boardId()),
                 Optional.empty(),
                 FilterInformation.EMPTY,
-                MainService.ViewMode.KANBAN
+                MainService.ViewMode.KANBAN,
+                MainService.HeaderVariant.DIRECT_BUTTONS
         ));
 
         final var mainScene = mainSceneFactory.createMainScene(stageContext);

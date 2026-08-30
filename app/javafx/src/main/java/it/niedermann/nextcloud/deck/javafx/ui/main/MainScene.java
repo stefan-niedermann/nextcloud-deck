@@ -179,6 +179,8 @@ public class MainScene extends AbstractScene {
             if (event.getCode() == KeyCode.ESCAPE) {
                 mainService.dispatch(new MainService.Action.CloseCardAction());
 
+            } else if (event.getCode() == KeyCode.F3) {
+                mainService.onToggleHeaderVariant();
             } else if (event.getCode() == KeyCode.F5) {
 //                accountSwitcherController.scheduleSync();
 

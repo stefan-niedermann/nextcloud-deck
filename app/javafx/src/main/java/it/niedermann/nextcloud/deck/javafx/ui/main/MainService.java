@@ -107,6 +107,7 @@ public class MainService extends Store<MainService.State, MainService.Action> im
         on(Action.SetFilterAction.class, (state, action) -> state.withFilter(action.filter()));
         on(Action.AddBoardAction.class, (state, _) -> state);
         on(Action.SwitchViewMode.class, (state, action) -> state.withViewMode(action.mode()));
+        on(Action.ToggleHeaderVariantAction.class, (state, _) -> state.withHeaderVariant(state.headerVariant() == HeaderVariant.DIRECT_BUTTONS ? HeaderVariant.MENU_BAR : HeaderVariant.DIRECT_BUTTONS));
 
         effect(Action.SwitchAccountAction.class, (state, action) -> {
             final var accountIdOpt = state.accountId();
@@ -229,6 +230,13 @@ public class MainService extends Store<MainService.State, MainService.Action> im
     }
 
     @Override
+    public Flowable<Optional<Card.ID>> getCardId() {
+        return Flowable.fromPublisher(getState())
+                .map(State::cardId)
+                .distinctUntilChanged();
+    }
+
+    @Override
     public Flowable<FilterInformation> getFilter() {
         return Flowable.fromPublisher(getState())
                 .map(State::filter)
@@ -275,6 +283,18 @@ public class MainService extends Store<MainService.State, MainService.Action> im
     @Override
     public void onViewModeSelected(ViewMode viewMode) {
         dispatch(new Action.SwitchViewMode(viewMode));
+    }
+
+    @Override
+    public Flowable<HeaderVariant> getHeaderVariant() {
+        return Flowable.fromPublisher(getState())
+                .map(State::headerVariant)
+                .distinctUntilChanged();
+    }
+
+    @Override
+    public void onToggleHeaderVariant() {
+        dispatch(new Action.ToggleHeaderVariantAction());
     }
 
     @Override
@@ -326,7 +346,13 @@ public class MainService extends Store<MainService.State, MainService.Action> im
     }
 
     public enum ViewMode {
-        KANBAN, GANTT
+        KANBAN,
+        GANTT
+    }
+
+    public enum HeaderVariant {
+        MENU_BAR,
+        DIRECT_BUTTONS,
     }
 
     @RecordBuilder
@@ -335,13 +361,17 @@ public class MainService extends Store<MainService.State, MainService.Action> im
             Optional<Board.ID> boardId,
             Optional<Card.ID> cardId,
             FilterInformation filter,
-            ViewMode viewMode
+            ViewMode viewMode,
+            HeaderVariant headerVariant
     ) implements MainServiceStateBuilder.With {
     }
 
     public sealed interface Action {
 
         record Initialize(State initialState) implements Action {
+        }
+
+        record ToggleHeaderVariantAction() implements Action {
         }
 
         record SwitchAccountAction(Account.ID accountId) implements Action {
