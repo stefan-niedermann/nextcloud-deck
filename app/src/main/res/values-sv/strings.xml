@@ -210,7 +210,9 @@
     <string name="error_edit_activity_killed_by_android">Android avslutade redigeringsläget eftersom det behövde mer systemresurser för andra appar.</string>
 
     <string name="error_dialog_title">Å nej - Vad händer nu?🙁</string>
+    <string name="error_dialog_tip_parsing_failed">Det gick inte att tolka svaret från servern som förväntat. Kontrollera att Deck-appen är aktiverad på Nextcloud-servern.</string>
     <string name="error_dialog_tip_token_mismatch_retry">Försök att tvångsavsluta appen och starta om den. En felaktig anslutning till Nextcloud-appen kan ha förekommit.</string>
+    <string name="error_dialog_tip_clear_storage_might_help">Om problemet kvarstår, försök att rensa lagringen för båda apparna: Nextcloud och Nextcloud Deck, och importera sedan kontot på nytt.</string>
     <string name="error_dialog_tip_database_upgrade_failed">Uppgraderingen av databasen misslyckades. Var god anmäl problemet, rensa sedan appens data för att kunna återgå till normal användning.</string>
     <string name="error_dialog_tip_clear_storage">Du kan rensa diskutrymmet genom att öppna appens info, välj Lagring -> Rensa data</string>
     <string name="error_dialog_tip_offline_no_internet">Det ser ut som om du försökte starta en synkronisering utan en internetanslutning.</string>
@@ -227,6 +229,7 @@
     <string name="error_dialog_check_maintenance">Kontrollera att underhållsläget inte är aktivt på din Nextcloud-installation.</string>
     <string name="error_dialog_insufficient_storage">Din Nextcloud-installation har slut på diskutrymme. Ta bort några filer för att kunna synkronisera ändringar till ditt moln.</string>
     <string name="error_dialog_we_need_info">Vi behöver följande teknisk information för att kunna hjälpa dig:</string>
+    <string name="error_dialog_redirect">Servern svarade med HTTP-statuskoden 302. Det innebär att Deck-appen inte är installerad på servern eller att något är felkonfigurerat. Det kan orsakas av egna åsidosättningar i en .htaccess-fil eller av Nextcloud-appar som OID Client.</string>
     <string name="error_dialog_version_not_parsable">Vi kunde inte avgöra vilken version av Deck-appen som är installerad på servern. Kontrollera att den är installerad och aktiverad.</string>
     <string name="error_dialog_account_might_not_be_authorized">Ditt Nextcloud-konto är eventuellt inte längre auktoriserat. </string>
     <string name="error_dialog_user_not_found_in_database">Den nuvarande användaren matchar inte användaren vi har i vår databas. Om ni använder LDAP i er Nextcloud-instans kan din Nextcloud-app ha lagrat ett gammalt användar-ID.</string>
@@ -337,5 +340,6 @@
     <string name="label_no_startdate">Inget startdatum</string>
     <string name="label_dependent_cards">Beroende kort</string>
     <string name="label_color">Färg</string>
+    <string name="label_clear_color">Rensa färg</string>
     <string name="choose_color">Välj färg</string>
 </resources>
