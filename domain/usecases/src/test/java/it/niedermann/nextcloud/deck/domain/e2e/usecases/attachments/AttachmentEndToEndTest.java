@@ -17,12 +17,16 @@ import it.niedermann.nextcloud.deck.domain.model.Attachment;
 import it.niedermann.nextcloud.deck.domain.model.Board;
 import it.niedermann.nextcloud.deck.domain.model.Card;
 import it.niedermann.nextcloud.deck.domain.model.Column;
+import it.niedermann.nextcloud.deck.domain.repository.MockData;
 
 public class AttachmentEndToEndTest extends EndToEndTest {
 
     private VirtualDeviceAndAccount DEVICE_A;
     private VirtualDeviceAndAccount DEVICE_B;
     private Card cardA;
+    private String boardTitle;
+    private String columnTitle;
+    private String cardTitle;
 
     @BeforeEach
     @Override
@@ -32,13 +36,13 @@ public class AttachmentEndToEndTest extends EndToEndTest {
         DEVICE_A = getOrCreateRemoteAccountAndImport(createVirtualDevice(), "johndoe");
         DEVICE_B = getOrCreateRemoteAccountAndImport(createVirtualDevice(), "johndoe");
 
-        final var boardTitle = randomUtil.randomize("boardForAttachment");
+        boardTitle = randomUtil.randomize("boardForAttachment");
         final Board board = EndToEndUtil.createBoard(DEVICE_A, boardTitle);
 
-        final var columnTitle = randomUtil.randomize("columnForAttachment");
+        columnTitle = randomUtil.randomize("columnForAttachment");
         final Column column = EndToEndUtil.createColumn(DEVICE_A, board, columnTitle);
 
-        final var cardTitle = randomUtil.randomize("cardForAttachment");
+        cardTitle = randomUtil.randomize("cardForAttachment");
         cardA = EndToEndUtil.createCard(DEVICE_A, column, cardTitle);
     }
 
@@ -46,18 +50,25 @@ public class AttachmentEndToEndTest extends EndToEndTest {
     public void testAddAttachment() throws IOException {
         final var addAttachmentUseCase = DEVICE_A.virtualDevice().getAddAttachmentUseCase();
 
-        final Path tempFile = Files.createTempFile("deck-e2e-attachment", ".txt");
-        Files.writeString(tempFile, "Hello Deck E2E");
+        final String fileName = MockData.MOCK_ATTACHMENTS[0].title();
+        final Path tempFile = Files.createTempFile("deck-e2e-" + fileName, ".txt");
+        Files.writeString(tempFile, "Hello Deck E2E - Mock Content for " + fileName);
 
         addAttachmentUseCase.execute(cardA.id(), tempFile).join();
 
         synchronize(DEVICE_A);
         synchronize(DEVICE_B);
 
+        // Fetch everything on Device B because local IDs might differ
+        final var boardB = EndToEndUtil.getBoard(DEVICE_B, boardTitle);
+        final var columnB = EndToEndUtil.getColumn(DEVICE_B, boardB, columnTitle);
+        final var cardB = EndToEndUtil.getCard(DEVICE_B, columnB, cardTitle);
+
         final var listAttachmentsUseCaseB = DEVICE_B.virtualDevice().getListAttachmentsUseCase();
-        final Collection<Attachment> attachmentsB = Flowable.fromPublisher(FlowAdapters.toPublisher(listAttachmentsUseCaseB.execute(cardA.id())))
+        final Collection<Attachment> attachmentsB = Flowable.fromPublisher(FlowAdapters.toPublisher(listAttachmentsUseCaseB.execute(cardB.id())))
                 .blockingFirst();
 
         Assertions.assertNotNull(attachmentsB);
+        Assertions.assertFalse(attachmentsB.isEmpty());
     }
 }

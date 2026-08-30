@@ -1,4 +1,4 @@
-package it.niedermann.nextcloud.deck.data.repository;
+package it.niedermann.nextcloud.deck.domain.repository;
 
 import java.time.OffsetDateTime;
 import java.util.Collections;

@@ -204,7 +204,7 @@ components:
         deletedAt:
           type: integer
           format: int64
-        etag:
+        ETag:
           type: string
         labels:
           type: array
@@ -261,7 +261,7 @@ components:
         deletedAt:
           type: integer
           format: int64
-        etag:
+        ETag:
           type: string
         cards:
           type: array
@@ -405,7 +405,7 @@ components:
         deletedAt:
           type: integer
           format: int64
-        etag:
+        ETag:
           type: string
         extendedData:
           $ref: '#/components/schemas/AttachmentExtendedDataDTO'

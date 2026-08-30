@@ -3,6 +3,8 @@ package it.niedermann.nextcloud.deck.domain.model;
 import java.time.OffsetDateTime;
 import java.util.Objects;
 
+/// Activities are an optional server feature.
+/// Activities can not be created or added locally, but are created by the server and thus are only available if the server supports it and a synchronization happened.
 public record Activity(
         Activity.ID id,
         Card.ID cardId,

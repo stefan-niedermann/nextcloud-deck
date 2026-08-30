@@ -21,8 +21,6 @@ import it.niedermann.nextcloud.deck.domain.model.DBStatus;
 import it.niedermann.nextcloud.deck.domain.repository.ColumnRepository;
 import jakarta.inject.Inject;
 
-import java.time.OffsetDateTime;
-
 public class ColumnRepositoryImpl implements ColumnRepository {
 
     private final ColumnDao columnDao;
@@ -68,7 +66,6 @@ public class ColumnRepositoryImpl implements ColumnRepository {
 
     @Override
     public CompletableFuture<Void> updateColumn(Column column) {
-        final var entity = columnMapper.toEntity(column);
         return columnDao.getColumnById(column.id().value())
                 .thenCompose(oldEntity -> {
                     if (oldEntity == null) {
@@ -76,22 +73,23 @@ public class ColumnRepositoryImpl implements ColumnRepository {
                         future.completeExceptionally(new IllegalArgumentException("Column not found: " + column.id().value()));
                         return future;
                     }
+                    final var entity = columnMapper.toEntity(column);
                     final var updatedEntity = new ColumnEntity(
-                            entity.getLocalId(),
+                            oldEntity.getLocalId(),
                             oldEntity.getAccountId(),
-                            entity.getRemoteId(),
+                            entity.getRemoteId() != null ? entity.getRemoteId() : oldEntity.getRemoteId(),
                             DBStatus.LOCAL_EDITED.getId(),
-                            entity.getLastModified(),
-                            entity.getLastModifiedLocal(),
-                            entity.getEtag(),
-                            entity.getBoardId(),
+                            oldEntity.getLastModified(),
+                            OffsetDateTime.now(),
+                            (entity.getEtag() != null && !entity.getEtag().isBlank()) ? entity.getEtag() : oldEntity.getEtag(),
+                            oldEntity.getBoardId(),
                             entity.getTitle(),
                             entity.getOrder(),
                             entity.getArchived(),
                             entity.getDeletedAt(),
-                            entity.getConflictWithId()
+                            oldEntity.getConflictWithId()
                     );
-                    return columnDao.updateRx(updatedEntity);
+                    return columnDao.updateRx(updatedEntity).thenApply(v -> null);
                 });
     }
 
@@ -125,6 +123,7 @@ public class ColumnRepositoryImpl implements ColumnRepository {
         );
     }
 
+    @Override
     public CompletableFuture<Void> deleteColumn(Column.ID columnId) {
         return columnDao.getColumnById(columnId.value())
                 .thenCompose(column -> {
@@ -132,7 +131,7 @@ public class ColumnRepositoryImpl implements ColumnRepository {
                         return CompletableFuture.completedFuture(null);
                     }
                     if (column.getRemoteId() == null) {
-                        return columnDao.deleteById(column.getLocalId());
+                        return columnDao.deleteById(column.getLocalId()).thenApply(v -> null);
                     }
                     final var deletedColumn = new ColumnEntity(
                             column.getLocalId(),
@@ -140,16 +139,16 @@ public class ColumnRepositoryImpl implements ColumnRepository {
                             column.getRemoteId(),
                             DBStatus.LOCAL_DELETED.getId(),
                             column.getLastModified(),
-                            column.getLastModifiedLocal(),
+                            OffsetDateTime.now(),
                             column.getEtag(),
                             column.getBoardId(),
                             column.getTitle(),
                             column.getOrder(),
                             column.getArchived(),
-                            column.getDeletedAt(),
+                            OffsetDateTime.now(),
                             column.getConflictWithId()
                     );
-                    return columnDao.updateRx(deletedColumn);
+                    return columnDao.updateRx(deletedColumn).thenApply(v -> null);
                 });
     }
 }

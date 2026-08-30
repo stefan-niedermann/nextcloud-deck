@@ -14,6 +14,9 @@ interface ColumnDao : GenericDao<ColumnEntity> {
     @Query("SELECT * FROM `Column` WHERE boardId = :boardId AND status != 3 ORDER BY `order` ASC")
     fun getColumnsByBoard(boardId: Long): Flowable<List<ColumnEntity>>
 
+    @Query("SELECT * FROM `Column` WHERE boardId = :boardId AND status != 3")
+    fun getColumnsByBoardRx(boardId: Long): CompletableFuture<List<ColumnEntity>>
+
     @Query("SELECT * FROM `Column` WHERE accountId = :accountId AND remoteId = :remoteId")
     fun getColumnByRemoteId(accountId: Long, remoteId: Long): CompletableFuture<ColumnEntity?>
 

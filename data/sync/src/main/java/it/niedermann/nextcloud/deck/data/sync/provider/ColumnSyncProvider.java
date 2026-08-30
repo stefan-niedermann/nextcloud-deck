@@ -1,11 +1,15 @@
 package it.niedermann.nextcloud.deck.data.sync.provider;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
+import java.util.Set;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.Consumer;
 import java.util.logging.Logger;
+import java.util.stream.Collectors;
 
 import it.niedermann.nextcloud.deck.data.local.dao.BoardDao;
 import it.niedermann.nextcloud.deck.data.local.dao.ColumnDao;
@@ -189,11 +193,16 @@ public class ColumnSyncProvider implements SyncProvider<BoardDTO> {
     }
 
     private CompletableFuture<Void> syncStacks(Account account, List<ColumnDTO> columns, Long parentLocalId, SyncStatus status, Consumer<SyncStatus> reporter) {
-        if (columns == null || columns.isEmpty()) return CompletableFuture.completedFuture(null);
-        long total = columns.size();
-        CompletableFuture<?>[] stackFutures = new CompletableFuture[columns.size()];
-        for (int i = 0; i < columns.size(); i++) {
-            ColumnDTO columnDto = columns.get(i);
+        final List<ColumnDTO> columnsToSync = columns != null ? columns : java.util.Collections.emptyList();
+        final Set<Long> remoteIds = columnsToSync.stream()
+                .map(ColumnDTO::getId)
+                .filter(Objects::nonNull)
+                .collect(Collectors.toSet());
+
+        long total = columnsToSync.size();
+        CompletableFuture<?>[] stackFutures = new CompletableFuture[columnsToSync.size()];
+        for (int i = 0; i < columnsToSync.size(); i++) {
+            ColumnDTO columnDto = columnsToSync.get(i);
             if (columnDto == null) {
                 stackFutures[i] = CompletableFuture.completedFuture(null);
                 continue;
@@ -216,7 +225,18 @@ public class ColumnSyncProvider implements SyncProvider<BoardDTO> {
                 return future;
             }).thenApply(v -> null);
         }
-        return CompletableFuture.allOf(stackFutures);
+        return CompletableFuture.allOf(stackFutures)
+                .thenCompose(v -> columnDao.getColumnsByBoardRx(parentLocalId))
+                .thenCompose(localColumns -> {
+                    List<CompletableFuture<?>> deletionFutures = new ArrayList<>();
+                    for (ColumnEntity localColumn : localColumns) {
+                        if (localColumn.getRemoteId() != null && !remoteIds.contains(localColumn.getRemoteId()) && localColumn.getStatus() != DBStatus.LOCAL_EDITED.getId()) {
+                            logger.info("Deleting local column because it was deleted on remote: " + localColumn.getRemoteId());
+                            deletionFutures.add(columnDao.deleteById(localColumn.getLocalId()));
+                        }
+                    }
+                    return CompletableFuture.allOf(deletionFutures.toArray(new CompletableFuture[0]));
+                });
     }
 
     private CompletableFuture<Long> mergeColumn(Account account, ColumnDTO columnDto, Long boardId) {
@@ -226,7 +246,11 @@ public class ColumnSyncProvider implements SyncProvider<BoardDTO> {
                 .thenCompose(localColumn -> {
                     final long existingLocalId = localColumn != null ? localColumn.getLocalId() : 0;
                     ColumnEntity serverColumn = ColumnMapper.INSTANCE.toEntity(ColumnRemoteMapper.INSTANCE.toTO(columnDto));
-                    if (localColumn == null || serverColumn.getEtag() == null || !serverColumn.getEtag().equals(localColumn.getEtag())) {
+                    if (localColumn == null || serverColumn.getEtag() == null || !serverColumn.getEtag().equals(localColumn.getEtag())
+                        // Crucial workaround for Nextcloud Deck versions that return identical or default ETags for columns even after modifications.
+                            || !Objects.equals(serverColumn.getTitle(), localColumn.getTitle())
+                            || serverColumn.getOrder() != localColumn.getOrder()
+                            || !Objects.equals(serverColumn.getArchived(), localColumn.getArchived())) {
                         ColumnEntity newLocal = new ColumnEntity(
                                 existingLocalId,
                                 account.id().value(),

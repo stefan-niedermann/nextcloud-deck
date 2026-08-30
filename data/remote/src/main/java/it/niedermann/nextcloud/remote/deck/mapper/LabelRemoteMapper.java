@@ -16,7 +16,7 @@ public interface LabelRemoteMapper extends GenericRemoteMapper<LabelDTO, Label> 
     @Override
     @Mapping(target = "id", source = "remoteId")
     @Mapping(target = "color", source = "color")
-    @Mapping(target = "etag", ignore = true)
+    @Mapping(target = "etag", source = "etag")
     LabelDTO toDTO(Label label);
 
     @Override
@@ -27,5 +27,6 @@ public interface LabelRemoteMapper extends GenericRemoteMapper<LabelDTO, Label> 
     @Mapping(target = "lastModified", ignore = true)
     @Mapping(target = "lastModifiedLocal", ignore = true)
     @Mapping(target = "color", source = "color")
+    @Mapping(target = "etag", source = "etag")
     Label toTO(LabelDTO labelDTO);
 }

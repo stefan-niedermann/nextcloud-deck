@@ -16,7 +16,7 @@ public interface LabelMapper extends GenericMapper<LabelEntity, Label> {
     @Mapping(target = "localId", source = "id")
     @Mapping(target = "boardId", source = "boardId")
     @Mapping(target = "remoteId", source = "remoteId")
-    @Mapping(target = "etag", ignore = true)
+    @Mapping(target = "etag", source = "etag")
     @Mapping(target = "accountId", ignore = true)
     LabelEntity toEntity(Label label);
 
@@ -27,5 +27,6 @@ public interface LabelMapper extends GenericMapper<LabelEntity, Label> {
     @Mapping(target = "status", expression = "java(it.niedermann.nextcloud.deck.domain.model.DBStatus.findById(labelEntity.getStatus()))")
     @Mapping(target = "lastModified", source = "lastModified")
     @Mapping(target = "lastModifiedLocal", source = "lastModifiedLocal")
+    @Mapping(target = "etag", source = "etag")
     Label toTO(LabelEntity labelEntity);
 }

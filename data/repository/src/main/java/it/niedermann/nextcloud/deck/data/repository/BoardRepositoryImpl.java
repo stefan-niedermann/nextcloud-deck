@@ -59,28 +59,36 @@ public class BoardRepositoryImpl implements BoardRepository {
 
     @Override
     public CompletableFuture<Void> updateBoard(Board board) {
-        final var entity = boardMapper.toEntity(board);
-        final var editedEntity = new BoardEntity(
-                entity.getLocalId(),
-                entity.getAccountId(),
-                entity.getRemoteId(),
-                DBStatus.LOCAL_EDITED.getId(),
-                entity.getLastModified(),
-                OffsetDateTime.now(),
-                entity.getEtag(),
-                entity.getTitle(),
-                entity.getOwnerId(),
-                entity.getColor(),
-                entity.getArchived(),
-                entity.getShared(),
-                entity.getDeletedAt(),
-                entity.getPermissionRead(),
-                entity.getPermissionEdit(),
-                entity.getPermissionManage(),
-                entity.getPermissionShare(),
-                entity.getConflictWithId()
-        );
-        return boardDao.updateRx(editedEntity);
+        return boardDao.getBoardById(board.id().value())
+                .thenCompose(oldEntity -> {
+                    if (oldEntity == null) {
+                        final var future = new CompletableFuture<Void>();
+                        future.completeExceptionally(new IllegalArgumentException("Board not found: " + board.id().value()));
+                        return future;
+                    }
+                    final var entity = boardMapper.toEntity(board);
+                    final var editedEntity = new BoardEntity(
+                            oldEntity.getLocalId(),
+                            oldEntity.getAccountId(),
+                            entity.getRemoteId() != null ? entity.getRemoteId() : oldEntity.getRemoteId(),
+                            DBStatus.LOCAL_EDITED.getId(),
+                            oldEntity.getLastModified(),
+                            OffsetDateTime.now(),
+                            (entity.getEtag() != null && !entity.getEtag().isBlank()) ? entity.getEtag() : oldEntity.getEtag(),
+                            entity.getTitle(),
+                            oldEntity.getOwnerId(),
+                            entity.getColor(),
+                            entity.getArchived(),
+                            entity.getShared(),
+                            entity.getDeletedAt(),
+                            entity.getPermissionRead(),
+                            entity.getPermissionEdit(),
+                            entity.getPermissionManage(),
+                            entity.getPermissionShare(),
+                            oldEntity.getConflictWithId()
+                    );
+                    return boardDao.updateRx(editedEntity).thenApply(v -> null);
+                });
     }
 
     @Override

@@ -11,9 +11,8 @@ import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
 import dagger.hilt.android.testing.HiltTestApplication
 import io.reactivex.rxjava3.core.Flowable
-import it.niedermann.nextcloud.deck.data.repository.MockData
 import it.niedermann.nextcloud.deck.domain.model.Account
-import it.niedermann.nextcloud.deck.domain.model.Capabilities
+import it.niedermann.nextcloud.deck.domain.repository.MockData
 import it.niedermann.nextcloud.deck.domain.state.SyncStatus
 import it.niedermann.nextcloud.deck.domain.usecases.accounts.GetAccountsUseCase
 import it.niedermann.nextcloud.deck.domain.usecases.accounts.ImportAccountUseCase

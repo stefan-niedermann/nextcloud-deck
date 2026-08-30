@@ -31,11 +31,12 @@ public record Card(
         int overdue,
         int commentsUnread,
         DBStatus status,
-        OffsetDateTime lastModified
+        OffsetDateTime lastModified,
+        String etag
 ) implements Serializable, CardBuilder.With {
 
     public Card(Card.ID id, Card.RemoteID remoteId, Column.ID columnId, OffsetDateTime createdAt, int order, String title, String description, Set<Label.ID> labels, Set<User.ID> assignees, List<Card.ID> dependents, boolean archived, boolean notified, int overdue, int commentsUnread) {
-        this(id, remoteId, columnId, createdAt, order, title, description, labels, assignees, dependents, null, null, null, null, archived, notified, overdue, commentsUnread, DBStatus.UP_TO_DATE, OffsetDateTime.now());
+        this(id, remoteId, columnId, createdAt, order, title, description, labels, assignees, dependents, null, null, null, null, archived, notified, overdue, commentsUnread, DBStatus.UP_TO_DATE, OffsetDateTime.now(), null);
     }
 
     public Card {

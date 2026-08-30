@@ -8,8 +8,9 @@ import java.io.IOException;
 import it.niedermann.nextcloud.deck.domain.e2e.EndToEndTest;
 import it.niedermann.nextcloud.deck.domain.e2e.EndToEndUtil;
 import it.niedermann.nextcloud.deck.domain.model.Board;
-import it.niedermann.nextcloud.deck.domain.model.Color;
+import it.niedermann.nextcloud.deck.domain.model.CreateLabel;
 import it.niedermann.nextcloud.deck.domain.model.Label;
+import it.niedermann.nextcloud.deck.domain.repository.MockData;
 
 public class LabelEndToEndTest extends EndToEndTest {
 
@@ -31,8 +32,8 @@ public class LabelEndToEndTest extends EndToEndTest {
 
     @Test
     public void createLabel() {
-        final var labelTitle = randomUtil.randomize("createLabel");
-        final var label = new Label(new Label.ID(0), boardA.id(), labelTitle, new Color(255, 0, 0));
+        final var labelTitle = randomUtil.randomize(MockData.MOCK_LABELS[0].title());
+        final var label = new CreateLabel(boardA.id(), labelTitle, MockData.MOCK_LABELS[0].color());
 
         DEVICE_A.virtualDevice().getAddLabelUseCase().execute(label).join();
 
@@ -46,10 +47,11 @@ public class LabelEndToEndTest extends EndToEndTest {
 
     @Test
     public void updateLabel() {
-        final var labelTitle = randomUtil.randomize("labelToUpdate");
-        final var label = EndToEndUtil.createLabel(DEVICE_A, boardA, labelTitle);
+        final var labelTitle = randomUtil.randomize(MockData.MOCK_LABELS[1].title());
+        var label = EndToEndUtil.createLabel(DEVICE_A, boardA, labelTitle);
 
         synchronize(DEVICE_A);
+        label = EndToEndUtil.getLabel(DEVICE_A, boardA, labelTitle);
         synchronize(DEVICE_B);
         EndToEndUtil.assertLabelExists(DEVICE_B, boardA, labelTitle);
 
@@ -68,10 +70,11 @@ public class LabelEndToEndTest extends EndToEndTest {
 
     @Test
     public void deleteLabel() {
-        final var labelTitle = randomUtil.randomize("labelToDelete");
-        final var label = EndToEndUtil.createLabel(DEVICE_A, boardA, labelTitle);
+        final var labelTitle = randomUtil.randomize(MockData.MOCK_LABELS[2].title());
+        var label = EndToEndUtil.createLabel(DEVICE_A, boardA, labelTitle);
 
         synchronize(DEVICE_A);
+        label = EndToEndUtil.getLabel(DEVICE_A, boardA, labelTitle);
         synchronize(DEVICE_B);
         EndToEndUtil.assertLabelExists(DEVICE_B, boardA, labelTitle);
 

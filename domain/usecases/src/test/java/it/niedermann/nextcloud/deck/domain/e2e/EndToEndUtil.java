@@ -3,6 +3,7 @@ package it.niedermann.nextcloud.deck.domain.e2e;
 import org.junit.jupiter.api.Assertions;
 import org.reactivestreams.FlowAdapters;
 
+import java.util.Map;
 import java.util.NoSuchElementException;
 import java.util.Objects;
 
@@ -17,10 +18,46 @@ import it.niedermann.nextcloud.deck.domain.model.CreateBoard;
 import it.niedermann.nextcloud.deck.domain.model.CreateCard;
 import it.niedermann.nextcloud.deck.domain.model.CreateColumn;
 import it.niedermann.nextcloud.deck.domain.model.CreateComment;
+import it.niedermann.nextcloud.deck.domain.model.CreateLabel;
 import it.niedermann.nextcloud.deck.domain.model.Label;
 import it.niedermann.nextcloud.deck.domain.model.User;
+import it.niedermann.nextcloud.deck.domain.repository.MockData;
 
 public class EndToEndUtil {
+
+    public static void setupMockData(EndToEndTest.VirtualDeviceAndAccount vda) {
+        final Map<Board.ID, Board> boardIdMap = new java.util.HashMap<>();
+        final Map<Column.ID, Column> columnIdMap = new java.util.HashMap<>();
+
+        for (Board mockBoard : MockData.MOCK_BOARDS) {
+            final Board createdBoard = createBoard(vda, mockBoard.title());
+            boardIdMap.put(mockBoard.id(), createdBoard);
+
+            for (Label mockLabel : MockData.MOCK_LABELS) {
+                if (mockLabel.boardId().equals(mockBoard.id())) {
+                    final CreateLabel label = new CreateLabel(createdBoard.id(), mockLabel.title(), mockLabel.color());
+                    vda.virtualDevice().getAddLabelUseCase().execute(label).join();
+                }
+            }
+        }
+
+        for (Column mockColumn : MockData.MOCK_COLUMNS) {
+            final Board board = boardIdMap.get(mockColumn.boardId());
+            if (board != null) {
+                final Column createdColumn = createColumn(vda, board, mockColumn.title());
+                columnIdMap.put(mockColumn.id(), createdColumn);
+            }
+        }
+
+        for (Card mockCard : MockData.MOCK_CARDS) {
+            final Column column = columnIdMap.get(mockCard.columnId());
+            if (column != null) {
+                createCard(vda, column, mockCard.title());
+                // For performance reasons in E2E tests, we only create the cards with titles for now.
+                // In a real E2E test, we could further update them with descriptions, labels etc.
+            }
+        }
+    }
 
     public static Board createBoard(EndToEndTest.VirtualDeviceAndAccount vda, String title) {
         final var createBoard = new CreateBoard(vda.account().id(), title);
@@ -109,7 +146,7 @@ public class EndToEndUtil {
     }
 
     public static Label createLabel(EndToEndTest.VirtualDeviceAndAccount vda, Board board, String title) {
-        final var label = new Label(new Label.ID(0), board.id(), title, new Color(0, 0, 0));
+        final var label = new CreateLabel(board.id(), title, new Color(0, 0, 0));
         vda.virtualDevice().getAddLabelUseCase().execute(label).join();
         return getLabel(vda, board, title);
     }

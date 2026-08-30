@@ -14,6 +14,9 @@ interface CommentDao : GenericDao<CommentEntity> {
     @Query("SELECT * FROM Comment WHERE cardId = :cardId")
     fun getCommentsByCard(cardId: Long): Flowable<List<CommentEntity>>
 
+    @Query("SELECT * FROM Comment WHERE cardId = :cardId")
+    fun getCommentsByCardRx(cardId: Long): CompletableFuture<List<CommentEntity>>
+
     @Query("SELECT * FROM Comment WHERE accountId = :accountId AND status != 1")
     fun getChangedComments(accountId: Long): CompletableFuture<List<CommentEntity>>
 

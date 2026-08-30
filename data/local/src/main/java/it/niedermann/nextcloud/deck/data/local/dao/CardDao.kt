@@ -14,6 +14,9 @@ interface CardDao : GenericDao<CardEntity> {
     @Query("SELECT * FROM Card WHERE columnId = :columnId ORDER BY `order` ASC")
     fun getCardsByColumn(columnId: Long): Flowable<List<CardEntity>>
 
+    @Query("SELECT * FROM Card WHERE columnId = :columnId")
+    fun getCardsByColumnRx(columnId: Long): CompletableFuture<List<CardEntity>>
+
     @Query("SELECT Card.* FROM Card INNER JOIN Column ON Card.columnId = Column.localId WHERE Column.boardId = :boardId")
     fun getCardsByBoard(boardId: Long): Flowable<List<CardEntity>>
 

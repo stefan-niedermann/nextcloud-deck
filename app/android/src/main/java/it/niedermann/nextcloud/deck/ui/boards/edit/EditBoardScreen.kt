@@ -41,8 +41,8 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import it.niedermann.nextcloud.deck.data.repository.MockData
 import it.niedermann.nextcloud.deck.domain.model.Board
+import it.niedermann.nextcloud.deck.domain.repository.MockData
 import it.niedermann.nextcloud.deck.ui.util.toComposeColor
 import it.niedermann.nextcloud.deck.ui.util.toDomainColor
 
@@ -93,7 +93,8 @@ fun EditBoardScreen(
                                     it.accountId(),
                                     it.remoteId(),
                                     it.status(),
-                                    it.lastModified()
+                                    it.lastModified(),
+                                    it.etag()
                                 )
                                 viewModel.updateBoard(updatedBoard)
                                 onBack()

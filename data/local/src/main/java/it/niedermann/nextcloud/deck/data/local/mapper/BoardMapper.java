@@ -21,7 +21,7 @@ public interface BoardMapper extends GenericMapper<BoardEntity, Board> {
     @Mapping(target = "permissionEdit", source = "permissions.permissionEdit")
     @Mapping(target = "permissionManage", source = "permissions.permissionManage")
     @Mapping(target = "permissionShare", source = "permissions.permissionShare")
-    @Mapping(target = "etag", ignore = true)
+    @Mapping(target = "etag", source = "etag")
     @Mapping(target = "status", expression = "java(board.status().getId())")
     BoardEntity toEntity(Board board);
 
@@ -33,6 +33,7 @@ public interface BoardMapper extends GenericMapper<BoardEntity, Board> {
     @Mapping(target = "permissions", source = ".")
     @Mapping(target = "status", source = "status")
     @Mapping(target = "lastModified", source = "lastModified")
+    @Mapping(target = "etag", source = "etag")
     Board toTO(BoardEntity entity);
 
     @Mapping(target = "permissionRead", source = "permissionRead")

@@ -28,7 +28,7 @@ public interface BoardRemoteMapper extends GenericRemoteMapper<BoardDTO, Board> 
     @Mapping(target = "stacks", ignore = true)
     @Mapping(target = "acl", ignore = true)
     @Mapping(target = "users", ignore = true)
-    @Mapping(target = "etag", ignore = true)
+    @Mapping(target = "etag", source = "etag")
     @Mapping(target = "deletedAt", ignore = true)
     BoardDTO toDTO(Board board);
     
@@ -43,6 +43,7 @@ public interface BoardRemoteMapper extends GenericRemoteMapper<BoardDTO, Board> 
     @Mapping(target = "color", source = "color")
     @Mapping(target = "title", expression = "java(boardDTO.getTitle() != null ? boardDTO.getTitle() : \"Untitled\")")
     @Mapping(target = "archived", source = "archived")
+    @Mapping(target = "etag", source = "etag")
     Board toTO(BoardDTO boardDTO);
 
     @Mapping(target = "permissionRead", source = "permissionRead")

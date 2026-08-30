@@ -2,6 +2,7 @@ package it.niedermann.nextcloud.deck.data.sync.provider;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.concurrent.CompletableFuture;
 import java.util.function.Consumer;
 import java.util.logging.Logger;
@@ -156,10 +157,7 @@ public class LabelSyncProvider implements SyncProvider<BoardDTO> {
         if (parent == null || parent.getId() == null) return CompletableFuture.completedFuture(null);
         logger.info("Syncing labels for board " + parent.getId());
 
-        List<LabelDTO> serverLabels = parent.getLabels();
-        if (serverLabels == null) {
-            return CompletableFuture.completedFuture(null);
-        }
+        final List<LabelDTO> serverLabels = parent.getLabels() != null ? parent.getLabels() : java.util.Collections.emptyList();
 
         List<Long> remoteIdsFromServer = new ArrayList<>();
         for (LabelDTO l : serverLabels) {
@@ -173,7 +171,7 @@ public class LabelSyncProvider implements SyncProvider<BoardDTO> {
                     List<CompletableFuture<?>> futures = new ArrayList<>();
                     // Delete local labels that are missing on server
                     for (LabelEntity local : localLabels) {
-                        if (local.getRemoteId() != null && !remoteIdsFromServer.contains(local.getRemoteId())) {
+                        if (local.getRemoteId() != null && !remoteIdsFromServer.contains(local.getRemoteId()) && local.getStatus() != DBStatus.LOCAL_EDITED.getId() && local.getStatus() != DBStatus.LOCAL_DELETED.getId()) {
                             logger.info("Label missing on server, deleting locally: " + local.getRemoteId());
                             futures.add(labelDao.deleteRx(local));
                         }
@@ -216,7 +214,10 @@ public class LabelSyncProvider implements SyncProvider<BoardDTO> {
                         if (localLabel.getStatus() == DBStatus.CONFLICT.getId()) {
                             return CompletableFuture.<Void>completedFuture(null);
                         }
-                        if (serverLabel.getEtag() != null && serverLabel.getEtag().equals(localLabel.getEtag())) {
+                        if (labelDto.getEtag() != null && labelDto.getEtag().equals(localLabel.getEtag())
+                            // Crucial workaround for Nextcloud Deck versions that return identical or default ETags for labels even after modifications.
+                                && Objects.equals(serverLabel.getTitle(), localLabel.getTitle())
+                                && Objects.equals(serverLabel.getColor(), localLabel.getColor())) {
                             return CompletableFuture.<Void>completedFuture(null);
                         }
                         LabelEntity updatedLocal = new LabelEntity(

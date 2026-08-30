@@ -19,9 +19,9 @@ import it.niedermann.nextcloud.deck.data.local.dao.AttachmentDao;
 import it.niedermann.nextcloud.deck.data.local.dao.CardDao;
 import it.niedermann.nextcloud.deck.data.local.dao.ColumnDao;
 import it.niedermann.nextcloud.deck.data.local.dao.CommentDao;
-import it.niedermann.nextcloud.deck.data.local.dao.LabelDao;
 import it.niedermann.nextcloud.deck.data.local.dao.JoinCardWithLabelDao;
 import it.niedermann.nextcloud.deck.data.local.dao.JoinCardWithUserDao;
+import it.niedermann.nextcloud.deck.data.local.dao.LabelDao;
 import it.niedermann.nextcloud.deck.data.local.dao.UserDao;
 import it.niedermann.nextcloud.deck.data.local.entity.CardEntity;
 import it.niedermann.nextcloud.deck.data.local.entity.JoinCardWithLabelEntity;
@@ -122,7 +122,6 @@ public class CardRepositoryImpl implements CardRepository {
 
     @Override
     public CompletableFuture<Void> updateCard(Card card) {
-        final var entity = cardMapper.toEntity(card);
         return cardDao.getCardById(card.id().value())
                 .thenCompose(oldEntity -> {
                     if (oldEntity == null) {
@@ -130,23 +129,24 @@ public class CardRepositoryImpl implements CardRepository {
                         future.completeExceptionally(new IllegalArgumentException("Card not found: " + card.id().value()));
                         return future;
                     }
+                    final var entity = cardMapper.toEntity(card);
                     final var updatedEntity = new CardEntity(
-                            entity.getLocalId(),
+                            oldEntity.getLocalId(),
                             oldEntity.getAccountId(),
-                            entity.getRemoteId(),
+                            entity.getRemoteId() != null ? entity.getRemoteId() : oldEntity.getRemoteId(),
                             DBStatus.LOCAL_EDITED.getId(),
-                            entity.getLastModified(),
-                            entity.getLastModifiedLocal(),
-                            entity.getEtag(),
+                            oldEntity.getLastModified(),
+                            OffsetDateTime.now(),
+                            (entity.getEtag() != null && !entity.getEtag().isBlank()) ? entity.getEtag() : oldEntity.getEtag(),
                             entity.getTitle(),
                             entity.getDescription(),
                             entity.getColumnId(),
                             entity.getType(),
-                            entity.getCreatedAt(),
+                            oldEntity.getCreatedAt(),
                             entity.getDeletedAt(),
                             entity.getDone(),
                             entity.getAttachmentCount(),
-                            entity.getUserId(),
+                            oldEntity.getUserId(),
                             entity.getOrder(),
                             entity.getArchived(),
                             entity.getColor(),
@@ -155,9 +155,9 @@ public class CardRepositoryImpl implements CardRepository {
                             entity.getNotified(),
                             entity.getOverdue(),
                             entity.getCommentsUnread(),
-                            entity.getConflictWithId()
+                            oldEntity.getConflictWithId()
                     );
-                    return cardDao.updateRx(updatedEntity)
+                    return cardDao.updateRx(updatedEntity).thenApply(v -> null)
                             .thenCompose(v -> joinCardWithLabelDao.deleteByCardId(card.id().value()))
                             .thenCompose(v -> {
                                 CompletableFuture<?>[] labelFutures = card.labels().stream()
@@ -188,7 +188,7 @@ public class CardRepositoryImpl implements CardRepository {
                         return CompletableFuture.completedFuture(null);
                     }
                     if (card.getRemoteId() == null) {
-                        return cardDao.deleteById(card.getLocalId());
+                        return cardDao.deleteById(card.getLocalId()).thenApply(v -> null);
                     }
                     final var deletedCard = new CardEntity(
                             card.getLocalId(),
@@ -196,14 +196,14 @@ public class CardRepositoryImpl implements CardRepository {
                             card.getRemoteId(),
                             DBStatus.LOCAL_DELETED.getId(),
                             card.getLastModified(),
-                            card.getLastModifiedLocal(),
+                            OffsetDateTime.now(),
                             card.getEtag(),
                             card.getTitle(),
                             card.getDescription(),
                             card.getColumnId(),
                             card.getType(),
                             card.getCreatedAt(),
-                            card.getDeletedAt(),
+                            OffsetDateTime.now(),
                             card.getDone(),
                             card.getAttachmentCount(),
                             card.getUserId(),
@@ -217,7 +217,7 @@ public class CardRepositoryImpl implements CardRepository {
                             card.getCommentsUnread(),
                             card.getConflictWithId()
                     );
-                    return cardDao.updateRx(deletedCard);
+                    return cardDao.updateRx(deletedCard).thenApply(v -> null);
                 });
     }
 

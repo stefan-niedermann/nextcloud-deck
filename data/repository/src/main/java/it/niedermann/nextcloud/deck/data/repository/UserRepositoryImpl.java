@@ -19,6 +19,7 @@ import it.niedermann.nextcloud.deck.domain.model.Account;
 import it.niedermann.nextcloud.deck.domain.model.Avatar;
 import it.niedermann.nextcloud.deck.domain.model.User;
 import it.niedermann.nextcloud.deck.domain.repository.AccountRepository;
+import it.niedermann.nextcloud.deck.domain.repository.MockData;
 import it.niedermann.nextcloud.deck.domain.repository.UserRepository;
 import it.niedermann.nextcloud.remote.ApiProvider;
 import jakarta.inject.Inject;

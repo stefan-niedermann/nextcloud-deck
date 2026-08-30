@@ -14,6 +14,7 @@ import it.niedermann.nextcloud.deck.data.local.dao.LabelDao;
 import it.niedermann.nextcloud.deck.data.local.entity.LabelEntity;
 import it.niedermann.nextcloud.deck.data.local.mapper.LabelMapper;
 import it.niedermann.nextcloud.deck.domain.model.Board;
+import it.niedermann.nextcloud.deck.domain.model.CreateLabel;
 import it.niedermann.nextcloud.deck.domain.model.DBStatus;
 import it.niedermann.nextcloud.deck.domain.model.Label;
 import it.niedermann.nextcloud.deck.domain.repository.LabelRepository;
@@ -35,7 +36,7 @@ public class LabelRepositoryImpl implements LabelRepository {
     }
 
     @Override
-    public CompletableFuture<Void> createLabel(Label label) {
+    public CompletableFuture<Void> createLabel(CreateLabel label) {
         return boardDao.getBoardById(label.boardId().value())
                 .thenCompose(board -> {
                     if (board == null) {
@@ -43,7 +44,6 @@ public class LabelRepositoryImpl implements LabelRepository {
                         future.completeExceptionally(new IllegalArgumentException("Board not found: " + label.boardId().value()));
                         return future;
                     }
-                    final var entity = labelMapper.toEntity(label);
                     final var newEntity = new LabelEntity(
                             0,
                             board.getAccountId(),
@@ -52,9 +52,9 @@ public class LabelRepositoryImpl implements LabelRepository {
                             null,
                             OffsetDateTime.now(),
                             null,
-                            entity.getBoardId(),
-                            entity.getTitle(),
-                            entity.getColor(),
+                            label.boardId().value(),
+                            label.title(),
+                            label.color(),
                             null
                     );
                     return labelDao.insertOrReplace(newEntity).thenApply(v -> null);
@@ -64,26 +64,27 @@ public class LabelRepositoryImpl implements LabelRepository {
     @Override
     public CompletableFuture<Void> updateLabel(Label label) {
         return labelDao.getLabelById(label.id().value())
-                .thenCompose(entity -> {
-                    if (entity == null) {
+                .thenCompose(oldEntity -> {
+                    if (oldEntity == null) {
                         final var future = new CompletableFuture<Void>();
                         future.completeExceptionally(new IllegalArgumentException("Label not found: " + label.id().value()));
                         return future;
                     }
+                    final var entity = labelMapper.toEntity(label);
                     final var updatedEntity = new LabelEntity(
-                            entity.getLocalId(),
-                            entity.getAccountId(),
-                            entity.getRemoteId(),
+                            oldEntity.getLocalId(),
+                            oldEntity.getAccountId(),
+                            entity.getRemoteId() != null ? entity.getRemoteId() : oldEntity.getRemoteId(),
                             DBStatus.LOCAL_EDITED.getId(),
-                            entity.getLastModified(),
+                            oldEntity.getLastModified(),
                             OffsetDateTime.now(),
-                            entity.getEtag(),
-                            label.boardId().value(),
+                            (entity.getEtag() != null && !entity.getEtag().isBlank()) ? entity.getEtag() : oldEntity.getEtag(),
+                            oldEntity.getBoardId(),
                             label.title(),
                             label.color(),
-                            entity.getConflictWithId()
+                            oldEntity.getConflictWithId()
                     );
-                    return labelDao.updateRx(updatedEntity);
+                    return labelDao.updateRx(updatedEntity).thenApply(v -> null);
                 });
     }
 
@@ -95,7 +96,7 @@ public class LabelRepositoryImpl implements LabelRepository {
                         return CompletableFuture.completedFuture(null);
                     }
                     if (entity.getRemoteId() == null) {
-                        return labelDao.deleteRx(entity);
+                        return labelDao.deleteRx(entity).thenApply(v -> null);
                     } else {
                         final var deletedEntity = new LabelEntity(
                                 entity.getLocalId(),
@@ -110,7 +111,7 @@ public class LabelRepositoryImpl implements LabelRepository {
                                 entity.getColor(),
                                 entity.getConflictWithId()
                         );
-                        return labelDao.updateRx(deletedEntity);
+                        return labelDao.updateRx(deletedEntity).thenApply(v -> null);
                     }
                 });
     }

@@ -9,10 +9,13 @@ import java.io.IOException;
 
 import io.reactivex.rxjava3.core.Flowable;
 import it.niedermann.nextcloud.deck.domain.e2e.EndToEndTest;
+import it.niedermann.nextcloud.deck.domain.e2e.EndToEndUtil;
+import it.niedermann.nextcloud.deck.domain.repository.MockData;
 
 public class SyncEndToEndTest extends EndToEndTest {
 
     private VirtualDeviceAndAccount DEVICE_A;
+    private VirtualDeviceAndAccount DEVICE_B;
 
     @BeforeEach
     @Override
@@ -20,6 +23,7 @@ public class SyncEndToEndTest extends EndToEndTest {
         super.setup();
 
         DEVICE_A = getOrCreateRemoteAccountAndImport(createVirtualDevice(), "johndoe");
+        DEVICE_B = getOrCreateRemoteAccountAndImport(createVirtualDevice(), "johndoe");
     }
 
     @Test
@@ -38,5 +42,17 @@ public class SyncEndToEndTest extends EndToEndTest {
 
         Assertions.assertTrue(syncStatusOptional.isPresent());
         Assertions.assertEquals(DEVICE_A.account().id(), syncStatusOptional.get().account().id());
+    }
+
+    @Test
+    public void testFullMockDataSync() {
+        EndToEndUtil.setupMockData(DEVICE_A);
+
+        synchronize(DEVICE_A);
+        synchronize(DEVICE_B);
+
+        // Verify that the first board from MockData exists on Device B
+        EndToEndUtil.assertBoardExists(DEVICE_B, MockData.MOCK_BOARDS[0].title());
+        EndToEndUtil.assertBoardExists(DEVICE_B, MockData.MOCK_BOARDS[9].title());
     }
 }

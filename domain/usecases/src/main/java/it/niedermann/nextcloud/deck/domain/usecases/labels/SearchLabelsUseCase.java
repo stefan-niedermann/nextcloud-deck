@@ -16,6 +16,7 @@ public class SearchLabelsUseCase {
         this.labelRepository = labelRepository;
     }
 
+    // TODO Add Board.ID argument as filter criteria
     public Flow.Publisher<Collection<Label>> execute(String query) {
         return labelRepository.find(query);
     }

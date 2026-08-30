@@ -12,11 +12,12 @@ public record Label(
         Label.RemoteID remoteId,
         DBStatus status,
         OffsetDateTime lastModified,
-        OffsetDateTime lastModifiedLocal
+        OffsetDateTime lastModifiedLocal,
+        String etag
 ) {
 
     public Label(Label.ID id, Board.ID boardId, String title, Color color) {
-        this(id, boardId, title, color, null, DBStatus.UP_TO_DATE, OffsetDateTime.now(), OffsetDateTime.now());
+        this(id, boardId, title, color, null, DBStatus.UP_TO_DATE, OffsetDateTime.now(), OffsetDateTime.now(), null);
     }
 
     public Label {

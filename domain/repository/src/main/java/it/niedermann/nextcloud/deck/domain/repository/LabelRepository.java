@@ -6,11 +6,12 @@ import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.Flow;
 
 import it.niedermann.nextcloud.deck.domain.model.Board;
+import it.niedermann.nextcloud.deck.domain.model.CreateLabel;
 import it.niedermann.nextcloud.deck.domain.model.Label;
 
 public interface LabelRepository {
 
-    CompletableFuture<Void> createLabel(Label label);
+    CompletableFuture<Void> createLabel(CreateLabel label);
 
     CompletableFuture<Void> updateLabel(Label label);
 

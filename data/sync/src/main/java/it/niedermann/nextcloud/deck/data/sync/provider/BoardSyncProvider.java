@@ -9,10 +9,11 @@ import java.util.function.Consumer;
 import java.util.logging.Logger;
 
 import it.niedermann.nextcloud.deck.data.local.dao.BoardDao;
-import it.niedermann.nextcloud.deck.data.local.dao.UserDao;
-import it.niedermann.nextcloud.deck.data.local.dao.JoinBoardWithUserDao;
 import it.niedermann.nextcloud.deck.data.local.dao.JoinBoardWithPermissionDao;
+import it.niedermann.nextcloud.deck.data.local.dao.JoinBoardWithUserDao;
 import it.niedermann.nextcloud.deck.data.local.entity.BoardEntity;
+import it.niedermann.nextcloud.deck.data.local.entity.JoinBoardWithPermissionEntity;
+import it.niedermann.nextcloud.deck.data.local.entity.JoinBoardWithUserEntity;
 import it.niedermann.nextcloud.deck.data.local.mapper.BoardMapper;
 import it.niedermann.nextcloud.deck.domain.model.Account;
 import it.niedermann.nextcloud.deck.domain.model.DBStatus;
@@ -20,8 +21,6 @@ import it.niedermann.nextcloud.deck.domain.state.SyncStatus;
 import it.niedermann.nextcloud.remote.ApiProvider;
 import it.niedermann.nextcloud.remote.deck.DeckApi;
 import it.niedermann.nextcloud.remote.deck.dto.BoardDTO;
-import it.niedermann.nextcloud.deck.data.local.entity.JoinBoardWithUserEntity;
-import it.niedermann.nextcloud.deck.data.local.entity.JoinBoardWithPermissionEntity;
 import it.niedermann.nextcloud.remote.deck.mapper.BoardRemoteMapper;
 import jakarta.inject.Inject;
 import retrofit2.HttpException;
@@ -222,7 +221,7 @@ public class BoardSyncProvider implements SyncProvider<Void> {
                             .thenCompose(localBoards -> {
                                 List<CompletableFuture<?>> deleteFutures = new ArrayList<>();
                                 for (BoardEntity local : localBoards) {
-                                    if (local.getRemoteId() != null && !remoteIdsFromServer.contains(local.getRemoteId())) {
+                                    if (local.getRemoteId() != null && !remoteIdsFromServer.contains(local.getRemoteId()) && local.getStatus() != DBStatus.LOCAL_EDITED.getId() && local.getStatus() != DBStatus.LOCAL_DELETED.getId()) {
                                         logger.info("Board missing on server, deleting locally: " + local.getRemoteId());
                                         deleteFutures.add(boardDao.deleteRx(local));
                                     }

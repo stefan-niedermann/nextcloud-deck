@@ -1,7 +1,12 @@
 package it.niedermann.nextcloud.deck.data.sync.provider;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
+import java.util.Set;
 import java.util.concurrent.CompletableFuture;
 import java.util.function.Consumer;
+import java.util.stream.Collectors;
 
 import it.niedermann.nextcloud.deck.data.local.dao.AttachmentDao;
 import it.niedermann.nextcloud.deck.data.local.entity.AttachmentEntity;
@@ -32,15 +37,30 @@ public class AttachmentSyncProvider implements SyncProvider<CardDTO> {
     @Override
     public CompletableFuture<Void> downSync(Account account, CardDTO parent, Long parentLocalId, SyncStatus status, Consumer<SyncStatus> reporter) {
         if (parent == null) return CompletableFuture.completedFuture(null);
-        if (parent.getAttachments() != null && !parent.getAttachments().isEmpty()) {
-            CompletableFuture<?>[] futures = new CompletableFuture[parent.getAttachments().size()];
-            for (int i = 0; i < parent.getAttachments().size(); i++) {
-                AttachmentDTO dto = parent.getAttachments().get(i);
-                futures[i] = mergeAttachment(account, dto, parentLocalId);
-            }
-            return CompletableFuture.allOf(futures);
+        final List<AttachmentDTO> serverAttachments = parent.getAttachments() != null ? parent.getAttachments() : java.util.Collections.emptyList();
+
+        final Set<Long> remoteIds = serverAttachments.stream()
+                .map(AttachmentDTO::getId)
+                .filter(Objects::nonNull)
+                .collect(Collectors.toSet());
+
+        CompletableFuture<?>[] futures = new CompletableFuture[serverAttachments.size()];
+        for (int i = 0; i < serverAttachments.size(); i++) {
+            AttachmentDTO dto = serverAttachments.get(i);
+            futures[i] = mergeAttachment(account, dto, parentLocalId);
         }
-        return CompletableFuture.completedFuture(null);
+
+        return CompletableFuture.allOf(futures)
+                .thenCompose(v -> attachmentDao.getAttachmentsByCardRx(parentLocalId))
+                .thenCompose(localAttachments -> {
+                    List<CompletableFuture<?>> deletionFutures = new ArrayList<>();
+                    for (AttachmentEntity local : localAttachments) {
+                        if (local.getRemoteId() != null && !remoteIds.contains(local.getRemoteId()) && local.getStatus() != DBStatus.LOCAL_EDITED.getId() && local.getStatus() != DBStatus.LOCAL_DELETED.getId()) {
+                            deletionFutures.add(attachmentDao.deleteById(local.getLocalId()));
+                        }
+                    }
+                    return CompletableFuture.allOf(deletionFutures.toArray(new CompletableFuture[0]));
+                });
     }
 
     private CompletableFuture<Void> mergeAttachment(Account account, AttachmentDTO dto, Long cardId) {

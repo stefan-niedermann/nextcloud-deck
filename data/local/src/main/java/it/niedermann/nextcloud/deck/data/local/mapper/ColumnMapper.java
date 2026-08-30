@@ -18,6 +18,7 @@ public interface ColumnMapper extends GenericMapper<ColumnEntity, Column> {
     @Mapping(target = "accountId", source = "accountId")
     @Mapping(target = "remoteId", source = "remoteId")
     @Mapping(target = "status", expression = "java(column.status().getId())")
+    @Mapping(target = "etag", source = "etag")
     ColumnEntity toEntity(Column column);
 
     @Override
@@ -28,5 +29,6 @@ public interface ColumnMapper extends GenericMapper<ColumnEntity, Column> {
     @Mapping(target = "status", source = "status")
     @Mapping(target = "lastModified", source = "lastModified")
     @Mapping(target = "lastModifiedLocal", source = "lastModifiedLocal")
+    @Mapping(target = "etag", source = "etag")
     Column toTO(ColumnEntity entity);
 }

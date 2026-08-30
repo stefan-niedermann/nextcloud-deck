@@ -16,6 +16,8 @@ public class ListUsersUseCase {
         this.userRepository = userRepository;
     }
 
+    // TODO Restrict to a specific Board.ID instead of Account.ID
+    /// @implSpec Sorted primarily by count of assigned cards on the given board, secondarily alphabetically by display name
     public Flow.Publisher<List<User>> execute(Account.ID accountId) {
         return userRepository.getNotDeletedUsers(accountId);
     }

@@ -12,6 +12,7 @@ import it.niedermann.nextcloud.deck.domain.model.Board;
 import it.niedermann.nextcloud.deck.domain.model.Card;
 import it.niedermann.nextcloud.deck.domain.model.Column;
 import it.niedermann.nextcloud.deck.domain.model.CreateComment;
+import it.niedermann.nextcloud.deck.domain.repository.MockData;
 
 public class CommentEndToEndTest extends EndToEndTest {
 
@@ -39,7 +40,7 @@ public class CommentEndToEndTest extends EndToEndTest {
 
     @Test
     public void createComment() {
-        final var message = randomUtil.randomize("createComment");
+        final var message = randomUtil.randomize(MockData.MOCK_COMMENTS[0].message());
         final var createComment = new CreateComment(cardA.id(), message);
 
         DEVICE_A.virtualDevice().getAddCommentUseCase().execute(createComment).join();
@@ -55,16 +56,17 @@ public class CommentEndToEndTest extends EndToEndTest {
     @Test
     @Disabled("Runs endless")
     public void updateComment() {
-        final var message = randomUtil.randomize("commentToUpdate");
+        final var message = randomUtil.randomize(MockData.MOCK_COMMENTS[1].message());
         EndToEndUtil.createComment(DEVICE_A, cardA, message);
 
         synchronize(DEVICE_A);
+        final var commentA = EndToEndUtil.getComment(DEVICE_A, cardA, message);
         synchronize(DEVICE_B);
-        final var comment = EndToEndUtil.getComment(DEVICE_B, cardA, message);
+        final var commentB = EndToEndUtil.getComment(DEVICE_B, cardA, message);
         
         final var newMessage = randomUtil.randomize("updatedComment");
 
-        DEVICE_A.virtualDevice().getUpdateCommentUseCase().execute(comment.id(), newMessage).join();
+        DEVICE_A.virtualDevice().getUpdateCommentUseCase().execute(commentA.id(), newMessage).join();
 
         synchronize(DEVICE_A);
         synchronize(DEVICE_B);
@@ -77,14 +79,15 @@ public class CommentEndToEndTest extends EndToEndTest {
     @Test
     @Disabled("Runs endless")
     public void deleteComment() {
-        final var message = randomUtil.randomize("commentToDelete");
+        final var message = randomUtil.randomize(MockData.MOCK_COMMENTS[2].message());
         EndToEndUtil.createComment(DEVICE_A, cardA, message);
 
         synchronize(DEVICE_A);
+        final var commentA = EndToEndUtil.getComment(DEVICE_A, cardA, message);
         synchronize(DEVICE_B);
-        final var comment = EndToEndUtil.getComment(DEVICE_B, cardA, message);
+        final var commentB = EndToEndUtil.getComment(DEVICE_B, cardA, message);
 
-        DEVICE_A.virtualDevice().getDeleteCommentUseCase().execute(comment.id()).join();
+        DEVICE_A.virtualDevice().getDeleteCommentUseCase().execute(commentA.id()).join();
 
         synchronize(DEVICE_A);
         synchronize(DEVICE_B);

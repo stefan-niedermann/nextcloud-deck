@@ -21,11 +21,13 @@ public class ListCardsUseCase {
         this.cardRepository = cardRepository;
     }
 
+    /// @implSpec The cards are ordered ascending by [Card#order()]
     public Flow.Publisher<List<Card>> execute(Column.ID columnId) {
         return cardRepository.getNotDeletedCards(columnId);
     }
 
-    public Flow.Publisher<Map<Column, List<Card>>> executeForBoard(Board.ID boardId) {
+    /// @implSpec Each value (list of [Card]s for a specific [Column])is ordered ascending by [Card#order()]
+    public Flow.Publisher<Map<Column, List<Card>>> execute(Board.ID boardId) {
         return cardRepository.getNotDeletedCardsByColumn(boardId);
     }
 }

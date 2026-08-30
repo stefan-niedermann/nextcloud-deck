@@ -3,6 +3,7 @@ package it.niedermann.nextcloud.deck.domain.model;
 import java.time.OffsetDateTime;
 import java.util.Objects;
 
+/// One comment is attached to a [Card] and can optionally have a parent comment on the same card linked by [#parentId].
 public record Comment(
         Comment.ID id,
         Card.ID cardId,

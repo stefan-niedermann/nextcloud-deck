@@ -1,11 +1,15 @@
 package it.niedermann.nextcloud.deck.data.sync.provider;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
+import java.util.Set;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.Consumer;
 import java.util.logging.Logger;
+import java.util.stream.Collectors;
 
 import it.niedermann.nextcloud.deck.data.local.dao.BoardDao;
 import it.niedermann.nextcloud.deck.data.local.dao.CardDao;
@@ -265,11 +269,16 @@ public class CardSyncProvider implements SyncProvider<ColumnDTO> {
     }
 
     private CompletableFuture<Void> syncCards(Account account, long boardId, long stackId, List<CardDTO> cards, Long parentLocalId, SyncStatus status, Consumer<SyncStatus> reporter) {
-        if (cards == null || cards.isEmpty()) return CompletableFuture.completedFuture(null);
-        long total = cards.size();
-        CompletableFuture<?>[] cardFutures = new CompletableFuture[cards.size()];
-        for (int i = 0; i < cards.size(); i++) {
-            CardDTO dto = cards.get(i);
+        final List<CardDTO> cardsToSync = cards != null ? cards : java.util.Collections.emptyList();
+        final Set<Long> remoteIds = cardsToSync.stream()
+                .map(CardDTO::getId)
+                .filter(Objects::nonNull)
+                .collect(Collectors.toSet());
+
+        long total = cardsToSync.size();
+        CompletableFuture<?>[] cardFutures = new CompletableFuture[cardsToSync.size()];
+        for (int i = 0; i < cardsToSync.size(); i++) {
+            CardDTO dto = cardsToSync.get(i);
             if (dto == null || dto.getId() == null) {
                 cardFutures[i] = CompletableFuture.completedFuture(null);
                 continue;
@@ -307,7 +316,18 @@ public class CardSyncProvider implements SyncProvider<ColumnDTO> {
                 return null;
             });
         }
-        return CompletableFuture.allOf(cardFutures);
+        return CompletableFuture.allOf(cardFutures)
+                .thenCompose(v -> cardDao.getCardsByColumnRx(parentLocalId))
+                .thenCompose(localCards -> {
+                    List<CompletableFuture<?>> deletionFutures = new ArrayList<>();
+                    for (CardEntity localCard : localCards) {
+                        if (localCard.getRemoteId() != null && !remoteIds.contains(localCard.getRemoteId()) && localCard.getStatus() != DBStatus.LOCAL_EDITED.getId()) {
+                            logger.info("Deleting local card because it was deleted on remote: " + localCard.getRemoteId());
+                            deletionFutures.add(cardDao.deleteById(localCard.getLocalId()));
+                        }
+                    }
+                    return CompletableFuture.allOf(deletionFutures.toArray(new CompletableFuture[0]));
+                });
     }
 
     private CompletableFuture<Void> syncLabels(Account account, CardDTO cardDto, Long localCardId) {

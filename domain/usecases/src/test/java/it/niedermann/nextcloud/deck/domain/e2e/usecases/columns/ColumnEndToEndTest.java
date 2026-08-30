@@ -10,6 +10,7 @@ import it.niedermann.nextcloud.deck.domain.e2e.EndToEndUtil;
 import it.niedermann.nextcloud.deck.domain.model.Board;
 import it.niedermann.nextcloud.deck.domain.model.Column;
 import it.niedermann.nextcloud.deck.domain.model.CreateColumn;
+import it.niedermann.nextcloud.deck.domain.repository.MockData;
 
 public class ColumnEndToEndTest extends EndToEndTest {
 
@@ -31,7 +32,8 @@ public class ColumnEndToEndTest extends EndToEndTest {
 
     @Test
     public void createColumn() {
-        final var columnTitle = randomUtil.randomize("createColumn");
+        final var boardTitleA = boardA.title();
+        final var columnTitle = randomUtil.randomize(MockData.MOCK_COLUMNS[0].title());
         final var createColumn = new CreateColumn(boardA.id(), columnTitle, 0);
 
         DEVICE_A.virtualDevice().getAddColumnUseCase().execute(createColumn).join();
@@ -41,17 +43,21 @@ public class ColumnEndToEndTest extends EndToEndTest {
         synchronize(DEVICE_A);
         synchronize(DEVICE_B);
 
-        EndToEndUtil.assertColumnExists(DEVICE_B, boardA, columnTitle);
+        final var boardB = EndToEndUtil.getBoard(DEVICE_B, boardTitleA);
+        EndToEndUtil.assertColumnExists(DEVICE_B, boardB, columnTitle);
     }
 
     @Test
     public void updateColumn() {
-        final var columnTitle = randomUtil.randomize("columnToUpdate");
-        final var column = EndToEndUtil.createColumn(DEVICE_A, boardA, columnTitle);
+        final var boardTitleA = boardA.title();
+        final var columnTitle = randomUtil.randomize(MockData.MOCK_COLUMNS[1].title());
+        var column = EndToEndUtil.createColumn(DEVICE_A, boardA, columnTitle);
 
         synchronize(DEVICE_A);
+        column = EndToEndUtil.getColumn(DEVICE_A, boardA, columnTitle);
         synchronize(DEVICE_B);
-        EndToEndUtil.assertColumnExists(DEVICE_B, boardA, columnTitle);
+        final var boardB = EndToEndUtil.getBoard(DEVICE_B, boardTitleA);
+        EndToEndUtil.assertColumnExists(DEVICE_B, boardB, columnTitle);
 
         final var newTitle = randomUtil.randomize("updatedColumn");
         final var updatedColumn = new Column(column.id(), column.boardId(), newTitle, column.order(), column.archived(), column.deletedAt(), column.localId(), column.accountId(), column.remoteId(), column.status(), column.lastModified(), column.lastModifiedLocal(), column.etag());
@@ -62,18 +68,21 @@ public class ColumnEndToEndTest extends EndToEndTest {
         synchronize(DEVICE_B);
 
         EndToEndUtil.assertColumnExists(DEVICE_A, boardA, newTitle);
-        EndToEndUtil.assertColumnExists(DEVICE_B, boardA, newTitle);
-        EndToEndUtil.assertColumnDoesNotExist(DEVICE_B, boardA, columnTitle);
+        EndToEndUtil.assertColumnExists(DEVICE_B, boardB, newTitle);
+        EndToEndUtil.assertColumnDoesNotExist(DEVICE_B, boardB, columnTitle);
     }
 
     @Test
     public void deleteColumn() {
-        final var columnTitle = randomUtil.randomize("columnToDelete");
-        final var column = EndToEndUtil.createColumn(DEVICE_A, boardA, columnTitle);
+        final var boardTitleA = boardA.title();
+        final var columnTitle = randomUtil.randomize(MockData.MOCK_COLUMNS[2].title());
+        var column = EndToEndUtil.createColumn(DEVICE_A, boardA, columnTitle);
 
         synchronize(DEVICE_A);
+        column = EndToEndUtil.getColumn(DEVICE_A, boardA, columnTitle);
         synchronize(DEVICE_B);
-        EndToEndUtil.assertColumnExists(DEVICE_B, boardA, columnTitle);
+        final var boardB = EndToEndUtil.getBoard(DEVICE_B, boardTitleA);
+        EndToEndUtil.assertColumnExists(DEVICE_B, boardB, columnTitle);
 
         DEVICE_A.virtualDevice().getDeleteColumnUseCase().execute(column.id()).join();
 
@@ -81,6 +90,6 @@ public class ColumnEndToEndTest extends EndToEndTest {
         synchronize(DEVICE_B);
 
         EndToEndUtil.assertColumnDoesNotExist(DEVICE_A, boardA, columnTitle);
-        EndToEndUtil.assertColumnDoesNotExist(DEVICE_B, boardA, columnTitle);
+        EndToEndUtil.assertColumnDoesNotExist(DEVICE_B, boardB, columnTitle);
     }
 }

@@ -16,6 +16,7 @@ import it.niedermann.nextcloud.deck.domain.model.BoardShare;
 import it.niedermann.nextcloud.deck.domain.model.Color;
 import it.niedermann.nextcloud.deck.domain.model.Column;
 import it.niedermann.nextcloud.deck.domain.model.CreateColumn;
+import it.niedermann.nextcloud.deck.domain.model.CreateLabel;
 import it.niedermann.nextcloud.deck.domain.model.Label;
 import it.niedermann.nextcloud.deck.domain.model.User;
 import it.niedermann.nextcloud.deck.domain.usecases.boards.AddBoardShareUseCase;
@@ -166,7 +167,7 @@ public class EditBoardService extends Store<EditBoardService.State, EditBoardSer
 
     @Override
     public void onAddLabel(String title, Color color) {
-        addLabelUseCase.execute(new Label(new Label.ID(0), initialState.boardId(), title, color));
+        addLabelUseCase.execute(new CreateLabel(initialState.boardId(), title, color));
     }
 
     @Override
