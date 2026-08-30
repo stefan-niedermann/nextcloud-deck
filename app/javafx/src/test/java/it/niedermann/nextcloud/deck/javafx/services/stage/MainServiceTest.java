@@ -91,7 +91,7 @@ class MainServiceTest {
                 pickStackFeatureFactory,
                 getBoardUseCase,
                 addBoardUseCase,
-                new MainService.State(Optional.empty(), Optional.empty(), Optional.empty(), FilterInformation.EMPTY, MainService.ViewMode.KANBAN)
+                new MainService.State(Optional.empty(), Optional.empty(), Optional.empty(), FilterInformation.EMPTY, MainService.ViewMode.KANBAN, MainService.HeaderVariant.DIRECT_BUTTONS)
         );
     }
 
@@ -100,7 +100,7 @@ class MainServiceTest {
         final var testSubscriber = new TestSubscriber<MainService.State>();
         mainService.getState().subscribe(testSubscriber);
 
-        testSubscriber.assertValue(new MainService.State(Optional.empty(), Optional.empty(), Optional.empty(), FilterInformation.EMPTY, MainService.ViewMode.KANBAN));
+        testSubscriber.assertValue(new MainService.State(Optional.empty(), Optional.empty(), Optional.empty(), FilterInformation.EMPTY, MainService.ViewMode.KANBAN, MainService.HeaderVariant.DIRECT_BUTTONS));
     }
 
     @Test
@@ -115,8 +115,8 @@ class MainServiceTest {
         mainService.onAccountSelected(accountId);
 
         testSubscriber.assertValues(
-                new MainService.State(Optional.empty(), Optional.empty(), Optional.empty(), FilterInformation.EMPTY, MainService.ViewMode.KANBAN),
-                new MainService.State(Optional.of(accountId), Optional.empty(), Optional.empty(), FilterInformation.EMPTY, MainService.ViewMode.KANBAN)
+                new MainService.State(Optional.empty(), Optional.empty(), Optional.empty(), FilterInformation.EMPTY, MainService.ViewMode.KANBAN, MainService.HeaderVariant.DIRECT_BUTTONS),
+                new MainService.State(Optional.of(accountId), Optional.empty(), Optional.empty(), FilterInformation.EMPTY, MainService.ViewMode.KANBAN, MainService.HeaderVariant.DIRECT_BUTTONS)
         );
 
         verify(setCurrentAccountUseCase).execute(accountId);
@@ -138,8 +138,8 @@ class MainServiceTest {
         mainService.onBoardSelected(boardId);
 
         testSubscriber.assertValues(
-                new MainService.State(Optional.of(accountId), Optional.empty(), Optional.empty(), FilterInformation.EMPTY, MainService.ViewMode.KANBAN),
-                new MainService.State(Optional.of(accountId), Optional.of(boardId), Optional.empty(), FilterInformation.EMPTY, MainService.ViewMode.KANBAN)
+                new MainService.State(Optional.of(accountId), Optional.empty(), Optional.empty(), FilterInformation.EMPTY, MainService.ViewMode.KANBAN, MainService.HeaderVariant.DIRECT_BUTTONS),
+                new MainService.State(Optional.of(accountId), Optional.of(boardId), Optional.empty(), FilterInformation.EMPTY, MainService.ViewMode.KANBAN, MainService.HeaderVariant.DIRECT_BUTTONS)
         );
 
         verify(setCurrentBoardUseCase).execute(accountId, boardId);

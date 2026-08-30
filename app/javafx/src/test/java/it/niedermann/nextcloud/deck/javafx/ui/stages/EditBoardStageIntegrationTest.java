@@ -26,6 +26,7 @@ import it.niedermann.nextcloud.deck.app.shared.args.board.BoardRawArgs;
 import it.niedermann.nextcloud.deck.app.shared.di.model.BuildConfig;
 import it.niedermann.nextcloud.deck.domain.model.Account;
 import it.niedermann.nextcloud.deck.domain.model.Board;
+import it.niedermann.nextcloud.deck.domain.model.Column;
 import it.niedermann.nextcloud.deck.domain.state.KeyValueStore;
 import it.niedermann.nextcloud.deck.domain.sync.SyncScheduler;
 import it.niedermann.nextcloud.deck.domain.usecases.accounts.GetAccountUseCase;
@@ -121,12 +122,13 @@ class EditBoardStageIntegrationTest {
         final var listLabelsUseCase = mock(ListLabelsUseCase.class, Answers.RETURNS_MOCKS);
         final var listBoardSharesUseCase = mock(ListBoardSharesUseCase.class, Answers.RETURNS_MOCKS);
 
-        when(getBoardUseCase.execute(any())).thenReturn(Flowable.empty());
-        when(listCardsUseCase.execute(any())).thenReturn(Flowable.empty());
-        when(listColumnsUseCase.execute(any())).thenReturn(Flowable.empty());
-        when(getColumnUseCase.execute(any())).thenReturn(Flowable.empty());
-        when(listLabelsUseCase.execute(any())).thenReturn(Flowable.empty());
-        when(listBoardSharesUseCase.execute(any())).thenReturn(Flowable.empty());
+        when(getBoardUseCase.execute(any(Board.ID.class))).thenReturn(Flowable.empty());
+        when(listCardsUseCase.execute(any(Board.ID.class))).thenReturn(Flowable.empty());
+        when(listCardsUseCase.execute(any(Column.ID.class))).thenReturn(Flowable.empty());
+        when(listColumnsUseCase.execute(any(Board.ID.class))).thenReturn(Flowable.empty());
+        when(getColumnUseCase.execute(any(Column.ID.class))).thenReturn(Flowable.empty());
+        when(listLabelsUseCase.execute(any(Board.ID.class))).thenReturn(Flowable.empty());
+        when(listBoardSharesUseCase.execute(any(Board.ID.class))).thenReturn(Flowable.empty());
 
 
         final var stageContext = new EditBoardService(

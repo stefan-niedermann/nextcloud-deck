@@ -276,6 +276,7 @@ class MainStageIntegrationTest {
         final HeaderFeature.Factory headerFeatureFactory = viewModel -> new HeaderFeature(
                 inflater,
                 getAccountUseCase,
+                getAccountsUseCase,
                 getSyncStatusUseCase,
                 mock(ScheduleSyncUseCase.class),
                 mock(RemoveAccountUseCase.class),
