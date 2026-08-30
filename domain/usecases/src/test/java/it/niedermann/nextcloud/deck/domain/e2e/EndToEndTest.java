@@ -46,8 +46,29 @@ public abstract class EndToEndTest {
     }
 
     protected VirtualDeviceComponent createVirtualDevice() {
-        final var deviceName = randomUtil.randomString(20);
-        return createVirtualDevice(deviceName);
+        final var stackTrace = Thread.currentThread().getStackTrace();
+        StackTraceElement caller = null;
+        boolean foundSelf = false;
+        for (final var element : stackTrace) {
+            if (foundSelf) {
+                if (!element.getClassName().equals(EndToEndTest.class.getName())) {
+                    caller = element;
+                    break;
+                }
+            } else if (element.getClassName().equals(EndToEndTest.class.getName()) && element.getMethodName().equals("createVirtualDevice")) {
+                foundSelf = true;
+            }
+        }
+
+        final String source;
+        if (caller != null) {
+            final var fullClassName = caller.getClassName();
+            final var simpleClassName = fullClassName.substring(fullClassName.lastIndexOf('.') + 1);
+            source = "Device_" + simpleClassName + "#" + caller.getMethodName();
+        } else {
+            source = "Device_Unknown";
+        }
+        return createVirtualDevice(randomUtil.randomize(source));
     }
 
     protected VirtualDeviceComponent createVirtualDevice(String deviceName) {
