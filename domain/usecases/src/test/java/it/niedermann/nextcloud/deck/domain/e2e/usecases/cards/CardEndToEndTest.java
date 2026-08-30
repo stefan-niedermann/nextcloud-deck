@@ -12,6 +12,7 @@ import it.niedermann.nextcloud.deck.domain.model.Column;
 import it.niedermann.nextcloud.deck.domain.model.CreateCard;
 import it.niedermann.nextcloud.deck.domain.model.User;
 
+// TODO EndToEndTests should always verify / assert on a second device if appropriate to cover the synchronization process
 public class CardEndToEndTest extends EndToEndTest {
 
     private VirtualDeviceAndAccount DEVICE_A;
@@ -64,6 +65,11 @@ public class CardEndToEndTest extends EndToEndTest {
         EndToEndUtil.assertCardDoesNotExist(DEVICE_A, columnA, cardTitle);
     }
 
+    // TODO Add EndToEndTests to differ between
+    //  - moveCardWithinColumn
+    //  - moveCardToAnotherColumn
+    //  - moveCardToAnotherBoard
+    //  - moveCardToAnotherAccount
     @Test
     public void moveCard() {
         final var columnBTitle = "In Progress";
