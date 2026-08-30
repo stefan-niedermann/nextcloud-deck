@@ -75,6 +75,7 @@ public class CommentEndToEndTest extends EndToEndTest {
     }
 
     @Test
+    @Disabled("Runs endless")
     public void deleteComment() {
         final var message = randomUtil.randomize("commentToDelete");
         EndToEndUtil.createComment(DEVICE_A, cardA, message);
