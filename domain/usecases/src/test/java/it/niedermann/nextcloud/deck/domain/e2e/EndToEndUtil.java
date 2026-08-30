@@ -49,11 +49,6 @@ public class EndToEndUtil {
                 .blockingGet();
     }
 
-    public static Board getBoard(EndToEndTest.VirtualDeviceAndAccount vda, Board.ID id) {
-        return Maybe.fromPublisher(FlowAdapters.toPublisher(vda.virtualDevice().getGetBoardUseCase().execute(id)))
-                .blockingGet();
-    }
-
     public static Column createColumn(EndToEndTest.VirtualDeviceAndAccount vda, Board board, String title) {
         final var createColumn = new CreateColumn(board.id(), title, 0);
         vda.virtualDevice().getAddColumnUseCase().execute(createColumn).join();
