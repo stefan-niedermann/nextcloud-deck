@@ -107,28 +107,36 @@ public class TipsAdapter extends RecyclerView.Adapter<TipsViewHolder> {
         } else if (throwable instanceof JSONException || throwable instanceof NullPointerException) {
             add(R.string.error_dialog_check_server);
         } else if (throwable instanceof NextcloudHttpRequestFailedException) {
-            int statusCode = ((NextcloudHttpRequestFailedException) throwable).getStatusCode();
-            switch (statusCode) {
-                case 302 -> add(R.string.error_dialog_redirect);
-                case 500 -> {
-                    if (account != null) {
-                        add(R.string.error_dialog_check_server_logs, new Intent(Intent.ACTION_VIEW)
-                                .putExtra(INTENT_EXTRA_BUTTON_TEXT, R.string.error_action_server_logs)
-                                .setData(Uri.parse(account.getUrl() + context.getString(R.string.url_fragment_server_logs))));
-                    } else {
-                        add(R.string.error_dialog_check_server_logs);
+            if (isAttachmentFileTooLarge(throwable)) {
+                add(R.string.error_dialog_attachment_file_too_large);
+            } else {
+                int statusCode = ((NextcloudHttpRequestFailedException) throwable).getStatusCode();
+                switch (statusCode) {
+                    case 302 -> add(R.string.error_dialog_redirect);
+                    case 500 -> {
+                        if (account != null) {
+                            add(R.string.error_dialog_check_server_logs, new Intent(Intent.ACTION_VIEW)
+                                    .putExtra(INTENT_EXTRA_BUTTON_TEXT, R.string.error_action_server_logs)
+                                    .setData(Uri.parse(account.getUrl() + context.getString(R.string.url_fragment_server_logs))));
+                        } else {
+                            add(R.string.error_dialog_check_server_logs);
+                        }
                     }
+                    case 503 -> add(R.string.error_dialog_check_maintenance);
+                    case 507 -> add(R.string.error_dialog_insufficient_storage);
+                    case 900 -> add(R.string.error_dialog_tip_parsing_failed);
                 }
-                case 503 -> add(R.string.error_dialog_check_maintenance);
-                case 507 -> add(R.string.error_dialog_insufficient_storage);
-                case 900 -> add(R.string.error_dialog_tip_parsing_failed);
-            }
-            if ((statusCode >= 400 && statusCode < 500) || statusCode == 900) {
-                add(R.string.error_dialog_tip_clear_storage_might_help);
-                add(R.string.error_dialog_tip_clear_storage, INTENT_APP_INFO);
+                if ((statusCode >= 400 && statusCode < 500) || statusCode == 900) {
+                    add(R.string.error_dialog_tip_clear_storage_might_help);
+                    add(R.string.error_dialog_tip_clear_storage, INTENT_APP_INFO);
+                }
             }
         } else if (throwable instanceof UploadAttachmentFailedException) {
-            add(R.string.error_dialog_attachment_upload_failed);
+            if (isAttachmentFileTooLarge(throwable)) {
+                add(R.string.error_dialog_attachment_file_too_large);
+            } else {
+                add(R.string.error_dialog_attachment_upload_failed);
+            }
         } else if (throwable instanceof ClassNotFoundException) {
             final Throwable cause = throwable.getCause();
             if (cause != null) {
@@ -197,6 +205,25 @@ public class TipsAdapter extends RecyclerView.Adapter<TipsViewHolder> {
     public void add(@StringRes int text, @Nullable Intent primaryAction) {
         tips.add(new TipsModel(text, primaryAction));
         notifyItemInserted(tips.size());
+    }
+
+    static boolean isAttachmentFileTooLarge(@NonNull Throwable throwable) {
+        for (Throwable current = throwable; current != null; current = current.getCause()) {
+            if (current instanceof NextcloudHttpRequestFailedException http && http.getStatusCode() == 413) {
+                return true;
+            }
+            final String message = current.getMessage();
+            if (message != null) {
+                final String lower = message.toLowerCase();
+                if (lower.contains("file size exceeds") || lower.contains("max file size")) {
+                    return true;
+                }
+            }
+            if (current.getCause() == current) {
+                break;
+            }
+        }
+        return false;
     }
 
     private Optional<Intent> getOpenFilesIntent(@NonNull Context context) {
