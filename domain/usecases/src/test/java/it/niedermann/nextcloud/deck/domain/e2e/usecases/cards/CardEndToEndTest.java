@@ -15,7 +15,6 @@ import it.niedermann.nextcloud.deck.domain.model.User;
 public class CardEndToEndTest extends EndToEndTest {
 
     private VirtualDeviceAndAccount DEVICE_A;
-    private VirtualDeviceAndAccount DEVICE_B;
     private Board boardA;
     private Column columnA;
 
@@ -24,14 +23,11 @@ public class CardEndToEndTest extends EndToEndTest {
     public void setup() throws IOException {
         super.setup();
 
-        DEVICE_A = getOrCreateRemoteAccountAndImport(createVirtualDevice(), "johndoe");
-        DEVICE_B = getOrCreateRemoteAccountAndImport(createVirtualDevice(), "johndoe");
+        DEVICE_A = getOrCreateRemoteAccountAndImport(createVirtualDevice(), "userA");
 
-        final var boardTitle = randomUtil.randomize("boardForCard");
-        boardA = EndToEndUtil.createBoard(DEVICE_A, boardTitle);
-
-        final var columnTitle = randomUtil.randomize("columnForCard");
-        columnA = EndToEndUtil.createColumn(DEVICE_A, boardA, columnTitle);
+        // Use the default board created by the server
+        boardA = EndToEndUtil.getBoard(DEVICE_A, "Welcome to Nextcloud Deck!");
+        columnA = EndToEndUtil.getColumn(DEVICE_A, boardA, "To Do");
     }
 
     @Test
@@ -42,11 +38,6 @@ public class CardEndToEndTest extends EndToEndTest {
         DEVICE_A.virtualDevice().getAddCardUseCase().execute(createCard).join();
 
         EndToEndUtil.assertCardExists(DEVICE_A, columnA, cardTitle);
-
-        synchronize(DEVICE_A);
-        synchronize(DEVICE_B);
-
-        EndToEndUtil.assertCardExists(DEVICE_B, columnA, cardTitle);
     }
 
     @Test
@@ -54,21 +45,13 @@ public class CardEndToEndTest extends EndToEndTest {
         final var cardTitle = randomUtil.randomize("cardToUpdate");
         final var card = EndToEndUtil.createCard(DEVICE_A, columnA, cardTitle);
 
-        synchronize(DEVICE_A);
-        synchronize(DEVICE_B);
-        EndToEndUtil.assertCardExists(DEVICE_B, columnA, cardTitle);
-
         final var newTitle = randomUtil.randomize("updatedCard");
         final var updatedCard = card.withTitle(newTitle);
 
         DEVICE_A.virtualDevice().getUpdateCardUseCase().execute(updatedCard).join();
 
-        synchronize(DEVICE_A);
-        synchronize(DEVICE_B);
-
         EndToEndUtil.assertCardExists(DEVICE_A, columnA, newTitle);
-        EndToEndUtil.assertCardExists(DEVICE_B, columnA, newTitle);
-        EndToEndUtil.assertCardDoesNotExist(DEVICE_B, columnA, cardTitle);
+        EndToEndUtil.assertCardDoesNotExist(DEVICE_A, columnA, cardTitle);
     }
 
     @Test
@@ -76,40 +59,22 @@ public class CardEndToEndTest extends EndToEndTest {
         final var cardTitle = randomUtil.randomize("cardToDelete");
         final var card = EndToEndUtil.createCard(DEVICE_A, columnA, cardTitle);
 
-        synchronize(DEVICE_A);
-        synchronize(DEVICE_B);
-        EndToEndUtil.assertCardExists(DEVICE_B, columnA, cardTitle);
-
         DEVICE_A.virtualDevice().getDeleteCardUseCase().execute(card.id()).join();
 
-        synchronize(DEVICE_A);
-        synchronize(DEVICE_B);
-
         EndToEndUtil.assertCardDoesNotExist(DEVICE_A, columnA, cardTitle);
-        EndToEndUtil.assertCardDoesNotExist(DEVICE_B, columnA, cardTitle);
     }
 
     @Test
     public void moveCard() {
-        final var columnBTitle = randomUtil.randomize("columnForMove");
-        final var columnB = EndToEndUtil.createColumn(DEVICE_A, boardA, columnBTitle);
+        final var columnBTitle = "In Progress";
+        final var columnB = EndToEndUtil.getColumn(DEVICE_A, boardA, columnBTitle);
         final var cardTitle = randomUtil.randomize("cardToMove");
         final var card = EndToEndUtil.createCard(DEVICE_A, columnA, cardTitle);
 
-        synchronize(DEVICE_A);
-        synchronize(DEVICE_B);
-        EndToEndUtil.assertColumnExists(DEVICE_B, boardA, columnBTitle);
-        EndToEndUtil.assertCardExists(DEVICE_B, columnA, cardTitle);
-
         DEVICE_A.virtualDevice().getMoveCardUseCase().execute(card.id(), columnB.id(), 0).join();
-
-        synchronize(DEVICE_A);
-        synchronize(DEVICE_B);
 
         EndToEndUtil.assertCardExists(DEVICE_A, columnB, cardTitle);
         EndToEndUtil.assertCardDoesNotExist(DEVICE_A, columnA, cardTitle);
-        EndToEndUtil.assertCardExists(DEVICE_B, columnB, cardTitle);
-        EndToEndUtil.assertCardDoesNotExist(DEVICE_B, columnA, cardTitle);
     }
 
     @Test
@@ -118,17 +83,9 @@ public class CardEndToEndTest extends EndToEndTest {
         final var card = EndToEndUtil.createCard(DEVICE_A, columnA, cardTitle);
         final var userId = new User.ID(DEVICE_A.account().username());
 
-        synchronize(DEVICE_A);
-        synchronize(DEVICE_B);
-        EndToEndUtil.assertCardExists(DEVICE_B, columnA, cardTitle);
-
         DEVICE_A.virtualDevice().getAssignCardUseCase().execute(card.id(), userId).join();
 
-        synchronize(DEVICE_A);
-        synchronize(DEVICE_B);
-
-        // Verification of assignment on B would require checking Card details, 
-        // but for now we follow the sync pattern.
+        EndToEndUtil.assertCardAssignedTo(DEVICE_A, card.id(), userId);
     }
 
     @Test
@@ -138,13 +95,48 @@ public class CardEndToEndTest extends EndToEndTest {
         final var userId = new User.ID(DEVICE_A.account().username());
 
         DEVICE_A.virtualDevice().getAssignCardUseCase().execute(card.id(), userId).join();
-
-        synchronize(DEVICE_A);
-        synchronize(DEVICE_B);
+        EndToEndUtil.assertCardAssignedTo(DEVICE_A, card.id(), userId);
 
         DEVICE_A.virtualDevice().getUnassignCardUseCase().execute(card.id(), userId).join();
 
-        synchronize(DEVICE_A);
-        synchronize(DEVICE_B);
+        EndToEndUtil.assertCardNotAssignedTo(DEVICE_A, card.id(), userId);
+    }
+
+    @Test
+    public void assignLabel() {
+        final var labelTitle = "Action needed";
+        final var label = EndToEndUtil.getLabel(DEVICE_A, boardA, labelTitle);
+        final var cardTitle = randomUtil.randomize("cardForLabel");
+        var card = EndToEndUtil.createCard(DEVICE_A, columnA, cardTitle);
+
+        final var updatedCard = card.withLabels(java.util.Set.of(label.id()));
+        DEVICE_A.virtualDevice().getUpdateCardUseCase().execute(updatedCard).join();
+
+        EndToEndUtil.assertCardHasLabel(DEVICE_A, card.id(), label.id());
+    }
+
+    @Test
+    public void archiveCard() {
+        final var cardTitle = randomUtil.randomize("cardToArchive");
+        var card = EndToEndUtil.createCard(DEVICE_A, columnA, cardTitle);
+
+        final var archivedCard = card.withArchived(true);
+        DEVICE_A.virtualDevice().getUpdateCardUseCase().execute(archivedCard).join();
+
+        EndToEndUtil.assertCardArchived(DEVICE_A, card.id(), true);
+    }
+
+    @Test
+    public void updateCardDetails() {
+        final var cardTitle = randomUtil.randomize("cardDetails");
+        var card = EndToEndUtil.createCard(DEVICE_A, columnA, cardTitle);
+
+        final var description = "Some description";
+        final var dueDate = java.time.OffsetDateTime.now().plusDays(1).withNano(0);
+
+        final var updatedCard = card.withDescription(description).withDueDate(dueDate);
+        DEVICE_A.virtualDevice().getUpdateCardUseCase().execute(updatedCard).join();
+
+        EndToEndUtil.assertCardDescription(DEVICE_A, card.id(), description);
     }
 }

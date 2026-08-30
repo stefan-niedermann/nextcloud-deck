@@ -38,7 +38,7 @@ interface LabelDao : GenericDao<LabelEntity> {
     @Query("SELECT * FROM Label WHERE localId = :localId")
     fun getLabelByIdRx(localId: Long): Flowable<LabelEntity>
 
-    @Query("SELECT * FROM Label INNER JOIN JoinCardWithLabel ON Label.localId = JoinCardWithLabel.labelId WHERE JoinCardWithLabel.cardId = :cardId")
+    @Query("SELECT Label.* FROM Label INNER JOIN JoinCardWithLabel ON Label.localId = JoinCardWithLabel.labelId WHERE JoinCardWithLabel.cardId = :cardId")
     fun getLabelsByCard(cardId: Long): Flowable<List<LabelEntity>>
 
     @Query("SELECT * FROM Label WHERE title LIKE '%' || :userText || '%' AND status != 3 ORDER BY title ASC")

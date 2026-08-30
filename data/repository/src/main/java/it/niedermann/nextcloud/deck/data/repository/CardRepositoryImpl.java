@@ -17,15 +17,24 @@ import io.reactivex.rxjava3.core.Single;
 import io.reactivex.rxjava3.schedulers.Schedulers;
 import it.niedermann.nextcloud.deck.data.local.dao.AttachmentDao;
 import it.niedermann.nextcloud.deck.data.local.dao.CardDao;
+import it.niedermann.nextcloud.deck.data.local.dao.ColumnDao;
 import it.niedermann.nextcloud.deck.data.local.dao.CommentDao;
 import it.niedermann.nextcloud.deck.data.local.dao.LabelDao;
+import it.niedermann.nextcloud.deck.data.local.dao.JoinCardWithLabelDao;
+import it.niedermann.nextcloud.deck.data.local.dao.JoinCardWithUserDao;
+import it.niedermann.nextcloud.deck.data.local.dao.UserDao;
+import it.niedermann.nextcloud.deck.data.local.entity.CardEntity;
+import it.niedermann.nextcloud.deck.data.local.entity.JoinCardWithLabelEntity;
+import it.niedermann.nextcloud.deck.data.local.entity.JoinCardWithUserEntity;
 import it.niedermann.nextcloud.deck.data.local.entity.LabelEntity;
 import it.niedermann.nextcloud.deck.data.local.mapper.CardMapper;
+import it.niedermann.nextcloud.deck.data.local.mapper.ColumnMapper;
 import it.niedermann.nextcloud.deck.data.local.mapper.LabelMapper;
 import it.niedermann.nextcloud.deck.domain.model.Board;
 import it.niedermann.nextcloud.deck.domain.model.Card;
 import it.niedermann.nextcloud.deck.domain.model.Column;
 import it.niedermann.nextcloud.deck.domain.model.CreateCard;
+import it.niedermann.nextcloud.deck.domain.model.DBStatus;
 import it.niedermann.nextcloud.deck.domain.model.FilterInformation;
 import it.niedermann.nextcloud.deck.domain.model.User;
 import it.niedermann.nextcloud.deck.domain.model.query.PreviewCard;
@@ -35,22 +44,37 @@ import jakarta.inject.Inject;
 public class CardRepositoryImpl implements CardRepository {
 
     private final CardDao cardDao;
+    private final ColumnDao columnDao;
     private final CardMapper cardMapper;
+    private final ColumnMapper columnMapper;
     private final LabelDao labelDao;
+    private final JoinCardWithLabelDao joinCardWithLabelDao;
+    private final JoinCardWithUserDao joinCardWithUserDao;
+    private final UserDao userDao;
     private final LabelMapper labelMapper;
     private final CommentDao commentDao;
     private final AttachmentDao attachmentDao;
 
     @Inject
     public CardRepositoryImpl(CardDao cardDao,
+                              ColumnDao columnDao,
                               CardMapper cardMapper,
+                              ColumnMapper columnMapper,
                               LabelDao labelDao,
+                              JoinCardWithLabelDao joinCardWithLabelDao,
+                              JoinCardWithUserDao joinCardWithUserDao,
+                              UserDao userDao,
                               LabelMapper labelMapper,
                               CommentDao commentDao,
                               AttachmentDao attachmentDao) {
         this.cardDao = cardDao;
+        this.columnDao = columnDao;
         this.cardMapper = cardMapper;
+        this.columnMapper = columnMapper;
         this.labelDao = labelDao;
+        this.joinCardWithLabelDao = joinCardWithLabelDao;
+        this.joinCardWithUserDao = joinCardWithUserDao;
+        this.userDao = userDao;
         this.labelMapper = labelMapper;
         this.commentDao = commentDao;
         this.attachmentDao = attachmentDao;
@@ -58,27 +82,170 @@ public class CardRepositoryImpl implements CardRepository {
 
     @Override
     public CompletableFuture<Void> createCard(CreateCard card) {
-        // TODO: Local-first or Sync?
-        return CompletableFuture.completedFuture(null);
+        return columnDao.getColumnById(card.columnId().value())
+                .thenCompose(column -> {
+                    if (column == null) {
+                        final var future = new CompletableFuture<Void>();
+                        future.completeExceptionally(new IllegalArgumentException("Column not found: " + card.columnId().value()));
+                        return future;
+                    }
+                    final var entity = new CardEntity(
+                            0,
+                            column.getAccountId(),
+                            null,
+                            DBStatus.LOCAL_EDITED.getId(),
+                            null,
+                            OffsetDateTime.now(),
+                            null,
+                            card.title(),
+                            "",
+                            card.columnId().value(),
+                            "text",
+                            OffsetDateTime.now(),
+                            null,
+                            null,
+                            0,
+                            null,
+                            0,
+                            false,
+                            null,
+                            null,
+                            null,
+                            false,
+                            0,
+                            0,
+                            null
+                    );
+                    return cardDao.insertOrReplace(entity).thenApply(id -> null);
+                });
     }
 
     @Override
     public CompletableFuture<Void> updateCard(Card card) {
-        return cardDao.updateRx(cardMapper.toEntity(card));
+        final var entity = cardMapper.toEntity(card);
+        return cardDao.getCardById(card.id().value())
+                .thenCompose(oldEntity -> {
+                    if (oldEntity == null) {
+                        final var future = new CompletableFuture<Void>();
+                        future.completeExceptionally(new IllegalArgumentException("Card not found: " + card.id().value()));
+                        return future;
+                    }
+                    final var updatedEntity = new CardEntity(
+                            entity.getLocalId(),
+                            oldEntity.getAccountId(),
+                            entity.getRemoteId(),
+                            DBStatus.LOCAL_EDITED.getId(),
+                            entity.getLastModified(),
+                            entity.getLastModifiedLocal(),
+                            entity.getEtag(),
+                            entity.getTitle(),
+                            entity.getDescription(),
+                            entity.getColumnId(),
+                            entity.getType(),
+                            entity.getCreatedAt(),
+                            entity.getDeletedAt(),
+                            entity.getDone(),
+                            entity.getAttachmentCount(),
+                            entity.getUserId(),
+                            entity.getOrder(),
+                            entity.getArchived(),
+                            entity.getColor(),
+                            entity.getStartDate(),
+                            entity.getDueDate(),
+                            entity.getNotified(),
+                            entity.getOverdue(),
+                            entity.getCommentsUnread(),
+                            entity.getConflictWithId()
+                    );
+                    return cardDao.updateRx(updatedEntity)
+                            .thenCompose(v -> joinCardWithLabelDao.deleteByCardId(card.id().value()))
+                            .thenCompose(v -> {
+                                CompletableFuture<?>[] labelFutures = card.labels().stream()
+                                        .map(labelId -> joinCardWithLabelDao.upsert(new JoinCardWithLabelEntity(card.id().value(), labelId.value(), DBStatus.LOCAL_EDITED.getId())))
+                                        .toArray(CompletableFuture[]::new);
+                                return CompletableFuture.allOf(labelFutures);
+                            })
+                            .thenCompose(v -> joinCardWithUserDao.deleteByCardId(card.id().value()))
+                            .thenCompose(v -> {
+                                CompletableFuture<?>[] userFutures = card.assignees().stream()
+                                        .map(userId -> userDao.getUserByRemoteId(oldEntity.getAccountId(), userId.value())
+                                                .thenCompose(user -> {
+                                                    if (user == null) return CompletableFuture.completedFuture(null);
+                                                    return joinCardWithUserDao.upsert(new JoinCardWithUserEntity(card.id().value(), user.getLocalId(), DBStatus.LOCAL_EDITED.getId()));
+                                                }))
+                                        .toArray(CompletableFuture[]::new);
+                                return CompletableFuture.allOf(userFutures);
+                            })
+                            .thenApply(v -> null);
+                });
     }
 
     @Override
     public CompletableFuture<Void> deleteCard(Card.ID cardId) {
-        return cardDao.deleteById(cardId.value());
+        return cardDao.getCardById(cardId.value())
+                .thenCompose(card -> {
+                    if (card == null) {
+                        return CompletableFuture.completedFuture(null);
+                    }
+                    if (card.getRemoteId() == null) {
+                        return cardDao.deleteById(card.getLocalId());
+                    }
+                    final var deletedCard = new CardEntity(
+                            card.getLocalId(),
+                            card.getAccountId(),
+                            card.getRemoteId(),
+                            DBStatus.LOCAL_DELETED.getId(),
+                            card.getLastModified(),
+                            card.getLastModifiedLocal(),
+                            card.getEtag(),
+                            card.getTitle(),
+                            card.getDescription(),
+                            card.getColumnId(),
+                            card.getType(),
+                            card.getCreatedAt(),
+                            card.getDeletedAt(),
+                            card.getDone(),
+                            card.getAttachmentCount(),
+                            card.getUserId(),
+                            card.getOrder(),
+                            card.getArchived(),
+                            card.getColor(),
+                            card.getStartDate(),
+                            card.getDueDate(),
+                            card.getNotified(),
+                            card.getOverdue(),
+                            card.getCommentsUnread(),
+                            card.getConflictWithId()
+                    );
+                    return cardDao.updateRx(deletedCard);
+                });
     }
 
     @Override
     public Flow.Publisher<List<Card>> getNotDeletedCards(Column.ID columnId) {
         return FlowAdapters.toFlowPublisher(
                 cardDao.getCardsByColumn(columnId.value())
-                        .map(cardMapper::toTOList)
+                        .flatMapSingle(entities -> Flowable.fromIterable(entities)
+                                .flatMapSingle(this::fullMap)
+                                .toList())
                         .subscribeOn(Schedulers.io())
         );
+    }
+
+    private Single<Card> fullMap(CardEntity entity) {
+        final Card card = cardMapper.toTO(entity);
+        return labelDao.getLabelsByCard(entity.getLocalId()).firstOrError()
+                .flatMap(labels -> {
+                    final var labelIds = labels.stream().map(l -> new it.niedermann.nextcloud.deck.domain.model.Label.ID(l.getLocalId())).collect(Collectors.toSet());
+                    return Single.fromCompletionStage(joinCardWithUserDao.getJoinsByCardId(entity.getLocalId()))
+                            .map(userJoins -> {
+                                final var assignees = userJoins.stream().map(uj -> {
+                                    final var user = userDao.getUserByLocalId(uj.getUserId()).join();
+                                    return new User.ID(user.getRemoteId());
+                                }).collect(Collectors.toSet());
+                                return card.withLabels(labelIds).withAssignees(assignees);
+                            });
+                });
     }
 
     @Override
@@ -183,25 +350,35 @@ public class CardRepositoryImpl implements CardRepository {
 
     @Override
     public Flow.Publisher<Map<Column, List<Card>>> getNotDeletedCardsByColumn(Board.ID boardId) {
-        // TODO: Implement properly
-        return null;
+        return FlowAdapters.toFlowPublisher(
+                cardDao.getCardsByBoard(boardId.value())
+                        .map(entities -> entities.stream()
+                                .map(cardMapper::toTO)
+                                .collect(Collectors.groupingBy(card -> {
+                                    final var columnEntity = columnDao.getColumnById(card.columnId().value()).join();
+                                    return columnMapper.toTO(columnEntity);
+                                })))
+                        .subscribeOn(Schedulers.io())
+        );
     }
 
     @Override
     public Flow.Publisher<Card> getCard(Card.ID cardId) {
         return FlowAdapters.toFlowPublisher(
                 Maybe.fromCompletionStage(cardDao.getCardById(cardId.value()))
+                        .flatMap(entity -> fullMap(entity).toMaybe())
                         .toFlowable()
-                        .map(cardMapper::toTO)
                         .subscribeOn(Schedulers.io())
         );
     }
 
     @Override
     public Flow.Publisher<Boolean> cardExists(Card.ID cardId) {
-        // TODO Mock Implementation
         return FlowAdapters.toFlowPublisher(
-                Flowable.fromCallable(() -> MockData.MOCK_CARDS.stream().anyMatch(card -> Objects.equals(card.id(), cardId)))
+                Maybe.fromCompletionStage(cardDao.getCardById(cardId.value()))
+                        .map(Objects::nonNull)
+                        .defaultIfEmpty(false)
+                        .toFlowable()
                         .subscribeOn(Schedulers.io())
         );
     }

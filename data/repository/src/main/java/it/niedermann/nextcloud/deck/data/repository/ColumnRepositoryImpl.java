@@ -21,6 +21,8 @@ import it.niedermann.nextcloud.deck.domain.model.DBStatus;
 import it.niedermann.nextcloud.deck.domain.repository.ColumnRepository;
 import jakarta.inject.Inject;
 
+import java.time.OffsetDateTime;
+
 public class ColumnRepositoryImpl implements ColumnRepository {
 
     private final ColumnDao columnDao;
@@ -41,7 +43,9 @@ public class ColumnRepositoryImpl implements ColumnRepository {
         return boardDao.getBoardById(column.id().value())
                 .thenCompose(board -> {
                     if (board == null) {
-                        throw new IllegalArgumentException("Board not found: " + column.id());
+                        final var future = new CompletableFuture<Void>();
+                        future.completeExceptionally(new IllegalArgumentException("Board not found: " + column.id().value()));
+                        return future;
                     }
                     final var entity = new ColumnEntity(
                             0,
@@ -58,58 +62,36 @@ public class ColumnRepositoryImpl implements ColumnRepository {
                             null,
                             null
                     );
-                    return columnDao.insert(entity).thenApply(v -> null);
+                    return columnDao.insertOrReplace(entity).thenApply(id -> null);
                 });
     }
 
     @Override
     public CompletableFuture<Void> updateColumn(Column column) {
         final var entity = columnMapper.toEntity(column);
-        final var editedEntity = new ColumnEntity(
-                entity.getLocalId(),
-                entity.getAccountId(),
-                entity.getRemoteId(),
-                DBStatus.LOCAL_EDITED.getId(),
-                entity.getLastModified(),
-                OffsetDateTime.now(),
-                entity.getEtag(),
-                entity.getBoardId(),
-                entity.getTitle(),
-                entity.getOrder(),
-                entity.getArchived(),
-                entity.getDeletedAt(),
-                entity.getConflictWithId()
-        );
-        return columnDao.updateRx(editedEntity);
-    }
-
-    @Override
-    public CompletableFuture<Void> deleteColumn(Column.ID columnId) {
-        return columnDao.getColumnById(columnId.value())
-                .thenCompose(entity -> {
-                    if (entity == null) {
-                        return CompletableFuture.completedFuture(null);
+        return columnDao.getColumnById(column.id().value())
+                .thenCompose(oldEntity -> {
+                    if (oldEntity == null) {
+                        final var future = new CompletableFuture<Void>();
+                        future.completeExceptionally(new IllegalArgumentException("Column not found: " + column.id().value()));
+                        return future;
                     }
-                    if (entity.getRemoteId() == null) {
-                        return columnDao.deleteRx(entity);
-                    } else {
-                        final var deletedEntity = new ColumnEntity(
-                                entity.getLocalId(),
-                                entity.getAccountId(),
-                                entity.getRemoteId(),
-                                DBStatus.LOCAL_DELETED.getId(),
-                                entity.getLastModified(),
-                                OffsetDateTime.now(),
-                                entity.getEtag(),
-                                entity.getBoardId(),
-                                entity.getTitle(),
-                                entity.getOrder(),
-                                entity.getArchived(),
-                                OffsetDateTime.now(),
-                                entity.getConflictWithId()
-                        );
-                        return columnDao.updateRx(deletedEntity);
-                    }
+                    final var updatedEntity = new ColumnEntity(
+                            entity.getLocalId(),
+                            oldEntity.getAccountId(),
+                            entity.getRemoteId(),
+                            DBStatus.LOCAL_EDITED.getId(),
+                            entity.getLastModified(),
+                            entity.getLastModifiedLocal(),
+                            entity.getEtag(),
+                            entity.getBoardId(),
+                            entity.getTitle(),
+                            entity.getOrder(),
+                            entity.getArchived(),
+                            entity.getDeletedAt(),
+                            entity.getConflictWithId()
+                    );
+                    return columnDao.updateRx(updatedEntity);
                 });
     }
 
@@ -141,5 +123,33 @@ public class ColumnRepositoryImpl implements ColumnRepository {
                         .map(columnMapper::toTO)
                         .subscribeOn(Schedulers.io())
         );
+    }
+
+    public CompletableFuture<Void> deleteColumn(Column.ID columnId) {
+        return columnDao.getColumnById(columnId.value())
+                .thenCompose(column -> {
+                    if (column == null) {
+                        return CompletableFuture.completedFuture(null);
+                    }
+                    if (column.getRemoteId() == null) {
+                        return columnDao.deleteById(column.getLocalId());
+                    }
+                    final var deletedColumn = new ColumnEntity(
+                            column.getLocalId(),
+                            column.getAccountId(),
+                            column.getRemoteId(),
+                            DBStatus.LOCAL_DELETED.getId(),
+                            column.getLastModified(),
+                            column.getLastModifiedLocal(),
+                            column.getEtag(),
+                            column.getBoardId(),
+                            column.getTitle(),
+                            column.getOrder(),
+                            column.getArchived(),
+                            column.getDeletedAt(),
+                            column.getConflictWithId()
+                    );
+                    return columnDao.updateRx(deletedColumn);
+                });
     }
 }

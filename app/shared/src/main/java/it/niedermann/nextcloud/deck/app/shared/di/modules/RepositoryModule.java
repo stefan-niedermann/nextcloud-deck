@@ -9,6 +9,8 @@ import it.niedermann.nextcloud.deck.data.local.dao.AttachmentDao;
 import it.niedermann.nextcloud.deck.data.local.dao.BoardDao;
 import it.niedermann.nextcloud.deck.data.local.dao.CardDao;
 import it.niedermann.nextcloud.deck.data.local.dao.ColumnDao;
+import it.niedermann.nextcloud.deck.data.local.dao.JoinCardWithLabelDao;
+import it.niedermann.nextcloud.deck.data.local.dao.JoinCardWithUserDao;
 import it.niedermann.nextcloud.deck.data.local.dao.CommentDao;
 import it.niedermann.nextcloud.deck.data.local.dao.LabelDao;
 import it.niedermann.nextcloud.deck.data.local.dao.UserDao;
@@ -82,12 +84,17 @@ public class RepositoryModule {
     @Provides
     @Singleton
     CardRepository provideCardRepository(CardDao cardDao,
+                                         ColumnDao columnDao,
                                          CardMapper cardMapper,
+                                         ColumnMapper columnMapper,
                                          LabelDao labelDao,
+                                         JoinCardWithLabelDao joinCardWithLabelDao,
+                                         JoinCardWithUserDao joinCardWithUserDao,
+                                         UserDao userDao,
                                          LabelMapper labelMapper,
                                          CommentDao commentDao,
                                          AttachmentDao attachmentDao) {
-        return new CardRepositoryImpl(cardDao, cardMapper, labelDao, labelMapper, commentDao, attachmentDao);
+        return new CardRepositoryImpl(cardDao, columnDao, cardMapper, columnMapper, labelDao, joinCardWithLabelDao, joinCardWithUserDao, userDao, labelMapper, commentDao, attachmentDao);
     }
 
     @Provides

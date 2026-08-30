@@ -21,6 +21,7 @@ public interface CardMapper extends GenericMapper<CardEntity, Card> {
     @Mapping(target = "accountId", ignore = true)
     @Mapping(target = "startDate", source = "startDate")
     @Mapping(target = "color", source = "color")
+    @Mapping(target = "status", expression = "java(card.status().getId())")
     CardEntity toEntity(Card card);
 
     @Override

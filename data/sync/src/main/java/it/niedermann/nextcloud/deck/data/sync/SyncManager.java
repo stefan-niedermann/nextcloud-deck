@@ -99,6 +99,8 @@ public class SyncManager {
             return boardSyncProvider.downSync(account, null, null, initialStatus, reporter);
         }).thenAccept(v -> {
             logger.info("Sync finished for account: " + account.username());
+        }).thenAccept(v -> {
+            logger.info("Sync finished for account: " + account.username());
         }).exceptionally(throwable -> {
             logger.log(Level.SEVERE, "Sync failed", throwable);
             throw new RuntimeException(throwable);

@@ -25,6 +25,7 @@ public enum DBStatus {
                 return s;
             }
         }
+        System.out.println("Unknown DBStatus key: " + id);
         throw new IllegalArgumentException("unknown DBStatus key: " + id);
     }
 }
