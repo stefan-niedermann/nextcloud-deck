@@ -109,8 +109,9 @@ public class RepositoryModule {
     @Provides
     @Singleton
     AttachmentRepository provideAttachmentRepository(AttachmentDao attachmentDao,
+                                                     CardDao cardDao,
                                                      AttachmentMapper attachmentMapper) {
-        return new AttachmentRepositoryImpl(attachmentDao, attachmentMapper);
+        return new AttachmentRepositoryImpl(attachmentDao, cardDao, attachmentMapper);
     }
 
     @Provides
@@ -133,8 +134,10 @@ public class RepositoryModule {
     @Singleton
     ActivityRepository provideActivityRepository(AccountRepository accountRepository,
                                                  ActivityDao activityDao,
-                                                 ActivityMapper activityMapper) {
-        return new ActivityRepositoryImpl(accountRepository, activityDao, activityMapper);
+                                                 CardDao cardDao,
+                                                 ActivityMapper activityMapper,
+                                                 ApiProvider.Factory apiFactory) {
+        return new ActivityRepositoryImpl(accountRepository, activityDao, cardDao, activityMapper, apiFactory);
     }
 
     @Provides

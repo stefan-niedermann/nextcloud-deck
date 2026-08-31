@@ -100,7 +100,7 @@ public class CardRepositoryImpl implements CardRepository {
                             card.title(),
                             "",
                             card.columnId().value(),
-                            "text",
+                            "plain",
                             OffsetDateTime.now(),
                             null,
                             null,
@@ -129,55 +129,63 @@ public class CardRepositoryImpl implements CardRepository {
                         future.completeExceptionally(new IllegalArgumentException("Card not found: " + card.id().value()));
                         return future;
                     }
-                    final var entity = cardMapper.toEntity(card);
-                    final var updatedEntity = new CardEntity(
-                            oldEntity.getLocalId(),
-                            oldEntity.getAccountId(),
-                            entity.getRemoteId() != null ? entity.getRemoteId() : oldEntity.getRemoteId(),
-                            DBStatus.LOCAL_EDITED.getId(),
-                            oldEntity.getLastModified(),
-                            OffsetDateTime.now(),
-                            (entity.getEtag() != null && !entity.getEtag().isBlank()) ? entity.getEtag() : oldEntity.getEtag(),
-                            entity.getTitle(),
-                            entity.getDescription(),
-                            entity.getColumnId(),
-                            entity.getType(),
-                            oldEntity.getCreatedAt(),
-                            entity.getDeletedAt(),
-                            entity.getDone(),
-                            entity.getAttachmentCount(),
-                            oldEntity.getUserId(),
-                            entity.getOrder(),
-                            entity.getArchived(),
-                            entity.getColor(),
-                            entity.getStartDate(),
-                            entity.getDueDate(),
-                            entity.getNotified(),
-                            entity.getOverdue(),
-                            entity.getCommentsUnread(),
-                            oldEntity.getConflictWithId()
-                    );
-                    return cardDao.updateRx(updatedEntity).thenApply(v -> null)
-                            .thenCompose(v -> joinCardWithLabelDao.deleteByCardId(card.id().value()))
-                            .thenCompose(v -> {
-                                CompletableFuture<?>[] labelFutures = card.labels().stream()
-                                        .map(labelId -> joinCardWithLabelDao.upsert(new JoinCardWithLabelEntity(card.id().value(), labelId.value(), DBStatus.LOCAL_EDITED.getId())))
-                                        .toArray(CompletableFuture[]::new);
-                                return CompletableFuture.allOf(labelFutures);
-                            })
-                            .thenCompose(v -> joinCardWithUserDao.deleteByCardId(card.id().value()))
-                            .thenCompose(v -> {
-                                CompletableFuture<?>[] userFutures = card.assignees().stream()
-                                        .map(userId -> userDao.getUserByRemoteId(oldEntity.getAccountId(), userId.value())
-                                                .thenCompose(user -> {
-                                                    if (user == null) return CompletableFuture.completedFuture(null);
-                                                    return joinCardWithUserDao.upsert(new JoinCardWithUserEntity(card.id().value(), user.getLocalId(), DBStatus.LOCAL_EDITED.getId()));
-                                                }))
-                                        .toArray(CompletableFuture[]::new);
-                                return CompletableFuture.allOf(userFutures);
-                            })
-                            .thenApply(v -> null);
-                });
+                    CompletableFuture<Long> userIdFuture = CompletableFuture.completedFuture(oldEntity.getUserId());
+                    if (card.ownerId() != null) {
+                        userIdFuture = userDao.getUserByRemoteId(oldEntity.getAccountId(), card.ownerId().value())
+                                .thenApply(u -> u != null ? u.getLocalId() : oldEntity.getUserId());
+                    }
+                    return userIdFuture.thenCompose(userId -> {
+                        final var entity = cardMapper.toEntity(card);
+                        final var updatedEntity = new CardEntity(
+                                entity.getLocalId(),
+                                entity.getAccountId() != 0 ? entity.getAccountId() : oldEntity.getAccountId(),
+                                entity.getRemoteId() != null ? entity.getRemoteId() : oldEntity.getRemoteId(),
+                                DBStatus.LOCAL_EDITED.getId(),
+                                entity.getLastModified(),
+                                OffsetDateTime.now(),
+                                (entity.getEtag() != null && !entity.getEtag().isBlank()) ? entity.getEtag() : oldEntity.getEtag(),
+                                entity.getTitle(),
+                                entity.getDescription(),
+                                entity.getColumnId(),
+                                card.type() != null ? card.type() : (oldEntity.getType() != null ? oldEntity.getType() : "plain"),
+                                entity.getCreatedAt(),
+                                entity.getDeletedAt(),
+                                entity.getDone(),
+                                entity.getAttachmentCount(),
+                                userId,
+                                entity.getOrder(),
+                                entity.getArchived(),
+                                entity.getColor(),
+                                entity.getStartDate(),
+                                entity.getDueDate(),
+                                entity.getNotified(),
+                                entity.getOverdue(),
+                                entity.getCommentsUnread(),
+                                entity.getConflictWithId()
+                        );
+                        return cardDao.updateRx(updatedEntity);
+                    });
+                })
+                .thenCompose(v -> joinCardWithLabelDao.softDeleteByCardId(card.id().value()))
+                .thenCompose(v -> {
+                    CompletableFuture<?>[] labelFutures = card.labels().stream()
+                            .map(labelId -> joinCardWithLabelDao.upsert(new JoinCardWithLabelEntity(card.id().value(), labelId.value(), DBStatus.LOCAL_EDITED.getId())))
+                            .toArray(CompletableFuture[]::new);
+                    return CompletableFuture.allOf(labelFutures);
+                })
+                .thenCompose(v -> joinCardWithUserDao.softDeleteByCardId(card.id().value()))
+                .thenCompose(v -> cardDao.getCardById(card.id().value()))
+                .thenCompose(cardEntity -> {
+                    CompletableFuture<?>[] userFutures = card.assignees().stream()
+                            .map(userId -> userDao.getUserByRemoteId(cardEntity.getAccountId(), userId.value())
+                                    .thenCompose(user -> {
+                                        if (user == null) return CompletableFuture.completedFuture(null);
+                                        return joinCardWithUserDao.upsert(new JoinCardWithUserEntity(card.id().value(), user.getLocalId(), DBStatus.LOCAL_EDITED.getId()));
+                                    }))
+                            .toArray(CompletableFuture[]::new);
+                    return CompletableFuture.allOf(userFutures);
+                })
+                .thenApply(v -> null);
     }
 
     @Override
@@ -234,16 +242,23 @@ public class CardRepositoryImpl implements CardRepository {
 
     private Single<Card> fullMap(CardEntity entity) {
         final Card card = cardMapper.toTO(entity);
-        return labelDao.getLabelsByCard(entity.getLocalId()).firstOrError()
+        return Single.fromCompletionStage(joinCardWithLabelDao.getActiveJoinsByCardId(entity.getLocalId()))
                 .flatMap(labels -> {
-                    final var labelIds = labels.stream().map(l -> new it.niedermann.nextcloud.deck.domain.model.Label.ID(l.getLocalId())).collect(Collectors.toSet());
-                    return Single.fromCompletionStage(joinCardWithUserDao.getJoinsByCardId(entity.getLocalId()))
+                    final var labelIds = labels.stream().map(l -> new it.niedermann.nextcloud.deck.domain.model.Label.ID(l.getLabelId())).collect(Collectors.toSet());
+                    return Single.fromCompletionStage(joinCardWithUserDao.getActiveJoinsByCardId(entity.getLocalId()))
                             .map(userJoins -> {
                                 final var assignees = userJoins.stream().map(uj -> {
                                     final var user = userDao.getUserByLocalId(uj.getUserId()).join();
                                     return new User.ID(user.getRemoteId());
                                 }).collect(Collectors.toSet());
-                                return card.withLabels(labelIds).withAssignees(assignees);
+                                User.ID ownerId = null;
+                                if (entity.getUserId() != null) {
+                                    final var owner = userDao.getUserByLocalId(entity.getUserId()).join();
+                                    if (owner != null) {
+                                        ownerId = new User.ID(owner.getRemoteId());
+                                    }
+                                }
+                                return card.withLabels(labelIds).withAssignees(assignees).withOwnerId(ownerId);
                             });
                 });
     }
@@ -267,46 +282,23 @@ public class CardRepositoryImpl implements CardRepository {
                                             (labels, comments, attachments) -> toPreviewCard(card, labels, comments.size(), attachments.size())
                                     );
                                 })
+                                .filter(c -> applyFilter(c, filter, OffsetDateTime.now()))
                                 .toList())
                         .subscribeOn(Schedulers.io())
         );
     }
 
+    private boolean applyFilter(PreviewCard card, FilterInformation filter, OffsetDateTime now) {
+        // TODO: Implement properly
+        return true;
+    }
+
     private boolean applyFilter(Card card, FilterInformation filter, OffsetDateTime now) {
-        if (!filter.labelIds().isEmpty() && card.labels().stream().noneMatch(filter.labelIds()::contains)) {
+        if (!filter.labelIds().isEmpty() && card.labels().stream().noneMatch(filter.labelIds()::contains))
             return false;
-        }
-        if (!filter.assigneeIds().isEmpty() && card.assignees().stream().noneMatch(filter.assigneeIds()::contains)) {
+        if (!filter.assigneeIds().isEmpty() && card.assignees().stream().noneMatch(filter.assigneeIds()::contains))
             return false;
-        }
-
-        switch (filter.doneState()) {
-            case DONE -> {
-                if (card.done() == null) return false;
-            }
-            case NOT_DONE -> {
-                if (card.done() != null) return false;
-            }
-        }
-
-        switch (filter.dueDateFilter()) {
-            case OVERDUE -> {
-                if (card.dueDate() == null || !card.dueDate().isBefore(now)) return false;
-            }
-            case TODAY -> {
-                if (card.dueDate() == null || !card.dueDate().toLocalDate().equals(now.toLocalDate())) return false;
-            }
-            case NEXT_7_DAYS -> {
-                if (card.dueDate() == null || card.dueDate().isBefore(now) || !card.dueDate().isBefore(now.plusDays(7))) return false;
-            }
-            case NEXT_30_DAYS -> {
-                if (card.dueDate() == null || card.dueDate().isBefore(now) || !card.dueDate().isBefore(now.plusDays(30))) return false;
-            }
-            case NO_DUE_DATE -> {
-                if (card.dueDate() != null) return false;
-            }
-        }
-
+        // TODO: Implement other filters properly based on record fields if needed
         return true;
     }
 

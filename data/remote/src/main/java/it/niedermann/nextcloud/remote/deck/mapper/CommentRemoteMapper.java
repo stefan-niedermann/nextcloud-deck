@@ -35,4 +35,15 @@ public interface CommentRemoteMapper extends GenericRemoteMapper<CommentDTO, Com
     @Mapping(target = "parentId", source = "replyTo.id")
     @Mapping(target = "message", source = "message")
     Comment toTO(CommentDTO commentDTO);
+
+    @Mapping(target = "id", source = "id")
+    @Mapping(target = "status", expression = "java(it.niedermann.nextcloud.deck.domain.model.DBStatus.UP_TO_DATE)")
+    @Mapping(target = "lastModified", ignore = true)
+    @Mapping(target = "cardId", source = "objectId")
+    @Mapping(target = "created", source = "creationDateTime")
+    @Mapping(target = "author", source = "actorId")
+    @Mapping(target = "remoteId", source = "id")
+    @Mapping(target = "parentId", source = "replyTo.id")
+    @Mapping(target = "message", source = "message")
+    Comment toTOFromOcs(it.niedermann.nextcloud.remote.ocs.dto.CommentDTO commentDTO);
 }

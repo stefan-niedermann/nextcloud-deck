@@ -23,7 +23,7 @@ public interface CardRemoteMapper extends GenericRemoteMapper<CardDTO, Card> {
     @Mapping(target = "attachments", ignore = true)
     @Mapping(target = "owner", ignore = true)
     @Mapping(target = "etag", source = "etag")
-    @Mapping(target = "type", ignore = true)
+    @Mapping(target = "type", source = "type")
     @Mapping(target = "deletedAt", ignore = true)
     @Mapping(target = "duedate", source = "dueDate")
     @Mapping(target = "attachmentCount", ignore = true)
@@ -33,9 +33,13 @@ public interface CardRemoteMapper extends GenericRemoteMapper<CardDTO, Card> {
     CardDTO toDTO(Card card);
 
     @Mapping(target = "stackId", source = "columnId")
+    @Mapping(target = "type", expression = "java(card.type() != null ? card.type() : \"plain\")")
+    @Mapping(target = "description", expression = "java(card.description() != null && !card.description().isEmpty() ? card.description() : null)")
     @Mapping(target = "duedate", source = "dueDate")
     @Mapping(target = "startdate", source = "startDate")
     @Mapping(target = "color", source = "color")
+    @Mapping(target = "owner", source = "ownerId")
+    @Mapping(target = "archived", source = "archived")
     it.niedermann.nextcloud.remote.deck.dto.CardUpdateDTO toUpdateDTO(Card card);
 
     @Override
@@ -51,6 +55,8 @@ public interface CardRemoteMapper extends GenericRemoteMapper<CardDTO, Card> {
     @Mapping(target = "color", source = "color")
     @Mapping(target = "archived", source = "archived")
     @Mapping(target = "startDate", source = "startdate")
+    @Mapping(target = "type", source = "type")
+    @Mapping(target = "ownerId", expression = "java(mapOwner(cardDTO.getOwner()))")
     @Mapping(target = "title", expression = "java(cardDTO.getTitle() != null ? cardDTO.getTitle() : \"Untitled\")")
     @Mapping(target = "dueDate", source = "duedate")
     @Mapping(target = "etag", source = "etag")
@@ -63,6 +69,8 @@ public interface CardRemoteMapper extends GenericRemoteMapper<CardDTO, Card> {
     @Mapping(target = "withOrder", ignore = true)
     @Mapping(target = "withTitle", ignore = true)
     @Mapping(target = "withDescription", ignore = true)
+    @Mapping(target = "withType", ignore = true)
+    @Mapping(target = "withOwnerId", ignore = true)
     @Mapping(target = "withLabels", ignore = true)
     @Mapping(target = "withAssignees", ignore = true)
     @Mapping(target = "withDependents", ignore = true)
@@ -85,5 +93,12 @@ public interface CardRemoteMapper extends GenericRemoteMapper<CardDTO, Card> {
             return OffsetDateTime.now();
         }
         return new CommonRemoteMapper().toOffsetDateTime(timestamp);
+    }
+
+    default it.niedermann.nextcloud.deck.domain.model.User.ID mapOwner(it.niedermann.nextcloud.remote.deck.dto.UserDTO owner) {
+        if (owner == null || owner.getUid() == null) {
+            return null;
+        }
+        return new it.niedermann.nextcloud.deck.domain.model.User.ID(owner.getUid());
     }
 }

@@ -19,6 +19,8 @@ public record Card(
         int order,
         String title,
         String description,
+        String type,
+        User.ID ownerId,
         Set<Label.ID> labels,
         Set<User.ID> assignees,
         List<Card.ID> dependents,
@@ -35,14 +37,15 @@ public record Card(
         String etag
 ) implements Serializable, CardBuilder.With {
 
-    public Card(Card.ID id, Card.RemoteID remoteId, Column.ID columnId, OffsetDateTime createdAt, int order, String title, String description, Set<Label.ID> labels, Set<User.ID> assignees, List<Card.ID> dependents, boolean archived, boolean notified, int overdue, int commentsUnread) {
-        this(id, remoteId, columnId, createdAt, order, title, description, labels, assignees, dependents, null, null, null, null, archived, notified, overdue, commentsUnread, DBStatus.UP_TO_DATE, OffsetDateTime.now(), null);
+    public Card(Card.ID id, Card.RemoteID remoteId, Column.ID columnId, OffsetDateTime createdAt, int order, String title, String description, String type, User.ID ownerId, Set<Label.ID> labels, Set<User.ID> assignees, List<Card.ID> dependents, boolean archived, boolean notified, int overdue, int commentsUnread) {
+        this(id, remoteId, columnId, createdAt, order, title, description, type, ownerId, labels, assignees, dependents, null, null, null, null, archived, notified, overdue, commentsUnread, DBStatus.UP_TO_DATE, OffsetDateTime.now(), null);
     }
 
     public Card {
         Objects.requireNonNull(id);
         Objects.requireNonNull(columnId);
         Objects.requireNonNull(title);
+        Objects.requireNonNull(type);
         Objects.requireNonNull(labels);
         Objects.requireNonNull(assignees);
         Objects.requireNonNull(dependents);

@@ -19,6 +19,9 @@ public class CommentEndToEndTest extends EndToEndTest {
     private VirtualDeviceAndAccount DEVICE_A;
     private VirtualDeviceAndAccount DEVICE_B;
     private Card cardA;
+    private String boardTitle;
+    private String columnTitle;
+    private String cardTitle;
 
     @BeforeEach
     @Override
@@ -28,13 +31,13 @@ public class CommentEndToEndTest extends EndToEndTest {
         DEVICE_A = getOrCreateRemoteAccountAndImport(createVirtualDevice(), "johndoe");
         DEVICE_B = getOrCreateRemoteAccountAndImport(createVirtualDevice(), "johndoe");
 
-        final var boardTitle = randomUtil.randomize("boardForComment");
+        boardTitle = randomUtil.randomize("boardForComment");
         final Board board = EndToEndUtil.createBoard(DEVICE_A, boardTitle);
 
-        final var columnTitle = randomUtil.randomize("columnForComment");
+        columnTitle = randomUtil.randomize("columnForComment");
         final Column column = EndToEndUtil.createColumn(DEVICE_A, board, columnTitle);
 
-        final var cardTitle = randomUtil.randomize("cardForComment");
+        cardTitle = randomUtil.randomize("cardForComment");
         cardA = EndToEndUtil.createCard(DEVICE_A, column, cardTitle);
     }
 
@@ -50,7 +53,11 @@ public class CommentEndToEndTest extends EndToEndTest {
         synchronize(DEVICE_A);
         synchronize(DEVICE_B);
 
-        EndToEndUtil.assertCommentExists(DEVICE_B, cardA, message);
+        final var boardB = EndToEndUtil.getBoard(DEVICE_B, boardTitle);
+        final var columnB = EndToEndUtil.getColumn(DEVICE_B, boardB, columnTitle);
+        final var cardB = EndToEndUtil.getCard(DEVICE_B, columnB, cardTitle);
+
+        EndToEndUtil.assertCommentExists(DEVICE_B, cardB, message);
     }
 
     @Test
@@ -62,7 +69,11 @@ public class CommentEndToEndTest extends EndToEndTest {
         synchronize(DEVICE_A);
         final var commentA = EndToEndUtil.getComment(DEVICE_A, cardA, message);
         synchronize(DEVICE_B);
-        final var commentB = EndToEndUtil.getComment(DEVICE_B, cardA, message);
+        
+        final var boardB = EndToEndUtil.getBoard(DEVICE_B, boardTitle);
+        final var columnB = EndToEndUtil.getColumn(DEVICE_B, boardB, columnTitle);
+        final var cardB = EndToEndUtil.getCard(DEVICE_B, columnB, cardTitle);
+        final var commentB = EndToEndUtil.getComment(DEVICE_B, cardB, message);
         
         final var newMessage = randomUtil.randomize("updatedComment");
 
@@ -72,8 +83,8 @@ public class CommentEndToEndTest extends EndToEndTest {
         synchronize(DEVICE_B);
 
         EndToEndUtil.assertCommentExists(DEVICE_A, cardA, newMessage);
-        EndToEndUtil.assertCommentExists(DEVICE_B, cardA, newMessage);
-        EndToEndUtil.assertCommentDoesNotExist(DEVICE_B, cardA, message);
+        EndToEndUtil.assertCommentExists(DEVICE_B, cardB, newMessage);
+        EndToEndUtil.assertCommentDoesNotExist(DEVICE_B, cardB, message);
     }
 
     @Test
@@ -85,7 +96,11 @@ public class CommentEndToEndTest extends EndToEndTest {
         synchronize(DEVICE_A);
         final var commentA = EndToEndUtil.getComment(DEVICE_A, cardA, message);
         synchronize(DEVICE_B);
-        final var commentB = EndToEndUtil.getComment(DEVICE_B, cardA, message);
+        
+        final var boardB = EndToEndUtil.getBoard(DEVICE_B, boardTitle);
+        final var columnB = EndToEndUtil.getColumn(DEVICE_B, boardB, columnTitle);
+        final var cardB = EndToEndUtil.getCard(DEVICE_B, columnB, cardTitle);
+        final var commentB = EndToEndUtil.getComment(DEVICE_B, cardB, message);
 
         DEVICE_A.virtualDevice().getDeleteCommentUseCase().execute(commentA.id()).join();
 
@@ -93,6 +108,6 @@ public class CommentEndToEndTest extends EndToEndTest {
         synchronize(DEVICE_B);
 
         EndToEndUtil.assertCommentDoesNotExist(DEVICE_A, cardA, message);
-        EndToEndUtil.assertCommentDoesNotExist(DEVICE_B, cardA, message);
+        EndToEndUtil.assertCommentDoesNotExist(DEVICE_B, cardB, message);
     }
 }

@@ -11,13 +11,16 @@ import java.util.concurrent.CompletableFuture
 @Dao
 interface CardDao : GenericDao<CardEntity> {
 
-    @Query("SELECT * FROM Card WHERE columnId = :columnId ORDER BY `order` ASC")
+    @Query("SELECT * FROM Card WHERE columnId = :columnId AND status != 3 ORDER BY `order` ASC")
     fun getCardsByColumn(columnId: Long): Flowable<List<CardEntity>>
 
     @Query("SELECT * FROM Card WHERE columnId = :columnId")
     fun getCardsByColumnRx(columnId: Long): CompletableFuture<List<CardEntity>>
 
-    @Query("SELECT Card.* FROM Card INNER JOIN Column ON Card.columnId = Column.localId WHERE Column.boardId = :boardId")
+    @Query("SELECT * FROM Card WHERE columnId = :columnId")
+    fun getCardsByColumnSync(columnId: Long): CompletableFuture<List<CardEntity>>
+
+    @Query("SELECT Card.* FROM Card INNER JOIN Column ON Card.columnId = Column.localId WHERE Column.boardId = :boardId AND Card.status != 3")
     fun getCardsByBoard(boardId: Long): Flowable<List<CardEntity>>
 
     @Query("SELECT * FROM Card WHERE accountId = :accountId AND remoteId = :remoteId")

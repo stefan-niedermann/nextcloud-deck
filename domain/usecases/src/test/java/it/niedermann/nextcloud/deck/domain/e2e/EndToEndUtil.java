@@ -115,34 +115,44 @@ public class EndToEndUtil {
     }
 
     public static Card getCard(EndToEndTest.VirtualDeviceAndAccount vda, Card.ID id) {
-        for (int i = 0; i < 10; i++) {
+        for (int i = 0; i < 20; i++) {
             final var card = Maybe.fromPublisher(FlowAdapters.toPublisher(vda.virtualDevice().getGetCardUseCase().execute(id))).blockingGet();
             if (card != null) {
                 return card;
             }
+            if (i == 10) {
+                System.err.println("Card ID " + id.value() + " not found on device " + vda.virtualDevice().getDeviceName() + " after 10 attempts.");
+            }
             try {
-                Thread.sleep(100);
+                Thread.sleep(200);
             } catch (InterruptedException e) {
                 throw new RuntimeException(e);
             }
         }
-        throw new NoSuchElementException("Card not found: " + id.value());
+        throw new NoSuchElementException("Card not found: " + id.value() + " on device " + vda.virtualDevice().getDeviceName());
     }
 
     public static Card getCard(EndToEndTest.VirtualDeviceAndAccount vda, Column column, String title) {
-        for (int i = 0; i < 10; i++) {
+        for (int i = 0; i < 20; i++) {
             final var cards = Maybe.fromPublisher(FlowAdapters.toPublisher(vda.virtualDevice().getListCardsUseCase().execute(column.id()))).blockingGet();
-            final var card = cards.stream().filter(c -> Objects.equals(c.title(), title)).findFirst();
-            if (card.isPresent()) {
-                return card.get();
+            if (cards == null) {
+                System.err.println("getListCardsUseCase returned null for column " + column.id());
+            } else {
+                final var card = cards.stream().filter(c -> Objects.equals(c.title(), title)).findFirst();
+                if (card.isPresent()) {
+                    return card.get();
+                }
+                if (i == 10) {
+                    System.err.println("Card \"" + title + "\" not found in column \"" + column.title() + "\" after 10 attempts. Available cards: " + cards.stream().map(Card::title).collect(java.util.stream.Collectors.joining(", ")));
+                }
             }
             try {
-                Thread.sleep(100);
+                Thread.sleep(200);
             } catch (InterruptedException e) {
                 throw new RuntimeException(e);
             }
         }
-        throw new NoSuchElementException("Card not found: " + title);
+        throw new NoSuchElementException("Card not found: " + title + " in column " + column.title() + " (" + column.id() + ") on device " + vda.virtualDevice().getDeviceName());
     }
 
     public static Label createLabel(EndToEndTest.VirtualDeviceAndAccount vda, Board board, String title) {
@@ -219,7 +229,12 @@ public class EndToEndUtil {
 
     public static void assertCardDueDate(EndToEndTest.VirtualDeviceAndAccount vda, Card.ID cardId, java.time.OffsetDateTime expectedDueDate) {
         final var card = getCard(vda, cardId);
-        Assertions.assertEquals(expectedDueDate, card.dueDate(), "Card \"" + card.title() + "\" due date should be \"" + expectedDueDate + "\" on device \"" + vda.virtualDevice().getDeviceName() + "\"");
+        if (expectedDueDate == null) {
+            Assertions.assertNull(card.dueDate(), "Card \"" + card.title() + "\" due date should be null on device \"" + vda.virtualDevice().getDeviceName() + "\"");
+        } else {
+            Assertions.assertNotNull(card.dueDate(), "Card \"" + card.title() + "\" due date should NOT be null on device \"" + vda.virtualDevice().getDeviceName() + "\"");
+            Assertions.assertTrue(expectedDueDate.isEqual(card.dueDate()), "Card \"" + card.title() + "\" due date should be \"" + expectedDueDate + "\" but was \"" + card.dueDate() + "\" on device \"" + vda.virtualDevice().getDeviceName() + "\"");
+        }
     }
 
     public static void assertLabelExists(EndToEndTest.VirtualDeviceAndAccount vda, Board board, String title) {

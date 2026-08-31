@@ -77,21 +77,19 @@ public class ShareRepositoryImpl implements ShareRepository {
                                     return accountRepository.getAccountSync(new it.niedermann.nextcloud.deck.domain.model.Account.ID(boardEntity.getAccountId()))
                                             .thenCompose(account -> apiFactory.create(account).getOcsApi().getUser(null, userId.value()))
                                             .thenCompose(ocsResponse -> {
-                                                if (ocsResponse == null || ocsResponse.getOcs() == null || ocsResponse.getOcs().getData() == null) {
-                                                    final var future = new CompletableFuture<UserEntity>();
-                                                    future.completeExceptionally(new IllegalArgumentException("User not found on server: " + userId.value()));
-                                                    return future;
+                                                String displayname = userId.value();
+                                                if (ocsResponse != null && ocsResponse.getOcs() != null && ocsResponse.getOcs().getData() != null) {
+                                                    displayname = ocsResponse.getOcs().getData().getDisplayname();
                                                 }
-                                                OcsUserDTO data = ocsResponse.getOcs().getData();
                                                 final var newUser = new UserEntity(
                                                         0,
                                                         boardEntity.getAccountId(),
-                                                        data.getId(),
+                                                        userId.value(),
                                                         DBStatus.UP_TO_DATE.getId(),
                                                         null,
                                                         OffsetDateTime.now(),
                                                         null,
-                                                        data.getDisplayname()
+                                                        displayname
                                                 );
                                                 return userDao.insertOrReplace(newUser)
                                                         .thenCompose(localId -> userDao.getUserByRemoteId(boardEntity.getAccountId(), userId.value()));

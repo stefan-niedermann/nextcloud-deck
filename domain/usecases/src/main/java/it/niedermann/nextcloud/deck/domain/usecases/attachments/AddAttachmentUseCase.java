@@ -24,6 +24,6 @@ public class AddAttachmentUseCase {
     }
 
     public CompletableFuture<Void> execute(Card.ID cardId, Path localPath) {
-        return CompletableFuture.completedFuture(null);
+        return attachmentsRepository.addAttachment(cardId, localPath);
     }
 }

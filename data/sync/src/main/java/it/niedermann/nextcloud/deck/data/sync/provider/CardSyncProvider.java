@@ -1,5 +1,6 @@
 package it.niedermann.nextcloud.deck.data.sync.provider;
 
+import java.time.OffsetDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -18,6 +19,7 @@ import it.niedermann.nextcloud.deck.data.local.dao.JoinCardWithDependentCardDao;
 import it.niedermann.nextcloud.deck.data.local.dao.JoinCardWithLabelDao;
 import it.niedermann.nextcloud.deck.data.local.dao.JoinCardWithUserDao;
 import it.niedermann.nextcloud.deck.data.local.dao.LabelDao;
+import it.niedermann.nextcloud.deck.data.local.dao.UserDao;
 import it.niedermann.nextcloud.deck.data.local.entity.CardEntity;
 import it.niedermann.nextcloud.deck.data.local.entity.JoinCardWithDependentCardEntity;
 import it.niedermann.nextcloud.deck.data.local.entity.JoinCardWithLabelEntity;
@@ -45,6 +47,7 @@ public class CardSyncProvider implements SyncProvider<ColumnDTO> {
     private final JoinCardWithLabelDao joinCardWithLabelDao;
     private final JoinCardWithUserDao joinCardWithUserDao;
     private final JoinCardWithDependentCardDao joinCardWithDependentCardDao;
+    private final UserDao userDao;
     private final UserSyncHelper userSyncHelper;
     private final ApiProvider.Factory apiFactory;
     private final Map<String, CompletableFuture<Long>> inFlightCardSyncs = new ConcurrentHashMap<>();
@@ -52,7 +55,7 @@ public class CardSyncProvider implements SyncProvider<ColumnDTO> {
     private CommentSyncProvider commentSyncProvider;
 
     @Inject
-    public CardSyncProvider(CardDao cardDao, ColumnDao columnDao, BoardDao boardDao, LabelDao labelDao, JoinCardWithLabelDao joinCardWithLabelDao, JoinCardWithUserDao joinCardWithUserDao, JoinCardWithDependentCardDao joinCardWithDependentCardDao, UserSyncHelper userSyncHelper, ApiProvider.Factory apiFactory) {
+    public CardSyncProvider(CardDao cardDao, ColumnDao columnDao, BoardDao boardDao, LabelDao labelDao, JoinCardWithLabelDao joinCardWithLabelDao, JoinCardWithUserDao joinCardWithUserDao, JoinCardWithDependentCardDao joinCardWithDependentCardDao, UserDao userDao, UserSyncHelper userSyncHelper, ApiProvider.Factory apiFactory) {
         this.cardDao = cardDao;
         this.columnDao = columnDao;
         this.boardDao = boardDao;
@@ -60,6 +63,7 @@ public class CardSyncProvider implements SyncProvider<ColumnDTO> {
         this.joinCardWithLabelDao = joinCardWithLabelDao;
         this.joinCardWithUserDao = joinCardWithUserDao;
         this.joinCardWithDependentCardDao = joinCardWithDependentCardDao;
+        this.userDao = userDao;
         this.userSyncHelper = userSyncHelper;
         this.apiFactory = apiFactory;
     }
@@ -76,8 +80,7 @@ public class CardSyncProvider implements SyncProvider<ColumnDTO> {
 
     @Override
     public CompletableFuture<Void> upSync(Account account, SyncStatus status, Consumer<SyncStatus> reporter) {
-        return upSyncDependents(account)
-                .thenCompose(v -> cardDao.getChangedCards(account.id().value()))
+        return cardDao.getChangedCards(account.id().value())
                 .thenCompose(changedCards -> {
                     CompletableFuture<Void> future = CompletableFuture.completedFuture(null);
                     for (int i = 0; i < changedCards.size(); i++) {
@@ -86,7 +89,10 @@ public class CardSyncProvider implements SyncProvider<ColumnDTO> {
                         future = finalFuture.thenCompose(v -> upSyncSingle(account, localCard));
                     }
                     return future;
-                });
+                })
+                .thenCompose(v -> upSyncLabels(account))
+                .thenCompose(v -> upSyncAssignedUsers(account))
+                .thenCompose(v -> upSyncDependents(account));
     }
 
     private CompletableFuture<Void> upSyncSingle(Account account, CardEntity localCard) {
@@ -96,77 +102,93 @@ public class CardSyncProvider implements SyncProvider<ColumnDTO> {
                             if (board == null || board.getRemoteId() == null || column == null || column.getRemoteId() == null) {
                                 return CompletableFuture.completedFuture(null);
                             }
-                            long remoteBoardId = board.getRemoteId();
-                            long remoteColumnId = column.getRemoteId();
-                            logger.info("Creating card \"" + localCard.getTitle() + "\" on remote board " + remoteBoardId + " and stack " + remoteColumnId);
-                            DeckApi api = apiFactory.create(account).getDeckApi();
-                            CardDTO dto = CardRemoteMapper.INSTANCE.toDTO(CardMapper.INSTANCE.toTO(localCard));
-                            dto.setStackId(remoteColumnId);
 
-                            CompletableFuture<CardDTO> call;
-                            if (localCard.getRemoteId() == null) {
-                                call = api.createCard(remoteBoardId, remoteColumnId, dto);
-                            } else if (localCard.getStatus() == DBStatus.LOCAL_EDITED.getId()) {
-                                it.niedermann.nextcloud.remote.deck.dto.CardUpdateDTO updateDto = CardRemoteMapper.INSTANCE.toUpdateDTO(CardMapper.INSTANCE.toTO(localCard));
-                                call = api.updateCard(remoteBoardId, remoteColumnId, localCard.getRemoteId(), updateDto);
-                            } else if (localCard.getStatus() == DBStatus.LOCAL_DELETED.getId()) {
-                                return api.deleteCard(remoteBoardId, remoteColumnId, localCard.getRemoteId())
-                                        .thenCompose(v -> cardDao.deleteRx(localCard))
-                                        .thenApply(v -> null);
-                            } else {
-                                return CompletableFuture.completedFuture(null);
+                            CompletableFuture<String> ownerUidFuture = CompletableFuture.completedFuture(null);
+                            if (localCard.getUserId() != null) {
+                                ownerUidFuture = userDao.getUserByLocalId(localCard.getUserId())
+                                        .thenApply(u -> u != null ? u.getRemoteId() : null);
                             }
 
-                            return call.thenCompose(response -> {
-                                if (response == null) return CompletableFuture.completedFuture((Void) null);
-                                CardEntity updatedLocal = CardMapper.INSTANCE.toEntity(CardRemoteMapper.INSTANCE.toTO(response));
-                                updatedLocal = new CardEntity(
-                                        localCard.getLocalId(),
-                                        localCard.getAccountId(),
-                                        updatedLocal.getRemoteId(),
-                                        DBStatus.UP_TO_DATE.getId(),
-                                        updatedLocal.getLastModified(),
-                                        updatedLocal.getLastModified(),
-                                        updatedLocal.getEtag(),
-                                        updatedLocal.getTitle(),
-                                        updatedLocal.getDescription(),
-                                        localCard.getColumnId(),
-                                        updatedLocal.getType(),
-                                        updatedLocal.getCreatedAt(),
-                                        updatedLocal.getDeletedAt(),
-                                        updatedLocal.getDone(),
-                                        updatedLocal.getAttachmentCount(),
-                                        updatedLocal.getUserId(),
-                                        updatedLocal.getOrder(),
-                                        updatedLocal.getArchived(),
-                                        updatedLocal.getColor(),
-                                        updatedLocal.getStartDate(),
-                                        updatedLocal.getDueDate(),
-                                        updatedLocal.getNotified(),
-                                        updatedLocal.getOverdue(),
-                                        updatedLocal.getCommentsUnread(),
-                                        null
-                                );
+                            return ownerUidFuture.thenCompose(ownerUid -> {
+                                long remoteBoardId = board.getRemoteId();
+                                long remoteColumnId = column.getRemoteId();
+                                DeckApi api = apiFactory.create(account).getDeckApi();
+                                CardDTO dto = CardRemoteMapper.INSTANCE.toDTO(CardMapper.INSTANCE.toTO(localCard));
+                                dto.setStackId(remoteColumnId);
 
-                                CompletableFuture<Void> cleanupFuture = CompletableFuture.completedFuture(null);
-                                if (localCard.getStatus() == DBStatus.RESOLVED.getId() && localCard.getConflictWithId() != null) {
-                                    cleanupFuture = cardDao.deleteById(localCard.getConflictWithId()).thenApply(v -> null);
-                                }
-
-                                CardEntity finalUpdatedLocal = updatedLocal;
-                                return cleanupFuture.thenCompose(v -> cardDao.updateRx(finalUpdatedLocal));
-                            }).handle((v, throwable) -> {
-                                if (throwable != null) {
-                                    Throwable cause = throwable.getCause();
-                                    if (cause instanceof HttpException && ((HttpException) cause).code() == 412) {
-                                        return handleConflict(account, localCard);
+                                CompletableFuture<CardDTO> call;
+                                if (localCard.getRemoteId() == null) {
+                                    logger.info("Creating card \"" + localCard.getTitle() + "\" on remote board " + remoteBoardId + " and stack " + remoteColumnId);
+                                    call = api.createCard(remoteBoardId, remoteColumnId, dto);
+                                } else if (localCard.getStatus() == DBStatus.LOCAL_EDITED.getId()) {
+                                    it.niedermann.nextcloud.remote.deck.dto.CardUpdateDTO updateDto = CardRemoteMapper.INSTANCE.toUpdateDTO(CardMapper.INSTANCE.toTO(localCard));
+                                    updateDto.setStackId(remoteColumnId);
+                                    if (ownerUid != null) {
+                                        updateDto.setOwner(ownerUid);
+                                    } else {
+                                        updateDto.setOwner(account.username());
                                     }
-                                    CompletableFuture<Void> failed = new CompletableFuture<>();
-                                    failed.completeExceptionally(throwable);
-                                    return failed;
+                                    logger.info("Updating card " + localCard.getRemoteId() + " at board " + remoteBoardId + " and stack " + remoteColumnId + " with " + updateDto);
+                                    call = api.updateCard(remoteBoardId, remoteColumnId, localCard.getRemoteId(), updateDto);
+                                } else if (localCard.getStatus() == DBStatus.LOCAL_DELETED.getId()) {
+                                    return api.deleteCard(remoteBoardId, remoteColumnId, localCard.getRemoteId())
+                                            .thenCompose(v -> cardDao.deleteRx(localCard))
+                                            .thenApply(v -> null);
+                                } else {
+                                    return CompletableFuture.completedFuture(null);
                                 }
-                                return CompletableFuture.completedFuture((Void) null);
-                            }).thenCompose(f -> f);
+
+                                return call.thenCompose(response -> {
+                                    if (response == null) return CompletableFuture.completedFuture((Void) null);
+                                    CardEntity updatedLocal = CardMapper.INSTANCE.toEntity(CardRemoteMapper.INSTANCE.toTO(response));
+                                    updatedLocal = new CardEntity(
+                                            localCard.getLocalId(),
+                                            localCard.getAccountId(),
+                                            updatedLocal.getRemoteId(),
+                                            DBStatus.UP_TO_DATE.getId(),
+                                            updatedLocal.getLastModified(),
+                                            updatedLocal.getLastModified(),
+                                            updatedLocal.getEtag(),
+                                            updatedLocal.getTitle(),
+                                            updatedLocal.getDescription(),
+                                            localCard.getColumnId(),
+                                            updatedLocal.getType(),
+                                            updatedLocal.getCreatedAt(),
+                                            updatedLocal.getDeletedAt(),
+                                            updatedLocal.getDone(),
+                                            updatedLocal.getAttachmentCount(),
+                                            localCard.getUserId(),
+                                            updatedLocal.getOrder(),
+                                            updatedLocal.getArchived(),
+                                            updatedLocal.getColor(),
+                                            updatedLocal.getStartDate(),
+                                            updatedLocal.getDueDate(),
+                                            updatedLocal.getNotified(),
+                                            updatedLocal.getOverdue(),
+                                            updatedLocal.getCommentsUnread(),
+                                            null
+                                    );
+
+                                    CompletableFuture<Void> cleanupFuture = CompletableFuture.completedFuture(null);
+                                    if (localCard.getStatus() == DBStatus.RESOLVED.getId() && localCard.getConflictWithId() != null) {
+                                        cleanupFuture = cardDao.deleteById(localCard.getConflictWithId()).thenApply(v -> null);
+                                    }
+
+                                    CardEntity finalUpdatedLocal = updatedLocal;
+                                    return cleanupFuture.thenCompose(v -> cardDao.updateRx(finalUpdatedLocal));
+                                }).handle((v, throwable) -> {
+                                    if (throwable != null) {
+                                        Throwable cause = throwable.getCause();
+                                        if (cause instanceof HttpException && ((HttpException) cause).code() == 412) {
+                                            return handleConflict(account, localCard);
+                                        }
+                                        CompletableFuture<Void> failed = new CompletableFuture<>();
+                                        failed.completeExceptionally(throwable);
+                                        return failed;
+                                    }
+                                    return CompletableFuture.completedFuture((Void) null);
+                                }).thenCompose(f -> f);
+                            });
                         }));
     }
 
@@ -248,85 +270,118 @@ public class CardSyncProvider implements SyncProvider<ColumnDTO> {
     @Override
     public CompletableFuture<Void> downSync(Account account, ColumnDTO parent, Long parentLocalId, SyncStatus status, Consumer<SyncStatus> reporter) {
         if (parent == null || parent.getBoardId() == null || parent.getId() == null) return CompletableFuture.completedFuture(null);
-        if (parent.getCards() != null && !parent.getCards().isEmpty()) {
-            boolean allCardsHaveLabels = true;
-            for (CardDTO card : parent.getCards()) {
-                if (card.getLabels() == null) {
-                    allCardsHaveLabels = false;
-                    break;
-                }
-            }
-            if (allCardsHaveLabels) {
-                return syncCards(account, parent.getBoardId(), parent.getId(), parent.getCards(), parentLocalId, status, reporter);
-            }
-        }
         DeckApi api = apiFactory.create(account).getDeckApi();
-        return api.getStack(parent.getBoardId(), parent.getId(), null)
-                .thenCompose(stack -> {
-                    if (stack == null || stack.getCards() == null) return CompletableFuture.completedFuture(null);
-                    return syncCards(account, parent.getBoardId(), parent.getId(), stack.getCards(), parentLocalId, status, reporter);
-                });
+
+        CompletableFuture<List<CardDTO>> activeCardsFuture;
+        if (parent.getCards() != null && !parent.getCards().isEmpty()) {
+            activeCardsFuture = CompletableFuture.completedFuture(parent.getCards());
+        } else {
+            activeCardsFuture = api.getStack(parent.getBoardId(), parent.getId(), null)
+                    .thenApply(stack -> stack != null ? stack.getCards() : null);
+        }
+
+        return activeCardsFuture.thenCompose(activeCards -> {
+            List<CardDTO> allCards = activeCards != null ? new ArrayList<>(activeCards) : new ArrayList<>();
+            return api.getArchivedStacks(parent.getBoardId(), null)
+                    .thenCompose(archivedStacks -> {
+                        if (archivedStacks != null) {
+                            for (ColumnDTO archivedStack : archivedStacks) {
+                                if (parent.getId().equals(archivedStack.getId()) && archivedStack.getCards() != null) {
+                                    allCards.addAll(archivedStack.getCards());
+                                }
+                            }
+                        }
+                        return syncCards(account, parent.getBoardId(), parent.getId(), allCards, parentLocalId, status, reporter, true);
+                    });
+        });
     }
 
-    private CompletableFuture<Void> syncCards(Account account, long boardId, long stackId, List<CardDTO> cards, Long parentLocalId, SyncStatus status, Consumer<SyncStatus> reporter) {
-        final List<CardDTO> cardsToSync = cards != null ? cards : java.util.Collections.emptyList();
-        final Set<Long> remoteIds = cardsToSync.stream()
+    private CompletableFuture<Void> syncCards(Account account, long boardId, long stackId, List<CardDTO> cards, Long parentLocalId, SyncStatus status, Consumer<SyncStatus> reporter, boolean isFullResponse) {
+        if (cards == null) return CompletableFuture.completedFuture(null);
+
+        Set<Long> remoteIdsFromServer = cards.stream()
                 .map(CardDTO::getId)
                 .filter(Objects::nonNull)
                 .collect(Collectors.toSet());
 
-        long total = cardsToSync.size();
-        CompletableFuture<?>[] cardFutures = new CompletableFuture[cardsToSync.size()];
-        for (int i = 0; i < cardsToSync.size(); i++) {
-            CardDTO dto = cardsToSync.get(i);
-            if (dto == null || dto.getId() == null) {
-                cardFutures[i] = CompletableFuture.completedFuture(null);
-                continue;
-            }
-            final long finished = i + 1;
-
-            final String key = account.id().value() + ":" + dto.getId();
-            cardFutures[i] = inFlightCardSyncs.compute(key, (k, existingFuture) -> {
-                if (existingFuture != null && !existingFuture.isCompletedExceptionally()) {
-                    return existingFuture;
-                }
-                // Fetch always for now, as cards in stack response seem to have null labels
-                logger.info("Fetching full details for card: " + dto.getId());
-                DeckApi api = apiFactory.create(account).getDeckApi();
-                final var future = api.getCard_1_1(boardId, stackId, dto.getId(), null)
-                        .thenCompose(fullDto -> {
-                            if (fullDto == null) return CompletableFuture.completedFuture(null);
-                            return mergeCard(account, fullDto, parentLocalId)
-                                    .thenCompose(localCardId -> {
-                                        SyncStatus newStatus = status.withCards(total, finished);
-                                        reporter.accept(newStatus);
-                                        return CompletableFuture.allOf(
-                                                syncLabels(account, fullDto, localCardId),
-                                                syncAssignedUsers(account, fullDto, localCardId),
-                                                syncDependents(account, fullDto, localCardId),
-                                                attachmentSyncProvider.downSync(account, fullDto, localCardId, newStatus, reporter),
-                                                commentSyncProvider.downSync(account, fullDto, localCardId, newStatus, reporter)
-                                        ).thenApply(v -> localCardId);
-                                    });
-                        });
-                future.whenComplete((v, t) -> inFlightCardSyncs.remove(key));
-                return future;
-            }).thenApply(v -> null).exceptionally(throwable -> {
-                logger.log(java.util.logging.Level.SEVERE, "Failed to sync card " + dto.getId(), throwable);
-                return null;
-            });
-        }
-        return CompletableFuture.allOf(cardFutures)
-                .thenCompose(v -> cardDao.getCardsByColumnRx(parentLocalId))
+        return cardDao.getCardsByColumnSync(parentLocalId)
                 .thenCompose(localCards -> {
-                    List<CompletableFuture<?>> deletionFutures = new ArrayList<>();
-                    for (CardEntity localCard : localCards) {
-                        if (localCard.getRemoteId() != null && !remoteIds.contains(localCard.getRemoteId()) && localCard.getStatus() != DBStatus.LOCAL_EDITED.getId()) {
-                            logger.info("Deleting local card because it was deleted on remote: " + localCard.getRemoteId());
-                            deletionFutures.add(cardDao.deleteById(localCard.getLocalId()));
+                    List<CompletableFuture<?>> deleteFutures = new ArrayList<>();
+                    if (isFullResponse) {
+                        for (CardEntity local : localCards) {
+                            if (local.getRemoteId() != null && !remoteIdsFromServer.contains(local.getRemoteId())) {
+                                if (local.getStatus() == DBStatus.UP_TO_DATE.getId()) {
+                                    deleteFutures.add(cardDao.deleteById(local.getLocalId()));
+                                }
+                            }
                         }
                     }
-                    return CompletableFuture.allOf(deletionFutures.toArray(new CompletableFuture[0]));
+                    return CompletableFuture.allOf(deleteFutures.toArray(new CompletableFuture[0]));
+                })
+                .thenCompose(v -> {
+                    long total = cards.size();
+                    CompletableFuture<?>[] cardFutures = new CompletableFuture[cards.size()];
+                    for (int i = 0; i < cards.size(); i++) {
+                        CardDTO dto = cards.get(i);
+                        if (dto == null || dto.getId() == null) {
+                            cardFutures[i] = CompletableFuture.completedFuture(null);
+                            continue;
+                        }
+                        final long finished = i + 1;
+
+                        final String key = account.id().value() + ":" + dto.getId();
+                        cardFutures[i] = inFlightCardSyncs.compute(key, (k, existingFuture) -> {
+                            if (existingFuture != null && !existingFuture.isCompletedExceptionally()) {
+                                return existingFuture;
+                            }
+
+                            CompletableFuture<CardDTO> dtoFuture;
+                            if (dto.getLabels() != null && dto.getAssignedUsers() != null) {
+                                dtoFuture = CompletableFuture.completedFuture(dto);
+                            } else {
+                                DeckApi api = apiFactory.create(account).getDeckApi();
+                                dtoFuture = api.getCard_1_1(boardId, stackId, dto.getId(), null);
+                            }
+
+                            final var future = dtoFuture
+                                    .thenCompose(fullDto -> {
+                                        if (fullDto == null) return CompletableFuture.completedFuture(null);
+                                        return mergeCard(account, fullDto, parentLocalId)
+                                                .thenCompose(localCardId -> {
+                                                    SyncStatus newStatus = status.withCards(total, finished);
+                                                    reporter.accept(newStatus);
+                                                    logger.info("Card " + localCardId + " merged, starting sub-syncs");
+                                                    return CompletableFuture.allOf(
+                                                            syncLabels(account, fullDto, localCardId),
+                                                            syncAssignedUsers(account, fullDto, localCardId),
+                                                            syncDependents(account, fullDto, localCardId),
+                                                            attachmentSyncProvider.downSync(account, fullDto, localCardId, newStatus, reporter),
+                                                            commentSyncProvider.downSync(account, fullDto, localCardId, newStatus, reporter)
+                                                    ).thenApply(v2 -> {
+                                                        logger.info("Card " + localCardId + " sub-syncs finished");
+                                                        return localCardId;
+                                                    });
+                                                });
+                                    });
+                            future.whenComplete((v2, t) -> inFlightCardSyncs.remove(key));
+                            return future;
+                        }).thenApply(v2 -> null).exceptionally(throwable -> {
+                            logger.log(java.util.logging.Level.SEVERE, "Failed to sync card " + dto.getId(), throwable);
+                            return null;
+                        });
+                    }
+                    return CompletableFuture.allOf(cardFutures)
+                            .thenCompose(v2 -> cardDao.getCardsByColumnRx(parentLocalId))
+                            .thenCompose(localCards -> {
+                                List<CompletableFuture<?>> deletionFutures = new ArrayList<>();
+                                for (CardEntity localCard : localCards) {
+                                    if (localCard.getRemoteId() != null && !remoteIdsFromServer.contains(localCard.getRemoteId()) && localCard.getStatus() != DBStatus.LOCAL_EDITED.getId()) {
+                                        logger.info("Deleting local card because it was deleted on remote: " + localCard.getRemoteId());
+                                        deletionFutures.add(cardDao.deleteById(localCard.getLocalId()));
+                                    }
+                                }
+                                return CompletableFuture.allOf(deletionFutures.toArray(new CompletableFuture[0]));
+                            });
                 });
     }
 
@@ -381,6 +436,95 @@ public class CardSyncProvider implements SyncProvider<ColumnDTO> {
                 });
     }
 
+    private CompletableFuture<Void> upSyncLabels(Account account) {
+        return joinCardWithLabelDao.getChangedJoinsForAccount(account.id().value())
+                .thenCompose(changedLabels -> {
+                    if (changedLabels == null || changedLabels.isEmpty())
+                        return CompletableFuture.completedFuture(null);
+                    logger.info("Found " + changedLabels.size() + " changed labels for account " + account.id().value());
+                    CompletableFuture<Void> future = CompletableFuture.completedFuture(null);
+                    for (JoinCardWithLabelEntity join : changedLabels) {
+                        final var finalFuture = future;
+                        future = finalFuture.thenCompose(v -> cardDao.getCardById(join.getCardId())
+                                .thenCompose(card -> labelDao.getLabelById(join.getLabelId())
+                                        .thenCompose(label -> {
+                                            if (card == null || card.getRemoteId() == null || label == null || label.getRemoteId() == null) {
+                                                logger.warning("Skipping label sync: card or label remote ID missing. Card: " + (card != null ? card.getRemoteId() : "null") + ", Label: " + (label != null ? label.getRemoteId() : "null"));
+                                                return CompletableFuture.completedFuture(null);
+                                            }
+                                            return cardDao.getBoardRemoteIdByLocalId(card.getLocalId())
+                                                    .thenCompose(boardId -> cardDao.getStackRemoteIdByLocalId(card.getLocalId())
+                                                            .thenCompose(stackId -> {
+                                                                if (boardId == null || stackId == null) {
+                                                                    logger.warning("Skipping label sync: board or stack remote ID missing. Board: " + boardId + ", Stack: " + stackId);
+                                                                    return CompletableFuture.completedFuture(null);
+                                                                }
+                                                                DeckApi api = apiFactory.create(account).getDeckApi();
+                                                                if (join.getStatus() == DBStatus.LOCAL_DELETED.getId()) {
+                                                                    logger.info("Unassigning label " + label.getRemoteId() + " from card " + card.getRemoteId());
+                                                                    return api.unassignLabelFromCard(boardId, stackId, card.getRemoteId(), label.getRemoteId())
+                                                                            .thenCompose(v2 -> joinCardWithLabelDao.deleteByCardIdAndLabelId(join.getCardId(), join.getLabelId()));
+                                                                } else if (join.getStatus() == DBStatus.LOCAL_EDITED.getId()) {
+                                                                    logger.info("Assigning label " + label.getRemoteId() + " to card " + card.getRemoteId());
+                                                                    return api.assignLabelToCard(boardId, stackId, card.getRemoteId(), label.getRemoteId())
+                                                                            .thenCompose(v2 -> {
+                                                                                JoinCardWithLabelEntity updated = new JoinCardWithLabelEntity(join.getCardId(), join.getLabelId(), DBStatus.UP_TO_DATE.getId());
+                                                                                return joinCardWithLabelDao.upsert(updated).thenApply(id -> null);
+                                                                            });
+                                                                }
+                                                                return CompletableFuture.completedFuture(null);
+                                                            }));
+                                        })));
+                    }
+                    return future;
+                });
+    }
+
+    private CompletableFuture<Void> upSyncAssignedUsers(Account account) {
+        return joinCardWithUserDao.getChangedJoinsForAccount(account.id().value())
+                .thenCompose(changedUsers -> {
+                    if (changedUsers == null || changedUsers.isEmpty())
+                        return CompletableFuture.completedFuture(null);
+                    logger.info("Found " + changedUsers.size() + " changed users for account " + account.id().value());
+                    CompletableFuture<Void> future = CompletableFuture.completedFuture(null);
+                    for (JoinCardWithUserEntity join : changedUsers) {
+                        final var finalFuture = future;
+                        future = finalFuture.thenCompose(v -> cardDao.getCardById(join.getCardId())
+                                .thenCompose(card -> userDao.getUserByLocalId(join.getUserId())
+                                        .thenCompose(user -> {
+                                            if (card == null || card.getRemoteId() == null || user == null || user.getRemoteId() == null) {
+                                                logger.warning("Skipping user sync: card or user remote ID missing. Card: " + (card != null ? card.getRemoteId() : "null") + ", User: " + (user != null ? user.getRemoteId() : "null"));
+                                                return CompletableFuture.completedFuture(null);
+                                            }
+                                            return cardDao.getBoardRemoteIdByLocalId(card.getLocalId())
+                                                    .thenCompose(boardId -> cardDao.getStackRemoteIdByLocalId(card.getLocalId())
+                                                            .thenCompose(stackId -> {
+                                                                if (boardId == null || stackId == null) {
+                                                                    logger.warning("Skipping user sync: board or stack remote ID missing. Board: " + boardId + ", Stack: " + stackId);
+                                                                    return CompletableFuture.completedFuture(null);
+                                                                }
+                                                                DeckApi api = apiFactory.create(account).getDeckApi();
+                                                                it.niedermann.nextcloud.remote.deck.dto.UserForAssignmentDTO assignment = new it.niedermann.nextcloud.remote.deck.dto.UserForAssignmentDTO().userId(user.getRemoteId());
+                                                                if (join.getStatus() == DBStatus.LOCAL_DELETED.getId()) {
+                                                                    logger.info("Unassigning user " + user.getRemoteId() + " from card " + card.getRemoteId());
+                                                                    return api.unassignUserFromCard(boardId, stackId, card.getRemoteId(), assignment)
+                                                                            .thenCompose(v2 -> joinCardWithUserDao.deleteByCardIdAndUserId(join.getCardId(), join.getUserId()));
+                                                                } else if (join.getStatus() == DBStatus.LOCAL_EDITED.getId()) {
+                                                                    logger.info("Assigning user " + user.getRemoteId() + " to card " + card.getRemoteId());
+                                                                    return api.assignUserToCard(boardId, stackId, card.getRemoteId(), assignment)
+                                                                            .thenCompose(v2 -> {
+                                                                                JoinCardWithUserEntity updated = new JoinCardWithUserEntity(join.getCardId(), join.getUserId(), DBStatus.UP_TO_DATE.getId());
+                                                                                return joinCardWithUserDao.upsert(updated).thenApply(id -> null);
+                                                                            });
+                                                                }
+                                                                return CompletableFuture.completedFuture(null);
+                                                            }));
+                                        })));
+                    }
+                    return future;
+                });
+    }
+
     private CompletableFuture<Void> syncDependents(Account account, CardDTO cardDto, Long localCardId) {
         if (cardDto.getDependentCards() == null) {
             return CompletableFuture.completedFuture(null);
@@ -432,7 +576,6 @@ public class CardSyncProvider implements SyncProvider<ColumnDTO> {
 
     private CompletableFuture<Long> mergeCard(Account account, CardDTO cardDto, Long columnId) {
         if (cardDto.getId() == null) return CompletableFuture.completedFuture(null);
-        logger.info("Merging card: " + cardDto.getId());
         CompletableFuture<Long> userIdFuture = userSyncHelper.syncUser(account, cardDto.getOwner())
                 .thenApply(user -> user != null ? user.getLocalId() : null);
         return userIdFuture.thenCompose(ownerLocalId -> cardDao.getCardByRemoteId(account.id().value(), cardDto.getId())
@@ -440,13 +583,14 @@ public class CardSyncProvider implements SyncProvider<ColumnDTO> {
                     final long existingLocalId = localCard != null ? localCard.getLocalId() : 0;
                     CardEntity serverCard = CardMapper.INSTANCE.toEntity(CardRemoteMapper.INSTANCE.toTO(cardDto));
                     if (localCard == null || serverCard.getEtag() == null || !serverCard.getEtag().equals(localCard.getEtag())) {
+                        logger.info("Merging card " + cardDto.getId() + " (existingLocalId: " + existingLocalId + ")");
                         CardEntity newLocal = new CardEntity(
                                 existingLocalId,
                                 account.id().value(),
                                 serverCard.getRemoteId(),
                                 DBStatus.UP_TO_DATE.getId(),
                                 serverCard.getLastModified(),
-                                serverCard.getLastModified(),
+                                serverCard.getLastModified() != null ? serverCard.getLastModified() : OffsetDateTime.now(),
                                 serverCard.getEtag(),
                                 serverCard.getTitle(),
                                 serverCard.getDescription(),

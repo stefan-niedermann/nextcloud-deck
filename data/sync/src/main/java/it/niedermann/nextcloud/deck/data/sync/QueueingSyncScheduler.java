@@ -170,8 +170,7 @@ public class QueueingSyncScheduler implements SyncScheduler {
 
         // We don't cancel the future anymore, as it's better to let the sync finish
         return reporter
-                .doOnNext(syncStatus -> accountSyncStatus.onNext(Optional.of(syncStatus)))
-                .doOnTerminate(() -> accountSyncStatus.onNext(Optional.empty()));
+                .doOnNext(syncStatus -> accountSyncStatus.onNext(Optional.of(syncStatus)));
     }
 
     @Override

@@ -6,6 +6,7 @@ import java.time.ZoneOffset;
 
 import it.niedermann.nextcloud.deck.domain.model.AccessControl;
 import it.niedermann.nextcloud.deck.domain.model.Account;
+import it.niedermann.nextcloud.deck.domain.model.Activity;
 import it.niedermann.nextcloud.deck.domain.model.Attachment;
 import it.niedermann.nextcloud.deck.domain.model.Board;
 import it.niedermann.nextcloud.deck.domain.model.Card;
@@ -141,6 +142,22 @@ public class CommonRemoteMapper {
     }
 
     public Long fromAccessControlRemoteId(AccessControl.RemoteID id) {
+        return id != null ? id.value() : null;
+    }
+
+    public Activity.ID toActivityId(Long value) {
+        return value != null ? new Activity.ID(value) : null;
+    }
+
+    public Long fromActivityId(Activity.ID id) {
+        return id != null ? id.value() : null;
+    }
+
+    public Activity.RemoteID toActivityRemoteId(Long value) {
+        return value != null ? new Activity.RemoteID(value) : null;
+    }
+
+    public Long fromActivityRemoteId(Activity.RemoteID id) {
         return id != null ? id.value() : null;
     }
 

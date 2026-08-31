@@ -18,20 +18,97 @@ import it.niedermann.nextcloud.remote.ApiProvider;
 import it.niedermann.nextcloud.remote.deck.dto.AttachmentDTO;
 import it.niedermann.nextcloud.remote.deck.dto.CardDTO;
 import it.niedermann.nextcloud.remote.deck.mapper.AttachmentRemoteMapper;
+import it.niedermann.nextcloud.deck.data.local.dao.CardDao;
+import it.niedermann.nextcloud.remote.deck.DeckApi;
+import okhttp3.MediaType;
+import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
 import jakarta.inject.Inject;
 
 public class AttachmentSyncProvider implements SyncProvider<CardDTO> {
 
     private final AttachmentDao attachmentDao;
+    private final CardDao cardDao;
+    private final ApiProvider.Factory apiFactory;
 
     @Inject
-    public AttachmentSyncProvider(AttachmentDao attachmentDao, ApiProvider.Factory apiFactory) {
+    public AttachmentSyncProvider(AttachmentDao attachmentDao, CardDao cardDao, ApiProvider.Factory apiFactory) {
         this.attachmentDao = attachmentDao;
+        this.cardDao = cardDao;
+        this.apiFactory = apiFactory;
     }
 
     @Override
     public CompletableFuture<Void> upSync(Account account, SyncStatus status, Consumer<SyncStatus> reporter) {
-        return CompletableFuture.completedFuture(null);
+        return attachmentDao.getChangedAttachments(account.id().value())
+                .thenCompose(changedAttachments -> {
+                    if (changedAttachments == null || changedAttachments.isEmpty())
+                        return CompletableFuture.completedFuture(null);
+                    CompletableFuture<Void> future = CompletableFuture.completedFuture(null);
+                    for (AttachmentEntity local : changedAttachments) {
+                        final var finalFuture = future;
+                        future = finalFuture.thenCompose(v -> upSyncSingle(account, local));
+                    }
+                    return future;
+                });
+    }
+
+    private CompletableFuture<Void> upSyncSingle(Account account, AttachmentEntity local) {
+        return cardDao.getCardById(local.getCardId())
+                .thenCompose(card -> {
+                    if (card == null || card.getRemoteId() == null) return CompletableFuture.completedFuture(null);
+                    return cardDao.getBoardRemoteIdByLocalId(card.getLocalId())
+                            .thenCompose(boardId -> cardDao.getStackRemoteIdByLocalId(card.getLocalId())
+                                    .thenCompose(stackId -> {
+                                        if (boardId == null || stackId == null)
+                                            return CompletableFuture.completedFuture(null);
+                                        DeckApi api = apiFactory.create(account).getDeckApi();
+                                        if (local.getStatus() == DBStatus.LOCAL_DELETED.getId()) {
+                                            return api.deleteAttachment(local.getType().getValue(), boardId, stackId, card.getRemoteId(), local.getRemoteId())
+                                                    .thenCompose(v -> attachmentDao.deleteById(local.getLocalId()));
+                                        } else if (local.getStatus() == DBStatus.LOCAL_EDITED.getId() && local.getRemoteId() == null) {
+                                            if (local.getLocalPath() == null) return CompletableFuture.completedFuture(null);
+                                            java.io.File file = new java.io.File(local.getLocalPath());
+                                            if (!file.exists()) return CompletableFuture.completedFuture(null);
+
+                                            RequestBody fileBody = RequestBody.create(MediaType.parse("application/octet-stream"), file);
+                                            MultipartBody.Part filePart = MultipartBody.Part.createFormData("file", file.getName(), fileBody);
+                                            MultipartBody.Part typePart = MultipartBody.Part.createFormData("type", null, RequestBody.create(MediaType.parse("text/plain"), local.getType().getValue()));
+                                            MultipartBody.Part dataPart = MultipartBody.Part.createFormData("data", null, RequestBody.create(MediaType.parse("text/plain"), ""));
+
+                                            return api.uploadAttachment(boardId, stackId, card.getRemoteId(), typePart, filePart, dataPart)
+                                                    .thenCompose(response -> {
+                                                        AttachmentEntity updated = AttachmentMapper.INSTANCE.toEntity(AttachmentRemoteMapper.INSTANCE.toTO(response));
+                                                        updated = new AttachmentEntity(
+                                                                local.getLocalId(),
+                                                                local.getAccountId(),
+                                                                updated.getRemoteId(),
+                                                                DBStatus.UP_TO_DATE.getId(),
+                                                                updated.getLastModified(),
+                                                                updated.getLastModified(),
+                                                                updated.getEtag(),
+                                                                local.getCardId(),
+                                                                updated.getType(),
+                                                                updated.getData(),
+                                                                updated.getCreatedAt(),
+                                                                updated.getCreatedBy(),
+                                                                updated.getDeletedAt(),
+                                                                updated.getFilesize(),
+                                                                updated.getMimetype(),
+                                                                updated.getDirname(),
+                                                                updated.getBasename(),
+                                                                updated.getExtension(),
+                                                                updated.getFilename(),
+                                                                local.getLocalPath(),
+                                                                updated.getFileId(),
+                                                                null
+                                                        );
+                                                        return attachmentDao.updateRx(updated);
+                                                    });
+                                        }
+                                        return CompletableFuture.completedFuture(null);
+                                    }));
+                });
     }
 
     @Override

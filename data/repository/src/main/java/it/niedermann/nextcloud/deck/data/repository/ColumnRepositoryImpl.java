@@ -75,8 +75,8 @@ public class ColumnRepositoryImpl implements ColumnRepository {
                     }
                     final var entity = columnMapper.toEntity(column);
                     final var updatedEntity = new ColumnEntity(
-                            oldEntity.getLocalId(),
-                            oldEntity.getAccountId(),
+                            entity.getLocalId(),
+                            entity.getAccountId() != 0 ? entity.getAccountId() : oldEntity.getAccountId(),
                             entity.getRemoteId() != null ? entity.getRemoteId() : oldEntity.getRemoteId(),
                             DBStatus.LOCAL_EDITED.getId(),
                             oldEntity.getLastModified(),

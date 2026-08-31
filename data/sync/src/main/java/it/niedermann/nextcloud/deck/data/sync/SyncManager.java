@@ -49,26 +49,15 @@ public class SyncManager {
         this.attachmentSyncProvider = attachmentSyncProvider;
         this.commentSyncProvider = commentSyncProvider;
         this.accessControlSyncProvider = accessControlSyncProvider;
-        
-        this.boardSyncProvider.setColumnSyncProvider(columnSyncProvider);
-        this.boardSyncProvider.setLabelSyncProvider(labelSyncProvider);
-        this.boardSyncProvider.setAccessControlSyncProvider(accessControlSyncProvider);
-        this.columnSyncProvider.setCardSyncProvider(cardSyncProvider);
-        this.cardSyncProvider.setAttachmentSyncProvider(attachmentSyncProvider);
-        this.cardSyncProvider.setCommentSyncProvider(commentSyncProvider);
     }
 
     public CompletableFuture<Void> synchronize(Account account, Consumer<SyncStatus> reporter) {
-        final var apiProvider = apiProviderFactory.create(account);
-        final var ocsApi = apiProvider.getOcsApi();
-
-        SyncStatus initialStatus = new SyncStatus(account);
-
         logger.info("Starting sync for account: " + account.username());
-        return ocsApi.getCapabilities(null).thenCompose(response -> {
-            logger.info("Server capabilities received");
+        SyncStatus initialStatus = new SyncStatus(account);
+        reporter.accept(initialStatus);
 
-            reporter.accept(initialStatus);
+        return apiProviderFactory.create(account).getOcsApi().getCapabilities(null).thenCompose(capabilities -> {
+            logger.info("Server capabilities received");
             return boardSyncProvider.upSync(account, initialStatus, reporter)
                     .thenCompose(v -> {
                         logger.info("Board up-sync finished");
@@ -99,9 +88,16 @@ public class SyncManager {
             return boardSyncProvider.downSync(account, null, null, initialStatus, reporter);
         }).thenAccept(v -> {
             logger.info("Sync finished for account: " + account.username());
-        }).thenAccept(v -> {
-            logger.info("Sync finished for account: " + account.username());
         }).exceptionally(throwable -> {
+            if (throwable instanceof RuntimeException && throwable.getCause() instanceof retrofit2.HttpException) {
+                retrofit2.HttpException e = (retrofit2.HttpException) throwable.getCause();
+                try {
+                    String body = e.response().errorBody().string();
+                    logger.severe("Sync failed with HTTP " + e.code() + ": " + body);
+                } catch (java.io.IOException ioException) {
+                    logger.severe("Sync failed with HTTP " + e.code() + " (could not read error body)");
+                }
+            }
             logger.log(Level.SEVERE, "Sync failed", throwable);
             throw new RuntimeException(throwable);
         });

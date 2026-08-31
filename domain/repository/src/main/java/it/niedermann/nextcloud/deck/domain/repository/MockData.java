@@ -160,6 +160,8 @@ public interface MockData {
                 order,
                 title,
                 description,
+                "text",
+                assignees.stream().findFirst().orElse(new User.ID("jdoe")),
                 labels,
                 assignees,
                 Collections.emptyList(),
@@ -184,7 +186,8 @@ public interface MockData {
                     "- [ ] Subtask C";
 
             final Set<Label.ID> labels = (i % 2 == 0) ? Set.of(new Label.ID(boardId * 100 + (i % 3 + 1))) : Collections.emptySet();
-            final Set<User.ID> assignees = (i % 5 == 0) ? Set.of(new User.ID("jdoe")) :
+            User.ID jdoe = new User.ID("jdoe");
+            final Set<User.ID> assignees = (i % 5 == 0) ? Set.of(jdoe) :
                                     (i % 5 == 1) ? Set.of(new User.ID("smith")) :
                                     Collections.emptySet();
 
@@ -196,6 +199,8 @@ public interface MockData {
                     i,
                     title,
                     desc,
+                    "text",
+                    jdoe,
                     labels,
                     assignees,
                     Collections.emptyList(),

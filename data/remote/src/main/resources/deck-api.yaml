@@ -497,6 +497,8 @@ components:
           format: date-time
         color:
           type: string
+        owner:
+          type: string
 
     CardUpdateOwnerStringDTO:
       type: object

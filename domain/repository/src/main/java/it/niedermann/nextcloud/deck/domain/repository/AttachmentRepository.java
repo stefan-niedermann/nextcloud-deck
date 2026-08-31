@@ -1,6 +1,8 @@
 package it.niedermann.nextcloud.deck.domain.repository;
 
+import java.nio.file.Path;
 import java.util.List;
+import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.Flow;
 
 import it.niedermann.nextcloud.deck.domain.model.Attachment;
@@ -13,4 +15,6 @@ public interface AttachmentRepository {
 
     /// @implSpec if a download for this attachmentId is already in progress, the existing [Flow.Publisher] instance must be returned
     Flow.Publisher<AttachmentDownloadProgress> download(Attachment.ID attachmentId);
+
+    CompletableFuture<Void> addAttachment(Card.ID cardId, Path localPath);
 }

@@ -68,15 +68,15 @@ public class BoardRepositoryImpl implements BoardRepository {
                     }
                     final var entity = boardMapper.toEntity(board);
                     final var editedEntity = new BoardEntity(
-                            oldEntity.getLocalId(),
-                            oldEntity.getAccountId(),
+                            entity.getLocalId(),
+                            entity.getAccountId() != 0 ? entity.getAccountId() : oldEntity.getAccountId(),
                             entity.getRemoteId() != null ? entity.getRemoteId() : oldEntity.getRemoteId(),
                             DBStatus.LOCAL_EDITED.getId(),
-                            oldEntity.getLastModified(),
+                            entity.getLastModified(),
                             OffsetDateTime.now(),
                             (entity.getEtag() != null && !entity.getEtag().isBlank()) ? entity.getEtag() : oldEntity.getEtag(),
                             entity.getTitle(),
-                            oldEntity.getOwnerId(),
+                            entity.getOwnerId(),
                             entity.getColor(),
                             entity.getArchived(),
                             entity.getShared(),
@@ -85,7 +85,7 @@ public class BoardRepositoryImpl implements BoardRepository {
                             entity.getPermissionEdit(),
                             entity.getPermissionManage(),
                             entity.getPermissionShare(),
-                            oldEntity.getConflictWithId()
+                            entity.getConflictWithId()
                     );
                     return boardDao.updateRx(editedEntity).thenApply(v -> null);
                 });

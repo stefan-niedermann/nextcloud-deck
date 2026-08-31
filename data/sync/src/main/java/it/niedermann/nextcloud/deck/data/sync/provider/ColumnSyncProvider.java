@@ -193,49 +193,69 @@ public class ColumnSyncProvider implements SyncProvider<BoardDTO> {
     }
 
     private CompletableFuture<Void> syncStacks(Account account, List<ColumnDTO> columns, Long parentLocalId, SyncStatus status, Consumer<SyncStatus> reporter) {
-        final List<ColumnDTO> columnsToSync = columns != null ? columns : java.util.Collections.emptyList();
-        final Set<Long> remoteIds = columnsToSync.stream()
+        if (columns == null) return CompletableFuture.completedFuture(null);
+
+        Set<Long> remoteIdsFromServer = columns.stream()
                 .map(ColumnDTO::getId)
                 .filter(Objects::nonNull)
                 .collect(Collectors.toSet());
 
-        long total = columnsToSync.size();
-        CompletableFuture<?>[] stackFutures = new CompletableFuture[columnsToSync.size()];
-        for (int i = 0; i < columnsToSync.size(); i++) {
-            ColumnDTO columnDto = columnsToSync.get(i);
-            if (columnDto == null) {
-                stackFutures[i] = CompletableFuture.completedFuture(null);
-                continue;
-            }
-            final long finished = i + 1;
-
-            final String key = account.id().value() + ":" + columnDto.getId();
-            stackFutures[i] = inFlightColumnSyncs.compute(key, (k, existingFuture) -> {
-                if (existingFuture != null && !existingFuture.isCompletedExceptionally()) {
-                    return existingFuture;
-                }
-                final var future = mergeColumn(account, columnDto, parentLocalId)
-                        .thenCompose(localColumnId -> {
-                            SyncStatus newStatus = status.withColumns(total, finished, columnDto.getTitle());
-                            reporter.accept(newStatus);
-                            return cardSyncProvider.downSync(account, columnDto, localColumnId, newStatus, reporter)
-                                    .thenApply(v -> localColumnId);
-                        });
-                future.whenComplete((v, t) -> inFlightColumnSyncs.remove(key));
-                return future;
-            }).thenApply(v -> null);
-        }
-        return CompletableFuture.allOf(stackFutures)
-                .thenCompose(v -> columnDao.getColumnsByBoardRx(parentLocalId))
+        return columnDao.getColumnsByBoard(parentLocalId)
+                .firstElement()
+                .toSingle()
+                .toCompletionStage()
+                .toCompletableFuture()
                 .thenCompose(localColumns -> {
-                    List<CompletableFuture<?>> deletionFutures = new ArrayList<>();
-                    for (ColumnEntity localColumn : localColumns) {
-                        if (localColumn.getRemoteId() != null && !remoteIds.contains(localColumn.getRemoteId()) && localColumn.getStatus() != DBStatus.LOCAL_EDITED.getId()) {
-                            logger.info("Deleting local column because it was deleted on remote: " + localColumn.getRemoteId());
-                            deletionFutures.add(columnDao.deleteById(localColumn.getLocalId()));
+                    List<CompletableFuture<?>> deleteFutures = new ArrayList<>();
+                    for (ColumnEntity local : localColumns) {
+                        if (local.getRemoteId() != null && !remoteIdsFromServer.contains(local.getRemoteId())) {
+                            if (local.getStatus() != DBStatus.LOCAL_EDITED.getId() && local.getStatus() != DBStatus.LOCAL_DELETED.getId()) {
+                                logger.info("Column missing on server, deleting locally: " + local.getRemoteId());
+                                deleteFutures.add(columnDao.deleteById(local.getLocalId()));
+                            }
                         }
                     }
-                    return CompletableFuture.allOf(deletionFutures.toArray(new CompletableFuture[0]));
+                    return CompletableFuture.allOf(deleteFutures.toArray(new CompletableFuture[0]));
+                })
+                .thenCompose(v -> {
+                    long total = columns.size();
+                    CompletableFuture<?>[] stackFutures = new CompletableFuture[columns.size()];
+                    for (int i = 0; i < columns.size(); i++) {
+                        ColumnDTO columnDto = columns.get(i);
+                        if (columnDto == null) {
+                            stackFutures[i] = CompletableFuture.completedFuture(null);
+                            continue;
+                        }
+                        final long finished = i + 1;
+
+                        final String key = account.id().value() + ":" + columnDto.getId();
+                        stackFutures[i] = inFlightColumnSyncs.compute(key, (k, existingFuture) -> {
+                            if (existingFuture != null && !existingFuture.isCompletedExceptionally()) {
+                                return existingFuture;
+                            }
+                            final var future = mergeColumn(account, columnDto, parentLocalId)
+                                    .thenCompose(localColumnId -> {
+                                        SyncStatus newStatus = status.withColumns(total, finished, columnDto.getTitle());
+                                        reporter.accept(newStatus);
+                                        return cardSyncProvider.downSync(account, columnDto, localColumnId, newStatus, reporter)
+                                                .thenApply(v2 -> localColumnId);
+                                    });
+                            future.whenComplete((v2, t) -> inFlightColumnSyncs.remove(key));
+                            return future;
+                        }).thenApply(v2 -> null);
+                    }
+                    return CompletableFuture.allOf(stackFutures)
+                            .thenCompose(v2 -> columnDao.getColumnsByBoardRx(parentLocalId))
+                            .thenCompose(localColumns -> {
+                                List<CompletableFuture<?>> deletionFutures = new ArrayList<>();
+                                for (ColumnEntity localColumn : localColumns) {
+                                    if (localColumn.getRemoteId() != null && !remoteIdsFromServer.contains(localColumn.getRemoteId()) && localColumn.getStatus() != DBStatus.LOCAL_EDITED.getId()) {
+                                        logger.info("Deleting local column because it was deleted on remote: " + localColumn.getRemoteId());
+                                        deletionFutures.add(columnDao.deleteById(localColumn.getLocalId()));
+                                    }
+                                }
+                                return CompletableFuture.allOf(deletionFutures.toArray(new CompletableFuture[0]));
+                            });
                 });
     }
 

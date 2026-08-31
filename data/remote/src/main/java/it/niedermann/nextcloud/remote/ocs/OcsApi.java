@@ -13,9 +13,12 @@ import it.niedermann.nextcloud.remote.ocs.dto.OcsSearchResultResponseDTO;
 import it.niedermann.nextcloud.remote.ocs.dto.OcsUserResponseDTO;
 import okhttp3.ResponseBody;
 import retrofit2.Response;
+import retrofit2.http.Body;
+import retrofit2.http.DELETE;
 import retrofit2.http.GET;
 import retrofit2.http.Header;
 import retrofit2.http.Headers;
+import retrofit2.http.POST;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
 
@@ -62,4 +65,20 @@ public interface OcsApi {
     @GET("ocs/v1.php/references/resolve")
     CompletableFuture<Object> resolve(@Header("If-None-Match") @Nullable String eTag,
                                       @Query("reference") URI reference);
+
+    @Headers({HEADER_OCS_API_REQUEST})
+    @GET("ocs/v2.php/apps/activity/api/v2/activity/filter?format=json&object_type=deck_card&limit=50&since=-1&sort=asc")
+    CompletableFuture<it.niedermann.nextcloud.remote.ocs.dto.OcsActivityResponseDTO> getActivitiesForCard(@Query("object_id") long cardId);
+
+    @Headers({HEADER_OCS_API_REQUEST})
+    @GET("ocs/v1.php/apps/deck/api/v1.0/cards/{cardId}/comments?format=json")
+    CompletableFuture<it.niedermann.nextcloud.remote.ocs.dto.OcsCommentResponseDTO> getCommentsForCard(@Path("cardId") long cardId);
+
+    @Headers({HEADER_OCS_API_REQUEST})
+    @POST("ocs/v1.php/apps/deck/api/v1.0/cards/{cardId}/comments?format=json")
+    CompletableFuture<it.niedermann.nextcloud.remote.ocs.dto.OcsCommentResponseDTO> createCommentForCard(@Path("cardId") long cardId, @Body it.niedermann.nextcloud.remote.deck.dto.CommentDTO comment);
+
+    @Headers({HEADER_OCS_API_REQUEST})
+    @DELETE("ocs/v1.php/apps/deck/api/v1.0/cards/{cardId}/comments/{commentId}?format=json")
+    CompletableFuture<Void> deleteCommentForCard(@Path("cardId") long cardId, @Path("commentId") long commentId);
 }

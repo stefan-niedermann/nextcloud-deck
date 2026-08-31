@@ -149,6 +149,50 @@ paths:
               schema:
                 $ref: '#/components/schemas/OcsSearchResultResponseDTO'
 
+  /ocs/v2.php/apps/activity/api/v2/activity/filter:
+    get:
+      parameters:
+        - name: format
+          in: query
+          required: true
+          schema:
+            type: string
+            default: json
+        - name: object_type
+          in: query
+          required: true
+          schema:
+            type: string
+            default: deck_card
+        - name: object_id
+          in: query
+          required: true
+          schema:
+            type: integer
+            format: int64
+        - name: limit
+          in: query
+          schema:
+            type: integer
+            default: 50
+        - name: since
+          in: query
+          schema:
+            type: integer
+            default: -1
+        - name: sort
+          in: query
+          schema:
+            type: string
+            default: asc
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OcsActivityResponseDTO'
+
 components:
   schemas:
     OcsMetaDTO:
@@ -377,3 +421,58 @@ components:
           type: object
           additionalProperties:
             type: string
+
+    OcsActivityResponseDTO:
+      type: object
+      properties:
+        ocs:
+          type: object
+          properties:
+            meta:
+              $ref: '#/components/schemas/OcsMetaDTO'
+            data:
+              type: array
+              items:
+                $ref: '#/components/schemas/ActivityDTO'
+
+    ActivityDTO:
+      type: object
+      properties:
+        activity_id:
+          type: integer
+          format: int64
+        app:
+          type: string
+        type:
+          type: string
+        user:
+          type: string
+        subject:
+          type: string
+        message:
+          type: string
+        object_type:
+          type: string
+        object_id:
+          type: integer
+          format: int64
+        link:
+          type: string
+        icon:
+          type: string
+        datetime:
+          type: string
+          format: date-time
+
+    OcsCommentResponseDTO:
+      type: object
+      properties:
+        ocs:
+          type: object
+          properties:
+            meta:
+              $ref: '#/components/schemas/OcsMetaDTO'
+            data:
+              type: array
+              items:
+                $ref: 'deck-api.yaml#/components/schemas/CommentDTO'

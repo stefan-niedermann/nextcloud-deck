@@ -23,8 +23,8 @@ public interface UserMapper extends GenericMapper<UserEntity, User> {
     @Mapping(target = "accountId", source = "accountId")
     @Mapping(target = "id", expression = "java(new it.niedermann.nextcloud.deck.domain.model.User.ID(entity.getRemoteId() != null ? entity.getRemoteId() : \"\"))")
     @Mapping(target = "displayName", expression = "java(entity.getDisplayName() != null ? entity.getDisplayName() : \"\")")
-    @Mapping(target = "status", ignore = true)
-    @Mapping(target = "lastModified", ignore = true)
+    @Mapping(target = "status", expression = "java(it.niedermann.nextcloud.deck.domain.model.DBStatus.findById(entity.getStatus()))")
+    @Mapping(target = "lastModified", source = "lastModified")
     @Mapping(target = "remoteId", ignore = true)
     User toTO(UserEntity entity);
 }
