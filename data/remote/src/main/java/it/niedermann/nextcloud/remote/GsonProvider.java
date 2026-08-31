@@ -17,9 +17,9 @@ public class GsonProvider {
     public GsonProvider() {
         this.gson = new GsonBuilder()
                 .registerTypeAdapter(OffsetDateTime.class, new OffsetDateTimeAdapter())
+                .registerTypeAdapterFactory(new it.niedermann.nextcloud.remote.ocs.OcsObjectOrEmptyListAdapterFactory())
                 .registerTypeAdapterFactory(OffsetDateTimeAdapter.FACTORY)
                 .registerTypeAdapterFactory(UserDtoAdapter.FACTORY)
-                .registerTypeAdapterFactory(OcsUserDtoAdapter.FACTORY)
                 .create();
     }
 
