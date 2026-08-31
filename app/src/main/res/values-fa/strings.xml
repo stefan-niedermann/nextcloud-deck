@@ -89,6 +89,7 @@
     <string name="label_clear_due_date">تاریخ مقرر را پاک کنید</string>
     <string name="label_clear_done">انجام‌نشده</string>
     <string name="label_due_at">موعد تحویل:%1$s</string>
+    <string name="label_start_at">شروع کن در: %1$s</string>
     <string name="label_add">افزودن%1$s</string>
 
     <string name="card_edit_details">جزئیات</string>
@@ -208,7 +209,9 @@
     <string name="error_edit_activity_killed_by_android">Android حالت ویرایش را به پایان رساند زیرا به منابع سیستم بیشتری برای برنامه های دیگر نیاز داشت.</string>
 
     <string name="error_dialog_title">اوه نه - حالا نه! 🤦 </string>
+    <string name="error_dialog_tip_parsing_failed">پاسخ سرور شما به صورتی که انتظار میرفت دریافت نشد. مطمئن شوید که اپلیکیشن دِک را روی سرور خود فعال کرده اید.</string>
     <string name="error_dialog_tip_token_mismatch_retry">لطفا سعی کنید برنامه را به زور ببندید و دوباره آن را مجدداً راه اندازی کنید. ممکن است اتصال نادرستی به برنامه ابر سانا وجود داشته باشد.</string>
+    <string name="error_dialog_tip_clear_storage_might_help">اگر مشکل همچنان ادامه داشت، سعی کنید فضای ذخیره سازی هر دو برنامه را پاک کنید: نکست کلاود و نکست کلاود دِک و حساب کاربری خود را مجدداً وارد کنید.</string>
     <string name="error_dialog_tip_database_upgrade_failed">ارتقا پایگاه داده انجام نشد. لطفاً موضوع را گزارش کرده و فضای ذخیره سازی را پاک کنید تا به طور معمول از برنامه استفاده کنید.</string>
     <string name="error_dialog_tip_clear_storage">با باز کردن اطلاعات برنامه و انتخاب ذخیره سازی ← پاک کردن فضای ذخیره سازی ، می توانید فضای ذخیره سازی را پاک کنید.</string>
     <string name="error_dialog_tip_offline_no_internet">به نظر می رسد سعی کرده اید یک همگام سازی را بدون اتصال به اینترنت راه اندازی کنید.</string>
@@ -225,6 +228,7 @@
     <string name="error_dialog_check_maintenance">لطفاً بررسی کنید که برنامه ابرسانا شما در حال حاضر در حالت تعمیر و نگهداری نیست.</string>
     <string name="error_dialog_insufficient_storage">نمونه نکست‌کلود شما دیگر فضای ذخیرهٔ خالی ندارد. لطفاً تعدادی پرونده را حذف کنید تا تغییرات محلی‌تان با فضای ابری همگام شود.</string>
     <string name="error_dialog_we_need_info">برای کمک به شما به اطلاعات فنی زیر نیاز داریم:</string>
+    <string name="error_dialog_redirect">سرور شما با کُد وضعیت HTTP 302 پاسخ داد، که به این معنی است که شما برنامه ی دِک را روی سرور نصب نکرده اید یا چیزی به اشتباه تنظیم شده است. این میتوانید به دلیل تغییراتِ دستی در یک فایل .thaccess یا توسط برنامه هایی مثل OID Client ایجاد شده باشد.</string>
     <string name="error_dialog_version_not_parsable">ما نمی توانیم نسخه برنامه کارت‌های سانا سمت سرور را تعیین کنیم. لطفاً از نصب و فعال بودن آن اطمینان حاصل کنید.</string>
     <string name="error_dialog_account_might_not_be_authorized">حساب برنامه ابرسانا شما ممکن است دیگر مجاز نباشد.</string>
     <string name="error_dialog_user_not_found_in_database">کاربر فعلی با کاربرانی که در پایگاه داده خود داریم مطابقت ندارد. اگر از LDAP در نمونه ابرسنا خود استفاده می کنید ، ممکن است برنامه ابرسانا شما شناسه کاربری قدیمی را ذخیره کرده باشد.</string>
@@ -332,6 +336,9 @@
     <string name="enter_search_term_description">برای یافتن کارت ها در این تابلو عبارت جستجو را وارد کنید.</string>
     <string name="no_search_results_title">جستجو نتیجه‌ای نداشت</string>
     <string name="no_search_results_description">برای جستجوی شما نتیجه‌ای پیدا نکردیم.</string>
+    <string name="label_no_startdate">بدون تاریخ شروع</string>
+    <string name="label_dependent_cards">کارت های وابسته</string>
     <string name="label_color">رنگ</string>
+    <string name="label_clear_color">پاک کردن رنگ</string>
     <string name="choose_color">انتخاب رنگ</string>
 </resources>
