@@ -20,6 +20,10 @@ import it.niedermann.nextcloud.deck.domain.repository.AccountRepository;
 import it.niedermann.nextcloud.deck.domain.repository.CommentRepository;
 import jakarta.inject.Inject;
 
+import it.niedermann.nextcloud.deck.data.local.entity.CommentEntity;
+import it.niedermann.nextcloud.deck.domain.model.DBStatus;
+import java.time.OffsetDateTime;
+
 public class CommentRepositoryImpl implements CommentRepository {
 
     private final AccountRepository accountRepository;
@@ -60,18 +64,82 @@ public class CommentRepositoryImpl implements CommentRepository {
 
     @Override
     public CompletableFuture<Void> createComment(CreateComment comment) {
-        // TODO: Local-first or Sync?
-        return CompletableFuture.completedFuture(null);
+        return accountRepository.findAccountIdByCardId(comment.cardId())
+                .thenCompose(accountId -> {
+                    final var entity = new CommentEntity(
+                            0,
+                            accountId.value(),
+                            null,
+                            DBStatus.LOCAL_EDITED.getId(),
+                            null,
+                            OffsetDateTime.now(),
+                            null,
+                            comment.cardId().value(),
+                            null, // actorType
+                            null, // actorId
+                            null, // actorDisplayName
+                            comment.message(),
+                            null, // parentId
+                            OffsetDateTime.now(),
+                            null
+                    );
+                    return commentDao.insertOrReplace(entity).thenApply(v -> null);
+                });
     }
 
     @Override
     public CompletableFuture<Void> updateComment(Comment.ID id, String message) {
-        // TODO: Implement update in CommentDao or fetch and update
-        return CompletableFuture.completedFuture(null);
+        return commentDao.getCommentByLocalId(id.value())
+                .thenCompose(oldEntity -> {
+                    if (oldEntity == null) return CompletableFuture.completedFuture(null);
+                    final var updatedEntity = new CommentEntity(
+                            oldEntity.getLocalId(),
+                            oldEntity.getAccountId(),
+                            oldEntity.getRemoteId(),
+                            DBStatus.LOCAL_EDITED.getId(),
+                            oldEntity.getLastModified(),
+                            OffsetDateTime.now(),
+                            oldEntity.getEtag(),
+                            oldEntity.getCardId(),
+                            oldEntity.getActorType(),
+                            oldEntity.getActorId(),
+                            oldEntity.getActorDisplayName(),
+                            message,
+                            oldEntity.getParentId(),
+                            oldEntity.getCreatedAt(),
+                            oldEntity.getConflictWithId()
+                    );
+                    return commentDao.updateRx(updatedEntity).thenApply(v -> null);
+                });
     }
 
     @Override
     public CompletableFuture<Void> deleteComment(Comment.ID id) {
-        return commentDao.deleteById(id.value());
+        return commentDao.getCommentByLocalId(id.value())
+                .thenCompose(entity -> {
+                    if (entity == null) return CompletableFuture.completedFuture(null);
+                    if (entity.getRemoteId() == null) {
+                        return commentDao.deleteById(entity.getLocalId());
+                    } else {
+                        final var deletedEntity = new CommentEntity(
+                                entity.getLocalId(),
+                                entity.getAccountId(),
+                                entity.getRemoteId(),
+                                DBStatus.LOCAL_DELETED.getId(),
+                                entity.getLastModified(),
+                                OffsetDateTime.now(),
+                                entity.getEtag(),
+                                entity.getCardId(),
+                                entity.getActorType(),
+                                entity.getActorId(),
+                                entity.getActorDisplayName(),
+                                entity.getMessage(),
+                                entity.getParentId(),
+                                entity.getCreatedAt(),
+                                entity.getConflictWithId()
+                        );
+                        return commentDao.updateRx(deletedEntity).thenApply(v -> null);
+                    }
+                });
     }
 }

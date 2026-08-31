@@ -23,6 +23,9 @@ interface CommentDao : GenericDao<CommentEntity> {
     @Query("SELECT * FROM Comment WHERE accountId = :accountId AND remoteId = :remoteId")
     fun getCommentByRemoteId(accountId: Long, remoteId: Long): CompletableFuture<CommentEntity?>
 
+    @Query("SELECT * FROM Comment WHERE localId = :localId")
+    fun getCommentByLocalId(localId: Long): CompletableFuture<CommentEntity?>
+
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertOrReplace(entity: CommentEntity): CompletableFuture<Long>
 

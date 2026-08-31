@@ -6,6 +6,7 @@ import java.util.Objects;
 import java.util.Set;
 import java.util.concurrent.CompletableFuture;
 import java.util.function.Consumer;
+import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
 import it.niedermann.nextcloud.deck.data.local.dao.CardDao;
@@ -25,6 +26,8 @@ import jakarta.inject.Inject;
 
 public class CommentSyncProvider implements SyncProvider<CardDTO> {
 
+    private static final Logger logger = Logger.getLogger(CommentSyncProvider.class.getName());
+
     private final CommentDao commentDao;
     private final CardDao cardDao;
     private final ApiProvider.Factory apiFactory;
@@ -42,6 +45,7 @@ public class CommentSyncProvider implements SyncProvider<CardDTO> {
                 .thenCompose(changedComments -> {
                     if (changedComments == null || changedComments.isEmpty())
                         return CompletableFuture.completedFuture(null);
+                    logger.info("Found " + changedComments.size() + " changed comments for account " + account.id().value());
                     CompletableFuture<Void> future = CompletableFuture.completedFuture(null);
                     for (CommentEntity local : changedComments) {
                         final var finalFuture = future;
@@ -125,10 +129,12 @@ public class CommentSyncProvider implements SyncProvider<CardDTO> {
 
     private CompletableFuture<Void> mergeComment(Account account, it.niedermann.nextcloud.remote.ocs.dto.CommentDTO dto, Long cardId) {
         if (dto.getId() == null) return CompletableFuture.completedFuture(null);
+        logger.info("Merging comment " + dto.getId() + " for card " + cardId);
         return commentDao.getCommentByRemoteId(account.id().value(), dto.getId())
                 .handle((localComment, throwable) -> {
                     CommentEntity serverEntity = CommentMapper.INSTANCE.toEntity(CommentRemoteMapper.INSTANCE.toTOFromOcs(dto));
                     if (throwable != null || localComment == null) {
+                        logger.info("Inserting new comment " + dto.getId());
                         CommentEntity newLocal = new CommentEntity(
                                 0,
                                 account.id().value(),
@@ -148,6 +154,7 @@ public class CommentSyncProvider implements SyncProvider<CardDTO> {
                         );
                         return commentDao.upsert(newLocal).thenApply(v -> (Void) null);
                     } else {
+                        logger.info("Updating existing comment " + dto.getId());
                         if (localComment.getStatus() == DBStatus.CONFLICT.getId()) {
                             return CompletableFuture.<Void>completedFuture(null);
                         }

@@ -64,6 +64,9 @@ public class AttachmentSyncProvider implements SyncProvider<CardDTO> {
                                             return CompletableFuture.completedFuture(null);
                                         DeckApi api = apiFactory.create(account).getDeckApi();
                                         if (local.getStatus() == DBStatus.LOCAL_DELETED.getId()) {
+                                            if (local.getRemoteId() == null) {
+                                                return attachmentDao.deleteById(local.getLocalId());
+                                            }
                                             return api.deleteAttachment(local.getType().getValue(), boardId, stackId, card.getRemoteId(), local.getRemoteId())
                                                     .thenCompose(v -> attachmentDao.deleteById(local.getLocalId()));
                                         } else if (local.getStatus() == DBStatus.LOCAL_EDITED.getId() && local.getRemoteId() == null) {

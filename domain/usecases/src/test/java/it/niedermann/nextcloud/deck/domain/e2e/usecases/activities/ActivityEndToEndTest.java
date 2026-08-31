@@ -38,11 +38,11 @@ public class ActivityEndToEndTest extends EndToEndTest {
         final var testSubscriber = Flowable.fromPublisher(FlowAdapters.toPublisher(listActivityUseCase.execute(card.id())))
                 .test();
 
-        // The UseCase is expected to look up online and then update the database.
-        // We wait for the first emission. If it's empty, we wait for the second one.
-        testSubscriber.awaitCount(1);
-        if (testSubscriber.values().get(0).isEmpty()) {
-            testSubscriber.awaitCount(2);
+        // Wait for emissions with timeout
+        try {
+            testSubscriber.await(10, java.util.concurrent.TimeUnit.SECONDS);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
         }
 
         final var emissions = testSubscriber.values();

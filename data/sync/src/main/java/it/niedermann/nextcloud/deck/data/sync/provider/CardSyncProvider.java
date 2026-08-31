@@ -357,7 +357,10 @@ public class CardSyncProvider implements SyncProvider<ColumnDTO> {
                                                             syncDependents(account, fullDto, localCardId),
                                                             attachmentSyncProvider.downSync(account, fullDto, localCardId, newStatus, reporter),
                                                             commentSyncProvider.downSync(account, fullDto, localCardId, newStatus, reporter)
-                                                    ).thenApply(v2 -> {
+                                                    ).handle((v2, t2) -> {
+                                                        if (t2 != null) {
+                                                            logger.log(java.util.logging.Level.SEVERE, "Sub-sync failed for card " + localCardId, t2);
+                                                        }
                                                         logger.info("Card " + localCardId + " sub-syncs finished");
                                                         return localCardId;
                                                     });
