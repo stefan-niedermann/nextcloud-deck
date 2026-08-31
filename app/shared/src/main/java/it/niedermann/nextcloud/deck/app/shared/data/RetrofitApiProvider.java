@@ -30,6 +30,9 @@ public class RetrofitApiProvider implements ApiProvider {
         }
 
         final var authenticatedClient = client.newBuilder()
+                .connectTimeout(30, java.util.concurrent.TimeUnit.SECONDS)
+                .readTimeout(30, java.util.concurrent.TimeUnit.SECONDS)
+                .writeTimeout(30, java.util.concurrent.TimeUnit.SECONDS)
                 .addInterceptor(chain -> {
                     final var request = chain.request();
                     final String credentials = account.username() + ":" + account.token();

@@ -14,19 +14,13 @@ import java.time.OffsetDateTime
         Index("lastModifiedLocal"),
         Index("accountId", "remoteId", unique = true),
         Index("cardId"),
-        Index("parentId")
+        Index("parentRemoteId")
     ],
     foreignKeys = [
         ForeignKey(
             entity = CardEntity::class,
             parentColumns = ["localId"],
             childColumns = ["cardId"],
-            onDelete = ForeignKey.CASCADE
-        ),
-        ForeignKey(
-            entity = CommentEntity::class,
-            parentColumns = ["localId"],
-            childColumns = ["parentId"],
             onDelete = ForeignKey.CASCADE
         ),
         ForeignKey(
@@ -52,7 +46,7 @@ data class CommentEntity(
     val actorId: String?,
     val actorDisplayName: String?,
     val message: String,
-    val parentId: Long?,
+    val parentRemoteId: Long?,
     val createdAt: OffsetDateTime?,
 
     val conflictWithId: Long? = null

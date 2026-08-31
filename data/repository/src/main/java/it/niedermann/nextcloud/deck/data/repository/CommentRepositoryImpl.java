@@ -79,7 +79,7 @@ public class CommentRepositoryImpl implements CommentRepository {
                             null, // actorId
                             null, // actorDisplayName
                             comment.message(),
-                            null, // parentId
+                            null, // parentRemoteId
                             OffsetDateTime.now(),
                             null
                     );
@@ -105,7 +105,7 @@ public class CommentRepositoryImpl implements CommentRepository {
                             oldEntity.getActorId(),
                             oldEntity.getActorDisplayName(),
                             message,
-                            oldEntity.getParentId(),
+                            oldEntity.getParentRemoteId(),
                             oldEntity.getCreatedAt(),
                             oldEntity.getConflictWithId()
                     );
@@ -134,7 +134,7 @@ public class CommentRepositoryImpl implements CommentRepository {
                                 entity.getActorId(),
                                 entity.getActorDisplayName(),
                                 entity.getMessage(),
-                                entity.getParentId(),
+                                entity.getParentRemoteId(),
                                 entity.getCreatedAt(),
                                 entity.getConflictWithId()
                         );

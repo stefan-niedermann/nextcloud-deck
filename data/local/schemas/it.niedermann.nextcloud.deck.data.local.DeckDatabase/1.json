@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "c043438ebd24a3ec3124030ff938c828",
+    "identityHash": "5fac75d42004eabe9a25e5b7b3d5be3b",
     "entities": [
       {
         "tableName": "Account",
@@ -980,7 +980,7 @@
       },
       {
         "tableName": "Comment",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`localId` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `accountId` INTEGER NOT NULL, `remoteId` INTEGER, `status` INTEGER NOT NULL, `lastModified` TEXT, `lastModifiedLocal` TEXT, `etag` TEXT, `cardId` INTEGER NOT NULL, `actorType` TEXT, `actorId` TEXT, `actorDisplayName` TEXT, `message` TEXT NOT NULL, `parentId` INTEGER, `createdAt` TEXT, `conflictWithId` INTEGER, FOREIGN KEY(`cardId`) REFERENCES `Card`(`localId`) ON UPDATE NO ACTION ON DELETE CASCADE , FOREIGN KEY(`parentId`) REFERENCES `Comment`(`localId`) ON UPDATE NO ACTION ON DELETE CASCADE , FOREIGN KEY(`accountId`) REFERENCES `Account`(`id`) ON UPDATE NO ACTION ON DELETE CASCADE )",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`localId` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `accountId` INTEGER NOT NULL, `remoteId` INTEGER, `status` INTEGER NOT NULL, `lastModified` TEXT, `lastModifiedLocal` TEXT, `etag` TEXT, `cardId` INTEGER NOT NULL, `actorType` TEXT, `actorId` TEXT, `actorDisplayName` TEXT, `message` TEXT NOT NULL, `parentRemoteId` INTEGER, `createdAt` TEXT, `conflictWithId` INTEGER, FOREIGN KEY(`cardId`) REFERENCES `Card`(`localId`) ON UPDATE NO ACTION ON DELETE CASCADE , FOREIGN KEY(`accountId`) REFERENCES `Account`(`id`) ON UPDATE NO ACTION ON DELETE CASCADE )",
         "fields": [
           {
             "fieldPath": "localId",
@@ -1048,8 +1048,8 @@
             "notNull": true
           },
           {
-            "fieldPath": "parentId",
-            "columnName": "parentId",
+            "fieldPath": "parentRemoteId",
+            "columnName": "parentRemoteId",
             "affinity": "INTEGER"
           },
           {
@@ -1117,13 +1117,13 @@
             "createSql": "CREATE INDEX IF NOT EXISTS `index_Comment_cardId` ON `${TABLE_NAME}` (`cardId`)"
           },
           {
-            "name": "index_Comment_parentId",
+            "name": "index_Comment_parentRemoteId",
             "unique": false,
             "columnNames": [
-              "parentId"
+              "parentRemoteId"
             ],
             "orders": [],
-            "createSql": "CREATE INDEX IF NOT EXISTS `index_Comment_parentId` ON `${TABLE_NAME}` (`parentId`)"
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_Comment_parentRemoteId` ON `${TABLE_NAME}` (`parentRemoteId`)"
           }
         ],
         "foreignKeys": [
@@ -1133,17 +1133,6 @@
             "onUpdate": "NO ACTION",
             "columns": [
               "cardId"
-            ],
-            "referencedColumns": [
-              "localId"
-            ]
-          },
-          {
-            "table": "Comment",
-            "onDelete": "CASCADE",
-            "onUpdate": "NO ACTION",
-            "columns": [
-              "parentId"
             ],
             "referencedColumns": [
               "localId"
@@ -2041,7 +2030,7 @@
     ],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'c043438ebd24a3ec3124030ff938c828')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '5fac75d42004eabe9a25e5b7b3d5be3b')"
     ]
   }
 }

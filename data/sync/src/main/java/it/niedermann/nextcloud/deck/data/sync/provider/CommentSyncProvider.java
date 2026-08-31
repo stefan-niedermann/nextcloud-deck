@@ -87,7 +87,7 @@ public class CommentSyncProvider implements SyncProvider<CardDTO> {
                                             updated.getActorId(),
                                             updated.getActorDisplayName(),
                                             updated.getMessage(),
-                                            updated.getParentId(),
+                                            updated.getParentRemoteId(),
                                             updated.getCreatedAt(),
                                             null
                                     );
@@ -148,7 +148,7 @@ public class CommentSyncProvider implements SyncProvider<CardDTO> {
                                 serverEntity.getActorId(),
                                 serverEntity.getActorDisplayName(),
                                 serverEntity.getMessage(),
-                                serverEntity.getParentId(),
+                                serverEntity.getParentRemoteId(),
                                 serverEntity.getCreatedAt(),
                                 null
                         );
@@ -174,7 +174,7 @@ public class CommentSyncProvider implements SyncProvider<CardDTO> {
                                 serverEntity.getActorId(),
                                 serverEntity.getActorDisplayName(),
                                 serverEntity.getMessage(),
-                                serverEntity.getParentId(),
+                                serverEntity.getParentRemoteId(),
                                 serverEntity.getCreatedAt(),
                                 null
                         );

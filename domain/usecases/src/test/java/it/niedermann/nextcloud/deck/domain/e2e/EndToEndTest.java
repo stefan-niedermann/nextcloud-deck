@@ -81,7 +81,11 @@ public abstract class EndToEndTest {
 
         final var token = authProvider.generateToken(user.url(), user.username(), user.password());
         final var account = new AuthenticatedAccount(user.url(), user.username(), token);
-        final var importedAccount = Flowable.fromPublisher(FlowAdapters.toPublisher(importAccountUseCase.execute(account))).lastElement().blockingGet().account();
+        final var importedAccountStatus = Flowable.fromPublisher(FlowAdapters.toPublisher(importAccountUseCase.execute(account))).lastElement().blockingGet();
+        if (importedAccountStatus == null) {
+            throw new IllegalStateException("ImportAccountUseCase returned no status for user: " + remoteAccountUsername);
+        }
+        final var importedAccount = importedAccountStatus.account();
         return new VirtualDeviceAndAccount(virtualDevice, importedAccount);
     }
 

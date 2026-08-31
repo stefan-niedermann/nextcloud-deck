@@ -200,7 +200,7 @@ public interface MockData {
                     title,
                     desc,
                     "text",
-                    jdoe,
+                    assignees.stream().findFirst().orElse(jdoe),
                     labels,
                     assignees,
                     Collections.emptyList(),

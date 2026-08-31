@@ -7,7 +7,7 @@ import java.time.OffsetDateTime;
 
 import it.niedermann.nextcloud.remote.deck.OffsetDateTimeAdapter;
 import it.niedermann.nextcloud.remote.deck.UserDtoAdapter;
-import it.niedermann.nextcloud.remote.ocs.OcsUserDtoAdapter;
+import it.niedermann.nextcloud.remote.ocs.OcsDataFlexibleAdapterFactory;
 
 
 public class GsonProvider {
@@ -17,7 +17,7 @@ public class GsonProvider {
     public GsonProvider() {
         this.gson = new GsonBuilder()
                 .registerTypeAdapter(OffsetDateTime.class, new OffsetDateTimeAdapter())
-                .registerTypeAdapterFactory(new it.niedermann.nextcloud.remote.ocs.OcsObjectOrEmptyListAdapterFactory())
+                .registerTypeAdapterFactory(new OcsDataFlexibleAdapterFactory())
                 .registerTypeAdapterFactory(OffsetDateTimeAdapter.FACTORY)
                 .registerTypeAdapterFactory(UserDtoAdapter.FACTORY)
                 .create();
