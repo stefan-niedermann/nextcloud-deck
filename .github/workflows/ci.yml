@@ -107,17 +107,40 @@ jobs:
                       cls = tc.get('classname')
                       time = tc.get('time')
                       
-                      is_failed = tc.find('failure') is not None or tc.find('error') is not None
-                      status = "❌ Failure" if is_failed else "✅ Success"
-                      row = f"| {cls}.{name} | {status} | {time}s |"
+                      failure = tc.find('failure')
+                      if failure is None:
+                          failure = tc.find('error')
+                      
+                      is_failed = failure is not None
                       
                       if not is_failed:
                           passed += 1
                           visual_progress.append("🟩")
-                          success_rows.append(row)
+                          success_rows.append(f"| {cls}.{name} | ✅ Success | {time}s |")
                       else:
                           visual_progress.append("⬜")
-                          failed_rows.append(row)
+                          msg = failure.get('message', 'No message')
+                          
+                          # Extract stacktrace from failure node and system-out/err
+                          stack_parts = ["".join(failure.itertext()).strip()]
+                          
+                          sys_out = tc.find('system-out')
+                          if sys_out is not None and sys_out.text:
+                              stack_parts.append(f"--- Standard Output ---\n{sys_out.text.strip()}")
+                          
+                          sys_err = tc.find('system-err')
+                          if sys_err is not None and sys_err.text:
+                              stack_parts.append(f"--- Standard Error ---\n{sys_err.text.strip()}")
+                          
+                          full_stack = "\n\n".join(filter(None, stack_parts)) or "No stacktrace available"
+                          
+                          failed_rows.append(
+                              f"#### ❌ {cls}.{name} ({time}s)\n"
+                              f"> **Error:** {msg}\n\n"
+                              f"<details>\n<summary>Stacktrace / Logs</summary>\n\n"
+                              f"```\n{full_stack}\n```\n"
+                              f"</details>\n"
+                          )
               except Exception:
                   pass
 
@@ -128,9 +151,7 @@ jobs:
                   
                   if failed_rows:
                       s.write("<details open>\n<summary>Failed Tests</summary>\n\n")
-                      s.write("| Test | Status | Time |\n")
-                      s.write("| :--- | :--- | :--- |\n")
-                      s.write("\n".join(failed_rows) + "\n\n")
+                      s.write("\n---\n".join(failed_rows) + "\n\n")
                       s.write("</details>\n\n")
                   
                   if success_rows:

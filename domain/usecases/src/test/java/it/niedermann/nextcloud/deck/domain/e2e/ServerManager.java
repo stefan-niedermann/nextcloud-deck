@@ -139,7 +139,7 @@ public class ServerManager implements AutoCloseable {
                             System.err.println("User already exists, retrying with new UUID: " + username);
                             continue;
                         }
-                        throw new RuntimeException("Failed to create user: " + response.code() + " " + body);
+                        throw new RuntimeException("Failed to create user \"" + username + "\": " + response.code() + " " + body);
                     }
                 } catch (IOException e) {
                     throw new RuntimeException(e);
