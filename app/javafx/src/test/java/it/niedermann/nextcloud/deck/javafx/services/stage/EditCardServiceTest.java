@@ -15,6 +15,7 @@ import java.util.concurrent.CompletableFuture;
 import io.reactivex.rxjava4.core.Flowable;
 import io.reactivex.rxjava4.subscribers.TestSubscriber;
 import it.niedermann.nextcloud.deck.domain.model.Card;
+import it.niedermann.nextcloud.deck.domain.repository.MockData;
 import it.niedermann.nextcloud.deck.domain.usecases.activities.ListPreviewActivitiesUseCase;
 import it.niedermann.nextcloud.deck.domain.usecases.attachments.ListAttachmentsUseCase;
 import it.niedermann.nextcloud.deck.domain.usecases.boards.GetBoardUseCase;
@@ -85,8 +86,8 @@ class EditCardServiceTest {
 
     @Test
     void testGetCard() {
-        final var cardId = new Card.ID(1);
-        final var card = mock(Card.class);
+        final var card = MockData.MOCK_CARDS.get(0);
+        final var cardId = card.id();
         when(getCardUseCase.execute(cardId)).thenReturn(Flowable.just(card));
 
         editCardService.dispatch(new EditCardService.Action.SelectCard(Optional.of(cardId)));
@@ -110,7 +111,7 @@ class EditCardServiceTest {
 
     @Test
     void testOnPopOut() {
-        final var cardId = new Card.ID(1);
+        final var cardId = MockData.MOCK_CARDS.get(0).id();
         
         editCardService.dispatch(new EditCardService.Action.SelectCard(Optional.of(cardId)));
 

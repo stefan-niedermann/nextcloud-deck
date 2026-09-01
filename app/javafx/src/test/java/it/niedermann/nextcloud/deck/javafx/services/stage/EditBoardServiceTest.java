@@ -15,8 +15,8 @@ import io.reactivex.rxjava4.core.Flowable;
 import io.reactivex.rxjava4.subscribers.TestSubscriber;
 import it.niedermann.nextcloud.deck.domain.model.Account;
 import it.niedermann.nextcloud.deck.domain.model.Board;
-import it.niedermann.nextcloud.deck.domain.model.Column;
 import it.niedermann.nextcloud.deck.domain.model.CreateColumn;
+import it.niedermann.nextcloud.deck.domain.repository.MockData;
 import it.niedermann.nextcloud.deck.domain.usecases.boards.AddBoardShareUseCase;
 import it.niedermann.nextcloud.deck.domain.usecases.boards.GetBoardUseCase;
 import it.niedermann.nextcloud.deck.domain.usecases.boards.ListBoardSharesUseCase;
@@ -56,8 +56,9 @@ class EditBoardServiceTest {
     private UpdateBoardShareUseCase updateBoardShareUseCase;
 
     private EditBoardService editBoardService;
+    private final Board board = MockData.MOCK_BOARDS[0];
     private final Account.ID accountId = new Account.ID(1);
-    private final Board.ID boardId = new Board.ID(2);
+    private final Board.ID boardId = board.id();
 
     @BeforeEach
     void setUp() {
@@ -119,9 +120,8 @@ class EditBoardServiceTest {
 
     @Test
     void testOnDeleteColumnEmpty() {
-        final var columnId = new Column.ID(3);
-        final var column = mock(Column.class);
-        when(column.id()).thenReturn(columnId);
+        final var column = MockData.MOCK_COLUMNS[0];
+        final var columnId = column.id();
         when(listCardsUseCase.execute(columnId)).thenReturn(Flowable.just(Collections.emptyList()));
 
         editBoardService.onDeleteColumn(column);

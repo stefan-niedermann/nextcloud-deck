@@ -17,8 +17,8 @@ import java.util.concurrent.CompletableFuture;
 import io.reactivex.rxjava4.core.Flowable;
 import io.reactivex.rxjava4.subscribers.TestSubscriber;
 import it.niedermann.nextcloud.deck.domain.model.Account;
-import it.niedermann.nextcloud.deck.domain.model.Board;
 import it.niedermann.nextcloud.deck.domain.model.FilterInformation;
+import it.niedermann.nextcloud.deck.domain.repository.MockData;
 import it.niedermann.nextcloud.deck.domain.state.KeyValueStore;
 import it.niedermann.nextcloud.deck.domain.usecases.boards.AddBoardUseCase;
 import it.niedermann.nextcloud.deck.domain.usecases.boards.GetBoardUseCase;
@@ -125,7 +125,7 @@ class MainServiceTest {
     @Test
     void testOnBoardSelected() {
         final var accountId = new Account.ID(1);
-        final var boardId = new Board.ID(2);
+        final var boardId = MockData.MOCK_BOARDS[0].id();
         
         // Prepare state with account
         mainService.dispatch(new MainService.Action.SwitchAccountAction(accountId));
@@ -148,9 +148,8 @@ class MainServiceTest {
     @Test
     void testOnEditBoard() {
         final var accountId = new Account.ID(1);
-        final var board = mock(Board.class);
-        final var boardId = new Board.ID(2);
-        when(board.id()).thenReturn(boardId);
+        final var board = MockData.MOCK_BOARDS[0];
+        final var boardId = board.id();
 
         mainService.dispatch(new MainService.Action.SwitchAccountAction(accountId));
         
@@ -161,7 +160,7 @@ class MainServiceTest {
 
     @Test
     void testOnOpenCardInNewWindow() {
-        final var cardId = new it.niedermann.nextcloud.deck.domain.model.Card.ID(1);
+        final var cardId = MockData.MOCK_CARDS.get(0).id();
         
         mainService.onOpenCardInNewWindow(cardId);
         

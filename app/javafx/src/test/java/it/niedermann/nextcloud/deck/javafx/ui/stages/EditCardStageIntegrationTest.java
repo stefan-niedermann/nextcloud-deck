@@ -15,6 +15,7 @@ import org.testfx.framework.junit5.Start;
 import org.testfx.util.WaitForAsyncUtils;
 
 import java.io.IOException;
+import java.util.Collections;
 import java.util.Optional;
 import java.util.concurrent.Flow;
 import java.util.concurrent.TimeUnit;
@@ -24,7 +25,7 @@ import io.reactivex.rxjava4.core.Flowable;
 import it.niedermann.nextcloud.deck.app.shared.args.card.CardArgResolver;
 import it.niedermann.nextcloud.deck.app.shared.args.card.CardRawArgs;
 import it.niedermann.nextcloud.deck.app.shared.di.model.BuildConfig;
-import it.niedermann.nextcloud.deck.domain.model.Card;
+import it.niedermann.nextcloud.deck.domain.repository.MockData;
 import it.niedermann.nextcloud.deck.domain.state.KeyValueStore;
 import it.niedermann.nextcloud.deck.domain.sync.SyncScheduler;
 import it.niedermann.nextcloud.deck.domain.usecases.accounts.GetAccountUseCase;
@@ -85,7 +86,8 @@ class EditCardStageIntegrationTest {
 
         when(hasAccountsUseCase.execute()).thenReturn(Flowable.just(true));
         
-        final var cardId = new Card.ID(1);
+        final var card = MockData.MOCK_CARDS.get(0);
+        final var cardId = card.id();
         when(cardArgResolver.resolve(any())).thenReturn(subscriber -> subscriber.onSubscribe(new Flow.Subscription() {
             @Override
             public void request(long n) {
@@ -116,12 +118,12 @@ class EditCardStageIntegrationTest {
         final var listPreviewCommentsUseCase = mock(ListPreviewCommentsUseCase.class, Answers.RETURNS_MOCKS);
         final var listPreviewActivitiesUseCase = mock(ListPreviewActivitiesUseCase.class, Answers.RETURNS_MOCKS);
 
-        when(getCardUseCase.execute(any())).thenReturn(Flowable.empty());
-        when(getColumnUseCase.execute(any())).thenReturn(Flowable.empty());
-        when(getBoardUseCase.execute(any())).thenReturn(Flowable.empty());
-        when(listAttachmentsUseCase.execute(any())).thenReturn(Flowable.empty());
-        when(listPreviewCommentsUseCase.execute(any())).thenReturn(Flowable.empty());
-        when(listPreviewActivitiesUseCase.execute(any())).thenReturn(Flowable.empty());
+        when(getCardUseCase.execute(cardId)).thenReturn(Flowable.just(card));
+        when(getColumnUseCase.execute(card.columnId())).thenReturn(Flowable.just(MockData.MOCK_COLUMNS[0]));
+        when(getBoardUseCase.execute(MockData.MOCK_BOARDS[0].id())).thenReturn(Flowable.just(MockData.MOCK_BOARDS[0]));
+        when(listAttachmentsUseCase.execute(cardId)).thenReturn(Flowable.just(Collections.emptyList()));
+        when(listPreviewCommentsUseCase.execute(cardId)).thenReturn(Flowable.just(Collections.emptyList()));
+        when(listPreviewActivitiesUseCase.execute(cardId)).thenReturn(Flowable.just(Collections.emptyList()));
 
 
         final var stageContext = new EditCardService(

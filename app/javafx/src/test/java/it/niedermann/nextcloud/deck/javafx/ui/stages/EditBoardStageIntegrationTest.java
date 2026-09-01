@@ -15,6 +15,9 @@ import org.testfx.framework.junit5.Start;
 import org.testfx.util.WaitForAsyncUtils;
 
 import java.io.IOException;
+import java.util.Collections;
+import java.util.List;
+import java.util.Set;
 import java.util.concurrent.Flow;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
@@ -27,6 +30,7 @@ import it.niedermann.nextcloud.deck.app.shared.di.model.BuildConfig;
 import it.niedermann.nextcloud.deck.domain.model.Account;
 import it.niedermann.nextcloud.deck.domain.model.Board;
 import it.niedermann.nextcloud.deck.domain.model.Column;
+import it.niedermann.nextcloud.deck.domain.repository.MockData;
 import it.niedermann.nextcloud.deck.domain.state.KeyValueStore;
 import it.niedermann.nextcloud.deck.domain.sync.SyncScheduler;
 import it.niedermann.nextcloud.deck.domain.usecases.accounts.GetAccountUseCase;
@@ -92,8 +96,9 @@ class EditBoardStageIntegrationTest {
 
         when(hasAccountsUseCase.execute()).thenReturn(Flowable.just(true));
 
+        final var board = MockData.MOCK_BOARDS[0];
         final var accountId = new Account.ID(1);
-        final var boardId = new Board.ID(2);
+        final var boardId = board.id();
         final var boardParsedArgs = new BoardParsedArgs(accountId, boardId);
         when(boardArgResolver.resolve(any())).thenReturn(subscriber -> subscriber.onSubscribe(new Flow.Subscription() {
             @Override
@@ -122,13 +127,13 @@ class EditBoardStageIntegrationTest {
         final var listLabelsUseCase = mock(ListLabelsUseCase.class, Answers.RETURNS_MOCKS);
         final var listBoardSharesUseCase = mock(ListBoardSharesUseCase.class, Answers.RETURNS_MOCKS);
 
-        when(getBoardUseCase.execute(any(Board.ID.class))).thenReturn(Flowable.empty());
-        when(listCardsUseCase.execute(any(Board.ID.class))).thenReturn(Flowable.empty());
-        when(listCardsUseCase.execute(any(Column.ID.class))).thenReturn(Flowable.empty());
-        when(listColumnsUseCase.execute(any(Board.ID.class))).thenReturn(Flowable.empty());
-        when(getColumnUseCase.execute(any(Column.ID.class))).thenReturn(Flowable.empty());
-        when(listLabelsUseCase.execute(any(Board.ID.class))).thenReturn(Flowable.empty());
-        when(listBoardSharesUseCase.execute(any(Board.ID.class))).thenReturn(Flowable.empty());
+        when(getBoardUseCase.execute(boardId)).thenReturn(Flowable.just(board));
+        when(listCardsUseCase.execute(any(Board.ID.class))).thenReturn(Flowable.just(Collections.emptyMap()));
+        when(listCardsUseCase.execute(any(Column.ID.class))).thenReturn(Flowable.just(Collections.emptyList()));
+        when(listColumnsUseCase.execute(boardId)).thenReturn(Flowable.just(List.of(MockData.MOCK_COLUMNS[0].id(), MockData.MOCK_COLUMNS[1].id(), MockData.MOCK_COLUMNS[2].id())));
+        when(getColumnUseCase.execute(any(Column.ID.class))).thenReturn(Flowable.just(MockData.MOCK_COLUMNS[0]));
+        when(listLabelsUseCase.execute(boardId)).thenReturn(Flowable.just(Set.of(MockData.MOCK_LABELS[0], MockData.MOCK_LABELS[1], MockData.MOCK_LABELS[2])));
+        when(listBoardSharesUseCase.execute(boardId)).thenReturn(Flowable.just(Collections.emptyList()));
 
 
         final var stageContext = new EditBoardService(
