@@ -94,7 +94,8 @@ jobs:
 
           total = 0
           passed = 0
-          rows = []
+          failed_rows = []
+          success_rows = []
           visual_progress = []
 
           for f in glob.glob('domain/usecases/build/test-results/test/*.xml'):
@@ -108,13 +109,15 @@ jobs:
                       
                       is_failed = tc.find('failure') is not None or tc.find('error') is not None
                       status = "❌ Failure" if is_failed else "✅ Success"
+                      row = f"| {cls}.{name} | {status} | {time}s |"
+                      
                       if not is_failed:
                           passed += 1
                           visual_progress.append("🟩")
+                          success_rows.append(row)
                       else:
                           visual_progress.append("⬜")
-                      
-                      rows.append(f"| {cls}.{name} | {status} | {time}s |")
+                          failed_rows.append(row)
               except Exception:
                   pass
 
@@ -122,11 +125,20 @@ jobs:
               with open(os.environ['GITHUB_STEP_SUMMARY'], 'a') as s:
                   s.write(f"### E2E Test Results ({os.environ.get('NC_VER')})\n\n")
                   s.write("".join(visual_progress) + f" {passed}/{total} tests passed\n\n")
-                  s.write("<details>\n<summary>Test Details</summary>\n\n")
-                  s.write("| Test | Status | Time |\n")
-                  s.write("| :--- | :--- | :--- |\n")
-                  s.write("\n".join(rows) + "\n\n")
-                  s.write("</details>\n")
+                  
+                  if failed_rows:
+                      s.write("<details open>\n<summary>Failed Tests</summary>\n\n")
+                      s.write("| Test | Status | Time |\n")
+                      s.write("| :--- | :--- | :--- |\n")
+                      s.write("\n".join(failed_rows) + "\n\n")
+                      s.write("</details>\n\n")
+                  
+                  if success_rows:
+                      s.write("<details>\n<summary>Successful Tests</summary>\n\n")
+                      s.write("| Test | Status | Time |\n")
+                      s.write("| :--- | :--- | :--- |\n")
+                      s.write("\n".join(success_rows) + "\n\n")
+                      s.write("</details>\n")
           EOF
 
       - name: Upload Reports
