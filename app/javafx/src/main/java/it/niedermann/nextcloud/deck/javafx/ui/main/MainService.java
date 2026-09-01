@@ -5,11 +5,14 @@ import com.dlsc.gemsfx.PopOver;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import dagger.assisted.Assisted;
 import dagger.assisted.AssistedFactory;
 import dagger.assisted.AssistedInject;
 import io.reactivex.rxjava4.core.Flowable;
+import io.reactivex.rxjava4.core.Maybe;
 import io.soabase.recordbuilder.core.RecordBuilder;
 import it.niedermann.nextcloud.deck.domain.model.Account;
 import it.niedermann.nextcloud.deck.domain.model.Board;
@@ -17,11 +20,15 @@ import it.niedermann.nextcloud.deck.domain.model.Card;
 import it.niedermann.nextcloud.deck.domain.model.Column;
 import it.niedermann.nextcloud.deck.domain.model.CreateBoard;
 import it.niedermann.nextcloud.deck.domain.model.FilterInformation;
+import it.niedermann.nextcloud.deck.domain.model.User;
+import it.niedermann.nextcloud.deck.domain.usecases.accounts.GetAccountUseCase;
 import it.niedermann.nextcloud.deck.domain.usecases.boards.AddBoardUseCase;
 import it.niedermann.nextcloud.deck.domain.usecases.boards.GetBoardUseCase;
+import it.niedermann.nextcloud.deck.domain.usecases.cards.AssignCardUseCase;
 import it.niedermann.nextcloud.deck.domain.usecases.cards.CopyCardUseCase;
 import it.niedermann.nextcloud.deck.domain.usecases.cards.DeleteCardUseCase;
 import it.niedermann.nextcloud.deck.domain.usecases.cards.MoveCardUseCase;
+import it.niedermann.nextcloud.deck.domain.usecases.cards.UnassignCardUseCase;
 import it.niedermann.nextcloud.deck.domain.usecases.state.GetCurrentBoardUseCase;
 import it.niedermann.nextcloud.deck.domain.usecases.state.SetCurrentAccountUseCase;
 import it.niedermann.nextcloud.deck.domain.usecases.state.SetCurrentBoardUseCase;
@@ -49,14 +56,19 @@ public class MainService extends Store<MainService.State, MainService.Action> im
         BoardListFeature.ViewModel,
         ColumnFeature.ViewModel {
 
+    private static final Logger logger = Logger.getLogger(MainService.class.getName());
+
     private final ThemeService themeService;
     private final ApplicationRouter applicationRouter;
     private final SetCurrentAccountUseCase setCurrentAccountUseCase;
     private final GetCurrentBoardUseCase getCurrentBoardUseCase;
     private final SetCurrentBoardUseCase setCurrentBoardUseCase;
+    private final GetAccountUseCase getAccountUseCase;
     private final DeleteCardUseCase deleteCardUseCase;
     private final MoveCardUseCase moveCardUseCase;
     private final CopyCardUseCase copyCardUseCase;
+    private final AssignCardUseCase assignCardUseCase;
+    private final UnassignCardUseCase unassignCardUseCase;
 
     private final Inflater inflater;
     private final PickStackFeature.Factory pickStackFeatureFactory;
@@ -74,9 +86,12 @@ public class MainService extends Store<MainService.State, MainService.Action> im
             SetCurrentAccountUseCase setCurrentAccountUseCase,
             GetCurrentBoardUseCase getCurrentBoardUseCase,
             SetCurrentBoardUseCase setCurrentBoardUseCase,
+            GetAccountUseCase getAccountUseCase,
             DeleteCardUseCase deleteCardUseCase,
             MoveCardUseCase moveCardUseCase,
             CopyCardUseCase copyCardUseCase,
+            AssignCardUseCase assignCardUseCase,
+            UnassignCardUseCase unassignCardUseCase,
             Inflater inflater,
             PickStackFeature.Factory pickStackFeatureFactory,
             GetBoardUseCase getBoardUseCase,
@@ -88,11 +103,14 @@ public class MainService extends Store<MainService.State, MainService.Action> im
         this.setCurrentAccountUseCase = setCurrentAccountUseCase;
         this.getCurrentBoardUseCase = getCurrentBoardUseCase;
         this.setCurrentBoardUseCase = setCurrentBoardUseCase;
+        this.getAccountUseCase = getAccountUseCase;
         this.getBoardUseCase = getBoardUseCase;
         this.addBoardUseCase = addBoardUseCase;
         this.deleteCardUseCase = deleteCardUseCase;
         this.moveCardUseCase = moveCardUseCase;
         this.copyCardUseCase = copyCardUseCase;
+        this.assignCardUseCase = assignCardUseCase;
+        this.unassignCardUseCase = unassignCardUseCase;
         this.inflater = inflater;
         this.pickStackFeatureFactory = pickStackFeatureFactory;
 
@@ -315,12 +333,30 @@ public class MainService extends Store<MainService.State, MainService.Action> im
 
     @Override
     public void onAssignCard(Card.ID cardId) {
-        System.out.println("[Mock] onAssignCard " + cardId);
+        Flowable.fromPublisher(getState())
+                .firstElement()
+                .flatMap(state -> Maybe.fromOptional(state.accountId()))
+                .flatMap(accountId -> Flowable.fromPublisher(getAccountUseCase.execute(accountId)).firstElement())
+                .map(account -> new User.ID(account.username()))
+                .subscribe(userId -> assignCardUseCase.execute(cardId, userId)
+                        .exceptionally(throwable -> {
+                            logger.log(Level.SEVERE, "Failed to assign card", throwable);
+                            return null;
+                        }));
     }
 
     @Override
     public void onUnassignCard(Card.ID cardId) {
-        System.out.println("[Mock] onUnassignCard " + cardId);
+        Flowable.fromPublisher(getState())
+                .firstElement()
+                .flatMap(state -> Maybe.fromOptional(state.accountId()))
+                .flatMap(accountId -> Flowable.fromPublisher(getAccountUseCase.execute(accountId)).firstElement())
+                .map(account -> new User.ID(account.username()))
+                .subscribe(userId -> unassignCardUseCase.execute(cardId, userId)
+                        .exceptionally(throwable -> {
+                            logger.log(Level.SEVERE, "Failed to unassign card", throwable);
+                            return null;
+                        }));
     }
 
     @Override

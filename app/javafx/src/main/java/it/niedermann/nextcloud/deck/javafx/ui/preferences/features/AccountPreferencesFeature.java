@@ -49,7 +49,7 @@ public class AccountPreferencesFeature extends AbstractFeature {
     public void initialize(URL location, ResourceBundle resources) {
         super.initialize(location, resources);
 
-        accountNameLabel.setText(viewModel.getAccount().username());
+        accountNameLabel.setText(viewModel.getAccount().accountName());
 
         final var disposable = viewModel.getBackgroundSync()
                 .observeOn(JavaFxScheduler.platform())

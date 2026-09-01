@@ -208,7 +208,7 @@ public class PreferencesScene extends AbstractScene {
         @Override
         @NotNull
         public String toString() {
-            return account.map(Account::username).orElse("General");
+            return account.map(Account::accountName).orElse("General");
         }
     }
 }

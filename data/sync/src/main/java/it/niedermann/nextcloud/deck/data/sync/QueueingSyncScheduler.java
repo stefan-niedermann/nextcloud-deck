@@ -152,7 +152,7 @@ public class QueueingSyncScheduler implements SyncScheduler {
 
     private Flowable<SyncStatus> synchronize(Account account) {
         final var accountSyncStatus = accountToSyncStatus.computeIfAbsent(account.id(), accountId -> BehaviorProcessor.createDefault(Optional.empty()));
-        final var reporter = ReplayProcessor.<SyncStatus>createWithSize(1);
+        final var reporter = ReplayProcessor.<SyncStatus>createWithSize(1).toSerialized();
 
         logger.info("Start " + account.accountName() + ": " + Instant.now());
         final var future = syncManager.synchronize(account, reporter::onNext);

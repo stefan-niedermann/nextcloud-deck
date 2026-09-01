@@ -33,6 +33,7 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 
 import io.reactivex.rxjava4.core.Flowable;
+import io.reactivex.rxjava4.processors.BehaviorProcessor;
 import it.niedermann.nextcloud.deck.app.shared.args.board.BoardArgResolver;
 import it.niedermann.nextcloud.deck.app.shared.args.board.BoardParsedArgs;
 import it.niedermann.nextcloud.deck.app.shared.args.board.BoardRawArgs;
@@ -41,6 +42,7 @@ import it.niedermann.nextcloud.deck.domain.model.Account;
 import it.niedermann.nextcloud.deck.domain.model.Board;
 import it.niedermann.nextcloud.deck.domain.model.Card;
 import it.niedermann.nextcloud.deck.domain.model.Column;
+import it.niedermann.nextcloud.deck.domain.model.User;
 import it.niedermann.nextcloud.deck.domain.model.query.PreviewCard;
 import it.niedermann.nextcloud.deck.domain.repository.MockData;
 import it.niedermann.nextcloud.deck.domain.state.KeyValueStore;
@@ -56,11 +58,13 @@ import it.niedermann.nextcloud.deck.domain.usecases.boards.AddBoardUseCase;
 import it.niedermann.nextcloud.deck.domain.usecases.boards.GetBoardUseCase;
 import it.niedermann.nextcloud.deck.domain.usecases.boards.ListBoardsUseCase;
 import it.niedermann.nextcloud.deck.domain.usecases.cards.AddCardUseCase;
+import it.niedermann.nextcloud.deck.domain.usecases.cards.AssignCardUseCase;
 import it.niedermann.nextcloud.deck.domain.usecases.cards.CopyCardUseCase;
 import it.niedermann.nextcloud.deck.domain.usecases.cards.DeleteCardUseCase;
 import it.niedermann.nextcloud.deck.domain.usecases.cards.GetCardUseCase;
 import it.niedermann.nextcloud.deck.domain.usecases.cards.ListCardPreviewsUseCase;
 import it.niedermann.nextcloud.deck.domain.usecases.cards.MoveCardUseCase;
+import it.niedermann.nextcloud.deck.domain.usecases.cards.UnassignCardUseCase;
 import it.niedermann.nextcloud.deck.domain.usecases.cards.UpdateCardUseCase;
 import it.niedermann.nextcloud.deck.domain.usecases.columns.GetColumnUseCase;
 import it.niedermann.nextcloud.deck.domain.usecases.columns.ListColumnIDsUseCase;
@@ -135,6 +139,10 @@ class MainStageIntegrationTest {
     private HostServices hostServices;
     private BuildConfig buildConfig;
     private SyncScheduler syncScheduler;
+    private AssignCardUseCase assignCardUseCase;
+    private UnassignCardUseCase unassignCardUseCase;
+    private GetAccountUseCase getAccountUseCase;
+    private final BehaviorProcessor<List<PreviewCard>> cardPreviewsProcessor = BehaviorProcessor.create();
 
     private static final Account.ID ACCOUNT_ID = new Account.ID(1L);
     private static final Account ACCOUNT = new Account(ACCOUNT_ID, createUrl("https://nextcloud.example.com"), MockData.MOCK_USERS[0].id().value(), "token", "Account 1", MockData.MOCK_CAPABILITIES);
@@ -183,6 +191,13 @@ class MainStageIntegrationTest {
         
         applicationRouter = mock(ApplicationRouter.class);
 
+        assignCardUseCase = mock(AssignCardUseCase.class);
+        when(assignCardUseCase.execute(any(), any())).thenReturn(CompletableFuture.completedFuture(null));
+        unassignCardUseCase = mock(UnassignCardUseCase.class);
+        when(unassignCardUseCase.execute(any(), any())).thenReturn(CompletableFuture.completedFuture(null));
+        getAccountUseCase = mock(GetAccountUseCase.class);
+        when(getAccountUseCase.execute(any())).thenReturn(Flowable.just(ACCOUNT));
+
         when(getColumnUseCase.execute(any())).thenReturn(Flowable.empty());
         when(listBoardsUseCase.execute(any())).thenReturn(Flowable.empty());
         when(listColumnIDsUseCase.execute(any())).thenReturn(Flowable.empty());
@@ -212,16 +227,14 @@ class MainStageIntegrationTest {
             }
         }));
 
-        final var getAccountUseCase = mock(GetAccountUseCase.class);
-        when(getAccountUseCase.execute(any())).thenReturn(Flowable.just(ACCOUNT));
-
         when(listBoardsUseCase.execute(ACCOUNT_ID)).thenReturn(Flowable.just(List.of(BOARD_1, BOARD_2)));
         when(getBoardUseCase.execute(BOARD_1.id())).thenReturn(Flowable.just(BOARD_1));
         when(getBoardUseCase.execute(BOARD_2.id())).thenReturn(Flowable.just(BOARD_2));
         when(listColumnIDsUseCase.execute(BOARD_1.id())).thenReturn(Flowable.just(List.of(COLUMN_1.id())));
         when(getColumnUseCase.execute(COLUMN_1.id())).thenReturn(Flowable.just(COLUMN_1));
+        cardPreviewsProcessor.onNext(List.of(CARD_1));
         when(listCardPreviewsUseCase.execute(any(Column.ID.class), any())).thenReturn(Flowable.empty());
-        when(listCardPreviewsUseCase.execute(eq(COLUMN_1.id()), any())).thenReturn(Flowable.just(List.of(CARD_1)));
+        when(listCardPreviewsUseCase.execute(eq(COLUMN_1.id()), any())).thenReturn(cardPreviewsProcessor);
         
         when(setCurrentBoardUseCase.execute(any(), any())).thenAnswer(invocation -> CompletableFuture.completedFuture(invocation.getArgument(1)));
         when(getCurrentAccountUseCase.execute()).thenReturn(CompletableFuture.completedFuture(ACCOUNT_ID));
@@ -248,9 +261,12 @@ class MainStageIntegrationTest {
                     setCurrentAccountUseCase,
                     getCurrentBoardUseCase,
                     setCurrentBoardUseCase,
+                    getAccountUseCase,
                     deleteCardUseCase,
                     moveCardUseCase,
                     copyCardUseCase,
+                    assignCardUseCase,
+                    unassignCardUseCase,
                     inflater,
                     pickStackFeatureFactory,
                     getBoardUseCase,
@@ -494,5 +510,52 @@ class MainStageIntegrationTest {
         robot.clickOn("Open in new window");
 
         verify(applicationRouter, atLeastOnce()).launchEditCardStage(CARD_1.id());
+    }
+
+    @Test
+    void testAssignCard(FxRobot robot) throws TimeoutException {
+        robot.targetWindow(stage);
+        WaitForAsyncUtils.waitFor(10, TimeUnit.SECONDS, () -> robot.lookup(BOARD_1.title()).tryQuery().isPresent());
+        robot.clickOn(BOARD_1.title());
+        WaitForAsyncUtils.waitFor(10, TimeUnit.SECONDS, () -> robot.lookup(CARD_1.title()).tryQuery().isPresent());
+
+        robot.rightClickOn(CARD_1.title());
+        WaitForAsyncUtils.waitFor(10, TimeUnit.SECONDS, () -> robot.lookup("Assign to me").tryQuery().isPresent());
+        robot.clickOn("Assign to me");
+
+        verify(assignCardUseCase, atLeastOnce()).execute(eq(CARD_1.id()), eq(new User.ID(ACCOUNT.username())));
+    }
+
+    @Test
+    void testUnassignCard(FxRobot robot) throws TimeoutException {
+        // Card is already assigned to me in this test case by changing the mock
+        final var assignedCard = new PreviewCard(
+                CARD_1.id(),
+                CARD_1.remoteId(),
+                CARD_1.title(),
+                CARD_1.excerpt(),
+                CARD_1.labels(),
+                CARD_1.commentCount(),
+                CARD_1.attachmentCount(),
+                CARD_1.assigneeCount(),
+                true,
+                CARD_1.checkboxDoneCount(),
+                CARD_1.checkboxTotalCount(),
+                CARD_1.startDate(),
+                CARD_1.dueDate(),
+                CARD_1.color()
+        );
+        cardPreviewsProcessor.onNext(List.of(assignedCard));
+
+        robot.targetWindow(stage);
+        WaitForAsyncUtils.waitFor(10, TimeUnit.SECONDS, () -> robot.lookup(BOARD_1.title()).tryQuery().isPresent());
+        robot.clickOn(BOARD_1.title());
+        WaitForAsyncUtils.waitFor(10, TimeUnit.SECONDS, () -> robot.lookup(CARD_1.title()).tryQuery().isPresent());
+
+        robot.rightClickOn(CARD_1.title());
+        WaitForAsyncUtils.waitFor(10, TimeUnit.SECONDS, () -> robot.lookup("Unassign from me").tryQuery().isPresent());
+        robot.clickOn("Unassign from me");
+
+        verify(unassignCardUseCase, atLeastOnce()).execute(eq(CARD_1.id()), eq(new User.ID(ACCOUNT.username())));
     }
 }

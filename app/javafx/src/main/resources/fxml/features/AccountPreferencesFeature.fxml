@@ -4,9 +4,6 @@
 
 <VBox xmlns:fx="http://javafx.com/fxml/1" maxWidth="Infinity" maxHeight="Infinity"
     xmlns="http://javafx.com/javafx/24.0.1" spacing="20">
-    <padding>
-        <Insets top="20" right="20" bottom="20" left="20" />
-    </padding>
     <children>
         <Label fx:id="accountNameLabel" style="-fx-font-size: 24; -fx-font-weight: bold;" />
 
