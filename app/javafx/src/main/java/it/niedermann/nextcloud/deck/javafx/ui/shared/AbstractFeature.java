@@ -18,6 +18,7 @@ public abstract class AbstractFeature implements Initializable, Disposable {
 
     protected AbstractFeature(Inflater inflater) {
         this.inflater = inflater;
+        this.resources = ResourceBundle.getBundle("i18n");
     }
 
     @Override

@@ -61,20 +61,20 @@
 
         <SplitMenuButton fx:id="viewModeBtn" mnemonicParsing="false">
             <items>
-                <MenuItem fx:id="kanbanMenuItem" text="Kanban" />
-                <MenuItem fx:id="ganttMenuItem" text="Gantt" />
+                <MenuItem fx:id="kanbanMenuItem" text="%main.view.kanban" />
+                <MenuItem fx:id="ganttMenuItem" text="%main.view.gantt" />
             </items>
         </SplitMenuButton>
 
         <Region HBox.hgrow="SOMETIMES" />
 
-        <Button accessibleText="Preferences" fx:id="preferencesBtn">
+        <Button accessibleText="%header.btn.preferences" fx:id="preferencesBtn">
             <graphic>
                 <FontIcon iconLiteral="fltrmz-settings-16" iconSize="16" />
             </graphic>
         </Button>
 
-        <Button accessibleText="Schedule synchronization" fx:id="scheduleSyncBtn">
+        <Button accessibleText="%header.btn.sync" fx:id="scheduleSyncBtn">
             <graphic>
                 <FontIcon iconLiteral="fltfal-arrow-sync-20" iconSize="16" />
             </graphic>
@@ -82,7 +82,7 @@
 
         <AvatarProgressView prefHeight="36" prefWidth="36" fx:id="avatar" />
 
-        <Button accessibleText="Remove account" fx:id="removeAccountBtn">
+        <Button accessibleText="%header.btn.remove-account" fx:id="removeAccountBtn">
             <graphic>
                 <FontIcon iconLiteral="fltral-delete-16" iconSize="16" />
             </graphic>

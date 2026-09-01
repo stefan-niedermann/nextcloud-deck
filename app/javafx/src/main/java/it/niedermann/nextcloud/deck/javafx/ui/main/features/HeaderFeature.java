@@ -23,12 +23,12 @@ import it.niedermann.nextcloud.deck.domain.model.Account;
 import it.niedermann.nextcloud.deck.domain.model.Board;
 import it.niedermann.nextcloud.deck.domain.model.FilterInformation;
 import it.niedermann.nextcloud.deck.domain.usecases.accounts.GetAccountUseCase;
+import it.niedermann.nextcloud.deck.domain.usecases.accounts.GetAccountsUseCase;
 import it.niedermann.nextcloud.deck.domain.usecases.accounts.RemoveAccountUseCase;
 import it.niedermann.nextcloud.deck.domain.usecases.labels.ListLabelsUseCase;
 import it.niedermann.nextcloud.deck.domain.usecases.sync.GetSyncStatusUseCase;
 import it.niedermann.nextcloud.deck.domain.usecases.sync.ScheduleSyncUseCase;
 import it.niedermann.nextcloud.deck.domain.usecases.users.ListUsersUseCase;
-import it.niedermann.nextcloud.deck.domain.usecases.accounts.GetAccountsUseCase;
 import it.niedermann.nextcloud.deck.javafx.fxml.Inflater;
 import it.niedermann.nextcloud.deck.javafx.ui.main.MainService;
 import it.niedermann.nextcloud.deck.javafx.ui.shared.AbstractFeature;
@@ -267,7 +267,7 @@ public class HeaderFeature extends AbstractFeature {
                         final String lastEdited = board.lastModified() != null
                                 ? board.lastModified().format(DateTimeFormatter.ofLocalizedDateTime(FormatStyle.SHORT))
                                 : "unknown";
-                        boardTitle.setTooltip(new Tooltip(String.format("Last edited at %1$s by %2$s",
+                        boardTitle.setTooltip(new Tooltip(java.text.MessageFormat.format(resources.getString("header.tooltip.last-edited"),
                                 lastEdited,
                                 "John Doe")));
                         circle.setFill(Color.rgb(board.color().getRed(), board.color().getGreen(), board.color().getBlue()));

@@ -8,9 +8,9 @@
         <StackPane VBox.vgrow="ALWAYS" alignment="CENTER">
             <CircleProgressIndicator maxHeight="70" maxWidth="70" progress="-1.0"
                 fx:id="progress" />
-            <EmptyContentView VBox.vgrow="ALWAYS" actionLabel="Add column +"
-                description="Create at least one column to add cards." managed="false"
-                title="No columns" visible="false" fx:id="emptyContentView" />
+            <EmptyContentView VBox.vgrow="ALWAYS" actionLabel="%kanban.empty.action"
+                description="%kanban.empty.description" managed="false"
+                title="%kanban.empty.title" visible="false" fx:id="emptyContentView" />
             <HBox VBox.vgrow="ALWAYS" managed="false" visible="false" fx:id="columns" />
         </StackPane>
     </VBox>

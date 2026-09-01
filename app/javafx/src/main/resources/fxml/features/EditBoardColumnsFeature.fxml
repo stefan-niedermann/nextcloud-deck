@@ -10,7 +10,7 @@
     <ListView fx:id="columns" VBox.vgrow="ALWAYS" />
 
     <HBox spacing="10">
-        <TextField fx:id="newColumnTitle" HBox.hgrow="ALWAYS" promptText="New Column Title" />
-        <Button fx:id="addColumnButton" text="Add" />
+        <TextField fx:id="newColumnTitle" HBox.hgrow="ALWAYS" promptText="%editboard.columns.placeholder.new-title" />
+        <Button fx:id="addColumnButton" text="%btn.add" />
     </HBox>
 </VBox>

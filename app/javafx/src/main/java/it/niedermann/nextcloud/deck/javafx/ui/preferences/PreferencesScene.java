@@ -198,7 +198,7 @@ public class PreferencesScene extends AbstractScene {
 
     @Override
     public Flowable<String> getTitle() {
-        return Flowable.just("Preferences");
+        return Flowable.just(resources.getString("preferences.title"));
     }
 
     public record NavigationItem(

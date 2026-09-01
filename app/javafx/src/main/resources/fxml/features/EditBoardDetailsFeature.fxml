@@ -7,12 +7,12 @@
         <Insets bottom="20" left="20" right="20" top="20" />
     </padding>
 
-    <Label text="Board Title" GridPane.columnIndex="0" GridPane.rowIndex="0" />
+    <Label text="%editboard.details.label.title" GridPane.columnIndex="0" GridPane.rowIndex="0" />
     <TextField fx:id="title" GridPane.columnIndex="1" GridPane.rowIndex="0" />
 
-    <Label text="Board Color" GridPane.columnIndex="0" GridPane.rowIndex="1" />
+    <Label text="%editboard.details.label.color" GridPane.columnIndex="0" GridPane.rowIndex="1" />
     <ColorPicker fx:id="color" GridPane.columnIndex="1" GridPane.rowIndex="1" />
 
-    <Label text="Last Edited At" GridPane.columnIndex="0" GridPane.rowIndex="2" />
+    <Label text="%editboard.details.label.last-edited" GridPane.columnIndex="0" GridPane.rowIndex="2" />
     <Label fx:id="editedAt" GridPane.columnIndex="1" GridPane.rowIndex="2" />
 </GridPane>

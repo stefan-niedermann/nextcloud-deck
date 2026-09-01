@@ -13,10 +13,10 @@
     <fx:define>
         <ContextMenu fx:id="contextMenu">
             <items>
-                <MenuItem mnemonicParsing="false" text="Edit" fx:id="editMenuItem" />
-                <MenuItem mnemonicParsing="false" text="Share" />
-                <MenuItem mnemonicParsing="false" text="Copy" />
-                <MenuItem mnemonicParsing="false" text="Delete" />
+                <MenuItem mnemonicParsing="false" text="%btn.edit" fx:id="editMenuItem" />
+                <MenuItem mnemonicParsing="false" text="%btn.share" />
+                <MenuItem mnemonicParsing="false" text="%btn.copy" />
+                <MenuItem mnemonicParsing="false" text="%btn.delete" />
             </items>
         </ContextMenu>
     </fx:define>

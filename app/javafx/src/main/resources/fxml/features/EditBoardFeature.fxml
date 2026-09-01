@@ -3,8 +3,8 @@
 <?import javafx.scene.control.Tab?><?import javafx.scene.control.TabPane?>
 
 <TabPane xmlns:fx="http://javafx.com/fxml/1" tabClosingPolicy="UNAVAILABLE" xmlns="http://javafx.com/javafx/24.0.1">
-    <Tab fx:id="detailsTab" text="Details" />
-    <Tab fx:id="columnsTab" text="Columns" />
-    <Tab fx:id="labelsTab" text="Labels" />
-    <Tab fx:id="shareTab" text="Share" />
+    <Tab fx:id="detailsTab" text="%editboard.tab.details" />
+    <Tab fx:id="columnsTab" text="%editboard.tab.columns" />
+    <Tab fx:id="labelsTab" text="%editboard.tab.labels" />
+    <Tab fx:id="shareTab" text="%editboard.tab.share" />
 </TabPane>

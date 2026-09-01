@@ -31,12 +31,12 @@
     <fx:define>
         <ContextMenu fx:id="contextMenu">
             <items>
-                <MenuItem mnemonicParsing="false" text="Open in new window" fx:id="openInNewWindow" />
-                <MenuItem mnemonicParsing="false" text="Assign to me" fx:id="assign" />
-                <MenuItem mnemonicParsing="false" text="Unassign from me" fx:id="unassign" />
-                <MenuItem mnemonicParsing="false" text="Move" fx:id="move" />
-                <MenuItem mnemonicParsing="false" text="Copy" fx:id="copy" />
-                <MenuItem mnemonicParsing="false" text="Delete" fx:id="delete" />
+                <MenuItem mnemonicParsing="false" text="%header.menu.card.open" fx:id="openInNewWindow" />
+                <MenuItem mnemonicParsing="false" text="%header.menu.card.assign" fx:id="assign" />
+                <MenuItem mnemonicParsing="false" text="%header.menu.card.unassign" fx:id="unassign" />
+                <MenuItem mnemonicParsing="false" text="%header.menu.card.move" fx:id="move" />
+                <MenuItem mnemonicParsing="false" text="%header.menu.card.copy" fx:id="copy" />
+                <MenuItem mnemonicParsing="false" text="%header.menu.card.delete" fx:id="delete" />
             </items>
         </ContextMenu>
     </fx:define>

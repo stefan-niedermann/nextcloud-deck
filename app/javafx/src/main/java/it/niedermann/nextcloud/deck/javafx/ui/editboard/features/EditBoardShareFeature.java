@@ -92,13 +92,19 @@ public class EditBoardShareFeature extends AbstractFeature {
     private class BoardShareListCell extends ListCell<BoardShare> {
         private final HBox root = new HBox(10);
         private final UserChip userChip = new UserChip();
-        private final CheckBox read = new CheckBox("Read");
-        private final CheckBox edit = new CheckBox("Edit");
-        private final CheckBox manage = new CheckBox("Manage");
-        private final CheckBox share = new CheckBox("Share");
-        private final Button removeButton = new Button("Remove");
+        private final CheckBox read = new CheckBox();
+        private final CheckBox edit = new CheckBox();
+        private final CheckBox manage = new CheckBox();
+        private final CheckBox share = new CheckBox();
+        private final Button removeButton = new Button();
 
         public BoardShareListCell() {
+            read.setText(resources.getString("editboard.share.permission.read"));
+            edit.setText(resources.getString("editboard.share.permission.edit"));
+            manage.setText(resources.getString("editboard.share.permission.manage"));
+            share.setText(resources.getString("editboard.share.permission.share"));
+            removeButton.setText(resources.getString("btn.remove"));
+
             final var spacer = new Region();
             HBox.setHgrow(spacer, Priority.ALWAYS);
             root.getChildren().addAll(userChip, spacer, read, edit, manage, share, removeButton);

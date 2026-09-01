@@ -20,7 +20,7 @@
             <children>
                 <VBox fx:id="generalPreferences" spacing="20">
                     <children>
-                        <Label text="General" style="-fx-font-size: 24; -fx-font-weight: bold;" />
+                        <Label text="%preferences.section.general" style="-fx-font-size: 24; -fx-font-weight: bold;" />
 
                         <GridPane hgap="10" vgap="10">
                             <columnConstraints>
@@ -28,13 +28,13 @@
                                 <ColumnConstraints hgrow="ALWAYS" />
                             </columnConstraints>
                             <children>
-                                <Label text="Theme" GridPane.columnIndex="0" GridPane.rowIndex="0" />
+                                <Label text="%preferences.label.theme" GridPane.columnIndex="0" GridPane.rowIndex="0" />
                                 <ComboBox fx:id="themeComboBox" GridPane.columnIndex="1" GridPane.rowIndex="0" />
 
-                                <Label text="Compact Mode" GridPane.columnIndex="0" GridPane.rowIndex="1" />
+                                <Label text="%preferences.label.compact-mode" GridPane.columnIndex="0" GridPane.rowIndex="1" />
                                 <CheckBox fx:id="compactModeCheckBox" GridPane.columnIndex="1" GridPane.rowIndex="1" />
 
-                                <Label text="Debug Mode" GridPane.columnIndex="0" GridPane.rowIndex="2" />
+                                <Label text="%preferences.label.debug-mode" GridPane.columnIndex="0" GridPane.rowIndex="2" />
                                 <CheckBox fx:id="debugModeCheckBox" GridPane.columnIndex="1" GridPane.rowIndex="2" />
                             </children>
                         </GridPane>

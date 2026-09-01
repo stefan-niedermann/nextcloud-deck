@@ -16,7 +16,7 @@
     <fx:define>
         <ContextMenu fx:id="contextMenu">
             <items>
-                <MenuItem text="Delete" fx:id="delete" />
+                <MenuItem text="%btn.delete" fx:id="delete" />
             </items>
         </ContextMenu>
     </fx:define>

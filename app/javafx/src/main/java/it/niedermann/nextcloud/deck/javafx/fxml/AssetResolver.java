@@ -12,9 +12,6 @@ class AssetResolver {
     private static final Path FXML_ROOT = Path.of("fxml");
     private static final String FXML_FILE_EXTENSION = ".fxml";
 
-    private static final Path PROPERTIES_ROOT = Path.of("i18n");
-    private static final String PROPERTIES_FILE_EXTENSION = ".properties";
-
     @Inject
     public AssetResolver() {
 
@@ -25,17 +22,11 @@ class AssetResolver {
         final var name = controllerClass.getSimpleName();
 
         final var fxmlPath = FXML_ROOT.resolve(type).resolve(name + FXML_FILE_EXTENSION);
-        final var propertiesPath = PROPERTIES_ROOT.resolve(type).resolve(name);
 
         final var classLoader = controllerClass.getClassLoader();
         final var fxmlUrl = classLoader.getResource(fxmlPath.toString());
 
-        final var propertiesUrl = classLoader.getResource(propertiesPath + PROPERTIES_FILE_EXTENSION);
-
-        final var resourceBundle = Optional.ofNullable(propertiesUrl)
-                .map(_ -> propertiesPath)
-                .map(Path::toString)
-                .map(ResourceBundle::getBundle);
+        final var resourceBundle = Optional.of(ResourceBundle.getBundle("i18n"));
 
         return new FxAsset(fxmlUrl, resourceBundle);
     }

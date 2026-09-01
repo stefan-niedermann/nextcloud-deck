@@ -90,9 +90,10 @@ public class EditBoardLabelsFeature extends AbstractFeature {
         private final HBox root = new HBox(10);
         private final TextField titleField = new TextField();
         private final ColorPicker colorPicker = new ColorPicker();
-        private final Button deleteButton = new Button("Delete");
+        private final Button deleteButton = new Button();
 
         public LabelListCell() {
+            deleteButton.setText(resources.getString("btn.delete"));
             HBox.setHgrow(titleField, Priority.ALWAYS);
             final var spacer = new Region();
             HBox.setHgrow(spacer, Priority.ALWAYS);

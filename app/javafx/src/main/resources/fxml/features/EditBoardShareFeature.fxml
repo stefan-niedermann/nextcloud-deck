@@ -7,7 +7,7 @@
         <Insets bottom="20" left="20" right="20" top="20" />
     </padding>
 
-    <SearchField fx:id="userSearch" promptText="Search for users..." />
+    <SearchField fx:id="userSearch" promptText="%editboard.share.placeholder.search" />
 
     <ListView fx:id="shares" VBox.vgrow="ALWAYS" />
 </VBox>

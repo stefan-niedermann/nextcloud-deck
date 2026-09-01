@@ -38,6 +38,6 @@ public class SplashScreenScene extends AbstractScene {
 
     @Override
     public Flowable<String> getTitle() {
-        return Flowable.just("Deck");
+        return Flowable.just(resources.getString("title"));
     }
 }

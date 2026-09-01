@@ -7,7 +7,7 @@
     type="StackPane">
     <TextField fx:id="content" />
 
-    <Button StackPane.alignment="CENTER_RIGHT" accessibleText="Submit" fx:id="submitButton">
+    <Button StackPane.alignment="CENTER_RIGHT" accessibleText="%btn.submit" fx:id="submitButton">
         <graphic>
             <FontIcon iconLiteral="fltfal-arrow-right-24" iconSize="16" fx:id="submitIcon" />
         </graphic>

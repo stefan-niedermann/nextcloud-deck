@@ -16,10 +16,10 @@
     <fx:define>
         <ContextMenu fx:id="contextMenu">
             <items>
-                <MenuItem text="Edit" fx:id="edit" />
-                <MenuItem text="Reply" fx:id="reply" />
-                <MenuItem text="Copy" fx:id="copy" />
-                <MenuItem text="Delete" fx:id="delete" />
+                <MenuItem text="%btn.edit" fx:id="edit" />
+                <MenuItem text="%btn.reply" fx:id="reply" />
+                <MenuItem text="%btn.copy" fx:id="copy" />
+                <MenuItem text="%btn.delete" fx:id="delete" />
             </items>
         </ContextMenu>
     </fx:define>

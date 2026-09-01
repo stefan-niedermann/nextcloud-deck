@@ -84,9 +84,10 @@ public class EditBoardColumnsFeature extends AbstractFeature {
     private class ColumnListCell extends ListCell<Column> {
         private final HBox root = new HBox(10);
         private final TextField titleField = new TextField();
-        private final Button deleteButton = new Button("Delete");
+        private final Button deleteButton = new Button();
 
         public ColumnListCell() {
+            deleteButton.setText(resources.getString("btn.delete"));
             HBox.setHgrow(titleField, Priority.ALWAYS);
             final var spacer = new Region();
             HBox.setHgrow(spacer, Priority.ALWAYS);

@@ -212,11 +212,11 @@ public class EditCardFeature extends AbstractFeature {
                 .observeOn(JavaFxScheduler.platform())
                 .subscribe(card -> {
                     title.setText(card.title());
-                    createdAt.setText(String.format("Created at %1$s by %2$s",
+                    createdAt.setText(java.text.MessageFormat.format(resources.getString("editcard.label.created-at"),
                             card.createdAt().format(DateTimeFormatter.ofLocalizedDateTime(FormatStyle.SHORT)),
                             "John Doe"
                     ));
-                    editedAt.setText(String.format("Last edited at %1$s by %2$s",
+                    editedAt.setText(java.text.MessageFormat.format(resources.getString("editcard.label.last-edited"),
                             card.createdAt().format(DateTimeFormatter.ofLocalizedDateTime(FormatStyle.SHORT)),
                             "John Doe"
                     ));

@@ -10,14 +10,14 @@
         <Region HBox.hgrow="SOMETIMES" />
         <HBox styleClass="actions">
 
-            <Button accessibleText="Add card" fx:id="addCard">
+            <Button accessibleText="%column.btn.add-card" fx:id="addCard">
                 <graphic>
                     <FontIcon iconLiteral="fltfal-add-16" iconSize="16" />
                 </graphic>
             </Button>
 
             <fx:define>
-                <SubmitTextField promptText="Add column" fx:id="addCardSubmitTextField" />
+                <SubmitTextField promptText="%column.placeholder.add-card" fx:id="addCardSubmitTextField" />
             </fx:define>
         </HBox>
     </HBox>

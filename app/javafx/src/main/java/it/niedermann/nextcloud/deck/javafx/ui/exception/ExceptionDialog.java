@@ -55,7 +55,7 @@ public class ExceptionDialog {
         final var expandable = new GridPane();
         expandable.setMaxWidth(Double.MAX_VALUE);
 
-        expandable.add(new Label("Stacktrace:"), 0, 0);
+        expandable.add(new Label(java.util.ResourceBundle.getBundle("i18n").getString("exception.label.stacktrace")), 0, 0);
         expandable.add(textArea, 0, 1);
 
         final var alert = new Alert(Alert.AlertType.ERROR, unwrappedException.getLocalizedMessage());

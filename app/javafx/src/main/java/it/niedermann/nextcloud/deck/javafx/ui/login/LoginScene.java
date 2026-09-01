@@ -128,6 +128,6 @@ public class LoginScene extends AbstractScene {
 
     @Override
     public Flowable<String> getTitle() {
-        return Flowable.just("Login");
+        return Flowable.just(resources.getString("login.title"));
     }
 }

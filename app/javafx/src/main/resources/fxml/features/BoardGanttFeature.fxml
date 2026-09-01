@@ -9,8 +9,8 @@
             <CircleProgressIndicator maxHeight="70" maxWidth="70" progress="-1.0"
                 fx:id="progress" />
              <EmptyContentView VBox.vgrow="ALWAYS"
-                description="No cards with start or end date found in this board." managed="false"
-                title="No dates" visible="false" fx:id="emptyContentView" />
+                description="%gantt.empty.description" managed="false"
+                title="%gantt.empty.title" visible="false" fx:id="emptyContentView" />
         </StackPane>
     </VBox>
 </ScrollPane>

@@ -6,7 +6,7 @@
     xmlns="http://javafx.com/javafx/24.0.1"
     fx:id="root">
     <children>
-        <EmptyContentView VBox.vgrow="ALWAYS" actionLabel="Show details"
-            title="Oops - Something went wrong!" fx:id="emptyContentView" />
+        <EmptyContentView VBox.vgrow="ALWAYS" actionLabel="%exception.action"
+            title="%exception.title" fx:id="emptyContentView" />
     </children>
 </StackPane>

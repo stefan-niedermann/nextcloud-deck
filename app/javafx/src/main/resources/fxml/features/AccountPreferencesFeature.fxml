@@ -16,7 +16,7 @@
                 <ColumnConstraints hgrow="ALWAYS" />
             </columnConstraints>
             <children>
-                <Label text="Background synchronization" GridPane.columnIndex="0" GridPane.rowIndex="0" />
+                <Label text="%preferences.label.sync" GridPane.columnIndex="0" GridPane.rowIndex="0" />
                 <CheckBox fx:id="backgroundSyncCheckBox" GridPane.columnIndex="1" GridPane.rowIndex="0" />
             </children>
         </GridPane>

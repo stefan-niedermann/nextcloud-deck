@@ -335,9 +335,10 @@ public class MainService extends Store<MainService.State, MainService.Action> im
 
     @Override
     public void onDeleteCard(Card.ID cardId) {
-        final var alert = new Alert(Alert.AlertType.CONFIRMATION, "Do you want to delete the card permanently? This operation can not be undone.", ButtonType.CANCEL, ButtonType.YES);
-        alert.setTitle("Delete");
-        alert.setHeaderText("Delete card?");
+        final var resources = java.util.ResourceBundle.getBundle("i18n");
+        final var alert = new Alert(Alert.AlertType.CONFIRMATION, resources.getString("main.alert.delete.content"), ButtonType.CANCEL, ButtonType.YES);
+        alert.setTitle(resources.getString("main.alert.delete.title"));
+        alert.setHeaderText(resources.getString("main.alert.delete.header"));
         themeService.bind(alert);
         alert.showAndWait()
                 .map(ButtonType::getButtonData)

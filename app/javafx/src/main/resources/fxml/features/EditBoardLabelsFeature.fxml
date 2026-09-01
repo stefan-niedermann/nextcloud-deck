@@ -10,8 +10,8 @@
     <ListView fx:id="labels" VBox.vgrow="ALWAYS" />
 
     <HBox spacing="10">
-        <TextField fx:id="newLabelTitle" HBox.hgrow="ALWAYS" promptText="New Label Title" />
+        <TextField fx:id="newLabelTitle" HBox.hgrow="ALWAYS" promptText="%editboard.labels.placeholder.new-title" />
         <ColorPicker fx:id="newLabelColor" />
-        <Button fx:id="addLabelButton" text="Add" />
+        <Button fx:id="addLabelButton" text="%btn.add" />
     </HBox>
 </VBox>
