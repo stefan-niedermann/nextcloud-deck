@@ -3,7 +3,6 @@ package it.niedermann.nextcloud.deck.data.local.mapper;
 import it.niedermann.nextcloud.deck.domain.model.AccessControl;
 import it.niedermann.nextcloud.deck.domain.model.Account;
 import it.niedermann.nextcloud.deck.domain.model.Activity;
-import it.niedermann.nextcloud.deck.domain.model.Attachment;
 import it.niedermann.nextcloud.deck.domain.model.Board;
 import it.niedermann.nextcloud.deck.domain.model.Card;
 import it.niedermann.nextcloud.deck.domain.model.Column;
@@ -106,27 +105,39 @@ public class CommonLocalMapper {
         return id != null ? id.value() : 0L;
     }
 
-    public Attachment.ID toAttachmentId(long value) {
-        return new Attachment.ID(value);
+    public it.niedermann.nextcloud.deck.domain.model.query.Attachment.ID toQueryAttachmentId(long value) {
+        return new it.niedermann.nextcloud.deck.domain.model.query.Attachment.ID(value);
     }
 
-    public long fromAttachmentId(Attachment.ID id) {
+    public it.niedermann.nextcloud.deck.domain.model.query.Attachment.RemoteID toQueryAttachmentRemoteId(Long value) {
+        return value != null ? new it.niedermann.nextcloud.deck.domain.model.query.Attachment.RemoteID(value) : null;
+    }
+
+    public it.niedermann.nextcloud.deck.domain.model.query.Attachment.FileSize toQueryFileSize(long value) {
+        return new it.niedermann.nextcloud.deck.domain.model.query.Attachment.FileSize(value);
+    }
+
+    public it.niedermann.nextcloud.deck.data.shared.Attachment.ID toAttachmentId(long value) {
+        return new it.niedermann.nextcloud.deck.data.shared.Attachment.ID(value);
+    }
+
+    public long fromAttachmentId(it.niedermann.nextcloud.deck.data.shared.Attachment.ID id) {
         return id != null ? id.value() : 0L;
     }
 
-    public Attachment.RemoteID toAttachmentRemoteId(Long value) {
-        return value != null ? new Attachment.RemoteID(value) : null;
+    public it.niedermann.nextcloud.deck.data.shared.Attachment.RemoteID toAttachmentRemoteId(Long value) {
+        return value != null ? new it.niedermann.nextcloud.deck.data.shared.Attachment.RemoteID(value) : null;
     }
 
-    public Long fromAttachmentRemoteId(Attachment.RemoteID id) {
+    public Long fromAttachmentRemoteId(it.niedermann.nextcloud.deck.data.shared.Attachment.RemoteID id) {
         return id != null ? id.value() : null;
     }
 
-    public Attachment.FileSize toFileSize(long value) {
-        return new Attachment.FileSize(value);
+    public it.niedermann.nextcloud.deck.data.shared.Attachment.FileSize toFileSize(long value) {
+        return new it.niedermann.nextcloud.deck.data.shared.Attachment.FileSize(value);
     }
 
-    public long fromFileSize(Attachment.FileSize size) {
+    public long fromFileSize(it.niedermann.nextcloud.deck.data.shared.Attachment.FileSize size) {
         return size != null ? size.bytes() : 0L;
     }
 

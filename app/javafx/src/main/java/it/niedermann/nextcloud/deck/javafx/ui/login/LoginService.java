@@ -9,7 +9,7 @@ import dagger.assisted.AssistedFactory;
 import dagger.assisted.AssistedInject;
 import io.reactivex.rxjava4.core.Flowable;
 import it.niedermann.nextcloud.deck.domain.model.Account;
-import it.niedermann.nextcloud.deck.domain.model.AuthenticatedAccount;
+import it.niedermann.nextcloud.deck.domain.model.ImportAccount;
 import it.niedermann.nextcloud.deck.domain.state.SyncStatus;
 import it.niedermann.nextcloud.deck.domain.usecases.accounts.ImportAccountUseCase;
 import it.niedermann.nextcloud.deck.javafx.store.Store;
@@ -58,7 +58,7 @@ public class LoginService extends Store<LoginService.State, LoginService.Action>
     }
 
     @Override
-    public void onAccountAuthenticated(AuthenticatedAccount account) {
+    public void onAccountAuthenticated(ImportAccount account) {
         dispatch(new LoginService.Action.AccountAuthenticated(account));
     }
 
@@ -90,7 +90,7 @@ public class LoginService extends Store<LoginService.State, LoginService.Action>
 
     public sealed interface Action {
 
-        record AccountAuthenticated(AuthenticatedAccount account) implements Action {
+        record AccountAuthenticated(ImportAccount account) implements Action {
         }
 
         record AuthenticationFailed(URL url, Throwable exception) implements Action {

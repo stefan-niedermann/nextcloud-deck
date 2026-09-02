@@ -31,6 +31,7 @@ junitVersion = "1.3.0"
 kotlin = "2.4.10"
 kotlinxCoroutinesRx3 = "1.11.0"
 lifecycleRuntimeKtx = "2.11.0"
+lombok = "1.18.36"
 mapstruct = "1.6.3"
 material = "1.14.0"
 material-color-utilities = "5.0.0"
@@ -107,6 +108,7 @@ kotlinx-coroutines-jdk8 = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-j
 kotlinx-coroutines-reactive = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-reactive", version.ref = "kotlinxCoroutinesRx3" }
 kotlinx-coroutines-rx3 = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-rx3", version.ref = "kotlinxCoroutinesRx3" }
 kotlinx-serialization-json = { group = "org.jetbrains.kotlinx", name = "kotlinx-serialization-json", version.ref = "serialization" }
+lombok = { group = "org.projectlombok", name = "lombok", version.ref = "lombok" }
 mapstruct = { group = "org.mapstruct", name = "mapstruct", version.ref = "mapstruct" }
 mapstruct-processor = { group = "org.mapstruct", name = "mapstruct-processor", version.ref = "mapstruct" }
 material = { group = "com.google.android.material", name = "material", version.ref = "material" }

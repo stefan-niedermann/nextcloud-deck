@@ -2,7 +2,6 @@ package it.niedermann.nextcloud.deck.data.repository;
 
 import org.reactivestreams.FlowAdapters;
 
-import java.io.IOException;
 import java.nio.file.Path;
 import java.time.OffsetDateTime;
 import java.util.List;
@@ -16,10 +15,10 @@ import it.niedermann.nextcloud.deck.data.local.dao.AttachmentDao;
 import it.niedermann.nextcloud.deck.data.local.dao.CardDao;
 import it.niedermann.nextcloud.deck.data.local.entity.AttachmentEntity;
 import it.niedermann.nextcloud.deck.data.local.mapper.AttachmentMapper;
-import it.niedermann.nextcloud.deck.domain.model.Attachment;
-import it.niedermann.nextcloud.deck.domain.model.AttachmentType;
+import it.niedermann.nextcloud.deck.data.shared.AttachmentType;
 import it.niedermann.nextcloud.deck.domain.model.Card;
 import it.niedermann.nextcloud.deck.domain.model.DBStatus;
+import it.niedermann.nextcloud.deck.domain.model.query.Attachment;
 import it.niedermann.nextcloud.deck.domain.repository.AttachmentRepository;
 import it.niedermann.nextcloud.deck.domain.state.AttachmentDownloadProgress;
 import jakarta.inject.Inject;
@@ -45,7 +44,7 @@ public class AttachmentRepositoryImpl implements AttachmentRepository {
     public Flow.Publisher<List<Attachment>> getNotDeletedAttachments(Card.ID cardId) {
         return FlowAdapters.toFlowPublisher(
                 attachmentDao.getAttachmentsByCard(cardId.value())
-                        .map(attachmentMapper::toTOList)
+                        .map(attachmentMapper::toQueryTOList)
                         .subscribeOn(Schedulers.io())
         );
     }

@@ -2,7 +2,7 @@ package it.niedermann.nextcloud.deck.domain.usecases.attachments;
 
 import java.util.concurrent.Flow;
 
-import it.niedermann.nextcloud.deck.domain.model.Attachment;
+import it.niedermann.nextcloud.deck.domain.model.query.Attachment;
 import it.niedermann.nextcloud.deck.domain.repository.AttachmentRepository;
 import it.niedermann.nextcloud.deck.domain.state.AttachmentDownloadProgress;
 import jakarta.inject.Inject;

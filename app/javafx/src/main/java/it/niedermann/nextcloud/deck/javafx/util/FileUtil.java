@@ -2,7 +2,7 @@ package it.niedermann.nextcloud.deck.javafx.util;
 
 import java.util.Locale;
 
-import it.niedermann.nextcloud.deck.domain.model.Attachment;
+import it.niedermann.nextcloud.deck.domain.model.query.Attachment;
 
 public class FileUtil {
 

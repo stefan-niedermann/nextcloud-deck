@@ -5,8 +5,8 @@ import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.Flow;
 
-import it.niedermann.nextcloud.deck.domain.model.Attachment;
 import it.niedermann.nextcloud.deck.domain.model.Card;
+import it.niedermann.nextcloud.deck.domain.model.query.Attachment;
 import it.niedermann.nextcloud.deck.domain.state.AttachmentDownloadProgress;
 
 public interface AttachmentRepository {

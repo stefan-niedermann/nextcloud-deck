@@ -17,7 +17,7 @@ import io.reactivex.rxjava3.core.Maybe;
 import it.niedermann.nextcloud.deck.domain.di.VirtualDeviceComponent;
 import it.niedermann.nextcloud.deck.domain.e2e.EndToEndTest;
 import it.niedermann.nextcloud.deck.domain.model.Account;
-import it.niedermann.nextcloud.deck.domain.model.AuthenticatedAccount;
+import it.niedermann.nextcloud.deck.domain.model.ImportAccount;
 
 public class AccountEndToEndTest extends EndToEndTest {
 
@@ -34,7 +34,7 @@ public class AccountEndToEndTest extends EndToEndTest {
     public void testImportAccount() throws IOException {
         final var user = serverManager.getOrCreateRemoteAccount("user-import");
         final var token = authProvider.generateToken(user.url(), user.username(), user.password());
-        final var authenticatedAccount = new AuthenticatedAccount(user.url(), user.username(), token);
+        final var authenticatedAccount = new ImportAccount(user.url(), user.username(), token);
 
         final var importedAccount = Flowable.fromPublisher(FlowAdapters.toPublisher(DEVICE_A.getImportAccountUseCase().execute(authenticatedAccount)))
                 .lastElement()

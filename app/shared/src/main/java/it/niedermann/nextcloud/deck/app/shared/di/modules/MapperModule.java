@@ -2,6 +2,7 @@ package it.niedermann.nextcloud.deck.app.shared.di.modules;
 
 import dagger.Module;
 import dagger.Provides;
+import it.niedermann.nextcloud.deck.app.shared.mapper.AuthMapper;
 import it.niedermann.nextcloud.deck.data.local.mapper.AccessControlMapper;
 import it.niedermann.nextcloud.deck.data.local.mapper.AccountMapper;
 import it.niedermann.nextcloud.deck.data.local.mapper.ActivityMapper;
@@ -16,6 +17,12 @@ import jakarta.inject.Singleton;
 
 @Module
 public class MapperModule {
+
+    @Provides
+    @Singleton
+    AuthMapper provideAuthMapper() {
+        return AuthMapper.INSTANCE;
+    }
 
     @Provides
     @Singleton

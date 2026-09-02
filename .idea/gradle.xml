@@ -22,6 +22,7 @@
             <option value="$PROJECT_DIR$/data/local" />
             <option value="$PROJECT_DIR$/data/remote" />
             <option value="$PROJECT_DIR$/data/repository" />
+            <option value="$PROJECT_DIR$/data/shared" />
             <option value="$PROJECT_DIR$/data/sync" />
             <option value="$PROJECT_DIR$/domain" />
             <option value="$PROJECT_DIR$/domain/model" />

@@ -8,8 +8,6 @@ import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
-import it.niedermann.nextcloud.deck.domain.model.Attachment;
-import it.niedermann.nextcloud.deck.domain.model.AttachmentType;
 import it.niedermann.nextcloud.deck.domain.model.Board;
 import it.niedermann.nextcloud.deck.domain.model.Capabilities;
 import it.niedermann.nextcloud.deck.domain.model.Card;
@@ -19,6 +17,7 @@ import it.niedermann.nextcloud.deck.domain.model.Comment;
 import it.niedermann.nextcloud.deck.domain.model.Label;
 import it.niedermann.nextcloud.deck.domain.model.User;
 import it.niedermann.nextcloud.deck.domain.model.Version;
+import it.niedermann.nextcloud.deck.domain.model.query.Attachment;
 
 public interface MockData {
 
@@ -134,8 +133,8 @@ public interface MockData {
     };
 
     Attachment[] MOCK_ATTACHMENTS = new Attachment[]{
-            new Attachment(new Attachment.ID(1), new Card.ID(11100), AttachmentType.FILE, "Architecture_v1.png", OffsetDateTime.now(), new User.ID("jdoe"), new Attachment.FileSize(1024 * 512), "image/png"),
-            new Attachment(new Attachment.ID(2), new Card.ID(66100), AttachmentType.FILE, "Logs.txt", OffsetDateTime.now(), new User.ID("admin"), new Attachment.FileSize(2048), "text/plain")
+            new Attachment(new Attachment.ID(1), "Architecture_v1.png", OffsetDateTime.now(), new User.ID("jdoe"), new Attachment.FileSize(1024 * 512), "image/png"),
+            new Attachment(new Attachment.ID(2), "Logs.txt", OffsetDateTime.now(), new User.ID("admin"), new Attachment.FileSize(2048), "text/plain")
     };
 
     // Helper methods for cleaner initialization

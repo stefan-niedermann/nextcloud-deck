@@ -1,4 +1,4 @@
-package it.niedermann.nextcloud.deck.domain.model;
+package it.niedermann.nextcloud.deck.data.shared;
 
 public enum AttachmentType {
     DECK_FILE(1, "deck_file"),

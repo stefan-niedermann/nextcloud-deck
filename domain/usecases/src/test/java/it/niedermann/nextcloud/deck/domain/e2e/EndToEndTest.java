@@ -13,7 +13,7 @@ import it.niedermann.nextcloud.auth.apptoken.AppTokenAuthProvider;
 import it.niedermann.nextcloud.deck.domain.di.DaggerTestComponent;
 import it.niedermann.nextcloud.deck.domain.di.VirtualDeviceComponent;
 import it.niedermann.nextcloud.deck.domain.model.Account;
-import it.niedermann.nextcloud.deck.domain.model.AuthenticatedAccount;
+import it.niedermann.nextcloud.deck.domain.model.ImportAccount;
 import jakarta.inject.Inject;
 
 public abstract class EndToEndTest {
@@ -74,7 +74,7 @@ public abstract class EndToEndTest {
         final var importAccountUseCase = virtualDevice.getImportAccountUseCase();
 
         final var token = authProvider.generateToken(user.url(), user.username(), user.password());
-        final var account = new AuthenticatedAccount(user.url(), user.username(), token);
+        final var account = new ImportAccount(user.url(), user.username(), token);
         final var importedAccountStatus = Flowable.fromPublisher(FlowAdapters.toPublisher(importAccountUseCase.execute(account))).lastElement().blockingGet();
         if (importedAccountStatus == null) {
             throw new IllegalStateException("ImportAccountUseCase returned no status for user: " + remoteAccountUsername);

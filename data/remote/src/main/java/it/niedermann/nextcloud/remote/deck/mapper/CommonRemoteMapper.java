@@ -7,7 +7,6 @@ import java.time.ZoneOffset;
 import it.niedermann.nextcloud.deck.domain.model.AccessControl;
 import it.niedermann.nextcloud.deck.domain.model.Account;
 import it.niedermann.nextcloud.deck.domain.model.Activity;
-import it.niedermann.nextcloud.deck.domain.model.Attachment;
 import it.niedermann.nextcloud.deck.domain.model.Board;
 import it.niedermann.nextcloud.deck.domain.model.Card;
 import it.niedermann.nextcloud.deck.domain.model.Column;
@@ -97,27 +96,27 @@ public class CommonRemoteMapper {
         return id != null ? id.value() : null;
     }
 
-    public Attachment.ID toAttachmentId(Long value) {
-        return value != null ? new Attachment.ID(value) : null;
+    public it.niedermann.nextcloud.deck.data.shared.Attachment.ID toAttachmentId(Long value) {
+        return value != null ? new it.niedermann.nextcloud.deck.data.shared.Attachment.ID(value) : null;
     }
 
-    public Long fromAttachmentId(Attachment.ID id) {
+    public Long fromAttachmentId(it.niedermann.nextcloud.deck.data.shared.Attachment.ID id) {
         return id != null ? id.value() : null;
     }
 
-    public Attachment.RemoteID toAttachmentRemoteId(Long value) {
-        return value != null ? new Attachment.RemoteID(value) : null;
+    public it.niedermann.nextcloud.deck.data.shared.Attachment.RemoteID toAttachmentRemoteId(Long value) {
+        return value != null ? new it.niedermann.nextcloud.deck.data.shared.Attachment.RemoteID(value) : null;
     }
 
-    public Long fromAttachmentRemoteId(Attachment.RemoteID id) {
+    public Long fromAttachmentRemoteId(it.niedermann.nextcloud.deck.data.shared.Attachment.RemoteID id) {
         return id != null ? id.value() : null;
     }
 
-    public Attachment.FileSize toFileSize(Long value) {
-        return value != null ? new Attachment.FileSize(value) : null;
+    public it.niedermann.nextcloud.deck.data.shared.Attachment.FileSize toFileSize(Long value) {
+        return value != null ? new it.niedermann.nextcloud.deck.data.shared.Attachment.FileSize(value) : null;
     }
 
-    public Long fromFileSize(Attachment.FileSize size) {
+    public Long fromFileSize(it.niedermann.nextcloud.deck.data.shared.Attachment.FileSize size) {
         return size != null ? size.bytes() : null;
     }
 

@@ -15,7 +15,8 @@ import dagger.assisted.Assisted;
 import dagger.assisted.AssistedFactory;
 import dagger.assisted.AssistedInject;
 import it.niedermann.nextcloud.auth.webloginflowv2.WebLoginFlowV2AuthProvider;
-import it.niedermann.nextcloud.deck.domain.model.AuthenticatedAccount;
+import it.niedermann.nextcloud.deck.app.shared.mapper.AuthMapper;
+import it.niedermann.nextcloud.deck.domain.model.ImportAccount;
 import it.niedermann.nextcloud.deck.javafx.fxml.Inflater;
 import it.niedermann.nextcloud.deck.javafx.ui.shared.AbstractFeature;
 import javafx.fxml.FXML;
@@ -32,17 +33,20 @@ public class WebLoginV2Feature extends AbstractFeature {
     private Button submit;
 
     private final WebLoginFlowV2AuthProvider webLoginV2AuthProvider;
+    private final AuthMapper authMapper;
     private final ViewModel viewModel;
 
     @AssistedInject
     public WebLoginV2Feature(
             Inflater inflater,
             WebLoginFlowV2AuthProvider webLoginV2AuthProvider,
+            AuthMapper authMapper,
             @Assisted ViewModel viewModel
     ) {
         super(inflater);
 
         this.webLoginV2AuthProvider = webLoginV2AuthProvider;
+        this.authMapper = authMapper;
         this.viewModel = viewModel;
     }
 
@@ -88,10 +92,11 @@ public class WebLoginV2Feature extends AbstractFeature {
                 });
     }
 
-    private CompletableFuture<AuthenticatedAccount> authenticateViaWebLogin(URL parsedUrl) {
+    private CompletableFuture<ImportAccount> authenticateViaWebLogin(URL parsedUrl) {
         return CompletableFuture.supplyAsync(() -> {
             try {
-                return webLoginV2AuthProvider.initializeAuthentication(parsedUrl);
+                final var account = webLoginV2AuthProvider.initializeAuthentication(parsedUrl);
+                return authMapper.toImportAccount(account);
             } catch (IOException | URISyntaxException | UnsupportedOperationException |
                      InterruptedException e) {
                 logger.log(Level.WARNING, e.getMessage(), e);
@@ -101,7 +106,7 @@ public class WebLoginV2Feature extends AbstractFeature {
     }
 
     public interface ViewModel {
-        void onAccountAuthenticated(AuthenticatedAccount account);
+        void onAccountAuthenticated(ImportAccount account);
 
         void onAccountAuthenticationFailed(URL url, Throwable e);
     }

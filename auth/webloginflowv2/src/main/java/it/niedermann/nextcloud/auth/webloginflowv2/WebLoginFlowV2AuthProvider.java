@@ -10,7 +10,6 @@ import java.time.Instant;
 import java.util.Objects;
 import java.util.logging.Logger;
 
-import it.niedermann.nextcloud.deck.domain.model.AuthenticatedAccount;
 import jakarta.inject.Inject;
 import jakarta.inject.Singleton;
 import okhttp3.OkHttpClient;

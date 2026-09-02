@@ -1,6 +1,6 @@
 package it.niedermann.nextcloud.deck.javafx.ui.shared.cellfactories;
 
-import it.niedermann.nextcloud.deck.domain.model.Attachment;
+import it.niedermann.nextcloud.deck.domain.model.query.Attachment;
 import it.niedermann.nextcloud.deck.javafx.ui.shared.views.AttachmentView;
 import jakarta.inject.Inject;
 import javafx.beans.binding.Bindings;

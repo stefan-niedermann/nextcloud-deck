@@ -13,7 +13,7 @@ import dagger.assisted.Assisted;
 import dagger.assisted.AssistedFactory;
 import dagger.assisted.AssistedInject;
 import it.niedermann.nextcloud.auth.apptoken.AppTokenAuthProvider;
-import it.niedermann.nextcloud.deck.domain.model.AuthenticatedAccount;
+import it.niedermann.nextcloud.deck.domain.model.ImportAccount;
 import it.niedermann.nextcloud.deck.javafx.fxml.Inflater;
 import it.niedermann.nextcloud.deck.javafx.ui.shared.AbstractFeature;
 import javafx.fxml.FXML;
@@ -93,11 +93,11 @@ public class AppTokenLoginFeature extends AbstractFeature {
                 });
     }
 
-    private CompletableFuture<AuthenticatedAccount> authenticateViaAppToken(URL parsedUrl, String username, String password) {
+    private CompletableFuture<ImportAccount> authenticateViaAppToken(URL parsedUrl, String username, String password) {
         return CompletableFuture.supplyAsync(() -> {
             try {
                 final String token = appTokenAuthProvider.generateToken(parsedUrl, username, password);
-                return new AuthenticatedAccount(parsedUrl, username, token);
+                return new ImportAccount(parsedUrl, username, token);
             } catch (IOException ex) {
                 throw new CompletionException(ex);
             }
@@ -105,7 +105,7 @@ public class AppTokenLoginFeature extends AbstractFeature {
     }
 
     public interface ViewModel {
-        void onAccountAuthenticated(AuthenticatedAccount account);
+        void onAccountAuthenticated(ImportAccount account);
 
         void onAccountAuthenticationFailed(URL url, Throwable e);
     }

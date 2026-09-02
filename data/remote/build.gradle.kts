@@ -61,6 +61,7 @@ sourceSets {
 
 dependencies {
     api(project(":domain:model"))
+    api(project(":data:shared"))
 
     api(libs.jakarta.inject)
 

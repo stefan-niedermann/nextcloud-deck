@@ -5,7 +5,7 @@ import org.mapstruct.Mapping;
 import org.mapstruct.ReportingPolicy;
 import org.mapstruct.factory.Mappers;
 
-import it.niedermann.nextcloud.deck.domain.model.Attachment;
+import it.niedermann.nextcloud.deck.data.shared.Attachment;
 import it.niedermann.nextcloud.remote.deck.dto.AttachmentDTO;
 
 @Mapper(uses = {CommonRemoteMapper.class}, unmappedTargetPolicy = ReportingPolicy.IGNORE)
@@ -43,6 +43,6 @@ public interface AttachmentRemoteMapper extends GenericRemoteMapper<AttachmentDT
     @Mapping(target = "title", source = "data")
     @Mapping(target = "localPath", ignore = true)
     @Mapping(target = "accountId", ignore = true)
-    @Mapping(target = "type", expression = "java(it.niedermann.nextcloud.deck.domain.model.AttachmentType.findByValue(attachmentDTO.getType()))")
+    @Mapping(target = "type", expression = "java(it.niedermann.nextcloud.deck.data.shared.AttachmentType.findByValue(attachmentDTO.getType()))")
     Attachment toTO(AttachmentDTO attachmentDTO);
 }

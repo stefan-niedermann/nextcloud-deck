@@ -26,6 +26,7 @@ room3 {
 dependencies {
     api(project(":domain:model"))
     api(project(":domain:state"))
+    api(project(":data:shared"))
 
     api(libs.jakarta.inject)
 

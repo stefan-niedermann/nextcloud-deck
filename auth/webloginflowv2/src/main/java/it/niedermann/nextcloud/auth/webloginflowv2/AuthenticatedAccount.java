@@ -1,4 +1,4 @@
-package it.niedermann.nextcloud.deck.domain.model;
+package it.niedermann.nextcloud.auth.webloginflowv2;
 
 import java.net.URL;
 

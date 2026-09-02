@@ -6,12 +6,12 @@ import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
-import it.niedermann.nextcloud.deck.domain.model.Attachment
 import it.niedermann.nextcloud.deck.domain.model.Card
 import it.niedermann.nextcloud.deck.domain.model.Comment
 import it.niedermann.nextcloud.deck.domain.model.CreateComment
 import it.niedermann.nextcloud.deck.domain.model.Label
 import it.niedermann.nextcloud.deck.domain.model.User
+import it.niedermann.nextcloud.deck.domain.model.query.Attachment
 import it.niedermann.nextcloud.deck.domain.model.query.PreviewActivity
 import it.niedermann.nextcloud.deck.domain.model.query.PreviewComment
 import it.niedermann.nextcloud.deck.domain.usecases.activities.ListPreviewActivitiesUseCase

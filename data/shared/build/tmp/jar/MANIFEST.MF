@@ -1,0 +1,3 @@
+Manifest-Version: 1.0
+Automatic-Module-Name: it.niedermann.nextcloud.deck.data.shared
+

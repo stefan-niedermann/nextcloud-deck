@@ -1,7 +1,7 @@
 package it.niedermann.nextcloud.deck.data.local.typeconverter
 
 import androidx.room3.ColumnTypeConverter
-import it.niedermann.nextcloud.deck.domain.model.AttachmentType
+import it.niedermann.nextcloud.deck.data.shared.AttachmentType
 
 class AttachmentTypeConverter {
     @ColumnTypeConverter

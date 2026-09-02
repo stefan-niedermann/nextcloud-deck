@@ -1,12 +1,14 @@
-package it.niedermann.nextcloud.deck.domain.model;
+package it.niedermann.nextcloud.deck.domain.model.query;
 
 import java.time.OffsetDateTime;
 import java.util.Objects;
 
+import it.niedermann.nextcloud.deck.domain.model.Account;
+import it.niedermann.nextcloud.deck.domain.model.DBStatus;
+import it.niedermann.nextcloud.deck.domain.model.User;
+
 public record Attachment(
         Attachment.ID id,
-        Card.ID cardId,
-        AttachmentType type,
         String title,
         OffsetDateTime createdAt,
         FileSize size,
@@ -19,7 +21,6 @@ public record Attachment(
         String extension,
         String filename,
         String localPath,
-        Long fileId,
 
         Account.ID accountId,
         Attachment.RemoteID remoteId,
@@ -27,14 +28,12 @@ public record Attachment(
         OffsetDateTime lastModified
 ) {
 
-    public Attachment(Attachment.ID id, Card.ID cardId, AttachmentType type, String title, OffsetDateTime createdAt, User.ID createdBy, FileSize size, String mimetype) {
-        this(id, cardId, type, title, createdAt, size, mimetype, null, null, createdBy, null, null, null, null, null, null, null, DBStatus.UP_TO_DATE, OffsetDateTime.now());
+    public Attachment(Attachment.ID id, String title, OffsetDateTime createdAt, User.ID createdBy, FileSize size, String mimetype) {
+        this(id, title, createdAt, size, mimetype, null, null, createdBy, null, null, null, null, null, null, DBStatus.UP_TO_DATE, OffsetDateTime.now());
     }
 
     public Attachment {
         Objects.requireNonNull(id);
-        Objects.requireNonNull(cardId);
-        Objects.requireNonNull(type);
         Objects.requireNonNull(status);
         Objects.requireNonNull(lastModified);
     }

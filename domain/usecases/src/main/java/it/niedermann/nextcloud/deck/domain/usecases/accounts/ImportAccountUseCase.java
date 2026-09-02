@@ -10,7 +10,7 @@ import java.util.logging.Logger;
 
 import io.reactivex.rxjava3.core.Flowable;
 import it.niedermann.nextcloud.deck.domain.model.Account;
-import it.niedermann.nextcloud.deck.domain.model.AuthenticatedAccount;
+import it.niedermann.nextcloud.deck.domain.model.ImportAccount;
 import it.niedermann.nextcloud.deck.domain.repository.AccountRepository;
 import it.niedermann.nextcloud.deck.domain.state.SyncStatus;
 import it.niedermann.nextcloud.deck.domain.usecases.sync.ScheduleSyncUseCase;
@@ -32,12 +32,12 @@ public class ImportAccountUseCase {
         this.scheduleSyncUseCase = scheduleSyncUseCase;
     }
 
-    public Flow.Publisher<SyncStatus> execute(AuthenticatedAccount authenticatedAccount) {
+    public Flow.Publisher<SyncStatus> execute(ImportAccount importAccount) {
         final var accountId = new AtomicReference<Account.ID>();
         final var result = Flowable.fromFuture(accountRepository.addAccount(
-                        authenticatedAccount.url(),
-                        authenticatedAccount.username(),
-                        authenticatedAccount.token()))
+                        importAccount.url(),
+                        importAccount.username(),
+                        importAccount.token()))
 
                 .doOnNext(accountId::set)
                 .doOnNext(v -> {

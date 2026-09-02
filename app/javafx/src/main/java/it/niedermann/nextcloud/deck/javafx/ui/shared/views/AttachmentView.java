@@ -3,7 +3,7 @@ package it.niedermann.nextcloud.deck.javafx.ui.shared.views;
 import java.net.URI;
 import java.util.Optional;
 
-import it.niedermann.nextcloud.deck.domain.model.Attachment;
+import it.niedermann.nextcloud.deck.domain.model.query.Attachment;
 import it.niedermann.nextcloud.deck.javafx.fxml.Inflater;
 import it.niedermann.nextcloud.deck.javafx.util.FileUtil;
 import javafx.fxml.FXML;

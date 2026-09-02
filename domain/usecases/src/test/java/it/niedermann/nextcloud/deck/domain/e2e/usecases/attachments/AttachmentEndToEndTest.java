@@ -13,10 +13,10 @@ import java.util.Collection;
 import io.reactivex.rxjava3.core.Flowable;
 import it.niedermann.nextcloud.deck.domain.e2e.EndToEndTest;
 import it.niedermann.nextcloud.deck.domain.e2e.EndToEndUtil;
-import it.niedermann.nextcloud.deck.domain.model.Attachment;
 import it.niedermann.nextcloud.deck.domain.model.Board;
 import it.niedermann.nextcloud.deck.domain.model.Card;
 import it.niedermann.nextcloud.deck.domain.model.Column;
+import it.niedermann.nextcloud.deck.domain.model.query.Attachment;
 import it.niedermann.nextcloud.deck.domain.repository.MockData;
 
 public class AttachmentEndToEndTest extends EndToEndTest {
