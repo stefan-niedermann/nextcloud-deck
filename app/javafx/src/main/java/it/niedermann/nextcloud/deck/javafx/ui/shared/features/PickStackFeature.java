@@ -82,7 +82,7 @@ public class PickStackFeature extends AbstractFeature {
         accountSelect.setConverter(new StringConverter<>() {
             @Override
             public String toString(Account account) {
-                return account == null ? "" : account.accountName();
+                return account == null ? "" : account.displayName();
             }
 
             @Override

@@ -177,4 +177,8 @@ public class CommonRemoteMapper {
         if (color == null) return null;
         return String.format("%06X", (0xFFFFFF & color.argb()));
     }
+
+    public String mapDisplayName(String displayName) {
+        return displayName != null ? displayName : "";
+    }
 }

@@ -13,6 +13,7 @@ import it.niedermann.nextcloud.deck.data.sync.provider.ColumnSyncProvider;
 import it.niedermann.nextcloud.deck.data.sync.provider.CommentSyncProvider;
 import it.niedermann.nextcloud.deck.data.sync.provider.LabelSyncProvider;
 import it.niedermann.nextcloud.deck.domain.model.Account;
+import it.niedermann.nextcloud.deck.domain.repository.AccountRepository;
 import it.niedermann.nextcloud.deck.domain.state.SyncStatus;
 import it.niedermann.nextcloud.remote.ApiProvider;
 import jakarta.inject.Inject;
@@ -22,6 +23,7 @@ public class SyncManager {
     private static final Logger logger = Logger.getLogger(SyncManager.class.getName());
 
     private final ApiProvider.Factory apiProviderFactory;
+    private final AccountRepository accountRepository;
     private final BoardSyncProvider boardSyncProvider;
     private final ColumnSyncProvider columnSyncProvider;
     private final CardSyncProvider cardSyncProvider;
@@ -33,6 +35,7 @@ public class SyncManager {
     @Inject
     public SyncManager(
             ApiProvider.Factory apiProviderFactory,
+            AccountRepository accountRepository,
             BoardSyncProvider boardSyncProvider,
             ColumnSyncProvider columnSyncProvider,
             CardSyncProvider cardSyncProvider,
@@ -42,6 +45,7 @@ public class SyncManager {
             AccessControlSyncProvider accessControlSyncProvider
     ) {
         this.apiProviderFactory = apiProviderFactory;
+        this.accountRepository = accountRepository;
         this.boardSyncProvider = boardSyncProvider;
         this.columnSyncProvider = columnSyncProvider;
         this.cardSyncProvider = cardSyncProvider;
@@ -56,33 +60,62 @@ public class SyncManager {
         SyncStatus initialStatus = new SyncStatus(account);
         reporter.accept(initialStatus);
 
-        return apiProviderFactory.create(account).getOcsApi().getCapabilities(null).thenCompose(capabilities -> {
+        final var apiProvider = apiProviderFactory.create(account);
+        final var ocsApi = apiProvider.getOcsApi();
+
+        return ocsApi.getCapabilities(null).thenCompose(capabilities -> {
             logger.info("Server capabilities received");
-            return boardSyncProvider.upSync(account, initialStatus, reporter)
-                    .thenCompose(v -> {
-                        logger.info("Board up-sync finished");
-                        return columnSyncProvider.upSync(account, initialStatus, reporter);
-                    })
-                    .thenCompose(v -> {
-                        logger.info("Column up-sync finished");
-                        return cardSyncProvider.upSync(account, initialStatus, reporter);
-                    })
-                    .thenCompose(v -> {
-                        logger.info("Card up-sync finished");
-                        return labelSyncProvider.upSync(account, initialStatus, reporter);
-                    })
-                    .thenCompose(v -> {
-                        logger.info("Label up-sync finished");
-                        return attachmentSyncProvider.upSync(account, initialStatus, reporter);
-                    })
-                    .thenCompose(v -> {
-                        logger.info("Attachment up-sync finished");
-                        return commentSyncProvider.upSync(account, initialStatus, reporter);
-                    })
-                    .thenCompose(v -> {
-                        logger.info("Comment up-sync finished");
-                        return accessControlSyncProvider.upSync(account, initialStatus, reporter);
-                    });
+
+            return ocsApi.getUser(null, account.username()).handle((userResponse, throwable) -> {
+                if (throwable != null) {
+                    logger.log(Level.WARNING, "Could not fetch user info for " + account.username(), throwable);
+                    return CompletableFuture.completedFuture(null);
+                }
+                final var user = userResponse.getOcs().getData();
+                if (user == null) {
+                    return CompletableFuture.completedFuture(null);
+                }
+                final var displayName = user.getDisplayname();
+                if (displayName != null && !displayName.isBlank() && !displayName.equals(account.displayName())) {
+                    logger.info("Updating display name for " + account.username() + " to " + displayName);
+                    final var updatedAccount = new Account(
+                            account.id(),
+                            account.url(),
+                            account.username(),
+                            account.token(),
+                            displayName,
+                            account.capabilities()
+                    );
+                    return accountRepository.updateAccount(updatedAccount);
+                }
+                return CompletableFuture.completedFuture(null);
+            }).thenCompose(f -> (CompletableFuture<?>) f).thenCompose(v -> {
+                return boardSyncProvider.upSync(account, initialStatus, reporter)
+                        .thenCompose(v1 -> {
+                            logger.info("Board up-sync finished");
+                            return columnSyncProvider.upSync(account, initialStatus, reporter);
+                        })
+                        .thenCompose(v2 -> {
+                            logger.info("Column up-sync finished");
+                            return cardSyncProvider.upSync(account, initialStatus, reporter);
+                        })
+                        .thenCompose(v3 -> {
+                            logger.info("Card up-sync finished");
+                            return labelSyncProvider.upSync(account, initialStatus, reporter);
+                        })
+                        .thenCompose(v4 -> {
+                            logger.info("Label up-sync finished");
+                            return attachmentSyncProvider.upSync(account, initialStatus, reporter);
+                        })
+                        .thenCompose(v5 -> {
+                            logger.info("Attachment up-sync finished");
+                            return commentSyncProvider.upSync(account, initialStatus, reporter);
+                        })
+                        .thenCompose(v6 -> {
+                            logger.info("Comment up-sync finished");
+                            return accessControlSyncProvider.upSync(account, initialStatus, reporter);
+                        });
+            });
         }).thenCompose(v -> {
             logger.info("Starting down-sync");
             return boardSyncProvider.downSync(account, null, null, initialStatus, reporter);

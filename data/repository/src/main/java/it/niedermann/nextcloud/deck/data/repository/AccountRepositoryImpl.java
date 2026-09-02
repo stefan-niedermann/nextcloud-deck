@@ -9,8 +9,6 @@ import java.util.Map;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.Flow;
 
-import io.reactivex.rxjava3.core.Maybe;
-import io.reactivex.rxjava3.core.Maybe;
 import io.reactivex.rxjava3.schedulers.Schedulers;
 import it.niedermann.nextcloud.deck.data.local.dao.AccountDao;
 import it.niedermann.nextcloud.deck.data.local.entity.AccountEntity;
@@ -81,15 +79,16 @@ public class AccountRepositoryImpl implements AccountRepository {
     @Override
     public CompletableFuture<Account.ID> findAccountId(String accountName) {
         return accountDao.findAccountId(accountName)
+                .map(Account.ID::new)
                 .toCompletionStage()
-                .toCompletableFuture()
-                .thenApplyAsync(Account.ID::new);
+                .toCompletableFuture();
     }
 
     @Override
     public CompletableFuture<Account.ID> addAccount(URL url, String username, String token) {
         final var capabilities = new CapabilitiesEntity(null, null, false, false);
-        final var accountEntity = new AccountEntity(0L, url, username, token, "", capabilities);
+        final var accountName = username + "@" + url.getHost();
+        final var accountEntity = new AccountEntity(0L, url, username, token, accountName, capabilities);
 
         return accountDao.insert(accountEntity)
                 .toCompletionStage()
@@ -98,9 +97,16 @@ public class AccountRepositoryImpl implements AccountRepository {
     }
 
     @Override
+    public CompletableFuture<Void> updateAccount(Account account) {
+        return accountDao.updateRx(accountMapper.toEntity(account))
+                .<Void>toCompletionStage(null)
+                .toCompletableFuture();
+    }
+
+    @Override
     public CompletableFuture<Void> removeAccount(Account.ID id) {
         return accountDao.deleteAccount(id.value())
-                .toCompletionStage()
+                .<Void>toCompletionStage(null)
                 .toCompletableFuture();
     }
 

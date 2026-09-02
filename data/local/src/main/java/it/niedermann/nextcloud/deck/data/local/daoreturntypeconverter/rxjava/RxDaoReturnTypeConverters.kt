@@ -139,7 +139,7 @@ public class RxDaoReturnTypeConverters {
      * @param executeAndConvert A suspend lambda function that invokes the part of the generated
      *   code that executes the query.
      */
-    @DaoReturnTypeConverter(operations = [OperationType.WRITE])
+    @DaoReturnTypeConverter(operations = [OperationType.READ, OperationType.WRITE])
     public fun convertCompletable(
         database: RoomDatabase,
         executeAndConvert: suspend () -> Unit?,

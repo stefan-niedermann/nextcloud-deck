@@ -80,6 +80,7 @@
             </graphic>
         </Button>
 
+        <Label fx:id="accountDisplayName" />
         <AvatarProgressView prefHeight="36" prefWidth="36" fx:id="avatar" />
 
         <Button accessibleText="%header.btn.remove-account" fx:id="removeAccountBtn">

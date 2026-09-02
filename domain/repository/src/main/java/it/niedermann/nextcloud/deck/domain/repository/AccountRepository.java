@@ -24,6 +24,8 @@ public interface AccountRepository {
 
     CompletableFuture<Account.ID> addAccount(URL url, String username, String token);
 
+    CompletableFuture<Void> updateAccount(Account account);
+
     CompletableFuture<Void> removeAccount(Account.ID id);
 
     Flow.Publisher<Collection<Account>> getAccounts();

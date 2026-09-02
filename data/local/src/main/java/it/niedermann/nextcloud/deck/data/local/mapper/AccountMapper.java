@@ -13,9 +13,11 @@ public interface AccountMapper extends GenericMapper<AccountEntity, Account> {
     AccountMapper INSTANCE = Mappers.getMapper(AccountMapper.class);
 
     @Override
+    @Mapping(source = "displayName", target = "accountName")
     AccountEntity toEntity(Account account);
 
     @Override
+    @Mapping(source = "accountName", target = "displayName")
     Account toTO(AccountEntity accountEntity);
 
     default Account.ID toAccountId(long value) {

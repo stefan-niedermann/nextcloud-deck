@@ -23,6 +23,6 @@ public class AccountListItemView extends HBox {
     public void bind(Account account, boolean isCurrent) {
         avatar.setAvatar(account);
         current.setVisible(isCurrent);
-        title.setText(account.accountName());
+        title.setText(account.displayName());
     }
 }

@@ -11,11 +11,9 @@ import org.reactivestreams.FlowAdapters;
 
 import java.io.IOException;
 import java.util.Collection;
-import java.util.concurrent.CompletionException;
 
 import io.reactivex.rxjava3.core.Flowable;
 import io.reactivex.rxjava3.core.Maybe;
-import it.niedermann.nextcloud.deck.data.local.daoreturntypeconverter.rxjava.EmptyResultSetException;
 import it.niedermann.nextcloud.deck.domain.di.VirtualDeviceComponent;
 import it.niedermann.nextcloud.deck.domain.e2e.EndToEndTest;
 import it.niedermann.nextcloud.deck.domain.model.Account;
@@ -83,13 +81,7 @@ public class AccountEndToEndTest extends EndToEndTest {
     public void testRemoveAccount() throws IOException {
         final var userA = getOrCreateRemoteAccountAndImport(DEVICE_A, "user-a");
 
-        try {
-            DEVICE_A.getRemoveAccountUseCase().execute(userA.account().id()).join();
-        } catch (CompletionException e) {
-            if (!(e.getCause() instanceof EmptyResultSetException)) {
-                throw e;
-            }
-        }
+        DEVICE_A.getRemoveAccountUseCase().execute(userA.account().id()).join();
 
         final var accounts = Flowable.fromPublisher(FlowAdapters.toPublisher(DEVICE_A.getGetAccountsUseCase().execute())).blockingFirst();
         assertTrue(accounts.stream().noneMatch(a -> a.id().equals(userA.account().id())));

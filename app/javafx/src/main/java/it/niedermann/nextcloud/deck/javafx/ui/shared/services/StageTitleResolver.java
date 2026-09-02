@@ -113,7 +113,7 @@ public class StageTitleResolver {
                 .switchMap(accounts -> {
                     if (accounts.size() > 1) {
                         return resolvedAccountId$.switchMap(id -> id
-                                .map(value -> Flowable.fromPublisher(getAccountUseCase.execute(value)).map(account -> " - " + account.accountName()))
+                                .map(value -> Flowable.fromPublisher(getAccountUseCase.execute(value)).map(account -> " - " + account.displayName()))
                                 .orElse(Flowable.just("")));
                     } else {
                         return Flowable.just("");

@@ -59,6 +59,8 @@ public class HeaderFeature extends AbstractFeature {
     @FXML
     MenuBar menuBar;
     @FXML
+    Menu accountMenu;
+    @FXML
     Menu switchAccountMenu;
     @FXML
     MenuItem syncMenuItem;
@@ -101,6 +103,8 @@ public class HeaderFeature extends AbstractFeature {
     Circle circle;
     @FXML
     Label boardTitle;
+    @FXML
+    Label accountDisplayName;
     @FXML
     Button editBoardBtn;
     @FXML
@@ -196,7 +200,7 @@ public class HeaderFeature extends AbstractFeature {
                 .subscribe(accounts -> {
                     switchAccountMenu.getItems().clear();
                     for (var account : accounts) {
-                        final var item = new MenuItem(account.username());
+                        final var item = new MenuItem(account.displayName());
                         item.setOnAction(_ -> viewModel.onAccountSelected(account.id()));
                         switchAccountMenu.getItems().add(item);
                     }
@@ -243,7 +247,11 @@ public class HeaderFeature extends AbstractFeature {
                 .observeOn(Schedulers.virtual())
                 .switchMap(getAccountUseCase::execute)
                 .observeOn(JavaFxScheduler.platform())
-                .subscribe(avatar::setAvatar);
+                .subscribe(account -> {
+                    avatar.setAvatar(account);
+                    accountDisplayName.setText(account.displayName());
+                    accountMenu.setText(account.displayName());
+                });
 
         addDisposable(currentAccount);
 
