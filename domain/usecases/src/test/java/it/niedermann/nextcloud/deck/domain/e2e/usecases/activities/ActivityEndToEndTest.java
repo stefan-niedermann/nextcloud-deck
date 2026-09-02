@@ -18,10 +18,7 @@ public class ActivityEndToEndTest extends EndToEndTest {
     private Board boardA;
 
     @BeforeEach
-    @Override
     public void setup() throws IOException {
-        super.setup();
-
         DEVICE_A = getOrCreateRemoteAccountAndImport(createVirtualDevice(), "johndoe");
         boardA = EndToEndUtil.createBoard(DEVICE_A, randomUtil.randomize("boardForActivity"));
     }

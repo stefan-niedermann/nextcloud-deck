@@ -36,6 +36,5 @@ public interface OcsUserRemoteMapper extends GenericRemoteMapper<OcsUserDTO, Use
     @Mapping(target = "status", ignore = true)
     @Mapping(target = "lastModified", ignore = true)
     @Mapping(target = "accountId", ignore = true)
-    @Mapping(target = "remoteId", ignore = true)
     User toTO(OcsUserDTO dto);
 }

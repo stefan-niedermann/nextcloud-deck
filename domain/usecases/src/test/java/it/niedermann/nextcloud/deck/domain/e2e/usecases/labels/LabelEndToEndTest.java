@@ -19,10 +19,7 @@ public class LabelEndToEndTest extends EndToEndTest {
     private Board boardA;
 
     @BeforeEach
-    @Override
     public void setup() throws IOException {
-        super.setup();
-
         DEVICE_A = getOrCreateRemoteAccountAndImport(createVirtualDevice(), "johndoe");
         DEVICE_B = getOrCreateRemoteAccountAndImport(createVirtualDevice(), "johndoe");
 

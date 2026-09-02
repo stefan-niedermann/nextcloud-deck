@@ -27,9 +27,7 @@ public class AccountEndToEndTest extends EndToEndTest {
     private VirtualDeviceComponent DEVICE_B;
 
     @BeforeEach
-    @Override
     public void setup() throws IOException {
-        super.setup();
         DEVICE_A = createVirtualDevice();
         DEVICE_B = createVirtualDevice();
     }

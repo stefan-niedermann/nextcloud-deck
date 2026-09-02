@@ -17,10 +17,7 @@ public class BoardEndToEndTest extends EndToEndTest {
     private VirtualDeviceAndAccount DEVICE_B_JOHN;
 
     @BeforeEach
-    @Override
     public void setup() throws IOException {
-        super.setup();
-
         DEVICE_A_JOHN = getOrCreateRemoteAccountAndImport(createVirtualDevice(), "johndoe");
         DEVICE_B_JOHN = getOrCreateRemoteAccountAndImport(createVirtualDevice(), "johndoe");
     }

@@ -1,16 +1,16 @@
 package it.niedermann.nextcloud.deck.data.local.mapper;
 
+import it.niedermann.nextcloud.deck.domain.model.AccessControl;
 import it.niedermann.nextcloud.deck.domain.model.Account;
+import it.niedermann.nextcloud.deck.domain.model.Activity;
 import it.niedermann.nextcloud.deck.domain.model.Attachment;
 import it.niedermann.nextcloud.deck.domain.model.Board;
 import it.niedermann.nextcloud.deck.domain.model.Card;
 import it.niedermann.nextcloud.deck.domain.model.Column;
 import it.niedermann.nextcloud.deck.domain.model.Comment;
+import it.niedermann.nextcloud.deck.domain.model.DBStatus;
 import it.niedermann.nextcloud.deck.domain.model.Label;
 import it.niedermann.nextcloud.deck.domain.model.User;
-import it.niedermann.nextcloud.deck.domain.model.AccessControl;
-import it.niedermann.nextcloud.deck.domain.model.Activity;
-import it.niedermann.nextcloud.deck.domain.model.DBStatus;
 
 public class CommonLocalMapper {
 
@@ -95,14 +95,6 @@ public class CommonLocalMapper {
     }
 
     public String fromUserId(User.ID id) {
-        return id != null ? id.value() : null;
-    }
-
-    public User.RemoteID toUserRemoteId(String value) {
-        return value != null ? new User.RemoteID(value) : null;
-    }
-
-    public String fromUserRemoteId(User.RemoteID id) {
         return id != null ? id.value() : null;
     }
 

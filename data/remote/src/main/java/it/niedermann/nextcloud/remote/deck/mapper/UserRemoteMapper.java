@@ -25,6 +25,5 @@ public interface UserRemoteMapper extends GenericRemoteMapper<UserDTO, User> {
     @Mapping(target = "status", expression = "java(it.niedermann.nextcloud.deck.domain.model.DBStatus.UP_TO_DATE)")
     @Mapping(target = "lastModified", ignore = true)
     @Mapping(target = "accountId", ignore = true)
-    @Mapping(target = "remoteId", ignore = true)
     User toTO(UserDTO userDTO);
 }

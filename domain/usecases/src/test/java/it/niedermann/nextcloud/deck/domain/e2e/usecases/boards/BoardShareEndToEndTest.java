@@ -17,10 +17,7 @@ public class BoardShareEndToEndTest extends EndToEndTest {
     private Board boardA;
 
     @BeforeEach
-    @Override
     public void setup() throws IOException {
-        super.setup();
-
         DEVICE_A = getOrCreateRemoteAccountAndImport(createVirtualDevice(), "userA");
         DEVICE_B = getOrCreateRemoteAccountAndImport(createVirtualDevice(), "userB");
 

@@ -25,6 +25,5 @@ public interface UserMapper extends GenericMapper<UserEntity, User> {
     @Mapping(target = "displayName", expression = "java(entity.getDisplayName() != null ? entity.getDisplayName() : \"\")")
     @Mapping(target = "status", expression = "java(it.niedermann.nextcloud.deck.domain.model.DBStatus.findById(entity.getStatus()))")
     @Mapping(target = "lastModified", source = "lastModified")
-    @Mapping(target = "remoteId", ignore = true)
     User toTO(UserEntity entity);
 }

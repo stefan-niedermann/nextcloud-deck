@@ -23,10 +23,7 @@ public class CardEndToEndTest extends EndToEndTest {
     private Column columnA;
 
     @BeforeEach
-    @Override
     public void setup() throws IOException {
-        super.setup();
-
         DEVICE_A = getOrCreateRemoteAccountAndImport(createVirtualDevice(), "johndoe");
         DEVICE_B = getOrCreateRemoteAccountAndImport(createVirtualDevice(), "johndoe");
 

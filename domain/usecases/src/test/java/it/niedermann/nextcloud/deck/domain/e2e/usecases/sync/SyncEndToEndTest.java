@@ -18,10 +18,7 @@ public class SyncEndToEndTest extends EndToEndTest {
     private VirtualDeviceAndAccount DEVICE_B;
 
     @BeforeEach
-    @Override
     public void setup() throws IOException {
-        super.setup();
-
         DEVICE_A = getOrCreateRemoteAccountAndImport(createVirtualDevice(), "johndoe");
         DEVICE_B = getOrCreateRemoteAccountAndImport(createVirtualDevice(), "johndoe");
     }

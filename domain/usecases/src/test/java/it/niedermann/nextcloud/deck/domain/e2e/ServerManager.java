@@ -1,13 +1,12 @@
 package it.niedermann.nextcloud.deck.domain.e2e;
 
 import com.google.gson.Gson;
-import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 
-import java.io.File;
 import java.io.IOException;
 import java.net.URL;
-import java.util.HashMap;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
@@ -16,7 +15,6 @@ import okhttp3.Credentials;
 import okhttp3.FormBody;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
-import okhttp3.Response;
 
 @SuppressWarnings("CallToPrintStackTrace")
 public class ServerManager implements AutoCloseable {
@@ -46,12 +44,13 @@ public class ServerManager implements AutoCloseable {
     }
 
     private void cleanupIfFirstRun() {
-        final var lockFile = new File("build/e2e_cleanup.lock");
+        final var lockFile = Path.of("build", "e2e_cleanup.lock");
+
         try {
-            lockFile.getParentFile().mkdirs();
-            if (lockFile.createNewFile()) {
-                cleanupStaleUsers();
-            }
+            Files.createDirectories(lockFile.getParent());
+            Files.createFile(lockFile);
+            cleanupStaleUsers();
+
         } catch (IOException e) {
             // Ignore error, just skip cleanup if we can't create the lock file
             System.err.println("Could not create lock file for E2E cleanup: " + e.getMessage());
@@ -101,9 +100,6 @@ public class ServerManager implements AutoCloseable {
         } catch (IOException e) {
             e.printStackTrace();
         }
-    }
-
-    public void setup() {
     }
 
     @Override

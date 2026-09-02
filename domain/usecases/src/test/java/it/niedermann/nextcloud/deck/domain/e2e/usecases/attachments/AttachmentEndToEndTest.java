@@ -29,10 +29,7 @@ public class AttachmentEndToEndTest extends EndToEndTest {
     private String cardTitle;
 
     @BeforeEach
-    @Override
     public void setup() throws IOException {
-        super.setup();
-
         DEVICE_A = getOrCreateRemoteAccountAndImport(createVirtualDevice(), "johndoe");
         DEVICE_B = getOrCreateRemoteAccountAndImport(createVirtualDevice(), "johndoe");
 

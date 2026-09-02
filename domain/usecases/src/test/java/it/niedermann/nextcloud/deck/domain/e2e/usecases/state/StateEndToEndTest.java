@@ -14,10 +14,7 @@ public class StateEndToEndTest extends EndToEndTest {
     private VirtualDeviceAndAccount DEVICE_A;
 
     @BeforeEach
-    @Override
     public void setup() throws IOException {
-        super.setup();
-
         DEVICE_A = getOrCreateRemoteAccountAndImport(createVirtualDevice(), "johndoe");
     }
 

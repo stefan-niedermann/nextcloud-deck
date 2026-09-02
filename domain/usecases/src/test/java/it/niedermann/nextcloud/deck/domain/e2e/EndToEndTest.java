@@ -1,7 +1,6 @@
 package it.niedermann.nextcloud.deck.domain.e2e;
 
 import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
 import org.reactivestreams.FlowAdapters;
 
 import java.io.IOException;
@@ -32,11 +31,6 @@ public abstract class EndToEndTest {
 
     protected EndToEndTest() {
         DaggerTestComponent.create().inject(this);
-    }
-
-    @BeforeEach
-    public void setup() throws IOException {
-        serverManager.setup();
     }
 
     @AfterEach
