@@ -27,6 +27,18 @@ public class ImportAccountViewModel extends BaseViewModel {
         this.baseRepository.createAccount(account, callback);
     }
 
+    public Account getAccountDirectly(long accountId) {
+        return this.baseRepository.readAccountDirectly(accountId);
+    }
+
+    public void updateAccount(@NonNull Account account) {
+        this.baseRepository.updateAccount(account);
+    }
+
+    public void resetAccountData(long accountId) {
+        this.baseRepository.resetAccountData(accountId);
+    }
+
     public void deleteAccount(long accountId) {
         this.baseRepository.deleteAccount(accountId);
     }

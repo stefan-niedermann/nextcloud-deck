@@ -146,7 +146,7 @@ import it.niedermann.nextcloud.deck.remote.api.LastSyncUtil;
 @TypeConverters({DateTypeConverter.class, EnumConverter.class})
 public abstract class DeckDatabase extends RoomDatabase {
 
-    private static final String DECK_DB_NAME = "NC_DECK_DB.db";
+    public static final String DECK_DB_NAME = "NC_DECK_DB.db";
     private static volatile DeckDatabase instance;
 
     public static final RoomDatabase.Callback ON_CREATE_CALLBACK = new RoomDatabase.Callback() {

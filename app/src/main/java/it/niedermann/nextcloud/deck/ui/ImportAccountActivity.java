@@ -51,6 +51,9 @@ import okhttp3.Headers;
 
 public class ImportAccountActivity extends AppCompatActivity {
 
+    public static final String EXTRA_RESTORE_ACCOUNT_ID = "restore_account_id";
+    private long restoreAccountId = -1;
+
     private SharedPreferences sharedPreferences;
 
     private String prefKeyWifiOnly;
@@ -70,6 +73,8 @@ public class ImportAccountActivity extends AppCompatActivity {
         binding = ActivityImportAccountBinding.inflate(getLayoutInflater());
 
         setContentView(binding.getRoot());
+
+        restoreAccountId = getIntent().getLongExtra(EXTRA_RESTORE_ACCOUNT_ID, -1);
 
         if (VERSION.SDK_INT < VERSION_CODES.S) {
             binding.image.setClipToOutline(true);
@@ -130,16 +135,25 @@ public class ImportAccountActivity extends AppCompatActivity {
                     AccountImporter.onActivityResult(requestCode, resultCode, data, ImportAccountActivity.this, new AccountImporter.IAccountAccessGranted() {
                         @Override
                         public void accountAccessGranted(SingleSignOnAccount account) {
-                            final var accountToCreate = new Account(account.name, account.userId, account.url);
+                            final Account accountToLogin;
+                            if (restoreAccountId != -1) {
+                                accountToLogin = importAccountViewModel.getAccountDirectly(restoreAccountId);
+                                accountToLogin.setName(account.name);
+                                accountToLogin.setUserName(account.userId);
+                                accountToLogin.setUrl(account.url);
+                                importAccountViewModel.updateAccount(accountToLogin);
+                            } else {
+                                accountToLogin = new Account(account.name, account.userId, account.url);
+                            }
 
                             runOnUiThreadIfActivityStarted(() -> {
                                 binding.progressCircular.setVisibility(View.VISIBLE);
                                 binding.progressCircular.setIndeterminate(true);
                                 binding.progressText.setText(R.string.progress_import_indeterminate);
-                                setAvatar(accountToCreate);
+                                setAvatar(accountToLogin);
                             });
 
-                            importAccountViewModel.createAccount(accountToCreate, new IResponseCallback<>() {
+                            final IResponseCallback<Account> loginCallback = new IResponseCallback<>() {
                                 @Override
                                 public void onResponse(Account createdAccount, Headers headers) {
                                     try {
@@ -150,6 +164,9 @@ public class ImportAccountActivity extends AppCompatActivity {
                                             public void onResponse(Capabilities response, Headers headers) {
                                                 if (!response.isMaintenanceEnabled()) {
                                                     if (response.getDeckVersion().isSupported()) {
+                                                        if (restoreAccountId != -1) {
+                                                            importAccountViewModel.resetAccountData(restoreAccountId);
+                                                        }
                                                         final var callback = new IResponseCallback<>() {
                                                             @Override
                                                             public void onResponse(Object response, Headers headers) {
@@ -242,18 +259,24 @@ public class ImportAccountActivity extends AppCompatActivity {
                                     IResponseCallback.super.onError(error);
                                     if (error instanceof SQLiteConstraintException) {
                                         DeckLog.warn("Account already added");
-                                        runOnUiThreadIfActivityStarted(() -> setStatusText(getString(R.string.account_already_added, accountToCreate.getName())));
+                                        runOnUiThreadIfActivityStarted(() -> setStatusText(getString(R.string.account_already_added, accountToLogin.getName())));
                                     } else {
                                         runOnUiThreadIfActivityStarted(() -> {
                                             setStatusText(error.getMessage());
-                                            ExceptionDialogFragment.newInstance(error, accountToCreate).show(getSupportFragmentManager(), ExceptionDialogFragment.class.getSimpleName());
+                                            ExceptionDialogFragment.newInstance(error, accountToLogin).show(getSupportFragmentManager(), ExceptionDialogFragment.class.getSimpleName());
                                         });
                                     }
                                     runOnUiThreadIfActivityStarted(() -> binding.addButton.setEnabled(true));
                                     restoreWifiPref();
                                     resetAvatar();
                                 }
-                            });
+                            };
+
+                            if (restoreAccountId != -1) {
+                                loginCallback.onResponse(accountToLogin, null);
+                            } else {
+                                importAccountViewModel.createAccount(accountToLogin, loginCallback);
+                            }
                         }
                     });
                 } catch (AccountImportCancelledException e) {
@@ -284,8 +307,12 @@ public class ImportAccountActivity extends AppCompatActivity {
     }
 
     private void rollbackAccountCreation(final long accountId) {
-        DeckLog.log("Rolling back account creation for " + accountId);
-        importAccountViewModel.deleteAccount(accountId);
+        if (restoreAccountId == -1) {
+            DeckLog.log("Rolling back account creation for " + accountId);
+            importAccountViewModel.deleteAccount(accountId);
+        } else {
+            DeckLog.log("Restore failed for " + accountId + ". Not deleting account.");
+        }
         runOnUiThreadIfActivityStarted(() -> binding.addButton.setEnabled(true));
         restoreWifiPref();
         resetAvatar();

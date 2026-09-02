@@ -57,6 +57,26 @@ public class PreferencesRepository {
         return new SharedPreferenceBooleanLiveData(sharedPreferences, PREF_KEY_DEBUGGING, false);
     }
 
+    // -------
+    // Restore
+    // -------
+
+    public void setRestoreAccount(long accountId) {
+        sharedPreferences.edit()
+                .putLong(context.getString(R.string.shared_preference_restore_account_id), accountId)
+                .apply();
+    }
+
+    public long getRestoreAccount() {
+        return sharedPreferences.getLong(context.getString(R.string.shared_preference_restore_account_id), -1L);
+    }
+
+    public void clearRestoreAccount() {
+        sharedPreferences.edit()
+                .remove(context.getString(R.string.shared_preference_restore_account_id))
+                .apply();
+    }
+
     // -----
     // Theme
     // -----

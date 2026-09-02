@@ -32,4 +32,20 @@ public class PreferencesViewModel extends BaseViewModel {
     public LiveData<Boolean> isDebugModeEnabled$() {
         return preferencesRepository.isDebugModeEnabled$();
     }
+
+    public boolean backupDatabase() {
+        return baseRepository.backupDatabase();
+    }
+
+    public void setRestoreAccount(long accountId) {
+        preferencesRepository.setRestoreAccount(accountId);
+    }
+
+    public long getRestoreAccount() {
+        return preferencesRepository.getRestoreAccount();
+    }
+
+    public void clearRestoreAccount() {
+        preferencesRepository.clearRestoreAccount();
+    }
 }

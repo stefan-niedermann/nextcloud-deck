@@ -27,6 +27,12 @@ import androidx.sqlite.db.SimpleSQLiteQuery;
 
 import com.nextcloud.android.sso.helper.SingleAccountHelper;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -93,6 +99,7 @@ import it.niedermann.nextcloud.deck.model.widget.filter.FilterWidgetUser;
 import it.niedermann.nextcloud.deck.model.widget.filter.dto.FilterWidgetCard;
 import it.niedermann.nextcloud.deck.model.widget.singlecard.SingleCardWidgetModel;
 import it.niedermann.nextcloud.deck.remote.api.IResponseCallback;
+import it.niedermann.nextcloud.deck.remote.api.LastSyncUtil;
 import it.niedermann.nextcloud.deck.ui.upcomingcards.UpcomingCardsAdapterItem;
 import it.niedermann.nextcloud.deck.ui.widget.singlecard.SingleCardWidget;
 import it.niedermann.nextcloud.deck.util.ExecutorServiceProvider;
@@ -1871,5 +1878,59 @@ public class DataBaseAdapter {
 
     public Long getStackRemoteIdByCardLocalIdDirectly(Long localId) {
         return db.getCardDao().getStackRemoteIdByLocalId(localId);
+    }
+
+    @WorkerThread
+    public boolean backupDatabase() {
+        try {
+            File dbFile = context.getDatabasePath(DeckDatabase.DECK_DB_NAME);
+            if (dbFile.exists()) {
+                File backupFile = new File(dbFile.getPath() + ".bak");
+                try (InputStream in = new FileInputStream(dbFile);
+                     OutputStream out = new FileOutputStream(backupFile)) {
+                    byte[] buf = new byte[1024];
+                    int len;
+                    while ((len = in.read(buf)) > 0) {
+                        out.write(buf, 0, len);
+                    }
+                }
+                return true;
+            }
+        } catch (IOException e) {
+            DeckLog.logError(e);
+        }
+        return false;
+    }
+
+    @WorkerThread
+    public void resetAccountData(long accountId) {
+        db.runInTransaction(() -> {
+            int status = DBStatus.LOCAL_EDITED.getId();
+            Object[] args = new Object[]{accountId};
+
+            db.getOpenHelper().getWritableDatabase().execSQL("UPDATE board SET id = NULL, status = " + status + ", etag = NULL WHERE accountId = ?", args);
+            db.getOpenHelper().getWritableDatabase().execSQL("UPDATE stack SET id = NULL, status = " + status + ", etag = NULL WHERE accountId = ?", args);
+            db.getOpenHelper().getWritableDatabase().execSQL("UPDATE card SET id = NULL, status = " + status + ", etag = NULL WHERE accountId = ?", args);
+            db.getOpenHelper().getWritableDatabase().execSQL("UPDATE label SET id = NULL, status = " + status + ", etag = NULL WHERE accountId = ?", args);
+            db.getOpenHelper().getWritableDatabase().execSQL("UPDATE attachment SET id = NULL, status = " + status + " WHERE accountId = ?", args);
+            db.getOpenHelper().getWritableDatabase().execSQL("UPDATE DeckComment SET id = NULL, status = " + status + " WHERE accountId = ?", args);
+            db.getOpenHelper().getWritableDatabase().execSQL("UPDATE AccessControl SET id = NULL, status = " + status + " WHERE accountId = ?", args);
+            db.getOpenHelper().getWritableDatabase().execSQL("UPDATE Activity SET id = NULL, status = " + status + " WHERE accountId = ?", args);
+            db.getOpenHelper().getWritableDatabase().execSQL("UPDATE OcsProject SET id = NULL, status = " + status + " WHERE accountId = ?", args);
+            db.getOpenHelper().getWritableDatabase().execSQL("UPDATE OcsProjectResource SET id = NULL, status = " + status + " WHERE accountId = ?", args);
+
+            // Join tables
+            db.getOpenHelper().getWritableDatabase().execSQL("UPDATE JoinCardWithLabel SET status = " + status + " WHERE cardId IN (SELECT localId FROM card WHERE accountId = ?)", args);
+            db.getOpenHelper().getWritableDatabase().execSQL("UPDATE JoinCardWithUser SET status = " + status + " WHERE cardId IN (SELECT localId FROM card WHERE accountId = ?)", args);
+            db.getOpenHelper().getWritableDatabase().execSQL("UPDATE JoinCardWithProject SET status = " + status + " WHERE cardId IN (SELECT localId FROM card WHERE accountId = ?)", args);
+            db.getOpenHelper().getWritableDatabase().execSQL("UPDATE JoinBoardWithLabel SET status = " + status + " WHERE boardId IN (SELECT localId FROM board WHERE accountId = ?)", args);
+            db.getOpenHelper().getWritableDatabase().execSQL("UPDATE JoinBoardWithPermission SET status = " + status + " WHERE boardId IN (SELECT localId FROM board WHERE accountId = ?)", args);
+            db.getOpenHelper().getWritableDatabase().execSQL("UPDATE JoinBoardWithUser SET status = " + status + " WHERE boardId IN (SELECT localId FROM board WHERE accountId = ?)", args);
+
+            // Also reset account itself
+            db.getOpenHelper().getWritableDatabase().execSQL("UPDATE account SET etag = NULL, boardsEtag = NULL WHERE id = ?", args);
+
+            LastSyncUtil.resetLastSyncDate(accountId);
+        });
     }
 }

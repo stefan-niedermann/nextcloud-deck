@@ -154,6 +154,11 @@ public class BaseRepository {
     }
 
     @AnyThread
+    public void updateAccount(@NonNull Account account) {
+        executor.submit(() -> dataBaseAdapter.updateAccount(account));
+    }
+
+    @AnyThread
     public void deleteAccount(long id) {
         executor.submit(() -> {
             dataBaseAdapter.saveNeighbourOfAccount(id);
@@ -578,5 +583,15 @@ public class BaseRepository {
     @WorkerThread
     public Integer getBoardColorDirectly(long accountId, long localBoardId) {
         return dataBaseAdapter.getBoardColorDirectly(accountId, localBoardId);
+    }
+
+    @WorkerThread
+    public boolean backupDatabase() {
+        return dataBaseAdapter.backupDatabase();
+    }
+
+    @WorkerThread
+    public void resetAccountData(long accountId) {
+        dataBaseAdapter.resetAccountData(accountId);
     }
 }

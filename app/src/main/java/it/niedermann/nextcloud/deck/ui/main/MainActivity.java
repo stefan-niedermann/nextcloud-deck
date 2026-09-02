@@ -201,145 +201,154 @@ public class MainActivity extends AppCompatActivity implements DeleteStackListen
 
         mainViewModel = new ViewModelProvider(this).get(MainViewModel.class);
         preferencesViewModel = new ViewModelProvider(this).get(PreferencesViewModel.class);
-        filterViewModel = new ViewModelProvider(this).get(FilterViewModel.class);
 
-        navigationHandler = new MainActivityNavigationHandler(this, binding.drawerLayout, mainViewModel::saveCurrentBoardId);
-        binding.navigationView.setNavigationItemSelectedListener(navigationHandler);
+        long restoreAccountId = preferencesViewModel.getRestoreAccount();
+        if (restoreAccountId != -1) {
+            preferencesViewModel.clearRestoreAccount();
+            Intent intent = ImportAccountActivity.createIntent(this);
+            intent.putExtra(ImportAccountActivity.EXTRA_RESTORE_ACCOUNT_ID, restoreAccountId);
+            importAccountLauncher.launch(intent);
+        } else {
+            filterViewModel = new ViewModelProvider(this).get(FilterViewModel.class);
 
-        searchAdapter = new SearchAdapter(this);
-        binding.searchResults.setAdapter(searchAdapter);
-        binding.searchView.getEditText().addTextChangedListener(new OnTextChangedWatcher(value -> {
-            if (TextUtils.isEmpty(value)) {
-                binding.emptyContentViewSearchNoTerm.setVisibility(View.VISIBLE);
-                binding.emptyContentViewSearchNoResults.setVisibility(View.GONE);
-                binding.searchResults.setVisibility(View.GONE);
-                searchAdapter.setItems(new SearchResults());
-            } else {
-                binding.emptyContentViewSearchNoTerm.setVisibility(View.GONE);
-                binding.searchResults.setVisibility(View.VISIBLE);
-                searchTerm$.setValue(value);
-            }
-        }));
+            navigationHandler = new MainActivityNavigationHandler(this, binding.drawerLayout, mainViewModel::saveCurrentBoardId);
+            binding.navigationView.setNavigationItemSelectedListener(navigationHandler);
 
-        stackAdapter = new StackAdapter(this);
-        binding.viewPager.setAdapter(stackAdapter);
-        binding.viewPager.setOffscreenPageLimit(2);
+            searchAdapter = new SearchAdapter(this);
+            binding.searchResults.setAdapter(searchAdapter);
+            binding.searchView.getEditText().addTextChangedListener(new OnTextChangedWatcher(value -> {
+                if (TextUtils.isEmpty(value)) {
+                    binding.emptyContentViewSearchNoTerm.setVisibility(View.VISIBLE);
+                    binding.emptyContentViewSearchNoResults.setVisibility(View.GONE);
+                    binding.searchResults.setVisibility(View.GONE);
+                    searchAdapter.setItems(new SearchResults());
+                } else {
+                    binding.emptyContentViewSearchNoTerm.setVisibility(View.GONE);
+                    binding.searchResults.setVisibility(View.VISIBLE);
+                    searchTerm$.setValue(value);
+                }
+            }));
 
-        headerBinding.copyDebugLogs.setOnClickListener((v) -> {
-            try {
-                DeckLog.shareLogAsFile(this);
-            } catch (Exception e) {
-                showExceptionDialog(e, null);
-            }
-        });
+            stackAdapter = new StackAdapter(this);
+            binding.viewPager.setAdapter(stackAdapter);
+            binding.viewPager.setOffscreenPageLimit(2);
 
-        final var dragAndDrop = new CrossTabDragAndDrop<StackFragment, CardAdapter, FullCard>(getResources(), ViewCompat.getLayoutDirection(binding.getRoot()) == ViewCompat.LAYOUT_DIRECTION_LTR);
-        dragAndDrop.register(binding.viewPager, binding.stackTitles, getSupportFragmentManager());
-        dragAndDrop.addItemMovedByDragListener((movedCard, stackId, position) -> {
-            mainViewModel.reorder(movedCard, stackId, position);
-            DeckLog.info("Card", movedCard.getCard().getTitle(), "was moved to Stack", stackId, "on position", position);
-        });
+            headerBinding.copyDebugLogs.setOnClickListener((v) -> {
+                try {
+                    DeckLog.shareLogAsFile(this);
+                } catch (Exception e) {
+                    showExceptionDialog(e, null);
+                }
+            });
 
-        final var listMenuPopup = new PopupMenu(this, binding.listMenuButton);
-        listMenu = listMenuPopup.getMenu();
-        getMenuInflater().inflate(R.menu.list_menu, listMenu);
-        listMenuPopup.setOnMenuItemClickListener(this::onOptionsItemSelected);
-        binding.listMenuButton.setOnClickListener((v) -> listMenuPopup.show());
+            final var dragAndDrop = new CrossTabDragAndDrop<StackFragment, CardAdapter, FullCard>(getResources(), ViewCompat.getLayoutDirection(binding.getRoot()) == ViewCompat.LAYOUT_DIRECTION_LTR);
+            dragAndDrop.register(binding.viewPager, binding.stackTitles, getSupportFragmentManager());
+            dragAndDrop.addItemMovedByDragListener((movedCard, stackId, position) -> {
+                mainViewModel.reorder(movedCard, stackId, position);
+                DeckLog.info("Card", movedCard.getCard().getTitle(), "was moved to Stack", stackId, "on position", position);
+            });
 
-        getOnBackPressedDispatcher().addCallback(this, onBackPressedCallback);
+            final var listMenuPopup = new PopupMenu(this, binding.listMenuButton);
+            listMenu = listMenuPopup.getMenu();
+            getMenuInflater().inflate(R.menu.list_menu, listMenu);
+            listMenuPopup.setOnMenuItemClickListener(this::onOptionsItemSelected);
+            binding.listMenuButton.setOnClickListener((v) -> listMenuPopup.show());
 
-        drawerMenuInflater = new DrawerMenuInflater<>(this, binding.navigationView.getMenu());
+            getOnBackPressedDispatcher().addCallback(this, onBackPressedCallback);
 
-        ViewCompat.setOnApplyWindowInsetsListener(binding.navigationView, (v, windowInsets) -> {
-            Insets insets = windowInsets.getInsets(WindowInsetsCompat.Type.systemBars());
-            final var mlp = (ViewGroup.MarginLayoutParams) v.getLayoutParams();
-            mlp.topMargin = insets.top;
-            mlp.leftMargin = insets.left;
-            mlp.bottomMargin = insets.bottom;
-            mlp.rightMargin = insets.right;
-            v.setLayoutParams(mlp);
-            return WindowInsetsCompat.CONSUMED;
-        });
-        ViewCompat.setOnApplyWindowInsetsListener(binding.fab, (v, windowInsets) -> {
-            Insets insets = windowInsets.getInsets(WindowInsetsCompat.Type.systemBars());
-            final var mlp = (ViewGroup.MarginLayoutParams) v.getLayoutParams();
-            final var defaultMargin = getResources().getDimensionPixelSize(R.dimen.fab_margin);
-            mlp.topMargin = insets.top + defaultMargin;
-            mlp.leftMargin = insets.left + defaultMargin;
-            mlp.bottomMargin = insets.bottom + defaultMargin;
-            mlp.rightMargin = insets.right + defaultMargin;
-            v.setLayoutParams(mlp);
-            return WindowInsetsCompat.CONSUMED;
-        });
+            drawerMenuInflater = new DrawerMenuInflater<>(this, binding.navigationView.getMenu());
 
-        preferencesViewModel.isDebugModeEnabled$().observe(this, enabled -> headerBinding.copyDebugLogs.setVisibility(enabled ? View.VISIBLE : View.GONE));
-        filterViewModel.hasActiveFilter().observe(this, hasActiveFilter -> {
-            final var menu = binding.toolbar.getMenu();
-            menu.findItem(R.id.filter).setVisible(!hasActiveFilter);
-            menu.findItem(R.id.filter_active).setVisible(hasActiveFilter);
-        });
+            ViewCompat.setOnApplyWindowInsetsListener(binding.navigationView, (v, windowInsets) -> {
+                Insets insets = windowInsets.getInsets(WindowInsetsCompat.Type.systemBars());
+                final var mlp = (ViewGroup.MarginLayoutParams) v.getLayoutParams();
+                mlp.topMargin = insets.top;
+                mlp.leftMargin = insets.left;
+                mlp.bottomMargin = insets.bottom;
+                mlp.rightMargin = insets.right;
+                v.setLayoutParams(mlp);
+                return WindowInsetsCompat.CONSUMED;
+            });
+            ViewCompat.setOnApplyWindowInsetsListener(binding.fab, (v, windowInsets) -> {
+                Insets insets = windowInsets.getInsets(WindowInsetsCompat.Type.systemBars());
+                final var mlp = (ViewGroup.MarginLayoutParams) v.getLayoutParams();
+                final var defaultMargin = getResources().getDimensionPixelSize(R.dimen.fab_margin);
+                mlp.topMargin = insets.top + defaultMargin;
+                mlp.leftMargin = insets.left + defaultMargin;
+                mlp.bottomMargin = insets.bottom + defaultMargin;
+                mlp.rightMargin = insets.right + defaultMargin;
+                v.setLayoutParams(mlp);
+                return WindowInsetsCompat.CONSUMED;
+            });
 
-        // Flag to distinguish user initiated stack changes from stack changes derived by changing the board
-        final var boardChanged = new AtomicBoolean(true);
-        final var stackChangeCallback = new StackChangeCallback(stackAdapter,
-                binding.viewPager,
-                binding.fab,
-                binding.swipeRefreshLayout,
-                listMenu,
-                stack -> mainViewModel.saveCurrentStackId(stack.getAccountId(), stack.getBoardId(), stack.getLocalId()));
+            preferencesViewModel.isDebugModeEnabled$().observe(this, enabled -> headerBinding.copyDebugLogs.setVisibility(enabled ? View.VISIBLE : View.GONE));
+            filterViewModel.hasActiveFilter().observe(this, hasActiveFilter -> {
+                final var menu = binding.toolbar.getMenu();
+                menu.findItem(R.id.filter).setVisible(!hasActiveFilter);
+                menu.findItem(R.id.filter_active).setVisible(hasActiveFilter);
+            });
 
-        final var hasAccounts$ = new ReactiveLiveData<>(mainViewModel.hasAccounts());
+            // Flag to distinguish user initiated stack changes from stack changes derived by changing the board
+            final var boardChanged = new AtomicBoolean(true);
+            final var stackChangeCallback = new StackChangeCallback(stackAdapter,
+                    binding.viewPager,
+                    binding.fab,
+                    binding.swipeRefreshLayout,
+                    listMenu,
+                    stack -> mainViewModel.saveCurrentStackId(stack.getAccountId(), stack.getBoardId(), stack.getLocalId()));
 
-        hasAccounts$
-                .filter(hasAccounts -> !hasAccounts)
-                .observe(this, () -> importAccountLauncher.launch(ImportAccountActivity.createIntent(this)));
+            final var hasAccounts$ = new ReactiveLiveData<>(mainViewModel.hasAccounts());
 
-        hasAccounts$
-                .filter(hasAccounts -> hasAccounts)
-                .tap(() -> binding.viewPager.unregisterOnPageChangeCallback(stackChangeCallback))
-                .tap(() -> binding.viewPager.registerOnPageChangeCallback(stackChangeCallback))
-                .flatMap(() -> mainViewModel.getCurrentAccount$())
-                .flatMap(account -> {
-                    try {
-                        applyAccount(account);
-                    } catch (NextcloudFilesAppAccountNotFoundException e) {
-                        showExceptionDialog(e, account);
-                        // There is not much we can do here. Hide everything because this Exception means that our SyncManager instance is invalid
-                        applyBoards(account, false, emptyList());
-                        applyStacks(null, null, null);
-                        return new MutableLiveData<>();
-                    }
-                    applyAccountTheme(account.getColor());
-                    return new ReactiveLiveData<>(mainViewModel.getBoards(account.getId()))
-                            .map(boardsAndArchived -> applyBoards(account, boardsAndArchived.second, boardsAndArchived.first))
-                            .flatMap(navigationMap -> new ReactiveLiveData<>(mainViewModel.getCurrentFullBoard(account.getId()))
-                                    .combineWith(() -> new MutableLiveData<>(navigationMap)))
-                            .flatMap(args -> {
-                                        applyBoard(account, args.second, args.first);
-                                        @Nullable final var currentBoard = args.first;
-                                        if (currentBoard == null) {
-                                            applyStacks(null, null, emptyList());
-                                            return new MutableLiveData<>(null);
-                                        } else {
-                                            return new ReactiveLiveData<>(mainViewModel.getStacks(account.getId(), currentBoard.getLocalId()))
-                                                    .flatMap(stacks -> {
-                                                        binding.viewPager.unregisterOnPageChangeCallback(stackChangeCallback);
-                                                        boardChanged.set(true);
-                                                        applyStacks(account, currentBoard.getLocalId(), stacks);
-                                                        return mainViewModel.getCurrentStackId$(account.getId(), currentBoard.getLocalId());
-                                                    });
+            hasAccounts$
+                    .filter(hasAccounts -> !hasAccounts)
+                    .observe(this, () -> importAccountLauncher.launch(ImportAccountActivity.createIntent(this)));
 
+            hasAccounts$
+                    .filter(hasAccounts -> hasAccounts)
+                    .tap(() -> binding.viewPager.unregisterOnPageChangeCallback(stackChangeCallback))
+                    .tap(() -> binding.viewPager.registerOnPageChangeCallback(stackChangeCallback))
+                    .flatMap(() -> mainViewModel.getCurrentAccount$())
+                    .flatMap(account -> {
+                        try {
+                            applyAccount(account);
+                        } catch (NextcloudFilesAppAccountNotFoundException e) {
+                            showExceptionDialog(e, account);
+                            // There is not much we can do here. Hide everything because this Exception means that our SyncManager instance is invalid
+                            applyBoards(account, false, emptyList());
+                            applyStacks(null, null, null);
+                            return new MutableLiveData<>();
+                        }
+                        applyAccountTheme(account.getColor());
+                        return new ReactiveLiveData<>(mainViewModel.getBoards(account.getId()))
+                                .map(boardsAndArchived -> applyBoards(account, boardsAndArchived.second, boardsAndArchived.first))
+                                .flatMap(navigationMap -> new ReactiveLiveData<>(mainViewModel.getCurrentFullBoard(account.getId()))
+                                        .combineWith(() -> new MutableLiveData<>(navigationMap)))
+                                .flatMap(args -> {
+                                            applyBoard(account, args.second, args.first);
+                                            @Nullable final var currentBoard = args.first;
+                                            if (currentBoard == null) {
+                                                applyStacks(null, null, emptyList());
+                                                return new MutableLiveData<>(null);
+                                            } else {
+                                                return new ReactiveLiveData<>(mainViewModel.getStacks(account.getId(), currentBoard.getLocalId()))
+                                                        .flatMap(stacks -> {
+                                                            binding.viewPager.unregisterOnPageChangeCallback(stackChangeCallback);
+                                                            boardChanged.set(true);
+                                                            applyStacks(account, currentBoard.getLocalId(), stacks);
+                                                            return mainViewModel.getCurrentStackId$(account.getId(), currentBoard.getLocalId());
+                                                        });
+
+                                            }
                                         }
-                                    }
-                            );
-                })
-                .observe(this, currentStackId -> {
-                    stackChangeCallback.updateMoveItemVisibility();
-                    if (boardChanged.getAndSet(false)) {
-                        applyStack(currentStackId);
-                        binding.viewPager.registerOnPageChangeCallback(stackChangeCallback);
-                    }
-                });
+                                );
+                    })
+                    .observe(this, currentStackId -> {
+                        stackChangeCallback.updateMoveItemVisibility();
+                        if (boardChanged.getAndSet(false)) {
+                            applyStack(currentStackId);
+                            binding.viewPager.registerOnPageChangeCallback(stackChangeCallback);
+                        }
+                    });
+        }
     }
 
     private void applyAccount(@NonNull Account account) throws NextcloudFilesAppAccountNotFoundException {

@@ -67,5 +67,11 @@
             android:summary="@string/settings_etags_summary"
             android:title="@string/settings_etags"
             app:defaultValue="true" />
+
+        <Preference
+            android:icon="@drawable/ic_sync_24dp"
+            android:key="@string/pref_key_restore_server"
+            android:summary="@string/settings_restore_server_summary"
+            android:title="@string/settings_restore_server" />
     </it.niedermann.nextcloud.deck.ui.theme.ThemedPreferenceCategory>
 </PreferenceScreen>

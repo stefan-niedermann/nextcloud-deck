@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -13,6 +14,8 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.preference.Preference;
 import androidx.preference.PreferenceFragmentCompat;
+
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
 import java.util.stream.Stream;
 
@@ -100,6 +103,32 @@ public class SettingsFragment extends PreferenceFragmentCompat {
             });
         } else {
             DeckLog.error("Could not find preference with key:", getString(R.string.pref_key_dark_theme));
+        }
+
+        final var restoreServerPref = findPreference(getString(R.string.pref_key_restore_server));
+        if (restoreServerPref != null) {
+            restoreServerPref.setOnPreferenceClickListener(preference -> {
+                new MaterialAlertDialogBuilder(requireContext())
+                        .setTitle(R.string.restore_warning_title)
+                        .setMessage(R.string.restore_warning_message)
+                        .setPositiveButton(R.string.simple_update, (dialog, which) -> {
+                            if (preferencesViewModel.backupDatabase()) {
+                                preferencesViewModel.setRestoreAccount(account.getId());
+                                // Restart app
+                                Intent intent = requireContext().getPackageManager().getLaunchIntentForPackage(requireContext().getPackageName());
+                                if (intent != null) {
+                                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+                                    startActivity(intent);
+                                }
+                                Runtime.getRuntime().exit(0);
+                            } else {
+                                Toast.makeText(requireContext(), R.string.restore_backup_failed, Toast.LENGTH_LONG).show();
+                            }
+                        })
+                        .setNegativeButton(android.R.string.cancel, null)
+                        .show();
+                return true;
+            });
         }
     }
 

@@ -13,6 +13,7 @@
     <string name="pref_key_background_sync" translatable="false">backgroundSync</string>
     <string name="pref_key_debugging" translatable="false">debugging</string>
     <string name="pref_key_etags" translatable="false">eTags</string>
+    <string name="pref_key_restore_server" translatable="false">restore_server</string>
 
     <string name="pref_value_background_sync_off">off</string>
     <string name="pref_value_background_15_minutes">15_minutes</string>
@@ -47,6 +48,7 @@
     </string-array>
 
     <string name="shared_preference_last_account" translatable="false">it.niedermann.nextcloud.deck.last_account</string>
+    <string name="shared_preference_restore_account_id" translatable="false">it.niedermann.nextcloud.deck.restore_account_id</string>
     <!-- To be concatenated with the account id -->
     <string name="shared_preference_last_board_for_account_" translatable="false">it.niedermann.nextcloud.deck.last_board_for_account_</string>
     <!-- To be concatenated with the account id, underscore and board id -->
