@@ -51,14 +51,10 @@ roborazzi {
 
 dependencies {
     implementation(project(":app:shared"))
-    implementation(project(":domain:usecases"))
-    implementation(project(":domain:model"))
-    implementation(project(":data:local"))
     implementation(project(":auth:sso"))
 
 
     implementation(libs.androidx.sqlite)
-    implementation(libs.androidx.room3.runtime)
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.core.splashscreen)
     implementation(libs.androidx.lifecycle.runtime.ktx)
@@ -85,7 +81,6 @@ dependencies {
     implementation(libs.drafter)
 
     implementation(libs.hilt.android)
-    implementation(libs.jakarta.inject)
     ksp(libs.hilt.compiler)
 
 

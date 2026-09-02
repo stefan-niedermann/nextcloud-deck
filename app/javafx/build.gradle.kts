@@ -46,6 +46,7 @@ val extractFlexGanttFX = tasks.register<Copy>("extractFlexGanttFX") {
 
 dependencies {
     implementation(project(":app:shared"))
+    implementation(project(":auth:apptoken"))
     implementation(project(":auth:webloginflowv2"))
     implementation(libs.materialColorUtilities)
 

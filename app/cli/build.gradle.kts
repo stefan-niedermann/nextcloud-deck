@@ -22,8 +22,8 @@ tasks.withType<AbstractArchiveTask>().configureEach {
 
 dependencies {
     implementation(project(":app:shared"))
+    implementation(project(":auth:apptoken"))
 
-    implementation(libs.dagger)
     annotationProcessor(libs.dagger.compiler)
 
     implementation(libs.info.picocli)

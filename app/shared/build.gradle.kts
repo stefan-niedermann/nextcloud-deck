@@ -15,7 +15,6 @@ dependencies {
     api(project(":data:remote"))
     api(project(":data:repository"))
     api(project(":data:sync"))
-    api(project(":auth:apptoken"))
 
     api(libs.dagger)
     annotationProcessor(libs.dagger.compiler)
