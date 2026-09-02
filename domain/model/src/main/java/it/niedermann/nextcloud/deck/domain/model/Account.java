@@ -9,17 +9,27 @@ public record Account(
         URL url,
         String username,
         String token,
-        String accountName,
+        String displayName,
         Capabilities capabilities) {
 
     public Account {
         Objects.requireNonNull(id);
         Objects.requireNonNull(url);
         Objects.requireNonNull(username);
-        Objects.requireNonNull(accountName);
+        Objects.requireNonNull(displayName);
         Objects.requireNonNull(capabilities);
     }
 
     public record ID(long value) {
+    }
+
+    public String accountName() {
+        return username() + '@' + url.getHost();
+    }
+
+    public String displayName() {
+        return displayName.isBlank()
+                ? accountName()
+                : displayName;
     }
 }
