@@ -92,6 +92,7 @@ public abstract class TestVirtualDeviceModule {
     @VirtualDeviceScope
     static SyncManager provideSyncManager(
             it.niedermann.nextcloud.remote.ApiProvider.Factory apiProviderFactory,
+            AccountRepository accountRepository,
             it.niedermann.nextcloud.deck.data.sync.provider.BoardSyncProvider boardSyncProvider,
             it.niedermann.nextcloud.deck.data.sync.provider.ColumnSyncProvider columnSyncProvider,
             it.niedermann.nextcloud.deck.data.sync.provider.CardSyncProvider cardSyncProvider,
@@ -102,6 +103,7 @@ public abstract class TestVirtualDeviceModule {
     ) {
         return new SyncManager(
                 apiProviderFactory,
+                accountRepository,
                 boardSyncProvider,
                 columnSyncProvider,
                 cardSyncProvider,

@@ -16,11 +16,12 @@ dependencies {
     implementation(libs.rxjava3)
     implementation(libs.rxjava3.jdk9.interop)
 
-    testImplementation(platform(libs.junitBom))
-    testImplementation(libs.junitJupiter)
-    testRuntimeOnly(libs.junitPlatformLauncher)
     testAnnotationProcessor(libs.dagger.compiler)
+    testRuntimeOnly(libs.junitPlatformLauncher)
+    testImplementation(libs.junitJupiter)
+    testImplementation(platform(libs.junitBom))
     testImplementation(project(":app:shared"))
+    testImplementation(project(":auth:apptoken"))
 }
 
 tasks.withType<Test> {
