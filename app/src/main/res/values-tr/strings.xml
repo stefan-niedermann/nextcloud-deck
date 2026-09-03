@@ -342,4 +342,5 @@
     <string name="label_color">Renk</string>
     <string name="label_clear_color">Rengi temizle</string>
     <string name="choose_color">Renk seçin</string>
-</resources>
+
+    </resources>

@@ -342,4 +342,5 @@
     <string name="label_color">Värv</string>
     <string name="label_clear_color">Eemalda värv</string>
     <string name="choose_color">Vali värv</string>
-</resources>
+
+    </resources>

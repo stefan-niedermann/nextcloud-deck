@@ -346,4 +346,5 @@
     <string name="label_color">Cor</string>
     <string name="label_clear_color">Limpar cor</string>
     <string name="choose_color">Escolher cor</string>
-</resources>
+
+    </resources>

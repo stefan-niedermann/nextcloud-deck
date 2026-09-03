@@ -351,4 +351,5 @@
     <string name="no_search_results_description">لم يُمكن إيجاد أي نتيجة للعبارة المبحوث عنها</string>
     <string name="label_color">اللون</string>
     <string name="choose_color">إختر لوناً</string>
-</resources>
+
+    </resources>

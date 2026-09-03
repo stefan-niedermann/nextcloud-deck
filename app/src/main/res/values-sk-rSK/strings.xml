@@ -345,4 +345,5 @@
     <string name="label_no_startdate">Žiadny dátum začiatku</string>
     <string name="label_color">Farba</string>
     <string name="choose_color">Vyberte farbu</string>
-</resources>
+
+    </resources>

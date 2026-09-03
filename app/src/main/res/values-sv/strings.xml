@@ -342,4 +342,5 @@
     <string name="label_color">Färg</string>
     <string name="label_clear_color">Rensa färg</string>
     <string name="choose_color">Välj färg</string>
-</resources>
+
+    </resources>

@@ -338,4 +338,5 @@
     <string name="label_dependent_cards">Εξαρτημένες κάρτες</string>
     <string name="label_color">Χρώμα</string>
     <string name="choose_color">Επιλογή χρώματος</string>
-</resources>
+
+    </resources>

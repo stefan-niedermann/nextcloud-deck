@@ -337,4 +337,5 @@
     <string name="no_search_results_description">Za vpisan iskalni niz ni najdenih zadetkov</string>
     <string name="label_color">Barva</string>
     <string name="choose_color">Izbor barve</string>
-</resources>
+
+    </resources>

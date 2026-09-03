@@ -342,4 +342,5 @@
     <string name="label_color">Farbe</string>
     <string name="label_clear_color">Farbe löschen</string>
     <string name="choose_color">Farbe wählen</string>
-</resources>
+
+    </resources>

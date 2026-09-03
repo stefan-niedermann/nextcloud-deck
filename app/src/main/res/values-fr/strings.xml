@@ -346,4 +346,5 @@
     <string name="label_color">Couleur</string>
     <string name="label_clear_color">Effacer la couleur</string>
     <string name="choose_color">Sélectionnez une couleur</string>
-</resources>
+
+    </resources>

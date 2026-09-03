@@ -99,7 +99,7 @@
     <string name="attachments">ໄຟລ໌ແນບ</string>
     <string name="append_to_description">ເພີ່ມໃສ່ລາຍລະອຽດ</string>
     <string name="no_cards">ບໍ່ມີກາດ</string>
-    <string name="account_already_added">ເພີ່ມບັນຊີ %1$s ນີ້ແລ້ວ</string>
+    <string name="account_already_added">ເພີ່ມບັນຊີນີ້ແລ້ວ</string>
     <string name="not_synced_yet">ຍັງບໍ່ໄດ້ຊິ້ງຂໍ້ມູນ</string>
     <string name="no_lists_yet">ຍັງບໍ່ມີລາຍການ</string>
     <string name="do_you_want_to_save_your_changes">ທ່ານຕ້ອງການບັນທຶກການປ່ຽນແປງຂອງທ່ານບໍ່?</string>
@@ -113,7 +113,7 @@
     </plurals>
     <string name="add_a_new_list_using_the_button">ເພີ່ມລາຍການໃໝ່ໂດຍໃຊ້ປຸ່ມ.</string>
     <string name="add_a_new_card_using_the_button">ເພີ່ມກາດໃໝ່ໂດຍໃຊ້ປຸ່ມ.</string>
-    <string name="deck_outdated_please_update">ເວີຊັນຂອງ Deck ໃນເຊີບເວີເກົ່າເກີນໄປ (%1$s). ກະລຸນາອັບເດດ.</string>
+    <string name="deck_outdated_please_update">ເວີຊັນຂອງ Deck ໃນເຊີບເວີເກົ່າເກີນໄປ. ກະລຸນາອັບເດດ.</string>
     <string name="delete_board_message">ທ່ານແນ່ໃຈບໍ່ວ່າຕ້ອງການລຶບກະດານນີ້? ການກະທຳນີ້ບໍ່ສາມາດກັບຄືນໄດ້.</string>
     <string name="settings_theme_title">ຫົວຂໍ້</string>
     <string name="settings_compact_title">ມຸມມອງກະທັດຮັດ</string>
@@ -319,7 +319,7 @@
     <!-- Label for a title input field that is required to be filled out -->
     <string name="title_mandatory">ຫົວຂໍ້ (ຈຳເປັນ)</string>
     <string name="saving_new_card">ກຳລັງບັນທຶກກາດໃໝ່…</string>
-    <string name="progress_import">ກຳລັງນຳເຂົ້າກາດ %1$d ຈາກ %2$d…</string>
+    <string name="progress_import">ກຳລັງນຳເຂົ້າບັນຊີ…</string>
     <string name="progress_import_indeterminate">ກຳລັງກວດສອບບັນຊີ…</string>
     <string name="card_outdated">ກາດນີ້ເກົ່າແລ້ວ. ກະລຸນາໂຫຼດໃໝ່ເພື່ອເບິ່ງເວີຊັນລ່າສຸດ.</string>
     <string name="show_error">ສະແດງຂໍ້ຜິດພາດ</string>
@@ -330,4 +330,5 @@
     <string name="no_search_results_description">ລອງໃຊ້ຄຳຄົ້ນຫາອື່ນເບິ່ງ.</string>
     <string name="label_color">ສີ</string>
     <string name="choose_color">ເລືອກສີ</string>
-</resources>
+
+    </resources>

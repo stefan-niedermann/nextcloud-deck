@@ -342,4 +342,5 @@
     <string name="no_search_results_description">Ми не знайшли жодного результату за заданим пошуковим запитом</string>
     <string name="label_color">Колір</string>
     <string name="choose_color">Виберіть колір</string>
-</resources>
+
+    </resources>

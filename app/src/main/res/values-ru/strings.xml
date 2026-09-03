@@ -342,4 +342,5 @@
     <string name="no_search_results_description">Мы не нашли ни одного результата по данному поисковому запросу</string>
     <string name="label_color">Цвет</string>
     <string name="choose_color">Выберите цвет</string>
-</resources>
+
+    </resources>

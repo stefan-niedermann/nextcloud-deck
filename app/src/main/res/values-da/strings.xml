@@ -334,4 +334,5 @@
     <string name="no_search_results_description">Vi har ikke fundet nogle resultater for den givne søgeterm</string>
     <string name="label_color">Farve</string>
     <string name="choose_color">Vælg farve</string>
-</resources>
+
+    </resources>

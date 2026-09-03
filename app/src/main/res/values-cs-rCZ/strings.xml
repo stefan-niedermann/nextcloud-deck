@@ -342,4 +342,5 @@
     <string name="no_search_results_description">Pro daný hledaný pojem nebylo nic nalezeno</string>
     <string name="label_color">Barva</string>
     <string name="choose_color">Zvolte barvu</string>
-</resources>
+
+    </resources>

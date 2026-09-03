@@ -116,7 +116,7 @@
     </plurals>
     <string name="add_a_new_list_using_the_button">با استفاده از دکمه + لیست جدیدی اضافه کنید</string>
     <string name="add_a_new_card_using_the_button">با استفاده از دکمه + یک کارت جدید اضافه کنید</string>
-    <string name="deck_outdated_please_update">نسخه عرضه شما خیلی قدیمی است (%1$s) لطفا برای استفاده از این برنامه اندرویدی به عنوان مشتری ، بروزرسانی کنید.</string>
+    <string name="deck_outdated_please_update">نسخه عرضه شما خیلی قدیمی است لطفا برای استفاده از این برنامه اندرویدی به عنوان مشتری ، بروزرسانی کنید.</string>
     <string name="delete_board_message">با این کار این صفحه شامل همه لیست ها و کارت ها برای همیشه حذف می شود.</string>
     <string name="settings_theme_title">تم تاریک</string>
     <string name="settings_compact_title">حالت جمع و جور</string>
@@ -341,4 +341,5 @@
     <string name="label_color">رنگ</string>
     <string name="label_clear_color">پاک کردن رنگ</string>
     <string name="choose_color">انتخاب رنگ</string>
-</resources>
+
+    </resources>

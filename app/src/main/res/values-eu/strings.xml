@@ -334,4 +334,5 @@
     <string name="no_search_results_description">Ez dugu emaitzarik aurkitu emandako bilaketa-terminoarentzat</string>
     <string name="label_color">Kolorea</string>
     <string name="choose_color">Aukeratu kolorea</string>
-</resources>
+
+    </resources>

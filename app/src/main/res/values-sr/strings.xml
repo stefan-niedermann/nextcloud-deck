@@ -338,4 +338,5 @@
     <string name="no_search_results_description">Нисмо пронашли ниједан резултат који задовољава наведени термин за претрагу</string>
     <string name="label_color">Боја</string>
     <string name="choose_color">Изаберите бој</string>
-</resources>
+
+    </resources>

@@ -330,4 +330,5 @@
     <string name="no_search_results_description">No hemos encontrado ningún resultado para el término de búsqueda proporcionado</string>
     <string name="label_color">Color</string>
     <string name="choose_color">Elegir color</string>
-</resources>
+
+    </resources>

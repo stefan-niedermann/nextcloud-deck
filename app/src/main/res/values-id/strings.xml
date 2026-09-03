@@ -330,4 +330,5 @@
     <string name="no_search_results_description">Kami tidak menemukan hasil untuk istilah pencarian yang diberikan</string>
     <string name="label_color">Warna</string>
     <string name="choose_color">Pilih warna</string>
-</resources>
+
+    </resources>
