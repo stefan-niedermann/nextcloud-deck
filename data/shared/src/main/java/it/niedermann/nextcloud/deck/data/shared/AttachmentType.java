@@ -1,5 +1,8 @@
 package it.niedermann.nextcloud.deck.data.shared;
 
+import lombok.Getter;
+
+@Getter
 public enum AttachmentType {
     DECK_FILE(1, "deck_file"),
     FILE(2, "file"),
@@ -11,14 +14,6 @@ public enum AttachmentType {
     AttachmentType(int id, String value) {
         this.id = id;
         this.value = value;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public String getValue() {
-        return value;
     }
 
     public static AttachmentType findByValue(String value) {
