@@ -19,6 +19,10 @@ public class ImportAccountViewModel extends BaseViewModel {
         return new ReactiveLiveData<>(baseRepository.hasAccounts());
     }
 
+    public void saveCurrentAccountDirectly(@NonNull Account account) {
+        this.baseRepository.saveCurrentAccountDirectly(account);
+    }
+
     public void saveCurrentAccount(@NonNull Account account) {
         this.baseRepository.saveCurrentAccount(account);
     }
@@ -31,12 +35,12 @@ public class ImportAccountViewModel extends BaseViewModel {
         return this.baseRepository.readAccountDirectly(accountId);
     }
 
-    public void updateAccount(@NonNull Account account) {
-        this.baseRepository.updateAccount(account);
+    public void updateAccountDirectly(@NonNull Account account) {
+        this.baseRepository.updateAccountDirectly(account);
     }
 
-    public void resetAccountData(long accountId) {
-        this.baseRepository.resetAccountData(accountId);
+    public void resetAccountData(long accountId, Runnable callback) {
+        this.baseRepository.resetAccountData(accountId, callback);
     }
 
     public void deleteAccount(long accountId) {

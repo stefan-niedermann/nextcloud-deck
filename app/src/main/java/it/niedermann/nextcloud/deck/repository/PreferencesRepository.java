@@ -64,7 +64,7 @@ public class PreferencesRepository {
     public void setRestoreAccount(long accountId) {
         sharedPreferences.edit()
                 .putLong(context.getString(R.string.shared_preference_restore_account_id), accountId)
-                .apply();
+                .commit();
     }
 
     public long getRestoreAccount() {

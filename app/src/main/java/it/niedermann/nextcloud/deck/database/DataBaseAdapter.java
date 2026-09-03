@@ -24,6 +24,7 @@ import androidx.core.content.ContextCompat;
 import androidx.lifecycle.LiveData;
 import androidx.preference.PreferenceManager;
 import androidx.sqlite.db.SimpleSQLiteQuery;
+import androidx.sqlite.db.SupportSQLiteDatabase;
 
 import com.nextcloud.android.sso.helper.SingleAccountHelper;
 
@@ -404,7 +405,19 @@ public class DataBaseAdapter {
     @WorkerThread
     public long createUser(long accountId, User user) {
         user.setAccountId(accountId);
-        final long newId = db.getUserDao().insert(user);
+        long newId;
+        try {
+            newId = db.getUserDao().insert(user);
+        } catch (SQLiteConstraintException e) {
+            User existing = db.getUserDao().getUserByUidDirectly(accountId, user.getUid());
+            if (existing != null) {
+                newId = existing.getLocalId();
+                user.setLocalId(newId);
+                db.getUserDao().update(user);
+            } else {
+                throw e;
+            }
+        }
         user.setLocalId(newId);
         final Account account = db.getAccountDao().getAccountByIdDirectly(accountId);
         if (account.getUserName().equals(user.getUid())) {
@@ -456,7 +469,23 @@ public class DataBaseAdapter {
     @WorkerThread
     public long createLabelDirectly(long accountId, @NonNull Label label) {
         label.setAccountId(accountId);
-        final long newId = db.getLabelDao().insert(label);
+        long newId;
+        try {
+            newId = db.getLabelDao().insert(label);
+        } catch (SQLiteConstraintException e) {
+            if (label.getId() != null) {
+                Label existing = db.getLabelDao().getLabelByRemoteIdDirectly(accountId, label.getId());
+                if (existing != null) {
+                    newId = existing.getLocalId();
+                    label.setLocalId(newId);
+                    db.getLabelDao().update(label);
+                } else {
+                    throw e;
+                }
+            } else {
+                throw e;
+            }
+        }
         notifyFilterWidgetsAboutChangedEntity(FilterWidget.EChangedEntityType.LABEL, newId);
         return newId;
     }
@@ -680,7 +709,23 @@ public class DataBaseAdapter {
     @WorkerThread
     public long createBoardDirectly(long accountId, @NonNull Board board) {
         board.setAccountId(accountId);
-        final long id = db.getBoardDao().insert(board);
+        long id;
+        try {
+            id = db.getBoardDao().insert(board);
+        } catch (SQLiteConstraintException e) {
+            if (board.getId() != null) {
+                Board existing = db.getBoardDao().getBoardByRemoteIdDirectly(accountId, board.getId());
+                if (existing != null) {
+                    id = existing.getLocalId();
+                    board.setLocalId(id);
+                    db.getBoardDao().update(board);
+                } else {
+                    throw e;
+                }
+            } else {
+                throw e;
+            }
+        }
         notifyFilterWidgetsAboutChangedEntity(FilterWidget.EChangedEntityType.BOARD, id);
         return id;
     }
@@ -722,7 +767,23 @@ public class DataBaseAdapter {
     @WorkerThread
     public long createStack(long accountId, Stack stack) {
         stack.setAccountId(accountId);
-        final long id = db.getStackDao().insert(stack);
+        long id;
+        try {
+            id = db.getStackDao().insert(stack);
+        } catch (SQLiteConstraintException e) {
+            if (stack.getId() != null) {
+                Long existingId = db.getStackDao().getLocalStackIdByRemoteStackIdDirectly(accountId, stack.getId());
+                if (existingId != null) {
+                    id = existingId;
+                    stack.setLocalId(id);
+                    db.getStackDao().update(stack);
+                } else {
+                    throw e;
+                }
+            } else {
+                throw e;
+            }
+        }
         notifyFilterWidgetsAboutChangedEntity(FilterWidget.EChangedEntityType.STACK, id);
         return id;
     }
@@ -785,7 +846,23 @@ public class DataBaseAdapter {
     @WorkerThread
     public long createCardDirectly(long accountId, Card card) {
         card.setAccountId(accountId);
-        final long newCardId = db.getCardDao().insert(card);
+        long newCardId;
+        try {
+            newCardId = db.getCardDao().insert(card);
+        } catch (SQLiteConstraintException e) {
+            if (card.getId() != null) {
+                Card existing = db.getCardDao().getCardByRemoteIdDirectly(accountId, card.getId());
+                if (existing != null) {
+                    newCardId = existing.getLocalId();
+                    card.setLocalId(newCardId);
+                    db.getCardDao().update(card);
+                } else {
+                    throw e;
+                }
+            } else {
+                throw e;
+            }
+        }
         notifyFilterWidgetsAboutChangedEntity(FilterWidget.EChangedEntityType.STACK, card.getStackId());
         return newCardId;
     }
@@ -834,8 +911,25 @@ public class DataBaseAdapter {
     @WorkerThread
     public long createAccessControl(long accountId, @NonNull AccessControl entity) {
         entity.setAccountId(accountId);
+        long newId;
+        try {
+            newId = db.getAccessControlDao().insert(entity);
+        } catch (SQLiteConstraintException e) {
+            if (entity.getId() != null) {
+                AccessControl existing = db.getAccessControlDao().getAccessControlByRemoteIdDirectly(accountId, entity.getId());
+                if (existing != null) {
+                    newId = existing.getLocalId();
+                    entity.setLocalId(newId);
+                    db.getAccessControlDao().update(entity);
+                } else {
+                    throw e;
+                }
+            } else {
+                throw e;
+            }
+        }
         notifyFilterWidgetsAboutChangedEntity(FilterWidget.EChangedEntityType.ACCOUNT, accountId);
-        return db.getAccessControlDao().insert(entity);
+        return newId;
     }
 
     @WorkerThread
@@ -1006,7 +1100,24 @@ public class DataBaseAdapter {
     public long createAttachment(long accountId, @NonNull Attachment attachment) {
         attachment.setAccountId(accountId);
         attachment.setCreatedAt(Instant.now());
-        return db.getAttachmentDao().insert(attachment);
+        long newId;
+        try {
+            newId = db.getAttachmentDao().insert(attachment);
+        } catch (SQLiteConstraintException e) {
+            if (attachment.getId() != null) {
+                Attachment existing = db.getAttachmentDao().getAttachmentByRemoteIdDirectly(accountId, attachment.getId());
+                if (existing != null) {
+                    newId = existing.getLocalId();
+                    attachment.setLocalId(newId);
+                    db.getAttachmentDao().update(attachment);
+                } else {
+                    throw e;
+                }
+            } else {
+                throw e;
+            }
+        }
+        return newId;
     }
 
     public void updateAttachment(long accountId, @NonNull Attachment attachment, boolean setStatus) {
@@ -1686,8 +1797,19 @@ public class DataBaseAdapter {
 
             DeckLog.log("--- Write:", context.getString(R.string.shared_preference_last_account), "→", account.getId());
             sharedPreferencesEditor.putLong(context.getString(R.string.shared_preference_last_account), account.getId());
-            sharedPreferencesEditor.apply();
+            sharedPreferencesEditor.commit();
         });
+    }
+
+    @WorkerThread
+    public void saveCurrentAccountDirectly(@NonNull Account account) {
+        // Glide Module depends on correct account being set.
+        // TODO Use SingleSignOnURL where possible, allow passing ssoAccountName to MarkdownEditor
+        SingleAccountHelper.commitCurrentAccount(context, account.getName());
+
+        DeckLog.log("--- Write:", context.getString(R.string.shared_preference_last_account), "→", account.getId());
+        sharedPreferencesEditor.putLong(context.getString(R.string.shared_preference_last_account), account.getId());
+        sharedPreferencesEditor.commit();
     }
 
     public void removeCurrentAccount() {
@@ -1881,11 +2003,17 @@ public class DataBaseAdapter {
     }
 
     @WorkerThread
+    public List<User> getUsersForAccountDirectly(long accountId) {
+        return db.getUserDao().getUsersForAccountDirectly(accountId);
+    }
+
+    @WorkerThread
     public boolean backupDatabase() {
         try {
             File dbFile = context.getDatabasePath(DeckDatabase.DECK_DB_NAME);
             if (dbFile.exists()) {
                 File backupFile = new File(dbFile.getPath() + ".bak");
+                DeckLog.info("Database", "Creating backup to " + backupFile.getAbsolutePath());
                 try (InputStream in = new FileInputStream(dbFile);
                      OutputStream out = new FileOutputStream(backupFile)) {
                     byte[] buf = new byte[1024];
@@ -1895,6 +2023,8 @@ public class DataBaseAdapter {
                     }
                 }
                 return true;
+            } else {
+                DeckLog.warn("Database", "DB file not found: " + dbFile.getAbsolutePath());
             }
         } catch (IOException e) {
             DeckLog.logError(e);
@@ -1904,33 +2034,70 @@ public class DataBaseAdapter {
 
     @WorkerThread
     public void resetAccountData(long accountId) {
+        DeckLog.info("Database", "Resetting account data for restore: " + accountId);
         db.runInTransaction(() -> {
+            SupportSQLiteDatabase database = db.getOpenHelper().getWritableDatabase();
             int status = DBStatus.LOCAL_EDITED.getId();
             Object[] args = new Object[]{accountId};
 
-            db.getOpenHelper().getWritableDatabase().execSQL("UPDATE board SET id = NULL, status = " + status + ", etag = NULL WHERE accountId = ?", args);
-            db.getOpenHelper().getWritableDatabase().execSQL("UPDATE stack SET id = NULL, status = " + status + ", etag = NULL WHERE accountId = ?", args);
-            db.getOpenHelper().getWritableDatabase().execSQL("UPDATE card SET id = NULL, status = " + status + ", etag = NULL WHERE accountId = ?", args);
-            db.getOpenHelper().getWritableDatabase().execSQL("UPDATE label SET id = NULL, status = " + status + ", etag = NULL WHERE accountId = ?", args);
-            db.getOpenHelper().getWritableDatabase().execSQL("UPDATE attachment SET id = NULL, status = " + status + " WHERE accountId = ?", args);
-            db.getOpenHelper().getWritableDatabase().execSQL("UPDATE DeckComment SET id = NULL, status = " + status + " WHERE accountId = ?", args);
-            db.getOpenHelper().getWritableDatabase().execSQL("UPDATE AccessControl SET id = NULL, status = " + status + " WHERE accountId = ?", args);
-            db.getOpenHelper().getWritableDatabase().execSQL("UPDATE Activity SET id = NULL, status = " + status + " WHERE accountId = ?", args);
-            db.getOpenHelper().getWritableDatabase().execSQL("UPDATE OcsProject SET id = NULL, status = " + status + " WHERE accountId = ?", args);
-            db.getOpenHelper().getWritableDatabase().execSQL("UPDATE OcsProjectResource SET id = NULL, status = " + status + " WHERE accountId = ?", args);
+            database.execSQL("UPDATE `Board` SET `id` = NULL, `status` = " + status + ", `etag` = NULL, `lastModified` = NULL, `lastModifiedLocal` = NULL WHERE `accountId` = ?", args);
+            database.execSQL("UPDATE `Stack` SET `id` = NULL, `status` = " + status + ", `etag` = NULL, `lastModified` = NULL, `lastModifiedLocal` = NULL WHERE `accountId` = ?", args);
+            database.execSQL("UPDATE `Card` SET `id` = NULL, `status` = " + status + ", `etag` = NULL, `lastModified` = NULL, `lastModifiedLocal` = NULL WHERE `accountId` = ?", args);
+            database.execSQL("UPDATE `Label` SET `id` = NULL, `status` = " + status + ", `etag` = NULL, `lastModified` = NULL, `lastModifiedLocal` = NULL WHERE `accountId` = ?", args);
+            database.execSQL("UPDATE `Attachment` SET `id` = NULL, `status` = " + status + " WHERE `accountId` = ?", args);
+            database.execSQL("UPDATE `DeckComment` SET `id` = NULL, `status` = " + status + ", `lastModified` = NULL, `lastModifiedLocal` = NULL WHERE `accountId` = ?", args);
+            database.execSQL("UPDATE `AccessControl` SET `id` = NULL, `status` = " + status + " WHERE `accountId` = ?", args);
+            database.execSQL("UPDATE `Activity` SET `id` = NULL, `status` = " + status + " WHERE `accountId` = ?", args);
+            database.execSQL("UPDATE `OcsProject` SET `id` = NULL, `status` = " + status + ", `etag` = NULL, `lastModified` = NULL, `lastModifiedLocal` = NULL WHERE `accountId` = ?", args);
+            database.execSQL("UPDATE `OcsProjectResource` SET `id` = NULL, `status` = " + status + " WHERE `accountId` = ?", args);
+            database.execSQL("UPDATE `User` SET `id` = NULL, `status` = " + status + ", `etag` = NULL, `lastModified` = NULL, `lastModifiedLocal` = NULL WHERE `accountId` = ?", args);
 
             // Join tables
-            db.getOpenHelper().getWritableDatabase().execSQL("UPDATE JoinCardWithLabel SET status = " + status + " WHERE cardId IN (SELECT localId FROM card WHERE accountId = ?)", args);
-            db.getOpenHelper().getWritableDatabase().execSQL("UPDATE JoinCardWithUser SET status = " + status + " WHERE cardId IN (SELECT localId FROM card WHERE accountId = ?)", args);
-            db.getOpenHelper().getWritableDatabase().execSQL("UPDATE JoinCardWithProject SET status = " + status + " WHERE cardId IN (SELECT localId FROM card WHERE accountId = ?)", args);
-            db.getOpenHelper().getWritableDatabase().execSQL("UPDATE JoinBoardWithLabel SET status = " + status + " WHERE boardId IN (SELECT localId FROM board WHERE accountId = ?)", args);
-            db.getOpenHelper().getWritableDatabase().execSQL("UPDATE JoinBoardWithPermission SET status = " + status + " WHERE boardId IN (SELECT localId FROM board WHERE accountId = ?)", args);
-            db.getOpenHelper().getWritableDatabase().execSQL("UPDATE JoinBoardWithUser SET status = " + status + " WHERE boardId IN (SELECT localId FROM board WHERE accountId = ?)", args);
+            database.execSQL("UPDATE `JoinCardWithLabel` SET `status` = " + status + " WHERE `cardId` IN (SELECT `localId` FROM `Card` WHERE `accountId` = ?)", args);
+            database.execSQL("UPDATE `JoinCardWithUser` SET `status` = " + status + " WHERE `cardId` IN (SELECT `localId` FROM `Card` WHERE `accountId` = ?)", args);
+            database.execSQL("UPDATE `JoinCardWithProject` SET `status` = " + status + " WHERE `cardId` IN (SELECT `localId` FROM `Card` WHERE `accountId` = ?)", args);
+            database.execSQL("UPDATE `JoinBoardWithLabel` SET `status` = " + status + " WHERE `boardId` IN (SELECT `localId` FROM `Board` WHERE `accountId` = ?)", args);
+            database.execSQL("UPDATE `JoinBoardWithPermission` SET `status` = " + status + " WHERE `boardId` IN (SELECT `localId` FROM `Board` WHERE `accountId` = ?)", args);
+            database.execSQL("UPDATE `JoinBoardWithUser` SET `status` = " + status + " WHERE `boardId` IN (SELECT `localId` FROM `Board` WHERE `accountId` = ?)", args);
 
             // Also reset account itself
-            db.getOpenHelper().getWritableDatabase().execSQL("UPDATE account SET etag = NULL, boardsEtag = NULL WHERE id = ?", args);
+            database.execSQL("UPDATE `Account` SET `etag` = NULL, `boardsEtag` = NULL WHERE `id` = ?", args);
 
             LastSyncUtil.resetLastSyncDate(accountId);
         });
+        DeckLog.info("Database", "Reset successful.");
+    }
+
+    @WorkerThread
+    public boolean restoreDatabase() {
+        try {
+            File dbFile = context.getDatabasePath(DeckDatabase.DECK_DB_NAME);
+            File backupFile = new File(dbFile.getPath() + ".bak");
+            if (backupFile.exists()) {
+                DeckLog.info("Database", "Restoring backup from " + backupFile.getAbsolutePath());
+                db.close();
+                try (InputStream in = new FileInputStream(backupFile);
+                     OutputStream out = new FileOutputStream(dbFile)) {
+                    byte[] buf = new byte[1024];
+                    int len;
+                    while ((len = in.read(buf)) > 0) {
+                        out.write(buf, 0, len);
+                    }
+                }
+                // Delete WAL and SHM files to avoid corruption
+                new File(dbFile.getPath() + "-wal").delete();
+                new File(dbFile.getPath() + "-shm").delete();
+                return true;
+            }
+        } catch (IOException e) {
+            DeckLog.logError(e);
+        }
+        return false;
+    }
+
+    public boolean hasBackup() {
+        File dbFile = context.getDatabasePath(DeckDatabase.DECK_DB_NAME);
+        File backupFile = new File(dbFile.getPath() + ".bak");
+        return backupFile.exists();
     }
 }

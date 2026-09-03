@@ -5,6 +5,9 @@ import android.app.Application;
 import androidx.annotation.NonNull;
 import androidx.lifecycle.LiveData;
 
+import java.util.List;
+
+import it.niedermann.nextcloud.deck.model.User;
 import it.niedermann.nextcloud.deck.repository.PreferencesRepository;
 import it.niedermann.nextcloud.deck.ui.viewmodel.BaseViewModel;
 
@@ -35,6 +38,18 @@ public class PreferencesViewModel extends BaseViewModel {
 
     public boolean backupDatabase() {
         return baseRepository.backupDatabase();
+    }
+
+    public List<User> getUsersForAccountDirectly(long accountId) {
+        return baseRepository.getUsersForAccountDirectly(accountId);
+    }
+
+    public boolean restoreDatabase() {
+        return baseRepository.restoreDatabase();
+    }
+
+    public boolean hasBackup() {
+        return baseRepository.hasBackup();
     }
 
     public void setRestoreAccount(long accountId) {

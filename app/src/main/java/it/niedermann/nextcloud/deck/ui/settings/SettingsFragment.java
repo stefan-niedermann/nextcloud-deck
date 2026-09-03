@@ -7,6 +7,8 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Toast;
 
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.app.ActivityCompat;
@@ -17,13 +19,22 @@ import androidx.preference.PreferenceFragmentCompat;
 
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.util.List;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import it.niedermann.nextcloud.deck.DeckLog;
 import it.niedermann.nextcloud.deck.R;
+import it.niedermann.nextcloud.deck.database.DeckDatabase;
 import it.niedermann.nextcloud.deck.model.Account;
+import it.niedermann.nextcloud.deck.model.User;
 import it.niedermann.nextcloud.deck.remote.SyncWorker;
 import it.niedermann.nextcloud.deck.ui.theme.ThemedSwitchPreference;
+import it.niedermann.nextcloud.deck.util.ExecutorServiceProvider;
 
 public class SettingsFragment extends PreferenceFragmentCompat {
 
@@ -37,6 +48,28 @@ public class SettingsFragment extends PreferenceFragmentCompat {
     private ThemedSwitchPreference compressImageAttachmentsPref;
     private ThemedSwitchPreference debuggingPref;
     private ThemedSwitchPreference eTagPref;
+
+    private final ActivityResultLauncher<String> exportDatabaseLauncher = registerForActivityResult(new ActivityResultContracts.CreateDocument("application/octet-stream"), uri -> {
+        if (uri != null) {
+            ExecutorServiceProvider.getLinkedBlockingQueueExecutor().execute(() -> {
+                try {
+                    File dbFile = requireContext().getDatabasePath(DeckDatabase.DECK_DB_NAME);
+                    try (InputStream in = new FileInputStream(dbFile);
+                         OutputStream out = requireContext().getContentResolver().openOutputStream(uri)) {
+                        byte[] buf = new byte[1024];
+                        int len;
+                        while ((len = in.read(buf)) > 0) {
+                            out.write(buf, 0, len);
+                        }
+                    }
+                    requireActivity().runOnUiThread(() -> Toast.makeText(requireContext(), R.string.export_database_success, Toast.LENGTH_SHORT).show());
+                } catch (Exception e) {
+                    DeckLog.logError(e);
+                    requireActivity().runOnUiThread(() -> Toast.makeText(requireContext(), R.string.export_database_failed, Toast.LENGTH_LONG).show());
+                }
+            });
+        }
+    });
 
     @Override
     public void onAttach(@NonNull Context context) {
@@ -108,25 +141,101 @@ public class SettingsFragment extends PreferenceFragmentCompat {
         final var restoreServerPref = findPreference(getString(R.string.pref_key_restore_server));
         if (restoreServerPref != null) {
             restoreServerPref.setOnPreferenceClickListener(preference -> {
+                ExecutorServiceProvider.getLinkedBlockingQueueExecutor().execute(() -> {
+                    try {
+                        final List<User> users = preferencesViewModel.getUsersForAccountDirectly(account.getId());
+                        final String userUids = users.stream()
+                                .filter(u -> u.getType() == User.TYPE_USER && u.getUid() != null)
+                                .map(User::getUid)
+                                .distinct()
+                                .sorted()
+                                .collect(Collectors.joining("\n"));
+
+                        requireActivity().runOnUiThread(() -> new MaterialAlertDialogBuilder(requireContext())
+                                .setTitle(R.string.restore_warning_title)
+                                .setMessage(getString(R.string.restore_warning_message, userUids))
+                                .setPositiveButton(R.string.simple_restore, (dialog, which) -> ExecutorServiceProvider.getLinkedBlockingQueueExecutor().execute(() -> {
+                                    try {
+                                        if (preferencesViewModel.backupDatabase()) {
+                                            preferencesViewModel.setRestoreAccount(account.getId());
+                                            // Restart app
+                                            Intent intent = requireContext().getPackageManager().getLaunchIntentForPackage(requireContext().getPackageName());
+                                            if (intent != null) {
+                                                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                                                requireActivity().runOnUiThread(() -> {
+                                                    startActivity(intent);
+                                                    Runtime.getRuntime().exit(0);
+                                                });
+                                            }
+                                        } else {
+                                            requireActivity().runOnUiThread(() -> Toast.makeText(requireContext(), R.string.restore_backup_failed, Toast.LENGTH_LONG).show());
+                                        }
+                                    } catch (Exception e) {
+                                        DeckLog.logError(e);
+                                    }
+                                }))
+                                .setNegativeButton(android.R.string.cancel, null)
+                                .show());
+                    } catch (Exception e) {
+                        DeckLog.logError(e);
+                    }
+                });
+                return true;
+            });
+        }
+
+        final var restoreLocalBackupPref = findPreference(getString(R.string.pref_key_restore_local_backup));
+        if (restoreLocalBackupPref != null) {
+            restoreLocalBackupPref.setEnabled(preferencesViewModel.hasBackup());
+            restoreLocalBackupPref.setOnPreferenceClickListener(preference -> {
                 new MaterialAlertDialogBuilder(requireContext())
-                        .setTitle(R.string.restore_warning_title)
-                        .setMessage(R.string.restore_warning_message)
-                        .setPositiveButton(R.string.simple_update, (dialog, which) -> {
-                            if (preferencesViewModel.backupDatabase()) {
-                                preferencesViewModel.setRestoreAccount(account.getId());
-                                // Restart app
-                                Intent intent = requireContext().getPackageManager().getLaunchIntentForPackage(requireContext().getPackageName());
-                                if (intent != null) {
-                                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
-                                    startActivity(intent);
-                                }
-                                Runtime.getRuntime().exit(0);
+                        .setTitle(R.string.restore_local_backup_warning_title)
+                        .setMessage(R.string.restore_local_backup_warning_message)
+                        .setPositiveButton(R.string.simple_restore, (dialog, which) -> ExecutorServiceProvider.getLinkedBlockingQueueExecutor().execute(() -> {
+                            if (preferencesViewModel.restoreDatabase()) {
+                                requireActivity().runOnUiThread(() -> {
+                                    Toast.makeText(requireContext(), R.string.restore_local_backup_success, Toast.LENGTH_LONG).show();
+                                    // Restart app
+                                    Intent intent = requireContext().getPackageManager().getLaunchIntentForPackage(requireContext().getPackageName());
+                                    if (intent != null) {
+                                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                                        startActivity(intent);
+                                        Runtime.getRuntime().exit(0);
+                                    }
+                                });
                             } else {
-                                Toast.makeText(requireContext(), R.string.restore_backup_failed, Toast.LENGTH_LONG).show();
+                                requireActivity().runOnUiThread(() -> Toast.makeText(requireContext(), R.string.restore_local_backup_failed, Toast.LENGTH_LONG).show());
                             }
-                        })
+                        }))
                         .setNegativeButton(android.R.string.cancel, null)
                         .show();
+                return true;
+            });
+        }
+
+        final var createLocalBackupPref = findPreference(getString(R.string.pref_key_create_local_backup));
+        if (createLocalBackupPref != null) {
+            createLocalBackupPref.setOnPreferenceClickListener(preference -> {
+                ExecutorServiceProvider.getLinkedBlockingQueueExecutor().execute(() -> {
+                    if (preferencesViewModel.backupDatabase()) {
+                        requireActivity().runOnUiThread(() -> {
+                            Toast.makeText(requireContext(), R.string.create_local_backup_success, Toast.LENGTH_SHORT).show();
+                            if (restoreLocalBackupPref != null) {
+                                restoreLocalBackupPref.setEnabled(true);
+                            }
+                        });
+                    } else {
+                        requireActivity().runOnUiThread(() -> Toast.makeText(requireContext(), R.string.create_local_backup_failed, Toast.LENGTH_LONG).show());
+                    }
+                });
+                return true;
+            });
+        }
+
+        final var exportDatabasePref = findPreference(getString(R.string.pref_key_export_database));
+        if (exportDatabasePref != null) {
+            exportDatabasePref.setOnPreferenceClickListener(preference -> {
+                exportDatabaseLauncher.launch(DeckDatabase.DECK_DB_NAME);
                 return true;
             });
         }

@@ -14,6 +14,9 @@
     <string name="pref_key_debugging" translatable="false">debugging</string>
     <string name="pref_key_etags" translatable="false">eTags</string>
     <string name="pref_key_restore_server" translatable="false">restore_server</string>
+    <string name="pref_key_restore_local_backup" translatable="false">restore_local_backup</string>
+    <string name="pref_key_create_local_backup" translatable="false">create_local_backup</string>
+    <string name="pref_key_export_database" translatable="false">export_database</string>
 
     <string name="pref_value_background_sync_off">off</string>
     <string name="pref_value_background_15_minutes">15_minutes</string>
