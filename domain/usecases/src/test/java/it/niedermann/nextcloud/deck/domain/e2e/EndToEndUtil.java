@@ -243,8 +243,11 @@ public class EndToEndUtil {
     }
 
     public static void assertCommentExists(EndToEndTest.VirtualDeviceAndAccount vda, Card card, String message) {
-        final var comments = Maybe.fromPublisher(FlowAdapters.toPublisher(vda.virtualDevice().getListCommentsUseCase().execute(card.id()))).blockingGet();
-        Assertions.assertTrue(comments.stream().anyMatch(c -> Objects.equals(c.message(), message)), "Should contain comment \"" + message + "\" in card \"" + card.title() + "\" on device \"" + vda.virtualDevice().getDeviceName() + "\"");
+        try {
+            getComment(vda, card, message);
+        } catch (Exception e) {
+            Assertions.fail("Should contain comment \"" + message + "\" in card \"" + card.title() + "\" on device \"" + vda.virtualDevice().getDeviceName() + "\"", e);
+        }
     }
 
     public static void assertBoardDoesNotExist(EndToEndTest.VirtualDeviceAndAccount vda, String title) {
@@ -268,7 +271,17 @@ public class EndToEndUtil {
     }
 
     public static void assertCommentDoesNotExist(EndToEndTest.VirtualDeviceAndAccount vda, Card card, String message) {
-        final var comments = Maybe.fromPublisher(FlowAdapters.toPublisher(vda.virtualDevice().getListCommentsUseCase().execute(card.id()))).blockingGet();
-        Assertions.assertTrue(comments.stream().noneMatch(c -> Objects.equals(c.message(), message)), "Should NOT contain comment \"" + message + "\" in card \"" + card.title() + "\" on device \"" + vda.virtualDevice().getDeviceName() + "\"");
+        for (int i = 0; i < 20; i++) {
+            final var comments = Maybe.fromPublisher(FlowAdapters.toPublisher(vda.virtualDevice().getListCommentsUseCase().execute(card.id()))).blockingGet();
+            if (comments == null || comments.stream().noneMatch(c -> Objects.equals(c.message(), message))) {
+                return;
+            }
+            try {
+                Thread.sleep(200);
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
+        }
+        Assertions.fail("Should NOT contain comment \"" + message + "\" in card \"" + card.title() + "\" on device \"" + vda.virtualDevice().getDeviceName() + "\"");
     }
 }

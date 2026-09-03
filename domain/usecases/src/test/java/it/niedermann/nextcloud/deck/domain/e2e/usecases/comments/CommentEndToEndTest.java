@@ -1,7 +1,6 @@
 package it.niedermann.nextcloud.deck.domain.e2e.usecases.comments;
 
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
@@ -58,7 +57,6 @@ public class CommentEndToEndTest extends EndToEndTest {
     }
 
     @Test
-    @Disabled("Runs endless")
     public void updateComment() {
         final var message = randomUtil.randomize(MockData.MOCK_COMMENTS[1].message());
         EndToEndUtil.createComment(DEVICE_A, cardA, message);
@@ -85,7 +83,6 @@ public class CommentEndToEndTest extends EndToEndTest {
     }
 
     @Test
-    @Disabled("Runs endless")
     public void deleteComment() {
         final var message = randomUtil.randomize(MockData.MOCK_COMMENTS[2].message());
         EndToEndUtil.createComment(DEVICE_A, cardA, message);

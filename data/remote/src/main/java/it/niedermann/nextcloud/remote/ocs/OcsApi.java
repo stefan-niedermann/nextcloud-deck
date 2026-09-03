@@ -19,6 +19,7 @@ import retrofit2.http.GET;
 import retrofit2.http.Header;
 import retrofit2.http.Headers;
 import retrofit2.http.POST;
+import retrofit2.http.PUT;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
 
@@ -77,6 +78,10 @@ public interface OcsApi {
     @Headers({HEADER_OCS_API_REQUEST})
     @POST("ocs/v1.php/apps/deck/api/v1.0/cards/{cardId}/comments?format=json")
     CompletableFuture<it.niedermann.nextcloud.remote.ocs.dto.OcsCommentResponseDTO> createCommentForCard(@Path("cardId") long cardId, @Body it.niedermann.nextcloud.remote.deck.dto.CommentDTO comment);
+
+    @Headers({HEADER_OCS_API_REQUEST})
+    @PUT("ocs/v1.php/apps/deck/api/v1.0/cards/{cardId}/comments/{commentId}?format=json")
+    CompletableFuture<it.niedermann.nextcloud.remote.ocs.dto.OcsCommentResponseDTO> updateCommentForCard(@Path("cardId") long cardId, @Path("commentId") long commentId, @Body it.niedermann.nextcloud.remote.deck.dto.CommentDTO comment);
 
     @Headers({HEADER_OCS_API_REQUEST})
     @DELETE("ocs/v1.php/apps/deck/api/v1.0/cards/{cardId}/comments/{commentId}?format=json")

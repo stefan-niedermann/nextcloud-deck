@@ -1,6 +1,5 @@
 package it.niedermann.nextcloud.deck.data.sync.provider;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.Set;
@@ -17,9 +16,8 @@ import it.niedermann.nextcloud.deck.domain.model.Account;
 import it.niedermann.nextcloud.deck.domain.model.DBStatus;
 import it.niedermann.nextcloud.deck.domain.state.SyncStatus;
 import it.niedermann.nextcloud.remote.ApiProvider;
-import it.niedermann.nextcloud.remote.deck.DeckApi;
-import it.niedermann.nextcloud.remote.deck.dto.CommentDTO;
 import it.niedermann.nextcloud.remote.deck.dto.CardDTO;
+import it.niedermann.nextcloud.remote.deck.dto.CommentDTO;
 import it.niedermann.nextcloud.remote.deck.mapper.CommentRemoteMapper;
 import it.niedermann.nextcloud.remote.ocs.dto.OcsCommentResponseDTO;
 import jakarta.inject.Inject;
@@ -66,33 +64,38 @@ public class CommentSyncProvider implements SyncProvider<CardDTO> {
                         }
                         return ocsApi.deleteCommentForCard(card.getRemoteId(), local.getRemoteId())
                                 .thenCompose(v -> commentDao.deleteById(local.getLocalId()));
-                    } else if (local.getStatus() == DBStatus.LOCAL_EDITED.getId() && local.getRemoteId() == null) {
+                    } else if (local.getStatus() == DBStatus.LOCAL_EDITED.getId()) {
                         CommentDTO dto = CommentRemoteMapper.INSTANCE.toDTO(CommentMapper.INSTANCE.toTO(local));
-                        return ocsApi.createCommentForCard(card.getRemoteId(), dto)
-                                .thenCompose(response -> {
-                                    if (response == null || response.getOcs() == null || response.getOcs().getData() == null || response.getOcs().getData().isEmpty())
-                                        return CompletableFuture.completedFuture(null);
-                                    it.niedermann.nextcloud.remote.ocs.dto.CommentDTO serverDto = response.getOcs().getData().get(0);
-                                    CommentEntity updated = CommentMapper.INSTANCE.toEntity(CommentRemoteMapper.INSTANCE.toTOFromOcs(serverDto));
-                                    updated = new CommentEntity(
-                                            local.getLocalId(),
-                                            local.getAccountId(),
-                                            updated.getRemoteId(),
-                                            DBStatus.UP_TO_DATE.getId(),
-                                            updated.getLastModified(),
-                                            updated.getLastModified(),
-                                            updated.getEtag(),
-                                            local.getCardId(),
-                                            updated.getActorType(),
-                                            updated.getActorId(),
-                                            updated.getActorDisplayName(),
-                                            updated.getMessage(),
-                                            updated.getParentRemoteId(),
-                                            updated.getCreatedAt(),
-                                            null
-                                    );
-                                    return commentDao.updateRx(updated);
-                                });
+                        final CompletableFuture<OcsCommentResponseDTO> call;
+                        if (local.getRemoteId() == null) {
+                            call = ocsApi.createCommentForCard(card.getRemoteId(), dto);
+                        } else {
+                            call = ocsApi.updateCommentForCard(card.getRemoteId(), local.getRemoteId(), dto);
+                        }
+                        return call.thenCompose(response -> {
+                            if (response == null || response.getOcs() == null || response.getOcs().getData() == null || response.getOcs().getData().isEmpty())
+                                return CompletableFuture.completedFuture(null);
+                            it.niedermann.nextcloud.remote.ocs.dto.CommentDTO serverDto = response.getOcs().getData().get(0);
+                            CommentEntity updated = CommentMapper.INSTANCE.toEntity(CommentRemoteMapper.INSTANCE.toTOFromOcs(serverDto));
+                            updated = new CommentEntity(
+                                    local.getLocalId(),
+                                    local.getAccountId(),
+                                    updated.getRemoteId(),
+                                    DBStatus.UP_TO_DATE.getId(),
+                                    updated.getLastModified(),
+                                    updated.getLastModified(),
+                                    updated.getEtag(),
+                                    local.getCardId(),
+                                    updated.getActorType(),
+                                    updated.getActorId(),
+                                    updated.getActorDisplayName(),
+                                    updated.getMessage(),
+                                    updated.getParentRemoteId(),
+                                    updated.getCreatedAt(),
+                                    null
+                            );
+                            return commentDao.updateRx(updated);
+                        });
                     }
                     return CompletableFuture.completedFuture(null);
                 });
