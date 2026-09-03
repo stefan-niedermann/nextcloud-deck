@@ -7,6 +7,10 @@ This document describes the architecture of the Nextcloud Deck project. It follo
 The following flowchart visualizes the dependencies between the Gradle modules.
 
 ```mermaid
+---
+title: Architecture Flow Chart
+---
+
 graph TD
     classDef app color:#000000,fill:#ddcb55,stroke:#c2b14a
     classDef auth color:#ffffff,fill:#8855a8,stroke:#6f458a
@@ -31,6 +35,7 @@ graph TD
         remote[":data:remote"]:::data
         repository_data[":data:repository"]:::data
         sync_data[":data:sync"]:::data
+        shared_data[":data:shared"]:::data
     end
 
     subgraph Domain
@@ -59,21 +64,26 @@ graph TD
     shared --> remote
     shared --> repository_data
     shared --> sync_data
+    shared --> weblogin
 
     %% Auth Dependencies
-    weblogin --> model
 
     %% Data Dependencies
     local --> model
     local --> state
+    local --> shared_data
 
     remote --> model
+    remote --> shared_data
+
+    shared_data --> model
 
     repository_data --> model
     repository_data --> state
     repository_data --> repository_domain
     repository_data --> local
     repository_data --> remote
+    repository_data --> shared_data
 
     sync_data --> model
     sync_data --> repository_domain
@@ -104,6 +114,10 @@ graph TD
 The following sequence diagram illustrates the unified flow of account import, local data manipulation, and the subsequent synchronization process.
 
 ```mermaid
+---
+title: Architecture Sequence Diagram
+---
+
 sequenceDiagram
     participant App as "UI Layer (:app:*)"
     participant Domain as "Domain Layer<br/>(UseCase / Scheduler)"
