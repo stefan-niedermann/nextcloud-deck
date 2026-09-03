@@ -2044,12 +2044,12 @@ public class DataBaseAdapter {
             database.execSQL("UPDATE `Stack` SET `id` = NULL, `status` = " + status + ", `etag` = NULL, `lastModified` = NULL, `lastModifiedLocal` = NULL WHERE `accountId` = ?", args);
             database.execSQL("UPDATE `Card` SET `id` = NULL, `status` = " + status + ", `etag` = NULL, `lastModified` = NULL, `lastModifiedLocal` = NULL WHERE `accountId` = ?", args);
             database.execSQL("UPDATE `Label` SET `id` = NULL, `status` = " + status + ", `etag` = NULL, `lastModified` = NULL, `lastModifiedLocal` = NULL WHERE `accountId` = ?", args);
-            database.execSQL("UPDATE `Attachment` SET `id` = NULL, `status` = " + status + " WHERE `accountId` = ?", args);
-            database.execSQL("UPDATE `DeckComment` SET `id` = NULL, `status` = " + status + ", `lastModified` = NULL, `lastModifiedLocal` = NULL WHERE `accountId` = ?", args);
-            database.execSQL("UPDATE `AccessControl` SET `id` = NULL, `status` = " + status + " WHERE `accountId` = ?", args);
-            database.execSQL("UPDATE `Activity` SET `id` = NULL, `status` = " + status + " WHERE `accountId` = ?", args);
+            database.execSQL("UPDATE `Attachment` SET `id` = NULL, `status` = " + status + ", `etag` = NULL, `lastModified` = NULL, `lastModifiedLocal` = NULL WHERE `accountId` = ?", args);
+            database.execSQL("UPDATE `DeckComment` SET `id` = NULL, `status` = " + status + ", `etag` = NULL, `lastModified` = NULL, `lastModifiedLocal` = NULL WHERE `accountId` = ?", args);
+            database.execSQL("UPDATE `AccessControl` SET `id` = NULL, `status` = " + status + ", `etag` = NULL, `lastModified` = NULL, `lastModifiedLocal` = NULL WHERE `accountId` = ?", args);
+            database.execSQL("UPDATE `Activity` SET `id` = NULL, `status` = " + status + ", `etag` = NULL, `lastModified` = NULL, `lastModifiedLocal` = NULL WHERE `accountId` = ?", args);
             database.execSQL("UPDATE `OcsProject` SET `id` = NULL, `status` = " + status + ", `etag` = NULL, `lastModified` = NULL, `lastModifiedLocal` = NULL WHERE `accountId` = ?", args);
-            database.execSQL("UPDATE `OcsProjectResource` SET `id` = NULL, `status` = " + status + " WHERE `accountId` = ?", args);
+            database.execSQL("UPDATE `OcsProjectResource` SET `id` = NULL, `status` = " + status + ", `etag` = NULL, `lastModified` = NULL, `lastModifiedLocal` = NULL WHERE `accountId` = ?", args);
             database.execSQL("UPDATE `User` SET `id` = NULL, `status` = " + status + ", `etag` = NULL, `lastModified` = NULL, `lastModifiedLocal` = NULL WHERE `accountId` = ?", args);
 
             // Join tables
@@ -2059,6 +2059,7 @@ public class DataBaseAdapter {
             database.execSQL("UPDATE `JoinBoardWithLabel` SET `status` = " + status + " WHERE `boardId` IN (SELECT `localId` FROM `Board` WHERE `accountId` = ?)", args);
             database.execSQL("UPDATE `JoinBoardWithPermission` SET `status` = " + status + " WHERE `boardId` IN (SELECT `localId` FROM `Board` WHERE `accountId` = ?)", args);
             database.execSQL("UPDATE `JoinBoardWithUser` SET `status` = " + status + " WHERE `boardId` IN (SELECT `localId` FROM `Board` WHERE `accountId` = ?)", args);
+            database.execSQL("UPDATE `DependentCards` SET `status` = " + status + " WHERE `localCardId` IN (SELECT `localId` FROM `Card` WHERE `accountId` = ?)", args);
 
             // Also reset account itself
             database.execSQL("UPDATE `Account` SET `etag` = NULL, `boardsEtag` = NULL WHERE `id` = ?", args);
