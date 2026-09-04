@@ -339,4 +339,7 @@
     <string name="label_clear_color">清除顏色</string>
     <string name="choose_color">選擇顏色</string>
 
+    <string name="settings_restore_server_summary">危險：將以本機副本覆寫伺服器資料。需重新登入並重新啟動應用程式。</string>
+    <string name="simple_restore">還原</string>
+    <string name="restore_backup_failed">資料庫備份失敗。還原已取消。</string>
     </resources>

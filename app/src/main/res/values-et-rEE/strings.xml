@@ -223,7 +223,7 @@
     <string name="error_dialog_tip_files_force_stop">Midagi on valesti sinu Nextcloudi rakendusega. Proovi jõuga peatada nii Nextcloudi kliendi kui Nextcloudi Kanbani rakenduse töö.</string>
     <string name="error_dialog_tip_files_delete_storage">Kui rakenduste jõuga peatamine ei eita, siis proovi tühjendada mõlema andmeruumid.</string>
     <string name="error_dialog_timeout_instance">Sinu server ei vastanud päringule etteantud aja jooksul. Palun kontrolli, et server toimib korralikult.</string>
-    <string name="error_dialog_timeout_toggle">Palun kontrolli, et sinu nutiseadme internetiühendus toimib. Mõnel juhul aitab ka mobiilse andmeside ja/või WiFi sisse- ja välja lülitamine.</string>
+    <string name="error_dialog_timeout_toggle">Palun kontrolli, kas sinu nutiseadme internetiühendus toimib. Mõnel juhul aitab ka mobiilse andmeside ja/või WiFi sisse- ja välja lülitamine.</string>
     <string name="error_dialog_check_server">Serveri vastus päringule polnud korrektne. Palun kontrolli, kas sa saad Kanbani rakendust kasutada veebiliidesest.</string>
     <string name="error_dialog_check_server_logs">Sinu Nextcloud paigalduses on üks viga. Täpsem teave leidub serveri logides.</string>
     <string name="error_dialog_check_maintenance">Palun kontrolli, et Nextcloudi server ei oleks hetkel hooldusrežiimis!</string>
@@ -343,4 +343,7 @@
     <string name="label_clear_color">Eemalda värv</string>
     <string name="choose_color">Vali värv</string>
 
+    <string name="settings_restore_server_summary">HOIATUS: Järgnevaga kirjutatakse serveris leiduvad andmed kohaliku varukoopia andmetega üle. Eeldab rakenduse uuesti käivitamist ja uuesti sisselogimist.</string>
+    <string name="simple_restore">Taasta</string>
+    <string name="restore_backup_failed">Andmebaasi varundamine ei õnnestunud. Taastamine on katkestatud.</string>
     </resources>

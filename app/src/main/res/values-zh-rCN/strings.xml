@@ -329,4 +329,5 @@
     <string name="no_search_results_title">无搜索结果</string>
     <string name="no_search_results_description">对于给定的搜索词，我们没有找到任何结果</string>
     <string name="label_color">颜色</string>
+    <string name="simple_restore">恢复</string>
     </resources>

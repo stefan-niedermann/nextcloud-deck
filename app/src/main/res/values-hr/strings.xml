@@ -337,4 +337,5 @@
     <string name="no_search_results_title">Nema rezultata pretraživanja</string>
     <string name="no_search_results_description">Nismo pronašli nijedan rezultat za zadani pojam pretraživanja</string>
     <string name="label_color">Boja</string>
+    <string name="simple_restore">Vrati</string>
     </resources>

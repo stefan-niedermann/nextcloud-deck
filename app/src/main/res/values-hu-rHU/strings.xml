@@ -130,8 +130,8 @@
     <string name="settings_compress_image_attachments">Feltöltéskor tömöríti a képeket</string>
     <string name="search_in">Keresés itt: %1$s</string>
     <string name="settings_compress_image_attachments_summary">Gyorsabb feltöltés, alacsonyabb minőség</string>
-    <string name="pref_value_wifi_and_mobile">Szinkronizálás Wi-Fin és mobil adatkapcsolaton</string>
-    <string name="pref_value_wifi_only">Szinkronizálás csak Wi-Fin</string>
+    <string name="pref_value_wifi_and_mobile">Szinkronizálás Wi-Fi-n és mobil adatkapcsolaton</string>
+    <string name="pref_value_wifi_only">Szinkronizálás Wi-Fi-n</string>
     <string-array name="darkmode_entries">
         <item>Rendszer alapértelmezése</item>
         <item>Világos</item>
@@ -219,7 +219,7 @@
     <string name="error_dialog_tip_offline_connection_refused">A kapcsolat elutasítva, ellenőrizze, hogy a kiszolgáló webböngészővel elérhető-e.</string>
     <string name="error_dialog_tip_offline_connection_timeout">A kapcsolatban időtúllépés történt, ellenőrizze, hogy kapcsolódik-e az internethez. Ez akkor is előfordulhat, ha a kiszolgáló elfoglalt.</string>
     <string name="error_dialog_tip_connection_rejected">A kapcsolódás elutasításra került, ellenőrizze, hogy a kiszolgálót védi-e elárasztás-elleni mechanizmus. Ez a Cloudflare által védett kiszolgálók esetén a leggyakoribb probléma.</string>
-    <string name="error_dialog_tip_sync_only_on_wifi">Ha engedélyezte a „Szinkronizálás csak Wi-Fin” beállítást, akkor csak akkor szinkronizálhat, ha Wi-Fihez kapcsolódik.</string>
+    <string name="error_dialog_tip_sync_only_on_wifi">Ha engedélyezte a „Szinkronizálás csak Wi-Fi-n” beállítást, akkor csak akkor szinkronizálhat, ha Wi-Fi-hez kapcsolódik.</string>
     <string name="error_dialog_tip_files_force_stop">Valami hibásnak tűnik a Nextcloud alkalmazásában. Próbálja mindkettőt leállítani, a Nextcloud és a Nextcloud Kártyák alkalmazást is.</string>
     <string name="error_dialog_tip_files_delete_storage">Ha a kényszerített leállítás nem segít, akkor megpróbálhatja mindkét alkalmazás tárolóját kiüríteni.</string>
     <string name="error_dialog_timeout_instance">A megadott időn belül nem érkezett válasz a kiszolgálótól. Győződjön meg róla, hogy a példánya helyesen fut.</string>
@@ -343,4 +343,5 @@
     <string name="label_clear_color">Szín törlése</string>
     <string name="choose_color">Válasszon színt</string>
 
+    <string name="simple_restore">Helyreállítás</string>
     </resources>

@@ -339,4 +339,5 @@
     <string name="label_clear_color">清除顏色</string>
     <string name="choose_color">選擇顏色</string>
 
+    <string name="simple_restore">還原</string>
     </resources>

@@ -328,4 +328,5 @@
     <string name="no_search_results_title">Qidiruv natijalari yo‘q</string>
     <string name="no_search_results_description">Berilgan qidiruv soʻzi boʻyicha hech qanday natija topilmadi</string>
     <string name="label_color">Rang</string>
+    <string name="simple_restore">Qayta tiklangan</string>
     </resources>

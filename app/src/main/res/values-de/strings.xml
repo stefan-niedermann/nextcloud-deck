@@ -343,24 +343,7 @@
     <string name="label_clear_color">Farbe löschen</string>
     <string name="choose_color">Farbe wählen</string>
 
-    <string name="settings_restore_server">EXPERIMENTAL: Server aus lokaler Kopie wiederherstellen</string>
-    <string name="settings_restore_server_summary">GEFAHR: Überschreibt Serverdaten mit lokaler Kopie. Erfordert Neuanmeldung und App-Neustart.</string>
-    <string name="restore_warning_title">EXPERIMENTAL: Serverdaten wiederherstellen?</string>
+    <string name="settings_restore_server_summary">ACHTUNG: Überschreibt Serverdaten mit lokalen Kopien. Erfordert eine erneute Anmeldung und einen Neustart der App.</string>
     <string name="simple_restore">Wiederherstellen</string>
-    <string name="restore_warning_message">Dies wird alle Daten auf dem Server für dieses Konto mit Ihrer lokalen Kopie überschreiben.\n\nVoraussetzungen:\n- Benutzerkonto existiert auf dem Server\n- Alle Board-Mitglieder existieren auf dem Server\n- In der Nextcloud Files App angemeldet\n\nAnhänge:\nMöglicherweise sind nicht alle Anhänge lokal verfügbar und können daher nicht auf den neuen Server hochgeladen werden.\n\nBenutzer, die auf dem Server existieren müssen:\n%1$s\n\nDie App wird jetzt neu gestartet.</string>
-    <string name="restore_backup_failed">Datenbank-Backup fehlgeschlagen. Wiederherstellung abgebrochen.</string>
-    <string name="settings_restore_local_backup">EXPERIMENTAL: Aus lokalem Backup wiederherstellen</string>
-    <string name="settings_restore_local_backup_summary">Stellt die Datenbank aus der letzten Backup-Datei wieder her.</string>
-    <string name="restore_local_backup_warning_title">EXPERIMENTAL: Aus Backup wiederherstellen?</string>
-    <string name="restore_local_backup_warning_message">Dies ersetzt Ihre aktuelle Datenbank durch das letzte Backup. Aktuelle Daten gehen verloren.</string>
-    <string name="restore_local_backup_success">Datenbank wiederhergestellt. Die App wird jetzt neu gestartet.</string>
-    <string name="restore_local_backup_failed">Datenbank-Wiederherstellung fehlgeschlagen.</string>
-    <string name="settings_create_local_backup">EXPERIMENTAL: Lokales Backup erstellen</string>
-    <string name="settings_create_local_backup_summary">Erstellt ein Backup der aktuellen Datenbank.</string>
-    <string name="create_local_backup_success">Backup erfolgreich erstellt.</string>
-    <string name="create_local_backup_failed">Backup fehlgeschlagen.</string>
-    <string name="settings_export_database">EXPERIMENTAL: Datenbankdatei exportieren</string>
-    <string name="settings_export_database_summary">Kopiert die Datenbankdatei an einen Ort Ihrer Wahl.</string>
-    <string name="export_database_failed">Export fehlgeschlagen.</string>
-    <string name="export_database_success">Datenbank erfolgreich exportiert.</string>
-</resources>
+    <string name="restore_backup_failed">Datenbanksicherung fehlgeschlagen. Wiederherstellung abgebrochen.</string>
+    </resources>

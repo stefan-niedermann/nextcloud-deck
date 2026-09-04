@@ -343,4 +343,7 @@
     <string name="label_clear_color">Rensa färg</string>
     <string name="choose_color">Välj färg</string>
 
+    <string name="settings_restore_server_summary">FARA: Skriver över serverdata med den lokala kopian. Kräver ny inloggning och omstart av appen.</string>
+    <string name="simple_restore">Återställ</string>
+    <string name="restore_backup_failed">Säkerhetskopieringen av databasen misslyckades. Återställningen avbröts.</string>
     </resources>

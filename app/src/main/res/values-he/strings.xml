@@ -219,4 +219,5 @@
     <string name="widget_upcoming_title">כרטיסים עתידיים</string>
     <string name="simple_search">חיפוש</string>
     <string name="label_color">צבע</string>
+    <string name="simple_restore">שחזור</string>
     </resources>

@@ -302,4 +302,5 @@
     <string name="label_color">Väri</string>
     <string name="choose_color">Valitse väri</string>
 
+    <string name="simple_restore">Palauta</string>
     </resources>

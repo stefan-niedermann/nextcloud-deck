@@ -331,4 +331,5 @@
     <string name="label_color">Color</string>
     <string name="choose_color">Elegir color</string>
 
+    <string name="simple_restore">Restaurar</string>
     </resources>

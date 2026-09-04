@@ -343,4 +343,7 @@
     <string name="label_clear_color">Rengi temizle</string>
     <string name="choose_color">Renk seçin</string>
 
+    <string name="settings_restore_server_summary">Dikkat: Bu işlem sunucudaki verilerin üzerine yerel kopyadaki verileri yazar. Yeniden oturum açmak ve uygulamanın yeniden başlatılması gerekir.</string>
+    <string name="simple_restore">Geri yükle</string>
+    <string name="restore_backup_failed">Veri tabanı yedeklenemedi. Geri yükleme iptal edildi.</string>
     </resources>

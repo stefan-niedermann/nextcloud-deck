@@ -343,4 +343,5 @@
     <string name="label_color">Цвет</string>
     <string name="choose_color">Выберите цвет</string>
 
+    <string name="simple_restore">Восстановить</string>
     </resources>

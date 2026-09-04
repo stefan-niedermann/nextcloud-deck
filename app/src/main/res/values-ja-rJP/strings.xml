@@ -322,4 +322,5 @@
     <string name="enter_search_term_description">単語を入力してボードのカードを検索する</string>
     <string name="no_search_results_title">検索結果なし</string>
     <string name="label_color">色</string>
+    <string name="simple_restore">復元</string>
     </resources>

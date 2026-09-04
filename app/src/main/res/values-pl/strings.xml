@@ -341,4 +341,5 @@
     <string name="no_search_results_title">Brak wyników wyszukiwania</string>
     <string name="no_search_results_description">Nie znaleźliśmy żadnych wyników dla podanego terminu wyszukiwania</string>
     <string name="label_color">Kolor</string>
+    <string name="simple_restore">Przywróć</string>
     </resources>

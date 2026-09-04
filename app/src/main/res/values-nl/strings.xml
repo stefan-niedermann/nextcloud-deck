@@ -334,4 +334,5 @@ Controleer a.u.b. uw internet verbinding en of U in staat bent verbinding te mak
     <string name="no_search_results_title">Geen zoekresultaten</string>
     <string name="no_search_results_description">We hebben geen resultaten gevonden voor de opgegeven zoekterm</string>
     <string name="label_color">Kleur</string>
+    <string name="simple_restore">Herstellen</string>
     </resources>

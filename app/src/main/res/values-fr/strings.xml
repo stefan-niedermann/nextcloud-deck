@@ -347,4 +347,7 @@
     <string name="label_clear_color">Effacer la couleur</string>
     <string name="choose_color">Sélectionnez une couleur</string>
 
+    <string name="settings_restore_server_summary">DANGER : remplace les données du serveur par celles de la copie locale. Nécessite une reconnexion et un redémarrage de l\'application.</string>
+    <string name="simple_restore">Restaurer</string>
+    <string name="restore_backup_failed">Échec de la sauvegarde de la base de données. La restauration est annulée.</string>
     </resources>

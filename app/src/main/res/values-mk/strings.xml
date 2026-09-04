@@ -242,4 +242,5 @@
     <string name="simple_search">Барај</string>
     <string name="no_search_results_title">Нема резултати од пребарувањето</string>
     <string name="label_color">Боја</string>
+    <string name="simple_restore">Врати</string>
     </resources>

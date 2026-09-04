@@ -331,4 +331,5 @@
     <string name="label_color">Warna</string>
     <string name="choose_color">Pilih warna</string>
 
+    <string name="simple_restore">Pulihkan</string>
     </resources>

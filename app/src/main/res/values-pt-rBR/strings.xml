@@ -30,9 +30,9 @@
     <string name="simple_unassigned">Não atribuído</string>
     <string name="hint_error_appeared">Um erro apareceu </string>
 
-    <string name="edit_board">Editar painel</string>
-    <string name="archive_board">Arquivar painel</string>
-    <string name="delete_board">Excluir painel</string>
+    <string name="edit_board">Editar quadro</string>
+    <string name="archive_board">Arquivar quadro</string>
+    <string name="delete_board">Excluir quadro</string>
     <string name="delete_something">Excluir %1$s</string>
 
     <string name="about">Sobre</string>
@@ -84,7 +84,7 @@
     <string name="action_card_unassign">Desvincular o cartão de mim</string>
     <string name="action_card_archive">Arquivar cartão</string>
     <string name="action_card_delete">Excluir cartão</string>
-    <string name="add_board">Adicionar painel</string>
+    <string name="add_board">Adicionar quadro</string>
 
     <string name="label_clear_due_date">Remover data de vencimento</string>
     <string name="label_clear_start_date">Limpar data de início</string>
@@ -120,7 +120,7 @@
     <string name="add_a_new_list_using_the_button">Adicione uma nova lista usando o botão +</string>
     <string name="add_a_new_card_using_the_button">Adicionar um novo cartão usando o botão +</string>
     <string name="deck_outdated_please_update">A versão do seu aplicativo web Deck é muito antiga (%1$s). Atualize-a para usar este aplicativo Android como cliente.</string>
-    <string name="delete_board_message">Isso excluirá permanentemente este painel incluindo listas e cartões.</string>
+    <string name="delete_board_message">Isso excluirá permanentemente este quadro incluindo listas e cartões.</string>
     <string name="settings_theme_title">Tema</string>
     <string name="settings_compact_title">Modo compacto</string>
     <string name="settings_cover_images_title">Imagens de capa</string>
@@ -141,7 +141,7 @@
     </string-array>
     <string name="unassigned_user"> %1$s desatribuído</string>
     <string name="no_activities">Não há atividades neste cartão. Você precisa estar conectado com a internet para carregar e exibir atividades.</string>
-    <string name="share_board">Compartilhar painel</string>
+    <string name="share_board">Compartilhar quadro</string>
     <string name="you_are_currently_offline">Você está off-line no momento</string>
     <string name="you_have_to_be_connected_to_the_internet_in_order_to_add_an_account">Você precisa estar conectado à Internet para adicionar uma conta.</string>
     <string name="owner">Proprietário</string>
@@ -163,9 +163,9 @@
     <string name="add_comment">Adicionar comentário</string>
     <string name="card_edit_comments">Comentários</string>
     <string name="no_comments_yet">Nenhum comentário ainda</string>
-    <string name="no_boards">Sem painéis ainda</string>
-    <string name="add_a_new_board_using_the_button">Adicionar um novo painel usando o botão +</string>
-    <string name="choose_board">Escolher painel</string>
+    <string name="no_boards">Sem quadros ainda</string>
+    <string name="add_a_new_board_using_the_button">Adicionar um novo quadro usando o botão +</string>
+    <string name="choose_board">Escolher quadro</string>
     <string name="task_count">%1$s/%2$s</string>
     <string name="open_in_browser">Abrir no navegador</string>
     <string name="updating_card">Atualizando cartão...</string>
@@ -200,8 +200,8 @@
     <string name="filter_duedate_title">Data de vencimento</string>
     <string name="filter_done_title">Concluído</string>
 
-    <string name="action_board_dearchive">Desfazer arquivamento do painel</string>
-    <string name="archived_boards">Painéis arquivados</string>
+    <string name="action_board_dearchive">Desfazer arquivamento do quadro</string>
+    <string name="archived_boards">Quadros arquivados</string>
 
     <string name="error">Ocorreu um erro</string>
     <string name="synchronization_failed">A sincronização falhou</string>
@@ -271,8 +271,8 @@
     </plurals>
     <string name="simple_report">Reportar</string>
     <string name="error_action_open_battery_settings">Configurações da bateria</string>
-    <string name="move_warning">Comentários ou anexos não podem ser transferidos ao mover o cartão para outro painel.</string>
-    <string name="clone_board">Clonar painel</string>
+    <string name="move_warning">Comentários ou anexos não podem ser transferidos ao mover o cartão para outro quadro.</string>
+    <string name="clone_board">Clonar quadro</string>
     <string name="cloning_board">Clonando %1$s…</string>
     <string name="successfully_cloned_board">%1$s clonado com sucesso</string>
     <string name="attachment_does_not_yet_exist">O anexo ainda não existe no Deck</string>
@@ -281,7 +281,7 @@
     <string name="widget_stack_title">Lista</string>
     <string name="widget_stack_header_icon">Ícone do cabeçalho do widget</string>
     <string name="widget_placeholder_icon">Ícone do marcador de posição do widget</string>
-    <string name="project_type_deck_board">Painel de deck</string>
+    <string name="project_type_deck_board">Quadro do Deck</string>
     <string name="project_type_deck_card">Cartão de deck</string>
     <string name="project_type_file">Arquivo</string>
     <string name="projects_title">Projetos</string>
@@ -332,13 +332,13 @@
     <!-- Label for a title input field that is required to be filled out -->
     <string name="title_mandatory">Título (obrigatório)</string>
     <string name="saving_new_card">Salvando novo cartão…</string>
-    <string name="progress_import">Importando painel %1$d de %2$d…</string>
-    <string name="progress_import_indeterminate">Importando painéis…</string>
+    <string name="progress_import">Importando quadro %1$d de %2$d…</string>
+    <string name="progress_import_indeterminate">Importando quadros…</string>
     <string name="card_outdated">O conteúdo deste cartão pode estar desatualizado.</string>
     <string name="show_error">Mostrar erro</string>
     <string name="push_notification_link_empty">Devido a um problema conhecido no aplicativo web Deck, infelizmente não podemos exibir este cartão. Para mais informações, veja: %1$s</string>
     <string name="enter_search_term_title">Insira o termo de pesquisa</string>
-    <string name="enter_search_term_description">Digite o termo de pesquisa para encontrar cartões neste painel</string>
+    <string name="enter_search_term_description">Digite o termo de pesquisa para encontrar cartões neste quadro</string>
     <string name="no_search_results_title">Nenhum resultado de pesquisa</string>
     <string name="no_search_results_description">Não encontramos nenhum resultado para o termo de pesquisa fornecido</string>
     <string name="label_no_startdate">Sem data de início</string>
@@ -347,4 +347,7 @@
     <string name="label_clear_color">Limpar cor</string>
     <string name="choose_color">Escolher cor</string>
 
+    <string name="settings_restore_server_summary">PERIGO: Substitui os dados do servidor pela cópia local. É necessário fazer login novamente e reiniciar o aplicativo.</string>
+    <string name="simple_restore">Restaurar</string>
+    <string name="restore_backup_failed">Falha no backup do banco de dados. Restauração cancelada.</string>
     </resources>

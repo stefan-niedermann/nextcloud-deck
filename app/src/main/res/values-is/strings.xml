@@ -87,8 +87,10 @@
     <string name="add_board">Bæta við borði</string>
 
     <string name="label_clear_due_date">Fjarlægja skiladag</string>
+    <string name="label_clear_start_date">Hreinsa upphafsdag</string>
     <string name="label_clear_done">Ekki lokið</string>
     <string name="label_due_at">Skilist: %1$s</string>
+    <string name="label_start_at">Byrja kl.: %1$s</string>
     <string name="label_add">Bæta við {0:s}</string>
 
     <string name="card_edit_details">Nánar</string>
@@ -208,7 +210,9 @@
     <string name="error_edit_activity_killed_by_android">Android hætti í breytingaham vegna þess að það vantaði kerfistilföng fyrir önnur forrit.</string>
 
     <string name="error_dialog_title">Ó-nei - Hvað nú? 🙁</string>
+    <string name="error_dialog_tip_parsing_failed">Svarið frá netþjóninum var ekki hægt að túlka sem skyldi. Athugaðu hvort þú hafir virkjað Deck-forritið á Nextcloud-þjóninum þínum.</string>
     <string name="error_dialog_tip_token_mismatch_retry">Prófaðu að þvinga lokun á forritinu og endurræsa það síðan. Mögulega hefur verið röng tenging við Nextcloud-forritið.</string>
+    <string name="error_dialog_tip_clear_storage_might_help">Ef vandamálið er viðvarandi, skaltu reyna að hreinsa geymslurými beggja forritanna, Nextcloud og Nextcloud Deck, og flytja aftur inn aðganginn þinn.</string>
     <string name="error_dialog_tip_database_upgrade_failed">Uppfærsla á gagnagrunninum mistókst. Tilkynntu vandamálið og hreinsaðu út úr geymslurýminu til að nota forritið á venjulegan máta.</string>
     <string name="error_dialog_tip_clear_storage">Þú getur hreinsað geymslurýmið með því að opna upplýsingar forritsins og velja Geymslurými → Hreinsa geymslurými.</string>
     <string name="error_dialog_tip_offline_no_internet">Það lítur út eins og þú hafir sett samstillingu í gang án tengingar við internetið.</string>
@@ -224,6 +228,7 @@
     <string name="error_dialog_check_maintenance">Athugaðu hvort Nextcloud-þjónninn þinn sé nokkuð núna í viðhaldsham.</string>
     <string name="error_dialog_insufficient_storage">Nextcloud-netþjónninn þinn á ekkert laust geymslupláss eftir. Eyddu einhverjum skrám til að geta samstillt breytingar á tækinu yfir í skýið.</string>
     <string name="error_dialog_we_need_info">Við þurfum eftirfarandi tæknilegar upplýsingar til að geta aðstoðað þig:</string>
+    <string name="error_dialog_redirect">Þjónninn þinn svaraði með HTTP 302 stöðukóða, sem bendir til að þú hafir ekki sett Deck-spjaldaforritið upp á netþjóninum eða að eitthvað sé vanstillt. Þetta getur komið til vegna sérsniðinna skipana í .htaccess-skrá eða vegna Nextcloud-forrita á borð við OID Client.</string>
     <string name="error_dialog_version_not_parsable">Við gátum ekki ákvarðað útgáfu Deck-spjaldaforritsins á netþjóninum. Gakktu úr skugga um að það sé rétt upp sett og sé virkt.</string>
     <string name="error_dialog_account_might_not_be_authorized">Aðgangurinn þinn á Nextcloud-forritinu er mögulega ekki lengur heimilaður.</string>
     <string name="error_dialog_user_not_found_in_database">Núverandi notandi samsvarar ekki notandanum sem við erum með í gagnagrunninum okkar. Ef þú ert að nota LDAP á Nextcloud-tilvikinu þínu, gæti Nextcloud-forritið þitt mögulega hafa geymt gamalt notandaauðkenni.</string>
@@ -331,5 +336,13 @@
     <string name="enter_search_term_description">Settu inn leitarorð til að finna spjöld á þessu borði</string>
     <string name="no_search_results_title">Engar leitarniðurstöður</string>
     <string name="no_search_results_description">Ekki hafa fundist neinar niðurstöður fyrir þetta leitarorð</string>
+    <string name="label_no_startdate">Enginn upphafsdagur</string>
+    <string name="label_dependent_cards">Háð spjöld</string>
     <string name="label_color">Litur</string>
+    <string name="label_clear_color">Hreinsa lit</string>
+    <string name="choose_color">Veldu lit</string>
+
+    <string name="settings_restore_server_summary">ÁHÆTTA: Skrifar yfir gögn á þjóninum með afriti úr geymslu. Krefst þess að skráð sé inn aftur og forritið endurræst.</string>
+    <string name="simple_restore">Endurheimta</string>
+    <string name="restore_backup_failed">Öryggisafrit gagnagrunns mistókst. Hætt við endurheimt.</string>
     </resources>
