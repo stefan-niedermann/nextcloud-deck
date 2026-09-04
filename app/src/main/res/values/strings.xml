@@ -19,6 +19,7 @@
     <string name="simple_reset">Reset</string>
     <string name="simple_discard">Discard</string>
     <string name="simple_update">Update</string>
+    <string name="simple_export">Export</string>
     <string name="simple_delete">Delete</string>
     <string name="simple_rename">Rename</string>
     <string name="simple_settings">Settings</string>
@@ -369,6 +370,11 @@
     <string name="label_color">Color</string>
     <string name="label_clear_color">Clear color</string>
     <string name="choose_color">Choose color</string>
+
+    <string name="settings_recovery_title">Emergency Recovery</string>
+    <string name="recovery_deck_server_title">Recover Deck Server</string>
+    <string name="recovery_deck_android_title">Recover Deck Android</string>
+    <string name="pref_key_recovery" translatable="false">recovery</string>
 
     <string name="settings_restore_server">EXPERIMENTAL: Restore server from local copy</string>
     <string name="settings_restore_server_summary">DANGER: Overwrites server data with local copy. Requires re-login and app restart.</string>

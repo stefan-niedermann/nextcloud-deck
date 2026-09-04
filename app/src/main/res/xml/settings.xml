@@ -70,26 +70,8 @@
 
         <Preference
             android:icon="@drawable/ic_sync_24dp"
-            android:key="@string/pref_key_restore_server"
-            android:summary="@string/settings_restore_server_summary"
-            android:title="@string/settings_restore_server" />
+            android:key="@string/pref_key_recovery"
+            android:title="@string/settings_recovery_title" />
 
-        <Preference
-            android:icon="@drawable/ic_sync_24dp"
-            android:key="@string/pref_key_restore_local_backup"
-            android:summary="@string/settings_restore_local_backup_summary"
-            android:title="@string/settings_restore_local_backup" />
-
-        <Preference
-            android:icon="@drawable/ic_sync_24dp"
-            android:key="@string/pref_key_create_local_backup"
-            android:summary="@string/settings_create_local_backup_summary"
-            android:title="@string/settings_create_local_backup" />
-
-        <Preference
-            android:icon="@drawable/ic_sync_24dp"
-            android:key="@string/pref_key_export_database"
-            android:summary="@string/settings_export_database_summary"
-            android:title="@string/settings_export_database" />
     </it.niedermann.nextcloud.deck.ui.theme.ThemedPreferenceCategory>
 </PreferenceScreen>
