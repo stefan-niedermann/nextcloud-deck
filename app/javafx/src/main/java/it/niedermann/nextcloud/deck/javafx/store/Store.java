@@ -49,15 +49,15 @@ public abstract class Store<TState, TAction> implements Disposable {
         return this.state$;
     }
 
+    @SuppressWarnings("unchecked")
     protected final <ActionType extends TAction> void on(Class<ActionType> actionType, BiFunction<TState, ActionType, TState> reducer) {
         this.reducers.computeIfAbsent(actionType, _ -> new ArrayList<>());
-        //noinspection unchecked
         this.reducers.get(actionType).add((BiFunction<TState, TAction, TState>) reducer);
     }
 
+    @SuppressWarnings("unchecked")
     protected final <ActionType extends TAction> void effect(Class<ActionType> actionType, BiFunction<TState, ActionType, CompletableFuture<Optional<? extends TAction>>> effect) {
         this.effects.computeIfAbsent(actionType, _ -> new ArrayList<>());
-        //noinspection unchecked
         this.effects.get(actionType).add((BiFunction<TState, TAction, CompletableFuture<Optional<? extends TAction>>>) effect);
     }
 

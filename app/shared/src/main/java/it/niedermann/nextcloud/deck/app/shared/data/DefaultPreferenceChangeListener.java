@@ -1,6 +1,7 @@
 package it.niedermann.nextcloud.deck.app.shared.data;
 
 import java.util.Map;
+import java.util.Objects;
 import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.prefs.PreferenceChangeEvent;
@@ -22,7 +23,7 @@ class DefaultPreferenceChangeListener<T> implements PreferenceChangeListener {
     public final void preferenceChange(PreferenceChangeEvent event) {
         listeners.entrySet()
                 .stream()
-                .filter(entry -> entry.getValue().equals(event.getKey()))
+                .filter(entry -> Objects.equals(entry.getValue(), event.getKey()))
                 .map(Map.Entry::getKey)
                 .forEach(listener -> {
                     final var newValue = loader.apply(event.getKey());

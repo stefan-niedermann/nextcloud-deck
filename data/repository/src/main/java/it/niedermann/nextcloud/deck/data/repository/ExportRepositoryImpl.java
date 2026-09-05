@@ -67,7 +67,7 @@ public class ExportRepositoryImpl implements ExportRepository {
                         if (!labels.isEmpty()) {
                             document.add(new Paragraph("    Labels: " + String.join(", ", labels)));
                         }
-                        final List<String> assignees = card.assignees().stream().map(id -> userNames.getOrDefault(id, id.value())).collect(Collectors.toList());
+                        final List<String> assignees = card.assignees().stream().map(id -> userNames.getOrDefault(id, id.value() + "")).collect(Collectors.toList());
                         if (!assignees.isEmpty()) {
                             document.add(new Paragraph("    Assignees: " + String.join(", ", assignees)));
                         }

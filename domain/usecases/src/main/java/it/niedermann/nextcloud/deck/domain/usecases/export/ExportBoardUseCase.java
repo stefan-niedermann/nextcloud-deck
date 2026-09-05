@@ -51,16 +51,16 @@ public class ExportBoardUseCase {
                                     final Map<User.ID, String> userMap = users.stream().collect(Collectors.toMap(User::id, User::displayName));
                                     final StringBuilder sb = new StringBuilder();
                                     sb.append("Title,Description,Column,Labels,Assignees\n");
-                                    for (Map.Entry<Column, List<Card>> entry : cardsByColumn.entrySet()) {
-                                        final String columnTitle = entry.getKey().title();
-                                        for (Card card : entry.getValue()) {
+                                    cardsByColumn.forEach((column, cards) -> {
+                                        final String columnTitle = column.title();
+                                        for (Card card : cards) {
                                             sb.append(escapeCsv(card.title())).append(",")
                                                     .append(escapeCsv(card.description())).append(",")
                                                     .append(escapeCsv(columnTitle)).append(",")
-                                                    .append(escapeCsv(card.labels().stream().map(id -> labelMap.getOrDefault(id, String.valueOf(id.value()))).collect(Collectors.joining("; ")))).append(",")
-                                                    .append(escapeCsv(card.assignees().stream().map(id -> userMap.getOrDefault(id, String.valueOf(id.value()))).collect(Collectors.joining("; ")))).append("\n");
+                                                    .append(escapeCsv(card.labels().stream().map(id -> labelMap.getOrDefault(id, id.value() + "")).collect(Collectors.joining("; ")))).append(",")
+                                                    .append(escapeCsv(card.assignees().stream().map(id -> userMap.getOrDefault(id, id.value() + "")).collect(Collectors.joining("; ")))).append("\n");
                                         }
-                                    }
+                                    });
                                     return sb.toString();
                                 }
                         ))
@@ -81,19 +81,19 @@ public class ExportBoardUseCase {
                                     final StringBuilder sb = new StringBuilder();
                                     sb.append("kanban\n");
                                     sb.append("  %% Board: ").append(board.title()).append("\n");
-                                    for (Map.Entry<Column, List<Card>> entry : cardsByColumn.entrySet()) {
-                                        sb.append("  ").append(entry.getKey().title()).append("\n");
-                                        for (Card card : entry.getValue()) {
+                                    cardsByColumn.forEach((column, cards) -> {
+                                        sb.append("  ").append(column.title()).append("\n");
+                                        for (Card card : cards) {
                                             sb.append("    ").append(card.title().replace("\n", " "));
                                             final List<String> tags = new java.util.ArrayList<>();
-                                            card.labels().forEach(id -> tags.add(labelMap.getOrDefault(id, String.valueOf(id.value()))));
-                                            card.assignees().forEach(id -> tags.add("@" + userMap.getOrDefault(id, String.valueOf(id.value()))));
+                                            card.labels().forEach(id -> tags.add(labelMap.getOrDefault(id, id.value() + "")));
+                                            card.assignees().forEach(id -> tags.add("@" + userMap.getOrDefault(id, id.value() + "")));
                                             if (!tags.isEmpty()) {
                                                 sb.append(" [").append(String.join(", ", tags)).append("]");
                                             }
                                             sb.append("\n");
                                         }
-                                    }
+                                    });
                                     return sb.toString();
                                 }
                         ))
@@ -111,30 +111,33 @@ public class ExportBoardUseCase {
                                     final Map<Label.ID, String> labelMap = labels.stream().collect(Collectors.toMap(Label::id, Label::title));
                                     final Map<User.ID, String> userMap = users.stream().collect(Collectors.toMap(User::id, User::displayName));
                                     final StringBuilder sb = new StringBuilder();
-                                    sb.append("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n");
-                                    sb.append("<office:document xmlns:office=\"urn:oasis:names:tc:opendocument:xmlns:office:1.0\"\n");
-                                    sb.append("                 xmlns:text=\"urn:oasis:names:tc:opendocument:xmlns:text:1.0\"\n");
-                                    sb.append("                 office:mimetype=\"application/vnd.oasis.opendocument.text\"\n");
-                                    sb.append("                 office:version=\"1.2\">\n");
-                                    sb.append("  <office:body>\n");
-                                    sb.append("    <office:text>\n");
+                                    sb.append("""
+                                            <?xml version="1.0" encoding="UTF-8"?>
+                                            <office:document xmlns:office="urn:oasis:names:tc:opendocument:xmlns:office:1.0"
+                                                             xmlns:text="urn:oasis:names:tc:opendocument:xmlns:text:1.0"
+                                                             office:mimetype="application/vnd.oasis.opendocument.text"
+                                                             office:version="1.2">
+                                              <office:body>
+                                                <office:text>
+                                            """);
                                     sb.append("      <text:h text:outline-level=\"1\">").append(escapeXml(board.title())).append("</text:h>\n");
-                                    for (Map.Entry<Column, List<Card>> entry : cardsByColumn.entrySet()) {
-                                        sb.append("      <text:h text:outline-level=\"2\">").append(escapeXml(entry.getKey().title())).append("</text:h>\n");
-                                        for (Card card : entry.getValue()) {
+                                    cardsByColumn.forEach((column, cards) -> {
+                                        sb.append("      <text:h text:outline-level=\"2\">").append(escapeXml(column.title())).append("</text:h>\n");
+                                        for (Card card : cards) {
                                             sb.append("      <text:h text:outline-level=\"3\">").append(escapeXml(card.title())).append("</text:h>\n");
                                             if (!card.labels().isEmpty()) {
-                                                sb.append("      <text:p>Labels: ").append(escapeXml(card.labels().stream().map(id -> labelMap.getOrDefault(id, String.valueOf(id.value()))).collect(Collectors.joining(", ")))).append("</text:p>\n");
+                                                sb.append("      <text:p>Labels: ").append(escapeXml(card.labels().stream().map(id -> labelMap.getOrDefault(id, id.value() + "")).collect(Collectors.joining(", ")))).append("</text:p>\n");
                                             }
                                             if (!card.assignees().isEmpty()) {
-                                                sb.append("      <text:p>Assignees: ").append(escapeXml(card.assignees().stream().map(id -> userMap.getOrDefault(id, String.valueOf(id.value()))).collect(Collectors.joining(", ")))).append("</text:p>\n");
+                                                sb.append("      <text:p>Assignees: ").append(escapeXml(card.assignees().stream().map(id -> userMap.getOrDefault(id, id.value() + "")).collect(Collectors.joining(", ")))).append("</text:p>\n");
                                             }
                                             sb.append("      <text:p>").append(escapeXml(card.description())).append("</text:p>\n");
                                         }
-                                    }
-                                    sb.append("    </office:text>\n");
-                                    sb.append("  </office:body>\n");
-                                    sb.append("</office:document>");
+                                    });
+                                    sb.append("""
+                                                </office:text>
+                                              </office:body>
+                                            </office:document>""");
                                     return sb.toString();
                                 }
                         ))

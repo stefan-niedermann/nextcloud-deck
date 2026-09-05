@@ -21,11 +21,4 @@ public class GetCardUseCase {
         return cardRepository.getCard(cardId);
     }
 
-//    public Flow.Publisher<List<Card>> execute(long cardRemoteId, String host) {
-//        return cardRepository.getCard(cardId);
-//    }
-//
-//    public Flow.Publisher<List<Card>> execute(long cardRemoteId, String host, String accountName) {
-//        return cardRepository.getCard(cardId);
-//    }
 }

@@ -1,3 +1,5 @@
+import java.net.URI
+
 plugins {
     java
     application
@@ -11,6 +13,7 @@ java {
     }
     modularity.inferModulePath.set(false)
 }
+
 
 application {
     mainClass.set("it.niedermann.nextcloud.deck.javafx.Launcher")
@@ -28,12 +31,17 @@ val flexganttfxZip = flexganttfxDir.map { it.file("flexganttfx.zip") }
 val flexganttfxExtractDir = flexganttfxDir.map { it.dir("extracted") }
 
 val downloadFlexGanttFX = tasks.register("downloadFlexGanttFX") {
-    outputs.file(flexganttfxZip)
+    val zipFile = flexganttfxZip
+    val url = flexganttfxUrl
+    outputs.file(zipFile)
     doLast {
-        flexganttfxDir.get().asFile.mkdirs()
-        println("Downloading FlexGanttFX from $flexganttfxUrl ...")
-        ant.withGroovyBuilder {
-            "get"("src" to flexganttfxUrl, "dest" to flexganttfxZip.get().asFile)
+        val dest = zipFile.get().asFile
+        dest.parentFile.mkdirs()
+        println("Downloading FlexGanttFX from $url ...")
+        URI.create(url).toURL().openStream().use { input ->
+            dest.outputStream().use { output ->
+                input.copyTo(output)
+            }
         }
     }
 }
@@ -123,5 +131,12 @@ tasks.named<Tar>("distTar") {
 }
 
 tasks.withType<AbstractArchiveTask>().configureEach {
-    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+    if (this !is com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar) {
+        duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+    }
+}
+
+tasks.named<com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar>("shadowJar") {
+    duplicatesStrategy = DuplicatesStrategy.INCLUDE
+    mergeServiceFiles()
 }

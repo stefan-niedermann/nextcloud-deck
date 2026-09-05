@@ -17,7 +17,6 @@ import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.toRoute
 import dagger.hilt.android.AndroidEntryPoint
@@ -62,7 +61,7 @@ class MainActivity : ComponentActivity() {
             CompositionLocalProvider(LocalColorUtil provides colorUtil) {
                 NextcloudDeckTheme {
                     if (isInitialized) {
-                        val startDestination = if (currentAccountId != null && hasAccounts) {
+                        val startDestination = if ((currentAccountId != null) && hasAccounts) {
                             val boardId = currentBoardId
                             if (boardId != null) {
                                 BoardViewRoute(boardId.value)
@@ -83,10 +82,9 @@ class MainActivity : ComponentActivity() {
 @Composable
 fun AppNavigation(
     startDestination: Any,
-    mainViewModel: MainActivityViewModel
+    mainViewModel: MainActivityViewModel,
 ) {
     val navController = rememberNavController()
-    val navBackStackEntry by navController.currentBackStackEntryAsState()
 
     // Redirect to login if all accounts are deleted
     val hasAccounts by mainViewModel.hasAccounts.collectAsStateWithLifecycle()

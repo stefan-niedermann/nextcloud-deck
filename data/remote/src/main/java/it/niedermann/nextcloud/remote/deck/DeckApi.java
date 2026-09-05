@@ -31,6 +31,7 @@ import retrofit2.http.Query;
 /**
  * @link <a href="https://deck.readthedocs.io/en/latest/API/">Deck REST API</a>
  */
+@SuppressWarnings("unused")
 public interface DeckApi {
 
     String MODIFIED_SINCE_HEADER = "If-Modified-Since";

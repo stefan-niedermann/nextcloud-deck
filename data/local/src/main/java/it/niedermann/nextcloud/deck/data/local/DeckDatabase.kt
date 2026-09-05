@@ -70,7 +70,7 @@ import kotlin.io.path.absolutePathString
         JoinBoardWithUserEntity::class,
         JoinCardWithLabelEntity::class,
         JoinCardWithUserEntity::class,
-        JoinCardWithDependentCardEntity::class
+        JoinCardWithDependentCardEntity::class,
     ],
     exportSchema = true
 )
@@ -108,32 +108,36 @@ abstract class DeckDatabase : RoomDatabase() {
         fun getDatabaseBuilder(path: Path): Builder<DeckDatabase> {
             return Room.databaseBuilder<DeckDatabase>(name = path.absolutePathString())
                 .setDriver(BundledSQLiteDriver())
-                .addCallback(object : Callback() {
-                    override suspend fun onCreate(connection: SQLiteConnection) {
-                        connection.execSQL("INSERT INTO Account (id, url, username, token, accountName, serverVersion, themingColor, commentsEnabled, activityEnabled) VALUES (-1, 'http://localhost', 'conflict_system', '', 'Conflict System', NULL, NULL, 0, 0)")
-                        connection.execSQL("INSERT INTO Permission (id) VALUES (1)")
-                        connection.execSQL("INSERT INTO Permission (id) VALUES (2)")
-                        connection.execSQL("INSERT INTO Permission (id) VALUES (3)")
-                        connection.execSQL("INSERT INTO Permission (id) VALUES (4)")
-                    }
-                })
-                .fallbackToDestructiveMigration(true)
+                .addCallback(
+                    object : Callback() {
+                        override suspend fun onCreate(connection: SQLiteConnection) {
+                            connection.execSQL("INSERT INTO Account (id, url, username, token, accountName, serverVersion, themingColor, commentsEnabled, activityEnabled) VALUES (-1, 'http://localhost', 'conflict_system', '', 'Conflict System', NULL, NULL, 0, 0)")
+                            connection.execSQL("INSERT INTO Permission (id) VALUES (1)")
+                            connection.execSQL("INSERT INTO Permission (id) VALUES (2)")
+                            connection.execSQL("INSERT INTO Permission (id) VALUES (3)")
+                            connection.execSQL("INSERT INTO Permission (id) VALUES (4)")
+                        }
+                    },
+                )
+                .fallbackToDestructiveMigration(dropAllTables = true)
                 .setQueryCoroutineContext(Dispatchers.IO)
         }
 
         fun getInMemoryDatabaseBuilder(): Builder<DeckDatabase> {
             return Room.inMemoryDatabaseBuilder<DeckDatabase>()
                 .setDriver(BundledSQLiteDriver())
-                .addCallback(object : Callback() {
-                    override suspend fun onCreate(connection: SQLiteConnection) {
-                        connection.execSQL("INSERT INTO Account (id, url, username, token, accountName, serverVersion, themingColor, commentsEnabled, activityEnabled) VALUES (-1, 'http://localhost', 'conflict_system', '', 'Conflict System', NULL, NULL, 0, 0)")
-                        connection.execSQL("INSERT INTO Permission (id) VALUES (1)")
-                        connection.execSQL("INSERT INTO Permission (id) VALUES (2)")
-                        connection.execSQL("INSERT INTO Permission (id) VALUES (3)")
-                        connection.execSQL("INSERT INTO Permission (id) VALUES (4)")
-                    }
-                })
-                .fallbackToDestructiveMigration(true)
+                .addCallback(
+                    object : Callback() {
+                        override suspend fun onCreate(connection: SQLiteConnection) {
+                            connection.execSQL("INSERT INTO Account (id, url, username, token, accountName, serverVersion, themingColor, commentsEnabled, activityEnabled) VALUES (-1, 'http://localhost', 'conflict_system', '', 'Conflict System', NULL, NULL, 0, 0)")
+                            connection.execSQL("INSERT INTO Permission (id) VALUES (1)")
+                            connection.execSQL("INSERT INTO Permission (id) VALUES (2)")
+                            connection.execSQL("INSERT INTO Permission (id) VALUES (3)")
+                            connection.execSQL("INSERT INTO Permission (id) VALUES (4)")
+                        }
+                    },
+                )
+                .fallbackToDestructiveMigration(dropAllTables = true)
                 .setQueryCoroutineContext(Dispatchers.IO)
         }
 

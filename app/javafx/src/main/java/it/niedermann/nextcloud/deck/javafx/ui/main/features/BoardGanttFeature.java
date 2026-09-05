@@ -91,10 +91,12 @@ public class BoardGanttFeature extends AbstractFeature {
                                 return Flowable.just(List.<PreviewCard>of());
                             }
                             return Flowable.combineLatest(cardFlowables, args -> {
-                                return java.util.Arrays.stream(args)
+                                @SuppressWarnings("unchecked")
+                                final List<PreviewCard> allCards = java.util.Arrays.stream(args)
                                         .flatMap(arg -> ((List<PreviewCard>) arg).stream())
                                         .filter(card -> card.startDate() != null || card.dueDate() != null)
                                         .collect(Collectors.toList());
+                                return allCards;
                             });
                         }))
                 .observeOn(JavaFxScheduler.platform())

@@ -49,8 +49,8 @@ public class ExportCardUseCase {
                                                 (labels, users) -> {
                                                     final Map<Label.ID, String> labelMap = labels.stream().collect(Collectors.toMap(Label::id, Label::title));
                                                     final Map<User.ID, String> userMap = users.stream().collect(Collectors.toMap(User::id, User::displayName));
-                                                    final List<String> labelNames = card.labels().stream().map(id -> labelMap.getOrDefault(id, String.valueOf(id.value()))).collect(Collectors.toList());
-                                                    final List<String> assigneeNames = card.assignees().stream().map(id -> userMap.getOrDefault(id, String.valueOf(id.value()))).collect(Collectors.toList());
+                                                    final List<String> labelNames = card.labels().stream().map(id -> labelMap.getOrDefault(id, id.value() + "")).collect(Collectors.toList());
+                                                    final List<String> assigneeNames = card.assignees().stream().map(id -> userMap.getOrDefault(id, id.value() + "")).collect(Collectors.toList());
                                                     return FlowAdapters.toPublisher(exportRepository.exportCardToPdf(card, labelNames, assigneeNames));
                                                 }
                                         ).flatMap(f -> f))
@@ -71,24 +71,27 @@ public class ExportCardUseCase {
                                                     final Map<Label.ID, String> labelMap = labels.stream().collect(Collectors.toMap(Label::id, Label::title));
                                                     final Map<User.ID, String> userMap = users.stream().collect(Collectors.toMap(User::id, User::displayName));
                                                     final StringBuilder sb = new StringBuilder();
-                                                    sb.append("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n");
-                                                    sb.append("<office:document xmlns:office=\"urn:oasis:names:tc:opendocument:xmlns:office:1.0\"\n");
-                                                    sb.append("                 xmlns:text=\"urn:oasis:names:tc:opendocument:xmlns:text:1.0\"\n");
-                                                    sb.append("                 office:mimetype=\"application/vnd.oasis.opendocument.text\"\n");
-                                                    sb.append("                 office:version=\"1.2\">\n");
-                                                    sb.append("  <office:body>\n");
-                                                    sb.append("    <office:text>\n");
+                                                    sb.append("""
+                                                            <?xml version="1.0" encoding="UTF-8"?>
+                                                            <office:document xmlns:office="urn:oasis:names:tc:opendocument:xmlns:office:1.0"
+                                                                             xmlns:text="urn:oasis:names:tc:opendocument:xmlns:text:1.0"
+                                                                             office:mimetype="application/vnd.oasis.opendocument.text"
+                                                                             office:version="1.2">
+                                                              <office:body>
+                                                                <office:text>
+                                                            """);
                                                     sb.append("      <text:h text:outline-level=\"1\">").append(escapeXml(card.title())).append("</text:h>\n");
                                                     if (!card.labels().isEmpty()) {
-                                                        sb.append("      <text:p>Labels: ").append(escapeXml(card.labels().stream().map(id -> labelMap.getOrDefault(id, String.valueOf(id.value()))).collect(Collectors.joining(", ")))).append("</text:p>\n");
+                                                        sb.append("      <text:p>Labels: ").append(escapeXml(card.labels().stream().map(id -> labelMap.getOrDefault(id, id.value() + "")).collect(Collectors.joining(", ")))).append("</text:p>\n");
                                                     }
                                                     if (!card.assignees().isEmpty()) {
-                                                        sb.append("      <text:p>Assignees: ").append(escapeXml(card.assignees().stream().map(id -> userMap.getOrDefault(id, String.valueOf(id.value()))).collect(Collectors.joining(", ")))).append("</text:p>\n");
+                                                        sb.append("      <text:p>Assignees: ").append(escapeXml(card.assignees().stream().map(id -> userMap.getOrDefault(id, id.value() + "")).collect(Collectors.joining(", ")))).append("</text:p>\n");
                                                     }
                                                     sb.append("      <text:p>").append(escapeXml(card.description())).append("</text:p>\n");
-                                                    sb.append("    </office:text>\n");
-                                                    sb.append("  </office:body>\n");
-                                                    sb.append("</office:document>");
+                                                    sb.append("""
+                                                                </office:text>
+                                                              </office:body>
+                                                            </office:document>""");
                                                     return sb.toString();
                                                 }
                                         ))))
