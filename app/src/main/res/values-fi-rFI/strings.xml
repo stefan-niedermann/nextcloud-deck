@@ -15,6 +15,7 @@
     <string name="simple_reset">Palauta</string>
     <string name="simple_discard">Hylkää</string>
     <string name="simple_update">Päivitä</string>
+    <string name="simple_export">Vie</string>
     <string name="simple_delete">Poista</string>
     <string name="simple_rename">Nimeä uudelleen</string>
     <string name="simple_settings">Asetukset</string>

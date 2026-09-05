@@ -17,6 +17,7 @@
     <string name="simple_reset">Tilbakestill</string>
     <string name="simple_discard">Slett</string>
     <string name="simple_update">Oppdater</string>
+    <string name="simple_export">Eksporter</string>
     <string name="simple_delete">Slett</string>
     <string name="simple_rename">Endre navn</string>
     <string name="simple_settings">Innstillinger</string>

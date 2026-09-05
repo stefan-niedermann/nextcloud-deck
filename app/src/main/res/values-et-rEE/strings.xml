@@ -17,6 +17,7 @@
     <string name="simple_reset">Lähtesta</string>
     <string name="simple_discard">Loobu</string>
     <string name="simple_update">Uuenda</string>
+    <string name="simple_export">Ekspordi</string>
     <string name="simple_delete">Kustuta</string>
     <string name="simple_rename">Muuda nime</string>
     <string name="simple_settings">Seadistused</string>

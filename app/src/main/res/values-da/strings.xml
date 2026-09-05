@@ -17,6 +17,7 @@
     <string name="simple_reset">Nulstil</string>
     <string name="simple_discard">Kassér</string>
     <string name="simple_update">Opdatér</string>
+    <string name="simple_export">Eksportér</string>
     <string name="simple_delete">Slet</string>
     <string name="simple_rename">Omdøb</string>
     <string name="simple_settings">Indstillinger</string>
@@ -335,4 +336,5 @@
     <string name="label_color">Farve</string>
     <string name="choose_color">Vælg farve</string>
 
+    <string name="simple_restore">Gendan</string>
     </resources>

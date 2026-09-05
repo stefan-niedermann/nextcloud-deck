@@ -17,6 +17,7 @@
     <string name="simple_reset">Réinitialiser</string>
     <string name="simple_discard">ignorer</string>
     <string name="simple_update">Mettre à jour</string>
+    <string name="simple_export">Exporter</string>
     <string name="simple_delete">Supprimer</string>
     <string name="simple_rename">Renommer</string>
     <string name="simple_settings">Paramètres</string>
@@ -347,7 +348,24 @@
     <string name="label_clear_color">Effacer la couleur</string>
     <string name="choose_color">Sélectionnez une couleur</string>
 
+    <string name="settings_restore_server">EXPÉRIMENTAL : Restaurer le serveur depuis une copie locale</string>
     <string name="settings_restore_server_summary">DANGER : remplace les données du serveur par celles de la copie locale. Nécessite une reconnexion et un redémarrage de l\'application.</string>
+    <string name="restore_warning_title">EXPÉRIMENTAL : Restaurer les données du serveur ?</string>
     <string name="simple_restore">Restaurer</string>
+    <string name="restore_warning_message">Cela va remplacer toutes les données du serveur pour ce compte par celles de la copie locale.\n\nPrérequis :\n- Le compte utilisateur existe sur le serveur\n- Tous les membres du tableau existent sur le serveur\n- L\'application Nextcloud Fichiers est connectée\n\nPièces jointes :\nCertaines pièces jointes peuvent ne pas être disponibles en local et ne pourront donc pas être téléversées vers le nouveau serveur.\n\nUtilisateurs qui doivent exister sur le serveur :\n%1$s\n\nL\'application va redémarrer maintenant.</string>
     <string name="restore_backup_failed">Échec de la sauvegarde de la base de données. La restauration est annulée.</string>
-    </resources>
+    <string name="settings_restore_local_backup">EXPÉRIMENTAL : Restaurer depuis une sauvegarde locale</string>
+    <string name="settings_restore_local_backup_summary">Restaure la base de données depuis le dernier fichier de sauvegarde.</string>
+    <string name="restore_local_backup_warning_title">EXPÉRIMENTAL : Restaurer depuis une sauvegarde ?</string>
+    <string name="restore_local_backup_warning_message">Cela remplacera votre base de données actuelle par la dernière sauvegarde. Les données actuelles seront perdues.</string>
+    <string name="restore_local_backup_success">Base de données restaurée. L\'application va redémarrer maintenant.</string>
+    <string name="restore_local_backup_failed">La restauration de la base de données a échoué.</string>
+    <string name="settings_create_local_backup">EXPÉRIMENTAL : Créer une sauvegarde locale</string>
+    <string name="settings_create_local_backup_summary">Crée une sauvegarde de la base de données actuelle.</string>
+    <string name="create_local_backup_success">Sauvegarde créée avec succès.</string>
+    <string name="create_local_backup_failed">La sauvegarde a échoué.</string>
+    <string name="settings_export_database">EXPÉRIMENTAL : Exporter le fichier de la base de données</string>
+    <string name="settings_export_database_summary">Copie le fichier de la base de données à l\'emplacement de votre choix.</string>
+    <string name="export_database_failed">L\'exportation a échoué.</string>
+    <string name="export_database_success">Base de données exportée avec succès.</string>
+</resources>

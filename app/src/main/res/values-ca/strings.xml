@@ -17,6 +17,7 @@
     <string name="simple_reset">Reinicialitza</string>
     <string name="simple_discard">Descarta\'l</string>
     <string name="simple_update">Actualitza</string>
+    <string name="simple_export">Exporta</string>
     <string name="simple_delete">Eliminar</string>
     <string name="simple_rename">Canvia\'n el nom</string>
     <string name="simple_settings">Paràmetres</string>
@@ -333,4 +334,5 @@
     <string name="no_search_results_title">No s\'han trobat resultats</string>
     <string name="no_search_results_description">No s\'ha trobat cap resultat per al terme de cerca indicat</string>
     <string name="label_color">Color</string>
+    <string name="simple_restore">Restaura</string>
     </resources>

@@ -17,6 +17,7 @@
     <string name="simple_reset">بازنشاندن</string>
     <string name="simple_discard">لغو تغییرات</string>
     <string name="simple_update">به روز رسانی</string>
+    <string name="simple_export">خروجی</string>
     <string name="simple_delete">حذف</string>
     <string name="simple_rename">تغییرنام</string>
     <string name="simple_settings">تنظیمات</string>

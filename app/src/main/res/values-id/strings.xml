@@ -17,6 +17,7 @@
     <string name="simple_reset">Setel ulang</string>
     <string name="simple_discard">Abaikan</string>
     <string name="simple_update">Perbarui</string>
+    <string name="simple_export">Ekspor</string>
     <string name="simple_delete">Hapus</string>
     <string name="simple_rename">Ubah nama</string>
     <string name="simple_settings">Setelan</string>

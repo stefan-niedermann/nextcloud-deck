@@ -17,6 +17,7 @@
     <string name="simple_reset">Berrezarri</string>
     <string name="simple_discard">Baztertu</string>
     <string name="simple_update">Eguneratu</string>
+    <string name="simple_export">Esportatu</string>
     <string name="simple_delete">Ezabatu</string>
     <string name="simple_rename">Aldatu izena</string>
     <string name="simple_settings">Ezarpenak</string>

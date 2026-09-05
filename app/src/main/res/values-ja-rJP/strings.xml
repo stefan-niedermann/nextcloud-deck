@@ -17,6 +17,7 @@
     <string name="simple_reset">リセット</string>
     <string name="simple_discard">破棄</string>
     <string name="simple_update">更新</string>
+    <string name="simple_export">エクスポート</string>
     <string name="simple_delete">削除</string>
     <string name="simple_rename">名前変更</string>
     <string name="simple_settings">設定</string>

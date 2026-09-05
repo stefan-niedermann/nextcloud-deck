@@ -17,6 +17,7 @@
     <string name="simple_reset">重設</string>
     <string name="simple_discard">取消</string>
     <string name="simple_update">更新</string>
+    <string name="simple_export">匯出</string>
     <string name="simple_delete">刪除</string>
     <string name="simple_rename">重新命名</string>
     <string name="simple_settings">設定</string>
@@ -339,5 +340,24 @@
     <string name="label_clear_color">清除顏色</string>
     <string name="choose_color">選擇顏色</string>
 
+    <string name="settings_restore_server">實驗性功能：從本機副本還原伺服器</string>
+    <string name="settings_restore_server_summary">危險：以本機副本覆寫伺服器資料。需要重新登入並重新啟動應用程式。</string>
+    <string name="restore_warning_title">實驗性功能：還原伺服器資料？</string>
     <string name="simple_restore">還原</string>
-    </resources>
+    <string name="restore_warning_message">這會以你的本機副本覆寫此帳戶在伺服器上的所有資料。\n\n要求：\n- 用戶帳戶已存在於伺服器上\n- 所有看板成員均已存在於伺服器上\n- 已登入 Nextcloud Files 應用程式\n\n附件：\n部分附件可能無法在本機取得，因此無法上載至新伺服器。\n\n必須存在於伺服器上的用戶：\n%1$s\n\n應用程式現在將重新啟動。</string>
+    <string name="restore_backup_failed">資料庫備份失敗。已取消還原。</string>
+    <string name="settings_restore_local_backup">實驗性功能：從本機備份還原</string>
+    <string name="settings_restore_local_backup_summary">從上一個備份檔案還原資料庫。</string>
+    <string name="restore_local_backup_warning_title">實驗性功能：從備份還原？</string>
+    <string name="restore_local_backup_warning_message">這會以上一個備份取代目前的資料庫。目前的資料將會遺失。</string>
+    <string name="restore_local_backup_success">資料庫已還原。應用程式現在將重新啟動。</string>
+    <string name="restore_local_backup_failed">資料庫還原失敗。</string>
+    <string name="settings_create_local_backup">實驗性功能：建立本機備份</string>
+    <string name="settings_create_local_backup_summary">建立目前資料庫的備份。</string>
+    <string name="create_local_backup_success">已成功建立備份。</string>
+    <string name="create_local_backup_failed">備份失敗。</string>
+    <string name="settings_export_database">實驗性功能：匯出資料庫檔案</string>
+    <string name="settings_export_database_summary">將資料庫檔案複製至你選擇的位置。</string>
+    <string name="export_database_failed">匯出失敗。</string>
+    <string name="export_database_success">已成功匯出資料庫。</string>
+</resources>

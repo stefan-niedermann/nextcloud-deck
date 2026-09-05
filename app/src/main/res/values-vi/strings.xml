@@ -17,6 +17,7 @@
     <string name="simple_reset">Đặt lại</string>
     <string name="simple_discard">Không lưu</string>
     <string name="simple_update">Chỉnh sửa</string>
+    <string name="simple_export">Xuất ra</string>
     <string name="simple_delete">Xóa</string>
     <string name="simple_rename">Đổi tên</string>
     <string name="simple_settings">Thiết lập</string>

@@ -17,6 +17,7 @@
     <string name="simple_reset">Reset</string>
     <string name="simple_discard">Discard</string>
     <string name="simple_update">Update</string>
+    <string name="simple_export">Export</string>
     <string name="simple_delete">Delete</string>
     <string name="simple_rename">Rename</string>
     <string name="simple_settings">Settings</string>
@@ -343,5 +344,24 @@
     <string name="label_clear_color">Clear colour</string>
     <string name="choose_color">Choose colour</string>
 
+    <string name="settings_restore_server">EXPERIMENTAL: Restore server from local copy</string>
+    <string name="settings_restore_server_summary">DANGER: Overwrites server data with local copy. Requires re-login and app restart.</string>
+    <string name="restore_warning_title">EXPERIMENTAL: Restore server data?</string>
     <string name="simple_restore">Restore</string>
-    </resources>
+    <string name="restore_warning_message">This will overwrite all data on the server for this account with your local copy.\n\nRequirements:\n- User account exists on server\n- All board members exist on server\n- Logged into Nextcloud Files app\n\nAttachments:\nNot all attachments might be available locally and thus cannot be uploaded to the new server.\n\nUsers that must exist on server:\n%1$s\n\nThe app will restart now.</string>
+    <string name="restore_backup_failed">Database backup failed. Restore cancelled.</string>
+    <string name="settings_restore_local_backup">EXPERIMENTAL: Restore from local backup</string>
+    <string name="settings_restore_local_backup_summary">Restores the database from the last backup file.</string>
+    <string name="restore_local_backup_warning_title">EXPERIMENTAL: Restore from backup?</string>
+    <string name="restore_local_backup_warning_message">This will replace your current database with the last backup. Current data will be lost.</string>
+    <string name="restore_local_backup_success">Database restored. The app will restart now.</string>
+    <string name="restore_local_backup_failed">Database restore failed.</string>
+    <string name="settings_create_local_backup">EXPERIMENTAL: Create local backup</string>
+    <string name="settings_create_local_backup_summary">Creates a backup of the current database.</string>
+    <string name="create_local_backup_success">Backup created successfully.</string>
+    <string name="create_local_backup_failed">Backup failed.</string>
+    <string name="settings_export_database">EXPERIMENTAL: Export database file</string>
+    <string name="settings_export_database_summary">Copies the database file to a location of your choice.</string>
+    <string name="export_database_failed">Export failed.</string>
+    <string name="export_database_success">Database exported successfully.</string>
+</resources>

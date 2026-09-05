@@ -17,6 +17,7 @@
     <string name="simple_reset">Återställ</string>
     <string name="simple_discard">Ignorera</string>
     <string name="simple_update">Uppdatera</string>
+    <string name="simple_export">Exportera</string>
     <string name="simple_delete">Ta bort</string>
     <string name="simple_rename">Byt namn</string>
     <string name="simple_settings">Inställningar</string>
@@ -343,7 +344,24 @@
     <string name="label_clear_color">Rensa färg</string>
     <string name="choose_color">Välj färg</string>
 
+    <string name="settings_restore_server">EXPERIMENTELLT: Återställ server från lokal kopia</string>
     <string name="settings_restore_server_summary">FARA: Skriver över serverdata med den lokala kopian. Kräver ny inloggning och omstart av appen.</string>
+    <string name="restore_warning_title">EXPERIMENTELLT: Återställ serverdata?</string>
     <string name="simple_restore">Återställ</string>
+    <string name="restore_warning_message">Detta skriver över alla serverdata för detta konto med din lokala kopia.\n\nKrav:\n- Användarkontot finns på servern\n- Alla anslagstavlors medlemmar finns på servern\n- Du är inloggad i appen Nextcloud Filer\n\nBilagor:\nAlla bilagor kanske inte är tillgängliga lokalt och kan därför inte laddas upp till den nya servern.\n\nAnvändare som måste finnas på servern:\n%1$s\n\nAppen startas nu om.</string>
     <string name="restore_backup_failed">Säkerhetskopieringen av databasen misslyckades. Återställningen avbröts.</string>
-    </resources>
+    <string name="settings_restore_local_backup">EXPERIMENTELLT: Återställ från lokal säkerhetskopia</string>
+    <string name="settings_restore_local_backup_summary">Återställer databasen från den senaste säkerhetskopian.</string>
+    <string name="restore_local_backup_warning_title">EXPERIMENTELLT: Återställ från säkerhetskopia?</string>
+    <string name="restore_local_backup_warning_message">Detta ersätter den aktuella databasen med den senaste säkerhetskopian. Aktuella data går förlorade.</string>
+    <string name="restore_local_backup_success">Databasen återställdes. Appen startas nu om.</string>
+    <string name="restore_local_backup_failed">Det gick inte att återställa databasen.</string>
+    <string name="settings_create_local_backup">EXPERIMENTELLT: Skapa lokal säkerhetskopia</string>
+    <string name="settings_create_local_backup_summary">Skapar en säkerhetskopia av den aktuella databasen.</string>
+    <string name="create_local_backup_success">Säkerhetskopian skapades.</string>
+    <string name="create_local_backup_failed">Det gick inte att skapa säkerhetskopian.</string>
+    <string name="settings_export_database">EXPERIMENTELLT: Exportera databasfil</string>
+    <string name="settings_export_database_summary">Kopierar databasfilen till en plats du väljer.</string>
+    <string name="export_database_failed">Exporten misslyckades.</string>
+    <string name="export_database_success">Databasen exporterades.</string>
+</resources>

@@ -17,6 +17,7 @@
     <string name="simple_reset">Athshocraigh</string>
     <string name="simple_discard">Caith amach</string>
     <string name="simple_update">Nuashonrú</string>
+    <string name="simple_export">Easpórtáil</string>
     <string name="simple_delete">Scrios</string>
     <string name="simple_rename">Athainmnigh</string>
     <string name="simple_settings">Socruithe</string>

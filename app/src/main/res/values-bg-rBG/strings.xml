@@ -17,6 +17,7 @@
     <string name="simple_reset">Възстановяване</string>
     <string name="simple_discard">Отхвърляне</string>
     <string name="simple_update">Обновяване</string>
+    <string name="simple_export">Експорт /изнасям/</string>
     <string name="simple_delete">Изтриване</string>
     <string name="simple_rename">Преименувай</string>
     <string name="simple_settings">Настройки</string>
@@ -335,4 +336,5 @@
     <string name="label_color">Цвят</string>
     <string name="choose_color">Избор на цвят</string>
 
+    <string name="simple_restore">Възстановяне</string>
     </resources>

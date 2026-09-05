@@ -17,6 +17,7 @@
     <string name="simple_reset">Resetovať</string>
     <string name="simple_discard">Odstrániť</string>
     <string name="simple_update">Aktualizovať</string>
+    <string name="simple_export">Export</string>
     <string name="simple_delete">Zmazať</string>
     <string name="simple_rename">Premenovať</string>
     <string name="simple_settings">Nastavenia</string>
@@ -214,7 +215,9 @@
     <string name="error_edit_activity_killed_by_android">Android ukončil úpravy, pretože viac systémových prostriedkov potreboval pre ďalšie aplikácie.</string>
 
     <string name="error_dialog_title">Ale nie - Čo teraz? 🙁</string>
+    <string name="error_dialog_tip_parsing_failed">Odpoveď vášho servera sa nepodarilo spracovať podľa očakávaní. Uistite sa, že máte na serveri Nextcloud povolenú aplikáciu Deck.</string>
     <string name="error_dialog_tip_token_mismatch_retry">Skúste vyinútiť zatvorenie aplikácie a znova ju reštartovať. Možno došlo k chybnému pripojeniu k aplikácii Nextcloud.</string>
+    <string name="error_dialog_tip_clear_storage_might_help">Ak problém pretrváva, skúste vymazať úložisko oboch aplikácií – Nextcloud aj Nextcloud Deck – a znova importovať svoje konto.</string>
     <string name="error_dialog_tip_database_upgrade_failed">Aktualizácia databázy zlyhala. Nahláste problém a vymažte ukladací priestor, aby ste aplikáciu mohli normálne používať.</string>
     <string name="error_dialog_tip_clear_storage">Úložisko môžete vyčistiť otvorením informácii o aplikácii a výberom Úložisko → Vyčistiť úložisko.</string>
     <string name="error_dialog_tip_offline_no_internet">Vyzerá, že sa snažíte spustiť synchronizáciu bez pripojenia k internetu.</string>
@@ -231,6 +234,7 @@
     <string name="error_dialog_check_maintenance">Prosím skontrolujte, či vaša inštancia Nextcloudu nie je práve v móde údržby.</string>
     <string name="error_dialog_insufficient_storage">Vo vašej inštancii Nexcloudu nie je na úložisku voľné miesto. Aby bolo možné synchronizovať vaše miestne zmeny s vaším cloudom, je potrebné najprv zmazať niektoré súbory.</string>
     <string name="error_dialog_we_need_info">Aby sme vám pomohli, potrebujeme následovné technické informácie:</string>
+    <string name="error_dialog_redirect">Váš server odpovedal stavovým kódom HTTP 302, čo naznačuje, že na serveri nemáte nainštalovanú aplikáciu Deck alebo je niečo nesprávne nastavené. Môžu to spôsobovať vlastné nastavenia v súbore .htaccess alebo aplikácie Nextcloudu, napríklad OID Client.</string>
     <string name="error_dialog_version_not_parsable">Nepodarilo sa určiť verziu aplikácie Deck na strane servera. Skontrolujte, či je nainštalovaný a povolený.</string>
     <string name="error_dialog_account_might_not_be_authorized">Účet vašej aplikácie Nextcloud už nemusí byť autorizovaný.</string>
     <string name="error_dialog_user_not_found_in_database">Aktuálny používateľ sa nezhoduje s používateľom, ktorý máme v našej databáze. Ak používate server LDAP vo vašej inštancii Nextcloud, vaša aplikácia Nextcloud pravdepodobne uložila staré ID používateľa.</string>
@@ -343,8 +347,29 @@
     <string name="no_search_results_title">Žiadne výsledky vyhľadávania</string>
     <string name="no_search_results_description">Nenašli sme žiadne výsledky pre zadaný vyhľadávací výraz</string>
     <string name="label_no_startdate">Žiadny dátum začiatku</string>
+    <string name="label_dependent_cards">Závislé karty</string>
     <string name="label_color">Farba</string>
+    <string name="label_clear_color">Vymazať farbu</string>
     <string name="choose_color">Vyberte farbu</string>
 
+    <string name="settings_restore_server">EXPERIMENTÁLNE: Obnoviť server z lokálnej kópie</string>
+    <string name="settings_restore_server_summary">NEBEZPEČENSTVO: Prepíše údaje na serveri lokálnou kópiou. Vyžaduje opätovné prihlásenie a reštart aplikácie.</string>
+    <string name="restore_warning_title">EXPERIMENTÁLNE: Obnoviť údaje servera?</string>
     <string name="simple_restore">Obnoviť</string>
-    </resources>
+    <string name="restore_warning_message">Týmto sa všetky údaje tohto konta na serveri prepíšu vašou lokálnou kópiou.\n\nPožiadavky:\n- Používateľské konto existuje na serveri\n- Všetci členovia násteniek existujú na serveri\n- Ste prihlásení v aplikácii Nextcloud Files\n\nPrílohy:\nNiektoré prílohy nemusia byť dostupné lokálne, a preto ich nebude možné nahrať na nový server.\n\nPoužívatelia, ktorí musia existovať na serveri:\n%1$s\n\nAplikácia sa teraz reštartuje.</string>
+    <string name="restore_backup_failed">Zálohovanie databázy zlyhalo. Obnovenie bolo zrušené.</string>
+    <string name="settings_restore_local_backup">EXPERIMENTÁLNE: Obnoviť z lokálnej zálohy.</string>
+    <string name="settings_restore_local_backup_summary">Obnoví databázu z posledného súboru zálohy.</string>
+    <string name="restore_local_backup_warning_title">EXPERIMENTÁLNE: Obnoviť zo zálohy?</string>
+    <string name="restore_local_backup_warning_message">Týmto sa vaša aktuálna databáza nahradí poslednou zálohou. Aktuálne údaje sa stratia.</string>
+    <string name="restore_local_backup_success">Databáza bola obnovená. Aplikácia sa teraz reštartuje.</string>
+    <string name="restore_local_backup_failed">Obnovenie databázy zlyhalo.</string>
+    <string name="settings_create_local_backup">EXPERIMENTÁLNE: Vytvoriť lokálnu zálohu</string>
+    <string name="settings_create_local_backup_summary">Vytvorí zálohu aktuálnej databázy.</string>
+    <string name="create_local_backup_success">Záloha bola úspešne vytvorená.</string>
+    <string name="create_local_backup_failed">Zálohovanie zlyhalo.</string>
+    <string name="settings_export_database">EXPERIMENTÁLNE: Exportovať súbor databázy</string>
+    <string name="settings_export_database_summary">Skopíruje súbor databázy na vami zvolené miesto.</string>
+    <string name="export_database_failed">Export zlyhal.</string>
+    <string name="export_database_success">Databáza bola úspešne exportovaná.</string>
+</resources>

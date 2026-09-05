@@ -17,6 +17,7 @@
     <string name="simple_reset">Zurücksetzen</string>
     <string name="simple_discard">Verwerfen</string>
     <string name="simple_update">Aktualisieren</string>
+    <string name="simple_export">Exportieren</string>
     <string name="simple_delete">Löschen</string>
     <string name="simple_rename">Umbenennen</string>
     <string name="simple_settings">Einstellungen</string>
@@ -343,7 +344,24 @@
     <string name="label_clear_color">Farbe löschen</string>
     <string name="choose_color">Farbe wählen</string>
 
+    <string name="settings_restore_server">EXPERIMENTELL: Server aus lokaler Kopie wiederherstellen</string>
     <string name="settings_restore_server_summary">ACHTUNG: Überschreibt Serverdaten mit lokalen Kopien. Erfordert eine erneute Anmeldung und einen Neustart der App.</string>
+    <string name="restore_warning_title">EXPERIMENTELL: Serverdaten wiederherstellen?</string>
     <string name="simple_restore">Wiederherstellen</string>
+    <string name="restore_warning_message">Hierdurch werden alle Daten auf dem Server für dieses Konto mit Ihrer lokalen Kopie überschrieben.\n\nAnforderungen:\n- Benutzerkonto ist auf dem Server vorhanden\n- Alle Board-Mitglieder sind auf dem Server vorhanden\n- Bei Nextcloud Files-App angemeldet\n\nAnhänge:\nNicht alle Anhänge sind möglicherweise lokal verfügbar und können daher nicht auf den neuen Server hochgeladen werden.\n\nBenutzer, die auf dem Server vorhanden sein müssen:\n%1$s\n\nDie Anwendung wird jetzt neu gestartet.</string>
     <string name="restore_backup_failed">Datenbanksicherung fehlgeschlagen. Wiederherstellung abgebrochen.</string>
-    </resources>
+    <string name="settings_restore_local_backup">EXPERIMENTELL: Server aus lokaler Sicherung wiederherstellen</string>
+    <string name="settings_restore_local_backup_summary">Stellt die Datenbank aus der letzten Sicherungsdatei wieder her.</string>
+    <string name="restore_local_backup_warning_title">EXPERIMENTELL: Aus lokaler Sicherung wiederherstellen?</string>
+    <string name="restore_local_backup_warning_message">Dadurch wird Ihre aktuelle Datenbank durch die letzte Sicherung ersetzt. Ihre aktuellen Daten gehen dabei verloren.</string>
+    <string name="restore_local_backup_success">Die Datenbank wurde wiederhergestellt. Die App wird nun neu gestartet.</string>
+    <string name="restore_local_backup_failed">Die Wiederherstellung der Datenbank ist fehlgeschlagen.</string>
+    <string name="settings_create_local_backup">EXPERIMENTELL: Lokale Sicherung erstellen</string>
+    <string name="settings_create_local_backup_summary">Erstellt eine Sicherung der aktuellen Datenbank.</string>
+    <string name="create_local_backup_success">Backup erstellt.</string>
+    <string name="create_local_backup_failed">Backup fehlgeschlagen.</string>
+    <string name="settings_export_database">EXPERIMENTELL: Datenbankdatei exportieren</string>
+    <string name="settings_export_database_summary">Kopiert die Datenbankdatei an einen Ort Ihrer Wahl.</string>
+    <string name="export_database_failed">Export fehlgeschlagen</string>
+    <string name="export_database_success">Datenbank exportiert.</string>
+</resources>

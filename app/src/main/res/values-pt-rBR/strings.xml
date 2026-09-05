@@ -17,6 +17,7 @@
     <string name="simple_reset">Redefinir</string>
     <string name="simple_discard">Descartar</string>
     <string name="simple_update">Atualizar</string>
+    <string name="simple_export">Exportar</string>
     <string name="simple_delete">Excluir</string>
     <string name="simple_rename">Renomear</string>
     <string name="simple_settings">Configurações</string>
@@ -347,7 +348,23 @@
     <string name="label_clear_color">Limpar cor</string>
     <string name="choose_color">Escolher cor</string>
 
+    <string name="settings_restore_server">EXPERIMENTAL: Restaurar o servidor a partir de uma cópia local</string>
     <string name="settings_restore_server_summary">PERIGO: Substitui os dados do servidor pela cópia local. É necessário fazer login novamente e reiniciar o aplicativo.</string>
+    <string name="restore_warning_title">EXPERIMENTAL: Restaurar os dados do servidor?</string>
     <string name="simple_restore">Restaurar</string>
     <string name="restore_backup_failed">Falha no backup do banco de dados. Restauração cancelada.</string>
-    </resources>
+    <string name="settings_restore_local_backup">EXPERIMENTAL: Restaurar a partir de um backup local</string>
+    <string name="settings_restore_local_backup_summary">Restaura o banco de dados a partir do último arquivo de backup.</string>
+    <string name="restore_local_backup_warning_title">EXPERIMENTAL: Restaurar a partir do backup?</string>
+    <string name="restore_local_backup_warning_message">Isso substituirá seu banco de dados atual pelo último backup. Os dados atuais serão perdidos.</string>
+    <string name="restore_local_backup_success">O banco de dados foi restaurado. O aplicativo será reiniciado agora.</string>
+    <string name="restore_local_backup_failed">Falha ao restaurar o banco de dados</string>
+    <string name="settings_create_local_backup">EXPERIMENTAL: Criar backup local</string>
+    <string name="settings_create_local_backup_summary">Cria um backup do banco de dados atual.</string>
+    <string name="create_local_backup_success">Backup criado com êxito.</string>
+    <string name="create_local_backup_failed">Falha no backup.</string>
+    <string name="settings_export_database">EXPERIMENTAL: Exportar arquivo de banco de dados</string>
+    <string name="settings_export_database_summary">Copia o arquivo do banco de dados para o local de sua escolha.</string>
+    <string name="export_database_failed">Falha na exportação.</string>
+    <string name="export_database_success">Banco de dados exportado com êxito.</string>
+</resources>

@@ -17,6 +17,7 @@
     <string name="simple_reset">Vrátit na výchozí</string>
     <string name="simple_discard">Zahodit</string>
     <string name="simple_update">Aktualizovat</string>
+    <string name="simple_export">Exportovat</string>
     <string name="simple_delete">Smazat</string>
     <string name="simple_rename">Přejmenovat</string>
     <string name="simple_settings">Nastavení</string>
@@ -343,4 +344,5 @@
     <string name="label_color">Barva</string>
     <string name="choose_color">Zvolte barvu</string>
 
+    <string name="simple_restore">Obnovit</string>
     </resources>

@@ -17,6 +17,7 @@
     <string name="simple_reset">重置</string>
     <string name="simple_discard">丢弃</string>
     <string name="simple_update">更新</string>
+    <string name="simple_export">导出</string>
     <string name="simple_delete">删除</string>
     <string name="simple_rename">重命名</string>
     <string name="simple_settings">设置</string>

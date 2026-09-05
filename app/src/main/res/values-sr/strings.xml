@@ -17,6 +17,7 @@
     <string name="simple_reset">Ресетуј</string>
     <string name="simple_discard">Одбаци</string>
     <string name="simple_update">Ажурирај</string>
+    <string name="simple_export">Извези</string>
     <string name="simple_delete">Обриши</string>
     <string name="simple_rename">Преименуј</string>
     <string name="simple_settings">Поставке</string>

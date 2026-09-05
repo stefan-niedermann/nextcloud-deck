@@ -17,6 +17,7 @@
     <string name="simple_reset">Endurstilla</string>
     <string name="simple_discard">Fleygja</string>
     <string name="simple_update">Uppfæra</string>
+    <string name="simple_export">Flytja út</string>
     <string name="simple_delete">Eyða</string>
     <string name="simple_rename">Endurnefna</string>
     <string name="simple_settings">Stillingar</string>
@@ -342,7 +343,23 @@
     <string name="label_clear_color">Hreinsa lit</string>
     <string name="choose_color">Veldu lit</string>
 
+    <string name="settings_restore_server">Á TILRAUNASTIGI: Endurheimta gögn þjónsins úr staðværu afriti</string>
     <string name="settings_restore_server_summary">ÁHÆTTA: Skrifar yfir gögn á þjóninum með afriti úr geymslu. Krefst þess að skráð sé inn aftur og forritið endurræst.</string>
+    <string name="restore_warning_title">Á TILRAUNASTIGI: Endurheimta gögn þjónsins?</string>
     <string name="simple_restore">Endurheimta</string>
     <string name="restore_backup_failed">Öryggisafrit gagnagrunns mistókst. Hætt við endurheimt.</string>
-    </resources>
+    <string name="settings_restore_local_backup">Á TILRAUNASTIGI: Endurheimta úr staðværu afriti</string>
+    <string name="settings_restore_local_backup_summary">Endurheimtir gagnagrunn úr síðustu öryggisafritsskrá.</string>
+    <string name="restore_local_backup_warning_title">Á TILRAUNASTIGI: Endurheimta úr öryggisafriti?</string>
+    <string name="restore_local_backup_warning_message">Þetta mun skipta út fyrirliggjandi gagnagrunni með síðasta öryggisafriti. Núverandi gögn munu tapast.</string>
+    <string name="restore_local_backup_success">Gagnagrunnur endurheimtur. Forritið mun núna endurræsast.</string>
+    <string name="restore_local_backup_failed">Endurheimt gagnagrunns mistókst.</string>
+    <string name="settings_create_local_backup">Á TILRAUNASTIGI: Búa til staðvært öryggisafrit</string>
+    <string name="settings_create_local_backup_summary">Býr til öryggisafrit af fyrirliggjandi gagnagrunni.</string>
+    <string name="create_local_backup_success">Tókst að búa til öryggisafrit.</string>
+    <string name="create_local_backup_failed">Öryggisafritun mistókst.</string>
+    <string name="settings_export_database">Á TILRAUNASTIGI: Flytja út gagnagrunnsskrá</string>
+    <string name="settings_export_database_summary">Afritar gagnagrunnsskrána á stað sem þú velur.</string>
+    <string name="export_database_failed">Útflutningur mistókst.</string>
+    <string name="export_database_success">Tókst að flytja út gagnagrunn.</string>
+</resources>

@@ -17,6 +17,7 @@
     <string name="simple_reset">Qayta tiklash</string>
     <string name="simple_discard">Bekor qilish</string>
     <string name="simple_update">Yangilash</string>
+    <string name="simple_export">Eksport</string>
     <string name="simple_delete">Oʻchirish</string>
     <string name="simple_rename">Nomini o\'zgartirish</string>
     <string name="simple_settings">Sozlamalar</string>

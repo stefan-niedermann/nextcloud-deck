@@ -17,6 +17,7 @@
     <string name="simple_reset">Сброс</string>
     <string name="simple_discard">Отмена</string>
     <string name="simple_update">Обновить</string>
+    <string name="simple_export">Экспорт</string>
     <string name="simple_delete">Удалить</string>
     <string name="simple_rename">Переименовать</string>
     <string name="simple_settings">Параметры</string>

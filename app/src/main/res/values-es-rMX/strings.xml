@@ -17,6 +17,7 @@
     <string name="simple_reset">Reiniciar</string>
     <string name="simple_discard">Descartar</string>
     <string name="simple_update">Actualizar</string>
+    <string name="simple_export">Exportar</string>
     <string name="simple_delete">Eliminar</string>
     <string name="simple_rename">Renombrar</string>
     <string name="simple_settings">Configuraciones </string>

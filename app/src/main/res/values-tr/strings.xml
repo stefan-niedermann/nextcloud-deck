@@ -17,6 +17,7 @@
     <string name="simple_reset">Sıfırla</string>
     <string name="simple_discard">Yok say</string>
     <string name="simple_update">Güncelle</string>
+    <string name="simple_export">Dışa aktar</string>
     <string name="simple_delete">Sil</string>
     <string name="simple_rename">Yeniden adlandır</string>
     <string name="simple_settings">Ayarlar</string>
@@ -343,7 +344,24 @@
     <string name="label_clear_color">Rengi temizle</string>
     <string name="choose_color">Renk seçin</string>
 
+    <string name="settings_restore_server">DENEYSEL: Sunucuyu yerel kopyadan geri yükle</string>
     <string name="settings_restore_server_summary">Dikkat: Bu işlem sunucudaki verilerin üzerine yerel kopyadaki verileri yazar. Yeniden oturum açmak ve uygulamanın yeniden başlatılması gerekir.</string>
+    <string name="restore_warning_title">DENEYSEL: Sunucu verileri geri yüklensin mi?</string>
     <string name="simple_restore">Geri yükle</string>
+    <string name="restore_warning_message">Bu işlem, bu hesap için sunucudaki tüm verilerin üzerine yerel kopyanızdaki verileri yazacak.\n\nGereksinimler:\n- Kullanıcı hesabı sunucuda var\n- Tüm pano üyeleri sunucuda var\n- Nextcloud Dosyalar uygulamasında oturum açık\n\nEk dosyalar:\nTüm ek dosyalar yerel olarak var olmayabilir ve bu nedenle yeni sunucuya yüklenemez.\n\nSunucuda bulunması gereken kullanıcılar:\n%1$s\n\nUygulama şimdi yeniden başlatılacak.</string>
     <string name="restore_backup_failed">Veri tabanı yedeklenemedi. Geri yükleme iptal edildi.</string>
-    </resources>
+    <string name="settings_restore_local_backup">DENEYSEL: Yerel kopyadan geri yükle</string>
+    <string name="settings_restore_local_backup_summary">Veri tabanını son yedek dosyasından geri yükler.</string>
+    <string name="restore_local_backup_warning_title">DENEYSEL: Yedekten geri yüklensin mi?</string>
+    <string name="restore_local_backup_warning_message">Bu işlem, var olan veri tabanınızı son yedek ile değiştirecek. Var olan veriler kaybolacak.</string>
+    <string name="restore_local_backup_success">Veri tabanı geri yüklendi. Uygulama şimdi yeniden başlatılacak.</string>
+    <string name="restore_local_backup_failed">Veri tabanı geri yüklenemedi</string>
+    <string name="settings_create_local_backup">EXPERIMENTAL: Yerel yedek oluştur</string>
+    <string name="settings_create_local_backup_summary">Geçerli veri tabanının yedeğini oluşturur.</string>
+    <string name="create_local_backup_success">Yedek oluşturuldu.</string>
+    <string name="create_local_backup_failed">Yedeklenemedi.</string>
+    <string name="settings_export_database">DENEYSEL: Var tabanı dışa aktarma dosyası </string>
+    <string name="settings_export_database_summary">Veri tabanı dosyasını seçtiğiniz bir konuma kopyalar.</string>
+    <string name="export_database_failed">Dışa aktarılamadı.</string>
+    <string name="export_database_success">Veri tabanı dışa aktarıldı.</string>
+</resources>

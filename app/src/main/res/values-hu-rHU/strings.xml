@@ -17,6 +17,7 @@
     <string name="simple_reset">Alaphelyzetbe állítás</string>
     <string name="simple_discard">Elvetés</string>
     <string name="simple_update">Frissítés</string>
+    <string name="simple_export">Exportálás</string>
     <string name="simple_delete">Törlés</string>
     <string name="simple_rename">Átnevezés</string>
     <string name="simple_settings">Beállítások</string>

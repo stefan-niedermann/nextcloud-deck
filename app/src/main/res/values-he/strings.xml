@@ -15,6 +15,7 @@
     <string name="simple_reset">איפוס</string>
     <string name="simple_discard">התעלמות</string>
     <string name="simple_update">עדכון</string>
+    <string name="simple_export">ייצוא</string>
     <string name="simple_delete">מחיקה</string>
     <string name="simple_rename">שינוי שם</string>
     <string name="simple_settings">הגדרות</string>

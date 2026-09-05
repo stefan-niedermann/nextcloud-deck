@@ -17,6 +17,7 @@
     <string name="simple_reset">Επαναφορά</string>
     <string name="simple_discard">Απόρριψη</string>
     <string name="simple_update">Ενημέρωση</string>
+    <string name="simple_export">Εξαγωγή</string>
     <string name="simple_delete">Διαγραφή</string>
     <string name="simple_rename">Μετονομασία</string>
     <string name="simple_settings">Ρυθμίσεις</string>
