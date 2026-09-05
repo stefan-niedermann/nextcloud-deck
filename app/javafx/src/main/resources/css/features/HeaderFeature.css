@@ -3,3 +3,27 @@
     -fx-spacing: 10;
     -fx-padding: 10 10 10 20;
 }
+
+.menu-header {
+    -fx-opacity: 1.0;
+    -fx-background-color: transparent !important;
+}
+
+.menu-header .label {
+    -fx-font-weight: bold;
+    -fx-text-fill: -fx-accent;
+    -fx-padding: 5 0 2 5;
+}
+
+.menu-header:hover,
+.menu-header:focused,
+.menu-header:armed,
+.menu-header:disabled {
+    -fx-background-color: transparent !important;
+    -fx-opacity: 1.0;
+}
+
+.menu-header:disabled .label {
+    -fx-opacity: 1.0;
+    -fx-text-fill: -fx-accent;
+}

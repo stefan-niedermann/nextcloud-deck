@@ -4,7 +4,11 @@ import com.dlsc.gemsfx.PopOver;
 
 import org.kordamp.ikonli.javafx.FontIcon;
 
+import java.io.File;
+import java.io.IOException;
 import java.net.URL;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
 import java.time.format.DateTimeFormatter;
 import java.time.format.FormatStyle;
 import java.util.Optional;
@@ -25,6 +29,8 @@ import it.niedermann.nextcloud.deck.domain.model.FilterInformation;
 import it.niedermann.nextcloud.deck.domain.usecases.accounts.GetAccountUseCase;
 import it.niedermann.nextcloud.deck.domain.usecases.accounts.GetAccountsUseCase;
 import it.niedermann.nextcloud.deck.domain.usecases.accounts.RemoveAccountUseCase;
+import it.niedermann.nextcloud.deck.domain.usecases.export.ExportBoardUseCase;
+import it.niedermann.nextcloud.deck.domain.usecases.export.ExportCardUseCase;
 import it.niedermann.nextcloud.deck.domain.usecases.labels.ListLabelsUseCase;
 import it.niedermann.nextcloud.deck.domain.usecases.sync.GetSyncStatusUseCase;
 import it.niedermann.nextcloud.deck.domain.usecases.sync.ScheduleSyncUseCase;
@@ -38,24 +44,25 @@ import it.niedermann.nextcloud.deck.javafx.util.JavaFxScheduler;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckMenuItem;
+import javafx.scene.control.CustomMenuItem;
 import javafx.scene.control.Label;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
+import javafx.scene.control.MenuButton;
 import javafx.scene.control.MenuItem;
+import javafx.scene.control.SeparatorMenuItem;
 import javafx.scene.control.SplitMenuButton;
 import javafx.scene.control.Tooltip;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
+import javafx.stage.FileChooser;
 import javafx.stage.PopupWindow;
 
 public class HeaderFeature extends AbstractFeature {
 
     private static final Logger logger = Logger.getLogger(HeaderFeature.class.getName());
 
-    @FXML
-    VBox root;
     @FXML
     MenuBar menuBar;
     @FXML
@@ -75,6 +82,16 @@ public class HeaderFeature extends AbstractFeature {
     @FXML
     MenuItem editBoardMenuItem;
     @FXML
+    Menu exportBoardMenu;
+    @FXML
+    MenuItem exportBoardCsvMenuItem;
+    @FXML
+    MenuItem exportBoardMermaidMenuItem;
+    @FXML
+    MenuItem exportBoardOdtMenuItem;
+    @FXML
+    MenuItem exportBoardPdfMenuItem;
+    @FXML
     Menu cardMenu;
     @FXML
     MenuItem openCardInNewWindowMenuItem;
@@ -88,6 +105,12 @@ public class HeaderFeature extends AbstractFeature {
     MenuItem copyMenuItem;
     @FXML
     MenuItem deleteMenuItem;
+    @FXML
+    Menu exportCardMenu;
+    @FXML
+    MenuItem exportCardPdfMenuItem;
+    @FXML
+    MenuItem exportCardOdtMenuItem;
     @FXML
     MenuItem kanbanViewMenuItem;
     @FXML
@@ -110,6 +133,26 @@ public class HeaderFeature extends AbstractFeature {
     @FXML
     Button filterBtn;
     @FXML
+    MenuButton exportBtn;
+    @FXML
+    CustomMenuItem exportBoardHeader;
+    @FXML
+    MenuItem exportCsvBtn;
+    @FXML
+    MenuItem exportMermaidBtn;
+    @FXML
+    MenuItem exportOdtBtn;
+    @FXML
+    MenuItem exportPdfBtn;
+    @FXML
+    SeparatorMenuItem exportSeparator;
+    @FXML
+    CustomMenuItem exportCardHeader;
+    @FXML
+    MenuItem exportCardPdfBtn;
+    @FXML
+    MenuItem exportCardOdtBtn;
+    @FXML
     SplitMenuButton viewModeBtn;
     @FXML
     MenuItem kanbanMenuItem;
@@ -129,6 +172,8 @@ public class HeaderFeature extends AbstractFeature {
     private final GetSyncStatusUseCase getSyncStatusUseCase;
     private final ScheduleSyncUseCase scheduleSyncUseCase;
     private final RemoveAccountUseCase removeAccountUseCase;
+    private final ExportBoardUseCase exportBoardUseCase;
+    private final ExportCardUseCase exportCardUseCase;
     private final FilterFeature.Factory filterFeatureFactory;
     private final ListLabelsUseCase listLabelsUseCase;
     private final ListUsersUseCase listUsersUseCase;
@@ -147,6 +192,8 @@ public class HeaderFeature extends AbstractFeature {
             GetSyncStatusUseCase getSyncStatusUseCase,
             ScheduleSyncUseCase scheduleSyncUseCase,
             RemoveAccountUseCase removeAccountUseCase,
+            ExportBoardUseCase exportBoardUseCase,
+            ExportCardUseCase exportCardUseCase,
             FilterFeature.Factory filterFeatureFactory,
             ListLabelsUseCase listLabelsUseCase,
             ListUsersUseCase listUsersUseCase,
@@ -161,6 +208,8 @@ public class HeaderFeature extends AbstractFeature {
         this.getSyncStatusUseCase = getSyncStatusUseCase;
         this.scheduleSyncUseCase = scheduleSyncUseCase;
         this.removeAccountUseCase = removeAccountUseCase;
+        this.exportBoardUseCase = exportBoardUseCase;
+        this.exportCardUseCase = exportCardUseCase;
         this.filterFeatureFactory = filterFeatureFactory;
         this.listLabelsUseCase = listLabelsUseCase;
         this.listUsersUseCase = listUsersUseCase;
@@ -220,7 +269,11 @@ public class HeaderFeature extends AbstractFeature {
 
         final var cardSelectionDisposable = viewModel.getCardId()
                 .observeOn(JavaFxScheduler.platform())
-                .subscribe(cardId -> cardMenu.setDisable(cardId.isEmpty()));
+                .subscribe(cardId -> {
+                    final boolean cardPresent = cardId.isPresent();
+                    cardMenu.setDisable(!cardPresent);
+                    updateExportButtonItems(cardPresent);
+                });
 
         addDisposable(cardSelectionDisposable);
 
@@ -271,6 +324,9 @@ public class HeaderFeature extends AbstractFeature {
                     editBoardBtn.setManaged(boardPresent);
                     filterBtn.setVisible(boardPresent);
                     filterBtn.setManaged(boardPresent);
+                    exportBtn.setVisible(boardPresent);
+                    exportBtn.setManaged(boardPresent);
+                    exportBoardMenu.setDisable(!boardPresent);
                     if (boardPresent) {
                         final String lastEdited = board.lastModified() != null
                                 ? board.lastModified().format(DateTimeFormatter.ofLocalizedDateTime(FormatStyle.SHORT))
@@ -283,6 +339,20 @@ public class HeaderFeature extends AbstractFeature {
                 });
 
         addDisposable(currentBoardDisposable);
+
+        exportBoardCsvMenuItem.setOnAction(_ -> exportBoardAsCsv());
+        exportBoardMermaidMenuItem.setOnAction(_ -> exportBoardAsMermaid());
+        exportBoardOdtMenuItem.setOnAction(_ -> exportBoardAsOdt());
+        exportBoardPdfMenuItem.setOnAction(_ -> exportBoardAsPdf());
+        exportCsvBtn.setOnAction(_ -> exportBoardAsCsv());
+        exportMermaidBtn.setOnAction(_ -> exportBoardAsMermaid());
+        exportOdtBtn.setOnAction(_ -> exportBoardAsOdt());
+        exportPdfBtn.setOnAction(_ -> exportBoardAsPdf());
+
+        exportCardPdfMenuItem.setOnAction(_ -> exportCardAsPdf());
+        exportCardOdtMenuItem.setOnAction(_ -> exportCardAsOdt());
+        exportCardPdfBtn.setOnAction(_ -> exportCardAsPdf());
+        exportCardOdtBtn.setOnAction(_ -> exportCardAsOdt());
 
         final var viewModeDisposable = viewModel.getViewMode()
                 .observeOn(JavaFxScheduler.platform())
@@ -343,6 +413,11 @@ public class HeaderFeature extends AbstractFeature {
         removeAccountBtn.setOnAction(_ -> this.removeAccount());
 
         avatar.setOnMouseClicked(_ -> showAccountSwitcher(avatar));
+
+        exportBoardHeader.setHideOnClick(false);
+        exportCardHeader.setHideOnClick(false);
+        exportBoardHeader.setDisable(true);
+        exportCardHeader.setDisable(true);
     }
 
     private void showFilter(javafx.scene.Node anchor) {
@@ -388,6 +463,17 @@ public class HeaderFeature extends AbstractFeature {
         popover.show(anchor);
     }
 
+    private void updateExportButtonItems(boolean cardPresent) {
+        exportBtn.getItems().clear();
+        exportBtn.getItems().add(exportBoardHeader);
+        exportBtn.getItems().addAll(exportCsvBtn, exportMermaidBtn, exportOdtBtn, exportPdfBtn);
+        if (cardPresent) {
+            exportBtn.getItems().add(exportSeparator);
+            exportBtn.getItems().add(exportCardHeader);
+            exportBtn.getItems().addAll(exportCardPdfBtn, exportCardOdtBtn);
+        }
+    }
+
     public void removeAccount() {
         var disposable = viewModel.getAccountId()
                 .subscribeOn(Schedulers.virtual())
@@ -398,6 +484,116 @@ public class HeaderFeature extends AbstractFeature {
                 });
 
         addDisposable(disposable);
+    }
+
+    private void exportBoardAsCsv() {
+        addDisposable(viewModel.getBoardId().firstElement().subscribe(id -> {
+            final File file = showFileChooser(resources.getString("export.chooser.board"), "board.csv", new FileChooser.ExtensionFilter("CSV", "*.csv"));
+            if (file != null) {
+                addDisposable(Flowable.fromPublisher(exportBoardUseCase.toCsv(id))
+                        .observeOn(Schedulers.virtual())
+                        .subscribe(content -> {
+                            try {
+                                Files.writeString(file.toPath(), content, StandardCharsets.UTF_8);
+                            } catch (IOException e) {
+                                logger.log(java.util.logging.Level.SEVERE, "Failed to export board to CSV", e);
+                            }
+                        }, e -> logger.log(java.util.logging.Level.SEVERE, "Export failed", e)));
+            }
+        }));
+    }
+
+    private void exportBoardAsMermaid() {
+        addDisposable(viewModel.getBoardId().firstElement().subscribe(id -> {
+            final File file = showFileChooser(resources.getString("export.chooser.board"), "board.mmd", new FileChooser.ExtensionFilter("Mermaid", "*.mmd"));
+            if (file != null) {
+                addDisposable(Flowable.fromPublisher(exportBoardUseCase.toMermaid(id))
+                        .observeOn(Schedulers.virtual())
+                        .subscribe(content -> {
+                            try {
+                                Files.writeString(file.toPath(), content, StandardCharsets.UTF_8);
+                            } catch (IOException e) {
+                                logger.log(java.util.logging.Level.SEVERE, "Failed to export board to Mermaid", e);
+                            }
+                        }, e -> logger.log(java.util.logging.Level.SEVERE, "Export failed", e)));
+            }
+        }));
+    }
+
+    private void exportBoardAsOdt() {
+        addDisposable(viewModel.getBoardId().firstElement().subscribe(id -> {
+            final File file = showFileChooser(resources.getString("export.chooser.board"), "board.fodt", new FileChooser.ExtensionFilter("OpenDocument Text (Flat XML)", "*.fodt"));
+            if (file != null) {
+                addDisposable(Flowable.fromPublisher(exportBoardUseCase.toOdt(id))
+                        .observeOn(Schedulers.virtual())
+                        .subscribe(content -> {
+                            try {
+                                Files.writeString(file.toPath(), content, StandardCharsets.UTF_8);
+                            } catch (IOException e) {
+                                logger.log(java.util.logging.Level.SEVERE, "Failed to export board to ODT", e);
+                            }
+                        }, e -> logger.log(java.util.logging.Level.SEVERE, "Export failed", e)));
+            }
+        }));
+    }
+
+    private void exportBoardAsPdf() {
+        addDisposable(viewModel.getBoardId().firstElement().subscribe(id -> {
+            final File file = showFileChooser(resources.getString("export.chooser.board"), "board.pdf", new FileChooser.ExtensionFilter("PDF", "*.pdf"));
+            if (file != null) {
+                addDisposable(Flowable.fromPublisher(exportBoardUseCase.toPdf(id))
+                        .observeOn(Schedulers.virtual())
+                        .subscribe(content -> {
+                            try {
+                                Files.write(file.toPath(), content);
+                            } catch (IOException e) {
+                                logger.log(java.util.logging.Level.SEVERE, "Failed to export board to PDF", e);
+                            }
+                        }, e -> logger.log(java.util.logging.Level.SEVERE, "Export failed", e)));
+            }
+        }));
+    }
+
+    private void exportCardAsPdf() {
+        addDisposable(viewModel.getCardId().firstElement().subscribe(optionalId -> optionalId.ifPresent(id -> {
+            final File file = showFileChooser(resources.getString("export.chooser.card"), "card.pdf", new FileChooser.ExtensionFilter("PDF", "*.pdf"));
+            if (file != null) {
+                addDisposable(Flowable.fromPublisher(exportCardUseCase.toPdf(id))
+                        .observeOn(Schedulers.virtual())
+                        .subscribe(content -> {
+                            try {
+                                Files.write(file.toPath(), content);
+                            } catch (IOException e) {
+                                logger.log(java.util.logging.Level.SEVERE, "Failed to export card to PDF", e);
+                            }
+                        }, e -> logger.log(java.util.logging.Level.SEVERE, "Export failed", e)));
+            }
+        })));
+    }
+
+    private void exportCardAsOdt() {
+        addDisposable(viewModel.getCardId().firstElement().subscribe(optionalId -> optionalId.ifPresent(id -> {
+            final File file = showFileChooser(resources.getString("export.chooser.card"), "card.fodt", new FileChooser.ExtensionFilter("OpenDocument Text (Flat XML)", "*.fodt"));
+            if (file != null) {
+                addDisposable(Flowable.fromPublisher(exportCardUseCase.toOdt(id))
+                        .observeOn(Schedulers.virtual())
+                        .subscribe(content -> {
+                            try {
+                                Files.writeString(file.toPath(), content, StandardCharsets.UTF_8);
+                            } catch (IOException e) {
+                                logger.log(java.util.logging.Level.SEVERE, "Failed to export card to ODT", e);
+                            }
+                        }, e -> logger.log(java.util.logging.Level.SEVERE, "Export failed", e)));
+            }
+        })));
+    }
+
+    private File showFileChooser(String title, String initialFileName, FileChooser.ExtensionFilter filter) {
+        final FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle(title);
+        fileChooser.setInitialFileName(initialFileName);
+        fileChooser.getExtensionFilters().add(filter);
+        return fileChooser.showSaveDialog(root.getScene().getWindow());
     }
 
     public interface ViewModel {

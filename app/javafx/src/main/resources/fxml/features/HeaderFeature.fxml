@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import com.dlsc.gemsfx.CircleProgressIndicator?><?import it.niedermann.nextcloud.deck.javafx.ui.shared.views.AvatarProgressView?><?import it.niedermann.nextcloud.deck.javafx.ui.shared.views.AvatarView?><?import javafx.geometry.Insets?><?import javafx.scene.control.Button?><?import javafx.scene.control.CheckMenuItem?><?import javafx.scene.control.ComboBox?><?import javafx.scene.control.Label?><?import javafx.scene.control.Menu?><?import javafx.scene.control.MenuBar?><?import javafx.scene.control.MenuItem?><?import javafx.scene.control.SeparatorMenuItem?><?import javafx.scene.control.SplitMenuButton?><?import javafx.scene.control.TextField?><?import javafx.scene.image.Image?><?import javafx.scene.layout.BorderPane?><?import javafx.scene.layout.GridPane?><?import javafx.scene.layout.HBox?><?import javafx.scene.layout.Region?><?import javafx.scene.layout.VBox?><?import javafx.scene.shape.Circle?><?import org.kordamp.ikonli.javafx.FontIcon?>
+<?import com.dlsc.gemsfx.CircleProgressIndicator?><?import it.niedermann.nextcloud.deck.javafx.ui.shared.views.AvatarProgressView?><?import it.niedermann.nextcloud.deck.javafx.ui.shared.views.AvatarView?><?import javafx.geometry.Insets?><?import javafx.scene.control.Button?><?import javafx.scene.control.CheckMenuItem?><?import javafx.scene.control.ComboBox?><?import javafx.scene.control.CustomMenuItem?><?import javafx.scene.control.Label?><?import javafx.scene.control.Menu?><?import javafx.scene.control.MenuBar?><?import javafx.scene.control.MenuButton?><?import javafx.scene.control.MenuItem?><?import javafx.scene.control.SeparatorMenuItem?><?import javafx.scene.control.SplitMenuButton?><?import javafx.scene.control.TextField?><?import javafx.scene.image.Image?><?import javafx.scene.layout.BorderPane?><?import javafx.scene.layout.GridPane?><?import javafx.scene.layout.HBox?><?import javafx.scene.layout.Region?><?import javafx.scene.layout.VBox?><?import javafx.scene.shape.Circle?><?import org.kordamp.ikonli.javafx.FontIcon?>
 
 <VBox xmlns:fx="http://javafx.com/fxml/1" stylesheets="css/features/HeaderFeature.css"
     xmlns="http://javafx.com/javafx/24.0.1">
@@ -21,6 +21,14 @@
                 <items>
                     <MenuItem fx:id="filterMenuItem" text="%header.menu.board.filter" />
                     <MenuItem fx:id="editBoardMenuItem" text="%header.menu.board.edit" />
+                    <Menu fx:id="exportBoardMenu" text="%header.menu.board.export">
+                        <items>
+                            <MenuItem fx:id="exportBoardCsvMenuItem" text="%export.board.csv" />
+                            <MenuItem fx:id="exportBoardMermaidMenuItem" text="%export.board.mermaid" />
+                            <MenuItem fx:id="exportBoardOdtMenuItem" text="%export.board.odt" />
+                            <MenuItem fx:id="exportBoardPdfMenuItem" text="%export.board.pdf" />
+                        </items>
+                    </Menu>
                 </items>
             </Menu>
             <Menu fx:id="cardMenu" text="%header.menu.card">
@@ -31,6 +39,12 @@
                     <MenuItem fx:id="moveMenuItem" text="%header.menu.card.move" />
                     <MenuItem fx:id="copyMenuItem" text="%header.menu.card.copy" />
                     <MenuItem fx:id="deleteMenuItem" text="%header.menu.card.delete" />
+                    <Menu fx:id="exportCardMenu" text="%header.menu.card.export">
+                        <items>
+                            <MenuItem fx:id="exportCardPdfMenuItem" text="%export.card.pdf" />
+                            <MenuItem fx:id="exportCardOdtMenuItem" text="%export.card.odt" />
+                        </items>
+                    </Menu>
                 </items>
             </Menu>
             <Menu fx:id="viewMenu" text="%header.menu.view">
@@ -67,6 +81,31 @@
         </SplitMenuButton>
 
         <Region HBox.hgrow="SOMETIMES" />
+
+        <MenuButton fx:id="exportBtn" mnemonicParsing="false">
+            <items>
+                <CustomMenuItem fx:id="exportBoardHeader" mnemonicParsing="false" styleClass="menu-header">
+                    <content>
+                        <Label text="%header.menu.board" />
+                    </content>
+                </CustomMenuItem>
+                <MenuItem fx:id="exportCsvBtn" text="%export.board.csv" />
+                <MenuItem fx:id="exportMermaidBtn" text="%export.board.mermaid" />
+                <MenuItem fx:id="exportOdtBtn" text="%export.board.odt" />
+                <MenuItem fx:id="exportPdfBtn" text="%export.board.pdf" />
+                <SeparatorMenuItem mnemonicParsing="false" fx:id="exportSeparator" />
+                <CustomMenuItem fx:id="exportCardHeader" mnemonicParsing="false" styleClass="menu-header">
+                    <content>
+                        <Label text="%header.menu.card" />
+                    </content>
+                </CustomMenuItem>
+                <MenuItem fx:id="exportCardPdfBtn" text="%export.card.pdf" />
+                <MenuItem fx:id="exportCardOdtBtn" text="%export.card.odt" />
+            </items>
+            <graphic>
+                <FontIcon iconLiteral="fltrmz-share-ios-20" iconSize="16" />
+            </graphic>
+        </MenuButton>
 
         <Button accessibleText="%header.btn.preferences" fx:id="preferencesBtn">
             <graphic>

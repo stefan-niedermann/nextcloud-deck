@@ -18,4 +18,5 @@ dependencies {
     implementation(libs.rxjava3)
     implementation(libs.rxjava3.jdk9.interop)
     implementation(libs.kotlinx.coroutines.jdk8)
+    implementation(libs.openpdf)
 }

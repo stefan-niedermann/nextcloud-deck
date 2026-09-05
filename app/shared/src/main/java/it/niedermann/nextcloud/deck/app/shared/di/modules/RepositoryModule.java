@@ -31,6 +31,7 @@ import it.niedermann.nextcloud.deck.data.repository.BoardRepositoryImpl;
 import it.niedermann.nextcloud.deck.data.repository.CardRepositoryImpl;
 import it.niedermann.nextcloud.deck.data.repository.ColumnRepositoryImpl;
 import it.niedermann.nextcloud.deck.data.repository.CommentRepositoryImpl;
+import it.niedermann.nextcloud.deck.data.repository.ExportRepositoryImpl;
 import it.niedermann.nextcloud.deck.data.repository.LabelRepositoryImpl;
 import it.niedermann.nextcloud.deck.data.repository.ShareRepositoryImpl;
 import it.niedermann.nextcloud.deck.data.repository.StateRepositoryImpl;
@@ -42,6 +43,7 @@ import it.niedermann.nextcloud.deck.domain.repository.BoardRepository;
 import it.niedermann.nextcloud.deck.domain.repository.CardRepository;
 import it.niedermann.nextcloud.deck.domain.repository.ColumnRepository;
 import it.niedermann.nextcloud.deck.domain.repository.CommentRepository;
+import it.niedermann.nextcloud.deck.domain.repository.ExportRepository;
 import it.niedermann.nextcloud.deck.domain.repository.LabelRepository;
 import it.niedermann.nextcloud.deck.domain.repository.ShareRepository;
 import it.niedermann.nextcloud.deck.domain.repository.UserRepository;
@@ -149,5 +151,11 @@ public class RepositoryModule {
                                            ApiProvider.Factory apiFactory,
                                            AccountRepository accountRepository) {
         return new ShareRepositoryImpl(accessControlDao, boardDao, userDao, accessControlMapper, apiFactory, accountRepository);
+    }
+
+    @Provides
+    @Singleton
+    ExportRepository provideExportRepository() {
+        return new ExportRepositoryImpl();
     }
 }

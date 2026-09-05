@@ -344,8 +344,10 @@ public class CardRepositoryImpl implements CardRepository {
     public Flow.Publisher<Map<Column, List<Card>>> getNotDeletedCardsByColumn(Board.ID boardId) {
         return FlowAdapters.toFlowPublisher(
                 cardDao.getCardsByBoard(boardId.value())
-                        .map(entities -> entities.stream()
-                                .map(cardMapper::toTO)
+                        .flatMapSingle(entities -> Flowable.fromIterable(entities)
+                                .flatMapSingle(this::fullMap)
+                                .toList())
+                        .map(cards -> cards.stream()
                                 .collect(Collectors.groupingBy(card -> {
                                     final var columnEntity = columnDao.getColumnById(card.columnId().value()).join();
                                     return columnMapper.toTO(columnEntity);
