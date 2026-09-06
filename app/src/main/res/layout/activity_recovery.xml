@@ -31,6 +31,13 @@
             android:orientation="vertical"
             android:padding="16dp">
 
+            <com.google.android.material.checkbox.MaterialCheckBox
+                android:id="@+id/cbAcceptResponsibility"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"
+                android:text="@string/backup_restore_warning" />
+
             <!-- Section 1: Recover Deck Android -->
             <TextView
                 android:id="@+id/recoverDeckAndroidTitle"
@@ -82,7 +89,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="4dp"
-                android:text="@string/simple_restore" />
+                android:text="@string/simple_apply" />
 
             <!-- Export Database -->
             <TextView

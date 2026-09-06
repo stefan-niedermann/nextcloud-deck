@@ -87,12 +87,17 @@ public class RecoveryActivity extends AppCompatActivity implements Themed {
         binding.btnCreateBackup.setOnClickListener(v -> createBackup());
         binding.btnRestoreLocalBackup.setOnClickListener(v -> restoreLocalBackup());
         binding.btnExportDatabase.setOnClickListener(v -> exportDatabase());
+        binding.cbAcceptResponsibility.setOnCheckedChangeListener((buttonView, isChecked) -> updateButtonStates());
 
-        updateRestoreLocalBackupButton();
+        updateButtonStates();
     }
 
-    private void updateRestoreLocalBackupButton() {
-        binding.btnRestoreLocalBackup.setEnabled(preferencesViewModel.hasBackup());
+    private void updateButtonStates() {
+        final boolean isAccepted = binding.cbAcceptResponsibility.isChecked();
+        binding.btnCreateBackup.setEnabled(isAccepted);
+        binding.btnRestoreLocalBackup.setEnabled(isAccepted && preferencesViewModel.hasBackup());
+        binding.btnExportDatabase.setEnabled(isAccepted);
+        binding.btnRestoreServer.setEnabled(isAccepted);
     }
 
     private void restoreServer() {
@@ -142,7 +147,7 @@ public class RecoveryActivity extends AppCompatActivity implements Themed {
             if (preferencesViewModel.backupDatabase()) {
                 runOnUiThread(() -> {
                     Toast.makeText(this, R.string.create_local_backup_success, Toast.LENGTH_SHORT).show();
-                    updateRestoreLocalBackupButton();
+                    updateButtonStates();
                 });
             } else {
                 runOnUiThread(() -> Toast.makeText(this, R.string.create_local_backup_failed, Toast.LENGTH_LONG).show());
@@ -193,6 +198,7 @@ public class RecoveryActivity extends AppCompatActivity implements Themed {
 
         utils.platform.colorTextView(binding.recoverDeckServerTitle);
         utils.platform.colorTextView(binding.recoverDeckAndroidTitle);
+        utils.platform.colorTextView(binding.cbAcceptResponsibility);
     }
 
     @NonNull

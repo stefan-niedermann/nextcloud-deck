@@ -376,24 +376,31 @@
     <string name="recovery_deck_android_title">Recover Deck Android</string>
     <string name="pref_key_recovery" translatable="false">recovery</string>
 
-    <string name="settings_restore_server">EXPERIMENTAL: Restore server from local copy</string>
-    <string name="settings_restore_server_summary">DANGER: Overwrites server data with local copy. Requires re-login and app restart.</string>
-    <string name="restore_warning_title">EXPERIMENTAL: Restore server data?</string>
+    <string name="settings_restore_server_summary">⚠️ DANGER: Overwrites server data with locally available data. Locally available data is only a part of the available information and is missing attachments, activities, and more. Requires re-authentication and app restart.</string>
+    <string name="restore_warning_title">⚠️ DANGER: Overwrite server data</string>
     <string name="simple_restore">Restore</string>
-    <string name="restore_warning_message">This will overwrite all data on the server for this account with your local copy.\n\nRequirements:\n- User account exists on server\n- All board members exist on server\n- Logged into Nextcloud Files app\n\nAttachments:\nNot all attachments might be available locally and thus cannot be uploaded to the new server.\n\nUsers that must exist on server:\n%1$s\n\nThe app will restart now.</string>
-    <string name="restore_backup_failed">Database backup failed. Restore cancelled.</string>
-    <string name="settings_restore_local_backup">EXPERIMENTAL: Restore from local backup</string>
-    <string name="settings_restore_local_backup_summary">Restores the database from the last backup file.</string>
-    <string name="restore_local_backup_warning_title">EXPERIMENTAL: Restore from backup?</string>
-    <string name="restore_local_backup_warning_message">This will replace your current database with the last backup. Current data will be lost.</string>
+    <string name="simple_apply">Apply</string>
+    <string name="backup_restore_warning">I accept that it is my sole responsibility to make regular backups of my data. The tools below provide limited emergency recovery capabilities and cannot be considered a proper backup solution. I understand that they should only be used when advised to do so by support.</string>
+
+    <string name="settings_create_local_backup">Create snapshot</string>
+    <string name="settings_create_local_backup_summary">Creates a snapshot of the local database. This is not a backup, and it is lacking information that is only available on your server.</string>
+
+    <string name="settings_restore_local_backup">Apply snapshot</string>
+    <string name="settings_restore_local_backup_summary">Replaces the database of Deck Android with the latest snapshot and restarts the app.</string>
+    <string name="restore_local_backup_warning_title">⚠️ Attention!</string>
+    <string name="restore_local_backup_warning_message">Not yet synchronized changes will be unrecoverably lost. Ensure you took note of your local changes.</string>
+
     <string name="restore_local_backup_success">Database restored. The app will restart now.</string>
     <string name="restore_local_backup_failed">Database restore failed.</string>
-    <string name="settings_create_local_backup">EXPERIMENTAL: Create local backup</string>
-    <string name="settings_create_local_backup_summary">Creates a backup of the current database.</string>
-    <string name="create_local_backup_success">Backup created successfully.</string>
-    <string name="create_local_backup_failed">Backup failed.</string>
-    <string name="settings_export_database">EXPERIMENTAL: Export database file</string>
-    <string name="settings_export_database_summary">Copies the database file to a location of your choice.</string>
+
+    <string name="create_local_backup_success">Snapshot created successfully.</string>
+    <string name="create_local_backup_failed">Snapshot failed.</string>
+
+    <string name="settings_export_database">Export snapshot</string>
+    <string name="settings_export_database_summary">Copies the last snapshot containing the Deck Android SQLite database file to a location of your choice. This does not contain all information. This is not a proper backup solution.</string>
     <string name="export_database_failed">Export failed.</string>
-    <string name="export_database_success">Database exported successfully.</string>
+    <string name="export_database_success">Snapshot exported successfully.</string>
+
+    <string name="restore_warning_message">This will overwrite all data on the server for this account with your local partial copy and restart the Deck Android app.\n\nRequirements:\n- User account exists on server\n- All users boards are shared with, must exist on the server\n- Properly authenticated in Nextcloud Files app\n\nAttachments, Activities and more:\nNot all attachments might be available locally and thus cannot be uploaded to the new server. Activities are generally only created by Deck server. This and other information may be missing after performing the restore.\n\nUsers that must exist on server:\n%1$s</string>
+    <string name="restore_backup_failed">Database backup failed. Restore canceled.</string>
 </resources>
