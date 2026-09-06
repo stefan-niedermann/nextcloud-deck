@@ -7,6 +7,7 @@ import java.util.Set;
 
 import it.niedermann.nextcloud.deck.domain.model.Card;
 import it.niedermann.nextcloud.deck.domain.model.Color;
+import it.niedermann.nextcloud.deck.domain.model.User;
 
 /// @implSpec Excerpt is a shortened description (e.g. 300 characters)
 public record PreviewCard(
@@ -15,10 +16,12 @@ public record PreviewCard(
         String title,
         String excerpt,
         Set<LabelPreview> labels,
+        Set<User.ID> assignees,
         int commentCount,
         int attachmentCount,
         int assigneeCount,
         boolean assignedToMe,
+        boolean isDone,
         int checkboxDoneCount,
         int checkboxTotalCount,
         OffsetDateTime startDate,
@@ -31,13 +34,16 @@ public record PreviewCard(
         Objects.requireNonNull(title);
         Objects.requireNonNull(excerpt);
         Objects.requireNonNull(labels);
+        Objects.requireNonNull(assignees);
     }
 
     public record LabelPreview(
+            it.niedermann.nextcloud.deck.domain.model.Label.ID id,
             String title,
             Color color
     ) implements Serializable {
         public LabelPreview {
+            Objects.requireNonNull(id);
             Objects.requireNonNull(title);
             Objects.requireNonNull(color);
         }

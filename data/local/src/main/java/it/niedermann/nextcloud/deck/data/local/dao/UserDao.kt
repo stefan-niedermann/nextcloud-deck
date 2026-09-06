@@ -26,6 +26,14 @@ interface UserDao : GenericDao<UserEntity> {
     @Query("SELECT * FROM User WHERE localId = :localId")
     fun getUserByLocalId(localId: Long): CompletableFuture<UserEntity?>
 
+    @Query("""
+        SELECT User.* FROM User
+        INNER JOIN JoinCardWithUser ON User.localId = JoinCardWithUser.userId
+        WHERE JoinCardWithUser.cardId = :cardId
+        AND JoinCardWithUser.status != 3
+        """)
+    fun getUsersByCard(cardId: Long): Flowable<List<UserEntity>>
+
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertOrReplace(entity: UserEntity): CompletableFuture<Long>
 }

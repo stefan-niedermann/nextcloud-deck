@@ -50,7 +50,7 @@ public interface CardRemoteMapper extends GenericRemoteMapper<CardDTO, Card> {
     @Mapping(target = "createdAt", expression = "java(mapTimestamp(cardDTO.getCreatedAt()))")
     @Mapping(target = "lastModified", expression = "java(mapTimestamp(cardDTO.getLastModified()))")
     @Mapping(target = "labels", expression = "java(java.util.Collections.emptySet())")
-    @Mapping(target = "assignees", expression = "java(java.util.Collections.emptySet())")
+    @Mapping(target = "assignees", source = "assignedUsers")
     @Mapping(target = "dependents", source = "dependentCards")
     @Mapping(target = "color", source = "color")
     @Mapping(target = "archived", source = "archived")
@@ -87,6 +87,16 @@ public interface CardRemoteMapper extends GenericRemoteMapper<CardDTO, Card> {
     @Mapping(target = "assign", ignore = true)
     @Mapping(target = "unassign", ignore = true)
     Card toTO(CardDTO cardDTO);
+
+    default java.util.Set<it.niedermann.nextcloud.deck.domain.model.User.ID> mapAssignees(java.util.List<it.niedermann.nextcloud.remote.deck.dto.AccessControlDTO> assignedUsers) {
+        if (assignedUsers == null) {
+            return java.util.Collections.emptySet();
+        }
+        return assignedUsers.stream()
+                .filter(ac -> ac.getParticipant() != null && ac.getParticipant().getUid() != null)
+                .map(ac -> new it.niedermann.nextcloud.deck.domain.model.User.ID(ac.getParticipant().getUid()))
+                .collect(java.util.stream.Collectors.toSet());
+    }
 
     default OffsetDateTime mapTimestamp(Long timestamp) {
         if (timestamp == null || timestamp == 0) {

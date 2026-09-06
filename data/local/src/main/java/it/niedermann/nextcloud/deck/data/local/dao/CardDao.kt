@@ -4,12 +4,18 @@ import androidx.room3.Dao
 import androidx.room3.Insert
 import androidx.room3.OnConflictStrategy
 import androidx.room3.Query
+import androidx.room3.Transaction
 import io.reactivex.rxjava3.core.Flowable
 import it.niedermann.nextcloud.deck.data.local.entity.CardEntity
+import it.niedermann.nextcloud.deck.data.local.entity.CardPreviewLocal
 import java.util.concurrent.CompletableFuture
 
 @Dao
 interface CardDao : GenericDao<CardEntity> {
+
+    @Transaction
+    @Query("SELECT *, (SELECT COUNT(*) FROM Comment WHERE cardId = Card.localId) as commentCount FROM Card WHERE columnId = :columnId AND status != 3 ORDER BY `order` ASC")
+    fun getCardPreviewsByColumn(columnId: Long): Flowable<List<CardPreviewLocal>>
 
     @Query("SELECT * FROM Card WHERE columnId = :columnId AND status != 3 ORDER BY `order` ASC")
     fun getCardsByColumn(columnId: Long): Flowable<List<CardEntity>>
