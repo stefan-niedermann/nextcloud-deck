@@ -348,6 +348,7 @@
     <string name="label_clear_color">Effacer la couleur</string>
     <string name="choose_color">Sélectionnez une couleur</string>
 
+    <string name="settings_recovery_title">Récupération d\'urgence</string>
     <string name="settings_restore_server">EXPÉRIMENTAL : Restaurer le serveur depuis une copie locale</string>
     <string name="settings_restore_server_summary">DANGER : remplace les données du serveur par celles de la copie locale. Nécessite une reconnexion et un redémarrage de l\'application.</string>
     <string name="restore_warning_title">EXPÉRIMENTAL : Restaurer les données du serveur ?</string>

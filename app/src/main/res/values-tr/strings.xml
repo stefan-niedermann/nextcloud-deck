@@ -344,6 +344,9 @@
     <string name="label_clear_color">Rengi temizle</string>
     <string name="choose_color">Renk seçin</string>
 
+    <string name="settings_recovery_title">Acil durum kurtarması</string>
+    <string name="recovery_deck_server_title">Destek sunucusunu kurtar</string>
+    <string name="recovery_deck_android_title">Deste Android uygulamasını kurtar</string>
     <string name="settings_restore_server">DENEYSEL: Sunucuyu yerel kopyadan geri yükle</string>
     <string name="settings_restore_server_summary">Dikkat: Bu işlem sunucudaki verilerin üzerine yerel kopyadaki verileri yazar. Yeniden oturum açmak ve uygulamanın yeniden başlatılması gerekir.</string>
     <string name="restore_warning_title">DENEYSEL: Sunucu verileri geri yüklensin mi?</string>

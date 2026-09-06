@@ -343,6 +343,9 @@
     <string name="label_clear_color">Hreinsa lit</string>
     <string name="choose_color">Veldu lit</string>
 
+    <string name="settings_recovery_title">Neyðarendurheimt</string>
+    <string name="recovery_deck_server_title">Endurheimta Deck-þjón</string>
+    <string name="recovery_deck_android_title">Endurheimta Deck fyrir Android</string>
     <string name="settings_restore_server">Á TILRAUNASTIGI: Endurheimta gögn þjónsins úr staðværu afriti</string>
     <string name="settings_restore_server_summary">ÁHÆTTA: Skrifar yfir gögn á þjóninum með afriti úr geymslu. Krefst þess að skráð sé inn aftur og forritið endurræst.</string>
     <string name="restore_warning_title">Á TILRAUNASTIGI: Endurheimta gögn þjónsins?</string>

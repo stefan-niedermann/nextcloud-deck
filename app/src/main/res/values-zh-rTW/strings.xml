@@ -230,12 +230,12 @@
     <string name="error_dialog_we_need_info">我們需要以下的技術資訊來幫助您：</string>
     <string name="error_dialog_redirect">您的伺服器確實回傳了 HTTP 302 狀態碼，這表示您的伺服器上尚未安裝 Deck 應用程式，或是某處設定有誤。此問題可能是由於 .htaccess 檔案中的自訂覆寫設定，或是 Nextcloud 應用程式（例如 OID 客戶媏）所導致。</string>
     <string name="error_dialog_version_not_parsable">我們無法確定伺服器端 Deck 應用程式的版本。請確保已安裝並啟用它。</string>
-    <string name="error_dialog_account_might_not_be_authorized">您的 Nextcloud APP 帳號可能不再被授權。</string>
+    <string name="error_dialog_account_might_not_be_authorized">您的 Nextcloud 應用程式帳號可能不再被授權。</string>
     <string name="error_dialog_user_not_found_in_database">目前使用者與我們資料庫中的使用者不符。如果您在 Nextcloud 實例上使用 LDAP，則 Nextcloud APP 可能已存儲了舊的使用者 ID。</string>
     <string name="error_dialog_capabilities_not_parsable">我們無法取得您的伺服器功能。請確保您的伺服器運行良好，並且其他客戶端應用程式能夠訪問 Nextcloud。</string>
     <string name="error_dialog_attachment_upload_failed">無法上傳附件。請嘗試以其他方式分享它，並讓我們知道此錯誤。</string>
     <string name="error_dialog_certificate">伺服器的憑證似乎有問題。請檢查 Nextcloud APP 中的所有帳號，以取得更多資訊。</string>
-    <string name="error_dialog_tip_disable_battery_optimizations">請停用 Nextcloud 和 Deck APP 的所有電池最佳化。</string>
+    <string name="error_dialog_tip_disable_battery_optimizations">請停用 Nextcloud 和 Deck 應用程式的電池最佳化。</string>
     <string name="error_dialog_unknown_error">您的 Nextcloud 實例似乎無法訪問。 請檢查您的網際網路連線以及您是否能夠透過瀏覽器連線到您的實例。</string>
     <string name="error_dialog_min_version">Deck Android 應用程式要求 Nextcloud Android 應用程式最低版本為 3.18。</string>
     <string name="error_action_open_deck_info">開啟 App 資訊</string>
@@ -254,7 +254,7 @@
     <string name="share_content_labels">標籤：%1$s</string>
     <string name="archive_cards">封存卡片</string>
 
-    <string name="manage_accounts">帳戶管理</string>
+    <string name="manage_accounts">帳號管理</string>
     <string name="manage_list">管理清單</string>
     <string name="simple_reply">回覆</string>
     <string name="append_text_to_description">附加到描述</string>
@@ -329,9 +329,9 @@
     <string name="progress_import_indeterminate">正在匯入版面……</string>
     <string name="card_outdated">此卡片內容可能過時。</string>
     <string name="show_error">顯示錯誤</string>
-    <string name="push_notification_link_empty">基於一個Deck網頁應用程式的已知錯誤我們無法顯示此卡片。更多詳情請見 %1$s</string>
+    <string name="push_notification_link_empty">由於 Deck 網頁版應用程式中一個已知的錯誤，我們無法顯示此卡片。更多資訊請參閱 %1$s</string>
     <string name="enter_search_term_title">輸入搜尋字詞</string>
-    <string name="enter_search_term_description">輸入要在此看板中尋找卡片的字詞</string>
+    <string name="enter_search_term_description">輸入字詞來搜尋此看板上的卡片</string>
     <string name="no_search_results_title">無搜尋結果</string>
     <string name="no_search_results_description">對於指定的搜尋詞，我們沒有找到任何結果</string>
     <string name="label_no_startdate">沒有開始日期</string>
@@ -340,7 +340,27 @@
     <string name="label_clear_color">清除顏色</string>
     <string name="choose_color">選擇顏色</string>
 
+    <string name="settings_recovery_title">緊急復原</string>
+    <string name="recovery_deck_server_title">復原 Deck 伺服器</string>
+    <string name="recovery_deck_android_title">復原 Deck Android</string>
+    <string name="settings_restore_server">實驗性：從本機副本還原</string>
     <string name="settings_restore_server_summary">危險：將以本機副本覆寫伺服器資料。需重新登入並重新啟動應用程式。</string>
+    <string name="restore_warning_title">實驗性：還原伺服器資料？</string>
     <string name="simple_restore">還原</string>
+    <string name="restore_warning_message">即將以您的本機副本覆蓋此帳戶在伺服器上的所有資料。\n\n需求：\n- 伺服器上已存在使用者帳號\n- 伺服器上已存在所有看板成員\n- 已登入 Nextcloud Files 應用程式\n\n附件：\n並非所有附件都儲存於本機，因此無法上傳部分附件到新伺服器。\n\n伺服器上必須存在的使用者：\n%1$s\n\n應用程式現在將重新啟動。</string>
     <string name="restore_backup_failed">資料庫備份失敗。還原已取消。</string>
-    </resources>
+    <string name="settings_restore_local_backup">實驗性：從本機備份還原</string>
+    <string name="settings_restore_local_backup_summary">將資料庫還原到上一次備份。</string>
+    <string name="restore_local_backup_warning_title">實驗性：還原到先前的備份？</string>
+    <string name="restore_local_backup_warning_message">即將以上一次備份覆蓋目前的資料庫。現有的資料將會遺失。</string>
+    <string name="restore_local_backup_success">已還原資料庫。應用程式現在將重新啟動。</string>
+    <string name="restore_local_backup_failed">資料庫還原失敗。</string>
+    <string name="settings_create_local_backup">實驗性：建立本機備份</string>
+    <string name="settings_create_local_backup_summary">建立目前資料庫的備份。</string>
+    <string name="create_local_backup_success">已成功建立備份。</string>
+    <string name="create_local_backup_failed">備份失敗。</string>
+    <string name="settings_export_database">實驗性：匯出資料庫檔案</string>
+    <string name="settings_export_database_summary">將資料庫檔案複製到您指定的位置。</string>
+    <string name="export_database_failed">匯出失敗。</string>
+    <string name="export_database_success">已成功匯出資料庫。</string>
+</resources>

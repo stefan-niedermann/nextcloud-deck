@@ -344,7 +344,27 @@
     <string name="label_clear_color">Eemalda värv</string>
     <string name="choose_color">Vali värv</string>
 
+    <string name="settings_recovery_title">Hädaolukorras taastamine</string>
+    <string name="recovery_deck_server_title">Taasta Kanbani serveri andmed</string>
+    <string name="recovery_deck_android_title">Taasta Kanbani Androidi rakenduse andmed</string>
+    <string name="settings_restore_server">KATSELINE: Taasta server kohalikust varukoopiast</string>
     <string name="settings_restore_server_summary">HOIATUS: Järgnevaga kirjutatakse serveris leiduvad andmed kohaliku varukoopia andmetega üle. Eeldab rakenduse uuesti käivitamist ja uuesti sisselogimist.</string>
+    <string name="restore_warning_title">KATSELINE: Kas taastad serveri andmed?</string>
     <string name="simple_restore">Taasta</string>
+    <string name="restore_warning_message">Järgnevaga kirjutatakse serveris leiduvad andmed kohaliku varukoopia andmetega üle.\n\nEeldused:\n- Kasutajakonto on serveris olemas\n- Kõik tahvlite liikmed on serveris olemas\n- Sa oled sisse loginud Nextcloudi failirakendusse\n\nManused:\nMitte kõik manused ei pruugi olla kohalikus seadmes saadaval ja seega ei saa neid uude serverisse üles laadida.\n\nKasutajad peavad serveris olema olemas:\n%1$s\n\nRakendus käivitub kohe.</string>
     <string name="restore_backup_failed">Andmebaasi varundamine ei õnnestunud. Taastamine on katkestatud.</string>
-    </resources>
+    <string name="settings_restore_local_backup">KATSELINE: Taasta kohalikust varukoopiast</string>
+    <string name="settings_restore_local_backup_summary">Taastab andmebaasi viimatusest varukoopiast.</string>
+    <string name="restore_local_backup_warning_title">KATSELINE: Kas taastad varukoopiast?</string>
+    <string name="restore_local_backup_warning_message">Järgnevaga asendad oma senise andmebaasi viimase varukoopiaga. Senised andmed lähevad kaotsi.</string>
+    <string name="restore_local_backup_success">Andmebaas on taastatud. Rakendus käivitub nüüd..</string>
+    <string name="restore_local_backup_failed">Andmebaasi taastamine ei õnnestunud.</string>
+    <string name="settings_create_local_backup">KATSELINE: Kohaliku varukoopia tegemine</string>
+    <string name="settings_create_local_backup_summary">Loob praegusest andmebaasist varukoopia.</string>
+    <string name="create_local_backup_success">Varundamine õnnestus.</string>
+    <string name="create_local_backup_failed">Varundamine ei õnnestunud.</string>
+    <string name="settings_export_database">KATSELINE: Andmebaasi eksport faili</string>
+    <string name="settings_export_database_summary">Kopeerib andmebaasi sinu valitud asukohas asuvasse faili.</string>
+    <string name="export_database_failed">Andmebaasi eksportimine ei õnnestunud.</string>
+    <string name="export_database_success">Andmebaasi eksportimine õnnestus.</string>
+</resources>

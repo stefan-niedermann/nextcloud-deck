@@ -344,6 +344,9 @@
     <string name="label_clear_color">Farbe löschen</string>
     <string name="choose_color">Farbe wählen</string>
 
+    <string name="settings_recovery_title">Notfallwiederherstellung</string>
+    <string name="recovery_deck_server_title">Deck-Server wiederherstellen</string>
+    <string name="recovery_deck_android_title">Deck-Android wiederherstellen</string>
     <string name="settings_restore_server">EXPERIMENTELL: Server aus lokaler Kopie wiederherstellen</string>
     <string name="settings_restore_server_summary">ACHTUNG: Überschreibt Serverdaten mit lokalen Kopien. Erfordert eine erneute Anmeldung und einen Neustart der App.</string>
     <string name="restore_warning_title">EXPERIMENTELL: Serverdaten wiederherstellen?</string>

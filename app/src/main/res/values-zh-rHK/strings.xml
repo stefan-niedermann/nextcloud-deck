@@ -340,6 +340,9 @@
     <string name="label_clear_color">清除顏色</string>
     <string name="choose_color">選擇顏色</string>
 
+    <string name="settings_recovery_title">緊急復原</string>
+    <string name="recovery_deck_server_title">復原 Deck 伺服器</string>
+    <string name="recovery_deck_android_title">復原 Deck Android</string>
     <string name="settings_restore_server">實驗性功能：從本機副本還原伺服器</string>
     <string name="settings_restore_server_summary">危險：以本機副本覆寫伺服器資料。需要重新登入並重新啟動應用程式。</string>
     <string name="restore_warning_title">實驗性功能：還原伺服器資料？</string>

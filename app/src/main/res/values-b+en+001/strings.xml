@@ -344,6 +344,9 @@
     <string name="label_clear_color">Clear colour</string>
     <string name="choose_color">Choose colour</string>
 
+    <string name="settings_recovery_title">Emergency Recovery</string>
+    <string name="recovery_deck_server_title">Recover Deck Server</string>
+    <string name="recovery_deck_android_title">Recover Deck Android</string>
     <string name="settings_restore_server">EXPERIMENTAL: Restore server from local copy</string>
     <string name="settings_restore_server_summary">DANGER: Overwrites server data with local copy. Requires re-login and app restart.</string>
     <string name="restore_warning_title">EXPERIMENTAL: Restore server data?</string>
