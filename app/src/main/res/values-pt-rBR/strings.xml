@@ -351,24 +351,10 @@
     <string name="settings_recovery_title">Recuperação de emergência</string>
     <string name="recovery_deck_server_title">Recuperar o servidor do Deck</string>
     <string name="recovery_deck_android_title">Recuperar o Deck no Android</string>
-    <string name="settings_restore_server">EXPERIMENTAL: Restaurar o servidor a partir de uma cópia local</string>
-    <string name="settings_restore_server_summary">PERIGO: Substitui os dados do servidor pela cópia local. É necessário fazer login novamente e reiniciar o aplicativo.</string>
-    <string name="restore_warning_title">EXPERIMENTAL: Restaurar os dados do servidor?</string>
     <string name="simple_restore">Restaurar</string>
-    <string name="restore_warning_message">Isso substituirá todos os dados desta conta no servidor pela sua cópia local.\n\nRequisitos:\n- A conta de usuário deve existir no servidor\n- Todos os membros do quadro devem existir no servidor\n- É necessário estar conectado ao aplicativo Nextcloud Arquivos\n\nAnexos:\nNem todos os anexos podem estar disponíveis localmente e, portanto, não poderão ser enviados para o novo servidor.\n\nUsuários que devem existir no servidor:\n%1$s\n\nO aplicativo será reiniciado agora.</string>
-    <string name="restore_backup_failed">Falha no backup do banco de dados. Restauração cancelada.</string>
-    <string name="settings_restore_local_backup">EXPERIMENTAL: Restaurar a partir de um backup local</string>
-    <string name="settings_restore_local_backup_summary">Restaura o banco de dados a partir do último arquivo de backup.</string>
-    <string name="restore_local_backup_warning_title">EXPERIMENTAL: Restaurar a partir do backup?</string>
-    <string name="restore_local_backup_warning_message">Isso substituirá seu banco de dados atual pelo último backup. Os dados atuais serão perdidos.</string>
+    <string name="simple_apply">Aplicar</string>
     <string name="restore_local_backup_success">O banco de dados foi restaurado. O aplicativo será reiniciado agora.</string>
     <string name="restore_local_backup_failed">Falha ao restaurar o banco de dados</string>
-    <string name="settings_create_local_backup">EXPERIMENTAL: Criar backup local</string>
-    <string name="settings_create_local_backup_summary">Cria um backup do banco de dados atual.</string>
-    <string name="create_local_backup_success">Backup criado com êxito.</string>
-    <string name="create_local_backup_failed">Falha no backup.</string>
-    <string name="settings_export_database">EXPERIMENTAL: Exportar arquivo de banco de dados</string>
-    <string name="settings_export_database_summary">Copia o arquivo do banco de dados para o local de sua escolha.</string>
+
     <string name="export_database_failed">Falha na exportação.</string>
-    <string name="export_database_success">Banco de dados exportado com êxito.</string>
-</resources>
+    </resources>

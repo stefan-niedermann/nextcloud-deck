@@ -352,24 +352,10 @@
     <string name="label_clear_color">Vymazať farbu</string>
     <string name="choose_color">Vyberte farbu</string>
 
-    <string name="settings_restore_server">EXPERIMENTÁLNE: Obnoviť server z lokálnej kópie</string>
-    <string name="settings_restore_server_summary">NEBEZPEČENSTVO: Prepíše údaje na serveri lokálnou kópiou. Vyžaduje opätovné prihlásenie a reštart aplikácie.</string>
-    <string name="restore_warning_title">EXPERIMENTÁLNE: Obnoviť údaje servera?</string>
     <string name="simple_restore">Obnoviť</string>
-    <string name="restore_warning_message">Týmto sa všetky údaje tohto konta na serveri prepíšu vašou lokálnou kópiou.\n\nPožiadavky:\n- Používateľské konto existuje na serveri\n- Všetci členovia násteniek existujú na serveri\n- Ste prihlásení v aplikácii Nextcloud Files\n\nPrílohy:\nNiektoré prílohy nemusia byť dostupné lokálne, a preto ich nebude možné nahrať na nový server.\n\nPoužívatelia, ktorí musia existovať na serveri:\n%1$s\n\nAplikácia sa teraz reštartuje.</string>
-    <string name="restore_backup_failed">Zálohovanie databázy zlyhalo. Obnovenie bolo zrušené.</string>
-    <string name="settings_restore_local_backup">EXPERIMENTÁLNE: Obnoviť z lokálnej zálohy.</string>
-    <string name="settings_restore_local_backup_summary">Obnoví databázu z posledného súboru zálohy.</string>
-    <string name="restore_local_backup_warning_title">EXPERIMENTÁLNE: Obnoviť zo zálohy?</string>
-    <string name="restore_local_backup_warning_message">Týmto sa vaša aktuálna databáza nahradí poslednou zálohou. Aktuálne údaje sa stratia.</string>
+    <string name="simple_apply">Použiť</string>
     <string name="restore_local_backup_success">Databáza bola obnovená. Aplikácia sa teraz reštartuje.</string>
     <string name="restore_local_backup_failed">Obnovenie databázy zlyhalo.</string>
-    <string name="settings_create_local_backup">EXPERIMENTÁLNE: Vytvoriť lokálnu zálohu</string>
-    <string name="settings_create_local_backup_summary">Vytvorí zálohu aktuálnej databázy.</string>
-    <string name="create_local_backup_success">Záloha bola úspešne vytvorená.</string>
-    <string name="create_local_backup_failed">Zálohovanie zlyhalo.</string>
-    <string name="settings_export_database">EXPERIMENTÁLNE: Exportovať súbor databázy</string>
-    <string name="settings_export_database_summary">Skopíruje súbor databázy na vami zvolené miesto.</string>
+
     <string name="export_database_failed">Export zlyhal.</string>
-    <string name="export_database_success">Databáza bola úspešne exportovaná.</string>
-</resources>
+    </resources>

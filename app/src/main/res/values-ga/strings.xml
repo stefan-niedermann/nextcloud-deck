@@ -359,24 +359,9 @@
     <string name="settings_recovery_title">Aisghabháil Éigeandála</string>
     <string name="recovery_deck_server_title">Aisghabháil Freastalaí Deic</string>
     <string name="recovery_deck_android_title">Aisghabháil Deic Android</string>
-    <string name="settings_restore_server">TURGNAMHACH: Athchóirigh an freastalaí ó chóip áitiúil</string>
-    <string name="settings_restore_server_summary">CONTÚIRT: Scríobhann sé sonraí an fhreastalaí le cóip áitiúil. Éilíonn sé ath-logáil isteach agus atosú an aip.</string>
-    <string name="restore_warning_title">TURGNAMHACH: An bhfuil tú ag iarraidh sonraí an fhreastalaí a athchóiriú?</string>
     <string name="simple_restore">Athchóirigh</string>
-    <string name="restore_warning_message">Scríobhfaidh sé seo na sonraí go léir ar an bhfreastalaí don chuntas seo le do chóip áitiúil.\n\nRiachtanais:\n- Tá cuntas úsáideora ann ar an bhfreastalaí\n- Tá gach ball boird ann ar an bhfreastalaí\n- Logáilte isteach san aip Nextcloud Files\n\nCeangaltáin:\nB’fhéidir nach bhfuil na ceangaltáin go léir ar fáil go háitiúil agus dá bhrí sin ní féidir iad a uaslódáil chuig an bhfreastalaí nua.\n\nÚsáideoirí nach mór a bheith ann ar an bhfreastalaí:\n%1$s\n\nAtosófar an aip anois.</string>
-    <string name="restore_backup_failed">Theip ar chúltaca bunachar sonraí. Cealaíodh an t-athchóiriú.</string>
-    <string name="settings_restore_local_backup">TURGNAMHACH: Athchóirigh ó chúltaca áitiúil</string>
-    <string name="settings_restore_local_backup_summary">Athchóiríonn sé an bunachar sonraí ón gcomhad cúltaca deireanach.</string>
-    <string name="restore_local_backup_warning_title">TURGNAMHACH: Athchóirigh ó chúltaca?</string>
-    <string name="restore_local_backup_warning_message">Cuirfidh sé seo an cúltaca deireanach in ionad do bhunachar sonraí reatha. Caillfear na sonraí reatha.</string>
     <string name="restore_local_backup_success">Bunachar sonraí athchóirithe. Atosófar an aip anois.</string>
     <string name="restore_local_backup_failed">Theip ar athchóiriú an bhunachair shonraí.</string>
-    <string name="settings_create_local_backup">TURGNAMHACH: Cruthaigh cúltaca áitiúil</string>
-    <string name="settings_create_local_backup_summary">Cruthaíonn sé cúltaca den bhunachar sonraí reatha.</string>
-    <string name="create_local_backup_success">Cruthaíodh cúltaca go rathúil.</string>
-    <string name="create_local_backup_failed">Theip ar an gcúltaca.</string>
-    <string name="settings_export_database">TURGNAMHACH: Comhad bunachar sonraí a onnmhairiú</string>
-    <string name="settings_export_database_summary">Cóipeálann sé an comhad bunachar sonraí chuig suíomh de do rogha féin.</string>
+
     <string name="export_database_failed">Theip ar an easpórtáil.</string>
-    <string name="export_database_success">Easpórtáladh an bunachar sonraí go rathúil.</string>
-</resources>
+    </resources>

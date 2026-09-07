@@ -340,4 +340,5 @@
     <string name="choose_color">Izbor barve</string>
 
     <string name="simple_restore">Obnovi</string>
+    <string name="simple_apply">Uveljavi</string>
     </resources>

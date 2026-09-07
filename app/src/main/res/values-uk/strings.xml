@@ -345,4 +345,5 @@
     <string name="choose_color">Виберіть колір</string>
 
     <string name="simple_restore">Відновити</string>
+    <string name="simple_apply">Застосувати</string>
     </resources>

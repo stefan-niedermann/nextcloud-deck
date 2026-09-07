@@ -337,4 +337,5 @@
     <string name="choose_color">Velg farge</string>
 
     <string name="simple_restore">Gjenopprett</string>
+    <string name="simple_apply">Bruk</string>
     </resources>
