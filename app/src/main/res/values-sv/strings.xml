@@ -344,10 +344,45 @@
     <string name="label_clear_color">Rensa färg</string>
     <string name="choose_color">Välj färg</string>
 
+    <string name="settings_recovery_title">Nödåterställning</string>
+    <string name="recovery_deck_server_title">Återställ Deck-servern</string>
+    <string name="recovery_deck_android_title">Återställ Deck Android</string>
+    <string name="settings_restore_server_summary">⚠️ FARA: Skriver över serverdata med lokalt tillgängliga data. Lokalt tillgängliga data utgör bara en del av all tillgänglig information och saknar bilagor, aktiviteter med mera. Kräver ny autentisering och omstart av appen.</string>
+    <string name="restore_warning_title">⚠️ FARA: Skriv över serverdata</string>
     <string name="simple_restore">Återställ</string>
     <string name="simple_apply">Verkställ</string>
+    <string name="backup_restore_warning">Jag godkänner att det är mitt eget ansvar att regelbundet säkerhetskopiera mina data. Verktygen nedan erbjuder begränsade möjligheter till nödåterställning och kan inte ses som en fullgod säkerhetskopieringslösning. Jag förstår att de endast ska användas när supporten råder mig att göra det.</string>
+
+    <string name="settings_create_local_backup">Skapa ögonblicksbild</string>
+    <string name="settings_create_local_backup_summary">Skapar en ögonblicksbild av den lokala databasen. Det här är ingen säkerhetskopia och den saknar information som endast är tillgänglig på servern.</string>
+
+    <string name="settings_restore_local_backup">Tillämpa ögonblicksbild</string>
+    <string name="settings_restore_local_backup_summary">Ersätter Deck Androids databas med den senaste ögonblicksbilden och startar om appen.</string>
+    <string name="restore_local_backup_warning_title">⚠️ Observera!</string>
+    <string name="restore_local_backup_warning_message">Ändringar som ännu inte har synkroniserats kommer att gå förlorade oåterkalleligt. Se till att du har antecknat dina lokala ändringar.</string>
+
     <string name="restore_local_backup_success">Databasen återställdes. Appen startas nu om.</string>
     <string name="restore_local_backup_failed">Det gick inte att återställa databasen.</string>
 
+    <string name="create_local_backup_success">Ögonblicksbild skapades.</string>
+    <string name="create_local_backup_failed">Det gick inte att skapa ögonblicksbilden.</string>
+
+    <string name="settings_export_database">Exportera ögonblicksbild</string>
+    <string name="settings_export_database_summary">Kopierar den senaste ögonblicksbilden, som innehåller Deck Androids SQLite-databasfil, till en plats som du väljer. Den innehåller inte all information. Det här är ingen fullgod säkerhetskopieringslösning.</string>
     <string name="export_database_failed">Exporten misslyckades.</string>
-    </resources>
+    <string name="export_database_success">Ögonblicksbild exporterades.</string>
+
+    <string name="restore_warning_message">Detta kommer att skriva över all data på servern för det här kontot med din lokala, ofullständiga kopia och starta om Deck Android-appen.
+
+Krav:
+- Användarkontot finns på servern
+- Alla användare som dina tavlor delas med måste finnas på servern
+- Du är korrekt autentiserad i Nextcloud Files-appen
+
+Bilagor, aktiviteter med mera:
+Alla bilagor finns kanske inte lokalt och kan därför inte laddas upp till den nya servern. Aktiviteter skapas i allmänhet endast av Deck-servern. Den här och annan information kan saknas efter återställningen.
+
+Användare som måste finnas på servern:
+%1$s</string>
+    <string name="restore_backup_failed">Säkerhetskopiering av databasen misslyckades. Återställningen avbröts.</string>
+</resources>

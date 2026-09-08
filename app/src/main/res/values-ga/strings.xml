@@ -360,6 +360,7 @@
     <string name="recovery_deck_server_title">Aisghabháil Freastalaí Deic</string>
     <string name="recovery_deck_android_title">Aisghabháil Deic Android</string>
     <string name="simple_restore">Athchóirigh</string>
+    <string name="simple_apply">Cuir isteach</string>
     <string name="restore_local_backup_success">Bunachar sonraí athchóirithe. Atosófar an aip anois.</string>
     <string name="restore_local_backup_failed">Theip ar athchóiriú an bhunachair shonraí.</string>
 

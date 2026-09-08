@@ -348,6 +348,7 @@
     <string name="recovery_deck_server_title">Taasta Kanbani serveri andmed</string>
     <string name="recovery_deck_android_title">Taasta Kanbani Androidi rakenduse andmed</string>
     <string name="simple_restore">Taasta</string>
+    <string name="simple_apply">Rakenda</string>
     <string name="restore_local_backup_success">Andmebaas on taastatud. Rakendus käivitub nüüd..</string>
     <string name="restore_local_backup_failed">Andmebaasi taastamine ei õnnestunud.</string>
 

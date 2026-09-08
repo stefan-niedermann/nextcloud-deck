@@ -352,10 +352,34 @@
     <string name="label_clear_color">Vymazať farbu</string>
     <string name="choose_color">Vyberte farbu</string>
 
+    <string name="settings_recovery_title">Núdzové obnovenie</string>
+    <string name="recovery_deck_server_title">Obnoviť server Deck</string>
+    <string name="recovery_deck_android_title">Obnoviť Deck pre Android</string>
+    <string name="settings_restore_server_summary">⚠️ NEBEZPEČENSTVO: Prepíše údaje na serveri lokálne dostupnými údajmi. Lokálne dostupné údaje sú iba časťou dostupných informácií a chýbajú v nich prílohy, aktivity a ďalšie údaje. Vyžaduje opätovné overenie a reštart aplikácie.</string>
+    <string name="restore_warning_title">⚠️ NEBEZPEČENSTVO: Prepísať údaje na serveri</string>
     <string name="simple_restore">Obnoviť</string>
     <string name="simple_apply">Použiť</string>
+    <string name="backup_restore_warning">Súhlasím, že za pravidelné zálohovanie svojich údajov zodpovedám výhradne ja. Nástroje nižšie poskytujú obmedzené možnosti núdzového obnovenia a nemožno ich považovať za riadne riešenie zálohovania. Chápem, že by sa mali používať iba na odporúčanie podpory.</string>
+
+    <string name="settings_create_local_backup">Vytvoriť snímku</string>
+    <string name="settings_create_local_backup_summary">Vytvorí snímku lokálnej databázy. Nejde o zálohu a chýbajú v nej informácie dostupné iba na serveri.</string>
+
+    <string name="settings_restore_local_backup">Použiť snímku</string>
+    <string name="settings_restore_local_backup_summary">Nahradí databázu aplikácie Deck pre Android najnovšou snímkou a reštartuje aplikáciu.</string>
+    <string name="restore_local_backup_warning_title">⚠️ Upozornenie!</string>
+    <string name="restore_local_backup_warning_message">Nezosynchronizované zmeny sa nenávratne stratia. Poznačte si svoje lokálne zmeny.</string>
+
     <string name="restore_local_backup_success">Databáza bola obnovená. Aplikácia sa teraz reštartuje.</string>
     <string name="restore_local_backup_failed">Obnovenie databázy zlyhalo.</string>
 
+    <string name="create_local_backup_success">Snímka bola úspešne vytvorená.</string>
+    <string name="create_local_backup_failed">Vytvorenie snímky zlyhalo.</string>
+
+    <string name="settings_export_database">Exportovať snímku</string>
+    <string name="settings_export_database_summary">Skopíruje poslednú snímku obsahujúcu súbor databázy SQLite aplikácie Deck pre Android na miesto podľa vášho výberu. Neobsahuje všetky informácie. Nejde o riadne riešenie zálohovania.</string>
     <string name="export_database_failed">Export zlyhal.</string>
-    </resources>
+    <string name="export_database_success">Snímka bola úspešne exportovaná.</string>
+
+    <string name="restore_warning_message">Prepíše všetky údaje na serveri pre tento účet vašou lokálnou čiastočnou kópiou a reštartuje aplikáciu Deck pre Android.\n\nPožiadavky:\n- Používateľský účet existuje na serveri\n- Na serveri musia existovať všetci používatelia, s ktorými sú nástenky zdieľané\n- V aplikácii Súbory Nextcloud musíte byť riadne overení\n\nPrílohy, aktivity a ďalšie údaje:\nNie všetky prílohy môžu byť lokálne dostupné, a preto ich nemožno nahrať na nový server. Aktivity zvyčajne vytvára iba server Decku. Po obnovení môžu chýbať tieto aj ďalšie údaje.\n\nPoužívatelia, ktorí musia existovať na serveri:\n%1$s</string>
+    <string name="restore_backup_failed">Zálohovanie databázy zlyhalo. Obnovenie bolo zrušené.</string>
+</resources>

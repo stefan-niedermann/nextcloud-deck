@@ -354,4 +354,5 @@
     <string name="choose_color">إختر لوناً</string>
 
     <string name="simple_restore">إستعادة </string>
+    <string name="simple_apply">حفظ</string>
     </resources>

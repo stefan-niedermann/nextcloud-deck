@@ -347,9 +347,31 @@
     <string name="settings_recovery_title">Notfallwiederherstellung</string>
     <string name="recovery_deck_server_title">Deck-Server wiederherstellen</string>
     <string name="recovery_deck_android_title">Deck-Android wiederherstellen</string>
+    <string name="settings_restore_server_summary">⚠️ ACHTUNG: Überschreibt Serverdaten mit lokal verfügbaren Daten. Lokal verfügbare Daten sind nur ein Teil der verfügbaren Informationen und es fehlen Anhänge, Aktivitäten und mehr. Erfordert eine erneute Anmeldung und einen Neustart der App.</string>
+    <string name="restore_warning_title">⚠️ ACHTUNG: Serverdaten überschreiben</string>
     <string name="simple_restore">Wiederherstellen</string>
+    <string name="simple_apply">Anwenden</string>
+    <string name="backup_restore_warning">Ich akzeptiere, dass es in meiner alleinigen Verantwortung liegt, regelmäßige Backups meiner Daten zu erstellen. Die folgenden Tools bieten nur begrenzte Notfallwiederherstellungsfunktionen und können nicht als geeignete Backup-Lösung angesehen werden. Ich verstehe, dass sie nur verwendet werden sollten, wenn der Support dazu rät.</string>
+
+    <string name="settings_create_local_backup">Snapshot erstellen</string>
+    <string name="settings_create_local_backup_summary">Erstellt einen Snapshot der lokalen Datenbank. Dies ist kein Backup und es fehlen Informationen, die nur auf dem Server verfügbar sind.</string>
+
+    <string name="settings_restore_local_backup">Snapshot anwenden</string>
+    <string name="settings_restore_local_backup_summary">Ersetzt die Datenbank von Deck Android durch den neuesten Snapshot und startet die App neu.</string>
+    <string name="restore_local_backup_warning_title">⚠️ Achtung!</string>
+    <string name="restore_local_backup_warning_message">Noch nicht synchronisierte Änderungen gehen unwiederbringlich verloren. Sicherstellen, dass lokalen Änderungen bekannt sind.</string>
+
     <string name="restore_local_backup_success">Die Datenbank wurde wiederhergestellt. Die App wird nun neu gestartet.</string>
     <string name="restore_local_backup_failed">Die Wiederherstellung der Datenbank ist fehlgeschlagen.</string>
 
+    <string name="create_local_backup_success">Snapshot erstellt.</string>
+    <string name="create_local_backup_failed">Snapshot fehlgeschlagen.</string>
+
+    <string name="settings_export_database">Snapshot exportieren</string>
+    <string name="settings_export_database_summary">Kopiert den letzten Snapshot der Deck Android SQLite-Datenbankdatei an einen frei auswählbaren Speicherort. Er enthält nicht alle Informationen und ist keine vollständige Backup-Lösung.</string>
     <string name="export_database_failed">Export fehlgeschlagen</string>
-    </resources>
+    <string name="export_database_success">Snapshot exportiert.</string>
+
+    <string name="restore_warning_message">Hierdurch werden alle Daten auf dem Server für dieses Konto mit einer lokalen Teilkopie überschrieben und die Deck Android-App neu gestartet.\n\nAnforderungen:\n- Benutzerkonto existiert auf dem Server\n- Alle Benutzerboards die geteilt wurden, müssen auf dem Server existieren\n- Richtig angemeldet in der Nextcloud Files app\n\nAnhänge, Aktivitäten und mehr:\nNicht alle Anhänge sind möglicherweise lokal verfügbar und können daher nicht auf den neuen Server hochgeladen werden. Aktivitäten werden im Allgemeinen nur vom Deck-Server erstellt. Diese und andere Informationen fehlen möglicherweise nach der Durchführung der Wiederherstellung.\n\nBenutzer, die auf dem Server vorhanden sein müssen:\n%1$s</string>
+    <string name="restore_backup_failed">Datenbanksicherung fehlgeschlagen. Wiederherstellung abgebrochen.</string>
+</resources>

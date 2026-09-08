@@ -350,11 +350,32 @@
 
     <string name="settings_recovery_title">Recuperação de emergência</string>
     <string name="recovery_deck_server_title">Recuperar o servidor do Deck</string>
-    <string name="recovery_deck_android_title">Recuperar o Deck no Android</string>
+    <string name="recovery_deck_android_title">Recuperar o Deck para Android</string>
+    <string name="settings_restore_server_summary">⚠️ PERIGO: Substitui os dados do servidor pelos dados disponíveis localmente. Os dados disponíveis localmente representam apenas uma parte das informações disponíveis e não incluem anexos, atividades e outros itens. Requer reautenticação e reinicialização do aplicativo.</string>
+    <string name="restore_warning_title">⚠️ PERIGO: Substituir dados do servidor</string>
     <string name="simple_restore">Restaurar</string>
     <string name="simple_apply">Aplicar</string>
+    <string name="backup_restore_warning">Aceito que é de minha exclusiva responsabilidade realizar backups regulares dos meus dados. As ferramentas abaixo oferecem recursos limitados de recuperação de emergência e não podem ser consideradas uma solução adequada de backup. Entendo que elas só devem ser utilizadas quando recomendado pela equipe de suporte.</string>
+
+    <string name="settings_create_local_backup">Criar instantâneo</string>
+    <string name="settings_create_local_backup_summary">Cria um instantâneo do banco de dados local. Isso não é um backup e não contém informações que só estão disponíveis no seu servidor.</string>
+
+    <string name="settings_restore_local_backup">Aplicar instantâneo</string>
+    <string name="settings_restore_local_backup_summary">Substitui o banco de dados do Deck para Android pela versão mais recente e reinicia o aplicativo.</string>
+    <string name="restore_local_backup_warning_title">⚠️ Atenção!</string>
+    <string name="restore_local_backup_warning_message">As alterações ainda não sincronizadas serão perdidas de forma irrecuperável. Certifique-se de ter anotado suas alterações locais.</string>
+
     <string name="restore_local_backup_success">O banco de dados foi restaurado. O aplicativo será reiniciado agora.</string>
     <string name="restore_local_backup_failed">Falha ao restaurar o banco de dados</string>
 
+    <string name="create_local_backup_success">O instantâneo foi criado com êxito.</string>
+    <string name="create_local_backup_failed">Falha na captura de instantâneo.</string>
+
+    <string name="settings_export_database">Exportar instantâneo</string>
+    <string name="settings_export_database_summary">Copia o último instantâneo contendo o arquivo do banco de dados SQLite do Deck para Android para um local de sua escolha. Esse arquivo não contém todas as informações. Essa não é uma solução adequada para backup.</string>
     <string name="export_database_failed">Falha na exportação.</string>
-    </resources>
+    <string name="export_database_success">O instantâneo foi exportado com êxito.</string>
+
+    <string name="restore_warning_message">Isso substituirá todos os dados no servidor relativos a esta conta pela sua cópia parcial local e reiniciará o aplicativo Deck para Android.\n\nRequisitos:\n- A conta de usuário deve existir no servidor\n- Todos os quadros com os quais o usuário compartilha devem existir no servidor\n- Autenticação correta no aplicativo Nextcloud Arquivos\n\nAnexos, atividades e outros:\nNem todos os anexos podem estar disponíveis localmente e, portanto, não poderão ser enviados para o novo servidor. As atividades geralmente são criadas apenas pelo servidor do Deck. Essas e outras informações podem estar ausentes após a restauração.\n\nUsuários que devem existir no servidor:\n%1$s</string>
+    <string name="restore_backup_failed">Falha no backup do banco de dados. Restauração cancelada.</string>
+</resources>

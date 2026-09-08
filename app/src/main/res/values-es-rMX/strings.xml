@@ -339,4 +339,5 @@
     <string name="no_search_results_description">No hemos encontrado ningún resultado para el término de búsqueda proporcionado</string>
     <string name="label_color">Color</string>
     <string name="simple_restore">Restaurar</string>
+    <string name="simple_apply">Aplicar</string>
     </resources>

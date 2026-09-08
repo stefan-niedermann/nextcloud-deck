@@ -347,10 +347,31 @@
     <string name="settings_recovery_title">Acil durum kurtarması</string>
     <string name="recovery_deck_server_title">Destek sunucusunu kurtar</string>
     <string name="recovery_deck_android_title">Deste Android uygulamasını kurtar</string>
+    <string name="settings_restore_server_summary">⚠️ TEHLİKE: Bu işlem, sunucu verilerinin üzerine yerel olarak var olan verileri yazar. Yerel olarak var veriler var olan tüm bilgilerin yalnızca bir parçasıdır ve ek dosyaları, etkinlikler ve diğer şeyler eksiktir. Kimliğin yeniden doğrulanması ve uygulamanın yeniden başlatılması gerekir.</string>
+    <string name="restore_warning_title">⚠️ TEHLİKE: Sunucu verilerinin üzerine yazılacak</string>
     <string name="simple_restore">Geri yükle</string>
     <string name="simple_apply">Uygula</string>
+    <string name="backup_restore_warning">Verilerimi düzenli olarak yedeklemenin benim sorumluluğum olduğunu kabul ediyorum. Aşağıdaki araçlar sınırlı acil durum kurtarma yetenekleri sağlar ve uygun bir yedekleme çözümü olarak kabul edilemez. Yalnızca destek ekibi tarafından önerildiğinde kullanılmaları gerektiğini anladım.</string>
+
+    <string name="settings_create_local_backup">Anlık kopya oluştur</string>
+    <string name="settings_create_local_backup_summary">Yerel veri tabanının anlık kopyasını oluşturur. Bu bir yedek değildir ve yalnızca sunucunuzda bulunan bilgileri içermez.</string>
+
+    <string name="settings_restore_local_backup">Anlık kopyayı uygula</string>
+    <string name="settings_restore_local_backup_summary">Deck Android veri tabanını son anlık kopya ile değiştirir ve uygulamayı yeniden başlatır.</string>
+    <string name="restore_local_backup_warning_title">⚠️ Dikkat!</string>
+    <string name="restore_local_backup_warning_message">Henüz eşitlenmemiş değişiklikler kurtarılamayacak şekilde kaybolacak. Yerel değişikliklerinizi not aldığınızdan emin olun.</string>
+
     <string name="restore_local_backup_success">Veri tabanı geri yüklendi. Uygulama şimdi yeniden başlatılacak.</string>
     <string name="restore_local_backup_failed">Veri tabanı geri yüklenemedi</string>
 
+    <string name="create_local_backup_success">Anlık kopya oluşturuldu.</string>
+    <string name="create_local_backup_failed">Anlık kopya oluşturulamadı.</string>
+
+    <string name="settings_export_database">Anlık kopyayı dışa aktar</string>
+    <string name="settings_export_database_summary">Deck Android SQLite veri tabanı dosyasının bulunduğu son anlık kopyayı seçtiğiniz bir konuma kopyalar. Bu kopyada tüm bilgiler bulunmaz. Anlık kopya, uygun bir yedekleme çözümü değildir.</string>
     <string name="export_database_failed">Dışa aktarılamadı.</string>
-    </resources>
+    <string name="export_database_success">Anlık kopya dışa aktarıldı.</string>
+
+    <string name="restore_warning_message">Bu işlem, bu hesabın sunucudaki tüm verilerinin üzerine bir bölümü yerel kopyanızda bulunan verileri yazacak ve Deste Android uygulamasını yeniden başlatacak.\n\nGereksinimler:\n- Kullanıcı hesabı sunucuda var olmalıdır\n- Paylaşılmış tüm kullanıcı panoları sunucuda bulunmalıdır\n- Nextcloud Dosyalar uygulamasında kimlik doğrulaması yapılmış olmalıdır.\n\n Ek dosyalar etkinlikler ve diğer şeyler:\nTüm ek dosyaları yerel olarak var olmayabilir ve bu nedenle yeni sunucuya yüklenemeyebilir. Etkinlikler genellikle yalnızca Deste sunucusu tarafından oluşturulur. Geri yükleme tamamlandıktan sonra bu ve diğer bilgiler eksik olabilir.\n\nSunucuda bulunması gereken kullanıcılar:\n%1$s</string>
+    <string name="restore_backup_failed">Veri tabanı yedeği alınamadı. Geri yükleme iptal edildi.</string>
+</resources>

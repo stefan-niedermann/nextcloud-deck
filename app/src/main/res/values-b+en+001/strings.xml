@@ -348,6 +348,7 @@
     <string name="recovery_deck_server_title">Recover Deck Server</string>
     <string name="recovery_deck_android_title">Recover Deck Android</string>
     <string name="simple_restore">Restore</string>
+    <string name="simple_apply">Apply</string>
     <string name="restore_local_backup_success">Database restored. The app will restart now.</string>
     <string name="restore_local_backup_failed">Database restore failed.</string>
 

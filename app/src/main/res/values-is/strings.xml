@@ -346,9 +346,20 @@
     <string name="settings_recovery_title">Neyðarendurheimt</string>
     <string name="recovery_deck_server_title">Endurheimta Deck-þjón</string>
     <string name="recovery_deck_android_title">Endurheimta Deck fyrir Android</string>
+    <string name="restore_warning_title">⚠️ ÁHÆTTA: Skrifa yfir gögn þjóns</string>
     <string name="simple_restore">Endurheimta</string>
+    <string name="simple_apply">Virkja</string>
+    <string name="settings_create_local_backup">Búa til skyndiafrit</string>
+    <string name="settings_restore_local_backup">Virkja skyndiafrit</string>
+    <string name="restore_local_backup_warning_title">⚠️ Aðvörun!</string>
     <string name="restore_local_backup_success">Gagnagrunnur endurheimtur. Forritið mun núna endurræsast.</string>
     <string name="restore_local_backup_failed">Endurheimt gagnagrunns mistókst.</string>
 
+    <string name="create_local_backup_success">Tókst að búa til skyndiafrit.</string>
+    <string name="create_local_backup_failed">Skyndiafrit mistókst.</string>
+
+    <string name="settings_export_database">Flytja út skyndiafrit</string>
     <string name="export_database_failed">Útflutningur mistókst.</string>
+    <string name="export_database_success">Tókst að flytja út skyndiafrit.</string>
+
     </resources>

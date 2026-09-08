@@ -304,4 +304,5 @@
     <string name="choose_color">Valitse väri</string>
 
     <string name="simple_restore">Palauta</string>
+    <string name="simple_apply">Toteuta</string>
     </resources>
