@@ -343,10 +343,31 @@
     <string name="settings_recovery_title">緊急復原</string>
     <string name="recovery_deck_server_title">復原 Deck 伺服器</string>
     <string name="recovery_deck_android_title">復原 Deck Android</string>
+    <string name="settings_restore_server_summary">⚠️ 危險：以本機現有數據覆寫伺服器數據。本機現有數據只包含部分可用資訊，並不包括附件、活動等內容。需要重新驗證身分並重新啟動應用程式。</string>
+    <string name="restore_warning_title">⚠️ 危險：覆寫伺服器數據</string>
     <string name="simple_restore">還原</string>
     <string name="simple_apply">使用</string>
+    <string name="backup_restore_warning">我接受定期備份我的數據完全是我本人的責任。以下工具只提供有限的緊急復原功能，不能視為妥善的備份方案。我明白只應在支援人員建議下使用這些工具。</string>
+
+    <string name="settings_create_local_backup">建立快照</string>
+    <string name="settings_create_local_backup_summary">建立本機資料庫的快照。這並非備份，而且不包含只儲存在伺服器上的資訊。</string>
+
+    <string name="settings_restore_local_backup">套用快照</string>
+    <string name="settings_restore_local_backup_summary">以最新快照取代 Deck Android 的資料庫，並重新啟動應用程式。</string>
+    <string name="restore_local_backup_warning_title">⚠️ 注意！</string>
+    <string name="restore_local_backup_warning_message">尚未同步的變更將永久遺失且無法復原。請確保你已記下本機變更。</string>
+
     <string name="restore_local_backup_success">資料庫已還原。應用程式現在將重新啟動。</string>
     <string name="restore_local_backup_failed">資料庫還原失敗。</string>
 
+    <string name="create_local_backup_success">快照已成功建立。</string>
+    <string name="create_local_backup_failed">建立快照失敗。</string>
+
+    <string name="settings_export_database">匯出快照</string>
+    <string name="settings_export_database_summary">將包含 Deck Android SQLite 資料庫檔案的最新快照複製到你選擇的位置。此快照並不包含所有資訊，亦不是妥善的備份方案。</string>
     <string name="export_database_failed">匯出失敗。</string>
-    </resources>
+    <string name="export_database_success">快照已成功匯出。</string>
+
+    <string name="restore_warning_message">這會以你的本機部分副本覆寫此帳戶在伺服器上的所有數據，並重新啟動 Deck Android 應用程式。\n\n要求：\n- 用戶帳戶已存在於伺服器上\n- 所有獲共享看板的用戶均必須存在於伺服器上\n- 已在 Nextcloud Files 應用程式中正確驗證身分\n\n附件、活動及其他內容：\n部分附件可能未儲存在本機，因此無法上傳至新伺服器。活動一般只由 Deck 伺服器建立。執行還原後，這些及其他資訊可能會遺失。\n\n必須存在於伺服器上的用戶：\n%1$s</string>
+    <string name="restore_backup_failed">資料庫備份失敗。已取消還原。</string>
+</resources>

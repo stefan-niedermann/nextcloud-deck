@@ -361,7 +361,7 @@
     <string name="settings_create_local_backup_summary">Cria um instantâneo do banco de dados local. Isso não é um backup e não contém informações que só estão disponíveis no seu servidor.</string>
 
     <string name="settings_restore_local_backup">Aplicar instantâneo</string>
-    <string name="settings_restore_local_backup_summary">Substitui o banco de dados do Deck para Android pela versão mais recente e reinicia o aplicativo.</string>
+    <string name="settings_restore_local_backup_summary">Substitui o banco de dados do Deck para Android pelo instantâneo mais recente e reinicia o aplicativo.</string>
     <string name="restore_local_backup_warning_title">⚠️ Atenção!</string>
     <string name="restore_local_backup_warning_message">As alterações ainda não sincronizadas serão perdidas de forma irrecuperável. Certifique-se de ter anotado suas alterações locais.</string>
 
