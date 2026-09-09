@@ -1,6 +1,7 @@
 package it.niedermann.nextcloud.deck.javafx.ui.main.features;
 
 import java.net.URL;
+import java.util.Optional;
 import java.util.ResourceBundle;
 import java.util.logging.Logger;
 
@@ -63,13 +64,19 @@ public class BoardListFeature extends AbstractFeature {
         final var listBoards = viewModel.getAccountId()
                 .switchMap(listBoardsUseCase::execute);
 
-        final var currentBoard = viewModel.getBoardId()
-                .switchMap(getBoardUseCase::execute);
+        final var currentBoard = viewModel.getOptionalBoardId()
+                .switchMap(id -> id.map(boardId -> Flowable.fromPublisher(getBoardUseCase.execute(boardId)).map(Optional::of)).orElse(Flowable.just(Optional.empty())));
 
-        final ChangeListener<Board> changeListener = (_, _, newValue) ->
+        final ChangeListener<Board> changeListener = (_, _, newValue) -> {
+            if (newValue != null) {
                 viewModel.onBoardSelected(newValue.id());
+            }
+        };
 
-        final var disposable = Flowable.combineLatest(listBoards, currentBoard, Pair::new)
+        final var disposable = Flowable.combineLatest(listBoards, currentBoard, (boards, optionalCurrentBoard) -> {
+                    final var board = optionalCurrentBoard.orElse(null);
+                    return new Pair<>(boards, board);
+                })
                 .subscribeOn(Schedulers.virtual())
                 .observeOn(JavaFxScheduler.platform())
                 .subscribe(args -> {
@@ -89,5 +96,7 @@ public class BoardListFeature extends AbstractFeature {
         Flowable<Account.ID> getAccountId();
 
         Flowable<Board.ID> getBoardId();
+
+        Flowable<Optional<Board.ID>> getOptionalBoardId();
     }
 }

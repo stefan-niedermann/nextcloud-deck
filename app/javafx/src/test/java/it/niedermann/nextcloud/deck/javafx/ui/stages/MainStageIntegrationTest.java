@@ -70,6 +70,8 @@ import it.niedermann.nextcloud.deck.domain.usecases.columns.GetColumnUseCase;
 import it.niedermann.nextcloud.deck.domain.usecases.columns.ListColumnIDsUseCase;
 import it.niedermann.nextcloud.deck.domain.usecases.comments.AddCommentUseCase;
 import it.niedermann.nextcloud.deck.domain.usecases.comments.ListPreviewCommentsUseCase;
+import it.niedermann.nextcloud.deck.domain.usecases.export.ExportBoardUseCase;
+import it.niedermann.nextcloud.deck.domain.usecases.export.ExportCardUseCase;
 import it.niedermann.nextcloud.deck.domain.usecases.labels.ListLabelsUseCase;
 import it.niedermann.nextcloud.deck.domain.usecases.labels.SearchLabelsUseCase;
 import it.niedermann.nextcloud.deck.domain.usecases.state.GetCurrentAccountUseCase;
@@ -309,6 +311,8 @@ class MainStageIntegrationTest {
                 getSyncStatusUseCase,
                 mock(ScheduleSyncUseCase.class),
                 mock(RemoveAccountUseCase.class),
+                mock(ExportBoardUseCase.class),
+                mock(ExportCardUseCase.class),
                 (_, _, _, _) -> mock(FilterFeature.class),
                 mock(ListLabelsUseCase.class),
                 mock(ListUsersUseCase.class),

@@ -4,6 +4,7 @@ import com.dlsc.gemsfx.PopOver;
 
 import java.util.Objects;
 import java.util.Optional;
+import java.util.ResourceBundle;
 import java.util.concurrent.CompletableFuture;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -226,7 +227,7 @@ public class MainService extends Store<MainService.State, MainService.Action> im
 
     @Override
     public void onAccountSelected(Account.ID accountId) {
-        dispatch(new MainService.Action.SwitchAccountAction(accountId));
+        dispatch(new Action.SwitchAccountAction(accountId));
     }
 
     @Override
@@ -245,6 +246,13 @@ public class MainService extends Store<MainService.State, MainService.Action> im
                 .filter(Optional::isPresent)
                 .map(Optional::get)
                 .distinctUntilChanged(Board.ID::equals);
+    }
+
+    @Override
+    public Flowable<Optional<Board.ID>> getOptionalBoardId() {
+        return Flowable.fromPublisher(getState())
+                .map(State::boardId)
+                .distinctUntilChanged();
     }
 
     @Override
@@ -270,6 +278,13 @@ public class MainService extends Store<MainService.State, MainService.Action> im
         return Flowable.fromPublisher(getBoardId())
                 .switchMap(getBoardUseCase::execute)
                 .distinctUntilChanged(Board::equals);
+    }
+
+    @Override
+    public Flowable<Optional<Board>> getOptionalBoard() {
+        return Flowable.fromPublisher(getOptionalBoardId())
+                .switchMap(id -> id.map(boardId -> Flowable.fromPublisher(getBoardUseCase.execute(boardId)).map(Optional::of)).orElse(Flowable.just(Optional.empty())))
+                .distinctUntilChanged();
     }
 
     @Override
@@ -318,12 +333,12 @@ public class MainService extends Store<MainService.State, MainService.Action> im
     @Override
     public void onBoardSelected(Board.ID boardId) {
         System.out.println("onBoardSelected: " + boardId);
-        dispatch(new MainService.Action.DisplayBoardAction(boardId));
+        dispatch(new Action.DisplayBoardAction(boardId));
     }
 
     @Override
     public void onOpenCard(Card.ID cardId) {
-        dispatch(new MainService.Action.EditCardAction(cardId));
+        dispatch(new Action.EditCardAction(cardId));
     }
 
     @Override
@@ -371,7 +386,7 @@ public class MainService extends Store<MainService.State, MainService.Action> im
 
     @Override
     public void onDeleteCard(Card.ID cardId) {
-        final var resources = java.util.ResourceBundle.getBundle("i18n");
+        final var resources = ResourceBundle.getBundle("i18n");
         final var alert = new Alert(Alert.AlertType.CONFIRMATION, resources.getString("main.alert.delete.content"), ButtonType.CANCEL, ButtonType.YES);
         alert.setTitle(resources.getString("main.alert.delete.title"));
         alert.setHeaderText(resources.getString("main.alert.delete.header"));
@@ -379,7 +394,7 @@ public class MainService extends Store<MainService.State, MainService.Action> im
         alert.showAndWait()
                 .map(ButtonType::getButtonData)
                 .map(ButtonBar.ButtonData::isDefaultButton)
-                .filter(Boolean.TRUE::equals).ifPresent(_ -> dispatch(new MainService.Action.DeleteCardAction(cardId)));
+                .filter(Boolean.TRUE::equals).ifPresent(_ -> dispatch(new Action.DeleteCardAction(cardId)));
     }
 
     public enum ViewMode {

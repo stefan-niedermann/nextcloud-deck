@@ -9,6 +9,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
+import java.text.MessageFormat;
 import java.time.format.DateTimeFormatter;
 import java.time.format.FormatStyle;
 import java.util.Optional;
@@ -25,6 +26,7 @@ import io.reactivex.rxjava4.core.Flowable;
 import io.reactivex.rxjava4.schedulers.Schedulers;
 import it.niedermann.nextcloud.deck.domain.model.Account;
 import it.niedermann.nextcloud.deck.domain.model.Board;
+import it.niedermann.nextcloud.deck.domain.model.Card;
 import it.niedermann.nextcloud.deck.domain.model.FilterInformation;
 import it.niedermann.nextcloud.deck.domain.usecases.accounts.GetAccountUseCase;
 import it.niedermann.nextcloud.deck.domain.usecases.accounts.GetAccountsUseCase;
@@ -42,6 +44,7 @@ import it.niedermann.nextcloud.deck.javafx.ui.shared.services.ThemeService;
 import it.niedermann.nextcloud.deck.javafx.ui.shared.views.AvatarProgressView;
 import it.niedermann.nextcloud.deck.javafx.util.JavaFxScheduler;
 import javafx.fxml.FXML;
+import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckMenuItem;
 import javafx.scene.control.CustomMenuItem;
@@ -315,10 +318,11 @@ public class HeaderFeature extends AbstractFeature {
 
         addDisposable(syncStatusDisposable);
 
-        final var currentBoardDisposable = viewModel.getBoard()
+        final var currentBoardDisposable = viewModel.getOptionalBoard()
                 .observeOn(JavaFxScheduler.platform())
-                .subscribe(board -> {
-                    final boolean boardPresent = board != null;
+                .subscribe(optionalBoard -> {
+                    final boolean boardPresent = optionalBoard.isPresent();
+                    final var board = optionalBoard.orElse(null);
                     boardTitle.setText(boardPresent ? board.title() : "");
                     editBoardBtn.setVisible(boardPresent);
                     editBoardBtn.setManaged(boardPresent);
@@ -331,10 +335,15 @@ public class HeaderFeature extends AbstractFeature {
                         final String lastEdited = board.lastModified() != null
                                 ? board.lastModified().format(DateTimeFormatter.ofLocalizedDateTime(FormatStyle.SHORT))
                                 : "unknown";
-                        boardTitle.setTooltip(new Tooltip(java.text.MessageFormat.format(resources.getString("header.tooltip.last-edited"),
+                        boardTitle.setTooltip(new Tooltip(MessageFormat.format(resources.getString("header.tooltip.last-edited"),
                                 lastEdited,
                                 "John Doe")));
                         circle.setFill(Color.rgb(board.color().getRed(), board.color().getGreen(), board.color().getBlue()));
+                        circle.setVisible(true);
+                        circle.setManaged(true);
+                    } else {
+                        circle.setVisible(false);
+                        circle.setManaged(false);
                     }
                 });
 
@@ -605,7 +614,9 @@ public class HeaderFeature extends AbstractFeature {
 
         Flowable<Board> getBoard();
 
-        Flowable<Optional<it.niedermann.nextcloud.deck.domain.model.Card.ID>> getCardId();
+        Flowable<Optional<Board>> getOptionalBoard();
+
+        Flowable<Optional<Card.ID>> getCardId();
 
         Flowable<FilterInformation> getFilter();
 
@@ -625,16 +636,16 @@ public class HeaderFeature extends AbstractFeature {
 
         void onToggleHeaderVariant();
 
-        void onOpenCardInNewWindow(it.niedermann.nextcloud.deck.domain.model.Card.ID cardId);
+        void onOpenCardInNewWindow(Card.ID cardId);
 
-        void onAssignCard(it.niedermann.nextcloud.deck.domain.model.Card.ID cardId);
+        void onAssignCard(Card.ID cardId);
 
-        void onUnassignCard(it.niedermann.nextcloud.deck.domain.model.Card.ID cardId);
+        void onUnassignCard(Card.ID cardId);
 
-        void onMoveCard(it.niedermann.nextcloud.deck.domain.model.Card.ID cardId, javafx.scene.Node anchor);
+        void onMoveCard(Card.ID cardId, Node anchor);
 
-        void onCopyCard(it.niedermann.nextcloud.deck.domain.model.Card.ID cardId, javafx.scene.Node anchor);
+        void onCopyCard(Card.ID cardId, Node anchor);
 
-        void onDeleteCard(it.niedermann.nextcloud.deck.domain.model.Card.ID cardId);
+        void onDeleteCard(Card.ID cardId);
     }
 }

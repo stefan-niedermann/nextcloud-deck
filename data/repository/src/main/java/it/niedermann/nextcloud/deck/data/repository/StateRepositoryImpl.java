@@ -22,8 +22,6 @@ public class StateRepositoryImpl implements StateRepository {
     private final KeyValueStore keyValueStore;
     private final AccountRepository accountRepository;
 
-    private final Map<Account.ID, Board.ID> currentBoardMockStore = new HashMap<>();
-
     @Inject
     public StateRepositoryImpl(KeyValueStore keyValueStore,
                                AccountRepository accountRepository) {
@@ -54,18 +52,16 @@ public class StateRepositoryImpl implements StateRepository {
 
     @Override
     public CompletableFuture<Board.ID> setCurrentBoardId(Account.ID accountId, Board.ID boardId) {
-        this.currentBoardMockStore.put(accountId, boardId);
-        return getCurrentBoardId(accountId);
+        return keyValueStore.putLong("current.board." + accountId.value(), boardId.value())
+                .thenCompose(v -> getCurrentBoardId(accountId));
     }
 
     @Override
     public CompletableFuture<Board.ID> getCurrentBoardId(Account.ID accountId) {
-        // TODO Implement and throw NoSuchElementException in case no currentBoardId is set
-        this.currentBoardMockStore.putIfAbsent(accountId, new Board.ID(1L));
-        return CompletableFuture.completedFuture(this.currentBoardMockStore.get(accountId));
-//        final var boardIdFuture = new CompletableFuture<Board.ID>();
-//        boardIdFuture.completeExceptionally(new NoSuchElementException());
-//        return boardIdFuture;
+        return Maybe.fromPublisher(FlowAdapters.toPublisher(keyValueStore.getLong("current.board." + accountId.value())))
+                .toCompletionStage()
+                .toCompletableFuture()
+                .thenApply(id -> id != -1L ? new Board.ID(id) : null);
     }
 
     @Override

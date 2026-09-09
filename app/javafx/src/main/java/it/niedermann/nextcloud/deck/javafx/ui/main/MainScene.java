@@ -136,19 +136,22 @@ public class MainScene extends AbstractScene {
                 .observeOn(JavaFxScheduler.platform())
                 .subscribe(state -> {
                     final boolean boardPresent = state.boardId().isPresent();
-                    splitPane.setVisible(boardPresent);
-                    splitPane.setManaged(boardPresent);
-                    emptyContentView.setVisible(!boardPresent);
-                    emptyContentView.setManaged(!boardPresent);
+                    splitPane.getItems().remove(boardFeature.getRoot());
+                    splitPane.getItems().remove(ganttFeature.getRoot());
+                    splitPane.getItems().remove(emptyContentView);
 
                     if (boardPresent) {
-                        splitPane.getItems().remove(boardFeature.getRoot());
-                        splitPane.getItems().remove(ganttFeature.getRoot());
                         if (state.viewMode() == MainService.ViewMode.GANTT) {
                             splitPane.getItems().add(1, ganttFeature.getRoot());
                         } else {
                             splitPane.getItems().add(1, boardFeature.getRoot());
                         }
+                        emptyContentView.setVisible(false);
+                        emptyContentView.setManaged(false);
+                    } else {
+                        splitPane.getItems().add(1, emptyContentView);
+                        emptyContentView.setVisible(true);
+                        emptyContentView.setManaged(true);
                     }
                 });
 
