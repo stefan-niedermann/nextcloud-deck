@@ -15,6 +15,8 @@ import javafx.scene.control.MenuItem;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.FlowPane;
 
+import java.util.ArrayList;
+
 public class CardPreviewView extends BorderPane {
 
     @FXML
@@ -26,7 +28,7 @@ public class CardPreviewView extends BorderPane {
     @FXML
     CardPropertiesView cardProperties;
     @FXML
-    AvatarView avatar;
+    MultiAvatarView assignees;
     @FXML
     ContextMenu contextMenu;
     @FXML
@@ -71,12 +73,10 @@ public class CardPreviewView extends BorderPane {
 
         assign.setVisible(!card.assignedToMe());
         unassign.setVisible(card.assignedToMe());
-        avatar.setVisible(card.assignedToMe());
-        avatar.setManaged(card.assignedToMe());
 
-        if (card.assignedToMe() && account != null) {
-            avatar.setAvatar(account);
-        }
+        assignees.bind(new ArrayList<>(card.assignees()));
+        assignees.setVisible(!card.assignees().isEmpty());
+        assignees.setManaged(!card.assignees().isEmpty());
 
         cardProperties.setArgs(new CardPropertiesView.Args(
                 card.remoteId(),

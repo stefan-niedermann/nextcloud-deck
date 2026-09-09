@@ -15,21 +15,19 @@ import io.reactivex.rxjava3.core.Flowable;
 import io.reactivex.rxjava3.core.Maybe;
 import io.reactivex.rxjava3.core.Single;
 import io.reactivex.rxjava3.schedulers.Schedulers;
-import it.niedermann.nextcloud.deck.data.local.dao.AttachmentDao;
+import it.niedermann.nextcloud.deck.data.local.dao.AccountDao;
 import it.niedermann.nextcloud.deck.data.local.dao.CardDao;
 import it.niedermann.nextcloud.deck.data.local.dao.ColumnDao;
-import it.niedermann.nextcloud.deck.data.local.dao.CommentDao;
 import it.niedermann.nextcloud.deck.data.local.dao.JoinCardWithLabelDao;
 import it.niedermann.nextcloud.deck.data.local.dao.JoinCardWithUserDao;
-import it.niedermann.nextcloud.deck.data.local.dao.LabelDao;
 import it.niedermann.nextcloud.deck.data.local.dao.UserDao;
 import it.niedermann.nextcloud.deck.data.local.entity.CardEntity;
+import it.niedermann.nextcloud.deck.data.local.entity.CardPreviewLocal;
 import it.niedermann.nextcloud.deck.data.local.entity.JoinCardWithLabelEntity;
 import it.niedermann.nextcloud.deck.data.local.entity.JoinCardWithUserEntity;
 import it.niedermann.nextcloud.deck.data.local.entity.LabelEntity;
 import it.niedermann.nextcloud.deck.data.local.mapper.CardMapper;
 import it.niedermann.nextcloud.deck.data.local.mapper.ColumnMapper;
-import it.niedermann.nextcloud.deck.data.local.mapper.LabelMapper;
 import it.niedermann.nextcloud.deck.domain.model.Board;
 import it.niedermann.nextcloud.deck.domain.model.Card;
 import it.niedermann.nextcloud.deck.domain.model.Column;
@@ -47,37 +45,28 @@ public class CardRepositoryImpl implements CardRepository {
     private final ColumnDao columnDao;
     private final CardMapper cardMapper;
     private final ColumnMapper columnMapper;
-    private final LabelDao labelDao;
     private final JoinCardWithLabelDao joinCardWithLabelDao;
     private final JoinCardWithUserDao joinCardWithUserDao;
     private final UserDao userDao;
-    private final LabelMapper labelMapper;
-    private final CommentDao commentDao;
-    private final AttachmentDao attachmentDao;
+    private final AccountDao accountDao;
 
     @Inject
     public CardRepositoryImpl(CardDao cardDao,
                               ColumnDao columnDao,
                               CardMapper cardMapper,
                               ColumnMapper columnMapper,
-                              LabelDao labelDao,
                               JoinCardWithLabelDao joinCardWithLabelDao,
                               JoinCardWithUserDao joinCardWithUserDao,
                               UserDao userDao,
-                              LabelMapper labelMapper,
-                              CommentDao commentDao,
-                              AttachmentDao attachmentDao) {
+                              AccountDao accountDao) {
         this.cardDao = cardDao;
         this.columnDao = columnDao;
         this.cardMapper = cardMapper;
         this.columnMapper = columnMapper;
-        this.labelDao = labelDao;
         this.joinCardWithLabelDao = joinCardWithLabelDao;
         this.joinCardWithUserDao = joinCardWithUserDao;
         this.userDao = userDao;
-        this.labelMapper = labelMapper;
-        this.commentDao = commentDao;
-        this.attachmentDao = attachmentDao;
+        this.accountDao = accountDao;
     }
 
     @Override
@@ -271,25 +260,59 @@ public class CardRepositoryImpl implements CardRepository {
     @Override
     public Flow.Publisher<List<PreviewCard>> getNotDeletedCardPreviews(Column.ID columnId, FilterInformation filter) {
         return FlowAdapters.toFlowPublisher(
-                cardDao.getCardsByColumn(columnId.value())
-                        .flatMapSingle(entities -> Flowable.fromIterable(entities)
-                                .flatMapSingle(entity -> {
-                                    final Card card = cardMapper.toTO(entity);
-                                    return Single.zip(
-                                            labelDao.getLabelsByCard(entity.getLocalId()).firstOrError(),
-                                            commentDao.getCommentsByCard(entity.getLocalId()).firstOrError(),
-                                            attachmentDao.getAttachmentsByCard(entity.getLocalId()).firstOrError(),
-                                            (labels, comments, attachments) -> toPreviewCard(card, labels, comments.size(), attachments.size())
-                                    );
-                                })
-                                .filter(c -> applyFilter(c, filter, OffsetDateTime.now()))
-                                .toList())
+                Single.fromCompletionStage(columnDao.getColumnById(columnId.value()))
+                        .flatMapPublisher(column -> {
+                            if (column == null) {
+                                return Flowable.just(java.util.Collections.<PreviewCard>emptyList());
+                            }
+                            return accountDao.getAccountSingle(column.getAccountId())
+                                    .toSingle()
+                                    .flatMapPublisher(account -> {
+                                        final User.ID currentUserId = new User.ID(account.username());
+                                        return cardDao.getCardPreviewsByColumn(columnId.value())
+                                                .map(locals -> locals.stream()
+                                                        .map(local -> toPreviewCard(local, currentUserId))
+                                                        .filter(c -> applyFilter(c, filter, OffsetDateTime.now()))
+                                                        .collect(Collectors.toList())
+                                                );
+                                    });
+                        })
                         .subscribeOn(Schedulers.io())
         );
     }
 
     private boolean applyFilter(PreviewCard card, FilterInformation filter, OffsetDateTime now) {
-        // TODO: Implement properly
+        if (!filter.labelIds().isEmpty()) {
+            boolean hasLabel = card.labels().stream().anyMatch(l -> filter.labelIds().contains(l.id()));
+            if (!hasLabel) return false;
+        }
+        if (!filter.assigneeIds().isEmpty()) {
+            boolean hasAssignee = card.assignees().stream().anyMatch(filter.assigneeIds()::contains);
+            if (!hasAssignee) return false;
+        }
+        if (filter.doneState() == FilterInformation.DoneState.DONE && !card.isDone()) return false;
+        if (filter.doneState() == FilterInformation.DoneState.NOT_DONE && card.isDone()) return false;
+
+        if (filter.dueDateFilter() != FilterInformation.DueDateFilter.ALL) {
+            final OffsetDateTime due = card.dueDate();
+            switch (filter.dueDateFilter()) {
+                case OVERDUE:
+                    if (due == null || !due.isBefore(now) || card.isDone()) return false;
+                    break;
+                case TODAY:
+                    if (due == null || !due.toLocalDate().isEqual(now.toLocalDate())) return false;
+                    break;
+                case NEXT_7_DAYS:
+                    if (due == null || due.isBefore(now) || due.isAfter(now.plusDays(7))) return false;
+                    break;
+                case NEXT_30_DAYS:
+                    if (due == null || due.isBefore(now) || due.isAfter(now.plusDays(30))) return false;
+                    break;
+                case NO_DUE_DATE:
+                    if (due != null) return false;
+                    break;
+            }
+        }
         return true;
     }
 
@@ -302,16 +325,21 @@ public class CardRepositoryImpl implements CardRepository {
         return true;
     }
 
-    private PreviewCard toPreviewCard(Card card, List<LabelEntity> labels, int commentCount, int attachmentCount) {
-        final String excerpt = card.description() != null && card.description().length() > 300
-                ? card.description().substring(0, 300)
-                : card.description();
+    private PreviewCard toPreviewCard(CardPreviewLocal local, User.ID currentUserId) {
+        final CardEntity entity = local.getCard();
+        final String excerpt = entity.getDescription() != null && entity.getDescription().length() > 300
+                ? entity.getDescription().substring(0, 300)
+                : entity.getDescription();
 
-        final var labelPreviews = labels.stream()
-                .map(l -> new PreviewCard.LabelPreview(l.getTitle(), l.getColor()))
+        final var labelPreviews = local.getLabels().stream()
+                .map(l -> new PreviewCard.LabelPreview(new it.niedermann.nextcloud.deck.domain.model.Label.ID(l.getLocalId()), l.getTitle(), l.getColor()))
                 .collect(Collectors.toSet());
 
-        final String description = card.description() != null ? card.description() : "";
+        final var assigneeIds = local.getAssignees().stream()
+                .map(u -> new User.ID(u.getRemoteId()))
+                .collect(Collectors.toSet());
+
+        final String description = entity.getDescription() != null ? entity.getDescription() : "";
         int checkboxTotalCount = 0;
         int checkboxDoneCount = 0;
         final java.util.regex.Matcher matcher = java.util.regex.Pattern.compile("\\[([ xX])]").matcher(description);
@@ -323,20 +351,22 @@ public class CardRepositoryImpl implements CardRepository {
         }
 
         return new PreviewCard(
-                card.id(),
-                card.remoteId(),
-                card.title(),
-                excerpt,
+                new Card.ID(entity.getLocalId()),
+                entity.getRemoteId() != null ? new Card.RemoteID(entity.getRemoteId()) : null,
+                entity.getTitle(),
+                excerpt != null ? excerpt : "",
                 labelPreviews,
-                commentCount,
-                attachmentCount,
-                card.assignees().size(),
-                card.assignees().contains(new User.ID("jdoe")), // TODO: Get current user
+                assigneeIds,
+                local.getCommentCount(),
+                entity.getAttachmentCount(),
+                assigneeIds.size(),
+                assigneeIds.contains(currentUserId),
+                entity.getDone() != null,
                 checkboxDoneCount,
                 checkboxTotalCount,
-                card.startDate(),
-                card.dueDate(),
-                card.color()
+                entity.getStartDate(),
+                entity.getDueDate(),
+                entity.getColor()
         );
     }
 

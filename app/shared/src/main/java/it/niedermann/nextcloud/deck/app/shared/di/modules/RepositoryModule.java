@@ -89,14 +89,11 @@ public class RepositoryModule {
                                          ColumnDao columnDao,
                                          CardMapper cardMapper,
                                          ColumnMapper columnMapper,
-                                         LabelDao labelDao,
                                          JoinCardWithLabelDao joinCardWithLabelDao,
                                          JoinCardWithUserDao joinCardWithUserDao,
                                          UserDao userDao,
-                                         LabelMapper labelMapper,
-                                         CommentDao commentDao,
-                                         AttachmentDao attachmentDao) {
-        return new CardRepositoryImpl(cardDao, columnDao, cardMapper, columnMapper, labelDao, joinCardWithLabelDao, joinCardWithUserDao, userDao, labelMapper, commentDao, attachmentDao);
+                                         AccountDao accountDao) {
+        return new CardRepositoryImpl(cardDao, columnDao, cardMapper, columnMapper, joinCardWithLabelDao, joinCardWithUserDao, userDao, accountDao);
     }
 
     @Provides
