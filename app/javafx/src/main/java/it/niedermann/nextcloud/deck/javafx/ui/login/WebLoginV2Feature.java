@@ -90,6 +90,7 @@ public class WebLoginV2Feature extends AbstractFeature {
                     viewModel.onAccountAuthenticationFailed(parsedUrl, throwable);
                     return null;
                 });
+        viewModel.onAuthenticationStarted();
     }
 
     private CompletableFuture<ImportAccount> authenticateViaWebLogin(URL parsedUrl) {
@@ -106,6 +107,8 @@ public class WebLoginV2Feature extends AbstractFeature {
     }
 
     public interface ViewModel {
+        void onAuthenticationStarted();
+
         void onAccountAuthenticated(ImportAccount account);
 
         void onAccountAuthenticationFailed(URL url, Throwable e);

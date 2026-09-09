@@ -4,20 +4,24 @@ import java.net.URL;
 import java.util.ResourceBundle;
 import java.util.logging.Logger;
 
+import com.dlsc.gemsfx.CircleProgressIndicator;
+
 import dagger.assisted.Assisted;
 import dagger.assisted.AssistedFactory;
 import dagger.assisted.AssistedInject;
 import io.reactivex.rxjava4.core.Flowable;
 import io.reactivex.rxjava4.disposables.Disposable;
 import it.niedermann.nextcloud.deck.app.shared.di.model.BuildConfig;
+import it.niedermann.nextcloud.deck.domain.state.SyncStatus;
 import it.niedermann.nextcloud.deck.domain.sync.SyncScheduler;
 import it.niedermann.nextcloud.deck.javafx.fxml.Inflater;
 import it.niedermann.nextcloud.deck.javafx.ui.shared.AbstractScene;
 import it.niedermann.nextcloud.deck.javafx.ui.shared.services.ThemeService;
+import it.niedermann.nextcloud.deck.javafx.ui.shared.views.AvatarProgressView;
 import it.niedermann.nextcloud.deck.javafx.util.JavaFxScheduler;
 import javafx.application.HostServices;
 import javafx.fxml.FXML;
-import javafx.scene.control.ProgressBar;
+import javafx.scene.control.Label;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 
@@ -30,7 +34,11 @@ public class LoginScene extends AbstractScene {
     @FXML
     private Pane progressHost;
     @FXML
-    private ProgressBar progress;
+    private AvatarProgressView progress;
+    @FXML
+    private CircleProgressIndicator waitForImportSpinner;
+    @FXML
+    private Label progressLabel;
 
     private final LoginService stageContext;
 
@@ -66,57 +74,74 @@ public class LoginScene extends AbstractScene {
 
         featureHost.managedProperty().bind(featureHost.visibleProperty());
         progressHost.managedProperty().bind(progressHost.visibleProperty());
+        progress.managedProperty().bind(progress.visibleProperty());
+        waitForImportSpinner.managedProperty().bind(waitForImportSpinner.visibleProperty());
 
         final var uiStateDisposable = Flowable.fromPublisher(stageContext.getState())
                 .observeOn(JavaFxScheduler.platform())
                 .subscribe(state -> {
-                    if (state.syncStatus().isPresent()) {
-                        featureHost.setVisible(false);
-                        progressHost.setVisible(true);
-                        final var oldDisposable = (Disposable) featureHost.getUserData();
-                        if (oldDisposable != null) {
-                            oldDisposable.dispose();
-                            featureHost.setUserData(null);
-                        }
-                        featureHost.getChildren().clear();
-
-                        final var syncStatus = state.syncStatus().get();
-                        if (syncStatus.boardsFinished() > 0) {
-                            this.progress.setProgress(Math.min(1, (double) syncStatus.boardsFinished() / syncStatus.boardsTotal()));
-                        } else {
-                            progress.setProgress(ProgressBar.INDETERMINATE_PROGRESS);
-                        }
-
-                    } else {
-                        featureHost.setVisible(true);
-                        progressHost.setVisible(false);
-                        progress.setProgress(0);
-
-                        switch (state.method()) {
-                            case APPTOKEN -> {
-                                final var oldDisposable = (Disposable) featureHost.getUserData();
-                                if (oldDisposable != null && !(oldDisposable instanceof AppTokenLoginFeature)) {
-                                    oldDisposable.dispose();
-                                    featureHost.setUserData(null);
-                                }
-                                if (featureHost.getUserData() == null) {
-                                    final var appTokenLoginFeature = appTokenFactory.create(stageContext);
-                                    featureHost.setUserData(appTokenLoginFeature);
-                                    featureHost.getChildren().setAll(appTokenLoginFeature.getRoot());
-                                    state.url().ifPresent(appTokenLoginFeature::setUrl);
-                                }
+                    switch (state.authenticationState()) {
+                        case LoginService.AuthenticationState.Importing(SyncStatus syncStatus) -> {
+                            featureHost.setVisible(false);
+                            progressHost.setVisible(true);
+                            progress.setVisible(true);
+                            waitForImportSpinner.setVisible(false);
+                            final var oldDisposable = (Disposable) featureHost.getUserData();
+                            if (oldDisposable != null) {
+                                oldDisposable.dispose();
+                                featureHost.setUserData(null);
                             }
-                            case WEBLOGIN_FLOW_V2 -> {
-                                final var oldDisposable = (Disposable) featureHost.getUserData();
-                                if (oldDisposable != null && !(oldDisposable instanceof WebLoginV2Feature)) {
-                                    oldDisposable.dispose();
-                                    featureHost.setUserData(null);
+                            featureHost.getChildren().clear();
+
+                            this.progress.setSyncStatus(syncStatus);
+                            this.progressLabel.setText(syncStatus.toString());
+                        }
+                        case LoginService.AuthenticationState.WaitingForImportStart() -> {
+                            featureHost.setVisible(false);
+                            progressHost.setVisible(true);
+                            progress.setVisible(false);
+                            waitForImportSpinner.setVisible(true);
+                            final var oldDisposable = (Disposable) featureHost.getUserData();
+                            if (oldDisposable != null) {
+                                oldDisposable.dispose();
+                                featureHost.setUserData(null);
+                            }
+                            featureHost.getChildren().clear();
+
+                            this.progress.setSyncStatus(null);
+                            this.progressLabel.setText(resources.getString("login.label.progress"));
+                        }
+                        case LoginService.AuthenticationState.Authenticating(LoginService.AuthenticationMethod method) -> {
+                            featureHost.setVisible(true);
+                            progressHost.setVisible(false);
+                            progress.setSyncStatus(null);
+
+                            switch (method) {
+                                case APPTOKEN -> {
+                                    final var oldDisposable = (Disposable) featureHost.getUserData();
+                                    if (oldDisposable != null && !(oldDisposable instanceof AppTokenLoginFeature)) {
+                                        oldDisposable.dispose();
+                                        featureHost.setUserData(null);
+                                    }
+                                    if (featureHost.getUserData() == null) {
+                                        final var appTokenLoginFeature = appTokenFactory.create(stageContext);
+                                        featureHost.setUserData(appTokenLoginFeature);
+                                        featureHost.getChildren().setAll(appTokenLoginFeature.getRoot());
+                                        state.url().ifPresent(appTokenLoginFeature::setUrl);
+                                    }
                                 }
-                                if (featureHost.getUserData() == null) {
-                                    final var webLoginV2Feature = webLoginFactory.create(stageContext);
-                                    featureHost.setUserData(webLoginV2Feature);
-                                    featureHost.getChildren().setAll(webLoginV2Feature.getRoot());
-                                    state.url().ifPresent(webLoginV2Feature::setUrl);
+                                case WEBLOGIN_FLOW_V2 -> {
+                                    final var oldDisposable = (Disposable) featureHost.getUserData();
+                                    if (oldDisposable != null && !(oldDisposable instanceof WebLoginV2Feature)) {
+                                        oldDisposable.dispose();
+                                        featureHost.setUserData(null);
+                                    }
+                                    if (featureHost.getUserData() == null) {
+                                        final var webLoginV2Feature = webLoginFactory.create(stageContext);
+                                        featureHost.setUserData(webLoginV2Feature);
+                                        featureHost.getChildren().setAll(webLoginV2Feature.getRoot());
+                                        state.url().ifPresent(webLoginV2Feature::setUrl);
+                                    }
                                 }
                             }
                         }

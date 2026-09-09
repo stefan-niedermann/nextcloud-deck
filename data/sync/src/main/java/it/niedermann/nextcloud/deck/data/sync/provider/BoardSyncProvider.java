@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.atomic.AtomicLong;
 import java.util.function.Consumer;
 import java.util.logging.Logger;
 
@@ -209,6 +210,8 @@ public class BoardSyncProvider implements SyncProvider<Void> {
                 .thenCompose(boards -> {
                     if (boards == null) return CompletableFuture.completedFuture(null);
 
+                    reporter.accept(status.withBoards(boards.size(), 0, "Starting download..."));
+
                     // Identify boards to delete locally (present in DB but missing from server response)
                     List<Long> remoteIdsFromServer = new ArrayList<>();
                     for (BoardDTO b : boards) {
@@ -230,22 +233,23 @@ public class BoardSyncProvider implements SyncProvider<Void> {
                             })
                             .thenCompose(v -> {
                                 long total = boards.size();
+                                final var finishedCounter = new AtomicLong(0);
                                 CompletableFuture<?>[] boardFutures = new CompletableFuture[boards.size()];
                                 for (int i = 0; i < boards.size(); i++) {
                                     BoardDTO boardDto = boards.get(i);
                                     if (boardDto == null) {
                                         boardFutures[i] = CompletableFuture.completedFuture(null);
+                                        finishedCounter.incrementAndGet();
                                         continue;
                                     }
-                                    final long finished = i + 1;
-                                    boardFutures[i] = syncFullBoard(account, boardDto, total, finished, status, reporter);
+                                    boardFutures[i] = syncFullBoard(account, boardDto, total, finishedCounter, status, reporter);
                                 }
                                 return CompletableFuture.allOf(boardFutures);
                             });
                 });
     }
 
-    private CompletableFuture<Void> syncFullBoard(Account account, BoardDTO boardDto, long total, long finished, SyncStatus status, Consumer<SyncStatus> reporter) {
+    private CompletableFuture<Void> syncFullBoard(Account account, BoardDTO boardDto, long total, AtomicLong finishedCounter, SyncStatus status, Consumer<SyncStatus> reporter) {
         final String key = account.id().value() + ":" + boardDto.getId();
         return inFlightBoardSyncs.compute(key, (k, existingFuture) -> {
             if (existingFuture != null && !existingFuture.isCompletedExceptionally()) {
@@ -253,15 +257,18 @@ public class BoardSyncProvider implements SyncProvider<Void> {
             }
             final var future = mergeBoard(account, boardDto)
                     .thenCompose(localBoardId -> {
-                        SyncStatus newStatus = status.withBoards(total, finished, boardDto.getTitle());
-                        reporter.accept(newStatus);
+                        SyncStatus newStatus = status.withBoards(total, finishedCounter.get(), boardDto.getTitle());
                         return CompletableFuture.allOf(
                                 syncBoardUsers(account, boardDto, localBoardId),
                                 syncBoardPermissions(account, boardDto, localBoardId),
                                 labelSyncProvider.downSync(account, boardDto, localBoardId, newStatus, reporter),
                                 accessControlSyncProvider.downSync(account, boardDto, localBoardId, newStatus, reporter)
                         ).thenCompose(v -> columnSyncProvider.downSync(account, boardDto, localBoardId, newStatus, reporter))
-                                .thenApply(v -> localBoardId);
+                                .thenApply(v -> {
+                                    final long finished = finishedCounter.incrementAndGet();
+                                    reporter.accept(status.withBoards(total, finished, boardDto.getTitle()));
+                                    return localBoardId;
+                                });
                     });
             future.whenComplete((v, t) -> inFlightBoardSyncs.remove(key));
             return future;

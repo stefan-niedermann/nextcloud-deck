@@ -122,8 +122,7 @@ public class SyncManager {
         }).thenAccept(v -> {
             logger.info("Sync finished for account: " + account.username());
         }).exceptionally(throwable -> {
-            if (throwable instanceof RuntimeException && throwable.getCause() instanceof retrofit2.HttpException) {
-                retrofit2.HttpException e = (retrofit2.HttpException) throwable.getCause();
+            if (throwable instanceof RuntimeException && throwable.getCause() instanceof retrofit2.HttpException e) {
                 try {
                     String body = e.response().errorBody().string();
                     logger.severe("Sync failed with HTTP " + e.code() + ": " + body);

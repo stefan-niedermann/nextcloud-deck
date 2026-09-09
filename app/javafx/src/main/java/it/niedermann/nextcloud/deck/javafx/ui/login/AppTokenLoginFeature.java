@@ -91,6 +91,7 @@ public class AppTokenLoginFeature extends AbstractFeature {
                     viewModel.onAccountAuthenticationFailed(parsedUrl, throwable);
                     return null;
                 });
+        viewModel.onAuthenticationStarted();
     }
 
     private CompletableFuture<ImportAccount> authenticateViaAppToken(URL parsedUrl, String username, String password) {
@@ -105,6 +106,8 @@ public class AppTokenLoginFeature extends AbstractFeature {
     }
 
     public interface ViewModel {
+        void onAuthenticationStarted();
+
         void onAccountAuthenticated(ImportAccount account);
 
         void onAccountAuthenticationFailed(URL url, Throwable e);

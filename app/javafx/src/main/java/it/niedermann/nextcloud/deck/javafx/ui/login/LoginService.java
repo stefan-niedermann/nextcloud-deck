@@ -4,6 +4,7 @@ import java.net.URL;
 import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
 
+import io.soabase.recordbuilder.core.RecordBuilder;
 import dagger.assisted.Assisted;
 import dagger.assisted.AssistedFactory;
 import dagger.assisted.AssistedInject;
@@ -29,16 +30,20 @@ public class LoginService extends Store<LoginService.State, LoginService.Action>
             ImportAccountUseCase importAccountUseCase,
             @Assisted URL initialUrl
     ) {
-        super(storeLogger, new State(AuthenticationMethod.WEBLOGIN_FLOW_V2, Optional.ofNullable(initialUrl), Optional.empty()));
+        super(storeLogger, State.initial(initialUrl));
         this.importAccountUseCase = importAccountUseCase;
 
-        on(Action.SyncStatusUpdated.class, (state, action) -> new State(state.method(), state.url(), Optional.of(action.syncStatus())));
-        on(Action.AuthenticationFailed.class, (state, action) -> new State(AuthenticationMethod.APPTOKEN, Optional.ofNullable(action.url()), Optional.empty()));
-        on(Action.ImportSuccessful.class, (state, action) -> new State(AuthenticationMethod.WEBLOGIN_FLOW_V2, Optional.ofNullable(initialUrl), Optional.empty()));
+        on(Action.SyncStatusUpdated.class, State::reduce);
+        on(Action.AuthenticationStarted.class, State::reduce);
+        on(Action.AuthenticationFailed.class, State::reduce);
+        on(Action.ImportSuccessful.class, (state, action) -> State.reduce(state, action, initialUrl));
 
         effect(Action.AccountAuthenticated.class, (state, action) -> {
             return Flowable.fromPublisher(importAccountUseCase.execute(action.account()))
-                    .doOnNext(status -> dispatch(new Action.SyncStatusUpdated(status)))
+                    .doOnNext(status -> {
+                        System.out.println(status.toString());
+                        dispatch(new Action.SyncStatusUpdated(status));
+                    })
                     .lastOrError()
                     .<Optional<? extends Action>>map(syncStatus -> Optional.of(new Action.ImportSuccessful(syncStatus.account().id())))
                     .onErrorReturn(throwable -> Optional.of(new Action.ImportFailed(throwable)))
@@ -58,13 +63,18 @@ public class LoginService extends Store<LoginService.State, LoginService.Action>
     }
 
     @Override
+    public void onAuthenticationStarted() {
+        dispatch(new Action.AuthenticationStarted());
+    }
+
+    @Override
     public void onAccountAuthenticated(ImportAccount account) {
-        dispatch(new LoginService.Action.AccountAuthenticated(account));
+        dispatch(new Action.AccountAuthenticated(account));
     }
 
     @Override
     public void onAccountAuthenticationFailed(URL url, Throwable exception) {
-        dispatch(new LoginService.Action.AuthenticationFailed(url, exception));
+        dispatch(new Action.AuthenticationFailed(url, exception));
     }
 
     @AssistedFactory
@@ -76,11 +86,42 @@ public class LoginService extends Store<LoginService.State, LoginService.Action>
         return this.importedAccount;
     }
 
+    @RecordBuilder
     public record State(
-            AuthenticationMethod method,
             Optional<URL> url,
-            Optional<SyncStatus> syncStatus
-    ) {
+            AuthenticationState authenticationState
+    ) implements LoginServiceStateBuilder.With {
+        public static State initial(URL initialUrl) {
+            return new State(Optional.ofNullable(initialUrl), new AuthenticationState.Authenticating(AuthenticationMethod.WEBLOGIN_FLOW_V2));
+        }
+
+        public static State reduce(State state, Action.AuthenticationStarted action) {
+            return state.withAuthenticationState(new AuthenticationState.WaitingForImportStart());
+        }
+
+        public static State reduce(State state, Action.SyncStatusUpdated action) {
+            return state.withAuthenticationState(new AuthenticationState.Importing(action.syncStatus()));
+        }
+
+        public static State reduce(State state, Action.AuthenticationFailed action) {
+            return state.withUrl(Optional.ofNullable(action.url()))
+                    .withAuthenticationState(new AuthenticationState.Authenticating(AuthenticationMethod.APPTOKEN));
+        }
+
+        public static State reduce(State state, Action.ImportSuccessful action, URL initialUrl) {
+            return initial(initialUrl);
+        }
+    }
+
+    public sealed interface AuthenticationState {
+        record Authenticating(AuthenticationMethod method) implements AuthenticationState {
+        }
+
+        record WaitingForImportStart() implements AuthenticationState {
+        }
+
+        record Importing(SyncStatus syncStatus) implements AuthenticationState {
+        }
     }
 
     public enum AuthenticationMethod {
@@ -89,6 +130,9 @@ public class LoginService extends Store<LoginService.State, LoginService.Action>
     }
 
     public sealed interface Action {
+
+        record AuthenticationStarted() implements Action {
+        }
 
         record AccountAuthenticated(ImportAccount account) implements Action {
         }
