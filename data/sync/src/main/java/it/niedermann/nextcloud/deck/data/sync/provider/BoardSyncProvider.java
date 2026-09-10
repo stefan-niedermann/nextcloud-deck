@@ -106,6 +106,10 @@ public class BoardSyncProvider implements SyncProvider<Void> {
         return call.thenCompose(response -> {
             if (response == null) return CompletableFuture.completedFuture((Void) null);
             BoardEntity updatedLocal = BoardMapper.INSTANCE.toEntity(BoardRemoteMapper.INSTANCE.toTO(response));
+
+            boolean isOwner = (response.getPermissions() == null) ||
+                    (response.getOwner() != null && account.username().equalsIgnoreCase(response.getOwner().getUid()));
+
             updatedLocal = new BoardEntity(
                     localBoard.getLocalId(),
                     localBoard.getAccountId(),
@@ -115,7 +119,7 @@ public class BoardSyncProvider implements SyncProvider<Void> {
                     updatedLocal.getLastModified(),
                     updatedLocal.getEtag(),
                     updatedLocal.getTitle(),
-                    updatedLocal.getOwnerId(),
+                    isOwner,
                     updatedLocal.getColor(),
                     updatedLocal.getArchived(),
                     updatedLocal.getShared(),
@@ -155,6 +159,10 @@ public class BoardSyncProvider implements SyncProvider<Void> {
                 .thenCompose(serverDto -> {
                     if (serverDto == null) return CompletableFuture.completedFuture(null);
                     BoardEntity serverBoard = BoardMapper.INSTANCE.toEntity(BoardRemoteMapper.INSTANCE.toTO(serverDto));
+
+                    boolean isOwner = (serverDto.getPermissions() == null) ||
+                            (serverDto.getOwner() != null && account.username().equalsIgnoreCase(serverDto.getOwner().getUid()));
+
                     serverBoard = new BoardEntity(
                             0,
                             -1L,
@@ -164,7 +172,7 @@ public class BoardSyncProvider implements SyncProvider<Void> {
                             serverBoard.getLastModified(),
                             serverBoard.getEtag(),
                             serverBoard.getTitle(),
-                            serverBoard.getOwnerId(),
+                            isOwner,
                             serverBoard.getColor(),
                             serverBoard.getArchived(),
                             serverBoard.getShared(),
@@ -187,7 +195,7 @@ public class BoardSyncProvider implements SyncProvider<Void> {
                                         localBoard.getLastModifiedLocal(),
                                         localBoard.getEtag(),
                                         localBoard.getTitle(),
-                                        localBoard.getOwnerId(),
+                                        localBoard.isOwner(),
                                         localBoard.getColor(),
                                         localBoard.getArchived(),
                                         localBoard.getShared(),
@@ -338,14 +346,17 @@ public class BoardSyncProvider implements SyncProvider<Void> {
     private CompletableFuture<Long> mergeBoard(Account account, BoardDTO boardDto) {
         if (boardDto.getId() == null) return CompletableFuture.completedFuture(null);
         logger.info("Merging board: " + boardDto.getId());
-        CompletableFuture<Long> userIdFuture = userSyncHelper.syncUser(account, boardDto.getOwner())
-                .thenApply(user -> user != null ? user.getLocalId() : null);
 
-        return userIdFuture.thenCompose(ownerLocalId -> boardDao.getBoardByRemoteId(account.id().value(), boardDto.getId())
+        // In some versions of the Deck API, the permissions object is omitted for owners.
+        // Also, the owner field in BoardDTO is what we should compare against our account username.
+        boolean isOwner = (boardDto.getPermissions() == null) ||
+                (boardDto.getOwner() != null && account.username().equalsIgnoreCase(boardDto.getOwner().getUid()));
+
+        return boardDao.getBoardByRemoteId(account.id().value(), boardDto.getId())
                 .thenCompose(localBoard -> {
                     final long existingLocalId = localBoard != null ? localBoard.getLocalId() : 0;
                     BoardEntity serverBoard = BoardMapper.INSTANCE.toEntity(BoardRemoteMapper.INSTANCE.toTO(boardDto));
-                    if (localBoard == null || serverBoard.getEtag() == null || !serverBoard.getEtag().equals(localBoard.getEtag())) {
+                    if (localBoard == null || serverBoard.getEtag() == null || !serverBoard.getEtag().equals(localBoard.getEtag()) || localBoard.isOwner() != isOwner) {
                         BoardEntity newLocal = new BoardEntity(
                                 existingLocalId,
                                 account.id().value(),
@@ -355,7 +366,7 @@ public class BoardSyncProvider implements SyncProvider<Void> {
                                 serverBoard.getLastModified(),
                                 serverBoard.getEtag(),
                                 serverBoard.getTitle(),
-                                ownerLocalId,
+                                isOwner,
                                 serverBoard.getColor(),
                                 serverBoard.getArchived(),
                                 serverBoard.getShared(),
@@ -379,6 +390,6 @@ public class BoardSyncProvider implements SyncProvider<Void> {
                     } else {
                         return CompletableFuture.completedFuture(localBoard.getLocalId());
                     }
-                }));
+                });
     }
 }

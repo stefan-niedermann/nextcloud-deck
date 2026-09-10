@@ -14,7 +14,7 @@ public interface BoardMapper extends GenericMapper<BoardEntity, Board> {
 
     @Override
     @Mapping(target = "localId", source = "id")
-    @Mapping(target = "ownerId", source = "ownerId")
+    @Mapping(target = "isOwner", source = "isOwner")
     @Mapping(target = "accountId", source = "accountId")
     @Mapping(target = "remoteId", source = "remoteId")
     @Mapping(target = "permissionRead", source = "permissions.permissionRead")
@@ -27,7 +27,7 @@ public interface BoardMapper extends GenericMapper<BoardEntity, Board> {
 
     @Override
     @Mapping(target = "id", source = "localId")
-    @Mapping(target = "ownerId", source = "ownerId")
+    @Mapping(target = "isOwner", source = "owner")
     @Mapping(target = "accountId", source = "accountId")
     @Mapping(target = "remoteId", source = "remoteId")
     @Mapping(target = "permissions", source = ".")

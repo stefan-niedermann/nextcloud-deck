@@ -49,7 +49,7 @@ public class BoardEndToEndTest extends EndToEndTest {
         EndToEndUtil.assertBoardExists(DEVICE_B_JOHN, boardTitle);
 
         final var newTitle = randomUtil.randomize("updatedBoard");
-        final var updatedBoard = new Board(board.id(), newTitle, board.color(), board.ownerId(), board.archived(), board.permissions(), board.accountId(), board.remoteId(), board.status(), board.lastModified(), board.etag());
+        final var updatedBoard = new Board(board.id(), newTitle, board.color(), board.isOwner(), board.archived(), board.permissions(), board.accountId(), board.remoteId(), board.status(), board.lastModified(), board.etag());
 
         DEVICE_A_JOHN.virtualDevice().getUpdateBoardUseCase().execute(updatedBoard).join();
 

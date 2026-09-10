@@ -37,7 +37,7 @@ public interface BoardRemoteMapper extends GenericRemoteMapper<BoardDTO, Board> 
     @Mapping(target = "remoteId", source = "id")
     @Mapping(target = "lastModified", expression = "java(mapTimestamp(boardDTO.getLastModified()))")
     @Mapping(target = "permissions", expression = "java(mapPermissions(boardDTO.getPermissions()))")
-    @Mapping(target = "ownerId", ignore = true)
+    @Mapping(target = "isOwner", ignore = true)
     @Mapping(target = "accountId", ignore = true)
     @Mapping(target = "status", expression = "java(it.niedermann.nextcloud.deck.domain.model.DBStatus.UP_TO_DATE)")
     @Mapping(target = "color", source = "color")

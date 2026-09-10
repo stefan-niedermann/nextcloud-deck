@@ -87,7 +87,7 @@ fun EditBoardScreen(
                                     it.id(),
                                     title,
                                     selectedColor.toDomainColor(),
-                                    it.ownerId(),
+                                    it.isOwner,
                                     it.archived,
                                     it.permissions(),
                                     it.accountId(),

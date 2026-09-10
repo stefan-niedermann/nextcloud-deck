@@ -13,16 +13,9 @@ import java.time.OffsetDateTime
         Index("accountId"),
         Index("remoteId"),
         Index("lastModifiedLocal"),
-        Index("accountId", "remoteId", unique = true),
-        Index("ownerId")
+        Index("accountId", "remoteId", unique = true)
     ],
     foreignKeys = [
-        ForeignKey(
-            entity = UserEntity::class,
-            parentColumns = ["localId"],
-            childColumns = ["ownerId"],
-            onDelete = ForeignKey.CASCADE
-        ),
         ForeignKey(
             entity = AccountEntity::class,
             parentColumns = ["id"],
@@ -42,7 +35,7 @@ data class BoardEntity(
     val etag: String?,
 
     val title: String,
-    val ownerId: Long?, // Typed ID allows null in constructor, keeping Long for Room
+    val isOwner: Boolean,
     val color: Color?,
     val archived: Boolean,
     val shared: Int,

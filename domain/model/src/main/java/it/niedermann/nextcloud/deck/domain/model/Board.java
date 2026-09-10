@@ -7,7 +7,7 @@ public record Board(
         Board.ID id,
         String title,
         Color color,
-        User.ID ownerId,
+        boolean isOwner,
         boolean archived,
         Permissions permissions,
         Account.ID accountId,
@@ -18,7 +18,7 @@ public record Board(
 ) {
 
     public Board(Board.ID id, String title, Color color, Permissions permissions) {
-        this(id, title, color, null, false, permissions, null, null, DBStatus.UP_TO_DATE, OffsetDateTime.now(), null);
+        this(id, title, color, false, false, permissions, null, null, DBStatus.UP_TO_DATE, OffsetDateTime.now(), null);
     }
 
     public Board {
@@ -26,6 +26,14 @@ public record Board(
         Objects.requireNonNull(title);
         Objects.requireNonNull(permissions);
         Objects.requireNonNull(status);
+    }
+
+    @Override
+    public Permissions permissions() {
+        if (isOwner) {
+            return new Permissions(true, true, true, true);
+        }
+        return permissions;
     }
 
     public record ID(long value) {
