@@ -33,12 +33,12 @@ public class ApplicationRouter {
         launchMainStage(primaryStage, new BoardRawArgs.CurrentBoardOfCurrentAccount());
     }
 
-    public void launchMainStage(URL url, long cardRemoteId) {
-        launchMainStage(new Stage(), new BoardRawArgs.RemoteServer(url, cardRemoteId));
+    public void launchMainStage(URL url, Board.RemoteID boardRemoteId) {
+        launchMainStage(new Stage(), new BoardRawArgs.RemoteServer(url, boardRemoteId));
     }
 
-    public void launchMainStage(String accountName, long cardRemoteId) {
-        launchMainStage(new Stage(), new BoardRawArgs.RemoteAccount(accountName, cardRemoteId));
+    public void launchMainStage(String accountName, Board.RemoteID boardRemoteId) {
+        launchMainStage(new Stage(), new BoardRawArgs.RemoteAccount(accountName, boardRemoteId));
     }
 
     public void launchEditBoardStage(Account.ID accountId, Board.ID boardId) {

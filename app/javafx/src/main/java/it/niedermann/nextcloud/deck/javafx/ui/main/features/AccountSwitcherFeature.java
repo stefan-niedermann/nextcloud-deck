@@ -92,7 +92,7 @@ public class AccountSwitcherFeature extends AbstractFeature {
                 .subscribe(account -> {
                     bigAvatar.setAvatar(account);
                     displayName.setText(account.displayName());
-                    accountName.setText(account.username());
+                    accountName.setText(account.accountName());
                     deleteAccountBtn.setText(MessageFormat.format(resources.getString("account.delete"), account.username()));
                     deleteAccountBtn.setOnAction(_ -> viewModel.onDeleteAccount(account));
                 });
