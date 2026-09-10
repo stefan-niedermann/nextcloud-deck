@@ -1,0 +1,10 @@
+.avatar-progress-view:focused {
+    -fx-border-color: -fx-accent;
+    -fx-border-width: 2px;
+    -fx-border-radius: 100px;
+    -fx-background-radius: 100px;
+}
+
+.avatar-progress-view {
+    -fx-focus-color: transparent;
+}

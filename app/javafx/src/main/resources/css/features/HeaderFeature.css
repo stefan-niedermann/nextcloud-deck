@@ -27,3 +27,8 @@
     -fx-opacity: 1.0;
     -fx-text-fill: -fx-accent;
 }
+
+.account-name,
+.avatar-button {
+    -fx-cursor: hand;
+}

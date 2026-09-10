@@ -56,6 +56,7 @@ import javafx.scene.control.MenuItem;
 import javafx.scene.control.SeparatorMenuItem;
 import javafx.scene.control.SplitMenuButton;
 import javafx.scene.control.Tooltip;
+import javafx.scene.input.KeyCode;
 import javafx.scene.layout.HBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
@@ -292,12 +293,12 @@ public class HeaderFeature extends AbstractFeature {
         headerToggleMenuItem.setOnAction(_ -> viewModel.onToggleHeaderVariant());
         menuBarToggleMenuItem.setOnAction(_ -> viewModel.onToggleHeaderVariant());
 
-        openCardInNewWindowMenuItem.setOnAction(_ -> viewModel.getCardId().firstElement().subscribe(cardId -> cardId.ifPresent(viewModel::onOpenCardInNewWindow)));
-        assignMenuItem.setOnAction(_ -> viewModel.getCardId().firstElement().subscribe(cardId -> cardId.ifPresent(viewModel::onAssignCard)));
-        unassignMenuItem.setOnAction(_ -> viewModel.getCardId().firstElement().subscribe(cardId -> cardId.ifPresent(viewModel::onUnassignCard)));
-        moveMenuItem.setOnAction(_ -> viewModel.getCardId().firstElement().subscribe(cardId -> cardId.ifPresent(id -> viewModel.onMoveCard(id, menuBar))));
-        copyMenuItem.setOnAction(_ -> viewModel.getCardId().firstElement().subscribe(cardId -> cardId.ifPresent(id -> viewModel.onCopyCard(id, menuBar))));
-        deleteMenuItem.setOnAction(_ -> viewModel.getCardId().firstElement().subscribe(cardId -> cardId.ifPresent(viewModel::onDeleteCard)));
+        openCardInNewWindowMenuItem.setOnAction(_ -> addDisposable(viewModel.getCardId().firstElement().subscribe(cardId -> cardId.ifPresent(viewModel::onOpenCardInNewWindow))));
+        assignMenuItem.setOnAction(_ -> addDisposable(viewModel.getCardId().firstElement().subscribe(cardId -> cardId.ifPresent(viewModel::onAssignCard))));
+        unassignMenuItem.setOnAction(_ -> addDisposable(viewModel.getCardId().firstElement().subscribe(cardId -> cardId.ifPresent(viewModel::onUnassignCard))));
+        moveMenuItem.setOnAction(_ -> addDisposable(viewModel.getCardId().firstElement().subscribe(cardId -> cardId.ifPresent(id -> viewModel.onMoveCard(id, menuBar)))));
+        copyMenuItem.setOnAction(_ -> addDisposable(viewModel.getCardId().firstElement().subscribe(cardId -> cardId.ifPresent(id -> viewModel.onCopyCard(id, menuBar)))));
+        deleteMenuItem.setOnAction(_ -> addDisposable(viewModel.getCardId().firstElement().subscribe(cardId -> cardId.ifPresent(viewModel::onDeleteCard))));
 
         final var currentAccount = viewModel.getAccountId()
                 .observeOn(Schedulers.virtual())
@@ -421,7 +422,15 @@ public class HeaderFeature extends AbstractFeature {
         });
         removeAccountBtn.setOnAction(_ -> this.removeAccount());
 
+        avatar.setFocusTraversable(true);
         avatar.setOnMouseClicked(_ -> showAccountSwitcher(avatar));
+        avatar.setOnKeyPressed(event -> {
+            if (event.getCode() == KeyCode.ENTER || event.getCode() == KeyCode.SPACE) {
+                showAccountSwitcher(avatar);
+                event.consume();
+            }
+        });
+        accountDisplayName.setOnMouseClicked(avatar::fireEvent);
 
         exportBoardHeader.setHideOnClick(false);
         exportCardHeader.setHideOnClick(false);
