@@ -35,10 +35,17 @@ import it.niedermann.nextcloud.deck.domain.usecases.sync.ScheduleSyncUseCase
 import it.niedermann.nextcloud.deck.domain.usecases.users.ListUsersUseCase
 import jakarta.inject.Inject
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.flatMapLatest
+import kotlinx.coroutines.flow.flowOf
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.future.await
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.reactive.asFlow
@@ -67,9 +74,6 @@ class BoardViewModel @Inject constructor(
     private val _columns = MutableStateFlow<List<Column>>(emptyList())
     val columns = _columns.asStateFlow()
 
-    private val _cardsByColumn = MutableStateFlow<Map<Long, List<PreviewCard>>>(emptyMap())
-    val cardsByColumn = _cardsByColumn.asStateFlow()
-
     private val _labels = MutableStateFlow<Map<Long, Label>>(emptyMap())
     val labels = _labels.asStateFlow()
 
@@ -78,6 +82,22 @@ class BoardViewModel @Inject constructor(
 
     private val _filter = MutableStateFlow(FilterInformation.EMPTY)
     val filter = _filter.asStateFlow()
+
+    @OptIn(ExperimentalCoroutinesApi::class)
+    val cardsByColumn = combine(_columns, _filter) { columns, filter ->
+        columns to filter
+    }.flatMapLatest { (columns, filter) ->
+        if (columns.isEmpty()) {
+            flowOf(emptyMap<Long, List<PreviewCard>>())
+        } else {
+            val flows = columns.map { column ->
+                FlowAdapters.toPublisher(listCardPreviewsUseCase.execute(column.id, filter))
+                    .asFlow()
+                    .map { cards -> column.id.value() to cards }
+            }
+            combine(flows) { it.toMap() }
+        }
+    }.stateIn(viewModelScope, SharingStarted.Lazily, emptyMap())
 
     private val _currentAccountId = MutableStateFlow<Account.ID?>(null)
     val currentAccountId = _currentAccountId.asStateFlow()
@@ -158,9 +178,6 @@ class BoardViewModel @Inject constructor(
                                 _columns.value = loadedCols
                                 isLoading = false
                             }
-                            loadedCols.forEach { col ->
-                                observeCards(col.id.value())
-                            }
                         }
                 }
             } catch (e: Exception) {
@@ -192,18 +209,6 @@ class BoardViewModel @Inject constructor(
                 _isRefreshing.value = false
                 _syncStatus.value = null
                 currentBoardId?.let { loadBoard(it) }
-            }
-        }
-    }
-
-    private fun observeCards(columnId: Long) {
-        viewModelScope.launch(Dispatchers.IO) {
-            filter.collectLatest { filter ->
-                FlowAdapters.toPublisher(listCardPreviewsUseCase.execute(Column.ID(columnId), filter))
-                    .asFlow()
-                    .collect { cards ->
-                        _cardsByColumn.value = _cardsByColumn.value + (columnId to cards)
-                    }
             }
         }
     }

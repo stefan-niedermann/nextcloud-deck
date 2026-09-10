@@ -104,12 +104,14 @@ fun FilterBottomSheet(
                             } else {
                                 newIds.add(labelId)
                             }
-                            internalFilter = FilterInformation(
+                            val nextFilter = FilterInformation(
                                 newIds,
                                 internalFilter.assigneeIds(),
                                 internalFilter.doneState(),
                                 internalFilter.dueDateFilter()
                             )
+                            internalFilter = nextFilter
+                            onApply(nextFilter)
                         }
                     )
 
@@ -123,36 +125,42 @@ fun FilterBottomSheet(
                             } else {
                                 newIds.add(userId)
                             }
-                            internalFilter = FilterInformation(
+                            val nextFilter = FilterInformation(
                                 internalFilter.labelIds(),
                                 newIds,
                                 internalFilter.doneState(),
                                 internalFilter.dueDateFilter()
                             )
+                            internalFilter = nextFilter
+                            onApply(nextFilter)
                         }
                     )
 
                     2 -> DoneFilter(
                         selectedState = internalFilter.doneState(),
                         onSelected = { state ->
-                            internalFilter = FilterInformation(
+                            val nextFilter = FilterInformation(
                                 internalFilter.labelIds(),
                                 internalFilter.assigneeIds(),
                                 state,
                                 internalFilter.dueDateFilter()
                             )
+                            internalFilter = nextFilter
+                            onApply(nextFilter)
                         }
                     )
 
                     3 -> DueDateFilter(
                         selectedFilter = internalFilter.dueDateFilter(),
                         onSelected = { filter ->
-                            internalFilter = FilterInformation(
+                            val nextFilter = FilterInformation(
                                 internalFilter.labelIds(),
                                 internalFilter.assigneeIds(),
                                 internalFilter.doneState(),
                                 filter
                             )
+                            internalFilter = nextFilter
+                            onApply(nextFilter)
                         }
                     )
                 }
