@@ -3,9 +3,12 @@ package it.niedermann.nextcloud.deck.domain.e2e;
 import org.junit.jupiter.api.Assertions;
 import org.reactivestreams.FlowAdapters;
 
+import java.time.OffsetDateTime;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.NoSuchElementException;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 import io.reactivex.rxjava3.core.Flowable;
 import io.reactivex.rxjava3.core.Maybe;
@@ -26,8 +29,8 @@ import it.niedermann.nextcloud.deck.domain.repository.MockData;
 public class EndToEndUtil {
 
     public static void setupMockData(EndToEndTest.VirtualDeviceAndAccount vda) {
-        final Map<Board.ID, Board> boardIdMap = new java.util.HashMap<>();
-        final Map<Column.ID, Column> columnIdMap = new java.util.HashMap<>();
+        final Map<Board.ID, Board> boardIdMap = new HashMap<>();
+        final Map<Column.ID, Column> columnIdMap = new HashMap<>();
 
         for (Board mockBoard : MockData.MOCK_BOARDS) {
             final Board createdBoard = createBoard(vda, mockBoard.title());
@@ -143,7 +146,7 @@ public class EndToEndUtil {
                     return card.get();
                 }
                 if (i == 10) {
-                    System.err.println("Card \"" + title + "\" not found in column \"" + column.title() + "\" after 10 attempts. Available cards: " + cards.stream().map(Card::title).collect(java.util.stream.Collectors.joining(", ")));
+                    System.err.println("Card \"" + title + "\" not found in column \"" + column.title() + "\" after 10 attempts. Available cards: " + cards.stream().map(Card::title).collect(Collectors.joining(", ")));
                 }
             }
             try {
@@ -227,7 +230,17 @@ public class EndToEndUtil {
         Assertions.assertEquals(expectedDescription, card.description(), "Card \"" + card.title() + "\" description should be \"" + expectedDescription + "\" on device \"" + vda.virtualDevice().getDeviceName() + "\"");
     }
 
-    public static void assertCardDueDate(EndToEndTest.VirtualDeviceAndAccount vda, Card.ID cardId, java.time.OffsetDateTime expectedDueDate) {
+    public static void assertCardStartDate(EndToEndTest.VirtualDeviceAndAccount vda, Card.ID cardId, OffsetDateTime expectedStartDate) {
+        final var card = getCard(vda, cardId);
+        if (expectedStartDate == null) {
+            Assertions.assertNull(card.startDate(), "Card \"" + card.title() + "\" start date should be null on device \"" + vda.virtualDevice().getDeviceName() + "\"");
+        } else {
+            Assertions.assertNotNull(card.startDate(), "Card \"" + card.title() + "\" start date should NOT be null on device \"" + vda.virtualDevice().getDeviceName() + "\"");
+            Assertions.assertTrue(expectedStartDate.isEqual(card.startDate()), "Card \"" + card.title() + "\" start date should be \"" + expectedStartDate + "\" but was \"" + card.startDate() + "\" on device \"" + vda.virtualDevice().getDeviceName() + "\"");
+        }
+    }
+
+    public static void assertCardDueDate(EndToEndTest.VirtualDeviceAndAccount vda, Card.ID cardId, OffsetDateTime expectedDueDate) {
         final var card = getCard(vda, cardId);
         if (expectedDueDate == null) {
             Assertions.assertNull(card.dueDate(), "Card \"" + card.title() + "\" due date should be null on device \"" + vda.virtualDevice().getDeviceName() + "\"");
