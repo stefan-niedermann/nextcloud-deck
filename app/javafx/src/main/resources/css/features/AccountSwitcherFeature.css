@@ -1,0 +1,42 @@
+.account-switcher {
+    -fx-padding: 10;
+    -fx-spacing: 10;
+    -fx-pref-width: 320;
+}
+
+.current-account-header {
+    -fx-alignment: center;
+    -fx-spacing: 14;
+    -fx-padding: 30 0 20 0;
+}
+
+.display-name {
+    -fx-font-size: 1.6em;
+    -fx-font-weight: bold;
+}
+
+.account-name {
+    -fx-font-size: 1.1em;
+    /* Uses ladder to ensure visibility on both light and dark backgrounds */
+    -fx-text-fill: ladder(-fx-base, derive(-fx-base, 80%) 50%, #757575 51%);
+}
+
+.action-bar {
+    -fx-alignment: center;
+    -fx-spacing: 5;
+    -fx-padding: 5 0 5 0;
+}
+
+.delete-button {
+    /* Bright red that is clearly visible in both light and dark mode */
+    -fx-text-fill: #ff5252;
+}
+
+.big-avatar {
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.3), 15, 0, 0, 0);
+}
+
+/* Ensure the vertical separator matches the horizontal one in terms of look */
+.action-bar .separator:vertical {
+    -fx-padding: 0 10 0 10;
+}

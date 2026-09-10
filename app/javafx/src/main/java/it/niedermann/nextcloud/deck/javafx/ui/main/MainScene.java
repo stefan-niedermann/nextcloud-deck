@@ -1,5 +1,6 @@
 package it.niedermann.nextcloud.deck.javafx.ui.main;
 
+import com.dlsc.gemsfx.DialogPane;
 import com.dlsc.gemsfx.PopOver;
 
 import org.kordamp.ikonli.javafx.FontIcon;
@@ -49,6 +50,8 @@ public class MainScene extends AbstractScene {
     SplitPane splitPane;
     @FXML
     EmptyContentView emptyContentView;
+    @FXML
+    DialogPane dialogPane;
 
     private final MainService mainService;
     private final EditCardService sidebarContext;
@@ -105,6 +108,8 @@ public class MainScene extends AbstractScene {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         super.initialize(location, resources);
+
+        mainService.setDialogPane(dialogPane);
 
         root.prefWidthProperty().bind(root.sceneProperty().flatMap(Scene::widthProperty));
         root.prefHeightProperty().bind(root.sceneProperty().flatMap(Scene::heightProperty));

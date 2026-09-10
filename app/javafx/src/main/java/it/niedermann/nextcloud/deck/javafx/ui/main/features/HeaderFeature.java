@@ -12,10 +12,10 @@ import java.nio.file.Files;
 import java.text.MessageFormat;
 import java.time.format.DateTimeFormatter;
 import java.time.format.FormatStyle;
-import java.util.Optional;
 import java.util.ResourceBundle;
 import java.util.Set;
 import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.stream.Stream;
 
@@ -26,16 +26,12 @@ import io.reactivex.rxjava4.core.Flowable;
 import io.reactivex.rxjava4.schedulers.Schedulers;
 import it.niedermann.nextcloud.deck.domain.model.Account;
 import it.niedermann.nextcloud.deck.domain.model.Board;
-import it.niedermann.nextcloud.deck.domain.model.Card;
-import it.niedermann.nextcloud.deck.domain.model.FilterInformation;
 import it.niedermann.nextcloud.deck.domain.usecases.accounts.GetAccountUseCase;
 import it.niedermann.nextcloud.deck.domain.usecases.accounts.GetAccountsUseCase;
-import it.niedermann.nextcloud.deck.domain.usecases.accounts.RemoveAccountUseCase;
 import it.niedermann.nextcloud.deck.domain.usecases.export.ExportBoardUseCase;
 import it.niedermann.nextcloud.deck.domain.usecases.export.ExportCardUseCase;
 import it.niedermann.nextcloud.deck.domain.usecases.labels.ListLabelsUseCase;
 import it.niedermann.nextcloud.deck.domain.usecases.sync.GetSyncStatusUseCase;
-import it.niedermann.nextcloud.deck.domain.usecases.sync.ScheduleSyncUseCase;
 import it.niedermann.nextcloud.deck.domain.usecases.users.ListUsersUseCase;
 import it.niedermann.nextcloud.deck.javafx.fxml.Inflater;
 import it.niedermann.nextcloud.deck.javafx.ui.main.MainService;
@@ -74,11 +70,7 @@ public class HeaderFeature extends AbstractFeature {
     @FXML
     Menu switchAccountMenu;
     @FXML
-    MenuItem syncMenuItem;
-    @FXML
     MenuItem addAccountMenuItem;
-    @FXML
-    MenuItem removeAccountMenuItem;
     @FXML
     MenuItem filterMenuItem;
     @FXML
@@ -165,17 +157,11 @@ public class HeaderFeature extends AbstractFeature {
     @FXML
     Button preferencesBtn;
     @FXML
-    Button scheduleSyncBtn;
-    @FXML
     AvatarProgressView avatar;
-    @FXML
-    Button removeAccountBtn;
 
     private final GetAccountUseCase getAccountUseCase;
     private final GetAccountsUseCase getAccountsUseCase;
     private final GetSyncStatusUseCase getSyncStatusUseCase;
-    private final ScheduleSyncUseCase scheduleSyncUseCase;
-    private final RemoveAccountUseCase removeAccountUseCase;
     private final ExportBoardUseCase exportBoardUseCase;
     private final ExportCardUseCase exportCardUseCase;
     private final FilterFeature.Factory filterFeatureFactory;
@@ -183,7 +169,7 @@ public class HeaderFeature extends AbstractFeature {
     private final ListUsersUseCase listUsersUseCase;
     private final ThemeService themeService;
     private final AccountSwitcherFeature.Factory accountSwitcherFactory;
-    private final ViewModel viewModel;
+    private final MainService mainService;
 
     private final AtomicBoolean syncInProgress = new AtomicBoolean(false);
     private PopOver filterPopOver;
@@ -194,8 +180,6 @@ public class HeaderFeature extends AbstractFeature {
             GetAccountUseCase getAccountUseCase,
             GetAccountsUseCase getAccountsUseCase,
             GetSyncStatusUseCase getSyncStatusUseCase,
-            ScheduleSyncUseCase scheduleSyncUseCase,
-            RemoveAccountUseCase removeAccountUseCase,
             ExportBoardUseCase exportBoardUseCase,
             ExportCardUseCase exportCardUseCase,
             FilterFeature.Factory filterFeatureFactory,
@@ -203,15 +187,13 @@ public class HeaderFeature extends AbstractFeature {
             ListUsersUseCase listUsersUseCase,
             ThemeService themeService,
             AccountSwitcherFeature.Factory accountSwitcherFactory,
-            @Assisted ViewModel viewModel
+            @Assisted MainService mainService
     ) {
         super(inflater);
 
         this.getAccountUseCase = getAccountUseCase;
         this.getAccountsUseCase = getAccountsUseCase;
         this.getSyncStatusUseCase = getSyncStatusUseCase;
-        this.scheduleSyncUseCase = scheduleSyncUseCase;
-        this.removeAccountUseCase = removeAccountUseCase;
         this.exportBoardUseCase = exportBoardUseCase;
         this.exportCardUseCase = exportCardUseCase;
         this.filterFeatureFactory = filterFeatureFactory;
@@ -219,19 +201,19 @@ public class HeaderFeature extends AbstractFeature {
         this.listUsersUseCase = listUsersUseCase;
         this.themeService = themeService;
         this.accountSwitcherFactory = accountSwitcherFactory;
-        this.viewModel = viewModel;
+        this.mainService = mainService;
     }
 
     @AssistedFactory
     public interface Factory {
-        HeaderFeature create(ViewModel viewModel);
+        HeaderFeature create(MainService mainService);
     }
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         super.initialize(location, resources);
 
-        final var headerVariantDisposable = viewModel.getHeaderVariant()
+        final var headerVariantDisposable = mainService.getHeaderVariant()
                 .observeOn(JavaFxScheduler.platform())
                 .subscribe(variant -> {
                     final boolean isHBox = variant == MainService.HeaderVariant.DIRECT_BUTTONS;
@@ -254,14 +236,14 @@ public class HeaderFeature extends AbstractFeature {
                     switchAccountMenu.getItems().clear();
                     for (var account : accounts) {
                         final var item = new MenuItem(account.displayName());
-                        item.setOnAction(_ -> viewModel.onAccountSelected(account.id()));
+                        item.setOnAction(_ -> mainService.onAccountSelected(account.id()));
                         switchAccountMenu.getItems().add(item);
                     }
                 });
 
         addDisposable(accountsDisposable);
 
-        final var currentBoardForMenuDisposable = viewModel.getBoard()
+        final var currentBoardForMenuDisposable = mainService.getBoard()
                 .observeOn(JavaFxScheduler.platform())
                 .subscribe(board -> {
                     final boolean boardPresent = board != null;
@@ -271,7 +253,7 @@ public class HeaderFeature extends AbstractFeature {
 
         addDisposable(currentBoardForMenuDisposable);
 
-        final var cardSelectionDisposable = viewModel.getCardId()
+        final var cardSelectionDisposable = mainService.getCardId()
                 .observeOn(JavaFxScheduler.platform())
                 .subscribe(cardId -> {
                     final boolean cardPresent = cardId.isPresent();
@@ -281,26 +263,24 @@ public class HeaderFeature extends AbstractFeature {
 
         addDisposable(cardSelectionDisposable);
 
-        syncMenuItem.setOnAction(_ -> scheduleSyncBtn.fire());
-        addAccountMenuItem.setOnAction(_ -> viewModel.onLaunchPreferences(null));
+        addAccountMenuItem.setOnAction(_ -> mainService.onLaunchPreferences(null));
         accountSwitcherMenuItem.setOnAction(_ -> showAccountSwitcher(menuBar));
-        removeAccountMenuItem.setOnAction(_ -> removeAccountBtn.fire());
         filterMenuItem.setOnAction(_ -> showFilter(menuBar));
         editBoardMenuItem.setOnAction(_ -> editBoardBtn.fire());
 
-        kanbanViewMenuItem.setOnAction(_ -> viewModel.onViewModeSelected(MainService.ViewMode.KANBAN));
-        ganttViewMenuItem.setOnAction(_ -> viewModel.onViewModeSelected(MainService.ViewMode.GANTT));
-        headerToggleMenuItem.setOnAction(_ -> viewModel.onToggleHeaderVariant());
-        menuBarToggleMenuItem.setOnAction(_ -> viewModel.onToggleHeaderVariant());
+        kanbanViewMenuItem.setOnAction(_ -> mainService.onViewModeSelected(MainService.ViewMode.KANBAN));
+        ganttViewMenuItem.setOnAction(_ -> mainService.onViewModeSelected(MainService.ViewMode.GANTT));
+        headerToggleMenuItem.setOnAction(_ -> mainService.onToggleHeaderVariant());
+        menuBarToggleMenuItem.setOnAction(_ -> mainService.onToggleHeaderVariant());
 
-        openCardInNewWindowMenuItem.setOnAction(_ -> addDisposable(viewModel.getCardId().firstElement().subscribe(cardId -> cardId.ifPresent(viewModel::onOpenCardInNewWindow))));
-        assignMenuItem.setOnAction(_ -> addDisposable(viewModel.getCardId().firstElement().subscribe(cardId -> cardId.ifPresent(viewModel::onAssignCard))));
-        unassignMenuItem.setOnAction(_ -> addDisposable(viewModel.getCardId().firstElement().subscribe(cardId -> cardId.ifPresent(viewModel::onUnassignCard))));
-        moveMenuItem.setOnAction(_ -> addDisposable(viewModel.getCardId().firstElement().subscribe(cardId -> cardId.ifPresent(id -> viewModel.onMoveCard(id, menuBar)))));
-        copyMenuItem.setOnAction(_ -> addDisposable(viewModel.getCardId().firstElement().subscribe(cardId -> cardId.ifPresent(id -> viewModel.onCopyCard(id, menuBar)))));
-        deleteMenuItem.setOnAction(_ -> addDisposable(viewModel.getCardId().firstElement().subscribe(cardId -> cardId.ifPresent(viewModel::onDeleteCard))));
+        openCardInNewWindowMenuItem.setOnAction(_ -> addDisposable(mainService.getCardId().firstElement().subscribe(cardId -> cardId.ifPresent(mainService::onOpenCardInNewWindow))));
+        assignMenuItem.setOnAction(_ -> addDisposable(mainService.getCardId().firstElement().subscribe(cardId -> cardId.ifPresent(mainService::onAssignCard))));
+        unassignMenuItem.setOnAction(_ -> addDisposable(mainService.getCardId().firstElement().subscribe(cardId -> cardId.ifPresent(mainService::onUnassignCard))));
+        moveMenuItem.setOnAction(_ -> addDisposable(mainService.getCardId().firstElement().subscribe(cardId -> cardId.ifPresent(id -> mainService.onMoveCard(id, menuBar)))));
+        copyMenuItem.setOnAction(_ -> addDisposable(mainService.getCardId().firstElement().subscribe(cardId -> cardId.ifPresent(id -> mainService.onCopyCard(id, menuBar)))));
+        deleteMenuItem.setOnAction(_ -> addDisposable(mainService.getCardId().firstElement().subscribe(cardId -> cardId.ifPresent(mainService::onDeleteCard))));
 
-        final var currentAccount = viewModel.getAccountId()
+        final var currentAccount = mainService.getAccountId()
                 .observeOn(Schedulers.virtual())
                 .switchMap(getAccountUseCase::execute)
                 .observeOn(JavaFxScheduler.platform())
@@ -312,14 +292,14 @@ public class HeaderFeature extends AbstractFeature {
 
         addDisposable(currentAccount);
 
-        final var syncStatusDisposable = viewModel.getAccountId()
+        final var syncStatusDisposable = mainService.getAccountId()
                 .switchMap(getSyncStatusUseCase::execute)
                 .observeOn(JavaFxScheduler.platform())
                 .subscribe(optionalSyncStatus -> avatar.setSyncStatus(optionalSyncStatus.orElse(null)));
 
         addDisposable(syncStatusDisposable);
 
-        final var currentBoardDisposable = viewModel.getOptionalBoard()
+        final var currentBoardDisposable = mainService.getOptionalBoard()
                 .observeOn(JavaFxScheduler.platform())
                 .subscribe(optionalBoard -> {
                     final boolean boardPresent = optionalBoard.isPresent();
@@ -364,7 +344,7 @@ public class HeaderFeature extends AbstractFeature {
         exportCardPdfBtn.setOnAction(_ -> exportCardAsPdf());
         exportCardOdtBtn.setOnAction(_ -> exportCardAsOdt());
 
-        final var viewModeDisposable = viewModel.getViewMode()
+        final var viewModeDisposable = mainService.getViewMode()
                 .observeOn(JavaFxScheduler.platform())
                 .subscribe(viewMode -> {
                     switch (viewMode) {
@@ -383,44 +363,35 @@ public class HeaderFeature extends AbstractFeature {
 
         kanbanMenuItem.setText(resources.getString("main.view.kanban"));
         ganttMenuItem.setText(resources.getString("main.view.gantt"));
-        kanbanMenuItem.setOnAction(_ -> viewModel.onViewModeSelected(MainService.ViewMode.KANBAN));
-        ganttMenuItem.setOnAction(_ -> viewModel.onViewModeSelected(MainService.ViewMode.GANTT));
+        kanbanMenuItem.setOnAction(_ -> mainService.onViewModeSelected(MainService.ViewMode.KANBAN));
+        ganttMenuItem.setOnAction(_ -> mainService.onViewModeSelected(MainService.ViewMode.GANTT));
         viewModeBtn.setOnAction(_ -> {
             // Toggle
-            final var current = viewModel.getViewMode().blockingFirst();
-            viewModel.onViewModeSelected(current == MainService.ViewMode.KANBAN ? MainService.ViewMode.GANTT : MainService.ViewMode.KANBAN);
+            final var current = mainService.getViewMode().blockingFirst();
+            mainService.onViewModeSelected(current == MainService.ViewMode.KANBAN ? MainService.ViewMode.GANTT : MainService.ViewMode.KANBAN);
         });
 
         editBoardBtn.setOnAction(_ -> {
-            var disposable = viewModel.getBoard()
+            var disposable = mainService.getBoard()
                     .firstElement()
                     .observeOn(JavaFxScheduler.platform())
-                    .subscribe(viewModel::onEditBoard);
+                    .subscribe(mainService::onEditBoard);
             addDisposable(disposable);
         });
 
         filterBtn.setOnAction(_ -> showFilter(filterBtn));
 
         preferencesBtn.setOnAction(_ -> {
-            var disposable = viewModel.getAccountId()
+            var disposable = mainService.getAccountId()
                     .firstElement()
                     .observeOn(JavaFxScheduler.platform())
                     .subscribe(
-                            viewModel::onLaunchPreferences,
-                            _ -> viewModel.onLaunchPreferences(null),
-                            () -> viewModel.onLaunchPreferences(null)
+                            mainService::onLaunchPreferences,
+                            _ -> mainService.onLaunchPreferences(null),
+                            () -> mainService.onLaunchPreferences(null)
                     );
             addDisposable(disposable);
         });
-
-        scheduleSyncBtn.setOnAction(_ -> {
-            final var disposable = viewModel.getAccountId().firstElement()
-                    .flatMapPublisher(accountId -> Flowable.fromPublisher(this.scheduleSyncUseCase.execute(accountId)))
-                    .subscribe();
-
-            addDisposable(disposable);
-        });
-        removeAccountBtn.setOnAction(_ -> this.removeAccount());
 
         avatar.setFocusTraversable(true);
         avatar.setOnMouseClicked(_ -> showAccountSwitcher(avatar));
@@ -438,14 +409,14 @@ public class HeaderFeature extends AbstractFeature {
         exportCardHeader.setDisable(true);
     }
 
-    private void showFilter(javafx.scene.Node anchor) {
+    private void showFilter(Node anchor) {
         if (filterPopOver != null) {
             filterPopOver.hide();
         }
 
         final var filterDisposable = Flowable.combineLatest(
-                        viewModel.getAccountId().firstOrError().toFlowable(),
-                        viewModel.getBoardId().firstOrError().toFlowable(),
+                        mainService.getAccountId().firstOrError().toFlowable(),
+                        mainService.getBoardId().firstOrError().toFlowable(),
                         (accountId, boardId) -> new Object[]{accountId, boardId}
                 )
                 .flatMap(ids -> {
@@ -455,9 +426,9 @@ public class HeaderFeature extends AbstractFeature {
                             Flowable.fromPublisher(listLabelsUseCase.execute(boardId)).firstOrError().map(Set::stream).map(Stream::toList).toFlowable(),
                             Flowable.fromPublisher(listUsersUseCase.execute(accountId)).firstOrError().toFlowable(),
                             (labels, users) -> {
-                                final var initialFilter = viewModel.getFilter().blockingFirst();
+                                final var initialFilter = mainService.getFilter().blockingFirst();
                                 return filterFeatureFactory.create(initialFilter, labels, users, filter -> {
-                                    viewModel.setFilter(filter);
+                                    mainService.setFilter(filter);
                                     filterPopOver.hide();
                                 });
                             }
@@ -473,8 +444,8 @@ public class HeaderFeature extends AbstractFeature {
         addDisposable(filterDisposable);
     }
 
-    private void showAccountSwitcher(javafx.scene.Node anchor) {
-        final var accountSwitcher = accountSwitcherFactory.create();
+    private void showAccountSwitcher(Node anchor) {
+        final var accountSwitcher = accountSwitcherFactory.create(mainService);
         final var popover = new PopOver(accountSwitcher.getRoot());
         popover.setArrowLocation(PopOver.ArrowLocation.TOP_RIGHT);
         popover.setAnchorLocation(PopupWindow.AnchorLocation.CONTENT_TOP_RIGHT);
@@ -492,20 +463,8 @@ public class HeaderFeature extends AbstractFeature {
         }
     }
 
-    public void removeAccount() {
-        var disposable = viewModel.getAccountId()
-                .subscribeOn(Schedulers.virtual())
-                .observeOn(JavaFxScheduler.platform())
-                .subscribe(accountId -> {
-                    this.removeAccountUseCase.execute(accountId);
-                    this.viewModel.onAccountRemoved();
-                });
-
-        addDisposable(disposable);
-    }
-
     private void exportBoardAsCsv() {
-        addDisposable(viewModel.getBoardId().firstElement().subscribe(id -> {
+        addDisposable(mainService.getBoardId().firstElement().subscribe(id -> {
             final File file = showFileChooser(resources.getString("export.chooser.board"), "board.csv", new FileChooser.ExtensionFilter("CSV", "*.csv"));
             if (file != null) {
                 addDisposable(Flowable.fromPublisher(exportBoardUseCase.toCsv(id))
@@ -514,15 +473,15 @@ public class HeaderFeature extends AbstractFeature {
                             try {
                                 Files.writeString(file.toPath(), content, StandardCharsets.UTF_8);
                             } catch (IOException e) {
-                                logger.log(java.util.logging.Level.SEVERE, "Failed to export board to CSV", e);
+                                logger.log(Level.SEVERE, "Failed to export board to CSV", e);
                             }
-                        }, e -> logger.log(java.util.logging.Level.SEVERE, "Export failed", e)));
+                        }, e -> logger.log(Level.SEVERE, "Export failed", e)));
             }
         }));
     }
 
     private void exportBoardAsMermaid() {
-        addDisposable(viewModel.getBoardId().firstElement().subscribe(id -> {
+        addDisposable(mainService.getBoardId().firstElement().subscribe(id -> {
             final File file = showFileChooser(resources.getString("export.chooser.board"), "board.mmd", new FileChooser.ExtensionFilter("Mermaid", "*.mmd"));
             if (file != null) {
                 addDisposable(Flowable.fromPublisher(exportBoardUseCase.toMermaid(id))
@@ -531,15 +490,15 @@ public class HeaderFeature extends AbstractFeature {
                             try {
                                 Files.writeString(file.toPath(), content, StandardCharsets.UTF_8);
                             } catch (IOException e) {
-                                logger.log(java.util.logging.Level.SEVERE, "Failed to export board to Mermaid", e);
+                                logger.log(Level.SEVERE, "Failed to export board to Mermaid", e);
                             }
-                        }, e -> logger.log(java.util.logging.Level.SEVERE, "Export failed", e)));
+                        }, e -> logger.log(Level.SEVERE, "Export failed", e)));
             }
         }));
     }
 
     private void exportBoardAsOdt() {
-        addDisposable(viewModel.getBoardId().firstElement().subscribe(id -> {
+        addDisposable(mainService.getBoardId().firstElement().subscribe(id -> {
             final File file = showFileChooser(resources.getString("export.chooser.board"), "board.fodt", new FileChooser.ExtensionFilter("OpenDocument Text (Flat XML)", "*.fodt"));
             if (file != null) {
                 addDisposable(Flowable.fromPublisher(exportBoardUseCase.toOdt(id))
@@ -548,15 +507,15 @@ public class HeaderFeature extends AbstractFeature {
                             try {
                                 Files.writeString(file.toPath(), content, StandardCharsets.UTF_8);
                             } catch (IOException e) {
-                                logger.log(java.util.logging.Level.SEVERE, "Failed to export board to ODT", e);
+                                logger.log(Level.SEVERE, "Failed to export board to ODT", e);
                             }
-                        }, e -> logger.log(java.util.logging.Level.SEVERE, "Export failed", e)));
+                        }, e -> logger.log(Level.SEVERE, "Export failed", e)));
             }
         }));
     }
 
     private void exportBoardAsPdf() {
-        addDisposable(viewModel.getBoardId().firstElement().subscribe(id -> {
+        addDisposable(mainService.getBoardId().firstElement().subscribe(id -> {
             final File file = showFileChooser(resources.getString("export.chooser.board"), "board.pdf", new FileChooser.ExtensionFilter("PDF", "*.pdf"));
             if (file != null) {
                 addDisposable(Flowable.fromPublisher(exportBoardUseCase.toPdf(id))
@@ -565,15 +524,15 @@ public class HeaderFeature extends AbstractFeature {
                             try {
                                 Files.write(file.toPath(), content);
                             } catch (IOException e) {
-                                logger.log(java.util.logging.Level.SEVERE, "Failed to export board to PDF", e);
+                                logger.log(Level.SEVERE, "Failed to export board to PDF", e);
                             }
-                        }, e -> logger.log(java.util.logging.Level.SEVERE, "Export failed", e)));
+                        }, e -> logger.log(Level.SEVERE, "Export failed", e)));
             }
         }));
     }
 
     private void exportCardAsPdf() {
-        addDisposable(viewModel.getCardId().firstElement().subscribe(optionalId -> optionalId.ifPresent(id -> {
+        addDisposable(mainService.getCardId().firstElement().subscribe(optionalId -> optionalId.ifPresent(id -> {
             final File file = showFileChooser(resources.getString("export.chooser.card"), "card.pdf", new FileChooser.ExtensionFilter("PDF", "*.pdf"));
             if (file != null) {
                 addDisposable(Flowable.fromPublisher(exportCardUseCase.toPdf(id))
@@ -582,15 +541,15 @@ public class HeaderFeature extends AbstractFeature {
                             try {
                                 Files.write(file.toPath(), content);
                             } catch (IOException e) {
-                                logger.log(java.util.logging.Level.SEVERE, "Failed to export card to PDF", e);
+                                logger.log(Level.SEVERE, "Failed to export card to PDF", e);
                             }
-                        }, e -> logger.log(java.util.logging.Level.SEVERE, "Export failed", e)));
+                        }, e -> logger.log(Level.SEVERE, "Export failed", e)));
             }
         })));
     }
 
     private void exportCardAsOdt() {
-        addDisposable(viewModel.getCardId().firstElement().subscribe(optionalId -> optionalId.ifPresent(id -> {
+        addDisposable(mainService.getCardId().firstElement().subscribe(optionalId -> optionalId.ifPresent(id -> {
             final File file = showFileChooser(resources.getString("export.chooser.card"), "card.fodt", new FileChooser.ExtensionFilter("OpenDocument Text (Flat XML)", "*.fodt"));
             if (file != null) {
                 addDisposable(Flowable.fromPublisher(exportCardUseCase.toOdt(id))
@@ -599,9 +558,9 @@ public class HeaderFeature extends AbstractFeature {
                             try {
                                 Files.writeString(file.toPath(), content, StandardCharsets.UTF_8);
                             } catch (IOException e) {
-                                logger.log(java.util.logging.Level.SEVERE, "Failed to export card to ODT", e);
+                                logger.log(Level.SEVERE, "Failed to export card to ODT", e);
                             }
-                        }, e -> logger.log(java.util.logging.Level.SEVERE, "Export failed", e)));
+                        }, e -> logger.log(Level.SEVERE, "Export failed", e)));
             }
         })));
     }
@@ -612,49 +571,5 @@ public class HeaderFeature extends AbstractFeature {
         fileChooser.setInitialFileName(initialFileName);
         fileChooser.getExtensionFilters().add(filter);
         return fileChooser.showSaveDialog(root.getScene().getWindow());
-    }
-
-    public interface ViewModel {
-        void onAccountSelected(Account.ID accountId);
-
-        Flowable<Account.ID> getAccountId();
-
-        Flowable<Board.ID> getBoardId();
-
-        Flowable<Board> getBoard();
-
-        Flowable<Optional<Board>> getOptionalBoard();
-
-        Flowable<Optional<Card.ID>> getCardId();
-
-        Flowable<FilterInformation> getFilter();
-
-        void setFilter(FilterInformation filter);
-
-        void onEditBoard(Board board);
-
-        void onLaunchPreferences(Account.ID accountId);
-
-        void onAccountRemoved();
-
-        Flowable<MainService.ViewMode> getViewMode();
-
-        void onViewModeSelected(MainService.ViewMode viewMode);
-
-        Flowable<MainService.HeaderVariant> getHeaderVariant();
-
-        void onToggleHeaderVariant();
-
-        void onOpenCardInNewWindow(Card.ID cardId);
-
-        void onAssignCard(Card.ID cardId);
-
-        void onUnassignCard(Card.ID cardId);
-
-        void onMoveCard(Card.ID cardId, Node anchor);
-
-        void onCopyCard(Card.ID cardId, Node anchor);
-
-        void onDeleteCard(Card.ID cardId);
     }
 }

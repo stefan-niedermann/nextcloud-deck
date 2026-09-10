@@ -1,7 +1,9 @@
 package it.niedermann.nextcloud.deck.javafx.ui.main;
 
+import com.dlsc.gemsfx.DialogPane;
 import com.dlsc.gemsfx.PopOver;
 
+import java.text.MessageFormat;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.ResourceBundle;
@@ -14,6 +16,7 @@ import dagger.assisted.AssistedFactory;
 import dagger.assisted.AssistedInject;
 import io.reactivex.rxjava4.core.Flowable;
 import io.reactivex.rxjava4.core.Maybe;
+import io.reactivex.rxjava4.schedulers.Schedulers;
 import io.soabase.recordbuilder.core.RecordBuilder;
 import it.niedermann.nextcloud.deck.domain.model.Account;
 import it.niedermann.nextcloud.deck.domain.model.Board;
@@ -23,6 +26,8 @@ import it.niedermann.nextcloud.deck.domain.model.CreateBoard;
 import it.niedermann.nextcloud.deck.domain.model.FilterInformation;
 import it.niedermann.nextcloud.deck.domain.model.User;
 import it.niedermann.nextcloud.deck.domain.usecases.accounts.GetAccountUseCase;
+import it.niedermann.nextcloud.deck.domain.usecases.accounts.GetAccountsUseCase;
+import it.niedermann.nextcloud.deck.domain.usecases.accounts.RemoveAccountUseCase;
 import it.niedermann.nextcloud.deck.domain.usecases.boards.AddBoardUseCase;
 import it.niedermann.nextcloud.deck.domain.usecases.boards.GetBoardUseCase;
 import it.niedermann.nextcloud.deck.domain.usecases.cards.AssignCardUseCase;
@@ -33,10 +38,12 @@ import it.niedermann.nextcloud.deck.domain.usecases.cards.UnassignCardUseCase;
 import it.niedermann.nextcloud.deck.domain.usecases.state.GetCurrentBoardUseCase;
 import it.niedermann.nextcloud.deck.domain.usecases.state.SetCurrentAccountUseCase;
 import it.niedermann.nextcloud.deck.domain.usecases.state.SetCurrentBoardUseCase;
+import it.niedermann.nextcloud.deck.domain.usecases.sync.ScheduleSyncUseCase;
 import it.niedermann.nextcloud.deck.javafx.fxml.Inflater;
 import it.niedermann.nextcloud.deck.javafx.services.ApplicationRouter;
 import it.niedermann.nextcloud.deck.javafx.store.Store;
 import it.niedermann.nextcloud.deck.javafx.store.StoreLogger;
+import it.niedermann.nextcloud.deck.javafx.ui.main.features.AccountSwitcherFeature;
 import it.niedermann.nextcloud.deck.javafx.ui.main.features.BoardGanttFeature;
 import it.niedermann.nextcloud.deck.javafx.ui.main.features.BoardKanbanFeature;
 import it.niedermann.nextcloud.deck.javafx.ui.main.features.BoardListFeature;
@@ -44,6 +51,7 @@ import it.niedermann.nextcloud.deck.javafx.ui.main.features.ColumnFeature;
 import it.niedermann.nextcloud.deck.javafx.ui.main.features.HeaderFeature;
 import it.niedermann.nextcloud.deck.javafx.ui.shared.features.PickStackFeature;
 import it.niedermann.nextcloud.deck.javafx.ui.shared.services.ThemeService;
+import it.niedermann.nextcloud.deck.javafx.util.JavaFxScheduler;
 import javafx.application.Platform;
 import javafx.scene.Node;
 import javafx.scene.control.Alert;
@@ -51,11 +59,11 @@ import javafx.scene.control.ButtonBar;
 import javafx.scene.control.ButtonType;
 
 public class MainService extends Store<MainService.State, MainService.Action> implements
-        HeaderFeature.ViewModel,
         BoardKanbanFeature.ViewModel,
         BoardGanttFeature.ViewModel,
         BoardListFeature.ViewModel,
-        ColumnFeature.ViewModel {
+        ColumnFeature.ViewModel,
+        AccountSwitcherFeature.ViewModel {
 
     private static final Logger logger = Logger.getLogger(MainService.class.getName());
 
@@ -65,6 +73,9 @@ public class MainService extends Store<MainService.State, MainService.Action> im
     private final GetCurrentBoardUseCase getCurrentBoardUseCase;
     private final SetCurrentBoardUseCase setCurrentBoardUseCase;
     private final GetAccountUseCase getAccountUseCase;
+    private final GetAccountsUseCase getAccountsUseCase;
+    private final RemoveAccountUseCase removeAccountUseCase;
+    private final ScheduleSyncUseCase scheduleSyncUseCase;
     private final DeleteCardUseCase deleteCardUseCase;
     private final MoveCardUseCase moveCardUseCase;
     private final CopyCardUseCase copyCardUseCase;
@@ -78,6 +89,7 @@ public class MainService extends Store<MainService.State, MainService.Action> im
     private final AddBoardUseCase addBoardUseCase;
 
     private PopOver pickStackPopOver;
+    private DialogPane dialogPane;
 
     @AssistedInject
     public MainService(
@@ -88,6 +100,9 @@ public class MainService extends Store<MainService.State, MainService.Action> im
             GetCurrentBoardUseCase getCurrentBoardUseCase,
             SetCurrentBoardUseCase setCurrentBoardUseCase,
             GetAccountUseCase getAccountUseCase,
+            GetAccountsUseCase getAccountsUseCase,
+            RemoveAccountUseCase removeAccountUseCase,
+            ScheduleSyncUseCase scheduleSyncUseCase,
             DeleteCardUseCase deleteCardUseCase,
             MoveCardUseCase moveCardUseCase,
             CopyCardUseCase copyCardUseCase,
@@ -105,6 +120,9 @@ public class MainService extends Store<MainService.State, MainService.Action> im
         this.getCurrentBoardUseCase = getCurrentBoardUseCase;
         this.setCurrentBoardUseCase = setCurrentBoardUseCase;
         this.getAccountUseCase = getAccountUseCase;
+        this.getAccountsUseCase = getAccountsUseCase;
+        this.removeAccountUseCase = removeAccountUseCase;
+        this.scheduleSyncUseCase = scheduleSyncUseCase;
         this.getBoardUseCase = getBoardUseCase;
         this.addBoardUseCase = addBoardUseCase;
         this.deleteCardUseCase = deleteCardUseCase;
@@ -255,21 +273,18 @@ public class MainService extends Store<MainService.State, MainService.Action> im
                 .distinctUntilChanged();
     }
 
-    @Override
     public Flowable<Optional<Card.ID>> getCardId() {
         return Flowable.fromPublisher(getState())
                 .map(State::cardId)
                 .distinctUntilChanged();
     }
 
-    @Override
     public Flowable<FilterInformation> getFilter() {
         return Flowable.fromPublisher(getState())
                 .map(State::filter)
                 .distinctUntilChanged();
     }
 
-    @Override
     public void setFilter(FilterInformation filter) {
         dispatch(new Action.SetFilterAction(filter));
     }
@@ -280,7 +295,6 @@ public class MainService extends Store<MainService.State, MainService.Action> im
                 .distinctUntilChanged(Board::equals);
     }
 
-    @Override
     public Flowable<Optional<Board>> getOptionalBoard() {
         return Flowable.fromPublisher(getOptionalBoardId())
                 .switchMap(id -> id.map(boardId -> Flowable.fromPublisher(getBoardUseCase.execute(boardId)).map(Optional::of)).orElse(Flowable.just(Optional.empty())))
@@ -292,7 +306,6 @@ public class MainService extends Store<MainService.State, MainService.Action> im
         dispatch(new Action.EditBoardAction(board));
     }
 
-    @Override
     public void onLaunchPreferences(Account.ID accountId) {
         if (accountId != null) {
             applicationRouter.launchPreferencesStage(accountId);
@@ -301,31 +314,73 @@ public class MainService extends Store<MainService.State, MainService.Action> im
         }
     }
 
-    @Override
     public void onAccountRemoved() {
         // TODO Select any account and set as current OR fallback to login scene
     }
 
     @Override
+    public Flowable<Account> getAccount() {
+        return getAccountId()
+                .observeOn(Schedulers.virtual())
+                .switchMap(getAccountUseCase::execute)
+                .distinctUntilChanged(Account::equals);
+    }
+
+    @Override
+    public Flowable<Iterable<Account>> getAccounts() {
+        return Flowable.fromPublisher(getAccountsUseCase.execute())
+                .map(list -> (Iterable<Account>) list)
+                .distinctUntilChanged();
+    }
+
+    @Override
+    public void onScheduleSync() {
+        getAccountId().firstElement()
+                .flatMapPublisher(accountId -> Flowable.fromPublisher(this.scheduleSyncUseCase.execute(accountId)))
+                .subscribe();
+    }
+
+    @Override
+    public void onAddAccount() {
+        // TODO Implement
+    }
+
+    @Override
+    public void onDeleteAccount(Account account) {
+        if (dialogPane != null) {
+            final var resources = ResourceBundle.getBundle("i18n");
+            dialogPane.showConfirmation(
+                    resources.getString("main.alert.delete-account.title"),
+                    MessageFormat.format(resources.getString("main.alert.delete-account.content"), account.username())
+            ).onClose(buttonType -> {
+                if (buttonType == ButtonType.YES) {
+                    removeAccountUseCase.execute(account.id());
+                    onAccountRemoved();
+                }
+            });
+        }
+    }
+
+    public void setDialogPane(DialogPane dialogPane) {
+        this.dialogPane = dialogPane;
+    }
+
     public Flowable<ViewMode> getViewMode() {
         return Flowable.fromPublisher(getState())
                 .map(State::viewMode)
                 .distinctUntilChanged();
     }
 
-    @Override
     public void onViewModeSelected(ViewMode viewMode) {
         dispatch(new Action.SwitchViewMode(viewMode));
     }
 
-    @Override
     public Flowable<HeaderVariant> getHeaderVariant() {
         return Flowable.fromPublisher(getState())
                 .map(State::headerVariant)
                 .distinctUntilChanged();
     }
 
-    @Override
     public void onToggleHeaderVariant() {
         dispatch(new Action.ToggleHeaderVariantAction());
     }

@@ -9,12 +9,9 @@
         <menus>
             <Menu fx:id="accountMenu" text="%header.menu.account">
                 <items>
-                    <MenuItem fx:id="syncMenuItem" text="%header.menu.account.sync" />
                     <MenuItem fx:id="addAccountMenuItem" text="%header.menu.account.add" />
                     <MenuItem fx:id="accountSwitcherMenuItem" text="%header.menu.account.switcher" />
                     <Menu fx:id="switchAccountMenu" text="%header.menu.account.switch" />
-                    <SeparatorMenuItem mnemonicParsing="false" />
-                    <MenuItem fx:id="removeAccountMenuItem" text="%header.menu.account.remove" />
                 </items>
             </Menu>
             <Menu fx:id="boardMenu" text="%header.menu.board">
@@ -80,8 +77,6 @@
             </items>
         </SplitMenuButton>
 
-        <Region HBox.hgrow="SOMETIMES" />
-
         <MenuButton fx:id="exportBtn" mnemonicParsing="false">
             <items>
                 <CustomMenuItem fx:id="exportBoardHeader" mnemonicParsing="false" styleClass="menu-header">
@@ -107,25 +102,15 @@
             </graphic>
         </MenuButton>
 
+        <Region HBox.hgrow="SOMETIMES" />
+
         <Button accessibleText="%header.btn.preferences" fx:id="preferencesBtn">
             <graphic>
                 <FontIcon iconLiteral="fltrmz-settings-16" iconSize="16" />
             </graphic>
         </Button>
 
-        <Button accessibleText="%header.btn.sync" fx:id="scheduleSyncBtn">
-            <graphic>
-                <FontIcon iconLiteral="fltfal-arrow-sync-20" iconSize="16" />
-            </graphic>
-        </Button>
-
         <Label fx:id="accountDisplayName" styleClass="account-name" />
         <AvatarProgressView prefHeight="36" prefWidth="36" fx:id="avatar" styleClass="avatar-button" />
-
-        <Button accessibleText="%header.btn.remove-account" fx:id="removeAccountBtn">
-            <graphic>
-                <FontIcon iconLiteral="fltral-delete-16" iconSize="16" />
-            </graphic>
-        </Button>
     </HBox>
 </VBox>
