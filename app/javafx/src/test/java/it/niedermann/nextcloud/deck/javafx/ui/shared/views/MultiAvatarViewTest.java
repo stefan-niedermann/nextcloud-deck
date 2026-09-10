@@ -1,18 +1,20 @@
 package it.niedermann.nextcloud.deck.javafx.ui.shared.views;
 
-import it.niedermann.nextcloud.deck.domain.model.User;
-import it.niedermann.nextcloud.deck.javafx.AvatarViewInitializer;
-import javafx.scene.Scene;
-import javafx.stage.Stage;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.testfx.api.FxRobot;
 import org.testfx.framework.junit5.ApplicationExtension;
 import org.testfx.framework.junit5.Start;
 
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import it.niedermann.nextcloud.deck.domain.model.User;
+import it.niedermann.nextcloud.deck.javafx.AvatarViewInitializer;
+import javafx.scene.Scene;
+import javafx.stage.Stage;
 
 @ExtendWith({ApplicationExtension.class, AvatarViewInitializer.class})
 public class MultiAvatarViewTest {
@@ -27,14 +29,14 @@ public class MultiAvatarViewTest {
     }
 
     @Test
-    public void testBind() {
+    public void testBind(FxRobot robot) {
         final var userIds = List.of(
                 new User.ID("user1"),
                 new User.ID("user2"),
                 new User.ID("user3")
         );
 
-        multiAvatarView.bind(userIds);
+        robot.interact(() -> multiAvatarView.bind(userIds));
 
         assertEquals(3, multiAvatarView.getChildren().size());
         for (int i = 0; i < 3; i++) {
@@ -49,22 +51,22 @@ public class MultiAvatarViewTest {
     }
 
     @Test
-    public void testResize() {
-        multiAvatarView.setAvatarSize(40.0);
+    public void testResize(FxRobot robot) {
+        robot.interact(() -> multiAvatarView.setAvatarSize(40.0));
         assertEquals(-12.0, multiAvatarView.getSpacing(), 0.001);
 
-        multiAvatarView.bind(List.of(new User.ID("user1")));
+        robot.interact(() -> multiAvatarView.bind(List.of(new User.ID("user1"))));
         final var avatarView = (AvatarView) multiAvatarView.getChildren().get(0);
         assertEquals(40.0, avatarView.getFitWidth());
     }
 
     @Test
-    public void testResizeExistingChildren() {
-        multiAvatarView.bind(List.of(new User.ID("user1")));
+    public void testResizeExistingChildren(FxRobot robot) {
+        robot.interact(() -> multiAvatarView.bind(List.of(new User.ID("user1"))));
         final var avatarView = (AvatarView) multiAvatarView.getChildren().get(0);
         assertEquals(24.0, avatarView.getFitWidth());
 
-        multiAvatarView.setAvatarSize(40.0);
+        robot.interact(() -> multiAvatarView.setAvatarSize(40.0));
         assertEquals(40.0, avatarView.getFitWidth());
     }
 }

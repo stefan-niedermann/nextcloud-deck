@@ -20,14 +20,20 @@ import it.niedermann.nextcloud.deck.domain.model.Account;
 import it.niedermann.nextcloud.deck.domain.model.FilterInformation;
 import it.niedermann.nextcloud.deck.domain.repository.MockData;
 import it.niedermann.nextcloud.deck.domain.state.KeyValueStore;
+import it.niedermann.nextcloud.deck.domain.usecases.accounts.GetAccountUseCase;
+import it.niedermann.nextcloud.deck.domain.usecases.accounts.GetAccountsUseCase;
+import it.niedermann.nextcloud.deck.domain.usecases.accounts.RemoveAccountUseCase;
 import it.niedermann.nextcloud.deck.domain.usecases.boards.AddBoardUseCase;
 import it.niedermann.nextcloud.deck.domain.usecases.boards.GetBoardUseCase;
+import it.niedermann.nextcloud.deck.domain.usecases.cards.AssignCardUseCase;
 import it.niedermann.nextcloud.deck.domain.usecases.cards.CopyCardUseCase;
 import it.niedermann.nextcloud.deck.domain.usecases.cards.DeleteCardUseCase;
 import it.niedermann.nextcloud.deck.domain.usecases.cards.MoveCardUseCase;
+import it.niedermann.nextcloud.deck.domain.usecases.cards.UnassignCardUseCase;
 import it.niedermann.nextcloud.deck.domain.usecases.state.GetCurrentBoardUseCase;
 import it.niedermann.nextcloud.deck.domain.usecases.state.SetCurrentAccountUseCase;
 import it.niedermann.nextcloud.deck.domain.usecases.state.SetCurrentBoardUseCase;
+import it.niedermann.nextcloud.deck.domain.usecases.sync.ScheduleSyncUseCase;
 import it.niedermann.nextcloud.deck.javafx.fxml.Inflater;
 import it.niedermann.nextcloud.deck.javafx.services.ApplicationRouter;
 import it.niedermann.nextcloud.deck.javafx.store.StoreLogger;
@@ -84,12 +90,15 @@ class MainServiceTest {
                 setCurrentAccountUseCase,
                 getCurrentBoardUseCase,
                 setCurrentBoardUseCase,
-                mock(it.niedermann.nextcloud.deck.domain.usecases.accounts.GetAccountUseCase.class),
+                mock(GetAccountUseCase.class),
+                mock(GetAccountsUseCase.class),
+                mock(RemoveAccountUseCase.class),
+                mock(ScheduleSyncUseCase.class),
                 deleteCardUseCase,
                 moveCardUseCase,
                 copyCardUseCase,
-                mock(it.niedermann.nextcloud.deck.domain.usecases.cards.AssignCardUseCase.class),
-                mock(it.niedermann.nextcloud.deck.domain.usecases.cards.UnassignCardUseCase.class),
+                mock(AssignCardUseCase.class),
+                mock(UnassignCardUseCase.class),
                 inflater,
                 pickStackFeatureFactory,
                 getBoardUseCase,

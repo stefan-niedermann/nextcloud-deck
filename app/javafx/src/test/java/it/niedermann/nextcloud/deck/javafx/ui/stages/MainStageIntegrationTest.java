@@ -9,6 +9,7 @@ import static org.mockito.Mockito.when;
 
 import androidx.annotation.NonNull;
 
+import com.google.gson.Gson;
 import com.jthemedetecor.OsThemeDetector;
 
 import org.junit.jupiter.api.Test;
@@ -118,6 +119,7 @@ import it.niedermann.nextcloud.deck.javafx.ui.shared.tagviewfactories.UserTagVie
 import it.niedermann.nextcloud.deck.javafx.ui.splashscreen.SplashScreenScene;
 import it.niedermann.nextcloud.deck.javafx.util.ExceptionUnwrapper;
 import it.niedermann.nextcloud.deck.util.ColorUtil;
+import jakarta.inject.Provider;
 import javafx.application.HostServices;
 import javafx.stage.Stage;
 
@@ -210,6 +212,10 @@ class MainStageIntegrationTest {
 
         final var getCurrentBoardUseCase = mock(GetCurrentBoardUseCase.class);
         when(getCurrentBoardUseCase.execute(any())).thenReturn(CompletableFuture.completedFuture(null));
+        final var getAccountsUseCase = mock(GetAccountsUseCase.class);
+        when(getAccountsUseCase.execute()).thenReturn(Flowable.just(List.of(ACCOUNT)));
+        final var removeAccountUseCase = mock(RemoveAccountUseCase.class);
+        final var scheduleSyncUseCase = mock(ScheduleSyncUseCase.class);
         final var deleteCardUseCase = mock(DeleteCardUseCase.class);
         when(deleteCardUseCase.execute(any())).thenReturn(CompletableFuture.completedFuture(null));
         final var moveCardUseCase = mock(MoveCardUseCase.class);
@@ -248,7 +254,7 @@ class MainStageIntegrationTest {
         when(getCardUseCase.execute(any())).thenReturn(Flowable.empty());
         when(getCardUseCase.execute(CARD_1.id())).thenReturn(Flowable.just(card));
 
-        final var storeLogger = new StoreLogger(new com.google.gson.Gson());
+        final var storeLogger = new StoreLogger(new Gson());
         final var detector = mock(OsThemeDetector.class);
         when(detector.isDark()).thenReturn(false);
         final var keyValueStore = mock(KeyValueStore.class);
@@ -267,6 +273,9 @@ class MainStageIntegrationTest {
                     getCurrentBoardUseCase,
                     setCurrentBoardUseCase,
                     getAccountUseCase,
+                    getAccountsUseCase,
+                    removeAccountUseCase,
+                    scheduleSyncUseCase,
                     deleteCardUseCase,
                     moveCardUseCase,
                     copyCardUseCase,
@@ -280,9 +289,6 @@ class MainStageIntegrationTest {
             );
             return mainService;
         };
-
-        final var getAccountsUseCase = mock(GetAccountsUseCase.class);
-        when(getAccountsUseCase.execute()).thenReturn(Flowable.just(List.of(ACCOUNT)));
 
         final var stageTitleResolver = new StageTitleResolver(
                 getAccountUseCase,
@@ -309,21 +315,16 @@ class MainStageIntegrationTest {
                 getAccountUseCase,
                 getAccountsUseCase,
                 getSyncStatusUseCase,
-                mock(ScheduleSyncUseCase.class),
-                mock(RemoveAccountUseCase.class),
                 mock(ExportBoardUseCase.class),
                 mock(ExportCardUseCase.class),
                 (_, _, _, _) -> mock(FilterFeature.class),
                 mock(ListLabelsUseCase.class),
                 mock(ListUsersUseCase.class),
                 themeService,
-                () -> new AccountSwitcherFeature(
+                vm -> new AccountSwitcherFeature(
                         inflater,
                         new AccountListItemCellFactory(),
-                        getAccountUseCase,
-                        getAccountsUseCase,
-                        mock(ScheduleSyncUseCase.class),
-                        mock(RemoveAccountUseCase.class)
+                        vm
                 ),
                 viewModel
         );
@@ -384,8 +385,8 @@ class MainStageIntegrationTest {
         );
 
         final SplashScreenScene.Factory splashScreenFactory = () -> new SplashScreenScene(inflater, themeService, hostServices, buildConfig, syncScheduler);
-        final var loginFactoryProvider = (jakarta.inject.Provider<LoginScene.Factory>) () -> mock(LoginScene.Factory.class);
-        final var exceptionFactoryProvider = (jakarta.inject.Provider<ExceptionScene.Factory>) () -> throwable -> new ExceptionScene(
+        final var loginFactoryProvider = (Provider<LoginScene.Factory>) () -> mock(LoginScene.Factory.class);
+        final var exceptionFactoryProvider = (Provider<ExceptionScene.Factory>) () -> throwable -> new ExceptionScene(
                 mock(ExceptionDialog.Factory.class),
                 inflater,
                 themeService,
