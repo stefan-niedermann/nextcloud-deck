@@ -18,5 +18,7 @@ public interface BoardRepository {
 
     Flow.Publisher<List<Board>> getNotDeletedBoards(Account.ID accountId);
 
+    CompletableFuture<Board.ID> findBoardByRemoteId(Account.ID accountId, Board.RemoteID remoteId);
+
     CompletableFuture<Void> deleteBoard(Board.ID boardId);
 }

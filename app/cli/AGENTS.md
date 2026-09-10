@@ -6,6 +6,7 @@
 - The CLI consists of a set of commands that are not interactive.
 - Commands do not prompt the user for entering more information but fail with a speaking error
   message
+- For each `@Command` use `mixinStandardHelpOptions = true`
 - Allow arguments for multiple use cases
     - `--localId` for local IDs or alternatively
     - `--remoteId` for remote IDs (a synchronization may be necessary while resolving the arguments)

@@ -15,7 +15,8 @@ import jakarta.inject.Inject;
 import picocli.CommandLine.Command;
 
 @Command(name = "account",
-        description = "List all accounts",
+        mixinStandardHelpOptions = true,
+        description = "Manage accounts",
         subcommands = {
                 AccountAddCmd.class,
                 AccountListCmd.class,

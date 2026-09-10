@@ -6,6 +6,7 @@ import java.util.Map;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.Flow;
 
+import it.niedermann.nextcloud.deck.domain.model.Account;
 import it.niedermann.nextcloud.deck.domain.model.Board;
 import it.niedermann.nextcloud.deck.domain.model.Card;
 import it.niedermann.nextcloud.deck.domain.model.Column;
@@ -30,6 +31,8 @@ public interface CardRepository {
     Flow.Publisher<Map<Column, List<Card>>> getNotDeletedCardsByColumn(Board.ID boardId);
 
     Flow.Publisher<Card> getCard(Card.ID cardId);
+
+    CompletableFuture<Card.ID> findCardByRemoteId(Account.ID accountId, Card.RemoteID remoteId);
 
     Flow.Publisher<Boolean> cardExists(Card.ID cardId);
 

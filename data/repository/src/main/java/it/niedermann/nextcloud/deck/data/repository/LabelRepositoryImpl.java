@@ -13,6 +13,7 @@ import it.niedermann.nextcloud.deck.data.local.dao.BoardDao;
 import it.niedermann.nextcloud.deck.data.local.dao.LabelDao;
 import it.niedermann.nextcloud.deck.data.local.entity.LabelEntity;
 import it.niedermann.nextcloud.deck.data.local.mapper.LabelMapper;
+import it.niedermann.nextcloud.deck.domain.model.Account;
 import it.niedermann.nextcloud.deck.domain.model.Board;
 import it.niedermann.nextcloud.deck.domain.model.CreateLabel;
 import it.niedermann.nextcloud.deck.domain.model.DBStatus;
@@ -141,5 +142,11 @@ public class LabelRepositoryImpl implements LabelRepository {
                         .map(entities -> (Collection<Label>) labelMapper.toTOList(entities))
                         .subscribeOn(Schedulers.io())
         );
+    }
+
+    @Override
+    public CompletableFuture<Label.ID> findLabelByRemoteId(Account.ID accountId, Label.RemoteID remoteId) {
+        return labelDao.getLabelByRemoteId(accountId.value(), remoteId.value())
+                .thenApply(entity -> entity != null ? new Label.ID(entity.getLocalId()) : null);
     }
 }

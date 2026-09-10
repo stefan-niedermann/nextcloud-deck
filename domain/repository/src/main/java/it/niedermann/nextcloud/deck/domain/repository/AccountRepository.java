@@ -2,6 +2,7 @@ package it.niedermann.nextcloud.deck.domain.repository;
 
 import java.net.URL;
 import java.util.Collection;
+import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.Flow;
 
@@ -21,6 +22,8 @@ public interface AccountRepository {
     CompletableFuture<Account.ID> findAccountIdByCardId(Card.ID cardId);
 
     CompletableFuture<Account.ID> findAccountId(String accountName);
+
+    CompletableFuture<List<Account.ID>> findAccountIdsByUrl(URL url);
 
     CompletableFuture<Account.ID> addAccount(URL url, String username, String token);
 

@@ -111,6 +111,17 @@ public class BoardRepositoryImpl implements BoardRepository {
     }
 
     @Override
+    public CompletableFuture<Board.ID> findBoardByRemoteId(Account.ID accountId, Board.RemoteID remoteId) {
+        return boardDao.getBoardByRemoteId(accountId.value(), remoteId.value())
+                .thenApply(entity -> {
+                    if (entity == null) {
+                        return null;
+                    }
+                    return new Board.ID(entity.getLocalId());
+                });
+    }
+
+    @Override
     public CompletableFuture<Void> deleteBoard(Board.ID boardId) {
         return boardDao.getBoardById(boardId.value())
                 .thenCompose(entity -> {

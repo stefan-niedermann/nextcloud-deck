@@ -12,6 +12,7 @@ import picocli.CommandLine.Command;
 import picocli.CommandLine.Option;
 
 @Command(name = "remove",
+        mixinStandardHelpOptions = true,
         description = "Get the currently selected account")
 public class AccountRemoveCmd implements Callable<Integer> {
 

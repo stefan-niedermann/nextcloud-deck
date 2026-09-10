@@ -9,6 +9,7 @@ import jakarta.inject.Inject;
 import picocli.CommandLine.Command;
 
 @Command(name = "reset",
+        mixinStandardHelpOptions = true,
         description = "Reset the local database and preferences")
 public class ResetCmd implements Callable<Integer> {
 

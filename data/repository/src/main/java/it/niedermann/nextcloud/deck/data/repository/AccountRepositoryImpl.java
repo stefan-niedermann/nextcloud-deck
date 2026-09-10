@@ -5,9 +5,11 @@ import org.reactivestreams.FlowAdapters;
 import java.net.URL;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.Flow;
+import java.util.stream.Collectors;
 
 import io.reactivex.rxjava3.schedulers.Schedulers;
 import it.niedermann.nextcloud.deck.data.local.dao.AccountDao;
@@ -80,6 +82,14 @@ public class AccountRepositoryImpl implements AccountRepository {
     public CompletableFuture<Account.ID> findAccountId(String accountName) {
         return accountDao.findAccountId(accountName)
                 .map(Account.ID::new)
+                .toCompletionStage()
+                .toCompletableFuture();
+    }
+
+    @Override
+    public CompletableFuture<List<Account.ID>> findAccountIdsByUrl(URL url) {
+        return accountDao.findAccountIdsByUrl(url)
+                .map(ids -> ids.stream().map(Account.ID::new).collect(Collectors.toList()))
                 .toCompletionStage()
                 .toCompletableFuture();
     }

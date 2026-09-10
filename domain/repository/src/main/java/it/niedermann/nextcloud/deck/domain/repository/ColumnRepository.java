@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.Flow;
 
+import it.niedermann.nextcloud.deck.domain.model.Account;
 import it.niedermann.nextcloud.deck.domain.model.Board;
 import it.niedermann.nextcloud.deck.domain.model.Column;
 import it.niedermann.nextcloud.deck.domain.model.CreateColumn;
@@ -23,4 +24,6 @@ public interface ColumnRepository {
     Flow.Publisher<List<Column>> getColumns(Board.ID boardId);
 
     Flow.Publisher<Column> getColumn(Column.ID columnId);
+
+    CompletableFuture<Column.ID> findColumnByRemoteId(Account.ID accountId, Column.RemoteID remoteId);
 }

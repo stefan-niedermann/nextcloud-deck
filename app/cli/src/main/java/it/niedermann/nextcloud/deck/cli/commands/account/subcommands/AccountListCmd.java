@@ -12,6 +12,7 @@ import jakarta.inject.Inject;
 import picocli.CommandLine.Command;
 
 @Command(name = "list",
+        mixinStandardHelpOptions = true,
         description = "Get the currently selected account")
 public class AccountListCmd implements Callable<Integer> {
 

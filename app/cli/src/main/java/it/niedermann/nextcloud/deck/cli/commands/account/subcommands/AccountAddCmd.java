@@ -17,6 +17,7 @@ import picocli.CommandLine.Command;
 import picocli.CommandLine.Option;
 
 @Command(name = "add",
+        mixinStandardHelpOptions = true,
         description = "Add a new account to the local database")
 public class AccountAddCmd implements Callable<Integer> {
 

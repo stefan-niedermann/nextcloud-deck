@@ -10,12 +10,16 @@ import io.reactivex.rxjava3.core.Flowable
 import io.reactivex.rxjava3.core.Maybe
 import io.reactivex.rxjava3.core.Single
 import it.niedermann.nextcloud.deck.data.local.entity.AccountEntity
+import java.net.URL
 
 @Dao
 interface AccountDao {
 
     @Query("SELECT a.id FROM Account a WHERE a.accountName = :accountName")
     fun findAccountId(accountName: String): Maybe<Long>
+
+    @Query("SELECT a.id FROM Account a WHERE a.url = :url")
+    fun findAccountIdsByUrl(url: URL): Maybe<List<Long>>
 
     @Query("SELECT EXISTS(SELECT id FROM Account WHERE id != -1 LIMIT 1)")
     fun hasAccount(): Flowable<Boolean>

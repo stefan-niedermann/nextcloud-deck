@@ -4,11 +4,14 @@ import org.reactivestreams.FlowAdapters;
 
 import java.time.OffsetDateTime;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.Flow;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 import io.reactivex.rxjava3.core.Flowable;
@@ -28,12 +31,14 @@ import it.niedermann.nextcloud.deck.data.local.entity.JoinCardWithUserEntity;
 import it.niedermann.nextcloud.deck.data.local.entity.LabelEntity;
 import it.niedermann.nextcloud.deck.data.local.mapper.CardMapper;
 import it.niedermann.nextcloud.deck.data.local.mapper.ColumnMapper;
+import it.niedermann.nextcloud.deck.domain.model.Account;
 import it.niedermann.nextcloud.deck.domain.model.Board;
 import it.niedermann.nextcloud.deck.domain.model.Card;
 import it.niedermann.nextcloud.deck.domain.model.Column;
 import it.niedermann.nextcloud.deck.domain.model.CreateCard;
 import it.niedermann.nextcloud.deck.domain.model.DBStatus;
 import it.niedermann.nextcloud.deck.domain.model.FilterInformation;
+import it.niedermann.nextcloud.deck.domain.model.Label;
 import it.niedermann.nextcloud.deck.domain.model.User;
 import it.niedermann.nextcloud.deck.domain.model.query.PreviewCard;
 import it.niedermann.nextcloud.deck.domain.repository.CardRepository;
@@ -233,7 +238,7 @@ public class CardRepositoryImpl implements CardRepository {
         final Card card = cardMapper.toTO(entity);
         return Single.fromCompletionStage(joinCardWithLabelDao.getActiveJoinsByCardId(entity.getLocalId()))
                 .flatMap(labels -> {
-                    final var labelIds = labels.stream().map(l -> new it.niedermann.nextcloud.deck.domain.model.Label.ID(l.getLabelId())).collect(Collectors.toSet());
+                    final var labelIds = labels.stream().map(l -> new Label.ID(l.getLabelId())).collect(Collectors.toSet());
                     return Single.fromCompletionStage(joinCardWithUserDao.getActiveJoinsByCardId(entity.getLocalId()))
                             .map(userJoins -> {
                                 final var assignees = userJoins.stream().map(uj -> {
@@ -263,7 +268,7 @@ public class CardRepositoryImpl implements CardRepository {
                 Single.fromCompletionStage(columnDao.getColumnById(columnId.value()))
                         .flatMapPublisher(column -> {
                             if (column == null) {
-                                return Flowable.just(java.util.Collections.<PreviewCard>emptyList());
+                                return Flowable.just(Collections.<PreviewCard>emptyList());
                             }
                             return accountDao.getAccountSingle(column.getAccountId())
                                     .toSingle()
@@ -332,7 +337,7 @@ public class CardRepositoryImpl implements CardRepository {
                 : entity.getDescription();
 
         final var labelPreviews = local.getLabels().stream()
-                .map(l -> new PreviewCard.LabelPreview(new it.niedermann.nextcloud.deck.domain.model.Label.ID(l.getLocalId()), l.getTitle(), l.getColor()))
+                .map(l -> new PreviewCard.LabelPreview(new Label.ID(l.getLocalId()), l.getTitle(), l.getColor()))
                 .collect(Collectors.toSet());
 
         final var assigneeIds = local.getAssignees().stream()
@@ -342,7 +347,7 @@ public class CardRepositoryImpl implements CardRepository {
         final String description = entity.getDescription() != null ? entity.getDescription() : "";
         int checkboxTotalCount = 0;
         int checkboxDoneCount = 0;
-        final java.util.regex.Matcher matcher = java.util.regex.Pattern.compile("\\[([ xX])]").matcher(description);
+        final Matcher matcher = Pattern.compile("\\[([ xX])]").matcher(description);
         while (matcher.find()) {
             checkboxTotalCount++;
             if (!matcher.group(1).isBlank()) {
@@ -394,6 +399,12 @@ public class CardRepositoryImpl implements CardRepository {
                         .toFlowable()
                         .subscribeOn(Schedulers.io())
         );
+    }
+
+    @Override
+    public CompletableFuture<Card.ID> findCardByRemoteId(Account.ID accountId, Card.RemoteID remoteId) {
+        return cardDao.getCardByRemoteId(accountId.value(), remoteId.value())
+                .thenApply(entity -> entity != null ? new Card.ID(entity.getLocalId()) : null);
     }
 
     @Override

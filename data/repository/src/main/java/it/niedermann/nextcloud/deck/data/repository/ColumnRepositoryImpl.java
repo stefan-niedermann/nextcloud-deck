@@ -14,6 +14,7 @@ import it.niedermann.nextcloud.deck.data.local.dao.BoardDao;
 import it.niedermann.nextcloud.deck.data.local.dao.ColumnDao;
 import it.niedermann.nextcloud.deck.data.local.entity.ColumnEntity;
 import it.niedermann.nextcloud.deck.data.local.mapper.ColumnMapper;
+import it.niedermann.nextcloud.deck.domain.model.Account;
 import it.niedermann.nextcloud.deck.domain.model.Board;
 import it.niedermann.nextcloud.deck.domain.model.Column;
 import it.niedermann.nextcloud.deck.domain.model.CreateColumn;
@@ -121,6 +122,12 @@ public class ColumnRepositoryImpl implements ColumnRepository {
                         .map(columnMapper::toTO)
                         .subscribeOn(Schedulers.io())
         );
+    }
+
+    @Override
+    public CompletableFuture<Column.ID> findColumnByRemoteId(Account.ID accountId, Column.RemoteID remoteId) {
+        return columnDao.getColumnByRemoteId(accountId.value(), remoteId.value())
+                .thenApply(entity -> entity != null ? new Column.ID(entity.getLocalId()) : null);
     }
 
     @Override

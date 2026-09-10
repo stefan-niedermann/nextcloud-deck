@@ -20,6 +20,10 @@ tasks.withType<AbstractArchiveTask>().configureEach {
     duplicatesStrategy = DuplicatesStrategy.EXCLUDE
 }
 
+tasks.test {
+    useJUnitPlatform()
+}
+
 dependencies {
     implementation(project(":app:shared"))
     implementation(project(":auth:apptoken"))
@@ -30,4 +34,10 @@ dependencies {
     annotationProcessor(libs.info.picocli.codegen)
 
     implementation(libs.rxjava4)
+
+    testImplementation(platform(libs.junitBom))
+    testImplementation(libs.junitJupiter)
+    testRuntimeOnly(libs.junitPlatformLauncher)
+    testImplementation(libs.mockito.core)
+    testImplementation(libs.assertj.core)
 }

@@ -10,6 +10,7 @@ import io.reactivex.rxjava3.schedulers.Schedulers;
 import it.niedermann.nextcloud.deck.app.shared.args.ArgsResolver;
 import it.niedermann.nextcloud.deck.domain.model.Account;
 import it.niedermann.nextcloud.deck.domain.repository.AccountRepository;
+import it.niedermann.nextcloud.deck.domain.repository.BoardRepository;
 import it.niedermann.nextcloud.deck.domain.usecases.accounts.HasAccountsUseCase;
 import it.niedermann.nextcloud.deck.domain.usecases.state.GetCurrentAccountUseCase;
 import it.niedermann.nextcloud.deck.domain.usecases.state.GetCurrentBoardUseCase;
@@ -21,18 +22,21 @@ public class BoardArgResolver implements ArgsResolver<BoardRawArgs, BoardParsedA
     private final GetCurrentAccountUseCase getCurrentAccountUseCase;
     private final GetCurrentBoardUseCase getCurrentBoardUseCase;
     private final AccountRepository accountRepository;
+    private final BoardRepository boardRepository;
 
     @Inject
     public BoardArgResolver(
             HasAccountsUseCase hasAccountsUseCase,
             GetCurrentAccountUseCase getCurrentAccountUseCase,
             GetCurrentBoardUseCase getCurrentBoardUseCase,
-            AccountRepository accountRepository
+            AccountRepository accountRepository,
+            BoardRepository boardRepository
     ) {
         this.hasAccountsUseCase = hasAccountsUseCase;
         this.getCurrentAccountUseCase = getCurrentAccountUseCase;
         this.getCurrentBoardUseCase = getCurrentBoardUseCase;
         this.accountRepository = accountRepository;
+        this.boardRepository = boardRepository;
     }
 
     @Override
@@ -51,7 +55,38 @@ public class BoardArgResolver implements ArgsResolver<BoardRawArgs, BoardParsedA
                                             );
                                 }
 
-                                return Flowable.error(new BoardArgResolver.NoAccountConfiguredException());
+                                return Flowable.error(new NoAccountConfiguredException());
+                            })
+            );
+
+        } else if (args instanceof BoardRawArgs.RemoteBoard remoteBoard) {
+            return FlowAdapters.toFlowPublisher(
+                    Flowable.fromCompletionStage(getCurrentAccountUseCase.execute())
+                            .flatMap(accountId -> Flowable.fromCompletionStage(boardRepository.findBoardByRemoteId(accountId, remoteBoard.boardRemoteId()))
+                                    .map(boardId -> new BoardParsedArgs(accountId, boardId))
+                            )
+            );
+
+        } else if (args instanceof BoardRawArgs.RemoteAccount remoteAccount) {
+            return FlowAdapters.toFlowPublisher(
+                    Flowable.fromCompletionStage(accountRepository.findAccountId(remoteAccount.accountName()))
+                            .flatMap(accountId -> Flowable.fromCompletionStage(boardRepository.findBoardByRemoteId(accountId, remoteAccount.boardRemoteId()))
+                                    .map(boardId -> new BoardParsedArgs(accountId, boardId))
+                            )
+            );
+
+        } else if (args instanceof BoardRawArgs.RemoteServer remoteServer) {
+            return FlowAdapters.toFlowPublisher(
+                    Flowable.fromCompletionStage(accountRepository.findAccountIdsByUrl(remoteServer.server()))
+                            .flatMap(accountIds -> {
+                                if (accountIds.isEmpty()) {
+                                    return Flowable.error(new RequestedAccountNotConfiguredException());
+                                } else if (accountIds.size() > 1) {
+                                    return Flowable.error(new UnsupportedOperationException("Multiple accounts for same URL not yet supported in CLI resolution."));
+                                }
+                                final var accountId = accountIds.get(0);
+                                return Flowable.fromCompletionStage(boardRepository.findBoardByRemoteId(accountId, remoteServer.boardRemoteId()))
+                                        .map(boardId -> new BoardParsedArgs(accountId, boardId));
                             })
             );
 
@@ -64,7 +99,7 @@ public class BoardArgResolver implements ArgsResolver<BoardRawArgs, BoardParsedA
                                 if (exists) {
                                     return Flowable.just(new BoardParsedArgs(explicitArgs.accountId(), explicitArgs.boardId()));
                                 } else {
-                                    return Flowable.error(new BoardArgResolver.NoAccountConfiguredException());
+                                    return Flowable.error(new NoAccountConfiguredException());
                                 }
                             })
             );

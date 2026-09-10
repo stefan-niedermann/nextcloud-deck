@@ -9,10 +9,13 @@ public sealed interface BoardRawArgs {
     record CurrentBoardOfCurrentAccount() implements BoardRawArgs {
     }
 
-    record RemoteAccount(String accountName, long cardRemoteId) implements BoardRawArgs {
+    record RemoteBoard(Board.RemoteID boardRemoteId) implements BoardRawArgs {
     }
 
-    record RemoteServer(URL server, long cardRemoteId) implements BoardRawArgs {
+    record RemoteAccount(String accountName, Board.RemoteID boardRemoteId) implements BoardRawArgs {
+    }
+
+    record RemoteServer(URL server, Board.RemoteID boardRemoteId) implements BoardRawArgs {
     }
 
     record ExplicitBoard(Account.ID accountId, Board.ID boardId) implements BoardRawArgs {
