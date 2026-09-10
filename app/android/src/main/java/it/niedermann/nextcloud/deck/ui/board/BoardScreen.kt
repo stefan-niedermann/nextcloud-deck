@@ -655,37 +655,6 @@ fun CardItem(
                     modifier = Modifier.weight(1f),
                     style = MaterialTheme.typography.bodyLarge.copy(fontWeight = FontWeight.Bold)
                 )
-                Box {
-                    IconButton(onClick = { showMenu = true }, modifier = Modifier.size(24.dp)) {
-                        Icon(Icons.Outlined.MoreVert, contentDescription = "Menu")
-                    }
-                        DropdownMenu(
-                            expanded = showMenu,
-                            onDismissRequest = { showMenu = false }
-                        ) {
-                            DropdownMenuItem(
-                                text = { Text(if (card.assignedToMe()) "Unassign from me" else "Assign to me") },
-                                onClick = {
-                                    onAssignToggle()
-                                    showMenu = false
-                                }
-                            )
-                            DropdownMenuItem(
-                                text = { Text("Move") },
-                                onClick = {
-                                    onMove()
-                                    showMenu = false
-                                }
-                            )
-                            DropdownMenuItem(
-                                text = { Text("Copy") },
-                                onClick = {
-                                    onCopy()
-                                    showMenu = false
-                                }
-                            )
-                        }
-                }
                 if (card.dueDate() != null) {
                     val locale = LocalConfiguration.current.locales[0]
                     val formatter = remember(locale) { DateTimeFormatter.ofPattern("MMM dd", locale) }
@@ -698,6 +667,37 @@ fun CardItem(
                             text = card.dueDate().format(formatter),
                             modifier = Modifier.padding(horizontal = 4.dp, vertical = 2.dp),
                             style = MaterialTheme.typography.labelSmall
+                        )
+                    }
+                }
+                Box(modifier = Modifier.padding(start = 8.dp)) {
+                    IconButton(onClick = { showMenu = true }, modifier = Modifier.size(24.dp)) {
+                        Icon(Icons.Outlined.MoreVert, contentDescription = "Menu")
+                    }
+                    DropdownMenu(
+                        expanded = showMenu,
+                        onDismissRequest = { showMenu = false }
+                    ) {
+                        DropdownMenuItem(
+                            text = { Text(if (card.assignedToMe()) "Unassign from me" else "Assign to me") },
+                            onClick = {
+                                onAssignToggle()
+                                showMenu = false
+                            }
+                        )
+                        DropdownMenuItem(
+                            text = { Text("Move") },
+                            onClick = {
+                                onMove()
+                                showMenu = false
+                            }
+                        )
+                        DropdownMenuItem(
+                            text = { Text("Copy") },
+                            onClick = {
+                                onCopy()
+                                showMenu = false
+                            }
                         )
                     }
                 }
