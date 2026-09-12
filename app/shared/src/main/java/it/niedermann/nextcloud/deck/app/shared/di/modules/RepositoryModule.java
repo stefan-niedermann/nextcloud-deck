@@ -9,9 +9,9 @@ import it.niedermann.nextcloud.deck.data.local.dao.AttachmentDao;
 import it.niedermann.nextcloud.deck.data.local.dao.BoardDao;
 import it.niedermann.nextcloud.deck.data.local.dao.CardDao;
 import it.niedermann.nextcloud.deck.data.local.dao.ColumnDao;
+import it.niedermann.nextcloud.deck.data.local.dao.CommentDao;
 import it.niedermann.nextcloud.deck.data.local.dao.JoinCardWithLabelDao;
 import it.niedermann.nextcloud.deck.data.local.dao.JoinCardWithUserDao;
-import it.niedermann.nextcloud.deck.data.local.dao.CommentDao;
 import it.niedermann.nextcloud.deck.data.local.dao.LabelDao;
 import it.niedermann.nextcloud.deck.data.local.dao.UserDao;
 import it.niedermann.nextcloud.deck.data.local.mapper.AccessControlMapper;
@@ -109,8 +109,10 @@ public class RepositoryModule {
     @Singleton
     AttachmentRepository provideAttachmentRepository(AttachmentDao attachmentDao,
                                                      CardDao cardDao,
-                                                     AttachmentMapper attachmentMapper) {
-        return new AttachmentRepositoryImpl(attachmentDao, cardDao, attachmentMapper);
+                                                     AttachmentMapper attachmentMapper,
+                                                     ApiProvider.Factory apiFactory,
+                                                     AccountRepository accountRepository) {
+        return new AttachmentRepositoryImpl(attachmentDao, cardDao, attachmentMapper, apiFactory, accountRepository);
     }
 
     @Provides

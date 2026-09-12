@@ -19,6 +19,7 @@ public interface AttachmentMapper extends GenericMapper<AttachmentEntity, Attach
     @Mapping(target = "remoteId", source = "remoteId")
     @Mapping(target = "etag", ignore = true)
     @Mapping(target = "filesize", source = "size")
+    @Mapping(target = "fileId", source = "fileId")
     AttachmentEntity toEntity(Attachment attachment);
 
     @Override
@@ -28,6 +29,7 @@ public interface AttachmentMapper extends GenericMapper<AttachmentEntity, Attach
     @Mapping(target = "status", source = "status")
     @Mapping(target = "lastModified", source = "lastModified")
     @Mapping(target = "localPath", source = "localPath")
+    @Mapping(target = "fileId", source = "fileId")
     Attachment toTO(AttachmentEntity entity);
 
     @Mapping(target = "id", source = "localId")
@@ -36,6 +38,7 @@ public interface AttachmentMapper extends GenericMapper<AttachmentEntity, Attach
     @Mapping(target = "status", source = "status")
     @Mapping(target = "lastModified", source = "lastModified")
     @Mapping(target = "localPath", source = "localPath")
+    @Mapping(target = "fileId", source = "fileId")
     it.niedermann.nextcloud.deck.domain.model.query.Attachment toQueryTO(AttachmentEntity entity);
 
     List<it.niedermann.nextcloud.deck.domain.model.query.Attachment> toQueryTOList(List<AttachmentEntity> entities);

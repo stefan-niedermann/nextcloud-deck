@@ -6,8 +6,12 @@ import java.net.URI;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 
+import it.niedermann.nextcloud.deck.domain.model.PreviewMode;
+import it.niedermann.nextcloud.remote.deck.dto.CommentDTO;
+import it.niedermann.nextcloud.remote.ocs.dto.OcsActivityResponseDTO;
 import it.niedermann.nextcloud.remote.ocs.dto.OcsAutocompleteResponseDTO;
 import it.niedermann.nextcloud.remote.ocs.dto.OcsCapabilitiesResponseDTO;
+import it.niedermann.nextcloud.remote.ocs.dto.OcsCommentResponseDTO;
 import it.niedermann.nextcloud.remote.ocs.dto.OcsSearchProvidersResponseDTO;
 import it.niedermann.nextcloud.remote.ocs.dto.OcsSearchResultResponseDTO;
 import it.niedermann.nextcloud.remote.ocs.dto.OcsUserResponseDTO;
@@ -44,6 +48,14 @@ public interface OcsApi {
     CompletableFuture<Response<ResponseBody>> getAvatar(@Path("userId") String userId, @Path("size") int size);
 
     @Headers({HEADER_OCS_API_REQUEST})
+    @GET("ocs/v2.php/core/preview?format=json")
+    CompletableFuture<Response<ResponseBody>> getPreview(@Query("fileId") long fileId,
+                                                         @Query("x") int width,
+                                                         @Query("y") int height,
+                                                         @Query("a") int aspect,
+                                                         @Query("mode") PreviewMode mode);
+
+    @Headers({HEADER_OCS_API_REQUEST})
     @GET("ocs/v1.php/core/autocomplete/get?format=json")
     CompletableFuture<OcsAutocompleteResponseDTO> searchUser(@Header("If-None-Match") @Nullable String eTag,
                                                               @Query("search") String term,
@@ -69,19 +81,19 @@ public interface OcsApi {
 
     @Headers({HEADER_OCS_API_REQUEST})
     @GET("ocs/v2.php/apps/activity/api/v2/activity/filter?format=json&object_type=deck_card&limit=50&since=-1&sort=asc")
-    CompletableFuture<it.niedermann.nextcloud.remote.ocs.dto.OcsActivityResponseDTO> getActivitiesForCard(@Query("object_id") long cardId);
+    CompletableFuture<OcsActivityResponseDTO> getActivitiesForCard(@Query("object_id") long cardId);
 
     @Headers({HEADER_OCS_API_REQUEST})
     @GET("ocs/v1.php/apps/deck/api/v1.0/cards/{cardId}/comments?format=json")
-    CompletableFuture<it.niedermann.nextcloud.remote.ocs.dto.OcsCommentResponseDTO> getCommentsForCard(@Path("cardId") long cardId);
+    CompletableFuture<OcsCommentResponseDTO> getCommentsForCard(@Path("cardId") long cardId);
 
     @Headers({HEADER_OCS_API_REQUEST})
     @POST("ocs/v1.php/apps/deck/api/v1.0/cards/{cardId}/comments?format=json")
-    CompletableFuture<it.niedermann.nextcloud.remote.ocs.dto.OcsCommentResponseDTO> createCommentForCard(@Path("cardId") long cardId, @Body it.niedermann.nextcloud.remote.deck.dto.CommentDTO comment);
+    CompletableFuture<OcsCommentResponseDTO> createCommentForCard(@Path("cardId") long cardId, @Body CommentDTO comment);
 
     @Headers({HEADER_OCS_API_REQUEST})
     @PUT("ocs/v1.php/apps/deck/api/v1.0/cards/{cardId}/comments/{commentId}?format=json")
-    CompletableFuture<it.niedermann.nextcloud.remote.ocs.dto.OcsCommentResponseDTO> updateCommentForCard(@Path("cardId") long cardId, @Path("commentId") long commentId, @Body it.niedermann.nextcloud.remote.deck.dto.CommentDTO comment);
+    CompletableFuture<OcsCommentResponseDTO> updateCommentForCard(@Path("cardId") long cardId, @Path("commentId") long commentId, @Body CommentDTO comment);
 
     @Headers({HEADER_OCS_API_REQUEST})
     @DELETE("ocs/v1.php/apps/deck/api/v1.0/cards/{cardId}/comments/{commentId}?format=json")

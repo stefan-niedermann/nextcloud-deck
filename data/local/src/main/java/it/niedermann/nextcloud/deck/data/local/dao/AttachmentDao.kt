@@ -17,6 +17,9 @@ interface AttachmentDao : GenericDao<AttachmentEntity> {
     @Query("SELECT * FROM Attachment WHERE cardId = :cardId")
     fun getAttachmentsByCardRx(cardId: Long): CompletableFuture<List<AttachmentEntity>>
 
+    @Query("SELECT * FROM Attachment WHERE localId = :localId")
+    fun getAttachmentById(localId: Long): CompletableFuture<AttachmentEntity?>
+
     @Query("SELECT * FROM Attachment WHERE accountId = :accountId AND status != 1")
     fun getChangedAttachments(accountId: Long): CompletableFuture<List<AttachmentEntity>>
 
