@@ -361,6 +361,8 @@ class MainStageIntegrationTest {
                 listAttachmentsUseCase,
                 listPreviewCommentsUseCase,
                 listPreviewActivitiesUseCase,
+                mock(ListLabelsUseCase.class, Answers.RETURNS_MOCKS),
+                mock(ListUsersUseCase.class, Answers.RETURNS_MOCKS),
                 mock(AddCommentUseCase.class, Answers.RETURNS_MOCKS),
                 initialState,
                 onClose
@@ -372,7 +374,7 @@ class MainStageIntegrationTest {
                 boardListFeatureFactory,
                 headerFeatureFactory,
                 boardFeatureFactory,
-                viewModel -> mock(BoardGanttFeature.class),
+                _ -> mock(BoardGanttFeature.class),
                 editCardFeatureFactory,
                 editCardStageContextFactory,
                 stageTitleResolver,

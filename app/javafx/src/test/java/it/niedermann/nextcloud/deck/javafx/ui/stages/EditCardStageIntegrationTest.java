@@ -39,7 +39,9 @@ import it.niedermann.nextcloud.deck.domain.usecases.cards.UpdateCardUseCase;
 import it.niedermann.nextcloud.deck.domain.usecases.columns.GetColumnUseCase;
 import it.niedermann.nextcloud.deck.domain.usecases.comments.AddCommentUseCase;
 import it.niedermann.nextcloud.deck.domain.usecases.comments.ListPreviewCommentsUseCase;
+import it.niedermann.nextcloud.deck.domain.usecases.labels.ListLabelsUseCase;
 import it.niedermann.nextcloud.deck.domain.usecases.state.SetCurrentAccountUseCase;
+import it.niedermann.nextcloud.deck.domain.usecases.users.ListUsersUseCase;
 import it.niedermann.nextcloud.deck.javafx.ScreenshotUtil;
 import it.niedermann.nextcloud.deck.javafx.di.stage.StageComponent;
 import it.niedermann.nextcloud.deck.javafx.fxml.Inflater;
@@ -136,6 +138,8 @@ class EditCardStageIntegrationTest {
                 listAttachmentsUseCase,
                 listPreviewCommentsUseCase,
                 listPreviewActivitiesUseCase,
+                mock(ListLabelsUseCase.class, Answers.RETURNS_MOCKS),
+                mock(ListUsersUseCase.class, Answers.RETURNS_MOCKS),
                 mock(AddCommentUseCase.class),
                 new EditCardService.State(Optional.empty(), false),
                 () -> {}

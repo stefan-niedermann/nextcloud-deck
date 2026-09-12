@@ -1,5 +1,7 @@
 package it.niedermann.nextcloud.deck.javafx.ui.editcard;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
 import java.util.logging.Logger;
@@ -12,6 +14,8 @@ import io.reactivex.rxjava4.disposables.Disposable;
 import it.niedermann.nextcloud.deck.domain.model.Board;
 import it.niedermann.nextcloud.deck.domain.model.Card;
 import it.niedermann.nextcloud.deck.domain.model.CreateComment;
+import it.niedermann.nextcloud.deck.domain.model.Label;
+import it.niedermann.nextcloud.deck.domain.model.User;
 import it.niedermann.nextcloud.deck.domain.model.query.Attachment;
 import it.niedermann.nextcloud.deck.domain.model.query.PreviewActivity;
 import it.niedermann.nextcloud.deck.domain.model.query.PreviewComment;
@@ -23,6 +27,8 @@ import it.niedermann.nextcloud.deck.domain.usecases.cards.UpdateCardUseCase;
 import it.niedermann.nextcloud.deck.domain.usecases.columns.GetColumnUseCase;
 import it.niedermann.nextcloud.deck.domain.usecases.comments.AddCommentUseCase;
 import it.niedermann.nextcloud.deck.domain.usecases.comments.ListPreviewCommentsUseCase;
+import it.niedermann.nextcloud.deck.domain.usecases.labels.ListLabelsUseCase;
+import it.niedermann.nextcloud.deck.domain.usecases.users.ListUsersUseCase;
 import it.niedermann.nextcloud.deck.javafx.services.ApplicationRouter;
 import it.niedermann.nextcloud.deck.javafx.store.Store;
 import it.niedermann.nextcloud.deck.javafx.store.StoreLogger;
@@ -41,6 +47,8 @@ public class EditCardService extends Store<EditCardService.State, EditCardServic
     private final ListAttachmentsUseCase listAttachmentsUseCase;
     private final ListPreviewCommentsUseCase listPreviewCommentsUseCase;
     private final ListPreviewActivitiesUseCase listPreviewActivitiesUseCase;
+    private final ListLabelsUseCase listLabelsUseCase;
+    private final ListUsersUseCase listUsersUseCase;
     private final AddCommentUseCase addCommentUseCase;
 
     private final Runnable onClose;
@@ -56,6 +64,8 @@ public class EditCardService extends Store<EditCardService.State, EditCardServic
             ListAttachmentsUseCase listAttachmentsUseCase,
             ListPreviewCommentsUseCase listPreviewCommentsUseCase,
             ListPreviewActivitiesUseCase listPreviewActivitiesUseCase,
+            ListLabelsUseCase listLabelsUseCase,
+            ListUsersUseCase listUsersUseCase,
             AddCommentUseCase addCommentUseCase,
             @Assisted State initialState,
             @Assisted Runnable onClose
@@ -69,6 +79,8 @@ public class EditCardService extends Store<EditCardService.State, EditCardServic
         this.listAttachmentsUseCase = listAttachmentsUseCase;
         this.listPreviewCommentsUseCase = listPreviewCommentsUseCase;
         this.listPreviewActivitiesUseCase = listPreviewActivitiesUseCase;
+        this.listLabelsUseCase = listLabelsUseCase;
+        this.listUsersUseCase = listUsersUseCase;
         this.addCommentUseCase = addCommentUseCase;
         this.onClose = onClose;
 
@@ -94,19 +106,32 @@ public class EditCardService extends Store<EditCardService.State, EditCardServic
     }
 
     @Override
-    public Flowable<java.util.List<Attachment>> getAttachments() {
+    public Flowable<List<Attachment>> getAttachments() {
         return getCardId()
                 .switchMap(id -> Flowable.fromPublisher(listAttachmentsUseCase.execute(id)));
     }
 
     @Override
-    public Flowable<java.util.List<PreviewComment>> getComments() {
+    public Flowable<List<PreviewComment>> getComments() {
         return getCardId().switchMap(id -> Flowable.fromPublisher(listPreviewCommentsUseCase.execute(id)));
     }
 
     @Override
-    public Flowable<java.util.List<PreviewActivity>> getActivities() {
+    public Flowable<List<PreviewActivity>> getActivities() {
         return getCardId().switchMap(id -> Flowable.fromPublisher(listPreviewActivitiesUseCase.execute(id)));
+    }
+
+    @Override
+    public Flowable<List<Label>> getBoardLabels() {
+        return getBoard()
+                .switchMap(board -> Flowable.fromPublisher(listLabelsUseCase.execute(board.id())))
+                .map(ArrayList::new);
+    }
+
+    @Override
+    public Flowable<List<User>> getBoardUsers() {
+        return getBoard()
+                .switchMap(board -> Flowable.fromPublisher(listUsersUseCase.execute(board.accountId())));
     }
 
     @Override

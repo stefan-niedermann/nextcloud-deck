@@ -6,12 +6,18 @@ import com.dlsc.gemsfx.TagsField;
 import com.dlsc.gemsfx.TimePicker;
 
 import java.net.URL;
+import java.text.MessageFormat;
+import java.time.LocalTime;
+import java.time.OffsetDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.FormatStyle;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.ResourceBundle;
 import java.util.concurrent.CompletableFuture;
 import java.util.logging.Logger;
+import java.util.stream.Collectors;
 
 import dagger.assisted.Assisted;
 import dagger.assisted.AssistedFactory;
@@ -118,6 +124,9 @@ public class EditCardFeature extends AbstractFeature {
     @FXML
     ListView<Attachment> attachments;
 
+    private final List<it.niedermann.nextcloud.deck.domain.model.Label> allBoardLabels = new ArrayList<>();
+    private final List<User> allBoardUsers = new ArrayList<>();
+    private Card card;
     private final Flowable<Board.Permissions> permissions;
 
     @AssistedInject
@@ -152,6 +161,15 @@ public class EditCardFeature extends AbstractFeature {
     }
 
     @FXML
+    private OffsetDateTime getOffsetDateTime(CalendarPicker datePicker, TimePicker timePicker) {
+        final var date = datePicker.getValue();
+        if (date == null) {
+            return null;
+        }
+        final var time = timePicker.getTime() != null ? timePicker.getTime() : LocalTime.MIDNIGHT;
+        return OffsetDateTime.of(date, time, OffsetDateTime.now().getOffset());
+    }
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         super.initialize(location, resources);
@@ -208,27 +226,80 @@ public class EditCardFeature extends AbstractFeature {
 
         addDisposable(permissionsDisposable);
 
+        addDisposable(viewModel.getBoardLabels().observeOn(JavaFxScheduler.platform()).subscribe(allLabels -> {
+            this.allBoardLabels.clear();
+            this.allBoardLabels.addAll(allLabels);
+        }));
+        addDisposable(viewModel.getBoardUsers().observeOn(JavaFxScheduler.platform()).subscribe(allUsers -> {
+            this.allBoardUsers.clear();
+            this.allBoardUsers.addAll(allUsers);
+        }));
+
         final var cardDisposable = viewModel.getCard()
                 .observeOn(JavaFxScheduler.platform())
                 .subscribe(card -> {
+                    this.card = card;
                     title.setText(card.title());
-                    createdAt.setText(java.text.MessageFormat.format(resources.getString("editcard.label.created-at"),
+                    createdAt.setText(MessageFormat.format(resources.getString("editcard.label.created-at"),
                             card.createdAt().format(DateTimeFormatter.ofLocalizedDateTime(FormatStyle.SHORT)),
                             "John Doe"
                     ));
-                    editedAt.setText(java.text.MessageFormat.format(resources.getString("editcard.label.last-edited"),
+                    editedAt.setText(MessageFormat.format(resources.getString("editcard.label.last-edited"),
                             card.createdAt().format(DateTimeFormatter.ofLocalizedDateTime(FormatStyle.SHORT)),
                             "John Doe"
                     ));
                     descriptionEditor.setText(card.description());
 
-                    saveBtn.setOnMouseClicked(event -> {
-                        viewModel.onCardSaved(card);
-                        event.consume();
-                    });
+                    labels.getTags().setAll(card.labels().stream()
+                            .map(id -> allBoardLabels.stream().filter(l -> l.id().equals(id)).findFirst())
+                            .filter(Optional::isPresent)
+                            .map(Optional::get)
+                            .collect(Collectors.toList()));
+
+                    assignees.getTags().setAll(card.assignees().stream()
+                            .map(id -> allBoardUsers.stream().filter(u -> u.id().equals(id)).findFirst())
+                            .filter(Optional::isPresent)
+                            .map(Optional::get)
+                            .collect(Collectors.toList()));
+
+                    if (card.startDate() != null) {
+                        startDateDate.setValue(card.startDate().toLocalDate());
+                        startDateTime.setTime(card.startDate().toLocalTime());
+                    } else {
+                        startDateDate.setValue(null);
+                        startDateTime.setTime(null);
+                    }
+
+                    if (card.dueDate() != null) {
+                        dueDateDate.setValue(card.dueDate().toLocalDate());
+                        dueDateTime.setTime(card.dueDate().toLocalTime());
+                    } else {
+                        dueDateDate.setValue(null);
+                        dueDateTime.setTime(null);
+                    }
                 });
 
         addDisposable(cardDisposable);
+
+        saveBtn.setOnAction(event -> {
+            if (this.card != null) {
+                final var updatedCard = this.card.with()
+                        .title(this.title.getText())
+                        .description(descriptionEditor.getText())
+                        .labels(labels.getTags().stream().map(it.niedermann.nextcloud.deck.domain.model.Label::id).collect(Collectors.toSet()))
+                        .assignees(assignees.getTags().stream().map(User::id).collect(Collectors.toSet()))
+                        .startDate(getOffsetDateTime(startDateDate, startDateTime))
+                        .dueDate(getOffsetDateTime(dueDateDate, dueDateTime))
+                        .build();
+                viewModel.onCardSaved(updatedCard);
+                event.consume();
+            }
+        });
+
+        cancelBtn.setOnAction(event -> {
+            viewModel.onCloseSidebar();
+            event.consume();
+        });
 
         final var attachmentsDisposable = viewModel.getAttachments()
                 .observeOn(JavaFxScheduler.platform())
@@ -317,6 +388,10 @@ public class EditCardFeature extends AbstractFeature {
         Flowable<List<PreviewComment>> getComments();
 
         Flowable<List<PreviewActivity>> getActivities();
+
+        Flowable<List<it.niedermann.nextcloud.deck.domain.model.Label>> getBoardLabels();
+
+        Flowable<List<User>> getBoardUsers();
 
         CompletableFuture<Void> onCardSaved(Card card);
 

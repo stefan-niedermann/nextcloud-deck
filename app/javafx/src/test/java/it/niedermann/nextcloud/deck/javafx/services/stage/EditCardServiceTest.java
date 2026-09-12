@@ -24,6 +24,8 @@ import it.niedermann.nextcloud.deck.domain.usecases.cards.UpdateCardUseCase;
 import it.niedermann.nextcloud.deck.domain.usecases.columns.GetColumnUseCase;
 import it.niedermann.nextcloud.deck.domain.usecases.comments.AddCommentUseCase;
 import it.niedermann.nextcloud.deck.domain.usecases.comments.ListPreviewCommentsUseCase;
+import it.niedermann.nextcloud.deck.domain.usecases.labels.ListLabelsUseCase;
+import it.niedermann.nextcloud.deck.domain.usecases.users.ListUsersUseCase;
 import it.niedermann.nextcloud.deck.javafx.services.ApplicationRouter;
 import it.niedermann.nextcloud.deck.javafx.store.StoreLogger;
 import it.niedermann.nextcloud.deck.javafx.ui.editcard.EditCardService;
@@ -40,6 +42,8 @@ class EditCardServiceTest {
     private ListAttachmentsUseCase listAttachmentsUseCase;
     private ListPreviewCommentsUseCase listPreviewCommentsUseCase;
     private ListPreviewActivitiesUseCase listPreviewActivitiesUseCase;
+    private ListLabelsUseCase listLabelsUseCase;
+    private ListUsersUseCase listUsersUseCase;
     private AddCommentUseCase addCommentUseCase;
     private Runnable onClose;
 
@@ -58,6 +62,8 @@ class EditCardServiceTest {
         listAttachmentsUseCase = mock(ListAttachmentsUseCase.class);
         listPreviewCommentsUseCase = mock(ListPreviewCommentsUseCase.class);
         listPreviewActivitiesUseCase = mock(ListPreviewActivitiesUseCase.class);
+        listLabelsUseCase = mock(ListLabelsUseCase.class);
+        listUsersUseCase = mock(ListUsersUseCase.class);
         addCommentUseCase = mock(AddCommentUseCase.class);
         onClose = mock(Runnable.class);
 
@@ -71,6 +77,8 @@ class EditCardServiceTest {
                 listAttachmentsUseCase,
                 listPreviewCommentsUseCase,
                 listPreviewActivitiesUseCase,
+                listLabelsUseCase,
+                listUsersUseCase,
                 addCommentUseCase,
                 new EditCardService.State(Optional.empty(), false),
                 onClose
