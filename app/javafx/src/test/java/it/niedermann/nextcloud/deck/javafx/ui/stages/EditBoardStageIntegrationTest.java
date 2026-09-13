@@ -4,6 +4,7 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
+import com.google.gson.Gson;
 import com.jthemedetecor.OsThemeDetector;
 
 import org.junit.jupiter.api.Test;
@@ -36,6 +37,7 @@ import it.niedermann.nextcloud.deck.domain.sync.SyncScheduler;
 import it.niedermann.nextcloud.deck.domain.usecases.accounts.GetAccountUseCase;
 import it.niedermann.nextcloud.deck.domain.usecases.accounts.GetAccountsUseCase;
 import it.niedermann.nextcloud.deck.domain.usecases.accounts.HasAccountsUseCase;
+import it.niedermann.nextcloud.deck.domain.usecases.accounts.ImportAccountUseCase;
 import it.niedermann.nextcloud.deck.domain.usecases.boards.AddBoardShareUseCase;
 import it.niedermann.nextcloud.deck.domain.usecases.boards.GetBoardUseCase;
 import it.niedermann.nextcloud.deck.domain.usecases.boards.ListBoardSharesUseCase;
@@ -46,13 +48,14 @@ import it.niedermann.nextcloud.deck.domain.usecases.cards.ListCardsUseCase;
 import it.niedermann.nextcloud.deck.domain.usecases.columns.AddColumnUseCase;
 import it.niedermann.nextcloud.deck.domain.usecases.columns.DeleteColumnUseCase;
 import it.niedermann.nextcloud.deck.domain.usecases.columns.GetColumnUseCase;
-import it.niedermann.nextcloud.deck.domain.usecases.columns.ListColumnIDsUseCase;
+import it.niedermann.nextcloud.deck.domain.usecases.columns.ListColumnsUseCase;
 import it.niedermann.nextcloud.deck.domain.usecases.columns.UpdateColumnUseCase;
 import it.niedermann.nextcloud.deck.domain.usecases.labels.AddLabelUseCase;
 import it.niedermann.nextcloud.deck.domain.usecases.labels.DeleteLabelUseCase;
 import it.niedermann.nextcloud.deck.domain.usecases.labels.ListLabelsUseCase;
 import it.niedermann.nextcloud.deck.domain.usecases.labels.UpdateLabelUseCase;
 import it.niedermann.nextcloud.deck.domain.usecases.state.SetCurrentAccountUseCase;
+import it.niedermann.nextcloud.deck.domain.usecases.users.SearchUserUseCase;
 import it.niedermann.nextcloud.deck.javafx.ScreenshotUtil;
 import it.niedermann.nextcloud.deck.javafx.fxml.Inflater;
 import it.niedermann.nextcloud.deck.javafx.store.StoreLogger;
@@ -72,6 +75,7 @@ import it.niedermann.nextcloud.deck.javafx.ui.shared.services.StageTitleResolver
 import it.niedermann.nextcloud.deck.javafx.ui.shared.services.ThemeService;
 import it.niedermann.nextcloud.deck.javafx.ui.shared.suggestionproviders.UserSuggestionProvider;
 import it.niedermann.nextcloud.deck.javafx.ui.splashscreen.SplashScreenScene;
+import jakarta.inject.Provider;
 import javafx.application.HostServices;
 import javafx.stage.Stage;
 
@@ -112,7 +116,7 @@ class EditBoardStageIntegrationTest {
             }
         }));
 
-        final var storeLogger = new StoreLogger(new com.google.gson.Gson());
+        final var storeLogger = new StoreLogger(new Gson());
         final var detector = mock(OsThemeDetector.class);
         when(detector.isDark()).thenReturn(false);
         final var keyValueStore = mock(KeyValueStore.class);
@@ -122,7 +126,7 @@ class EditBoardStageIntegrationTest {
 
         final var getBoardUseCase = mock(GetBoardUseCase.class, Answers.RETURNS_MOCKS);
         final var listCardsUseCase = mock(ListCardsUseCase.class, Answers.RETURNS_MOCKS);
-        final var listColumnsUseCase = mock(ListColumnIDsUseCase.class, Answers.RETURNS_MOCKS);
+        final var listColumnsUseCase = mock(ListColumnsUseCase.class, Answers.RETURNS_MOCKS);
         final var getColumnUseCase = mock(GetColumnUseCase.class, Answers.RETURNS_MOCKS);
         final var listLabelsUseCase = mock(ListLabelsUseCase.class, Answers.RETURNS_MOCKS);
         final var listBoardSharesUseCase = mock(ListBoardSharesUseCase.class, Answers.RETURNS_MOCKS);
@@ -130,7 +134,7 @@ class EditBoardStageIntegrationTest {
         when(getBoardUseCase.execute(boardId)).thenReturn(Flowable.just(board));
         when(listCardsUseCase.execute(any(Board.ID.class))).thenReturn(Flowable.just(Collections.emptyMap()));
         when(listCardsUseCase.execute(any(Column.ID.class))).thenReturn(Flowable.just(Collections.emptyList()));
-        when(listColumnsUseCase.execute(boardId)).thenReturn(Flowable.just(List.of(MockData.MOCK_COLUMNS[0].id(), MockData.MOCK_COLUMNS[1].id(), MockData.MOCK_COLUMNS[2].id())));
+        when(listColumnsUseCase.execute(boardId)).thenReturn(Flowable.just(List.of(MockData.MOCK_COLUMNS[0], MockData.MOCK_COLUMNS[1], MockData.MOCK_COLUMNS[2])));
         when(getColumnUseCase.execute(any(Column.ID.class))).thenReturn(Flowable.just(MockData.MOCK_COLUMNS[0]));
         when(listLabelsUseCase.execute(boardId)).thenReturn(Flowable.just(Set.of(MockData.MOCK_LABELS[0], MockData.MOCK_LABELS[1], MockData.MOCK_LABELS[2])));
         when(listBoardSharesUseCase.execute(boardId)).thenReturn(Flowable.just(Collections.emptyList()));
@@ -144,7 +148,6 @@ class EditBoardStageIntegrationTest {
                 mock(UpdateColumnUseCase.class),
                 mock(DeleteColumnUseCase.class),
                 listColumnsUseCase,
-                getColumnUseCase,
                 mock(AddLabelUseCase.class),
                 mock(UpdateLabelUseCase.class),
                 mock(DeleteLabelUseCase.class),
@@ -183,7 +186,7 @@ class EditBoardStageIntegrationTest {
                 vm -> new EditBoardLabelsFeature(inflater, vm),
                 vm -> new EditBoardShareFeature(
                         inflater,
-                        new UserSuggestionProvider(mock(it.niedermann.nextcloud.deck.domain.usecases.users.SearchUserUseCase.class)),
+                        new UserSuggestionProvider(mock(SearchUserUseCase.class)),
                         userSearchViewConverter,
                         vm
                 ),
@@ -202,11 +205,11 @@ class EditBoardStageIntegrationTest {
         );
 
         final SplashScreenScene.Factory splashScreenFactory = () -> new SplashScreenScene(inflater, themeService, hostServices, buildConfig, syncScheduler);
-        final var loginFactoryProvider = (jakarta.inject.Provider<LoginScene.Factory>) () -> mock(LoginScene.Factory.class);
-        final var exceptionFactoryProvider = (jakarta.inject.Provider<ExceptionScene.Factory>) () -> mock(ExceptionScene.Factory.class);
+        final var loginFactoryProvider = (Provider<LoginScene.Factory>) () -> mock(LoginScene.Factory.class);
+        final var exceptionFactoryProvider = (Provider<ExceptionScene.Factory>) () -> mock(ExceptionScene.Factory.class);
         final LoginService.Factory loginStageContextFactory = url -> new LoginService(
                 storeLogger,
-                mock(it.niedermann.nextcloud.deck.domain.usecases.accounts.ImportAccountUseCase.class),
+                mock(ImportAccountUseCase.class),
                 url
         );
 

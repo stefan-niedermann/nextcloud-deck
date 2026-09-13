@@ -48,6 +48,7 @@
                 <items>
                     <MenuItem fx:id="kanbanViewMenuItem" text="%main.view.kanban" />
                     <MenuItem fx:id="ganttViewMenuItem" text="%main.view.gantt" />
+                    <MenuItem fx:id="tableViewMenuItem" text="%main.view.table" />
                     <SeparatorMenuItem mnemonicParsing="false" />
                     <CheckMenuItem fx:id="headerToggleMenuItem" text="%header.menu.view.header" />
                     <CheckMenuItem fx:id="menuBarToggleMenuItem" text="%header.menu.view.menubar" />
@@ -74,6 +75,7 @@
             <items>
                 <MenuItem fx:id="kanbanMenuItem" text="%main.view.kanban" />
                 <MenuItem fx:id="ganttMenuItem" text="%main.view.gantt" />
+                <MenuItem fx:id="tableMenuItem" text="%main.view.table" />
             </items>
         </SplitMenuButton>
 

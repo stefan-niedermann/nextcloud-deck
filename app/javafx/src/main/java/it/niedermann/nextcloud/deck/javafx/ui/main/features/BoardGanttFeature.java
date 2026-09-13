@@ -19,7 +19,6 @@ import io.reactivex.rxjava4.schedulers.Schedulers;
 import it.niedermann.nextcloud.deck.domain.model.Board;
 import it.niedermann.nextcloud.deck.domain.model.query.PreviewCard;
 import it.niedermann.nextcloud.deck.domain.usecases.cards.ListCardPreviewsUseCase;
-import it.niedermann.nextcloud.deck.domain.usecases.columns.ListColumnIDsUseCase;
 import it.niedermann.nextcloud.deck.javafx.fxml.Inflater;
 import it.niedermann.nextcloud.deck.javafx.ui.shared.AbstractFeature;
 import it.niedermann.nextcloud.deck.javafx.ui.shared.views.EmptyContentView;
@@ -41,7 +40,6 @@ public class BoardGanttFeature extends AbstractFeature {
     EmptyContentView emptyContentView;
 
     private final ListCardPreviewsUseCase listCardPreviewsUseCase;
-    private final ListColumnIDsUseCase listColumnIDsUseCase;
     private final ViewModel viewModel;
 
     private GanttChart<CardRow> ganttChart;
@@ -50,13 +48,11 @@ public class BoardGanttFeature extends AbstractFeature {
     public BoardGanttFeature(
             Inflater inflater,
             ListCardPreviewsUseCase listCardPreviewsUseCase,
-            ListColumnIDsUseCase listColumnIDsUseCase,
             @Assisted ViewModel viewModel
     ) {
         super(inflater);
 
         this.listCardPreviewsUseCase = listCardPreviewsUseCase;
-        this.listColumnIDsUseCase = listColumnIDsUseCase;
         this.viewModel = viewModel;
     }
 
@@ -82,23 +78,10 @@ public class BoardGanttFeature extends AbstractFeature {
                     }
                 })
                 .observeOn(Schedulers.virtual())
-                .switchMap(boardId -> Flowable.fromPublisher(listColumnIDsUseCase.execute(boardId))
-                        .flatMap(columnIds -> {
-                            final var cardFlowables = columnIds.stream()
-                                    .map(id -> Flowable.fromPublisher(listCardPreviewsUseCase.execute(id)))
-                                    .collect(Collectors.toList());
-                            if (cardFlowables.isEmpty()) {
-                                return Flowable.just(List.<PreviewCard>of());
-                            }
-                            return Flowable.combineLatest(cardFlowables, args -> {
-                                @SuppressWarnings("unchecked")
-                                final List<PreviewCard> allCards = java.util.Arrays.stream(args)
-                                        .flatMap(arg -> ((List<PreviewCard>) arg).stream())
-                                        .filter(card -> card.startDate() != null || card.dueDate() != null)
-                                        .collect(Collectors.toList());
-                                return allCards;
-                            });
-                        }))
+                .switchMap(boardId -> Flowable.fromPublisher(listCardPreviewsUseCase.execute(boardId))
+                        .map(allCards -> allCards.stream()
+                                .filter(card -> card.startDate() != null || card.dueDate() != null)
+                                .collect(Collectors.toList())))
                 .observeOn(JavaFxScheduler.platform())
                 .subscribe(this::updateGantt);
 

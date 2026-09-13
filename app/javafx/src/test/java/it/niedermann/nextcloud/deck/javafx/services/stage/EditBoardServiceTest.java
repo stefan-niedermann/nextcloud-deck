@@ -25,8 +25,7 @@ import it.niedermann.nextcloud.deck.domain.usecases.boards.UpdateBoardShareUseCa
 import it.niedermann.nextcloud.deck.domain.usecases.cards.ListCardsUseCase;
 import it.niedermann.nextcloud.deck.domain.usecases.columns.AddColumnUseCase;
 import it.niedermann.nextcloud.deck.domain.usecases.columns.DeleteColumnUseCase;
-import it.niedermann.nextcloud.deck.domain.usecases.columns.GetColumnUseCase;
-import it.niedermann.nextcloud.deck.domain.usecases.columns.ListColumnIDsUseCase;
+import it.niedermann.nextcloud.deck.domain.usecases.columns.ListColumnsUseCase;
 import it.niedermann.nextcloud.deck.domain.usecases.columns.UpdateColumnUseCase;
 import it.niedermann.nextcloud.deck.domain.usecases.labels.AddLabelUseCase;
 import it.niedermann.nextcloud.deck.domain.usecases.labels.DeleteLabelUseCase;
@@ -44,8 +43,7 @@ class EditBoardServiceTest {
     private AddColumnUseCase addColumnUseCase;
     private UpdateColumnUseCase updateColumnUseCase;
     private DeleteColumnUseCase deleteColumnUseCase;
-    private ListColumnIDsUseCase listColumnIDsUseCase;
-    private GetColumnUseCase getColumnUseCase;
+    private ListColumnsUseCase listColumnsUseCase;
     private AddLabelUseCase addLabelUseCase;
     private UpdateLabelUseCase updateLabelUseCase;
     private DeleteLabelUseCase deleteLabelUseCase;
@@ -68,8 +66,7 @@ class EditBoardServiceTest {
         addColumnUseCase = mock(AddColumnUseCase.class);
         updateColumnUseCase = mock(UpdateColumnUseCase.class);
         deleteColumnUseCase = mock(DeleteColumnUseCase.class);
-        listColumnIDsUseCase = mock(ListColumnIDsUseCase.class);
-        getColumnUseCase = mock(GetColumnUseCase.class);
+        listColumnsUseCase = mock(ListColumnsUseCase.class);
         addLabelUseCase = mock(AddLabelUseCase.class);
         updateLabelUseCase = mock(UpdateLabelUseCase.class);
         deleteLabelUseCase = mock(DeleteLabelUseCase.class);
@@ -86,8 +83,7 @@ class EditBoardServiceTest {
                 addColumnUseCase,
                 updateColumnUseCase,
                 deleteColumnUseCase,
-                listColumnIDsUseCase,
-                getColumnUseCase,
+                listColumnsUseCase,
                 addLabelUseCase,
                 updateLabelUseCase,
                 deleteLabelUseCase,

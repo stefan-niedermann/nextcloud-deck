@@ -18,8 +18,7 @@ import it.niedermann.nextcloud.deck.domain.usecases.cards.ListCardPreviewsUseCas
 import it.niedermann.nextcloud.deck.domain.usecases.cards.MoveCardUseCase
 import it.niedermann.nextcloud.deck.domain.usecases.cards.UnassignCardUseCase
 import it.niedermann.nextcloud.deck.domain.usecases.columns.AddColumnUseCase
-import it.niedermann.nextcloud.deck.domain.usecases.columns.GetColumnUseCase
-import it.niedermann.nextcloud.deck.domain.usecases.columns.ListColumnIDsUseCase
+import it.niedermann.nextcloud.deck.domain.usecases.columns.ListColumnsUseCase
 import it.niedermann.nextcloud.deck.domain.usecases.labels.ListLabelsUseCase
 import it.niedermann.nextcloud.deck.domain.usecases.state.GetCurrentAccountUseCase
 import it.niedermann.nextcloud.deck.domain.usecases.state.SetCurrentBoardUseCase
@@ -27,7 +26,6 @@ import it.niedermann.nextcloud.deck.domain.usecases.sync.ScheduleSyncUseCase
 import it.niedermann.nextcloud.deck.domain.usecases.users.ListUsersUseCase
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.test.StandardTestDispatcher
 import kotlinx.coroutines.test.advanceUntilIdle
@@ -56,8 +54,7 @@ class BoardViewModelTest {
 
     private val testDispatcher = StandardTestDispatcher()
 
-    @Mock lateinit var listColumnIDsUseCase: ListColumnIDsUseCase
-    @Mock lateinit var getColumnUseCase: GetColumnUseCase
+    @Mock lateinit var listColumnsUseCase: ListColumnsUseCase
     @Mock lateinit var listCardPreviewsUseCase: ListCardPreviewsUseCase
     @Mock lateinit var addCardUseCase: AddCardUseCase
     @Mock lateinit var assignCardUseCase: AssignCardUseCase
@@ -105,12 +102,11 @@ class BoardViewModelTest {
             0, 0, 0, false, false, 0, 0, null, null, Color(0)
         )
 
-        `when`(listColumnIDsUseCase.execute(any())).thenReturn(FlowAdapters.toFlowPublisher(Flowable.just(listOf(columnId))))
-        `when`(getColumnUseCase.execute(columnId)).thenReturn(FlowAdapters.toFlowPublisher(Flowable.just(column)))
+        `when`(listColumnsUseCase.execute(any())).thenReturn(FlowAdapters.toFlowPublisher(Flowable.just(listOf(column))))
         `when`(listCardPreviewsUseCase.execute(columnId, filter)).thenReturn(FlowAdapters.toFlowPublisher(Flowable.just(listOf(card))))
 
         viewModel = BoardViewModel(
-            listColumnIDsUseCase, getColumnUseCase, listCardPreviewsUseCase,
+            listColumnsUseCase, listCardPreviewsUseCase,
             addCardUseCase, assignCardUseCase, unassignCardUseCase,
             addColumnUseCase, moveCardUseCase, listLabelsUseCase,
             listUsersUseCase, getCurrentAccountUseCase, getAccountUseCase,

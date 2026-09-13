@@ -23,6 +23,7 @@ import it.niedermann.nextcloud.deck.javafx.ui.editcard.features.EditCardFeature;
 import it.niedermann.nextcloud.deck.javafx.ui.main.features.BoardGanttFeature;
 import it.niedermann.nextcloud.deck.javafx.ui.main.features.BoardKanbanFeature;
 import it.niedermann.nextcloud.deck.javafx.ui.main.features.BoardListFeature;
+import it.niedermann.nextcloud.deck.javafx.ui.main.features.BoardTableFeature;
 import it.niedermann.nextcloud.deck.javafx.ui.main.features.CreateBoardFeature;
 import it.niedermann.nextcloud.deck.javafx.ui.main.features.HeaderFeature;
 import it.niedermann.nextcloud.deck.javafx.ui.shared.AbstractFeature;
@@ -63,6 +64,7 @@ public class MainScene extends AbstractScene {
     private final AbstractFeature headerFeature;
     private final AbstractFeature boardFeature;
     private final AbstractFeature ganttFeature;
+    private final AbstractFeature tableFeature;
     private final AbstractFeature editCardFeature;
 
     private double[] dividerPositions;
@@ -74,6 +76,7 @@ public class MainScene extends AbstractScene {
             HeaderFeature.Factory headerFactory,
             BoardKanbanFeature.Factory boardFactory,
             BoardGanttFeature.Factory ganttFactory,
+            BoardTableFeature.Factory tableFactory,
             EditCardFeature.Factory editCardFactory,
             EditCardService.Factory editCardStageContextFactory,
             StageTitleResolver stageTitleResolver,
@@ -97,6 +100,7 @@ public class MainScene extends AbstractScene {
         this.headerFeature = headerFactory.create(mainService);
         this.boardFeature = boardFactory.create(mainService);
         this.ganttFeature = ganttFactory.create(mainService);
+        this.tableFeature = tableFactory.create(mainService);
         this.editCardFeature = editCardFactory.create(sidebarContext);
     }
 
@@ -143,11 +147,14 @@ public class MainScene extends AbstractScene {
                     final boolean boardPresent = state.boardId().isPresent();
                     splitPane.getItems().remove(boardFeature.getRoot());
                     splitPane.getItems().remove(ganttFeature.getRoot());
+                    splitPane.getItems().remove(tableFeature.getRoot());
                     splitPane.getItems().remove(emptyContentView);
 
                     if (boardPresent) {
                         if (state.viewMode() == MainService.ViewMode.GANTT) {
                             splitPane.getItems().add(1, ganttFeature.getRoot());
+                        } else if (state.viewMode() == MainService.ViewMode.TABLE) {
+                            splitPane.getItems().add(1, tableFeature.getRoot());
                         } else {
                             splitPane.getItems().add(1, boardFeature.getRoot());
                         }

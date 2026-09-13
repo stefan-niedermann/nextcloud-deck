@@ -112,6 +112,8 @@ public class HeaderFeature extends AbstractFeature {
     @FXML
     MenuItem ganttViewMenuItem;
     @FXML
+    MenuItem tableViewMenuItem;
+    @FXML
     CheckMenuItem headerToggleMenuItem;
     @FXML
     CheckMenuItem menuBarToggleMenuItem;
@@ -154,6 +156,8 @@ public class HeaderFeature extends AbstractFeature {
     MenuItem kanbanMenuItem;
     @FXML
     MenuItem ganttMenuItem;
+    @FXML
+    MenuItem tableMenuItem;
     @FXML
     Button preferencesBtn;
     @FXML
@@ -270,6 +274,7 @@ public class HeaderFeature extends AbstractFeature {
 
         kanbanViewMenuItem.setOnAction(_ -> mainService.onViewModeSelected(MainService.ViewMode.KANBAN));
         ganttViewMenuItem.setOnAction(_ -> mainService.onViewModeSelected(MainService.ViewMode.GANTT));
+        tableViewMenuItem.setOnAction(_ -> mainService.onViewModeSelected(MainService.ViewMode.TABLE));
         headerToggleMenuItem.setOnAction(_ -> mainService.onToggleHeaderVariant());
         menuBarToggleMenuItem.setOnAction(_ -> mainService.onToggleHeaderVariant());
 
@@ -356,6 +361,10 @@ public class HeaderFeature extends AbstractFeature {
                             viewModeBtn.setText(resources.getString("main.view.gantt"));
                             viewModeBtn.setGraphic(new FontIcon("fltfal-clock-20"));
                         }
+                        case TABLE -> {
+                            viewModeBtn.setText(resources.getString("main.view.table"));
+                            viewModeBtn.setGraphic(new FontIcon("fltfmz-table-20"));
+                        }
                     }
                 });
 
@@ -363,12 +372,22 @@ public class HeaderFeature extends AbstractFeature {
 
         kanbanMenuItem.setText(resources.getString("main.view.kanban"));
         ganttMenuItem.setText(resources.getString("main.view.gantt"));
+        tableMenuItem.setText(resources.getString("main.view.table"));
         kanbanMenuItem.setOnAction(_ -> mainService.onViewModeSelected(MainService.ViewMode.KANBAN));
         ganttMenuItem.setOnAction(_ -> mainService.onViewModeSelected(MainService.ViewMode.GANTT));
+        tableMenuItem.setOnAction(_ -> mainService.onViewModeSelected(MainService.ViewMode.TABLE));
         viewModeBtn.setOnAction(_ -> {
             // Toggle
             final var current = mainService.getViewMode().blockingFirst();
-            mainService.onViewModeSelected(current == MainService.ViewMode.KANBAN ? MainService.ViewMode.GANTT : MainService.ViewMode.KANBAN);
+            final MainService.ViewMode next;
+            if (current == MainService.ViewMode.KANBAN) {
+                next = MainService.ViewMode.GANTT;
+            } else if (current == MainService.ViewMode.GANTT) {
+                next = MainService.ViewMode.TABLE;
+            } else {
+                next = MainService.ViewMode.KANBAN;
+            }
+            mainService.onViewModeSelected(next);
         });
 
         editBoardBtn.setOnAction(_ -> {

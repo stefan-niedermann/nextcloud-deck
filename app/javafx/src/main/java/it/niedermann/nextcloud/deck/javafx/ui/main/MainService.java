@@ -47,11 +47,10 @@ import it.niedermann.nextcloud.deck.javafx.ui.main.features.AccountSwitcherFeatu
 import it.niedermann.nextcloud.deck.javafx.ui.main.features.BoardGanttFeature;
 import it.niedermann.nextcloud.deck.javafx.ui.main.features.BoardKanbanFeature;
 import it.niedermann.nextcloud.deck.javafx.ui.main.features.BoardListFeature;
+import it.niedermann.nextcloud.deck.javafx.ui.main.features.BoardTableFeature;
 import it.niedermann.nextcloud.deck.javafx.ui.main.features.ColumnFeature;
-import it.niedermann.nextcloud.deck.javafx.ui.main.features.HeaderFeature;
 import it.niedermann.nextcloud.deck.javafx.ui.shared.features.PickStackFeature;
 import it.niedermann.nextcloud.deck.javafx.ui.shared.services.ThemeService;
-import it.niedermann.nextcloud.deck.javafx.util.JavaFxScheduler;
 import javafx.application.Platform;
 import javafx.scene.Node;
 import javafx.scene.control.Alert;
@@ -61,6 +60,7 @@ import javafx.scene.control.ButtonType;
 public class MainService extends Store<MainService.State, MainService.Action> implements
         BoardKanbanFeature.ViewModel,
         BoardGanttFeature.ViewModel,
+        BoardTableFeature.ViewModel,
         BoardListFeature.ViewModel,
         ColumnFeature.ViewModel,
         AccountSwitcherFeature.ViewModel {
@@ -403,7 +403,7 @@ public class MainService extends Store<MainService.State, MainService.Action> im
 
     @Override
     public void onAssignCard(Card.ID cardId) {
-        Flowable.fromPublisher(getState())
+        final var disposable = Flowable.fromPublisher(getState())
                 .firstElement()
                 .flatMap(state -> Maybe.fromOptional(state.accountId()))
                 .flatMap(accountId -> Flowable.fromPublisher(getAccountUseCase.execute(accountId)).firstElement())
@@ -413,11 +413,13 @@ public class MainService extends Store<MainService.State, MainService.Action> im
                             logger.log(Level.SEVERE, "Failed to assign card", throwable);
                             return null;
                         }));
+
+        addDisposable(disposable);
     }
 
     @Override
     public void onUnassignCard(Card.ID cardId) {
-        Flowable.fromPublisher(getState())
+        final var disposable = Flowable.fromPublisher(getState())
                 .firstElement()
                 .flatMap(state -> Maybe.fromOptional(state.accountId()))
                 .flatMap(accountId -> Flowable.fromPublisher(getAccountUseCase.execute(accountId)).firstElement())
@@ -427,6 +429,8 @@ public class MainService extends Store<MainService.State, MainService.Action> im
                             logger.log(Level.SEVERE, "Failed to unassign card", throwable);
                             return null;
                         }));
+
+        addDisposable(disposable);
     }
 
     @Override
@@ -454,7 +458,8 @@ public class MainService extends Store<MainService.State, MainService.Action> im
 
     public enum ViewMode {
         KANBAN,
-        GANTT
+        GANTT,
+        TABLE
     }
 
     public enum HeaderVariant {

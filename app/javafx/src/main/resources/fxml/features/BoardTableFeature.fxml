@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.dlsc.gemsfx.AdvancedTableView?><?import com.dlsc.gemsfx.CircleProgressIndicator?><?import it.niedermann.nextcloud.deck.javafx.ui.shared.views.EmptyContentView?><?import javafx.scene.layout.StackPane?><?import javafx.scene.layout.VBox?>
+
+<VBox xmlns:fx="http://javafx.com/fxml/1" stylesheets="css/features/BoardTableFeature.css"
+    xmlns="http://javafx.com/javafx/24.0.1" fx:id="root">
+    <StackPane VBox.vgrow="ALWAYS" alignment="CENTER">
+        <CircleProgressIndicator maxHeight="70" maxWidth="70" progress="-1.0"
+            fx:id="progress" />
+        <EmptyContentView VBox.vgrow="ALWAYS" actionLabel="%kanban.empty.action"
+            description="%kanban.empty.description" managed="false"
+            title="%kanban.empty.title" visible="false" fx:id="emptyContentView" />
+        <AdvancedTableView VBox.vgrow="ALWAYS" managed="false" visible="false" fx:id="table" />
+    </StackPane>
+</VBox>

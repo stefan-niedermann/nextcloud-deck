@@ -26,8 +26,7 @@ import it.niedermann.nextcloud.deck.domain.usecases.cards.ListCardPreviewsUseCas
 import it.niedermann.nextcloud.deck.domain.usecases.cards.MoveCardUseCase
 import it.niedermann.nextcloud.deck.domain.usecases.cards.UnassignCardUseCase
 import it.niedermann.nextcloud.deck.domain.usecases.columns.AddColumnUseCase
-import it.niedermann.nextcloud.deck.domain.usecases.columns.GetColumnUseCase
-import it.niedermann.nextcloud.deck.domain.usecases.columns.ListColumnIDsUseCase
+import it.niedermann.nextcloud.deck.domain.usecases.columns.ListColumnsUseCase
 import it.niedermann.nextcloud.deck.domain.usecases.labels.ListLabelsUseCase
 import it.niedermann.nextcloud.deck.domain.usecases.state.GetCurrentAccountUseCase
 import it.niedermann.nextcloud.deck.domain.usecases.state.SetCurrentBoardUseCase
@@ -41,7 +40,6 @@ import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.combine
-import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.map
@@ -54,8 +52,7 @@ import org.reactivestreams.FlowAdapters
 
 @HiltViewModel
 class BoardViewModel @Inject constructor(
-    private val listColumnIDsUseCase: ListColumnIDsUseCase,
-    private val getColumnUseCase: GetColumnUseCase,
+    private val listColumnsUseCase: ListColumnsUseCase,
     private val listCardPreviewsUseCase: ListCardPreviewsUseCase,
     private val addCardUseCase: AddCardUseCase,
     private val assignCardUseCase: AssignCardUseCase,
@@ -168,12 +165,9 @@ class BoardViewModel @Inject constructor(
                 }
 
                 launch(Dispatchers.IO) {
-                    FlowAdapters.toPublisher(listColumnIDsUseCase.execute(Board.ID(boardId)))
+                    FlowAdapters.toPublisher(listColumnsUseCase.execute(Board.ID(boardId)))
                         .asFlow()
-                        .collect { colIds ->
-                            val loadedCols = colIds.map { id ->
-                                FlowAdapters.toPublisher(getColumnUseCase.execute(id)).asFlow().first()
-                            }
+                        .collect { loadedCols ->
                             withContext(Dispatchers.Main) {
                                 _columns.value = loadedCols
                                 isLoading = false

@@ -27,8 +27,7 @@ import it.niedermann.nextcloud.deck.domain.usecases.boards.UpdateBoardShareUseCa
 import it.niedermann.nextcloud.deck.domain.usecases.cards.ListCardsUseCase;
 import it.niedermann.nextcloud.deck.domain.usecases.columns.AddColumnUseCase;
 import it.niedermann.nextcloud.deck.domain.usecases.columns.DeleteColumnUseCase;
-import it.niedermann.nextcloud.deck.domain.usecases.columns.GetColumnUseCase;
-import it.niedermann.nextcloud.deck.domain.usecases.columns.ListColumnIDsUseCase;
+import it.niedermann.nextcloud.deck.domain.usecases.columns.ListColumnsUseCase;
 import it.niedermann.nextcloud.deck.domain.usecases.columns.UpdateColumnUseCase;
 import it.niedermann.nextcloud.deck.domain.usecases.labels.AddLabelUseCase;
 import it.niedermann.nextcloud.deck.domain.usecases.labels.DeleteLabelUseCase;
@@ -56,8 +55,7 @@ public class EditBoardService extends Store<EditBoardService.State, EditBoardSer
     private final AddColumnUseCase addColumnUseCase;
     private final UpdateColumnUseCase updateColumnUseCase;
     private final DeleteColumnUseCase deleteColumnUseCase;
-    private final ListColumnIDsUseCase listColumnIDsUseCase;
-    private final GetColumnUseCase getColumnUseCase;
+    private final ListColumnsUseCase listColumnsUseCase;
 
     private final AddLabelUseCase addLabelUseCase;
     private final UpdateLabelUseCase updateLabelUseCase;
@@ -77,8 +75,7 @@ public class EditBoardService extends Store<EditBoardService.State, EditBoardSer
             AddColumnUseCase addColumnUseCase,
             UpdateColumnUseCase updateColumnUseCase,
             DeleteColumnUseCase deleteColumnUseCase,
-            ListColumnIDsUseCase listColumnIDsUseCase,
-            GetColumnUseCase getColumnUseCase,
+            ListColumnsUseCase listColumnsUseCase,
             AddLabelUseCase addLabelUseCase,
             UpdateLabelUseCase updateLabelUseCase,
             DeleteLabelUseCase deleteLabelUseCase,
@@ -95,8 +92,7 @@ public class EditBoardService extends Store<EditBoardService.State, EditBoardSer
         this.addColumnUseCase = addColumnUseCase;
         this.updateColumnUseCase = updateColumnUseCase;
         this.deleteColumnUseCase = deleteColumnUseCase;
-        this.listColumnIDsUseCase = listColumnIDsUseCase;
-        this.getColumnUseCase = getColumnUseCase;
+        this.listColumnsUseCase = listColumnsUseCase;
         this.addLabelUseCase = addLabelUseCase;
         this.updateLabelUseCase = updateLabelUseCase;
         this.deleteLabelUseCase = deleteLabelUseCase;
@@ -125,11 +121,7 @@ public class EditBoardService extends Store<EditBoardService.State, EditBoardSer
         return Flowable.fromPublisher(getState())
                 .observeOn(Schedulers.virtual())
                 .map(State::boardId)
-                .switchMap(id -> Flowable.fromPublisher(listColumnIDsUseCase.execute(id)))
-                .switchMap(ids -> Flowable.fromIterable(ids)
-                        .concatMap(id -> Flowable.fromPublisher(getColumnUseCase.execute(id)))
-                        .toList()
-                        .toFlowable());
+                .switchMap(id -> Flowable.fromPublisher(listColumnsUseCase.execute(id)));
     }
 
     @Override

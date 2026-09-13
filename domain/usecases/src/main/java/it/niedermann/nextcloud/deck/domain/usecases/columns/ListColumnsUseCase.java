@@ -23,4 +23,9 @@ public class ListColumnsUseCase {
     public Flow.Publisher<List<Column>> execute(Board.ID boardId) {
         return columnRepository.getColumns(boardId);
     }
+
+    /// @implSpec Result is ordered ascending by [Column#order()]
+    public Flow.Publisher<List<Column.ID>> executeIDs(Board.ID boardId) {
+        return columnRepository.getColumnIDs(boardId);
+    }
 }

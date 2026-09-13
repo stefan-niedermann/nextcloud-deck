@@ -34,7 +34,6 @@ import it.niedermann.nextcloud.deck.domain.usecases.cards.UpdateCardUseCase;
 import it.niedermann.nextcloud.deck.domain.usecases.columns.AddColumnUseCase;
 import it.niedermann.nextcloud.deck.domain.usecases.columns.DeleteColumnUseCase;
 import it.niedermann.nextcloud.deck.domain.usecases.columns.GetColumnUseCase;
-import it.niedermann.nextcloud.deck.domain.usecases.columns.ListColumnIDsUseCase;
 import it.niedermann.nextcloud.deck.domain.usecases.columns.ListColumnsUseCase;
 import it.niedermann.nextcloud.deck.domain.usecases.columns.UpdateColumnUseCase;
 import it.niedermann.nextcloud.deck.domain.usecases.comments.AddCommentUseCase;
@@ -135,8 +134,6 @@ public interface VirtualDeviceComponent {
     DeleteColumnUseCase getDeleteColumnUseCase();
 
     GetColumnUseCase getGetColumnUseCase();
-
-    ListColumnIDsUseCase getListColumnIDsUseCase();
 
     ListColumnsUseCase getListColumnsUseCase();
 
