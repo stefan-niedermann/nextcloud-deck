@@ -359,10 +359,31 @@
     <string name="settings_recovery_title">Aisghabháil Éigeandála</string>
     <string name="recovery_deck_server_title">Aisghabháil Freastalaí Deic</string>
     <string name="recovery_deck_android_title">Aisghabháil Deic Android</string>
+    <string name="settings_restore_server_summary">⚠️ CONTÚIRT: Scríobhtar thar shonraí an fhreastalaí le sonraí atá ar fáil go háitiúil. Níl sna sonraí áitiúla ach cuid den fhaisnéis atá ar fáil; bíonn ceangaltáin, gníomhaíochtaí agus nithe eile ar iarraidh iontu. Teastaíonn fíordheimhniú arís agus atosú ar an aip.</string>
+    <string name="restore_warning_title">⚠️ CONTÚIRT: Forscríobh sonraí freastalaí</string>
     <string name="simple_restore">Athchóirigh</string>
     <string name="simple_apply">Cuir isteach</string>
+    <string name="backup_restore_warning">Glacaim leis gurb é mo fhreagracht aonair féin é cóipeanna cúltaca rialta de mo chuid sonraí a dhéanamh. Cuireann na huirlisí thíos cumais theoranta téarnaimh éigeandála ar fáil agus ní féidir breathnú orthu mar réiteach cuí cúltaca. Tuigim nár cheart iad a úsáid ach amháin nuair a thugann an fhoireann tacaíochta comhairle dá réir.</string>
+
+    <string name="settings_create_local_backup">Cruthaigh léargas</string>
+    <string name="settings_create_local_backup_summary">Cruthaítear léargas ar an mbunachar sonraí áitiúil. Ní cúltaca é seo, agus tá faisnéis ar iarraidh ann nach bhfuil ar fáil ach ar do fhreastalaí.</string>
+
+    <string name="settings_restore_local_backup">Cuir pictiúr i bhfeidhm</string>
+    <string name="settings_restore_local_backup_summary">Cuireann sé an léargas is déanaí in áit bhunachar sonraí Deck Android agus atosaíonn sé an aip.</string>
+    <string name="restore_local_backup_warning_title">⚠️ Aird!</string>
+    <string name="restore_local_backup_warning_message">Caillfear go deo aon athruithe nach bhfuil sioncronaithe go fóill. Cinntigh gur thug tú faoi deara do chuid athruithe áitiúla.</string>
+
     <string name="restore_local_backup_success">Bunachar sonraí athchóirithe. Atosófar an aip anois.</string>
     <string name="restore_local_backup_failed">Theip ar athchóiriú an bhunachair shonraí.</string>
 
+    <string name="create_local_backup_success">Cruthaíodh an íomhá phointe ama go rathúil.</string>
+    <string name="create_local_backup_failed">Theip ar an ngrianghraf staide.</string>
+
+    <string name="settings_export_database">Easpórtáil an tsnapbhreise</string>
+    <string name="settings_export_database_summary">Cóipeálann sé an babhta-íomhá is déanaí ina bhfuil comhad bunachar sonraí SQLite Deck Android chuig suíomh de do rogha féin. Ní chuimsítear an fhaisnéis ar fad ann. Ní réiteach cuí cúltaca é seo.</string>
     <string name="export_database_failed">Theip ar an easpórtáil.</string>
-    </resources>
+    <string name="export_database_success">Easpórtáladh an grianghraf staide go rathúil.</string>
+
+    <string name="restore_warning_message">Scríobhfaidh sé seo na sonraí go léir ar an bhfreastalaí don chuntas seo le do chóip pháirteach áitiúil agus atosóidh sé aip Deck Android.\n\nRiachtanais:\n- Tá cuntas úsáideora ann ar an bhfreastalaí\n- Roinntear boird gach úsáideora leo, ní mór dóibh a bheith ann ar an bhfreastalaí\n- Fíordheimhnithe i gceart in aip Nextcloud Files\n\nCeangaltáin, Gníomhaíochtaí agus tuilleadh:\nB’fhéidir nach bhfuil na ceangaltáin go léir ar fáil go háitiúil agus dá bhrí sin ní féidir iad a uaslódáil chuig an bhfreastalaí nua. De ghnáth ní chruthaíonn ach freastalaí Deck gníomhaíochtaí. D’fhéadfadh an fhaisnéis seo agus faisnéis eile a bheith ar iarraidh tar éis an athchóiriú a dhéanamh.\n\nÚsáideoirí nach mór dóibh a bheith ann ar an bhfreastalaí:\n%1$s</string>
+    <string name="restore_backup_failed">Theip ar chúltaca an bhunachair shonraí. Cuireadh an t-athchóiriú ar ceal.</string>
+</resources>
