@@ -99,6 +99,7 @@ public class EditCardService extends Store<EditCardService.State, EditCardServic
                 .switchMap(id -> Flowable.fromPublisher(getCardUseCase.execute(id)));
     }
 
+    @Override
     public Flowable<Board> getBoard() {
         return getCard()
                 .switchMap(card -> Flowable.fromPublisher(getColumnUseCase.execute(card.columnId())))

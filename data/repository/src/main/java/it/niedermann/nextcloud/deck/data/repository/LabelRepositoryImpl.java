@@ -145,6 +145,15 @@ public class LabelRepositoryImpl implements LabelRepository {
     }
 
     @Override
+    public Flow.Publisher<Collection<Label>> find(Board.ID boardId, String userText) {
+        return FlowAdapters.toFlowPublisher(
+                labelDao.find(boardId.value(), userText)
+                        .map(entities -> (Collection<Label>) labelMapper.toTOList(entities))
+                        .subscribeOn(Schedulers.io())
+        );
+    }
+
+    @Override
     public CompletableFuture<Label.ID> findLabelByRemoteId(Account.ID accountId, Label.RemoteID remoteId) {
         return labelDao.getLabelByRemoteId(accountId.value(), remoteId.value())
                 .thenApply(entity -> entity != null ? new Label.ID(entity.getLocalId()) : null);

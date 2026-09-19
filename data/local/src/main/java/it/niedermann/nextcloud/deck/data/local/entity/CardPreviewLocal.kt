@@ -9,6 +9,7 @@ data class CardPreviewLocal(
     val card: CardEntity,
 
     val commentCount: Int,
+    val attachmentsCount: Int,
 
     @Relation(
         associateBy = Junction(

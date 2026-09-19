@@ -1,5 +1,7 @@
 package it.niedermann.nextcloud.deck.javafx.ui.shared.views;
 
+import java.util.ArrayList;
+
 import it.niedermann.nextcloud.deck.domain.model.Account;
 import it.niedermann.nextcloud.deck.domain.model.Card;
 import it.niedermann.nextcloud.deck.domain.model.query.PreviewCard;
@@ -14,8 +16,6 @@ import javafx.scene.control.Label;
 import javafx.scene.control.MenuItem;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.FlowPane;
-
-import java.util.ArrayList;
 
 public class CardPreviewView extends BorderPane {
 
@@ -84,6 +84,8 @@ public class CardPreviewView extends BorderPane {
                 card.labels().size(),
                 0,
                 card.commentCount(),
+                card.checkboxDoneCount(),
+                card.checkboxTotalCount(),
                 card.attachmentCount(),
                 card.assigneeCount()
         ));

@@ -226,13 +226,29 @@ public class EditCardFeature extends AbstractFeature {
 
         addDisposable(permissionsDisposable);
 
+        addDisposable(viewModel.getBoard().observeOn(JavaFxScheduler.platform()).subscribe(board -> labelSuggestionProvider.setBoardId(board.id())));
+
         addDisposable(viewModel.getBoardLabels().observeOn(JavaFxScheduler.platform()).subscribe(allLabels -> {
             this.allBoardLabels.clear();
             this.allBoardLabels.addAll(allLabels);
+            if (this.card != null) {
+                labels.getTags().setAll(this.card.labels().stream()
+                        .map(id -> allBoardLabels.stream().filter(l -> l.id().value() == id.value()).findFirst())
+                        .filter(Optional::isPresent)
+                        .map(Optional::get)
+                        .collect(Collectors.toList()));
+            }
         }));
         addDisposable(viewModel.getBoardUsers().observeOn(JavaFxScheduler.platform()).subscribe(allUsers -> {
             this.allBoardUsers.clear();
             this.allBoardUsers.addAll(allUsers);
+            if (this.card != null) {
+                assignees.getTags().setAll(this.card.assignees().stream()
+                        .map(id -> allBoardUsers.stream().filter(u -> u.id().equals(id)).findFirst())
+                        .filter(Optional::isPresent)
+                        .map(Optional::get)
+                        .collect(Collectors.toList()));
+            }
         }));
 
         final var cardDisposable = viewModel.getCard()
@@ -251,7 +267,7 @@ public class EditCardFeature extends AbstractFeature {
                     descriptionEditor.setText(card.description());
 
                     labels.getTags().setAll(card.labels().stream()
-                            .map(id -> allBoardLabels.stream().filter(l -> l.id().equals(id)).findFirst())
+                            .map(id -> allBoardLabels.stream().filter(l -> l.id().value() == id.value()).findFirst())
                             .filter(Optional::isPresent)
                             .map(Optional::get)
                             .collect(Collectors.toList()));
@@ -382,6 +398,8 @@ public class EditCardFeature extends AbstractFeature {
 
     public interface ViewModel {
         Flowable<Card> getCard();
+
+        Flowable<Board> getBoard();
 
         Flowable<List<Attachment>> getAttachments();
 

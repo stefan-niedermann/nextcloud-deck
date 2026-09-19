@@ -22,6 +22,8 @@ public interface LabelRepository {
 
     Flow.Publisher<Collection<Label>> find(String userText);
 
+    Flow.Publisher<Collection<Label>> find(Board.ID boardId, String userText);
+
     CompletableFuture<Label.ID> findLabelByRemoteId(Account.ID accountId, Label.RemoteID remoteId);
 
     CompletableFuture<Void> deleteLabel(Label.ID labelId);

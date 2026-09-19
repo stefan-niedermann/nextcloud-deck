@@ -40,6 +40,7 @@ public class AttachmentView extends HBox {
 
     public void bind(Attachment attachment) {
         final var previewImageUrl = Optional.ofNullable(attachment.localPath())
+                .filter(path -> !path.isBlank())
                 // TODO Trigger Download?
                 .orElseGet(() -> getPreviewImage(attachment.mimetype()));
 

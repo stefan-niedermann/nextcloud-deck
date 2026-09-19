@@ -3,6 +3,7 @@ package it.niedermann.nextcloud.deck.data.repository;
 import org.reactivestreams.FlowAdapters;
 
 import java.time.OffsetDateTime;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
@@ -28,7 +29,6 @@ import it.niedermann.nextcloud.deck.data.local.entity.CardEntity;
 import it.niedermann.nextcloud.deck.data.local.entity.CardPreviewLocal;
 import it.niedermann.nextcloud.deck.data.local.entity.JoinCardWithLabelEntity;
 import it.niedermann.nextcloud.deck.data.local.entity.JoinCardWithUserEntity;
-import it.niedermann.nextcloud.deck.data.local.entity.LabelEntity;
 import it.niedermann.nextcloud.deck.data.local.mapper.CardMapper;
 import it.niedermann.nextcloud.deck.data.local.mapper.ColumnMapper;
 import it.niedermann.nextcloud.deck.domain.model.Account;
@@ -160,12 +160,39 @@ public class CardRepositoryImpl implements CardRepository {
                         return cardDao.updateRx(updatedEntity);
                     });
                 })
-                .thenCompose(v -> joinCardWithLabelDao.softDeleteByCardId(card.id().value()))
-                .thenCompose(v -> {
-                    CompletableFuture<?>[] labelFutures = card.labels().stream()
-                            .map(labelId -> joinCardWithLabelDao.upsert(new JoinCardWithLabelEntity(card.id().value(), labelId.value(), DBStatus.LOCAL_EDITED.getId())))
-                            .toArray(CompletableFuture[]::new);
-                    return CompletableFuture.allOf(labelFutures);
+                .thenCompose(v -> joinCardWithLabelDao.getJoinsByCardId(card.id().value()))
+                .thenCompose(existingJoins -> {
+                    final var newLabelIds = card.labels().stream()
+                            .map(Label.ID::value)
+                            .collect(Collectors.toSet());
+
+                    final List<CompletableFuture<?>> futures = new ArrayList<>();
+
+                    for (final var join : existingJoins) {
+                        if (!newLabelIds.contains(join.getLabelId())) {
+                            if (join.getStatus() == DBStatus.UP_TO_DATE.getId()) {
+                                futures.add(joinCardWithLabelDao.upsert(new JoinCardWithLabelEntity(join.getCardId(), join.getLabelId(), DBStatus.LOCAL_DELETED.getId())));
+                            } else {
+                                futures.add(joinCardWithLabelDao.deletePhysically(join.getCardId(), join.getLabelId()));
+                            }
+                        } else {
+                            if (join.getStatus() == DBStatus.LOCAL_DELETED.getId()) {
+                                futures.add(joinCardWithLabelDao.upsert(new JoinCardWithLabelEntity(join.getCardId(), join.getLabelId(), DBStatus.LOCAL_EDITED.getId())));
+                            }
+                        }
+                    }
+
+                    final var existingLabelIds = existingJoins.stream()
+                            .map(JoinCardWithLabelEntity::getLabelId)
+                            .collect(Collectors.toSet());
+
+                    for (final var labelId : card.labels()) {
+                        if (!existingLabelIds.contains(labelId.value())) {
+                            futures.add(joinCardWithLabelDao.upsert(new JoinCardWithLabelEntity(card.id().value(), labelId.value(), DBStatus.LOCAL_EDITED.getId())));
+                        }
+                    }
+
+                    return CompletableFuture.allOf(futures.toArray(new CompletableFuture[0]));
                 })
                 .thenCompose(v -> joinCardWithUserDao.softDeleteByCardId(card.id().value()))
                 .thenCompose(v -> cardDao.getCardById(card.id().value()))
@@ -337,6 +364,15 @@ public class CardRepositoryImpl implements CardRepository {
                 : entity.getDescription();
 
         final var labelPreviews = local.getLabels().stream()
+                .filter(l -> {
+                    try {
+                        // Check if the junction join itself is marked as LOCAL_DELETED
+                        final var join = joinCardWithLabelDao.getJoin(entity.getLocalId(), l.getLocalId()).join();
+                        return join == null || join.getStatus() != DBStatus.LOCAL_DELETED.getId();
+                    } catch (Exception e) {
+                        return true;
+                    }
+                })
                 .map(l -> new PreviewCard.LabelPreview(new Label.ID(l.getLocalId()), l.getTitle(), l.getColor()))
                 .collect(Collectors.toSet());
 
@@ -363,7 +399,7 @@ public class CardRepositoryImpl implements CardRepository {
                 labelPreviews,
                 assigneeIds,
                 local.getCommentCount(),
-                entity.getAttachmentCount(),
+                local.getAttachmentsCount(),
                 assigneeIds.size(),
                 assigneeIds.contains(currentUserId),
                 entity.getDone() != null,

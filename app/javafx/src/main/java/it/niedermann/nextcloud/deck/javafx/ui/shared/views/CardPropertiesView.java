@@ -20,6 +20,8 @@ public class CardPropertiesView extends HBox {
     @FXML
     private IconCounterView commentsIconCounter;
     @FXML
+    private IconCounterView checkboxIconCounter;
+    @FXML
     private IconCounterView attachmentsIconCounter;
 
     private final ObjectProperty<Args> args = new SimpleObjectProperty<>(this, "args");
@@ -31,6 +33,7 @@ public class CardPropertiesView extends HBox {
                 descriptionIconCounter,
                 labelsIconCounter,
                 commentsIconCounter,
+                checkboxIconCounter,
                 attachmentsIconCounter,
         };
 
@@ -60,16 +63,21 @@ public class CardPropertiesView extends HBox {
                 remoteId.setVisible(false);
             }
 
-            descriptionIconCounter.setVisible(args.description() != null && !args.description().isEmpty());
+            final boolean hasTasks = args.checkboxTotalCount() > 0;
+            final boolean hasDescription = args.description() != null && !args.description().isEmpty();
+
+            checkboxIconCounter.setVisible(hasTasks);
+            descriptionIconCounter.setVisible(!hasTasks && hasDescription);
+
             labelsIconCounter.setVisible(args.labels() > 0);
             commentsIconCounter.setVisible(args.commentsTotalCount() > 0);
             attachmentsIconCounter.setVisible(args.attachments() > 0);
 
-            // TODO Set checkbox item count
             descriptionIconCounter.setCounter(0);
             labelsIconCounter.setCounter(args.labels());
-            commentsIconCounter.setCounter(args.commentsTotalCount());
-            attachmentsIconCounter.setCounter(args.attachments());
+            commentsIconCounter.setCounter(args.commentsTotalCount(), true);
+            checkboxIconCounter.setText(args.checkboxDoneCount() + "/" + args.checkboxTotalCount());
+            attachmentsIconCounter.setCounter(args.attachments(), true);
         });
     }
 
@@ -90,6 +98,8 @@ public class CardPropertiesView extends HBox {
                        int labels,
                        int commentsUnreadCount,
                        int commentsTotalCount,
+                       int checkboxDoneCount,
+                       int checkboxTotalCount,
                        int attachments,
                        int assignees) {
     }

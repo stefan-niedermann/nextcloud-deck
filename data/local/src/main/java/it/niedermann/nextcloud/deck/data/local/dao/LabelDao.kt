@@ -43,4 +43,7 @@ interface LabelDao : GenericDao<LabelEntity> {
 
     @Query("SELECT * FROM Label WHERE title LIKE '%' || :userText || '%' AND status != 3 ORDER BY title ASC")
     fun find(userText: String): Flowable<List<LabelEntity>>
+
+    @Query("SELECT * FROM Label WHERE boardId = :boardId AND title LIKE '%' || :userText || '%' AND status != 3 ORDER BY title ASC")
+    fun find(boardId: Long, userText: String): Flowable<List<LabelEntity>>
 }

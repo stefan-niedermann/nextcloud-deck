@@ -12,8 +12,8 @@ import io.soabase.recordbuilder.core.RecordBuilder;
 
 @RecordBuilder
 public record Card(
-        Card.ID id,
-        Card.RemoteID remoteId,
+        ID id,
+        RemoteID remoteId,
         Column.ID columnId,
         OffsetDateTime createdAt,
         int order,
@@ -23,7 +23,7 @@ public record Card(
         User.ID ownerId,
         Set<Label.ID> labels,
         Set<User.ID> assignees,
-        List<Card.ID> dependents,
+        List<ID> dependents,
         OffsetDateTime startDate,
         OffsetDateTime dueDate,
         OffsetDateTime done,
@@ -32,13 +32,14 @@ public record Card(
         boolean notified,
         int overdue,
         int commentsUnread,
+        int attachmentCount,
         DBStatus status,
         OffsetDateTime lastModified,
         String etag
 ) implements Serializable, CardBuilder.With {
 
-    public Card(Card.ID id, Card.RemoteID remoteId, Column.ID columnId, OffsetDateTime createdAt, int order, String title, String description, String type, User.ID ownerId, Set<Label.ID> labels, Set<User.ID> assignees, List<Card.ID> dependents, boolean archived, boolean notified, int overdue, int commentsUnread) {
-        this(id, remoteId, columnId, createdAt, order, title, description, type, ownerId, labels, assignees, dependents, null, null, null, null, archived, notified, overdue, commentsUnread, DBStatus.UP_TO_DATE, OffsetDateTime.now(), null);
+    public Card(ID id, RemoteID remoteId, Column.ID columnId, OffsetDateTime createdAt, int order, String title, String description, String type, User.ID ownerId, Set<Label.ID> labels, Set<User.ID> assignees, List<ID> dependents, boolean archived, boolean notified, int overdue, int commentsUnread) {
+        this(id, remoteId, columnId, createdAt, order, title, description, type, ownerId, labels, assignees, dependents, null, null, null, null, archived, notified, overdue, commentsUnread, 0, DBStatus.UP_TO_DATE, OffsetDateTime.now(), null);
     }
 
     public Card {

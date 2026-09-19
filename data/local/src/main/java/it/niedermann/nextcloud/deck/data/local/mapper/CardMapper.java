@@ -25,6 +25,7 @@ public interface CardMapper extends GenericMapper<CardEntity, Card> {
     @Mapping(target = "startDate", source = "startDate")
     @Mapping(target = "color", source = "color")
     @Mapping(target = "type", source = "type")
+    @Mapping(target = "attachmentCount", source = "attachmentCount")
     @Mapping(target = "status", expression = "java(card.status().getId())")
     CardEntity toEntity(Card card);
 
@@ -35,6 +36,7 @@ public interface CardMapper extends GenericMapper<CardEntity, Card> {
     @Mapping(target = "title", source = "title")
     @Mapping(target = "description", source = "description")
     @Mapping(target = "archived", source = "archived")
+    @Mapping(target = "attachmentCount", source = "attachmentCount")
     @Mapping(target = "status", expression = "java(it.niedermann.nextcloud.deck.domain.model.DBStatus.findById(cardEntity.getStatus()))")
     @Mapping(target = "lastModified", source = "lastModified")
     @Mapping(target = "startDate", source = "startDate")

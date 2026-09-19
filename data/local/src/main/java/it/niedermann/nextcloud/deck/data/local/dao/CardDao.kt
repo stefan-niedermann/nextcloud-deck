@@ -14,7 +14,7 @@ import java.util.concurrent.CompletableFuture
 interface CardDao : GenericDao<CardEntity> {
 
     @Transaction
-    @Query("SELECT *, (SELECT COUNT(*) FROM Comment WHERE cardId = Card.localId) as commentCount FROM Card WHERE columnId = :columnId AND status != 3 ORDER BY `order` ASC")
+    @Query("SELECT *, (SELECT COUNT(*) FROM Comment WHERE cardId = Card.localId) as commentCount, (SELECT COUNT(*) FROM Attachment WHERE cardId = Card.localId AND status != 3) as attachmentsCount FROM Card WHERE columnId = :columnId AND status != 3 ORDER BY `order` ASC")
     fun getCardPreviewsByColumn(columnId: Long): Flowable<List<CardPreviewLocal>>
 
     @Query("SELECT * FROM Card WHERE columnId = :columnId AND status != 3 ORDER BY `order` ASC")

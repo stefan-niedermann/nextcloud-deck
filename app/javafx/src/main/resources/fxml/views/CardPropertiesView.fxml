@@ -8,5 +8,6 @@
     <IconCounterView iconLiteral="fltrmz-text-description-20" fx:id="descriptionIconCounter" />
     <IconCounterView iconLiteral="fltrmz-tag-16" fx:id="labelsIconCounter" />
     <IconCounterView iconLiteral="fltral-comment-16" fx:id="commentsIconCounter" />
+    <IconCounterView iconLiteral="fltfal-checkbox-unchecked-16" fx:id="checkboxIconCounter" />
     <IconCounterView iconLiteral="fltfal-attach-16" fx:id="attachmentsIconCounter" />
 </fx:root>

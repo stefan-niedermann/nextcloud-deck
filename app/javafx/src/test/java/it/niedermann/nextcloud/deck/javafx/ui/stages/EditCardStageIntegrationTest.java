@@ -4,8 +4,11 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
+import com.dlsc.gemsfx.TagsField;
+import com.google.gson.Gson;
 import com.jthemedetecor.OsThemeDetector;
 
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Answers;
@@ -15,8 +18,9 @@ import org.testfx.framework.junit5.Start;
 import org.testfx.util.WaitForAsyncUtils;
 
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.Collections;
-import java.util.Optional;
+import java.util.Set;
 import java.util.concurrent.Flow;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
@@ -31,6 +35,7 @@ import it.niedermann.nextcloud.deck.domain.sync.SyncScheduler;
 import it.niedermann.nextcloud.deck.domain.usecases.accounts.GetAccountUseCase;
 import it.niedermann.nextcloud.deck.domain.usecases.accounts.GetAccountsUseCase;
 import it.niedermann.nextcloud.deck.domain.usecases.accounts.HasAccountsUseCase;
+import it.niedermann.nextcloud.deck.domain.usecases.accounts.ImportAccountUseCase;
 import it.niedermann.nextcloud.deck.domain.usecases.activities.ListPreviewActivitiesUseCase;
 import it.niedermann.nextcloud.deck.domain.usecases.attachments.ListAttachmentsUseCase;
 import it.niedermann.nextcloud.deck.domain.usecases.boards.GetBoardUseCase;
@@ -40,8 +45,10 @@ import it.niedermann.nextcloud.deck.domain.usecases.columns.GetColumnUseCase;
 import it.niedermann.nextcloud.deck.domain.usecases.comments.AddCommentUseCase;
 import it.niedermann.nextcloud.deck.domain.usecases.comments.ListPreviewCommentsUseCase;
 import it.niedermann.nextcloud.deck.domain.usecases.labels.ListLabelsUseCase;
+import it.niedermann.nextcloud.deck.domain.usecases.labels.SearchLabelsUseCase;
 import it.niedermann.nextcloud.deck.domain.usecases.state.SetCurrentAccountUseCase;
 import it.niedermann.nextcloud.deck.domain.usecases.users.ListUsersUseCase;
+import it.niedermann.nextcloud.deck.domain.usecases.users.SearchUserUseCase;
 import it.niedermann.nextcloud.deck.javafx.ScreenshotUtil;
 import it.niedermann.nextcloud.deck.javafx.di.stage.StageComponent;
 import it.niedermann.nextcloud.deck.javafx.fxml.Inflater;
@@ -64,6 +71,8 @@ import it.niedermann.nextcloud.deck.javafx.ui.shared.suggestionproviders.UserSug
 import it.niedermann.nextcloud.deck.javafx.ui.shared.tagviewfactories.LabelTagViewFactory;
 import it.niedermann.nextcloud.deck.javafx.ui.shared.tagviewfactories.UserTagViewFactory;
 import it.niedermann.nextcloud.deck.javafx.ui.splashscreen.SplashScreenScene;
+import it.niedermann.nextcloud.deck.util.ColorUtil;
+import jakarta.inject.Provider;
 import javafx.application.HostServices;
 import javafx.stage.Stage;
 
@@ -102,7 +111,7 @@ class EditCardStageIntegrationTest {
             }
         }));
         
-        final var storeLogger = new StoreLogger(new com.google.gson.Gson());
+        final var storeLogger = new StoreLogger(new Gson());
         final var detector = mock(OsThemeDetector.class);
         when(detector.isDark()).thenReturn(false);
         final var keyValueStore = mock(KeyValueStore.class);
@@ -120,15 +129,36 @@ class EditCardStageIntegrationTest {
         final var listPreviewCommentsUseCase = mock(ListPreviewCommentsUseCase.class, Answers.RETURNS_MOCKS);
         final var listPreviewActivitiesUseCase = mock(ListPreviewActivitiesUseCase.class, Answers.RETURNS_MOCKS);
 
+        final var listLabelsUseCase = mock(ListLabelsUseCase.class);
+        final var listUsersUseCase = mock(ListUsersUseCase.class);
+
         when(getCardUseCase.execute(cardId)).thenReturn(Flowable.just(card));
         when(getColumnUseCase.execute(card.columnId())).thenReturn(Flowable.just(MockData.MOCK_COLUMNS[0]));
         when(getBoardUseCase.execute(MockData.MOCK_BOARDS[0].id())).thenReturn(Flowable.just(MockData.MOCK_BOARDS[0]));
         when(listAttachmentsUseCase.execute(cardId)).thenReturn(Flowable.just(Collections.emptyList()));
         when(listPreviewCommentsUseCase.execute(cardId)).thenReturn(Flowable.just(Collections.emptyList()));
         when(listPreviewActivitiesUseCase.execute(cardId)).thenReturn(Flowable.just(Collections.emptyList()));
+        when(listLabelsUseCase.execute(any())).thenReturn(subscriber -> subscriber.onSubscribe(new Flow.Subscription() {
+            @Override
+            public void request(long n) {
+                subscriber.onNext(Set.of(MockData.MOCK_LABELS));
+                subscriber.onComplete();
+            }
+            @Override
+            public void cancel() {}
+        }));
+        when(listUsersUseCase.execute(any())).thenReturn(subscriber -> subscriber.onSubscribe(new Flow.Subscription() {
+            @Override
+            public void request(long n) {
+                subscriber.onNext(Arrays.asList(MockData.MOCK_USERS));
+                subscriber.onComplete();
+            }
+            @Override
+            public void cancel() {}
+        }));
 
 
-        final var stageContext = new EditCardService(
+        final EditCardService.Factory editCardStageContextFactory = (initialState, onClose) -> new EditCardService(
                 storeLogger,
                 applicationRouter,
                 getCardUseCase,
@@ -138,13 +168,12 @@ class EditCardStageIntegrationTest {
                 listAttachmentsUseCase,
                 listPreviewCommentsUseCase,
                 listPreviewActivitiesUseCase,
-                mock(ListLabelsUseCase.class, Answers.RETURNS_MOCKS),
-                mock(ListUsersUseCase.class, Answers.RETURNS_MOCKS),
+                listLabelsUseCase,
+                listUsersUseCase,
                 mock(AddCommentUseCase.class),
-                new EditCardService.State(Optional.empty(), false),
-                () -> {}
+                initialState,
+                onClose
         );
-        final EditCardService.Factory editCardStageContextFactory = (initialState, onClose) -> stageContext;
         
         final var inflater = Inflater.getInstance();
         
@@ -167,10 +196,10 @@ class EditCardStageIntegrationTest {
         final var editCardFeatureFactory = (EditCardFeature.Factory) viewModel -> new EditCardFeature(
                 inflater,
                 new CommentCellFactory(),
-                new LabelSuggestionProvider(mock(it.niedermann.nextcloud.deck.domain.usecases.labels.SearchLabelsUseCase.class)),
-                new UserSuggestionProvider(mock(it.niedermann.nextcloud.deck.domain.usecases.users.SearchUserUseCase.class)),
+                new LabelSuggestionProvider(mock(SearchLabelsUseCase.class)),
+                new UserSuggestionProvider(mock(SearchUserUseCase.class)),
                 new LabelSearchViewConverter(),
-                new LabelTagViewFactory(new it.niedermann.nextcloud.deck.util.ColorUtil()),
+                new LabelTagViewFactory(new ColorUtil()),
                 userSearchViewConverter,
                 new UserTagViewFactory(userSearchViewConverter),
                 viewModel
@@ -188,11 +217,11 @@ class EditCardStageIntegrationTest {
         );
 
         final SplashScreenScene.Factory splashScreenFactory = () -> new SplashScreenScene(inflater, themeService, hostServices, buildConfig, syncScheduler);
-        final var loginFactoryProvider = (jakarta.inject.Provider<LoginScene.Factory>) () -> mock(LoginScene.Factory.class);
-        final var exceptionFactoryProvider = (jakarta.inject.Provider<ExceptionScene.Factory>) () -> mock(ExceptionScene.Factory.class);
+        final var loginFactoryProvider = (Provider<LoginScene.Factory>) () -> mock(LoginScene.Factory.class);
+        final var exceptionFactoryProvider = (Provider<ExceptionScene.Factory>) () -> mock(ExceptionScene.Factory.class);
         final LoginService.Factory loginStageContextFactory = url -> new LoginService(
                 storeLogger,
-                mock(it.niedermann.nextcloud.deck.domain.usecases.accounts.ImportAccountUseCase.class),
+                mock(ImportAccountUseCase.class),
                 url
         );
 
@@ -216,6 +245,8 @@ class EditCardStageIntegrationTest {
     void testEditCardSceneIsShown(FxRobot robot) throws IOException, TimeoutException {
         robot.targetWindow(stage);
         WaitForAsyncUtils.waitFor(10, TimeUnit.SECONDS, () -> robot.lookup("#title").tryQuery().isPresent());
+        final TagsField<?> assigneesField = robot.lookup("#assignees").queryAs(TagsField.class);
+        Assertions.assertFalse(assigneesField.getTags().isEmpty());
         ScreenshotUtil.captureScene(robot, "EditCard");
     }
 }

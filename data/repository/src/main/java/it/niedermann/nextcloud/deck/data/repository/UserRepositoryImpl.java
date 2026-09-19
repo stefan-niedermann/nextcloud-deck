@@ -3,7 +3,6 @@ package it.niedermann.nextcloud.deck.data.repository;
 import org.reactivestreams.FlowAdapters;
 
 import java.io.IOException;
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
@@ -11,7 +10,6 @@ import java.util.concurrent.CompletionException;
 import java.util.concurrent.Flow;
 import java.util.logging.Logger;
 
-import io.reactivex.rxjava3.core.Flowable;
 import io.reactivex.rxjava3.schedulers.Schedulers;
 import it.niedermann.nextcloud.deck.data.local.dao.UserDao;
 import it.niedermann.nextcloud.deck.data.local.mapper.UserMapper;
@@ -19,7 +17,6 @@ import it.niedermann.nextcloud.deck.domain.model.Account;
 import it.niedermann.nextcloud.deck.domain.model.Avatar;
 import it.niedermann.nextcloud.deck.domain.model.User;
 import it.niedermann.nextcloud.deck.domain.repository.AccountRepository;
-import it.niedermann.nextcloud.deck.domain.repository.MockData;
 import it.niedermann.nextcloud.deck.domain.repository.UserRepository;
 import it.niedermann.nextcloud.remote.ApiProvider;
 import jakarta.inject.Inject;
@@ -84,8 +81,11 @@ public class UserRepositoryImpl implements UserRepository {
 
     @Override
     public Flow.Publisher<List<User>> getNotDeletedUsers(Account.ID accountId) {
-        logger.info("[Mock][getNotDeletedUsers]: " + accountId);
-        return FlowAdapters.toFlowPublisher(Flowable.just(Arrays.asList(MockData.MOCK_USERS)));
+        return FlowAdapters.toFlowPublisher(
+                userDao.getUsersByAccount(accountId.value())
+                        .map(userMapper::toTOList)
+                        .subscribeOn(Schedulers.io())
+        );
     }
 
     @Override
