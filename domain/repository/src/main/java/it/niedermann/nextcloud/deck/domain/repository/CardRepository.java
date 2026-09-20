@@ -37,4 +37,6 @@ public interface CardRepository {
     Flow.Publisher<Boolean> cardExists(Card.ID cardId);
 
     Flow.Publisher<Collection<Card>> find(String userText);
+
+    Flow.Publisher<Collection<Card>> find(Board.ID boardId, String userText);
 }

@@ -35,8 +35,10 @@ import it.niedermann.nextcloud.deck.javafx.ui.shared.AbstractFeature;
 import it.niedermann.nextcloud.deck.javafx.ui.shared.cellfactories.ActivityCellFactory;
 import it.niedermann.nextcloud.deck.javafx.ui.shared.cellfactories.AttachmentCellFactory;
 import it.niedermann.nextcloud.deck.javafx.ui.shared.cellfactories.CommentCellFactory;
+import it.niedermann.nextcloud.deck.javafx.ui.shared.searchviewconverter.CardSearchViewConverter;
 import it.niedermann.nextcloud.deck.javafx.ui.shared.searchviewconverter.LabelSearchViewConverter;
 import it.niedermann.nextcloud.deck.javafx.ui.shared.searchviewconverter.UserSearchViewConverter;
+import it.niedermann.nextcloud.deck.javafx.ui.shared.suggestionproviders.CardSuggestionProvider;
 import it.niedermann.nextcloud.deck.javafx.ui.shared.suggestionproviders.LabelSuggestionProvider;
 import it.niedermann.nextcloud.deck.javafx.ui.shared.suggestionproviders.UserSuggestionProvider;
 import it.niedermann.nextcloud.deck.javafx.ui.shared.tagviewfactories.LabelTagViewFactory;
@@ -74,6 +76,8 @@ public class EditCardFeature extends AbstractFeature {
     private final LabelSuggestionProvider labelSuggestionProvider;
     private final LabelSearchViewConverter labelSearchViewConverter;
     private final LabelTagViewFactory labelTagViewFactory;
+    private final CardSuggestionProvider cardSuggestionProvider;
+    private final CardSearchViewConverter cardSearchViewConverter;
 
     private final ViewModel viewModel;
 
@@ -139,6 +143,8 @@ public class EditCardFeature extends AbstractFeature {
             LabelTagViewFactory labelTagViewFactory,
             UserSearchViewConverter userSearchViewConverter,
             UserTagViewFactory userTagViewFactory,
+            CardSuggestionProvider cardSuggestionProvider,
+            CardSearchViewConverter cardSearchViewConverter,
             @Assisted ViewModel viewModel
     ) {
         super(inflater);
@@ -150,6 +156,8 @@ public class EditCardFeature extends AbstractFeature {
         this.labelTagViewFactory = labelTagViewFactory;
         this.userSearchViewConverter = userSearchViewConverter;
         this.userTagViewFactory = userTagViewFactory;
+        this.cardSuggestionProvider = cardSuggestionProvider;
+        this.cardSearchViewConverter = cardSearchViewConverter;
         this.viewModel = viewModel;
 
         this.permissions = viewModel.getPermissions();
@@ -213,6 +221,9 @@ public class EditCardFeature extends AbstractFeature {
         assignees.setTagViewFactory(userTagViewFactory);
         assignees.setConverter(userSearchViewConverter);
 
+        dependentCards.setSuggestionProvider(cardSuggestionProvider);
+        dependentCards.setConverter(cardSearchViewConverter);
+
         final var permissionsDisposable = Flowable.fromPublisher(permissions).subscribe(p -> {
             final var editableFields = new Node[]{
                     title, labels, assignees, startDateDate, startDateTime, dueDateDate, dueDateTime,
@@ -226,7 +237,10 @@ public class EditCardFeature extends AbstractFeature {
 
         addDisposable(permissionsDisposable);
 
-        addDisposable(viewModel.getBoard().observeOn(JavaFxScheduler.platform()).subscribe(board -> labelSuggestionProvider.setBoardId(board.id())));
+        addDisposable(viewModel.getBoard().observeOn(JavaFxScheduler.platform()).subscribe(board -> {
+            labelSuggestionProvider.setBoardId(board.id());
+            cardSuggestionProvider.setBoardId(board.id());
+        }));
 
         addDisposable(viewModel.getBoardLabels().observeOn(JavaFxScheduler.platform()).subscribe(allLabels -> {
             this.allBoardLabels.clear();

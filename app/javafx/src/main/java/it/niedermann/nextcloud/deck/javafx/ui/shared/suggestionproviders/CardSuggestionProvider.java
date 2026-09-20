@@ -5,24 +5,33 @@ import com.dlsc.gemsfx.SearchField;
 import java.util.Collection;
 
 import io.reactivex.rxjava4.core.Maybe;
+import it.niedermann.nextcloud.deck.domain.model.Board;
 import it.niedermann.nextcloud.deck.domain.model.Card;
-import it.niedermann.nextcloud.deck.domain.repository.CardRepository;
+import it.niedermann.nextcloud.deck.domain.usecases.cards.SearchCardsUseCase;
 import jakarta.inject.Inject;
 import javafx.util.Callback;
 
 public class CardSuggestionProvider implements Callback<SearchField.SearchFieldSuggestionRequest, Collection<Card>> {
 
-    private final CardRepository cardRepository;
+    private final SearchCardsUseCase searchCardsUseCase;
+    private Board.ID boardId;
 
     @Inject
     public CardSuggestionProvider(
-            CardRepository cardRepository
+            SearchCardsUseCase searchCardsUseCase
     ) {
-        this.cardRepository = cardRepository;
+        this.searchCardsUseCase = searchCardsUseCase;
+    }
+
+    public void setBoardId(Board.ID boardId) {
+        this.boardId = boardId;
     }
 
     @Override
     public Collection<Card> call(SearchField.SearchFieldSuggestionRequest param) {
-        return Maybe.fromPublisher(cardRepository.find(param.getUserText())).blockingGet();
+        if (boardId == null) {
+            return Maybe.fromPublisher(searchCardsUseCase.execute(param.getUserText())).blockingGet();
+        }
+        return Maybe.fromPublisher(searchCardsUseCase.execute(boardId, param.getUserText())).blockingGet();
     }
 }

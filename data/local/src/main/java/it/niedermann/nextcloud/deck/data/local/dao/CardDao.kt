@@ -55,4 +55,10 @@ interface CardDao : GenericDao<CardEntity> {
 
     @Query("SELECT Column.remoteId FROM Card JOIN Column ON Column.localId = Card.columnId WHERE Card.localId = :localId")
     fun getStackRemoteIdByLocalId(localId: Long): CompletableFuture<Long?>
+
+    @Query("SELECT Card.* FROM Card INNER JOIN Column ON Card.columnId = Column.localId WHERE Column.boardId = :boardId AND Card.status != 3 AND (Card.title LIKE '%' || :query || '%' OR CAST(Card.remoteId AS TEXT) LIKE '%' || :query || '%')")
+    fun find(boardId: Long, query: String): Flowable<List<CardEntity>>
+
+    @Query("SELECT * FROM Card WHERE status != 3 AND (title LIKE '%' || :query || '%' OR CAST(remoteId AS TEXT) LIKE '%' || :query || '%')")
+    fun find(query: String): Flowable<List<CardEntity>>
 }

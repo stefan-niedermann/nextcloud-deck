@@ -456,7 +456,29 @@ public class CardRepositoryImpl implements CardRepository {
 
     @Override
     public Flow.Publisher<Collection<Card>> find(String userText) {
-        // TODO: Implement search in CardDao
-        return null;
+        return FlowAdapters.toFlowPublisher(
+                cardDao.find(userText)
+                        .flatMapSingle(entities ->
+                                Flowable.fromIterable(entities)
+                                        .flatMapSingle(this::fullMap)
+                                        .toList()
+                                        .map(ArrayList::new)
+                        )
+                        .subscribeOn(Schedulers.io())
+        );
+    }
+
+    @Override
+    public Flow.Publisher<Collection<Card>> find(Board.ID boardId, String userText) {
+        return FlowAdapters.toFlowPublisher(
+                cardDao.find(boardId.value(), userText)
+                        .flatMapSingle(entities ->
+                                Flowable.fromIterable(entities)
+                                        .flatMapSingle(this::fullMap)
+                                        .toList()
+                                        .map(ArrayList::new)
+                        )
+                        .subscribeOn(Schedulers.io())
+        );
     }
 }
