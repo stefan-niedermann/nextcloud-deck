@@ -55,13 +55,13 @@
     <string name="about_app_license_button">Vaata litsentsi</string>
     <string name="about_icons_disclaimer_title">Ikoonid</string>
     <string name="about_icons_disclaimer_app_icon">Algse ikooni leiad siit: %1$s.</string>
-    <string name="about_icons_disclaimer_mdi_icons">Kõik muud siin rakenduses kasutatavad ikoonid on „%1$s“ ja tehtud Google Inc. poolt ning valdatud Apache 2.0 litsentsi alusel.</string>
+    <string name="about_icons_disclaimer_mdi_icons">Kõik muud siin rakenduses kasutatavad ikoonid on „%1$s“ ja tehtud Google Inc. poolt ning avaldatud Apache 2.0 litsentsi alusel.</string>
     <string name="about_icons_disclaimer_mdi">Material Designi ikoonid</string>
     <string name="about_credits_tab_title">Tänuavaldused</string>
     <string name="about_contribution_tab_title">Kaastöö</string>
     <string name="about_license_tab_title">Litsents</string>
     <string name="seconds_ago">sekundit tagasi</string>
-    <string name="edit">Redigeeri</string>
+    <string name="edit">Muuda</string>
     <string name="label_labels">Vali sildid</string>
     <string name="label_description">Kirjeldus</string>
     <string name="hint_assign_people">Määra kasutajaid</string>
@@ -82,7 +82,7 @@
     <string name="delete_list">Kustuta loend</string>
     <string name="label_menu">menüü</string>
     <string name="action_card_assign">Määra kaardi täitmine minule</string>
-    <string name="action_card_unassign">Eemalda kaardi täitmise määramine minult</string>
+    <string name="action_card_unassign">Eemalda minult kaardi täitmise ülesanne</string>
     <string name="action_card_archive">Arhiveeri kaart</string>
     <string name="action_card_delete">Kustuta kaart</string>
     <string name="add_board">Lisa tahvel</string>
@@ -126,13 +126,13 @@
     <string name="settings_debugging">Veaotsingu logid</string>
     <string name="settings_etags">Kasuta HTTP ETage</string>
     <string name="settings_etags_summary">Kiirendab sünkroonimist</string>
-    <string name="settings_background_sync">Taustsünkroniseerimine</string>
+    <string name="settings_background_sync">Sünkroonimine taustal</string>
     <string name="settings_push_notifications">Tõuketeavitused</string>
     <string name="settings_compress_image_attachments">Üleslaadimisel paki pildid kokku</string>
     <string name="search_in">Otsi siin: %1$s</string>
     <string name="settings_compress_image_attachments_summary">Kiirem üleslaadimine, kehvem kvaliteet</string>
-    <string name="pref_value_wifi_and_mobile">Sünkroonimine Wi-Fi ja mobiilse andmeside kaudu</string>
-    <string name="pref_value_wifi_only">Sünkroonimine ainult Wi-Fi kaudu</string>
+    <string name="pref_value_wifi_and_mobile">Sünkroonimine WiFi ja mobiilse andmeside kaudu</string>
+    <string name="pref_value_wifi_only">Sünkroonimine ainult WiFi kaudu</string>
     <string-array name="darkmode_entries">
         <item>Süsteemi kujundus</item>
         <item>Hele kujundus</item>
@@ -347,10 +347,31 @@
     <string name="settings_recovery_title">Hädaolukorras taastamine</string>
     <string name="recovery_deck_server_title">Taasta Kanbani serveri andmed</string>
     <string name="recovery_deck_android_title">Taasta Kanbani Androidi rakenduse andmed</string>
+    <string name="settings_restore_server_summary">⚠️ OHTLIK: Serveri andmed kirjutatakse kohalikus seadmes leiduvate andmetega üle. Kohalikud andmed aga moodustavad saadavaolevast andmestikust vaid ühe osa ning sealt on puudu manused, tegevused ja muudki. Eeldab uuesti autentimist kohalikus rakenduses ja selle uuesti käivitamist.</string>
+    <string name="restore_warning_title">⚠️ OHTLIK: Serveri andmed kirjutatakse üle</string>
     <string name="simple_restore">Taasta</string>
     <string name="simple_apply">Rakenda</string>
+    <string name="backup_restore_warning">Ma nõustun, et andmete regulaarne varundamine on täielikult minu vastutusel. Allpool loetletud vahendid pakuvad piiratud võimalusi andmete taastamiseks hädaolukorras ning neid ei saa pidada nõuetekohaseks varunduslahenduseks. Ma mõistan, et neid tuleks kasutada ainult siis, kui tugiteenus seda soovitab.</string>
+
+    <string name="settings_create_local_backup">Tee hetktõmmis</string>
+    <string name="settings_create_local_backup_summary">Sellega tehakse kohalikust andmekohust hetktõmmis. See pole varukoopia ja sealt on puudu teave, mis leidub vaid serveris.</string>
+
+    <string name="settings_restore_local_backup">Võta hetktõmmise andmed kasutusele</string>
+    <string name="settings_restore_local_backup_summary">Järgnevaga asendad Kanbani Androidi rakenduse andmebaasi viimase hetktõmmisega ja käivitad rakenduse uuesti.</string>
+    <string name="restore_local_backup_warning_title">⚠️ Tähelepanu!</string>
+    <string name="restore_local_backup_warning_message">Veel sünkroonimata muudatused lähevad jäädavalt kaotsi. Palun taga, et sul on kohalikud muudatused mingil viisil talletatud.</string>
+
     <string name="restore_local_backup_success">Andmebaas on taastatud. Rakendus käivitub nüüd..</string>
     <string name="restore_local_backup_failed">Andmebaasi taastamine ei õnnestunud.</string>
 
+    <string name="create_local_backup_success">Hetktõmmise loomine õnnestus.</string>
+    <string name="create_local_backup_failed">Hetktõmmise tegemine ei õnnestunud.</string>
+
+    <string name="settings_export_database">Ekspordi hetktõmmis</string>
+    <string name="settings_export_database_summary">Kopeerib Kanbani Androidi rakenduse SQLite\'i andmebaasi sinu valitud asukohas asuvasse faili. Selles ei leidu kõike teavet. Tegemist pole nõuetekohase varunduslahendusega.</string>
     <string name="export_database_failed">Andmebaasi eksportimine ei õnnestunud.</string>
-    </resources>
+    <string name="export_database_success">Hetktõmmise eksportimine õnnestus.</string>
+
+    <string name="restore_warning_message">Järgnevaga kirjutatakse serveris leiduvad selle kasutajakonto andmed kohaliku osalise varukoopia andmetega üle ja Kanbani Androidi rakendus käivitub uuesti.\n\nEeldused:\n- Kasutajakonto on serveris olemas\n- Kõik kasutajate tahvlid on jagatud ja peavad serveris olema olemas\n- Sa oled korrektselt sisse loginud Nextcloudi failirakendusse\n\nManused, tegevused ja muud:\nMitte kõik manused ei pruugi olla kohalikus seadmes saadaval ja seega ei saa neid uude serverisse üles laadida. Tegevusi loob üldjuhul Kanbani server. See ja muu teave võib peale taastamist puudu olla.\n\nKasutajad peavad serveris olema olemas:\n%1$s</string>
+    <string name="restore_backup_failed">Andmebaasi varundamine ei õnnestunud. Taastamine on katkestatud.</string>
+</resources>
