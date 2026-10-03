@@ -1,14 +1,14 @@
 package it.niedermann.nextcloud.deck.cli.commands.card.subcommands.search;
 
+import java.util.concurrent.Callable;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 import io.reactivex.rxjava4.core.Maybe;
 import it.niedermann.nextcloud.deck.domain.repository.CardRepository;
 import jakarta.inject.Inject;
 import picocli.CommandLine.Command;
 import picocli.CommandLine.Option;
-
-import java.util.concurrent.Callable;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 @Command(name = "search",
         mixinStandardHelpOptions = true,
@@ -26,7 +26,7 @@ public class CardSearchCmd implements Callable<Integer> {
     @Override
     public Integer call() {
         try {
-            final var cards = Maybe.fromPublisher(cardRepository.find(query)).blockingGet();
+            final var cards = Maybe.fromPublisher(cardRepository.find(query, null)).blockingGet();
 
             for (final var card : cards) {
                 System.out.println(card.id().value() + ": " + card.title());

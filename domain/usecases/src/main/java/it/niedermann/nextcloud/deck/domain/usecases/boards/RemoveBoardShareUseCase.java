@@ -16,7 +16,7 @@ public class RemoveBoardShareUseCase {
         this.shareRepository = shareRepository;
     }
 
-    public CompletableFuture<Void> execute(Board.ID boardId, User.ID userId) {
+    public CompletableFuture<Void> execute(Board.ID boardId, User.RemoteID userId) {
         return shareRepository.removeShare(boardId, userId);
     }
 }

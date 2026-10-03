@@ -30,6 +30,7 @@ public interface AttachmentMapper extends GenericMapper<AttachmentEntity, Attach
     @Mapping(target = "lastModified", source = "lastModified")
     @Mapping(target = "localPath", source = "localPath")
     @Mapping(target = "fileId", source = "fileId")
+    @Mapping(target = "createdBy", expression = "java(commonLocalMapper.toUserIdFromRemoteId(entity.getCreatedBy()))")
     Attachment toTO(AttachmentEntity entity);
 
     @Mapping(target = "id", source = "localId")
@@ -39,6 +40,7 @@ public interface AttachmentMapper extends GenericMapper<AttachmentEntity, Attach
     @Mapping(target = "lastModified", source = "lastModified")
     @Mapping(target = "localPath", source = "localPath")
     @Mapping(target = "fileId", source = "fileId")
+    @Mapping(target = "createdBy", expression = "java(commonLocalMapper.toUserIdFromRemoteId(entity.getCreatedBy()))")
     it.niedermann.nextcloud.deck.domain.model.query.Attachment toQueryTO(AttachmentEntity entity);
 
     List<it.niedermann.nextcloud.deck.domain.model.query.Attachment> toQueryTOList(List<AttachmentEntity> entities);

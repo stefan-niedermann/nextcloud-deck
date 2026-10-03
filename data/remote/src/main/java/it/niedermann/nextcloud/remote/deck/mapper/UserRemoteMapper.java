@@ -13,14 +13,15 @@ public interface UserRemoteMapper extends GenericRemoteMapper<UserDTO, User> {
     UserRemoteMapper INSTANCE = Mappers.getMapper(UserRemoteMapper.class);
 
     @Override
-    @Mapping(target = "uid", source = "id")
+    @Mapping(target = "uid", source = "remoteId")
     @Mapping(target = "displayname", source = "displayName")
-    @Mapping(target = "primaryKey", source = "id")
+    @Mapping(target = "primaryKey", source = "remoteId")
     @Mapping(target = "type", ignore = true)
     UserDTO toDTO(User user);
 
     @Override
-    @Mapping(target = "id", source = "uid")
+    @Mapping(target = "id", expression = "java(new it.niedermann.nextcloud.deck.domain.model.User.ID(0L))")
+    @Mapping(target = "remoteId", source = "uid")
     @Mapping(target = "displayName", expression = "java(commonRemoteMapper.mapDisplayName(userDTO.getDisplayname()))")
     @Mapping(target = "status", expression = "java(it.niedermann.nextcloud.deck.domain.model.DBStatus.UP_TO_DATE)")
     @Mapping(target = "lastModified", ignore = true)

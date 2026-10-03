@@ -29,8 +29,12 @@ public class ActivityView extends HBox {
 
     public void bind(PreviewActivity preview) {
         final var activity = preview.activity();
-        avatar.setAvatar(preview.account(), activity.author().id());
-        author.setText(activity.author().displayName());
+        if (activity.author() != null) {
+            avatar.setAvatar(preview.account(), activity.author().id());
+            author.setText(activity.author().displayName());
+        } else {
+            author.setText(activity.actorDisplayName() != null ? activity.actorDisplayName() : "");
+        }
         message.setText(activity.subject());
 
         final var created = activity.createdAt().atZoneSameInstant(ZoneId.systemDefault());

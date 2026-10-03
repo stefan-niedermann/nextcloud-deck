@@ -44,5 +44,6 @@ public interface AttachmentRemoteMapper extends GenericRemoteMapper<AttachmentDT
     @Mapping(target = "localPath", ignore = true)
     @Mapping(target = "accountId", ignore = true)
     @Mapping(target = "type", expression = "java(it.niedermann.nextcloud.deck.data.shared.AttachmentType.findByValue(attachmentDTO.getType()))")
+    @Mapping(target = "createdBy", expression = "java(commonRemoteMapper.toUserIdFromRemoteId(attachmentDTO.getCreatedBy()))")
     Attachment toTO(AttachmentDTO attachmentDTO);
 }

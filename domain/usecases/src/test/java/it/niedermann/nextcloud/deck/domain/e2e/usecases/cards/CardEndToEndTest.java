@@ -6,6 +6,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
+import java.time.OffsetDateTime;
 import java.util.Set;
 
 import it.niedermann.nextcloud.deck.domain.e2e.EndToEndTest;
@@ -182,7 +183,7 @@ public class CardEndToEndTest extends EndToEndTest {
 
         // Share boardC with johndoe (DEVICE_A)
         final var permissions = new Board.Permissions(true, true, true, true);
-        DEVICE_C.virtualDevice().getAddBoardShareUseCase().execute(boardC.id(), new User.ID(DEVICE_A.account().username()), permissions).join();
+        DEVICE_C.virtualDevice().getAddBoardShareUseCase().execute(boardC.id(), new User.RemoteID(DEVICE_A.account().username()), permissions).join();
 
         synchronize(DEVICE_C);
         synchronize(DEVICE_A);
@@ -211,7 +212,7 @@ public class CardEndToEndTest extends EndToEndTest {
     public void assignCard() {
         final var cardTitle = randomUtil.randomize("cardToAssign");
         final var card = EndToEndUtil.createCard(DEVICE_A, columnA, cardTitle);
-        final var userId = new User.ID(DEVICE_A.account().username());
+        final var remoteUserId = new User.RemoteID(DEVICE_A.account().username());
 
         synchronize(DEVICE_A);
         synchronize(DEVICE_B);
@@ -219,36 +220,41 @@ public class CardEndToEndTest extends EndToEndTest {
         final var columnB = EndToEndUtil.getColumn(DEVICE_B, boardB, columnA.title());
         final var cardB = EndToEndUtil.getCard(DEVICE_B, columnB, cardTitle);
 
-        DEVICE_A.virtualDevice().getAssignCardUseCase().execute(card.id(), userId).join();
+        DEVICE_A.virtualDevice().getAssignCardUseCase().execute(card.id(), DEVICE_A.account(), remoteUserId).join();
 
         synchronize(DEVICE_A);
         synchronize(DEVICE_B);
 
-        EndToEndUtil.assertCardAssignedTo(DEVICE_A, card.id(), userId);
-        EndToEndUtil.assertCardAssignedTo(DEVICE_B, cardB.id(), userId);
+        final var localUserIdA = DEVICE_A.virtualDevice().getUserRepository().getUserId(DEVICE_A.account(), remoteUserId).join();
+        final var localUserIdB = DEVICE_B.virtualDevice().getUserRepository().getUserId(DEVICE_B.account(), remoteUserId).join();
+
+        EndToEndUtil.assertCardAssignedTo(DEVICE_A, card.id(), localUserIdA);
+        EndToEndUtil.assertCardAssignedTo(DEVICE_B, cardB.id(), localUserIdB);
     }
 
     @Test
     public void unassignCard() {
         final var cardTitle = randomUtil.randomize("cardToUnassign");
         final var card = EndToEndUtil.createCard(DEVICE_A, columnA, cardTitle);
-        final var userId = new User.ID(DEVICE_A.account().username());
+        final var remoteUserId = new User.RemoteID(DEVICE_A.account().username());
 
-        DEVICE_A.virtualDevice().getAssignCardUseCase().execute(card.id(), userId).join();
+        DEVICE_A.virtualDevice().getAssignCardUseCase().execute(card.id(), DEVICE_A.account(), remoteUserId).join();
         synchronize(DEVICE_A);
         synchronize(DEVICE_B);
         final var boardB = EndToEndUtil.getBoard(DEVICE_B, boardA.title());
         final var columnB = EndToEndUtil.getColumn(DEVICE_B, boardB, columnA.title());
         final var cardB = EndToEndUtil.getCard(DEVICE_B, columnB, cardTitle);
-        EndToEndUtil.assertCardAssignedTo(DEVICE_B, cardB.id(), userId);
+        final var localUserIdB = DEVICE_B.virtualDevice().getUserRepository().getUserId(DEVICE_B.account(), remoteUserId).join();
+        final var localUserIdA = DEVICE_A.virtualDevice().getUserRepository().getUserId(DEVICE_A.account(), remoteUserId).join();
+        EndToEndUtil.assertCardAssignedTo(DEVICE_B, cardB.id(), localUserIdB);
 
-        DEVICE_A.virtualDevice().getUnassignCardUseCase().execute(card.id(), userId).join();
+        DEVICE_A.virtualDevice().getUnassignCardUseCase().execute(card.id(), DEVICE_A.account(), remoteUserId).join();
 
         synchronize(DEVICE_A);
         synchronize(DEVICE_B);
 
-        EndToEndUtil.assertCardNotAssignedTo(DEVICE_A, card.id(), userId);
-        EndToEndUtil.assertCardNotAssignedTo(DEVICE_B, cardB.id(), userId);
+        EndToEndUtil.assertCardNotAssignedTo(DEVICE_A, card.id(), localUserIdA);
+        EndToEndUtil.assertCardNotAssignedTo(DEVICE_B, cardB.id(), localUserIdB);
     }
 
     @Test
@@ -328,7 +334,7 @@ public class CardEndToEndTest extends EndToEndTest {
         var card = EndToEndUtil.createCard(DEVICE_A, columnA, cardTitle);
 
         final var description = "Some description";
-        final var dueDate = java.time.OffsetDateTime.now(java.time.ZoneOffset.UTC).plusDays(1).withNano(0);
+        final var dueDate = OffsetDateTime.now(java.time.ZoneOffset.UTC).plusDays(1).withNano(0);
 
         final var updatedCard = card.withDescription(description).withDueDate(dueDate);
         DEVICE_A.virtualDevice().getUpdateCardUseCase().execute(updatedCard).join();

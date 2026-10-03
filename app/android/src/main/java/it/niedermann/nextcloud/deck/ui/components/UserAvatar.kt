@@ -69,3 +69,47 @@ fun UserAvatar(
         )
     }
 }
+
+@Composable
+fun UserAvatar(
+    account: Account?,
+    userId: User.RemoteID,
+    size: Dp,
+    modifier: Modifier = Modifier
+) {
+    var bitmap by remember(account, userId) { mutableStateOf<ImageBitmap?>(null) }
+    val density = LocalDensity.current
+    val sizeInPx = with(density) { size.toPx() }.toInt()
+
+    LaunchedEffect(account, userId, sizeInPx) {
+        if (account == null) return@LaunchedEffect
+        try {
+            val useCase = AvatarProvider.get()
+            val avatar = useCase.execute(account, userId, sizeInPx).await()
+            withContext(Dispatchers.IO) {
+                val b = BitmapFactory.decodeByteArray(avatar.content, 0, avatar.content.size)
+                bitmap = b?.asImageBitmap()
+            }
+        } catch (e: Exception) {
+            // Log error or show fallback
+        }
+    }
+
+    if (bitmap != null) {
+        Image(
+            bitmap = bitmap!!,
+            contentDescription = null,
+            modifier = modifier
+                .size(size)
+                .clip(CircleShape),
+            contentScale = ContentScale.Crop
+        )
+    } else {
+        Icon(
+            Icons.Outlined.AccountCircle,
+            contentDescription = null,
+            modifier = modifier.size(size),
+            tint = androidx.compose.material3.MaterialTheme.colorScheme.primary
+        )
+    }
+}

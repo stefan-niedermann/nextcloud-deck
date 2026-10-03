@@ -18,10 +18,14 @@ public class SearchCardsUseCase {
     }
 
     public Flow.Publisher<Collection<Card>> execute(String query) {
-        return cardRepository.find(query);
+        return execute(query, null);
     }
 
-    public Flow.Publisher<Collection<Card>> execute(Board.ID boardId, String query) {
-        return cardRepository.find(boardId, query);
+    public Flow.Publisher<Collection<Card>> execute(String query, Card.ID excludeId) {
+        return cardRepository.find(query, excludeId);
+    }
+
+    public Flow.Publisher<Collection<Card>> execute(Board.ID boardId, String query, Card.ID excludeId) {
+        return cardRepository.find(boardId, query, excludeId);
     }
 }

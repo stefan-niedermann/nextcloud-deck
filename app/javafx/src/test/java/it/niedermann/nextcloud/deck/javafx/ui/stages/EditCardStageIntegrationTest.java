@@ -62,10 +62,13 @@ import it.niedermann.nextcloud.deck.javafx.ui.exception.ExceptionScene;
 import it.niedermann.nextcloud.deck.javafx.ui.login.LoginScene;
 import it.niedermann.nextcloud.deck.javafx.ui.login.LoginService;
 import it.niedermann.nextcloud.deck.javafx.ui.shared.cellfactories.CommentCellFactory;
+import it.niedermann.nextcloud.deck.javafx.ui.shared.cellfactories.DependentCardCellFactory;
+import it.niedermann.nextcloud.deck.javafx.ui.shared.searchviewconverter.CardSearchViewConverter;
 import it.niedermann.nextcloud.deck.javafx.ui.shared.searchviewconverter.LabelSearchViewConverter;
 import it.niedermann.nextcloud.deck.javafx.ui.shared.searchviewconverter.UserSearchViewConverter;
 import it.niedermann.nextcloud.deck.javafx.ui.shared.services.StageTitleResolver;
 import it.niedermann.nextcloud.deck.javafx.ui.shared.services.ThemeService;
+import it.niedermann.nextcloud.deck.javafx.ui.shared.suggestionproviders.CardSuggestionProvider;
 import it.niedermann.nextcloud.deck.javafx.ui.shared.suggestionproviders.LabelSuggestionProvider;
 import it.niedermann.nextcloud.deck.javafx.ui.shared.suggestionproviders.UserSuggestionProvider;
 import it.niedermann.nextcloud.deck.javafx.ui.shared.tagviewfactories.LabelTagViewFactory;
@@ -202,6 +205,11 @@ class EditCardStageIntegrationTest {
                 new LabelTagViewFactory(new ColorUtil()),
                 userSearchViewConverter,
                 new UserTagViewFactory(userSearchViewConverter),
+                mock(CardSuggestionProvider.class),
+                mock(CardSearchViewConverter.class),
+                mock(DependentCardCellFactory.class),
+                mock(UpdateCardUseCase.class),
+                mock(GetCardUseCase.class),
                 viewModel
         );
 

@@ -22,11 +22,13 @@ import io.reactivex.rxjava3.schedulers.Schedulers;
 import it.niedermann.nextcloud.deck.data.local.dao.AccountDao;
 import it.niedermann.nextcloud.deck.data.local.dao.CardDao;
 import it.niedermann.nextcloud.deck.data.local.dao.ColumnDao;
+import it.niedermann.nextcloud.deck.data.local.dao.JoinCardWithDependentCardDao;
 import it.niedermann.nextcloud.deck.data.local.dao.JoinCardWithLabelDao;
 import it.niedermann.nextcloud.deck.data.local.dao.JoinCardWithUserDao;
 import it.niedermann.nextcloud.deck.data.local.dao.UserDao;
 import it.niedermann.nextcloud.deck.data.local.entity.CardEntity;
 import it.niedermann.nextcloud.deck.data.local.entity.CardPreviewLocal;
+import it.niedermann.nextcloud.deck.data.local.entity.JoinCardWithDependentCardEntity;
 import it.niedermann.nextcloud.deck.data.local.entity.JoinCardWithLabelEntity;
 import it.niedermann.nextcloud.deck.data.local.entity.JoinCardWithUserEntity;
 import it.niedermann.nextcloud.deck.data.local.mapper.CardMapper;
@@ -52,6 +54,7 @@ public class CardRepositoryImpl implements CardRepository {
     private final ColumnMapper columnMapper;
     private final JoinCardWithLabelDao joinCardWithLabelDao;
     private final JoinCardWithUserDao joinCardWithUserDao;
+    private final JoinCardWithDependentCardDao joinCardWithDependentCardDao;
     private final UserDao userDao;
     private final AccountDao accountDao;
 
@@ -62,6 +65,7 @@ public class CardRepositoryImpl implements CardRepository {
                               ColumnMapper columnMapper,
                               JoinCardWithLabelDao joinCardWithLabelDao,
                               JoinCardWithUserDao joinCardWithUserDao,
+                              JoinCardWithDependentCardDao joinCardWithDependentCardDao,
                               UserDao userDao,
                               AccountDao accountDao) {
         this.cardDao = cardDao;
@@ -70,6 +74,7 @@ public class CardRepositoryImpl implements CardRepository {
         this.columnMapper = columnMapper;
         this.joinCardWithLabelDao = joinCardWithLabelDao;
         this.joinCardWithUserDao = joinCardWithUserDao;
+        this.joinCardWithDependentCardDao = joinCardWithDependentCardDao;
         this.userDao = userDao;
         this.accountDao = accountDao;
     }
@@ -125,8 +130,7 @@ public class CardRepositoryImpl implements CardRepository {
                     }
                     CompletableFuture<Long> userIdFuture = CompletableFuture.completedFuture(oldEntity.getUserId());
                     if (card.ownerId() != null) {
-                        userIdFuture = userDao.getUserByRemoteId(oldEntity.getAccountId(), card.ownerId().value())
-                                .thenApply(u -> u != null ? u.getLocalId() : oldEntity.getUserId());
+                        userIdFuture = CompletableFuture.completedFuture(card.ownerId().value());
                     }
                     return userIdFuture.thenCompose(userId -> {
                         final var entity = cardMapper.toEntity(card);
@@ -198,13 +202,48 @@ public class CardRepositoryImpl implements CardRepository {
                 .thenCompose(v -> cardDao.getCardById(card.id().value()))
                 .thenCompose(cardEntity -> {
                     CompletableFuture<?>[] userFutures = card.assignees().stream()
-                            .map(userId -> userDao.getUserByRemoteId(cardEntity.getAccountId(), userId.value())
+                            .map(userId -> userDao.getUserByLocalId(userId.value())
                                     .thenCompose(user -> {
                                         if (user == null) return CompletableFuture.completedFuture(null);
                                         return joinCardWithUserDao.upsert(new JoinCardWithUserEntity(card.id().value(), user.getLocalId(), DBStatus.LOCAL_EDITED.getId()));
                                     }))
                             .toArray(CompletableFuture[]::new);
                     return CompletableFuture.allOf(userFutures);
+                })
+                .thenCompose(v -> joinCardWithDependentCardDao.getActiveJoinsByCardId(card.id().value()))
+                .thenCompose(existingJoins -> {
+                    final var newDependents = card.dependents().stream()
+                            .filter(id -> !id.equals(card.id()))
+                            .map(id -> cardDao.getCardById(id.value()))
+                            .collect(Collectors.toList());
+
+                    return CompletableFuture.allOf(newDependents.toArray(new CompletableFuture[0]))
+                            .thenCompose(v -> {
+                                final var newRemoteIds = newDependents.stream()
+                                        .map(CompletableFuture::join)
+                                        .filter(Objects::nonNull)
+                                        .map(CardEntity::getRemoteId)
+                                        .filter(Objects::nonNull)
+                                        .collect(Collectors.toSet());
+
+                                final List<CompletableFuture<?>> futures = new ArrayList<>();
+                                for (final var join : existingJoins) {
+                                    if (!newRemoteIds.contains(join.getDependentRemoteId())) {
+                                        futures.add(joinCardWithDependentCardDao.upsert(new JoinCardWithDependentCardEntity(join.getCardId(), join.getDependentRemoteId(), DBStatus.LOCAL_DELETED.getId())));
+                                    }
+                                }
+
+                                final var existingRemoteIds = existingJoins.stream()
+                                        .map(JoinCardWithDependentCardEntity::getDependentRemoteId)
+                                        .collect(Collectors.toSet());
+
+                                for (final var remoteId : newRemoteIds) {
+                                    if (!existingRemoteIds.contains(remoteId)) {
+                                        futures.add(joinCardWithDependentCardDao.upsert(new JoinCardWithDependentCardEntity(card.id().value(), remoteId, DBStatus.LOCAL_EDITED.getId())));
+                                    }
+                                }
+                                return CompletableFuture.allOf(futures.toArray(new CompletableFuture[0]));
+                            });
                 })
                 .thenApply(v -> null);
     }
@@ -263,23 +302,26 @@ public class CardRepositoryImpl implements CardRepository {
 
     private Single<Card> fullMap(CardEntity entity) {
         final Card card = cardMapper.toTO(entity);
+        final User.ID ownerId = (entity.getUserId() != null && entity.getUserId() != 0L) ? new User.ID(entity.getUserId()) : null;
+
         return Single.fromCompletionStage(joinCardWithLabelDao.getActiveJoinsByCardId(entity.getLocalId()))
                 .flatMap(labels -> {
                     final var labelIds = labels.stream().map(l -> new Label.ID(l.getLabelId())).collect(Collectors.toSet());
                     return Single.fromCompletionStage(joinCardWithUserDao.getActiveJoinsByCardId(entity.getLocalId()))
-                            .map(userJoins -> {
+                            .flatMap(userJoins -> {
                                 final var assignees = userJoins.stream().map(uj -> {
-                                    final var user = userDao.getUserByLocalId(uj.getUserId()).join();
-                                    return new User.ID(user.getRemoteId());
+                                    return new User.ID(uj.getUserId());
                                 }).collect(Collectors.toSet());
-                                User.ID ownerId = null;
-                                if (entity.getUserId() != null) {
-                                    final var owner = userDao.getUserByLocalId(entity.getUserId()).join();
-                                    if (owner != null) {
-                                        ownerId = new User.ID(owner.getRemoteId());
-                                    }
-                                }
-                                return card.withLabels(labelIds).withAssignees(assignees).withOwnerId(ownerId);
+                                return Single.fromCompletionStage(joinCardWithDependentCardDao.getActiveJoinsByCardId(entity.getLocalId()))
+                                        .map(dependentJoins -> {
+                                            final var dependents = dependentJoins.stream()
+                                                    .map(dj -> cardDao.getCardByRemoteId(entity.getAccountId(), dj.getDependentRemoteId()).join())
+                                                    .filter(Objects::nonNull)
+                                                    .map(c -> new Card.ID(c.getLocalId()))
+                                                    .filter(id -> id.value() != entity.getLocalId())
+                                                    .collect(Collectors.toList());
+                                            return card.withLabels(labelIds).withAssignees(assignees).withOwnerId(ownerId).withDependents(dependents);
+                                        });
                             });
                 });
     }
@@ -300,7 +342,9 @@ public class CardRepositoryImpl implements CardRepository {
                             return accountDao.getAccountSingle(column.getAccountId())
                                     .toSingle()
                                     .flatMapPublisher(account -> {
-                                        final User.ID currentUserId = new User.ID(account.username());
+                                        final User.ID currentUserId;
+                                        final var userEntity = userDao.getUserByRemoteId(column.getAccountId(), account.username()).join();
+                                        currentUserId = userEntity != null ? new User.ID(userEntity.getLocalId()) : new User.ID(0L);
                                         return cardDao.getCardPreviewsByColumn(columnId.value())
                                                 .map(locals -> locals.stream()
                                                         .map(local -> toPreviewCard(local, currentUserId))
@@ -377,7 +421,7 @@ public class CardRepositoryImpl implements CardRepository {
                 .collect(Collectors.toSet());
 
         final var assigneeIds = local.getAssignees().stream()
-                .map(u -> new User.ID(u.getRemoteId()))
+                .map(u -> new User.ID(u.getLocalId()))
                 .collect(Collectors.toSet());
 
         final String description = entity.getDescription() != null ? entity.getDescription() : "";
@@ -455,9 +499,9 @@ public class CardRepositoryImpl implements CardRepository {
     }
 
     @Override
-    public Flow.Publisher<Collection<Card>> find(String userText) {
+    public Flow.Publisher<Collection<Card>> find(String userText, Card.ID excludeId) {
         return FlowAdapters.toFlowPublisher(
-                cardDao.find(userText)
+                cardDao.find(userText, excludeId.value())
                         .flatMapSingle(entities ->
                                 Flowable.fromIterable(entities)
                                         .flatMapSingle(this::fullMap)
@@ -469,9 +513,9 @@ public class CardRepositoryImpl implements CardRepository {
     }
 
     @Override
-    public Flow.Publisher<Collection<Card>> find(Board.ID boardId, String userText) {
+    public Flow.Publisher<Collection<Card>> find(Board.ID boardId, String userText, Card.ID excludeId) {
         return FlowAdapters.toFlowPublisher(
-                cardDao.find(boardId.value(), userText)
+                cardDao.find(boardId.value(), userText, excludeId.value())
                         .flatMapSingle(entities ->
                                 Flowable.fromIterable(entities)
                                         .flatMapSingle(this::fullMap)
@@ -480,5 +524,15 @@ public class CardRepositoryImpl implements CardRepository {
                         )
                         .subscribeOn(Schedulers.io())
         );
+    }
+
+    @Override
+    public CompletableFuture<Void> markAsDone(Card.ID cardId) {
+        return cardDao.setDoneStateOfCard(cardId.value(), OffsetDateTime.now(), DBStatus.LOCAL_EDITED.getId());
+    }
+
+    @Override
+    public CompletableFuture<Void> markAsUndone(Card.ID cardId) {
+        return cardDao.setDoneStateOfCard(cardId.value(), null, DBStatus.LOCAL_EDITED.getId());
     }
 }

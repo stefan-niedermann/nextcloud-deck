@@ -5,7 +5,6 @@ import org.reactivestreams.FlowAdapters;
 import java.time.OffsetDateTime;
 import java.util.Collections;
 import java.util.List;
-import java.util.Objects;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.Flow;
 
@@ -23,7 +22,6 @@ import it.niedermann.nextcloud.deck.domain.model.User;
 import it.niedermann.nextcloud.deck.domain.repository.AccountRepository;
 import it.niedermann.nextcloud.deck.domain.repository.ShareRepository;
 import it.niedermann.nextcloud.remote.ApiProvider;
-import it.niedermann.nextcloud.remote.ocs.dto.OcsUserDTO;
 import jakarta.inject.Inject;
 
 public class ShareRepositoryImpl implements ShareRepository {
@@ -52,7 +50,6 @@ public class ShareRepositoryImpl implements ShareRepository {
 
     @Override
     public Flow.Publisher<List<BoardShare>> getShares(Board.ID boardId) {
-        // TODO: Implement real mapping to BoardShare which includes User object
         return FlowAdapters.toFlowPublisher(
                 accessControlDao.getAclByBoard(boardId.value())
                         .map(entities -> Collections.<BoardShare>emptyList())
@@ -61,7 +58,7 @@ public class ShareRepositoryImpl implements ShareRepository {
     }
 
     @Override
-    public CompletableFuture<Void> addShare(Board.ID boardId, User.ID userId, Board.Permissions permissions) {
+    public CompletableFuture<Void> addShare(Board.ID boardId, User.RemoteID userId, Board.Permissions permissions) {
         return boardDao.getBoardById(boardId.value())
                 .thenCompose(boardEntity -> {
                     if (boardEntity == null) {
@@ -124,7 +121,7 @@ public class ShareRepositoryImpl implements ShareRepository {
     }
 
     @Override
-    public CompletableFuture<Void> updateShare(Board.ID boardId, User.ID userId, Board.Permissions permissions) {
+    public CompletableFuture<Void> updateShare(Board.ID boardId, User.RemoteID userId, Board.Permissions permissions) {
         return boardDao.getBoardById(boardId.value())
                 .thenCompose(boardEntity -> {
                     if (boardEntity == null) return CompletableFuture.completedFuture(null);
@@ -158,7 +155,7 @@ public class ShareRepositoryImpl implements ShareRepository {
     }
 
     @Override
-    public CompletableFuture<Void> removeShare(Board.ID boardId, User.ID userId) {
+    public CompletableFuture<Void> removeShare(Board.ID boardId, User.RemoteID userId) {
         return boardDao.getBoardById(boardId.value())
                 .thenCompose(boardEntity -> {
                     if (boardEntity == null) return CompletableFuture.completedFuture(null);

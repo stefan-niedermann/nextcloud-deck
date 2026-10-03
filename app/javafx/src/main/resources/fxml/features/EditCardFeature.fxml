@@ -54,6 +54,8 @@
                                     </HBox>
 
                                     <SearchField promptText="%editcard.label.dependents" fx:id="dependentCards" />
+
+                                    <ListView fx:id="dependentCardsList" prefHeight="150.0" />
                                 </VBox>
                             </top>
                             <center>

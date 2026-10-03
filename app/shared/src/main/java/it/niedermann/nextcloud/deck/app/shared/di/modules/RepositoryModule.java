@@ -10,6 +10,7 @@ import it.niedermann.nextcloud.deck.data.local.dao.BoardDao;
 import it.niedermann.nextcloud.deck.data.local.dao.CardDao;
 import it.niedermann.nextcloud.deck.data.local.dao.ColumnDao;
 import it.niedermann.nextcloud.deck.data.local.dao.CommentDao;
+import it.niedermann.nextcloud.deck.data.local.dao.JoinCardWithDependentCardDao;
 import it.niedermann.nextcloud.deck.data.local.dao.JoinCardWithLabelDao;
 import it.niedermann.nextcloud.deck.data.local.dao.JoinCardWithUserDao;
 import it.niedermann.nextcloud.deck.data.local.dao.LabelDao;
@@ -91,9 +92,10 @@ public class RepositoryModule {
                                          ColumnMapper columnMapper,
                                          JoinCardWithLabelDao joinCardWithLabelDao,
                                          JoinCardWithUserDao joinCardWithUserDao,
+                                         JoinCardWithDependentCardDao joinCardWithDependentCardDao,
                                          UserDao userDao,
                                          AccountDao accountDao) {
-        return new CardRepositoryImpl(cardDao, columnDao, cardMapper, columnMapper, joinCardWithLabelDao, joinCardWithUserDao, userDao, accountDao);
+        return new CardRepositoryImpl(cardDao, columnDao, cardMapper, columnMapper, joinCardWithLabelDao, joinCardWithUserDao, joinCardWithDependentCardDao, userDao, accountDao);
     }
 
     @Provides

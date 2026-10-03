@@ -1,5 +1,6 @@
 package it.niedermann.nextcloud.deck.domain.e2e.usecases.cards;
 
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -47,18 +48,19 @@ public class UpdateCardEndToEndTest extends EndToEndTest {
         final String newDescription = "Updated description with some content";
         final OffsetDateTime startDate = OffsetDateTime.now(ZoneOffset.UTC).plusDays(1).withNano(0);
         final OffsetDateTime dueDate = OffsetDateTime.now(ZoneOffset.UTC).plusDays(2).withNano(0);
-        final User.ID userId = new User.ID(DEVICE_A.account().username());
+        final User.RemoteID remoteUserId = new User.RemoteID(DEVICE_A.account().username());
 
         // Refresh card and label to get remote IDs and updated state
         final Card cardWithRemoteId = EndToEndUtil.getCard(DEVICE_A, column, cardTitle);
         final Label labelWithRemoteId = EndToEndUtil.getLabel(DEVICE_A, board, labelTitle);
+        final User.ID localUserIdA = DEVICE_A.virtualDevice().getUserRepository().getUserId(DEVICE_A.account(), remoteUserId).join();
 
         // 3. Update the card
         final Card updatedCard = cardWithRemoteId.withDescription(newDescription)
                 .withStartDate(startDate)
                 .withDueDate(dueDate)
                 .withLabels(Set.of(labelWithRemoteId.id()))
-                .assign(userId);
+                .assign(localUserIdA);
 
         DEVICE_A.virtualDevice().getUpdateCardUseCase().execute(updatedCard).join();
 
@@ -71,11 +73,70 @@ public class UpdateCardEndToEndTest extends EndToEndTest {
         final Label labelB = EndToEndUtil.getLabel(DEVICE_B, boardB, labelTitle);
         final Column columnB = EndToEndUtil.getColumn(DEVICE_B, boardB, columnTitle);
         final Card cardB = EndToEndUtil.getCard(DEVICE_B, columnB, cardTitle);
+        final User.ID localUserIdB = DEVICE_B.virtualDevice().getUserRepository().getUserId(DEVICE_B.account(), remoteUserId).join();
 
         EndToEndUtil.assertCardDescription(DEVICE_B, cardB.id(), newDescription);
         EndToEndUtil.assertCardStartDate(DEVICE_B, cardB.id(), startDate);
         EndToEndUtil.assertCardDueDate(DEVICE_B, cardB.id(), dueDate);
         EndToEndUtil.assertCardHasLabel(DEVICE_B, cardB.id(), labelB.id());
-        EndToEndUtil.assertCardAssignedTo(DEVICE_B, cardB.id(), userId);
+        EndToEndUtil.assertCardAssignedTo(DEVICE_B, cardB.id(), localUserIdB);
+    }
+
+    @Test
+    public void testMarkAsDone() {
+        // 1. Setup board, column and card
+        final String boardTitle = randomUtil.randomize("DoneTestBoard");
+        final Board board = EndToEndUtil.createBoard(DEVICE_A, boardTitle);
+        final String columnTitle = randomUtil.randomize("DoneTestColumn");
+        final Column column = EndToEndUtil.createColumn(DEVICE_A, board, columnTitle);
+        final String cardTitle = randomUtil.randomize("DoneTestCard");
+        EndToEndUtil.createCard(DEVICE_A, column, cardTitle);
+
+        synchronize(DEVICE_A);
+        final Card card = EndToEndUtil.getCard(DEVICE_A, column, cardTitle);
+
+        // 2. Mark as done
+        DEVICE_A.virtualDevice().getUpdateCardUseCase().markAsDone(card.id()).join();
+
+        // 3. Synchronize
+        synchronize(DEVICE_A);
+        synchronize(DEVICE_B);
+
+        // 4. Verify
+        final Board boardB = EndToEndUtil.getBoard(DEVICE_B, boardTitle);
+        final Column columnB = EndToEndUtil.getColumn(DEVICE_B, boardB, columnTitle);
+        final Card cardB = EndToEndUtil.getCard(DEVICE_B, columnB, cardTitle);
+        Assertions.assertNotNull(cardB.done());
+    }
+
+    @Test
+    public void testMarkAsUndone() {
+        // 1. Setup board, column and card
+        final String boardTitle = randomUtil.randomize("UndoneTestBoard");
+        final Board board = EndToEndUtil.createBoard(DEVICE_A, boardTitle);
+        final String columnTitle = randomUtil.randomize("UndoneTestColumn");
+        final Column column = EndToEndUtil.createColumn(DEVICE_A, board, columnTitle);
+        final String cardTitle = randomUtil.randomize("UndoneTestCard");
+        EndToEndUtil.createCard(DEVICE_A, column, cardTitle);
+
+        synchronize(DEVICE_A);
+        final Card card = EndToEndUtil.getCard(DEVICE_A, column, cardTitle);
+
+        // 2. Mark as done first
+        DEVICE_A.virtualDevice().getUpdateCardUseCase().markAsDone(card.id()).join();
+        synchronize(DEVICE_A);
+
+        // 3. Mark as undone
+        DEVICE_A.virtualDevice().getUpdateCardUseCase().markAsUndone(card.id()).join();
+
+        // 4. Synchronize
+        synchronize(DEVICE_A);
+        synchronize(DEVICE_B);
+
+        // 5. Verify
+        final Board boardB = EndToEndUtil.getBoard(DEVICE_B, boardTitle);
+        final Column columnB = EndToEndUtil.getColumn(DEVICE_B, boardB, columnTitle);
+        final Card cardB = EndToEndUtil.getCard(DEVICE_B, columnB, cardTitle);
+        Assertions.assertNull(cardB.done());
     }
 }

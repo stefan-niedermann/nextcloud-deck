@@ -15,7 +15,7 @@ public interface OcsUserRemoteMapper extends GenericRemoteMapper<OcsUserDTO, Use
     OcsUserRemoteMapper INSTANCE = Mappers.getMapper(OcsUserRemoteMapper.class);
 
     @Override
-    @Mapping(target = "id", source = "id")
+    @Mapping(target = "id", source = "remoteId")
     @Mapping(target = "displayname", source = "displayName")
     @Mapping(target = "lastLogin", ignore = true)
     @Mapping(target = "quota", ignore = true)
@@ -31,7 +31,8 @@ public interface OcsUserRemoteMapper extends GenericRemoteMapper<OcsUserDTO, Use
     OcsUserDTO toDTO(User user);
 
     @Override
-    @Mapping(target = "id", source = "id")
+    @Mapping(target = "id", expression = "java(new it.niedermann.nextcloud.deck.domain.model.User.ID(0L))")
+    @Mapping(target = "remoteId", source = "id")
     @Mapping(target = "displayName", source = "displayname")
     @Mapping(target = "status", ignore = true)
     @Mapping(target = "lastModified", ignore = true)

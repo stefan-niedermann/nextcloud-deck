@@ -29,7 +29,7 @@ public class BoardShareEndToEndTest extends EndToEndTest {
         final var addBoardShareUseCase = DEVICE_A.virtualDevice().getAddBoardShareUseCase();
 
         final var permissions = new Board.Permissions(true, true, true, true);
-        addBoardShareUseCase.execute(boardA.id(), new User.ID(DEVICE_B.account().username()), permissions).join();
+        addBoardShareUseCase.execute(boardA.id(), new User.RemoteID(DEVICE_B.account().username()), permissions).join();
 
         synchronize(DEVICE_A);
         synchronize(DEVICE_B);

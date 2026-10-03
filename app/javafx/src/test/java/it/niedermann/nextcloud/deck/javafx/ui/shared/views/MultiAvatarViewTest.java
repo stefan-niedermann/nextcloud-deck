@@ -31,9 +31,9 @@ public class MultiAvatarViewTest {
     @Test
     public void testBind(FxRobot robot) {
         final var userIds = List.of(
-                new User.ID("user1"),
-                new User.ID("user2"),
-                new User.ID("user3")
+                new User.ID(1L),
+                new User.ID(2L),
+                new User.ID(3L)
         );
 
         robot.interact(() -> multiAvatarView.bind(userIds));
@@ -55,14 +55,14 @@ public class MultiAvatarViewTest {
         robot.interact(() -> multiAvatarView.setAvatarSize(40.0));
         assertEquals(-12.0, multiAvatarView.getSpacing(), 0.001);
 
-        robot.interact(() -> multiAvatarView.bind(List.of(new User.ID("user1"))));
+        robot.interact(() -> multiAvatarView.bind(List.of(new User.ID(1L))));
         final var avatarView = (AvatarView) multiAvatarView.getChildren().get(0);
         assertEquals(40.0, avatarView.getFitWidth());
     }
 
     @Test
     public void testResizeExistingChildren(FxRobot robot) {
-        robot.interact(() -> multiAvatarView.bind(List.of(new User.ID("user1"))));
+        robot.interact(() -> multiAvatarView.bind(List.of(new User.ID(1L))));
         final var avatarView = (AvatarView) multiAvatarView.getChildren().get(0);
         assertEquals(24.0, avatarView.getFitWidth());
 

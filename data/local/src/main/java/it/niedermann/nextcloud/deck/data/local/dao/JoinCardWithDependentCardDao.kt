@@ -25,4 +25,7 @@ interface JoinCardWithDependentCardDao : GenericDao<JoinCardWithDependentCardEnt
 
     @Query("DELETE FROM JoinCardWithDependentCard WHERE cardId = :cardId")
     fun deleteByCardId(cardId: Long): CompletableFuture<Void?>
+
+    @Query("SELECT * FROM JoinCardWithDependentCard WHERE cardId = :cardId AND status != 3")
+    fun getActiveJoinsByCardId(cardId: Long): CompletableFuture<List<JoinCardWithDependentCardEntity>>
 }

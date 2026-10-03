@@ -1,5 +1,9 @@
 package it.niedermann.nextcloud.deck.cli.commands.board.subcommands.share;
 
+import java.util.concurrent.Callable;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 import io.reactivex.rxjava4.core.Maybe;
 import it.niedermann.nextcloud.deck.app.shared.args.board.BoardArgResolver;
 import it.niedermann.nextcloud.deck.app.shared.args.board.BoardRawArgs;
@@ -9,10 +13,6 @@ import it.niedermann.nextcloud.deck.domain.usecases.boards.AddBoardShareUseCase;
 import jakarta.inject.Inject;
 import picocli.CommandLine.Command;
 import picocli.CommandLine.Option;
-
-import java.util.concurrent.Callable;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 @Command(name = "add",
         mixinStandardHelpOptions = true,
@@ -71,7 +71,7 @@ public class ShareAddCmd implements Callable<Integer> {
             }
 
             final var permissions = new Board.Permissions(read, edit, manage, share);
-            addBoardShareUseCase.execute(finalBoardId, new User.ID(userId), permissions).join();
+            addBoardShareUseCase.execute(finalBoardId, new User.RemoteID(userId), permissions).join();
 
             System.out.println("Share added.");
 

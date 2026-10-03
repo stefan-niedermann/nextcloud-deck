@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.HBox?>
+<?import org.kordamp.ikonli.javafx.FontIcon?>
+<?import javafx.scene.control.Button?>
+
+<fx:root type="javafx.scene.layout.HBox" alignment="CENTER_LEFT" spacing="10" xmlns="http://javafx.com/javafx"
+         xmlns:fx="http://javafx.com/fxml">
+    <CheckBox fx:id="doneCheckBox"/>
+    <Label fx:id="titleLabel" HBox.hgrow="ALWAYS" maxWidth="Infinity"/>
+    <Button fx:id="removeButton">
+        <graphic>
+            <FontIcon iconLiteral="fltfal-dismiss-16"/>
+        </graphic>
+    </Button>
+</fx:root>

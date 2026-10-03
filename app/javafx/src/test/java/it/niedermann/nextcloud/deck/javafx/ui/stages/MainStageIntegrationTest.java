@@ -108,11 +108,14 @@ import it.niedermann.nextcloud.deck.javafx.ui.main.features.HeaderFeature;
 import it.niedermann.nextcloud.deck.javafx.ui.shared.cellfactories.AccountListItemCellFactory;
 import it.niedermann.nextcloud.deck.javafx.ui.shared.cellfactories.CardPreviewCellFactory;
 import it.niedermann.nextcloud.deck.javafx.ui.shared.cellfactories.CommentCellFactory;
+import it.niedermann.nextcloud.deck.javafx.ui.shared.cellfactories.DependentCardCellFactory;
 import it.niedermann.nextcloud.deck.javafx.ui.shared.features.PickStackFeature;
+import it.niedermann.nextcloud.deck.javafx.ui.shared.searchviewconverter.CardSearchViewConverter;
 import it.niedermann.nextcloud.deck.javafx.ui.shared.searchviewconverter.LabelSearchViewConverter;
 import it.niedermann.nextcloud.deck.javafx.ui.shared.searchviewconverter.UserSearchViewConverter;
 import it.niedermann.nextcloud.deck.javafx.ui.shared.services.StageTitleResolver;
 import it.niedermann.nextcloud.deck.javafx.ui.shared.services.ThemeService;
+import it.niedermann.nextcloud.deck.javafx.ui.shared.suggestionproviders.CardSuggestionProvider;
 import it.niedermann.nextcloud.deck.javafx.ui.shared.suggestionproviders.LabelSuggestionProvider;
 import it.niedermann.nextcloud.deck.javafx.ui.shared.suggestionproviders.UserSuggestionProvider;
 import it.niedermann.nextcloud.deck.javafx.ui.shared.tagviewfactories.LabelTagViewFactory;
@@ -150,7 +153,7 @@ class MainStageIntegrationTest {
     private final BehaviorProcessor<List<PreviewCard>> cardPreviewsProcessor = BehaviorProcessor.create();
 
     private static final Account.ID ACCOUNT_ID = new Account.ID(1L);
-    private static final Account ACCOUNT = new Account(ACCOUNT_ID, createUrl("https://nextcloud.example.com"), MockData.MOCK_USERS[0].id().value(), "token", "Account 1", MockData.MOCK_CAPABILITIES);
+    private static final Account ACCOUNT = new Account(ACCOUNT_ID, createUrl("https://nextcloud.example.com"), MockData.MOCK_USERS[0].remoteId().value(), "token", "Account 1", MockData.MOCK_CAPABILITIES);
     private static final Board BOARD_1 = MockData.MOCK_BOARDS[0];
     private static final Board BOARD_2 = MockData.MOCK_BOARDS[1];
     private static final Column COLUMN_1 = MockData.MOCK_COLUMNS[0];
@@ -344,6 +347,11 @@ class MainStageIntegrationTest {
                     new LabelTagViewFactory(new ColorUtil()),
                     userSearchViewConverter,
                     new UserTagViewFactory(userSearchViewConverter),
+                    mock(CardSuggestionProvider.class),
+                    mock(CardSearchViewConverter.class),
+                    mock(DependentCardCellFactory.class),
+                    mock(UpdateCardUseCase.class),
+                    mock(GetCardUseCase.class),
                     viewModel
             );
         };
@@ -538,7 +546,7 @@ class MainStageIntegrationTest {
         WaitForAsyncUtils.waitFor(10, TimeUnit.SECONDS, () -> robot.lookup("Assign to me").tryQuery().isPresent());
         robot.clickOn("Assign to me");
 
-        verify(assignCardUseCase, atLeastOnce()).execute(eq(CARD_1.id()), eq(new User.ID(ACCOUNT.username())));
+        verify(assignCardUseCase, atLeastOnce()).execute(eq(CARD_1.id()), eq(ACCOUNT), eq(new User.RemoteID(ACCOUNT.username())));
     }
 
     @Test
@@ -573,6 +581,6 @@ class MainStageIntegrationTest {
         WaitForAsyncUtils.waitFor(10, TimeUnit.SECONDS, () -> robot.lookup("Unassign from me").tryQuery().isPresent());
         robot.clickOn("Unassign from me");
 
-        verify(unassignCardUseCase, atLeastOnce()).execute(eq(CARD_1.id()), eq(new User.ID(ACCOUNT.username())));
+        verify(unassignCardUseCase, atLeastOnce()).execute(eq(CARD_1.id()), eq(ACCOUNT), eq(new User.RemoteID(ACCOUNT.username())));
     }
 }

@@ -89,11 +89,34 @@ public class CommonLocalMapper {
         return id != null ? id.value() : null;
     }
 
-    public User.ID toUserId(String value) {
-        return value != null ? new User.ID(value) : null;
+    public User.ID toUserId(long value) {
+        return new User.ID(value);
     }
 
-    public String fromUserId(User.ID id) {
+    public User.ID toUserId(Long value) {
+        return new User.ID(value != null ? value : 0L);
+    }
+
+    public User.ID toUserIdFromRemoteId(String value) {
+        if (value == null || value.isBlank()) {
+            return null;
+        }
+        try {
+            return new User.ID(Long.parseLong(value));
+        } catch (NumberFormatException e) {
+            return new User.ID(0L);
+        }
+    }
+
+    public long fromUserId(User.ID id) {
+        return id != null ? id.value() : 0L;
+    }
+
+    public User.RemoteID toUserRemoteId(String value) {
+        return value != null ? new User.RemoteID(value) : null;
+    }
+
+    public String fromUserRemoteId(User.RemoteID id) {
         return id != null ? id.value() : null;
     }
 

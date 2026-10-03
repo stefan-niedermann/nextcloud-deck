@@ -1,5 +1,9 @@
 package it.niedermann.nextcloud.deck.cli.commands.card.subcommands;
 
+import java.util.concurrent.Callable;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 import io.reactivex.rxjava4.core.Maybe;
 import it.niedermann.nextcloud.deck.app.shared.args.card.CardArgResolver;
 import it.niedermann.nextcloud.deck.app.shared.args.card.CardRawArgs;
@@ -9,10 +13,6 @@ import it.niedermann.nextcloud.deck.domain.usecases.cards.UpdateCardUseCase;
 import jakarta.inject.Inject;
 import picocli.CommandLine.Command;
 import picocli.CommandLine.Option;
-
-import java.util.concurrent.Callable;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 @Command(name = "update",
         mixinStandardHelpOptions = true,
@@ -57,31 +57,9 @@ public class CardUpdateCmd implements Callable<Integer> {
 
             final var card = Maybe.fromPublisher(cardRepository.getCard(cardId)).blockingGet();
 
-            final var updatedCard = new Card(
-                    card.id(),
-                    card.remoteId(),
-                    card.columnId(),
-                    card.createdAt(),
-                    card.order(),
-                    title != null ? title : card.title(),
-                    description != null ? description : card.description(),
-                    card.type(),
-                    card.ownerId(),
-                    card.labels(),
-                    card.assignees(),
-                    card.dependents(),
-                    card.startDate(),
-                    card.dueDate(),
-                    card.done(),
-                    card.color(),
-                    card.archived(),
-                    card.notified(),
-                    card.overdue(),
-                    card.commentsUnread(),
-                    card.status(),
-                    card.lastModified(),
-                    card.etag()
-            );
+            final var updatedCard = card
+                    .withTitle(title != null ? title : card.title())
+                    .withDescription(description != null ? description : card.description());
 
             updateCardUseCase.execute(updatedCard).join();
             System.out.println("Card updated.");

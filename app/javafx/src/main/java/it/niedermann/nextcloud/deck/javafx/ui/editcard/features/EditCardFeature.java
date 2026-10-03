@@ -13,6 +13,7 @@ import java.time.format.DateTimeFormatter;
 import java.time.format.FormatStyle;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.ResourceBundle;
 import java.util.concurrent.CompletableFuture;
@@ -24,17 +25,21 @@ import dagger.assisted.AssistedFactory;
 import dagger.assisted.AssistedInject;
 import io.reactivex.rxjava4.core.Flowable;
 import io.reactivex.rxjava4.disposables.Disposable;
+import io.reactivex.rxjava4.schedulers.Schedulers;
 import it.niedermann.nextcloud.deck.domain.model.Board;
 import it.niedermann.nextcloud.deck.domain.model.Card;
 import it.niedermann.nextcloud.deck.domain.model.User;
 import it.niedermann.nextcloud.deck.domain.model.query.Attachment;
 import it.niedermann.nextcloud.deck.domain.model.query.PreviewActivity;
 import it.niedermann.nextcloud.deck.domain.model.query.PreviewComment;
+import it.niedermann.nextcloud.deck.domain.usecases.cards.GetCardUseCase;
+import it.niedermann.nextcloud.deck.domain.usecases.cards.UpdateCardUseCase;
 import it.niedermann.nextcloud.deck.javafx.fxml.Inflater;
 import it.niedermann.nextcloud.deck.javafx.ui.shared.AbstractFeature;
 import it.niedermann.nextcloud.deck.javafx.ui.shared.cellfactories.ActivityCellFactory;
 import it.niedermann.nextcloud.deck.javafx.ui.shared.cellfactories.AttachmentCellFactory;
 import it.niedermann.nextcloud.deck.javafx.ui.shared.cellfactories.CommentCellFactory;
+import it.niedermann.nextcloud.deck.javafx.ui.shared.cellfactories.DependentCardCellFactory;
 import it.niedermann.nextcloud.deck.javafx.ui.shared.searchviewconverter.CardSearchViewConverter;
 import it.niedermann.nextcloud.deck.javafx.ui.shared.searchviewconverter.LabelSearchViewConverter;
 import it.niedermann.nextcloud.deck.javafx.ui.shared.searchviewconverter.UserSearchViewConverter;
@@ -43,9 +48,12 @@ import it.niedermann.nextcloud.deck.javafx.ui.shared.suggestionproviders.LabelSu
 import it.niedermann.nextcloud.deck.javafx.ui.shared.suggestionproviders.UserSuggestionProvider;
 import it.niedermann.nextcloud.deck.javafx.ui.shared.tagviewfactories.LabelTagViewFactory;
 import it.niedermann.nextcloud.deck.javafx.ui.shared.tagviewfactories.UserTagViewFactory;
+import it.niedermann.nextcloud.deck.javafx.ui.shared.views.DependentCardView;
 import it.niedermann.nextcloud.deck.javafx.ui.shared.views.SubmitTextField;
 import it.niedermann.nextcloud.deck.javafx.util.JavaFxScheduler;
 import javafx.application.Platform;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
@@ -68,6 +76,7 @@ public class EditCardFeature extends AbstractFeature {
 
     private final CommentCellFactory commentCellFactory;
     private final ActivityCellFactory activityCellFactory = new ActivityCellFactory();
+    private final DependentCardCellFactory dependentCardCellFactory;
 
     private final UserSuggestionProvider userSuggestionProvider;
     private final UserSearchViewConverter userSearchViewConverter;
@@ -78,6 +87,8 @@ public class EditCardFeature extends AbstractFeature {
     private final LabelTagViewFactory labelTagViewFactory;
     private final CardSuggestionProvider cardSuggestionProvider;
     private final CardSearchViewConverter cardSearchViewConverter;
+    private final UpdateCardUseCase updateCardUseCase;
+    private final GetCardUseCase getCardUseCase;
 
     private final ViewModel viewModel;
 
@@ -127,11 +138,20 @@ public class EditCardFeature extends AbstractFeature {
     ListView<PreviewActivity> activities;
     @FXML
     ListView<Attachment> attachments;
+    @FXML
+    ListView<Card> dependentCardsList;
 
     private final List<it.niedermann.nextcloud.deck.domain.model.Label> allBoardLabels = new ArrayList<>();
     private final List<User> allBoardUsers = new ArrayList<>();
     private Card card;
     private final Flowable<Board.Permissions> permissions;
+    private final ObservableList<Card> localDependentCards = FXCollections.observableArrayList();
+
+    private <T> void updateTags(TagsField<T> tagsField, List<T> newTags) {
+        if (!newTags.equals(tagsField.getTags())) {
+            tagsField.getTags().setAll(newTags);
+        }
+    }
 
     @AssistedInject
     public EditCardFeature(
@@ -145,6 +165,9 @@ public class EditCardFeature extends AbstractFeature {
             UserTagViewFactory userTagViewFactory,
             CardSuggestionProvider cardSuggestionProvider,
             CardSearchViewConverter cardSearchViewConverter,
+            DependentCardCellFactory dependentCardCellFactory,
+            UpdateCardUseCase updateCardUseCase,
+            GetCardUseCase getCardUseCase,
             @Assisted ViewModel viewModel
     ) {
         super(inflater);
@@ -158,6 +181,9 @@ public class EditCardFeature extends AbstractFeature {
         this.userTagViewFactory = userTagViewFactory;
         this.cardSuggestionProvider = cardSuggestionProvider;
         this.cardSearchViewConverter = cardSearchViewConverter;
+        this.dependentCardCellFactory = dependentCardCellFactory;
+        this.updateCardUseCase = updateCardUseCase;
+        this.getCardUseCase = getCardUseCase;
         this.viewModel = viewModel;
 
         this.permissions = viewModel.getPermissions();
@@ -223,17 +249,64 @@ public class EditCardFeature extends AbstractFeature {
 
         dependentCards.setSuggestionProvider(cardSuggestionProvider);
         dependentCards.setConverter(cardSearchViewConverter);
+        dependentCards.setAutoCommitOnFocusLost(false);
 
-        final var permissionsDisposable = Flowable.fromPublisher(permissions).subscribe(p -> {
-            final var editableFields = new Node[]{
-                    title, labels, assignees, startDateDate, startDateTime, dueDateDate, dueDateTime,
-                    dependentCards, descriptionEditor, descriptionPreview, saveBtn, addComment,
-            };
+        dependentCardCellFactory.setListener(new DependentCardView.DependentCardActionListener() {
+            @Override
+            public void onMarkAsDone(Card.ID cardId) {
+                updateCardUseCase.markAsDone(cardId);
+            }
 
-            for (final var node : editableFields) {
-                node.setDisable(!p.permissionEdit());
+            @Override
+            public void onMarkAsUndone(Card.ID cardId) {
+                updateCardUseCase.markAsUndone(cardId);
+            }
+
+            @Override
+            public void onRemoveDependent(Card.ID cardId) {
+                if (card != null) {
+                    final var newDependents = new ArrayList<>(card.dependents());
+                    newDependents.remove(cardId);
+                    card = card.withDependents(newDependents);
+                    localDependentCards.removeIf(c -> c.id().equals(cardId));
+                }
             }
         });
+        dependentCardsList.setCellFactory(dependentCardCellFactory);
+        dependentCardsList.setItems(localDependentCards);
+
+        dependentCards.setOnCommit(newValue -> {
+            if (newValue != null && card != null) {
+                final var newDependents = new ArrayList<>(card.dependents());
+                if (!newDependents.contains(newValue.id())) {
+                    newDependents.add(newValue.id());
+                    card = card.withDependents(newDependents);
+                    if (localDependentCards.stream().noneMatch(c -> c.id().equals(newValue.id()))) {
+                        localDependentCards.add(newValue);
+                    }
+                }
+                Platform.runLater(() -> {
+                    dependentCards.setSelectedItem(null);
+                    dependentCards.getEditor().clear();
+                });
+            }
+        });
+
+        final var permissionsDisposable = Flowable.fromPublisher(permissions)
+                .distinctUntilChanged()
+                .observeOn(JavaFxScheduler.platform())
+                .subscribe(p -> {
+                    final var editableFields = new Node[]{
+                            title, labels, assignees, startDateDate, startDateTime, dueDateDate, dueDateTime,
+                            dependentCards, descriptionEditor, descriptionPreview, saveBtn, addComment,
+                    };
+
+                    for (final var node : editableFields) {
+                        if (node.isDisable() != (!p.permissionEdit())) {
+                            node.setDisable(!p.permissionEdit());
+                        }
+                    }
+                });
 
         addDisposable(permissionsDisposable);
 
@@ -269,47 +342,90 @@ public class EditCardFeature extends AbstractFeature {
                 .observeOn(JavaFxScheduler.platform())
                 .subscribe(card -> {
                     this.card = card;
-                    title.setText(card.title());
-                    createdAt.setText(MessageFormat.format(resources.getString("editcard.label.created-at"),
+                    cardSuggestionProvider.setExcludeId(card.id());
+                    if (!Objects.equals(title.getText(), card.title())) {
+                        title.setText(card.title());
+                    }
+                    final var createdAtText = MessageFormat.format(resources.getString("editcard.label.created-at"),
                             card.createdAt().format(DateTimeFormatter.ofLocalizedDateTime(FormatStyle.SHORT)),
                             "John Doe"
-                    ));
-                    editedAt.setText(MessageFormat.format(resources.getString("editcard.label.last-edited"),
+                    );
+                    if (!Objects.equals(createdAt.getText(), createdAtText)) {
+                        createdAt.setText(createdAtText);
+                    }
+                    final var editedAtText = MessageFormat.format(resources.getString("editcard.label.last-edited"),
                             card.createdAt().format(DateTimeFormatter.ofLocalizedDateTime(FormatStyle.SHORT)),
                             "John Doe"
-                    ));
-                    descriptionEditor.setText(card.description());
+                    );
+                    if (!Objects.equals(editedAt.getText(), editedAtText)) {
+                        editedAt.setText(editedAtText);
+                    }
+                    if (!Objects.equals(descriptionEditor.getText(), card.description())) {
+                        descriptionEditor.setText(card.description());
+                    }
 
-                    labels.getTags().setAll(card.labels().stream()
+                    updateTags(labels, card.labels().stream()
                             .map(id -> allBoardLabels.stream().filter(l -> l.id().value() == id.value()).findFirst())
                             .filter(Optional::isPresent)
                             .map(Optional::get)
                             .collect(Collectors.toList()));
 
-                    assignees.getTags().setAll(card.assignees().stream()
+                    updateTags(assignees, card.assignees().stream()
                             .map(id -> allBoardUsers.stream().filter(u -> u.id().equals(id)).findFirst())
                             .filter(Optional::isPresent)
                             .map(Optional::get)
                             .collect(Collectors.toList()));
 
                     if (card.startDate() != null) {
-                        startDateDate.setValue(card.startDate().toLocalDate());
-                        startDateTime.setTime(card.startDate().toLocalTime());
+                        if (!Objects.equals(startDateDate.getValue(), card.startDate().toLocalDate())) {
+                            startDateDate.setValue(card.startDate().toLocalDate());
+                        }
+                        if (!Objects.equals(startDateTime.getTime(), card.startDate().toLocalTime())) {
+                            startDateTime.setTime(card.startDate().toLocalTime());
+                        }
                     } else {
-                        startDateDate.setValue(null);
-                        startDateTime.setTime(null);
+                        if (startDateDate.getValue() != null) {
+                            startDateDate.setValue(null);
+                        }
+                        if (startDateTime.getTime() != null) {
+                            startDateTime.setTime(null);
+                        }
                     }
 
                     if (card.dueDate() != null) {
-                        dueDateDate.setValue(card.dueDate().toLocalDate());
-                        dueDateTime.setTime(card.dueDate().toLocalTime());
+                        if (!Objects.equals(dueDateDate.getValue(), card.dueDate().toLocalDate())) {
+                            dueDateDate.setValue(card.dueDate().toLocalDate());
+                        }
+                        if (!Objects.equals(dueDateTime.getTime(), card.dueDate().toLocalTime())) {
+                            dueDateTime.setTime(card.dueDate().toLocalTime());
+                        }
                     } else {
-                        dueDateDate.setValue(null);
-                        dueDateTime.setTime(null);
+                        if (dueDateDate.getValue() != null) {
+                            dueDateDate.setValue(null);
+                        }
+                        if (dueDateTime.getTime() != null) {
+                            dueDateTime.setTime(null);
+                        }
                     }
                 });
 
-        addDisposable(cardDisposable);
+        final var dependentsDisposable = viewModel.getCard()
+                .map(Card::dependents)
+                .distinctUntilChanged()
+                .observeOn(Schedulers.io())
+                .switchMapSingle(ids ->
+                        Flowable.fromIterable(ids)
+                                .flatMapSingle(id -> Flowable.fromPublisher(getCardUseCase.execute(id)).firstOrError())
+                                .toList()
+                )
+                .observeOn(JavaFxScheduler.platform())
+                .subscribe(list -> {
+                    if (!list.equals(localDependentCards)) {
+                        localDependentCards.setAll(list);
+                    }
+                });
+
+        addDisposable(cardDisposable, dependentsDisposable);
 
         saveBtn.setOnAction(event -> {
             if (this.card != null) {
@@ -320,6 +436,7 @@ public class EditCardFeature extends AbstractFeature {
                         .assignees(assignees.getTags().stream().map(User::id).collect(Collectors.toSet()))
                         .startDate(getOffsetDateTime(startDateDate, startDateTime))
                         .dueDate(getOffsetDateTime(dueDateDate, dueDateTime))
+                        .dependents(localDependentCards.stream().map(Card::id).collect(Collectors.toList()))
                         .build();
                 viewModel.onCardSaved(updatedCard);
                 event.consume();
@@ -333,19 +450,31 @@ public class EditCardFeature extends AbstractFeature {
 
         final var attachmentsDisposable = viewModel.getAttachments()
                 .observeOn(JavaFxScheduler.platform())
-                .subscribe(attachments -> this.attachments.getItems().setAll(attachments));
+                .subscribe(list -> {
+                    if (!list.equals(attachments.getItems())) {
+                        attachments.getItems().setAll(list);
+                    }
+                });
 
         addDisposable(attachmentsDisposable);
 
         final var commentsDisposable = viewModel.getComments()
                 .observeOn(JavaFxScheduler.platform())
-                .subscribe(comments -> this.comments.getItems().setAll(comments));
+                .subscribe(list -> {
+                    if (!list.equals(comments.getItems())) {
+                        comments.getItems().setAll(list);
+                    }
+                });
 
         addDisposable(commentsDisposable);
 
         final var activitiesDisposable = viewModel.getActivities()
                 .observeOn(JavaFxScheduler.platform())
-                .subscribe(activities -> this.activities.getItems().setAll(activities));
+                .subscribe(list -> {
+                    if (!list.equals(activities.getItems())) {
+                        activities.getItems().setAll(list);
+                    }
+                });
 
         addDisposable(activitiesDisposable);
 

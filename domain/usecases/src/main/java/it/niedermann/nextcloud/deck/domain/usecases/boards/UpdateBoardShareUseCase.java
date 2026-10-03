@@ -16,7 +16,7 @@ public class UpdateBoardShareUseCase {
         this.shareRepository = shareRepository;
     }
 
-    public CompletableFuture<Void> execute(Board.ID boardId, User.ID userId, Board.Permissions permissions) {
+    public CompletableFuture<Void> execute(Board.ID boardId, User.RemoteID userId, Board.Permissions permissions) {
         return shareRepository.updateShare(boardId, userId, permissions);
     }
 }

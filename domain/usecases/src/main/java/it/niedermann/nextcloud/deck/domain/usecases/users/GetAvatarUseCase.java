@@ -26,14 +26,31 @@ public class GetAvatarUseCase {
         this.accountRepository = accountRepository;
     }
 
+    public CompletableFuture<Avatar> execute(Account account, User.RemoteID remoteId, int sizeInPx) {
+        if (account == null || remoteId == null) {
+            final var result = new CompletableFuture<Avatar>();
+            result.completeExceptionally(new IllegalArgumentException("Account and User.RemoteID must not be null"));
+            return result;
+        }
+        final var key = new CacheKey(account.id(), remoteId, sizeInPx);
+        return cache.computeIfAbsent(key, k -> userRepository.getAvatar(account, remoteId, sizeInPx));
+    }
+
     public CompletableFuture<Avatar> execute(Account account, User.ID userId, int sizeInPx) {
         if (account == null || userId == null) {
             final var result = new CompletableFuture<Avatar>();
             result.completeExceptionally(new IllegalArgumentException("Account and User.ID must not be null"));
             return result;
         }
-        final var key = new CacheKey(account.id(), userId, sizeInPx);
-        return cache.computeIfAbsent(key, k -> userRepository.getAvatar(account, userId, sizeInPx));
+        return userRepository.getRemoteIdByUserId(userId)
+                .thenCompose(remoteId -> {
+                    if (remoteId == null) {
+                        final var f = new CompletableFuture<Avatar>();
+                        f.completeExceptionally(new IllegalArgumentException("User remote ID not found for local ID: " + userId.value()));
+                        return f;
+                    }
+                    return execute(account, remoteId, sizeInPx);
+                });
     }
 
     public CompletableFuture<Avatar> execute(Account account, int sizeInPx) {
@@ -42,7 +59,7 @@ public class GetAvatarUseCase {
             result.completeExceptionally(new IllegalArgumentException("Account must not be null"));
             return result;
         }
-        return execute(account, new User.ID(account.username()), sizeInPx);
+        return execute(account, new User.RemoteID(account.username()), sizeInPx);
     }
 
     public CompletableFuture<Avatar> execute(User.ID userId, int sizeInPx) {
@@ -51,12 +68,9 @@ public class GetAvatarUseCase {
             result.completeExceptionally(new IllegalArgumentException("User.ID must not be null"));
             return result;
         }
-        final var key = new CacheKey(null, userId, sizeInPx);
-        return cache.computeIfAbsent(key, k -> userRepository.getAccountIdByUserId(userId)
-                .thenCompose(accountRepository::getAccountSync)
-                .thenCompose(account -> execute(account, userId, sizeInPx)));
+        return userRepository.getAvatar(userId, sizeInPx);
     }
 
-    private record CacheKey(Account.ID accountId, User.ID userId, int sizeInPx) {
+    private record CacheKey(Account.ID accountId, User.RemoteID remoteId, int sizeInPx) {
     }
 }

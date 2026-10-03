@@ -13,15 +13,16 @@ public interface UserMapper extends GenericMapper<UserEntity, User> {
     UserMapper INSTANCE = Mappers.getMapper(UserMapper.class);
 
     @Override
+    @Mapping(target = "localId", source = "id")
+    @Mapping(target = "remoteId", source = "remoteId")
     @Mapping(target = "accountId", source = "accountId")
-    @Mapping(target = "remoteId", source = "id")
     @Mapping(target = "etag", ignore = true)
-    @Mapping(target = "localId", ignore = true)
     UserEntity toEntity(User user);
 
     @Override
     @Mapping(target = "accountId", source = "accountId")
-    @Mapping(target = "id", expression = "java(new it.niedermann.nextcloud.deck.domain.model.User.ID(entity.getRemoteId() != null ? entity.getRemoteId() : \"\"))")
+    @Mapping(target = "id", source = "localId")
+    @Mapping(target = "remoteId", source = "remoteId")
     @Mapping(target = "displayName", expression = "java(commonLocalMapper.mapUserDisplayName(entity.getDisplayName()))")
     @Mapping(target = "status", expression = "java(it.niedermann.nextcloud.deck.domain.model.DBStatus.findById(entity.getStatus()))")
     @Mapping(target = "lastModified", source = "lastModified")

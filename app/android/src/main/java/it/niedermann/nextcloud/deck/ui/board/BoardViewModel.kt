@@ -40,6 +40,7 @@ import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.map
@@ -255,12 +256,16 @@ class BoardViewModel @Inject constructor(
         viewModelScope.launch(Dispatchers.IO) {
             try {
                 val accountId = getCurrentAccountUseCase.execute().await()
-                // Assuming username matches User.ID value for the mock
-                val userId = User.ID("jdoe") 
-                if (assignedToMe) {
-                    unassignCardUseCase.execute(cardId, userId).await()
-                } else {
-                    assignCardUseCase.execute(cardId, userId).await()
+                if (accountId != null) {
+                    val account = FlowAdapters.toPublisher(getAccountUseCase.execute(accountId)).asFlow().firstOrNull()
+                    if (account != null) {
+                        val userId = User.RemoteID(account.username())
+                        if (assignedToMe) {
+                            unassignCardUseCase.execute(cardId, account, userId).await()
+                        } else {
+                            assignCardUseCase.execute(cardId, account, userId).await()
+                        }
+                    }
                 }
             } catch (e: Exception) {
                 withContext(Dispatchers.Main) {

@@ -5,6 +5,7 @@ import java.util.Objects;
 
 public record User(
         User.ID id,
+        User.RemoteID remoteId,
         String displayName,
         Account.ID accountId,
         DBStatus status,
@@ -12,7 +13,11 @@ public record User(
 ) {
 
     public User(User.ID id, String displayName) {
-        this(id, displayName, null, DBStatus.UP_TO_DATE, OffsetDateTime.now());
+        this(id, null, displayName, null, DBStatus.UP_TO_DATE, OffsetDateTime.now());
+    }
+
+    public User(User.ID id, User.RemoteID remoteId, String displayName) {
+        this(id, remoteId, displayName, null, DBStatus.UP_TO_DATE, OffsetDateTime.now());
     }
 
     public User {
@@ -21,8 +26,11 @@ public record User(
         Objects.requireNonNull(status);
     }
 
-    public record ID(String value) {
-        public ID {
+    public record ID(long value) {
+    }
+
+    public record RemoteID(String value) {
+        public RemoteID {
             Objects.requireNonNull(value);
         }
     }

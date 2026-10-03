@@ -1,12 +1,8 @@
 package it.niedermann.nextcloud.deck.cli.commands.card.subcommands;
 
-import io.reactivex.rxjava4.core.Flowable;
-import it.niedermann.nextcloud.deck.app.shared.args.card.CardArgResolver;
-import it.niedermann.nextcloud.deck.domain.model.Card;
-import it.niedermann.nextcloud.deck.domain.model.Color;
-import it.niedermann.nextcloud.deck.domain.model.Column;
-import it.niedermann.nextcloud.deck.domain.model.DBStatus;
-import it.niedermann.nextcloud.deck.domain.repository.CardRepository;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.Mockito.when;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -17,8 +13,11 @@ import java.time.OffsetDateTime;
 import java.util.List;
 import java.util.Set;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.Mockito.when;
+import io.reactivex.rxjava4.core.Flowable;
+import it.niedermann.nextcloud.deck.app.shared.args.card.CardArgResolver;
+import it.niedermann.nextcloud.deck.domain.model.Card;
+import it.niedermann.nextcloud.deck.domain.model.Column;
+import it.niedermann.nextcloud.deck.domain.repository.CardRepository;
 
 class CardGetCmdTest {
 
@@ -52,17 +51,10 @@ class CardGetCmdTest {
                 Set.of(),
                 Set.of(),
                 List.of(),
-                null,
-                null,
-                null,
-                new Color(0, 0, 0),
                 false,
                 false,
                 0,
-                0,
-                DBStatus.UP_TO_DATE,
-                OffsetDateTime.now(),
-                null
+                0
         );
         cardGetCmd.localId = 3L;
 

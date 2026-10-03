@@ -18,4 +18,12 @@ public class UpdateCardUseCase {
     public CompletableFuture<Void> execute(Card card) {
         return cardRepository.updateCard(card);
     }
+
+    public CompletableFuture<Void> markAsDone(Card.ID cardId) {
+        return cardRepository.markAsDone(cardId);
+    }
+
+    public CompletableFuture<Void> markAsUndone(Card.ID cardId) {
+        return cardRepository.markAsUndone(cardId);
+    }
 }

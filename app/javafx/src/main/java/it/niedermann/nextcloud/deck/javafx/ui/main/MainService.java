@@ -407,8 +407,7 @@ public class MainService extends Store<MainService.State, MainService.Action> im
                 .firstElement()
                 .flatMap(state -> Maybe.fromOptional(state.accountId()))
                 .flatMap(accountId -> Flowable.fromPublisher(getAccountUseCase.execute(accountId)).firstElement())
-                .map(account -> new User.ID(account.username()))
-                .subscribe(userId -> assignCardUseCase.execute(cardId, userId)
+                .subscribe(account -> assignCardUseCase.execute(cardId, account, new User.RemoteID(account.username()))
                         .exceptionally(throwable -> {
                             logger.log(Level.SEVERE, "Failed to assign card", throwable);
                             return null;
@@ -423,8 +422,7 @@ public class MainService extends Store<MainService.State, MainService.Action> im
                 .firstElement()
                 .flatMap(state -> Maybe.fromOptional(state.accountId()))
                 .flatMap(accountId -> Flowable.fromPublisher(getAccountUseCase.execute(accountId)).firstElement())
-                .map(account -> new User.ID(account.username()))
-                .subscribe(userId -> unassignCardUseCase.execute(cardId, userId)
+                .subscribe(account -> unassignCardUseCase.execute(cardId, account, new User.RemoteID(account.username()))
                         .exceptionally(throwable -> {
                             logger.log(Level.SEVERE, "Failed to unassign card", throwable);
                             return null;

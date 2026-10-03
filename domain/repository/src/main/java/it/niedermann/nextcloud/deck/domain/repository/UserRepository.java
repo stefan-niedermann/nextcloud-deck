@@ -11,7 +11,7 @@ import it.niedermann.nextcloud.deck.domain.model.User;
 
 public interface UserRepository {
 
-    CompletableFuture<Avatar> getAvatar(Account account, User.ID userId, int sizeInPx);
+    CompletableFuture<Avatar> getAvatar(Account account, User.RemoteID remoteId, int sizeInPx);
 
     CompletableFuture<Avatar> getAvatar(Account account, int sizeInPx);
 
@@ -24,6 +24,10 @@ public interface UserRepository {
     Flow.Publisher<User> getUserByAccountId(Account.ID accountId);
 
     CompletableFuture<Account.ID> getAccountIdByUserId(User.ID userId);
+
+    CompletableFuture<User.RemoteID> getRemoteIdByUserId(User.ID userId);
+
+    CompletableFuture<User.ID> getUserId(Account account, User.RemoteID remoteId);
 
     Flow.Publisher<Collection<User>> find(String userText);
 }

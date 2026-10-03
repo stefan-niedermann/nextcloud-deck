@@ -453,7 +453,7 @@ fun AssigneeSelector(
                     ) {
                         UserAvatar(account = account, userId = userId, size = 24.dp)
                         Spacer(Modifier.width(8.dp))
-                        Text(userId.value(), style = MaterialTheme.typography.labelMedium)
+                        Text(userId.value().toString(), style = MaterialTheme.typography.labelMedium)
                         Spacer(Modifier.width(4.dp))
                         Icon(Icons.Outlined.Close, contentDescription = "Remove", Modifier.size(14.dp))
                     }
@@ -755,7 +755,7 @@ fun CommentItem(
             headlineContent = {
                 Row(verticalAlignment = Alignment.CenterVertically) {
                     Text(
-                        text = comment.author().value(),
+                        text = comment.author().value().toString(),
                         style = MaterialTheme.typography.labelLarge,
                         modifier = Modifier.weight(1f)
                     )

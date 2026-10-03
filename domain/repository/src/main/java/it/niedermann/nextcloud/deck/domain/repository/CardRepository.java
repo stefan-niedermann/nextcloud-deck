@@ -36,7 +36,11 @@ public interface CardRepository {
 
     Flow.Publisher<Boolean> cardExists(Card.ID cardId);
 
-    Flow.Publisher<Collection<Card>> find(String userText);
+    Flow.Publisher<Collection<Card>> find(String userText, Card.ID excludeId);
 
-    Flow.Publisher<Collection<Card>> find(Board.ID boardId, String userText);
+    Flow.Publisher<Collection<Card>> find(Board.ID boardId, String userText, Card.ID excludeId);
+
+    CompletableFuture<Void> markAsDone(Card.ID cardId);
+
+    CompletableFuture<Void> markAsUndone(Card.ID cardId);
 }

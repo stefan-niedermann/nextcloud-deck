@@ -1,5 +1,9 @@
 package it.niedermann.nextcloud.deck.cli.commands.board.subcommands.share;
 
+import java.util.concurrent.Callable;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 import io.reactivex.rxjava4.core.Maybe;
 import it.niedermann.nextcloud.deck.app.shared.args.board.BoardArgResolver;
 import it.niedermann.nextcloud.deck.app.shared.args.board.BoardRawArgs;
@@ -9,10 +13,6 @@ import it.niedermann.nextcloud.deck.domain.usecases.boards.UpdateBoardShareUseCa
 import jakarta.inject.Inject;
 import picocli.CommandLine.Command;
 import picocli.CommandLine.Option;
-
-import java.util.concurrent.Callable;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 @Command(name = "update",
         mixinStandardHelpOptions = true,
@@ -70,15 +70,13 @@ public class ShareUpdateCmd implements Callable<Integer> {
                 finalBoardId = parsedArgs.boardId();
             }
 
-            // NOTE: We don't have a way to fetch the current share permissions easily without listing all shares.
-            // For simplicity, we assume default values if not provided.
             final var permissions = new Board.Permissions(
                     read != null ? read : true,
                     edit != null ? edit : false,
                     manage != null ? manage : false,
                     share != null ? share : false
             );
-            updateBoardShareUseCase.execute(finalBoardId, new User.ID(userId), permissions).join();
+            updateBoardShareUseCase.execute(finalBoardId, new User.RemoteID(userId), permissions).join();
 
             System.out.println("Share updated.");
 

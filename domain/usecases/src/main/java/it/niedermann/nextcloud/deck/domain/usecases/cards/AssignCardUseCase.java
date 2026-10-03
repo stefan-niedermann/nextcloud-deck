@@ -5,20 +5,25 @@ import org.reactivestreams.FlowAdapters;
 import java.util.concurrent.CompletableFuture;
 
 import io.reactivex.rxjava3.core.Maybe;
+import it.niedermann.nextcloud.deck.domain.model.Account;
 import it.niedermann.nextcloud.deck.domain.model.Card;
 import it.niedermann.nextcloud.deck.domain.model.User;
 import it.niedermann.nextcloud.deck.domain.repository.CardRepository;
+import it.niedermann.nextcloud.deck.domain.repository.UserRepository;
 import jakarta.inject.Inject;
 
 public class AssignCardUseCase {
 
     private final CardRepository cardRepository;
+    private final UserRepository userRepository;
 
     @Inject
     public AssignCardUseCase(
-            CardRepository cardRepository
+            CardRepository cardRepository,
+            UserRepository userRepository
     ) {
         this.cardRepository = cardRepository;
+        this.userRepository = userRepository;
     }
 
     public CompletableFuture<Void> execute(Card.ID cardId, User.ID userId) {
@@ -27,5 +32,10 @@ public class AssignCardUseCase {
                 .toCompletableFuture()
                 .thenApplyAsync(card -> card.assign(userId))
                 .thenComposeAsync(cardRepository::updateCard);
+    }
+
+    public CompletableFuture<Void> execute(Card.ID cardId, Account account, User.RemoteID remoteId) {
+        return userRepository.getUserId(account, remoteId)
+                .thenCompose(userId -> execute(cardId, userId));
     }
 }

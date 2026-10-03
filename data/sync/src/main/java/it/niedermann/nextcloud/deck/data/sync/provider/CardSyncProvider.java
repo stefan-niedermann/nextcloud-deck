@@ -534,13 +534,14 @@ public class CardSyncProvider implements SyncProvider<ColumnDTO> {
         }
         return joinCardWithDependentCardDao.deleteByCardId(localCardId)
                 .thenCompose(v -> {
-                    CompletableFuture<?>[] futures = new CompletableFuture[cardDto.getDependentCards().size()];
+                    final List<CompletableFuture<?>> futures = new ArrayList<>();
                     for (int i = 0; i < cardDto.getDependentCards().size(); i++) {
                         var remoteId = cardDto.getDependentCards().get(i);
-                        futures[i] = joinCardWithDependentCardDao.upsert(new JoinCardWithDependentCardEntity(localCardId, remoteId, DBStatus.UP_TO_DATE.getId()))
-                                .thenApply(v3 -> null);
+                        if (!remoteId.equals(cardDto.getId())) {
+                            futures.add(joinCardWithDependentCardDao.upsert(new JoinCardWithDependentCardEntity(localCardId, remoteId, DBStatus.UP_TO_DATE.getId())));
+                        }
                     }
-                    return CompletableFuture.allOf(futures);
+                    return CompletableFuture.allOf(futures.toArray(new CompletableFuture[0]));
                 });
     }
 

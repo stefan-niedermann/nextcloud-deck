@@ -96,7 +96,7 @@ fun AppTopBar(
                                 if (currentAccount != null) {
                                     UserAvatar(
                                         account = currentAccount,
-                                        userId = User.ID(currentAccount.username()),
+                                        userId = User.RemoteID(currentAccount.username()),
                                         size = 30.dp
                                     )
                                 } else {

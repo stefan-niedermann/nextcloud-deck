@@ -29,6 +29,7 @@ public interface CardRemoteMapper extends GenericRemoteMapper<CardDTO, Card> {
     @Mapping(target = "attachmentCount", source = "attachmentCount")
     @Mapping(target = "startdate", source = "startDate")
     @Mapping(target = "color", source = "color")
+    @Mapping(target = "done", source = "done")
     @Mapping(target = "dependentCards", source = "dependents")
     CardDTO toDTO(Card card);
 
@@ -37,6 +38,7 @@ public interface CardRemoteMapper extends GenericRemoteMapper<CardDTO, Card> {
     @Mapping(target = "description", expression = "java(card.description() != null && !card.description().isEmpty() ? card.description() : null)")
     @Mapping(target = "duedate", source = "dueDate")
     @Mapping(target = "startdate", source = "startDate")
+    @Mapping(target = "done", source = "done")
     @Mapping(target = "color", source = "color")
     @Mapping(target = "owner", source = "ownerId")
     @Mapping(target = "archived", source = "archived")
@@ -61,6 +63,7 @@ public interface CardRemoteMapper extends GenericRemoteMapper<CardDTO, Card> {
     @Mapping(target = "dueDate", source = "duedate")
     @Mapping(target = "attachmentCount", source = "attachmentCount")
     @Mapping(target = "etag", source = "etag")
+    @Mapping(target = "done", source = "done")
     @Mapping(target = "notified", ignore = true)
     @Mapping(target = "with", ignore = true)
     @Mapping(target = "withId", ignore = true)
@@ -90,13 +93,7 @@ public interface CardRemoteMapper extends GenericRemoteMapper<CardDTO, Card> {
     Card toTO(CardDTO cardDTO);
 
     default java.util.Set<it.niedermann.nextcloud.deck.domain.model.User.ID> mapAssignees(java.util.List<it.niedermann.nextcloud.remote.deck.dto.AccessControlDTO> assignedUsers) {
-        if (assignedUsers == null) {
-            return java.util.Collections.emptySet();
-        }
-        return assignedUsers.stream()
-                .filter(ac -> ac.getParticipant() != null && ac.getParticipant().getUid() != null)
-                .map(ac -> new it.niedermann.nextcloud.deck.domain.model.User.ID(ac.getParticipant().getUid()))
-                .collect(java.util.stream.Collectors.toSet());
+        return java.util.Collections.emptySet();
     }
 
     default OffsetDateTime mapTimestamp(Long timestamp) {
@@ -107,9 +104,6 @@ public interface CardRemoteMapper extends GenericRemoteMapper<CardDTO, Card> {
     }
 
     default it.niedermann.nextcloud.deck.domain.model.User.ID mapOwner(it.niedermann.nextcloud.remote.deck.dto.UserDTO owner) {
-        if (owner == null || owner.getUid() == null) {
-            return null;
-        }
-        return new it.niedermann.nextcloud.deck.domain.model.User.ID(owner.getUid());
+        return null;
     }
 }

@@ -20,7 +20,7 @@ public class UserSearchViewConverter extends StringConverter<User> {
         }
 
         if (user.displayName().isBlank()) {
-            return user.id().value();
+            return user.remoteId() != null ? user.remoteId().value() : "";
         }
 
         return user.displayName();

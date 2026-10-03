@@ -182,17 +182,17 @@ public class EditBoardService extends Store<EditBoardService.State, EditBoardSer
 
     @Override
     public void onAddShare(User user) {
-        addBoardShareUseCase.execute(initialState.boardId(), user.id(), new Board.Permissions(true, false, false, false));
+        addBoardShareUseCase.execute(initialState.boardId(), user.remoteId(), new Board.Permissions(true, false, false, false));
     }
 
     @Override
     public void onRemoveShare(BoardShare share) {
-        removeBoardShareUseCase.execute(initialState.boardId(), share.user().id());
+        removeBoardShareUseCase.execute(initialState.boardId(), share.user().remoteId());
     }
 
     @Override
     public void onUpdateShare(BoardShare share, Board.Permissions permissions) {
-        updateBoardShareUseCase.execute(initialState.boardId(), share.user().id(), permissions);
+        updateBoardShareUseCase.execute(initialState.boardId(), share.user().remoteId(), permissions);
     }
 
     public record State(Account.ID accountId, Board.ID boardId) {

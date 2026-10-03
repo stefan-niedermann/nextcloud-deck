@@ -808,7 +808,7 @@ fun CardItem(
                 if (card.assignedToMe() && currentAccount != null) {
                     UserAvatar(
                         account = currentAccount,
-                        userId = User.ID(currentAccount.username()),
+                        userId = User.RemoteID(currentAccount.username()),
                         size = 24.dp
                     )
                 } else if (card.assigneeCount() > 0) {

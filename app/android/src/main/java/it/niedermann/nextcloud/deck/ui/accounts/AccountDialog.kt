@@ -86,7 +86,7 @@ fun AccountItem(
         leadingContent = {
             UserAvatar(
                 account = account,
-                userId = User.ID(account.username()),
+                userId = User.RemoteID(account.username()),
                 size = 40.dp
             )
         },

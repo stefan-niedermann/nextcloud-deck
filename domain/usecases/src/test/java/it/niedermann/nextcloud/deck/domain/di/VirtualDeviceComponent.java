@@ -2,6 +2,7 @@ package it.niedermann.nextcloud.deck.domain.di;
 
 import dagger.BindsInstance;
 import dagger.Subcomponent;
+import it.niedermann.nextcloud.deck.domain.repository.UserRepository;
 import it.niedermann.nextcloud.deck.domain.usecases.accounts.GetAccountUseCase;
 import it.niedermann.nextcloud.deck.domain.usecases.accounts.GetAccountsUseCase;
 import it.niedermann.nextcloud.deck.domain.usecases.accounts.HasAccountsUseCase;
@@ -176,4 +177,6 @@ public interface VirtualDeviceComponent {
     ListUsersUseCase getListUsersUseCase();
 
     SearchUserUseCase getSearchUserUseCase();
+
+    UserRepository getUserRepository();
 }

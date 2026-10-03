@@ -43,10 +43,10 @@ public interface MockData {
     };
 
     User[] MOCK_USERS = new User[]{
-            new User(new User.ID("jdoe"), "John Doe"),
-            new User(new User.ID("smith"), "MR. Smith"),
-            new User(new User.ID("admin"), "Administrator"),
-            new User(new User.ID("guest"), "Guest User")
+            new User(new User.ID(1L), new User.RemoteID("jdoe"), "John Doe"),
+            new User(new User.ID(2L), new User.RemoteID("smith"), "MR. Smith"),
+            new User(new User.ID(3L), new User.RemoteID("admin"), "Administrator"),
+            new User(new User.ID(4L), new User.RemoteID("guest"), "Guest User")
     };
 
     Board[] MOCK_BOARDS = new Board[]{
@@ -121,20 +121,20 @@ public interface MockData {
             // Specific cards
             Stream.of(
                     card(2101, 21, 1, "Legacy Feature X", "This card was archived.", Set.of(), Set.of()),
-                    card(3101, 31, 1, "New Feature Request", "Implement dark mode in all apps.", Set.of(), Set.of(new User.ID("jdoe"))),
-                    card(4101, 41, 1, "Permissions Check", "Ensure only managers can see this.", Set.of(), Set.of(new User.ID("smith")))
+                    card(3101, 31, 1, "New Feature Request", "Implement dark mode in all apps.", Set.of(), Set.of(new User.ID(1L))),
+                    card(4101, 41, 1, "Permissions Check", "Ensure only managers can see this.", Set.of(), Set.of(new User.ID(2L)))
             )
     ).flatMap(s -> s).collect(Collectors.toList());
 
     Comment[] MOCK_COMMENTS = new Comment[]{
-            comment(1, 11100, "jdoe", "I've started working on this task."),
-            comment(2, 11100, "smith", "Great, let me know if you need help!"),
-            comment(3, 66100, "admin", "Critical bug report, please investigate ASAP.")
+            comment(1, 11100, 1L, "I've started working on this task."),
+            comment(2, 11100, 2L, "Great, let me know if you need help!"),
+            comment(3, 66100, 3L, "Critical bug report, please investigate ASAP.")
     };
 
     Attachment[] MOCK_ATTACHMENTS = new Attachment[]{
-            new Attachment(new Attachment.ID(1), "Architecture_v1.png", OffsetDateTime.now(), new User.ID("jdoe"), new Attachment.FileSize(1024 * 512), "image/png"),
-            new Attachment(new Attachment.ID(2), "Logs.txt", OffsetDateTime.now(), new User.ID("admin"), new Attachment.FileSize(2048), "text/plain")
+            new Attachment(new Attachment.ID(1), "Architecture_v1.png", OffsetDateTime.now(), new User.ID(1L), new Attachment.FileSize(1024 * 512), "image/png"),
+            new Attachment(new Attachment.ID(2), "Logs.txt", OffsetDateTime.now(), new User.ID(3L), new Attachment.FileSize(2048), "text/plain")
     };
 
     // Helper methods for cleaner initialization
@@ -160,7 +160,7 @@ public interface MockData {
                 title,
                 description,
                 "text",
-                assignees.stream().findFirst().orElse(new User.ID("jdoe")),
+                assignees.stream().findFirst().orElse(new User.ID(1L)),
                 labels,
                 assignees,
                 Collections.emptyList(),
@@ -171,7 +171,7 @@ public interface MockData {
         );
     }
 
-    static Comment comment(long id, long cardId, String userId, String text) {
+    static Comment comment(long id, long cardId, long userId, String text) {
         return new Comment(new Comment.ID(id), new Card.ID(cardId), new User.ID(userId), OffsetDateTime.now(), text);
     }
 
@@ -185,9 +185,9 @@ public interface MockData {
                     "- [ ] Subtask C";
 
             final Set<Label.ID> labels = (i % 2 == 0) ? Set.of(new Label.ID(boardId * 100 + (i % 3 + 1))) : Collections.emptySet();
-            User.ID jdoe = new User.ID("jdoe");
+            User.ID jdoe = new User.ID(1L);
             final Set<User.ID> assignees = (i % 5 == 0) ? Set.of(jdoe) :
-                                    (i % 5 == 1) ? Set.of(new User.ID("smith")) :
+                                    (i % 5 == 1) ? Set.of(new User.ID(2L)) :
                                     Collections.emptySet();
 
             return new Card(

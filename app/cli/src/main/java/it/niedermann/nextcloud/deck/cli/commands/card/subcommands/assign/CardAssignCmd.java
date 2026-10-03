@@ -1,18 +1,21 @@
 package it.niedermann.nextcloud.deck.cli.commands.card.subcommands.assign;
 
+import java.util.concurrent.Callable;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
+import io.reactivex.rxjava4.core.Flowable;
 import io.reactivex.rxjava4.core.Maybe;
 import it.niedermann.nextcloud.deck.app.shared.args.card.CardArgResolver;
 import it.niedermann.nextcloud.deck.app.shared.args.card.CardRawArgs;
 import it.niedermann.nextcloud.deck.domain.model.Card;
 import it.niedermann.nextcloud.deck.domain.model.User;
+import it.niedermann.nextcloud.deck.domain.usecases.accounts.GetAccountUseCase;
 import it.niedermann.nextcloud.deck.domain.usecases.cards.AssignCardUseCase;
+import it.niedermann.nextcloud.deck.domain.usecases.state.GetCurrentAccountUseCase;
 import jakarta.inject.Inject;
 import picocli.CommandLine.Command;
 import picocli.CommandLine.Option;
-
-import java.util.concurrent.Callable;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 @Command(name = "assign",
         mixinStandardHelpOptions = true,
@@ -36,6 +39,12 @@ public class CardAssignCmd implements Callable<Integer> {
     @Inject
     AssignCardUseCase assignCardUseCase;
 
+    @Inject
+    GetCurrentAccountUseCase getCurrentAccountUseCase;
+
+    @Inject
+    GetAccountUseCase getAccountUseCase;
+
     @Override
     public Integer call() {
         try {
@@ -49,7 +58,10 @@ public class CardAssignCmd implements Callable<Integer> {
                 return 2;
             }
 
-            assignCardUseCase.execute(finalCardId, new User.ID(userId)).join();
+            final var accountId = getCurrentAccountUseCase.execute().join();
+            final var account = Flowable.fromPublisher(getAccountUseCase.execute(accountId)).firstElement().blockingGet();
+
+            assignCardUseCase.execute(finalCardId, account, new User.RemoteID(userId)).join();
             System.out.println("User assigned.");
 
             return 0;
