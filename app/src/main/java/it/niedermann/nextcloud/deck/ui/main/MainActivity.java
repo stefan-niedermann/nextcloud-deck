@@ -7,6 +7,8 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
+
+import java.time.Instant;
 import android.net.ConnectivityManager;
 import android.net.Network;
 import android.net.NetworkRequest;
@@ -1014,6 +1016,24 @@ public class MainActivity extends AppCompatActivity implements DeleteStackListen
             @Override
             public void onResponse(FullCard response, Headers headers) {
                 DeckLog.info("Successfully archived", Card.class.getSimpleName(), fullCard.getCard().getTitle());
+            }
+
+            @Override
+            public void onError(Throwable throwable) {
+                IResponseCallback.super.onError(throwable);
+                showExceptionDialog(throwable, fullCard.getAccountId());
+            }
+        });
+    }
+
+    @Override
+    public void onToggleDone(@NonNull FullCard fullCard) {
+        final var card = fullCard.getCard();
+        card.setDone(card.getDone() == null ? Instant.now() : null);
+        mainViewModel.updateCard(fullCard, new IResponseCallback<>() {
+            @Override
+            public void onResponse(FullCard response, Headers headers) {
+                DeckLog.info("Successfully updated done state for card", card.getTitle());
             }
 
             @Override

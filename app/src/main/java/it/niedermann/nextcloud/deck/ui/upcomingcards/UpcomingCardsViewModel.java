@@ -50,6 +50,18 @@ public class UpcomingCardsViewModel extends BaseViewModel {
         });
     }
 
+    public void updateCard(@NonNull FullCard card, @NonNull IResponseCallback<FullCard> callback) {
+        executor.submit(() -> {
+            final var account = baseRepository.readAccountDirectly(card.getAccountId());
+            try {
+                final var syncManager = new SyncRepository(getApplication(), account);
+                syncManager.updateCard(card, callback);
+            } catch (NextcloudFilesAppAccountNotFoundException e) {
+                callback.onError(e);
+            }
+        });
+    }
+
     public void deleteCard(@NonNull Card card, @NonNull IResponseCallback<EmptyResponse> callback) {
         executor.submit(() -> {
             final var account = baseRepository.readAccountDirectly(card.getAccountId());

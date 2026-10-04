@@ -22,6 +22,10 @@
         android:title="@string/action_card_move"
         app:showAsAction="never" />
     <item
+        android:id="@+id/action_card_done"
+        android:title="@string/mark_as_done"
+        app:showAsAction="never" />
+    <item
         android:id="@+id/action_card_archive"
         android:title="@string/action_card_archive"
         app:showAsAction="never" />
