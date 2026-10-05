@@ -88,8 +88,10 @@
     <string name="add_board">Tilføj liste</string>
 
     <string name="label_clear_due_date">Ryd forfaldsdato</string>
+    <string name="label_clear_start_date">Ryd startdato</string>
     <string name="label_clear_done">Ikke færdig</string>
     <string name="label_due_at">Forfalden: %1$s</string>
+    <string name="label_start_at">Start: %1$s</string>
     <string name="label_add">Tilføj %1$s</string>
 
     <string name="card_edit_details">Detaljer</string>
@@ -209,7 +211,9 @@
     <string name="error_edit_activity_killed_by_android">Android afsluttede redigeringstilstanden fordi det behøvede flere systemressourcer til andre apps.</string>
 
     <string name="error_dialog_title">Åh nej - hvad nu? 🙁</string>
+    <string name="error_dialog_tip_parsing_failed">Serverens svar kunne ikke fortolkes som forventet. Sørg for, at Deck-appen er aktiveret på din Nextcloud-server.</string>
     <string name="error_dialog_tip_token_mismatch_retry">Forsøg venligst at tvinge app\'en til at lukke og start den påny igen. Der kan have været en ukorrekt forbindelse til Nextcloud-app\'en.</string>
+    <string name="error_dialog_tip_clear_storage_might_help">Hvis problemet fortsætter, kan du prøve at rydde lagerpladsen for begge apps, Nextcloud og Nextcloud Deck, og importere din konto igen.</string>
     <string name="error_dialog_tip_database_upgrade_failed">Opgraderingen af databasen mislykkedes. Rapporter venligst problemet og ryd lageret for at bruge appen normalt.</string>
     <string name="error_dialog_tip_clear_storage">Du kan rydde lageret ved at åbne appoplysningerne og vælge Lager → Ryd lager.</string>
     <string name="error_dialog_tip_offline_no_internet">Det ser ud til at du forsøgte at udløse en synkronisering uden en internetforbindelse.</string>
@@ -226,6 +230,7 @@
     <string name="error_dialog_check_maintenance">Sørg venligst for at din Nextcloud-instans ikke er i vedligeholdelsestilstand. </string>
     <string name="error_dialog_insufficient_storage">Din Nextcloud-instans har ikke mere ledig lagerplads. Slet venligst nogle filer for at synkronisere dine lokale ændringer ind i skyen.</string>
     <string name="error_dialog_we_need_info">Vi har brug for følgende tekniske information for at hjælpe dig:</string>
+    <string name="error_dialog_redirect">Din server svarede med HTTP-statuskoden 302. Det betyder, at Deck-appen ikke er installeret på serveren, eller at noget er konfigureret forkert. Det kan skyldes brugerdefinerede tilsidesættelser i en .htaccess-fil eller Nextcloud-apps som OID Client.</string>
     <string name="error_dialog_version_not_parsable">Vi kunne ikke bestemme versionen af server-side Opslags app\'en. Vær venligst sikker på at den er installeret og aktiveret.</string>
     <string name="error_dialog_account_might_not_be_authorized">Kontoen for din Nextcloud app er måske ikke længere autoriseret.</string>
     <string name="error_dialog_user_not_found_in_database">Den aktuelle bruger matcher ikke brugeren som vi har i vores database. Hvis du anvender LDAP på din Nextcloud instans, så har din Nextcloud app måske gemt et gammelt bruger ID.</string>
@@ -333,9 +338,40 @@
     <string name="enter_search_term_description">Angiv søgeterm for at finde kort til denne tavle</string>
     <string name="no_search_results_title">Ingen søgeresultater</string>
     <string name="no_search_results_description">Vi har ikke fundet nogle resultater for den givne søgeterm</string>
+    <string name="label_no_startdate">Ingen startdato</string>
+    <string name="label_dependent_cards">Afhængige kort</string>
     <string name="label_color">Farve</string>
+    <string name="label_clear_color">Ryd farve</string>
     <string name="choose_color">Vælg farve</string>
 
+    <string name="settings_recovery_title">Nødgendannelse</string>
+    <string name="recovery_deck_server_title">Gendan Deck-serveren</string>
+    <string name="recovery_deck_android_title">Gendan Deck Android</string>
+    <string name="settings_restore_server_summary">⚠️ FARE: Overskriver data på serveren med de data, der findes lokalt. De lokale data er kun en del af de tilgængelige oplysninger og mangler vedhæftede filer, aktiviteter m.m. Kræver ny godkendelse og genstart af appen.</string>
+    <string name="restore_warning_title">⚠️ FARE: Overskriv data på serveren</string>
     <string name="simple_restore">Gendan</string>
     <string name="simple_apply">Anvend</string>
-    </resources>
+    <string name="backup_restore_warning">Jeg accepterer, at det alene er mit ansvar at sikkerhedskopiere mine data regelmæssigt. Værktøjerne nedenfor giver kun begrænsede muligheder for nødgendannelse og kan ikke betragtes som en egentlig løsning til sikkerhedskopiering. Jeg forstår, at de kun bør bruges, når supporten anbefaler det.</string>
+
+    <string name="settings_create_local_backup">Opret øjebliksbillede</string>
+    <string name="settings_create_local_backup_summary">Opretter et øjebliksbillede af den lokale database. Det er ikke en sikkerhedskopi, og det mangler oplysninger, der kun findes på din server.</string>
+
+    <string name="settings_restore_local_backup">Anvend øjebliksbillede</string>
+    <string name="settings_restore_local_backup_summary">Erstatter databasen i Deck Android med det seneste øjebliksbillede og genstarter appen.</string>
+    <string name="restore_local_backup_warning_title">⚠️ Bemærk!</string>
+    <string name="restore_local_backup_warning_message">Ændringer, der endnu ikke er synkroniseret, går tabt og kan ikke gendannes. Sørg for at notere dine lokale ændringer.</string>
+
+    <string name="restore_local_backup_success">Databasen er gendannet. Appen genstarter nu.</string>
+    <string name="restore_local_backup_failed">Databasen kunne ikke gendannes.</string>
+
+    <string name="create_local_backup_success">Øjebliksbilledet er oprettet.</string>
+    <string name="create_local_backup_failed">Øjebliksbilledet kunne ikke oprettes.</string>
+
+    <string name="settings_export_database">Eksportér øjebliksbillede</string>
+    <string name="settings_export_database_summary">Kopierer det seneste øjebliksbillede med SQLite-databasefilen fra Deck Android til et sted, du vælger. Det indeholder ikke alle oplysninger og er ikke en egentlig løsning til sikkerhedskopiering.</string>
+    <string name="export_database_failed">Eksporten mislykkedes.</string>
+    <string name="export_database_success">Øjebliksbilledet er eksporteret.</string>
+
+    <string name="restore_warning_message">Dette overskriver alle data på serveren for denne konto med din lokale, ufuldstændige kopi og genstarter appen Deck Android.\n\nKrav:\n- Brugerkontoen findes på serveren\n- Alle brugere, som tavlerne er delt med, skal findes på serveren\n- Du er logget korrekt ind i appen Nextcloud Files\n\nVedhæftede filer, aktiviteter m.m.:\nIkke alle vedhæftede filer er nødvendigvis tilgængelige lokalt, og de kan derfor ikke uploades til den nye server. Aktiviteter oprettes normalt kun af Deck på serveren. Disse og andre oplysninger kan mangle efter gendannelsen.\n\nBrugere, der skal findes på serveren:\n%1$s</string>
+    <string name="restore_backup_failed">Sikkerhedskopiering af databasen mislykkedes. Gendannelsen blev annulleret.</string>
+</resources>
