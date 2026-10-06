@@ -44,6 +44,7 @@ public interface BoardRemoteMapper extends GenericRemoteMapper<BoardDTO, Board> 
     @Mapping(target = "title", expression = "java(boardDTO.getTitle() != null ? boardDTO.getTitle() : \"Untitled\")")
     @Mapping(target = "archived", source = "archived")
     @Mapping(target = "etag", source = "etag")
+    @Mapping(target = "editedBy", expression = "java(boardDTO.getOwner() != null && boardDTO.getOwner().getUid() != null ? new it.niedermann.nextcloud.deck.domain.model.User.RemoteID(boardDTO.getOwner().getUid()) : null)")
     Board toTO(BoardDTO boardDTO);
 
     @Mapping(target = "permissionRead", source = "permissionRead")

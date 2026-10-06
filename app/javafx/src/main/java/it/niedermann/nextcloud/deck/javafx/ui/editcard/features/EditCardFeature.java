@@ -141,8 +141,8 @@ public class EditCardFeature extends AbstractFeature {
     @FXML
     ListView<Card> dependentCardsList;
 
-    private final List<it.niedermann.nextcloud.deck.domain.model.Label> allBoardLabels = new ArrayList<>();
-    private final List<User> allBoardUsers = new ArrayList<>();
+    private final Flowable<List<it.niedermann.nextcloud.deck.domain.model.Label>> allBoardLabels;
+    private final Flowable<List<User>> allBoardUsers;
     private Card card;
     private final Flowable<Board.Permissions> permissions;
     private final ObservableList<Card> localDependentCards = FXCollections.observableArrayList();
@@ -187,6 +187,8 @@ public class EditCardFeature extends AbstractFeature {
         this.viewModel = viewModel;
 
         this.permissions = viewModel.getPermissions();
+        this.allBoardLabels = viewModel.getBoardLabels();
+        this.allBoardUsers = viewModel.getBoardUsers();
     }
 
     @AssistedFactory
@@ -315,47 +317,40 @@ public class EditCardFeature extends AbstractFeature {
             cardSuggestionProvider.setBoardId(board.id());
         }));
 
-        addDisposable(viewModel.getBoardLabels().observeOn(JavaFxScheduler.platform()).subscribe(allLabels -> {
-            this.allBoardLabels.clear();
-            this.allBoardLabels.addAll(allLabels);
-            if (this.card != null) {
-                labels.getTags().setAll(this.card.labels().stream()
-                        .map(id -> allBoardLabels.stream().filter(l -> l.id().value() == id.value()).findFirst())
-                        .filter(Optional::isPresent)
-                        .map(Optional::get)
-                        .collect(Collectors.toList()));
-            }
-        }));
-        addDisposable(viewModel.getBoardUsers().observeOn(JavaFxScheduler.platform()).subscribe(allUsers -> {
-            this.allBoardUsers.clear();
-            this.allBoardUsers.addAll(allUsers);
-            if (this.card != null) {
-                assignees.getTags().setAll(this.card.assignees().stream()
-                        .map(id -> allBoardUsers.stream().filter(u -> u.id().equals(id)).findFirst())
-                        .filter(Optional::isPresent)
-                        .map(Optional::get)
-                        .collect(Collectors.toList()));
-            }
-        }));
-
-        final var cardDisposable = viewModel.getCard()
+        final var cardDisposable = Flowable.combineLatest(
+                viewModel.getCard(),
+                allBoardUsers,
+                allBoardLabels,
+                CardData::new
+        )
                 .observeOn(JavaFxScheduler.platform())
-                .subscribe(card -> {
+                .subscribe(data -> {
+                    final var card = data.card();
+                    final var allBoardUsersList = data.users();
+                    final var allBoardLabelsList = data.labels();
+
                     this.card = card;
                     cardSuggestionProvider.setExcludeId(card.id());
                     if (!Objects.equals(title.getText(), card.title())) {
                         title.setText(card.title());
                     }
+                    final var ownerName = card.ownerId() != null
+                            ? allBoardUsersList.stream()
+                                    .filter(u -> u.id().equals(card.ownerId()))
+                                    .findFirst()
+                                    .map(User::displayName)
+                                    .orElse("")
+                            : "";
                     final var createdAtText = MessageFormat.format(resources.getString("editcard.label.created-at"),
                             card.createdAt().format(DateTimeFormatter.ofLocalizedDateTime(FormatStyle.SHORT)),
-                            "John Doe"
+                            ownerName
                     );
                     if (!Objects.equals(createdAt.getText(), createdAtText)) {
                         createdAt.setText(createdAtText);
                     }
                     final var editedAtText = MessageFormat.format(resources.getString("editcard.label.last-edited"),
                             card.createdAt().format(DateTimeFormatter.ofLocalizedDateTime(FormatStyle.SHORT)),
-                            "John Doe"
+                            ownerName
                     );
                     if (!Objects.equals(editedAt.getText(), editedAtText)) {
                         editedAt.setText(editedAtText);
@@ -365,13 +360,13 @@ public class EditCardFeature extends AbstractFeature {
                     }
 
                     updateTags(labels, card.labels().stream()
-                            .map(id -> allBoardLabels.stream().filter(l -> l.id().value() == id.value()).findFirst())
+                            .map(id -> allBoardLabelsList.stream().filter(l -> l.id().value() == id.value()).findFirst())
                             .filter(Optional::isPresent)
                             .map(Optional::get)
                             .collect(Collectors.toList()));
 
                     updateTags(assignees, card.assignees().stream()
-                            .map(id -> allBoardUsers.stream().filter(u -> u.id().equals(id)).findFirst())
+                            .map(id -> allBoardUsersList.stream().filter(u -> u.id().equals(id)).findFirst())
                             .filter(Optional::isPresent)
                             .map(Optional::get)
                             .collect(Collectors.toList()));
@@ -568,4 +563,6 @@ public class EditCardFeature extends AbstractFeature {
 
         Flowable<Board.Permissions> getPermissions();
     }
+
+    private record CardData(Card card, List<User> users, List<it.niedermann.nextcloud.deck.domain.model.Label> labels) {}
 }

@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "462df89811ba60a6f1ca8e09efb07d60",
+    "identityHash": "70c06dcc9a443c0f66a2e8618b529c38",
     "entities": [
       {
         "tableName": "Account",
@@ -420,7 +420,7 @@
       },
       {
         "tableName": "Board",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`localId` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `accountId` INTEGER NOT NULL, `remoteId` INTEGER, `status` INTEGER NOT NULL, `lastModified` TEXT, `lastModifiedLocal` TEXT, `etag` TEXT, `title` TEXT NOT NULL, `isOwner` INTEGER NOT NULL, `color` INTEGER, `archived` INTEGER NOT NULL, `shared` INTEGER NOT NULL, `deletedAt` TEXT, `permissionRead` INTEGER NOT NULL, `permissionEdit` INTEGER NOT NULL, `permissionManage` INTEGER NOT NULL, `permissionShare` INTEGER NOT NULL, `conflictWithId` INTEGER, FOREIGN KEY(`accountId`) REFERENCES `Account`(`id`) ON UPDATE NO ACTION ON DELETE CASCADE )",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`localId` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `accountId` INTEGER NOT NULL, `remoteId` INTEGER, `status` INTEGER NOT NULL, `lastModified` TEXT, `lastModifiedLocal` TEXT, `etag` TEXT, `title` TEXT NOT NULL, `isOwner` INTEGER NOT NULL, `color` INTEGER, `archived` INTEGER NOT NULL, `shared` INTEGER NOT NULL, `deletedAt` TEXT, `permissionRead` INTEGER NOT NULL, `permissionEdit` INTEGER NOT NULL, `permissionManage` INTEGER NOT NULL, `permissionShare` INTEGER NOT NULL, `editedBy` TEXT, `conflictWithId` INTEGER, FOREIGN KEY(`accountId`) REFERENCES `Account`(`id`) ON UPDATE NO ACTION ON DELETE CASCADE )",
         "fields": [
           {
             "fieldPath": "localId",
@@ -517,6 +517,11 @@
             "columnName": "permissionShare",
             "affinity": "INTEGER",
             "notNull": true
+          },
+          {
+            "fieldPath": "editedBy",
+            "columnName": "editedBy",
+            "affinity": "TEXT"
           },
           {
             "fieldPath": "conflictWithId",
@@ -2011,7 +2016,7 @@
     ],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '462df89811ba60a6f1ca8e09efb07d60')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '70c06dcc9a443c0f66a2e8618b529c38')"
     ]
   }
 }

@@ -52,6 +52,7 @@ public class BoardRepositoryImpl implements BoardRepository {
                 true,
                 true,
                 true,
+                null,
                 null
         );
         return boardDao.insertOrReplace(entity).thenApply(Board.ID::new);
@@ -85,6 +86,7 @@ public class BoardRepositoryImpl implements BoardRepository {
                             entity.getPermissionEdit(),
                             entity.getPermissionManage(),
                             entity.getPermissionShare(),
+                            entity.getEditedBy(),
                             entity.getConflictWithId()
                     );
                     return boardDao.updateRx(editedEntity).thenApply(v -> null);
@@ -149,6 +151,7 @@ public class BoardRepositoryImpl implements BoardRepository {
                                 entity.getPermissionEdit(),
                                 entity.getPermissionManage(),
                                 entity.getPermissionShare(),
+                                entity.getEditedBy(),
                                 entity.getConflictWithId()
                         );
                         return boardDao.updateRx(deletedEntity);

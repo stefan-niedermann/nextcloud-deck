@@ -19,10 +19,6 @@ public interface UserRepository {
 
     Flow.Publisher<List<User>> getNotDeletedUsers(Account.ID accountId);
 
-    Flow.Publisher<Collection<User>> getUser(String userId);
-
-    Flow.Publisher<User> getUserByAccountId(Account.ID accountId);
-
     CompletableFuture<Account.ID> getAccountIdByUserId(User.ID userId);
 
     CompletableFuture<User.RemoteID> getRemoteIdByUserId(User.ID userId);

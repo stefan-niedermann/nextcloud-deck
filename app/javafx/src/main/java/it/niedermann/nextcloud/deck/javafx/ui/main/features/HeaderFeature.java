@@ -12,6 +12,9 @@ import java.nio.file.Files;
 import java.text.MessageFormat;
 import java.time.format.DateTimeFormatter;
 import java.time.format.FormatStyle;
+import java.util.Collections;
+import java.util.List;
+import java.util.Optional;
 import java.util.ResourceBundle;
 import java.util.Set;
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -26,6 +29,7 @@ import io.reactivex.rxjava4.core.Flowable;
 import io.reactivex.rxjava4.schedulers.Schedulers;
 import it.niedermann.nextcloud.deck.domain.model.Account;
 import it.niedermann.nextcloud.deck.domain.model.Board;
+import it.niedermann.nextcloud.deck.domain.model.User;
 import it.niedermann.nextcloud.deck.domain.usecases.accounts.GetAccountUseCase;
 import it.niedermann.nextcloud.deck.domain.usecases.accounts.GetAccountsUseCase;
 import it.niedermann.nextcloud.deck.domain.usecases.export.ExportBoardUseCase;
@@ -304,9 +308,21 @@ public class HeaderFeature extends AbstractFeature {
 
         addDisposable(syncStatusDisposable);
 
-        final var currentBoardDisposable = mainService.getOptionalBoard()
+        final var currentBoardDisposable = Flowable.combineLatest(
+                mainService.getOptionalBoard(),
+                mainService.getAccountId().switchMap(accountId -> {
+                    if (accountId == null) {
+                        return Flowable.just(Collections.<User>emptyList());
+                    }
+                    final var publisher = listUsersUseCase.execute(accountId);
+                    return publisher != null ? Flowable.fromPublisher(publisher) : Flowable.just(Collections.<User>emptyList());
+                }),
+                BoardAndUsers::new
+        )
                 .observeOn(JavaFxScheduler.platform())
-                .subscribe(optionalBoard -> {
+                .subscribe(data -> {
+                    final var optionalBoard = data.optionalBoard();
+                    final var users = data.users();
                     final boolean boardPresent = optionalBoard.isPresent();
                     final var board = optionalBoard.orElse(null);
                     boardTitle.setText(boardPresent ? board.title() : "");
@@ -321,9 +337,16 @@ public class HeaderFeature extends AbstractFeature {
                         final String lastEdited = board.lastModified() != null
                                 ? board.lastModified().format(DateTimeFormatter.ofLocalizedDateTime(FormatStyle.SHORT))
                                 : "unknown";
+                        final String editedByName = board.editedBy() != null
+                                ? users.stream()
+                                        .filter(u -> u.remoteId() != null && u.remoteId().equals(board.editedBy()))
+                                        .findFirst()
+                                        .map(User::displayName)
+                                        .orElse(board.editedBy().value())
+                                : "unknown";
                         boardTitle.setTooltip(new Tooltip(MessageFormat.format(resources.getString("header.tooltip.last-edited"),
                                 lastEdited,
-                                "John Doe")));
+                                editedByName)));
                         circle.setFill(Color.rgb(board.color().getRed(), board.color().getGreen(), board.color().getBlue()));
                         circle.setVisible(true);
                         circle.setManaged(true);
@@ -591,4 +614,6 @@ public class HeaderFeature extends AbstractFeature {
         fileChooser.getExtensionFilters().add(filter);
         return fileChooser.showSaveDialog(root.getScene().getWindow());
     }
+
+    private record BoardAndUsers(Optional<Board> optionalBoard, List<User> users) {}
 }

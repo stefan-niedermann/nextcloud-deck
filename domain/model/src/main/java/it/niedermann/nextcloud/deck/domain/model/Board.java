@@ -14,11 +14,12 @@ public record Board(
         Board.RemoteID remoteId,
         DBStatus status,
         OffsetDateTime lastModified,
-        String etag
+        String etag,
+        User.RemoteID editedBy
 ) {
 
     public Board(Board.ID id, String title, Color color, Permissions permissions) {
-        this(id, title, color, false, false, permissions, null, null, DBStatus.UP_TO_DATE, OffsetDateTime.now(), null);
+        this(id, title, color, false, false, permissions, null, null, DBStatus.UP_TO_DATE, OffsetDateTime.now(), null, null);
     }
 
     public Board {

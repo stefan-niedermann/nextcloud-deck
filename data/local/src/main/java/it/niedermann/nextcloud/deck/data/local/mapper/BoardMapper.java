@@ -23,6 +23,7 @@ public interface BoardMapper extends GenericMapper<BoardEntity, Board> {
     @Mapping(target = "permissionShare", source = "permissions.permissionShare")
     @Mapping(target = "etag", source = "etag")
     @Mapping(target = "status", expression = "java(board.status().getId())")
+    @Mapping(target = "editedBy", expression = "java(board.editedBy() != null ? board.editedBy().value() : null)")
     BoardEntity toEntity(Board board);
 
     @Override
@@ -34,6 +35,7 @@ public interface BoardMapper extends GenericMapper<BoardEntity, Board> {
     @Mapping(target = "status", source = "status")
     @Mapping(target = "lastModified", source = "lastModified")
     @Mapping(target = "etag", source = "etag")
+    @Mapping(target = "editedBy", expression = "java(entity.getEditedBy() != null ? new it.niedermann.nextcloud.deck.domain.model.User.RemoteID(entity.getEditedBy()) : null)")
     Board toTO(BoardEntity entity);
 
     @Mapping(target = "permissionRead", source = "permissionRead")

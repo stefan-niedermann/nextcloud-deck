@@ -99,18 +99,6 @@ public class UserRepositoryImpl implements UserRepository {
     }
 
     @Override
-    public Flow.Publisher<Collection<User>> getUser(String userId) {
-        logger.info("[Mock][getUser]: " + userId);
-        return null;
-    }
-
-    @Override
-    public Flow.Publisher<User> getUserByAccountId(Account.ID accountId) {
-        logger.info("[Mock][getUserByAccountId]: " + accountId);
-        return null;
-    }
-
-    @Override
     public CompletableFuture<Account.ID> getAccountIdByUserId(User.ID userId) {
         return userDao.getUserByLocalId(userId.value())
                 .thenApply(entity -> entity != null ? new Account.ID(entity.getAccountId()) : null);

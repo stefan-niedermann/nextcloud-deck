@@ -128,6 +128,7 @@ public class BoardSyncProvider implements SyncProvider<Void> {
                     updatedLocal.getPermissionEdit(),
                     updatedLocal.getPermissionManage(),
                     updatedLocal.getPermissionShare(),
+                    updatedLocal.getEditedBy(),
                     null
             );
 
@@ -181,6 +182,7 @@ public class BoardSyncProvider implements SyncProvider<Void> {
                             serverBoard.getPermissionEdit(),
                             serverBoard.getPermissionManage(),
                             serverBoard.getPermissionShare(),
+                            serverBoard.getEditedBy(),
                             null
                     );
 
@@ -204,6 +206,7 @@ public class BoardSyncProvider implements SyncProvider<Void> {
                                         localBoard.getPermissionEdit(),
                                         localBoard.getPermissionManage(),
                                         localBoard.getPermissionShare(),
+                                        localBoard.getEditedBy(),
                                         serverLocalId
                                 );
                                 return boardDao.updateRx(updatedLocal);
@@ -375,6 +378,7 @@ public class BoardSyncProvider implements SyncProvider<Void> {
                                 serverBoard.getPermissionEdit(),
                                 serverBoard.getPermissionManage(),
                                 serverBoard.getPermissionShare(),
+                                serverBoard.getEditedBy(),
                                 null
                         );
                         return boardDao.upsert(newLocal).thenCompose(id -> {
