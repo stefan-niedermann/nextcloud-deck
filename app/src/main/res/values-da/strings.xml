@@ -118,7 +118,7 @@
     </plurals>
     <string name="add_a_new_list_using_the_button">Tilføj en ny liste med knappen +</string>
     <string name="add_a_new_card_using_the_button">Tilføj et nyt kort med knappen +</string>
-    <string name="deck_outdated_please_update">Din opslags app version er for gammel (%1$s). Opdater venligst for at anvende denne Android app som klient.</string>
+    <string name="deck_outdated_please_update">Din version af Deck-webappen er for gammel (%1$s). Opdater den for at bruge denne Android-app som klient. </string>
     <string name="delete_board_message">Dette vil permanent slette denne tavle, inklusive alle lister og kort.</string>
     <string name="settings_theme_title">Tema</string>
     <string name="settings_compact_title">Kompakt tilstand</string>
@@ -221,25 +221,25 @@
     <string name="error_dialog_tip_offline_connection_timeout">Der opstod timeout for forbindelsen, kontroller venligst om du er forbundet til internettet. Dette kan også ske, fordi din server er optaget.</string>
     <string name="error_dialog_tip_connection_rejected">Forbindelse blev afvist, kontroller venligst om din server er beskyttet af en anti-flooding mekanisme. Dette er højst sandsynligt et problem der er opstået på grund af Cloudflare beskyttede servere.</string>
     <string name="error_dialog_tip_sync_only_on_wifi">Hvis du har aktiveret indstillingen \"Synkroniser kun via WiFi\", så kan du kun synkronisere når du er forbundet til et WiFi.</string>
-    <string name="error_dialog_tip_files_force_stop">Noget ser ud til at være galt med din Nextcloud app. Prøv venligst at gennemtvinge et stop, både for Nextcloud app\'en og Nextcloud Opslags app\'en.</string>
+    <string name="error_dialog_tip_files_force_stop">Der ser ud til at være noget galt med din Nextcloud-app. Prøv at gennemtvinge stop af både Nextcloud-appen og Nextcloud Deck-appen. </string>
     <string name="error_dialog_tip_files_delete_storage">Hvis det ikke hjælper at stoppe begge, så kan du forsøge at rydde lagerpladsen for begge apps.</string>
     <string name="error_dialog_timeout_instance">Der var ingen respons fra din server i det givne tidsrum. Vær venligst sikker på at din instans kører korrekt.</string>
     <string name="error_dialog_timeout_toggle">Kontroller din netværksforbindelse. Nogle gange hjælper det at slå mobildata eller WiFi fra og til igen.</string>
-    <string name="error_dialog_check_server">Svaret fra din server var ikke korrekt. Kontroller venligst om du kan tilgå Opslags app\'en via webinterface.</string>
+    <string name="error_dialog_check_server">Serverens svar var ikke korrekt. Tjek, om du kan åbne Deck-appen via webgrænsefladen. </string>
     <string name="error_dialog_check_server_logs">Der er et problem med din opsætning af Nextcloud. Kig venligst i serverens logfiler. </string>
     <string name="error_dialog_check_maintenance">Sørg venligst for at din Nextcloud-instans ikke er i vedligeholdelsestilstand. </string>
     <string name="error_dialog_insufficient_storage">Din Nextcloud-instans har ikke mere ledig lagerplads. Slet venligst nogle filer for at synkronisere dine lokale ændringer ind i skyen.</string>
     <string name="error_dialog_we_need_info">Vi har brug for følgende tekniske information for at hjælpe dig:</string>
     <string name="error_dialog_redirect">Din server svarede med HTTP-statuskoden 302. Det betyder, at Deck-appen ikke er installeret på serveren, eller at noget er konfigureret forkert. Det kan skyldes brugerdefinerede tilsidesættelser i en .htaccess-fil eller Nextcloud-apps som OID Client.</string>
-    <string name="error_dialog_version_not_parsable">Vi kunne ikke bestemme versionen af server-side Opslags app\'en. Vær venligst sikker på at den er installeret og aktiveret.</string>
+    <string name="error_dialog_version_not_parsable">Versionen af Deck-appen på serveren kunne ikke bestemmes. Sørg for, at den er installeret og aktiveret. </string>
     <string name="error_dialog_account_might_not_be_authorized">Kontoen for din Nextcloud app er måske ikke længere autoriseret.</string>
     <string name="error_dialog_user_not_found_in_database">Den aktuelle bruger matcher ikke brugeren som vi har i vores database. Hvis du anvender LDAP på din Nextcloud instans, så har din Nextcloud app måske gemt et gammelt bruger ID.</string>
     <string name="error_dialog_capabilities_not_parsable">Vi kunne ikke afgøre mulighederne på sin server. Vær venligst sikker på at din server kører ordentligt og at andre klient apps kan tilgå Nextcloud.</string>
     <string name="error_dialog_attachment_upload_failed">En vedhæftning kunne ikke uploades. Prøv venligst at dele den på en anden måde og fortæl os om denne fejl.</string>
     <string name="error_dialog_certificate">Noget ser ud til at være galt med certifikatet på serveren. Kontroller venligst alle konti i Nextcloud app\'en for yderligere information.</string>
-    <string name="error_dialog_tip_disable_battery_optimizations">Deaktiver venligst alle batterioptimeringer for Nextcloud og Opslags app\'en.</string>
+    <string name="error_dialog_tip_disable_battery_optimizations">Slå alle batterioptimeringer fra for Nextcloud og Deck-appen. </string>
     <string name="error_dialog_unknown_error">Din Nextcloud instans ser ud til ikke at være kontaktbar. Kontroller venligst din internetforbindelse og om du kan forbinde til din instans via via browser.</string>
-    <string name="error_dialog_min_version">Opslags Android app\'en kræver at Nextcloud Android app\'en er seneste version 3.18.</string>
+    <string name="error_dialog_min_version">Deck-appen til Android kræver mindst version 3.18 af Nextcloud-appen til Android. </string>
     <string name="error_action_open_deck_info">Åbn App info</string>
     <string name="error_action_open_nextcloud_app">Åbn Nextcloud app</string>
     <string name="error_action_open_network">Netværksindstillinger</string>
@@ -273,14 +273,14 @@
     <string name="clone_board">Klon tavle</string>
     <string name="cloning_board">Kloner %1$s…</string>
     <string name="successfully_cloned_board">Klonede %1$s</string>
-    <string name="attachment_does_not_yet_exist">Vedhæftninger eksisterer endnu ikke i opslag</string>
-    <string name="card_does_not_yet_exist">Kort eksisterer endu ikke i opslag</string>
+    <string name="attachment_does_not_yet_exist">Den vedhæftede fil findes endnu ikke i Deck</string>
+    <string name="card_does_not_yet_exist">Kortet findes endnu ikke i Deck</string>
 
     <string name="widget_stack_title">Liste</string>
     <string name="widget_stack_header_icon">Widget header ikon</string>
     <string name="widget_placeholder_icon">Widget pladsholder ikon</string>
-    <string name="project_type_deck_board">Opslagstavle</string>
-    <string name="project_type_deck_card">Opslagskort</string>
+    <string name="project_type_deck_board">Deck-tavle</string>
+    <string name="project_type_deck_card">Deck-kort</string>
     <string name="project_type_file">Fil</string>
     <string name="projects_title">Projekter</string>
     <plurals name="resources_count">
@@ -333,7 +333,7 @@
     <string name="progress_import_indeterminate">Importerer tavler ...</string>
     <string name="card_outdated">Indholdet af dette kort er måske ikke opdateret.</string>
     <string name="show_error">Vis fejl</string>
-    <string name="push_notification_link_empty">På grund af et kendt problem i Opslags web app\'en , kan vi desværre ikke vise dette kort. For mere information se: %1$s</string>
+    <string name="push_notification_link_empty">På grund af en kendt fejl i Deck-webappen kan dette kort desværre ikke vises. Du kan læse mere her: %1$s</string>
     <string name="enter_search_term_title">Angiv søgeterm</string>
     <string name="enter_search_term_description">Angiv søgeterm for at finde kort til denne tavle</string>
     <string name="no_search_results_title">Ingen søgeresultater</string>
