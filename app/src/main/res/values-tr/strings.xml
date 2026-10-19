@@ -205,7 +205,7 @@
     <string name="error">Bir sorun çıktı</string>
     <string name="synchronization_failed">Eşitlenemedi</string>
     <string name="operation_not_yet_supported">Henüz desteklenmiyor</string>
-    <string name="error_revoking_ac">%1$s için erişim izni geri alınırken sorun çıktı</string>
+    <string name="error_revoking_ac">%1$s için erişme izni geçersiz kılınırken sorun çıktı</string>
     <string name="error_create_label">%1$s etiketi eklenirken sorun çıktı</string>
     <string name="maintenance_mode">Sunucu bakım kipinde</string>
     <string name="error_edit_activity_killed_by_android">Sistem kaynakları başka uygulamalar için gerektiğinden Android düzenleme kipini kapattı.</string>
