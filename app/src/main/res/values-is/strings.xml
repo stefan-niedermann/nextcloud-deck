@@ -34,7 +34,7 @@
     <string name="edit_board">Breyta borði</string>
     <string name="archive_board">Setja borð í geymslu</string>
     <string name="delete_board">Eyða borði</string>
-    <string name="delete_something">Eyða \'%s\'?</string>
+    <string name="delete_something">Eyða \'%1$s\'?</string>
 
     <string name="about">Um hugbúnaðinn</string>
     <string name="about_version_title">Útgáfa</string>
@@ -92,7 +92,7 @@
     <string name="label_clear_done">Ekki lokið</string>
     <string name="label_due_at">Skilist: %1$s</string>
     <string name="label_start_at">Byrja kl.: %1$s</string>
-    <string name="label_add">Bæta við {0:s}</string>
+    <string name="label_add">Bæta við %1$s</string>
 
     <string name="card_edit_details">Nánar</string>
     <string name="card_edit_attachments">Viðhengi</string>
@@ -155,7 +155,7 @@
     <string name="action_card_move_title">Færa %1$s</string>
     <string name="title_is_mandatory">Titill er nauðsynlegur</string>
     <string name="provide_at_least_a_title_or_description">Gefðu upp í það minnsta titil eða lýsingu</string>
-    <string name="welcome_text">Velkomin í %s</string>
+    <string name="welcome_text">Velkomin í %1$s</string>
     <string name="welcome_text_further_accounts">Bæta við öðrum aðgangi</string>
     <string name="share_add_to_card">Bæta á spjald</string>
     <string name="share_success">Tókst að bæta %1$s í %2$s</string>
