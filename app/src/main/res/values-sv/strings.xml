@@ -17,6 +17,7 @@
     <string name="simple_reset">Återställ</string>
     <string name="simple_discard">Ignorera</string>
     <string name="simple_update">Uppdatera</string>
+    <string name="simple_export">Exportera</string>
     <string name="simple_delete">Ta bort</string>
     <string name="simple_rename">Byt namn</string>
     <string name="simple_settings">Inställningar</string>
@@ -210,8 +211,9 @@
     <string name="error_edit_activity_killed_by_android">Android avslutade redigeringsläget eftersom det behövde mer systemresurser för andra appar.</string>
 
     <string name="error_dialog_title">Å nej - Vad händer nu?🙁</string>
+    <string name="error_dialog_tip_parsing_failed">Det gick inte att tolka svaret från servern som förväntat. Kontrollera att Deck-appen är aktiverad på Nextcloud-servern.</string>
     <string name="error_dialog_tip_token_mismatch_retry">Försök att tvångsavsluta appen och starta om den. En felaktig anslutning till Nextcloud-appen kan ha förekommit.</string>
-    <string name="error_dialog_tip_clear_storage_might_help">Om problemet kvarstår kan du försöka rensa lagringen av båda apparna: Nextcloud och Nextcloud Deck för att lösa problemet.</string>
+    <string name="error_dialog_tip_clear_storage_might_help">Om problemet kvarstår, försök att rensa lagringen för båda apparna: Nextcloud och Nextcloud Deck, och importera sedan kontot på nytt.</string>
     <string name="error_dialog_tip_database_upgrade_failed">Uppgraderingen av databasen misslyckades. Var god anmäl problemet, rensa sedan appens data för att kunna återgå till normal användning.</string>
     <string name="error_dialog_tip_clear_storage">Du kan rensa diskutrymmet genom att öppna appens info, välj Lagring -> Rensa data</string>
     <string name="error_dialog_tip_offline_no_internet">Det ser ut som om du försökte starta en synkronisering utan en internetanslutning.</string>
@@ -228,7 +230,7 @@
     <string name="error_dialog_check_maintenance">Kontrollera att underhållsläget inte är aktivt på din Nextcloud-installation.</string>
     <string name="error_dialog_insufficient_storage">Din Nextcloud-installation har slut på diskutrymme. Ta bort några filer för att kunna synkronisera ändringar till ditt moln.</string>
     <string name="error_dialog_we_need_info">Vi behöver följande teknisk information för att kunna hjälpa dig:</string>
-    <string name="error_dialog_redirect">Din server svarade med ett HTTP 302 statusmeddelande vilket innebär att du inte har installerat Deck-appen på din server eller att något är felkonfigurerat. Detta kan orsakas av manuella ändringar i en .htaccess-fil eller av Nextcloud-appar som \"OID Client\".</string>
+    <string name="error_dialog_redirect">Servern svarade med HTTP-statuskoden 302. Det innebär att Deck-appen inte är installerad på servern eller att något är felkonfigurerat. Det kan orsakas av egna åsidosättningar i en .htaccess-fil eller av Nextcloud-appar som OID Client.</string>
     <string name="error_dialog_version_not_parsable">Vi kunde inte avgöra vilken version av Deck-appen som är installerad på servern. Kontrollera att den är installerad och aktiverad.</string>
     <string name="error_dialog_account_might_not_be_authorized">Ditt Nextcloud-konto är eventuellt inte längre auktoriserat. </string>
     <string name="error_dialog_user_not_found_in_database">Den nuvarande användaren matchar inte användaren vi har i vår databas. Om ni använder LDAP i er Nextcloud-instans kan din Nextcloud-app ha lagrat ett gammalt användar-ID.</string>
@@ -338,4 +340,49 @@
     <string name="no_search_results_description">Vi har inte hittat något resultat för den givna söktermen</string>
     <string name="label_no_startdate">Inget startdatum</string>
     <string name="label_dependent_cards">Beroende kort</string>
+    <string name="label_color">Färg</string>
+    <string name="label_clear_color">Rensa färg</string>
+    <string name="choose_color">Välj färg</string>
+
+    <string name="settings_recovery_title">Nödåterställning</string>
+    <string name="recovery_deck_server_title">Återställ Deck-servern</string>
+    <string name="recovery_deck_android_title">Återställ Deck Android</string>
+    <string name="settings_restore_server_summary">⚠️ FARA: Skriver över serverdata med lokalt tillgängliga data. Lokalt tillgängliga data utgör bara en del av all tillgänglig information och saknar bilagor, aktiviteter med mera. Kräver ny autentisering och omstart av appen.</string>
+    <string name="restore_warning_title">⚠️ FARA: Skriv över serverdata</string>
+    <string name="simple_restore">Återställ</string>
+    <string name="simple_apply">Verkställ</string>
+    <string name="backup_restore_warning">Jag godkänner att det är mitt eget ansvar att regelbundet säkerhetskopiera mina data. Verktygen nedan erbjuder begränsade möjligheter till nödåterställning och kan inte ses som en fullgod säkerhetskopieringslösning. Jag förstår att de endast ska användas när supporten råder mig att göra det.</string>
+
+    <string name="settings_create_local_backup">Skapa ögonblicksbild</string>
+    <string name="settings_create_local_backup_summary">Skapar en ögonblicksbild av den lokala databasen. Det här är ingen säkerhetskopia och den saknar information som endast är tillgänglig på servern.</string>
+
+    <string name="settings_restore_local_backup">Tillämpa ögonblicksbild</string>
+    <string name="settings_restore_local_backup_summary">Ersätter Deck Androids databas med den senaste ögonblicksbilden och startar om appen.</string>
+    <string name="restore_local_backup_warning_title">⚠️ Observera!</string>
+    <string name="restore_local_backup_warning_message">Ändringar som ännu inte har synkroniserats kommer att gå förlorade oåterkalleligt. Se till att du har antecknat dina lokala ändringar.</string>
+
+    <string name="restore_local_backup_success">Databasen återställdes. Appen startas nu om.</string>
+    <string name="restore_local_backup_failed">Det gick inte att återställa databasen.</string>
+
+    <string name="create_local_backup_success">Ögonblicksbild skapades.</string>
+    <string name="create_local_backup_failed">Det gick inte att skapa ögonblicksbilden.</string>
+
+    <string name="settings_export_database">Exportera ögonblicksbild</string>
+    <string name="settings_export_database_summary">Kopierar den senaste ögonblicksbilden, som innehåller Deck Androids SQLite-databasfil, till en plats som du väljer. Den innehåller inte all information. Det här är ingen fullgod säkerhetskopieringslösning.</string>
+    <string name="export_database_failed">Exporten misslyckades.</string>
+    <string name="export_database_success">Ögonblicksbild exporterades.</string>
+
+    <string name="restore_warning_message">Detta kommer att skriva över all data på servern för det här kontot med din lokala, ofullständiga kopia och starta om Deck Android-appen.
+
+Krav:
+- Användarkontot finns på servern
+- Alla användare som dina tavlor delas med måste finnas på servern
+- Du är korrekt autentiserad i Nextcloud Files-appen
+
+Bilagor, aktiviteter med mera:
+Alla bilagor finns kanske inte lokalt och kan därför inte laddas upp till den nya servern. Aktiviteter skapas i allmänhet endast av Deck-servern. Den här och annan information kan saknas efter återställningen.
+
+Användare som måste finnas på servern:
+%1$s</string>
+    <string name="restore_backup_failed">Säkerhetskopiering av databasen misslyckades. Återställningen avbröts.</string>
 </resources>

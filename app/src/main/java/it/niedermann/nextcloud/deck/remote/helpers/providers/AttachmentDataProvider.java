@@ -87,7 +87,20 @@ public class AttachmentDataProvider extends AbstractSyncDataProvider<Attachment>
 
     @Override
     public void createOnServer(ServerAdapter serverAdapter, DataBaseAdapter dataBaseAdapter, long accountId, ResponseCallback<Attachment> responder, Attachment entity) {
-        File file = new File(entity.getLocalPath());
+        String localPath = entity.getLocalPath();
+        if (localPath == null) {
+            DeckLog.warn("Attachment", "Skipping upload: localPath is null for attachment " + entity.getFilename());
+            dataBaseAdapter.deleteAttachment(accountId, entity, false);
+            responder.onResponse(entity, IResponseCallback.EMPTY_HEADERS);
+            return;
+        }
+        File file = new File(localPath);
+        if (!file.exists()) {
+            DeckLog.warn("Attachment", "Skipping upload: local file does not exist: " + file.getAbsolutePath());
+            dataBaseAdapter.deleteAttachment(accountId, entity, false);
+            responder.onResponse(entity, IResponseCallback.EMPTY_HEADERS);
+            return;
+        }
         serverAdapter.uploadAttachment(board.getId(), stack.getId(), card.getId(), file, new ResponseCallback<>(responder.getAccount()) {
             @Override
             public void onResponse(Attachment response, Headers headers) {

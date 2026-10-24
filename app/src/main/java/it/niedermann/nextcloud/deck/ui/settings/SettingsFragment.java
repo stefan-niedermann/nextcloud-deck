@@ -120,6 +120,14 @@ public class SettingsFragment extends PreferenceFragmentCompat {
         } else {
             DeckLog.error("Could not find preference with key:", getString(R.string.pref_key_dark_theme));
         }
+
+        final var recoveryPref = findPreference(getString(R.string.pref_key_recovery));
+        if (recoveryPref != null) {
+            recoveryPref.setOnPreferenceClickListener(preference -> {
+                startActivity(RecoveryActivity.createIntent(requireContext(), account));
+                return true;
+            });
+        }
     }
 
     @Override

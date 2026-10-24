@@ -162,6 +162,7 @@ public class CardAttachmentsFragment extends Fragment implements AttachmentDelet
 
         final var lifecycle = getLifecycle();
         pickers.forEach(lifecycle::addObserver);
+        pickers.forEach(picker -> picker.setResultListener(this));
     }
 
     @Override
@@ -260,7 +261,7 @@ public class CardAttachmentsFragment extends Fragment implements AttachmentDelet
         final var displayMetrics = getResources().getDisplayMetrics();
         final int spanCount = (int) ((displayMetrics.widthPixels / displayMetrics.density) / getResources().getInteger(R.integer.max_dp_attachment_picker));
 
-        attachmentPickerAdapter = new AttachmentPickerAdapter(pickers, this);
+        attachmentPickerAdapter = new AttachmentPickerAdapter(pickers);
         binding.attachmentPicker.setAdapter(attachmentPickerAdapter);
         binding.attachmentPicker.setLayoutManager(new GridLayoutManager(requireContext(), spanCount));
 

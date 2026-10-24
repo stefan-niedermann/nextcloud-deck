@@ -110,7 +110,8 @@
         <activity
             android:name=".ui.card.EditActivity"
             android:label="@string/edit"
-            android:parentActivityName="it.niedermann.nextcloud.deck.ui.main.MainActivity" />
+            android:parentActivityName="it.niedermann.nextcloud.deck.ui.main.MainActivity"
+            android:windowSoftInputMode="adjustResize" />
 
         <activity
             android:name=".ui.attachments.AttachmentsActivity"
@@ -122,6 +123,11 @@
             android:name=".ui.settings.SettingsActivity"
             android:label="@string/simple_settings"
             android:parentActivityName="it.niedermann.nextcloud.deck.ui.main.MainActivity" />
+
+        <activity
+            android:name=".ui.settings.RecoveryActivity"
+            android:label="@string/settings_recovery_title"
+            android:parentActivityName="it.niedermann.nextcloud.deck.ui.settings.SettingsActivity" />
 
         <activity
             android:name=".ui.ImportAccountActivity"

@@ -17,6 +17,7 @@
     <string name="simple_reset">Alaphelyzetbe állítás</string>
     <string name="simple_discard">Elvetés</string>
     <string name="simple_update">Frissítés</string>
+    <string name="simple_export">Exportálás</string>
     <string name="simple_delete">Törlés</string>
     <string name="simple_rename">Átnevezés</string>
     <string name="simple_settings">Beállítások</string>
@@ -87,8 +88,10 @@
     <string name="add_board">Tábla hozzáadása</string>
 
     <string name="label_clear_due_date">Határidő eltávolítása</string>
+    <string name="label_clear_start_date">Kezdődátum törlése</string>
     <string name="label_clear_done">Nincs kész</string>
     <string name="label_due_at">Határidő: %1$s</string>
+    <string name="label_start_at">Kezdés: %1$s</string>
     <string name="label_add">%1$s hozzáadása</string>
 
     <string name="card_edit_details">Részletek</string>
@@ -128,8 +131,8 @@
     <string name="settings_compress_image_attachments">Feltöltéskor tömöríti a képeket</string>
     <string name="search_in">Keresés itt: %1$s</string>
     <string name="settings_compress_image_attachments_summary">Gyorsabb feltöltés, alacsonyabb minőség</string>
-    <string name="pref_value_wifi_and_mobile">Szinkronizálás Wi-Fin és mobil adatkapcsolaton</string>
-    <string name="pref_value_wifi_only">Szinkronizálás csak Wi-Fin</string>
+    <string name="pref_value_wifi_and_mobile">Szinkronizálás Wi-Fi-n és mobil adatkapcsolaton</string>
+    <string name="pref_value_wifi_only">Szinkronizálás Wi-Fi-n</string>
     <string-array name="darkmode_entries">
         <item>Rendszer alapértelmezése</item>
         <item>Világos</item>
@@ -208,15 +211,16 @@
     <string name="error_edit_activity_killed_by_android">Az Android befejezte a szerkesztési módot, mert több rendszererőforrás szükséges a többi alkalmazás számára.</string>
 
     <string name="error_dialog_title">Jaj ne – Most mi legyen? 🙁</string>
+    <string name="error_dialog_tip_parsing_failed">A kiszolgáló válasza nem értelmezhető a várt módon. Győződjön meg róla, hogy engedélyezte a Kártyák alkalmazást a Nextcloud kiszolgálóján.</string>
     <string name="error_dialog_tip_token_mismatch_retry">Próbálja kényszeríteni az alkalmazás bezárását, és indítsa újra. Lehet, hogy hibás volt a kapcsolat a többi Nextcloud alkalmazással.</string>
-    <string name="error_dialog_tip_clear_storage_might_help">Ha a probléma továbbra is fennáll, próbálja kiüríteni mindkét alkalmazás tárolóját: a Nextcloudét és a Nextcloud Kártyákét.</string>
+    <string name="error_dialog_tip_clear_storage_might_help">Ha a probléma továbbra is fennáll, próbálja törölni mindkét alkalmazás tárhelyét: a Nextcloudét és a Nextcloud Kártyákét, majd importálja újra a fiókját.</string>
     <string name="error_dialog_tip_database_upgrade_failed">Az adatbázis frissítése sikertelen. Jelentse a problémát és az alkalmazás normális használatához törölje a tárolót.</string>
     <string name="error_dialog_tip_clear_storage">A tárolót az alkalmazásinformáció megnyitásával, és a Tárhely → Tárhely ürítése választásával törölheti.</string>
     <string name="error_dialog_tip_offline_no_internet">Úgy néz ki, hogy internetkapcsolat nélkül próbált meg szinkronizálást kezdeményezni.</string>
     <string name="error_dialog_tip_offline_connection_refused">A kapcsolat elutasítva, ellenőrizze, hogy a kiszolgáló webböngészővel elérhető-e.</string>
     <string name="error_dialog_tip_offline_connection_timeout">A kapcsolatban időtúllépés történt, ellenőrizze, hogy kapcsolódik-e az internethez. Ez akkor is előfordulhat, ha a kiszolgáló elfoglalt.</string>
     <string name="error_dialog_tip_connection_rejected">A kapcsolódás elutasításra került, ellenőrizze, hogy a kiszolgálót védi-e elárasztás-elleni mechanizmus. Ez a Cloudflare által védett kiszolgálók esetén a leggyakoribb probléma.</string>
-    <string name="error_dialog_tip_sync_only_on_wifi">Ha engedélyezte a „Szinkronizálás csak Wi-Fin” beállítást, akkor csak akkor szinkronizálhat, ha Wi-Fihez kapcsolódik.</string>
+    <string name="error_dialog_tip_sync_only_on_wifi">Ha engedélyezte a „Szinkronizálás csak Wi-Fi-n” beállítást, akkor csak akkor szinkronizálhat, ha Wi-Fi-hez kapcsolódik.</string>
     <string name="error_dialog_tip_files_force_stop">Valami hibásnak tűnik a Nextcloud alkalmazásában. Próbálja mindkettőt leállítani, a Nextcloud és a Nextcloud Kártyák alkalmazást is.</string>
     <string name="error_dialog_tip_files_delete_storage">Ha a kényszerített leállítás nem segít, akkor megpróbálhatja mindkét alkalmazás tárolóját kiüríteni.</string>
     <string name="error_dialog_timeout_instance">A megadott időn belül nem érkezett válasz a kiszolgálótól. Győződjön meg róla, hogy a példánya helyesen fut.</string>
@@ -226,7 +230,7 @@
     <string name="error_dialog_check_maintenance">Ellenőrizze, hogy a Nextcloud példánya nincs-e karbantartási módban.</string>
     <string name="error_dialog_insufficient_storage">A Nextcloud példányán elfogyott a szabad hely. Töröljön pár fájlt, hogy szinkronizálhassa a helyi változtatásait a felhővel.</string>
     <string name="error_dialog_we_need_info">A következő műszaki információkra van szükségünk, hogy segíthessünk:</string>
-    <string name="error_dialog_redirect">A kiszolgálója 302-es HTTP állapotkóddal válaszolt, amely arra utal, hogy nincs telepítve a Kártyák alkalmazás a kiszolgálón, vagy valami hibásan van beállítva. Ezt egyéni felülírások is okozhatják, mint egy .htaccess-fájl vagy az OID klienshez hasonló Nextcloud alkalmazások.</string>
+    <string name="error_dialog_redirect">A kiszolgáló nem HTTP 302-es állapotkóddal válaszolt, amely azt sugallja, hogy nem telepítette a Kártyák alkalmazást a kiszolgálóra, vagy valami hibásan van beállítva. Ezt egyéni felülbírálások okozhatják egy .htaccess-fájlban, vagy az olyan Nextcloud-alkalmazásokban, mint az OID kliens.</string>
     <string name="error_dialog_version_not_parsable">Nem sikerült meghatározni a kiszolgálóoldali Kártyák alkalmazás verzióját. Győződjön meg róla, hogy telepítve és engedélyezve van.</string>
     <string name="error_dialog_account_might_not_be_authorized">A Nextcloud alkalmazáshoz tartozó fiókja lehet hogy már lehet, hogy nincs hitelesítve.</string>
     <string name="error_dialog_user_not_found_in_database">A jelenlegi felhasználó nem egyezik az adatbázisban tárolttal. Ha LDAP-ot használt a Nextcloud példányán, akkor lehet, hogy a Nextcloud alkalmazás még egy régebbi felhasználóazonosítót tárol.</string>
@@ -334,4 +338,12 @@
     <string name="enter_search_term_description">Adja meg a keresési kifejezést a táblán lévő kártyák kereséséhez</string>
     <string name="no_search_results_title">Nincs találat</string>
     <string name="no_search_results_description">Nincs találat a megadott keresési kifejezésre</string>
+    <string name="label_no_startdate">Nincs kezdődátum</string>
+    <string name="label_dependent_cards">Függő kártyák</string>
+    <string name="label_color">Szín</string>
+    <string name="label_clear_color">Szín törlése</string>
+    <string name="choose_color">Válasszon színt</string>
+
+    <string name="simple_restore">Helyreállítás</string>
+    <string name="simple_apply">Alkalmaz</string>
     </resources>

@@ -17,6 +17,7 @@
     <string name="simple_reset">Zurücksetzen</string>
     <string name="simple_discard">Verwerfen</string>
     <string name="simple_update">Aktualisieren</string>
+    <string name="simple_export">Exportieren</string>
     <string name="simple_delete">Löschen</string>
     <string name="simple_rename">Umbenennen</string>
     <string name="simple_settings">Einstellungen</string>
@@ -210,8 +211,9 @@
     <string name="error_edit_activity_killed_by_android">Android hat den Bearbeitungsmodus beendet, da mehr Systemressourcen für andere Apps benötigt wurden.</string>
 
     <string name="error_dialog_title">Oh nein - Was jetzt? 🙁</string>
+    <string name="error_dialog_tip_parsing_failed">Die Antwort des Servers konnte nicht wie erwartet verarbeitet werden. Bitte sicherstellen, dass die Deck-App auf dem Nextcloud-Server aktiviert ist.</string>
     <string name="error_dialog_tip_token_mismatch_retry">Bitte versuchen Sie, das Schließen der App zu erzwingen und erneut zu starten. Möglicherweise bestand eine gestörte Verbindung zur Nextcloud-App.</string>
-    <string name="error_dialog_tip_clear_storage_might_help">Falls dieser Fehler weiterhin besteht können Sie versuchen den Speicherinhalt der beiden Apps Nextcloud und Nextcloud Deck zu leeren um das Problem zu beheben.</string>
+    <string name="error_dialog_tip_clear_storage_might_help">Sollte das Problem weiterhin bestehen, bitte versuchen, den Speicher beider Apps – Nextcloud und Nextcloud Deck – zu löschen und Ihr Konto erneut zu importieren.</string>
     <string name="error_dialog_tip_database_upgrade_failed">Die Aktualisierung der Datenbank ist fehlgeschlagen. Bitte melden Sie das Problem und leeren Sie den Speicher, um die App normal zu verwenden.</string>
     <string name="error_dialog_tip_clear_storage">Sie können den Speicherinhalt leeren indem Sie die App öffnen und Speicher → Speicherinhalt löschen auswählen.</string>
     <string name="error_dialog_tip_offline_no_internet">Es sieht so aus, als hätten Sie versucht, eine Synchronisation ohne Internetverbindung auszulösen.</string>
@@ -225,10 +227,10 @@
     <string name="error_dialog_timeout_toggle">Überprüfen Sie Ihre Netzwerkverbindung. Manchmal kann es hilfreich sein, die mobilen Daten oder das WLAN aus- und wieder einzuschalten.</string>
     <string name="error_dialog_check_server">Die Antwort des Servers war fehlerhaft. Bitte überprüfen Sie ob die Deck App über die Weboberfläche erreichbar ist.</string>
     <string name="error_dialog_check_server_logs">Es liegt ein Problem mit Ihrer Nextcloud-Konfiguration vor. Bitte schauen Sie in die Serverprotokolldateien.</string>
-    <string name="error_dialog_check_maintenance">Bitte prüfen Sie ob sich Ihr Nextcloud-Server derzeit  im Wartungsmodus befindet.</string>
+    <string name="error_dialog_check_maintenance">Bitte überprüfen, ob sich der Nextcloud-Server derzeit im Wartungsmodus befindet.</string>
     <string name="error_dialog_insufficient_storage">Ihre Nextcloud-Installation hat keinen freien Speicherplatz mehr. Bitte löschen Sie einige Dateien, um Ihre lokalen Änderungen mit Ihrer Cloud synchronisieren zu können.</string>
     <string name="error_dialog_we_need_info">Wir benötigen die folgenden technischen Informationen, um Ihnen helfen zu können:</string>
-    <string name="error_dialog_redirect">Ihr Server hat mit einem HTTP 302-Statuscode geantwortet, was bedeutet, dass Sie die Deck-App nicht auf Ihrem Server installiert haben oder etwas falsch konfiguriert ist. Dies kann durch benutzerdefinierte Überschreibungen in einer .htaccess-Datei oder durch Nextcloud-Apps wie OID-Client verursacht werden.</string>
+    <string name="error_dialog_redirect">Ihr Server antwortete mit dem HTTP-Statuscode 302. Dies deutet darauf hin, dass die Deck-App nicht auf Ihrem Server installiert ist oder eine Fehlkonfiguration vorliegt. Ursachen hierfür können benutzerdefinierte Einstellungen in einer .htaccess-Datei oder Nextcloud-Apps wie der OID Client sein.</string>
     <string name="error_dialog_version_not_parsable">Version der auf dem Server installierten Deck-App konnte nicht ermittelt werden. Bitte sicherstellen, dass die Deck-App intstalliert und aktiviert ist.</string>
     <string name="error_dialog_account_might_not_be_authorized">Das Konto Ihrer Nextcloud-App ist möglicherweise nicht mehr autorisiert.</string>
     <string name="error_dialog_user_not_found_in_database">Der aktuelle Benutzer stimmt nicht mit dem Benutzer überein, den wir in unserer Datenbank haben. Wenn Sie LDAP in Ihrer Nextcloud-Instanz verwenden, hat Ihre Nextcloud-App möglicherweise eine alte Benutzer-ID gespeichert.</string>
@@ -338,4 +340,38 @@
     <string name="no_search_results_description">Keine Ergebnisse für diesen Suchbegriff gefunden</string>
     <string name="label_no_startdate">Kein Startdatum</string>
     <string name="label_dependent_cards">Abhängige Karten</string>
+    <string name="label_color">Farbe</string>
+    <string name="label_clear_color">Farbe löschen</string>
+    <string name="choose_color">Farbe wählen</string>
+
+    <string name="settings_recovery_title">Notfallwiederherstellung</string>
+    <string name="recovery_deck_server_title">Deck-Server wiederherstellen</string>
+    <string name="recovery_deck_android_title">Deck-Android wiederherstellen</string>
+    <string name="settings_restore_server_summary">⚠️ ACHTUNG: Überschreibt Serverdaten mit lokal verfügbaren Daten. Lokal verfügbare Daten sind nur ein Teil der verfügbaren Informationen und es fehlen Anhänge, Aktivitäten und mehr. Erfordert eine erneute Anmeldung und einen Neustart der App.</string>
+    <string name="restore_warning_title">⚠️ ACHTUNG: Serverdaten überschreiben</string>
+    <string name="simple_restore">Wiederherstellen</string>
+    <string name="simple_apply">Anwenden</string>
+    <string name="backup_restore_warning">Ich akzeptiere, dass es in meiner alleinigen Verantwortung liegt, regelmäßige Backups meiner Daten zu erstellen. Die folgenden Tools bieten nur begrenzte Notfallwiederherstellungsfunktionen und können nicht als geeignete Backup-Lösung angesehen werden. Ich verstehe, dass sie nur verwendet werden sollten, wenn der Support dazu rät.</string>
+
+    <string name="settings_create_local_backup">Snapshot erstellen</string>
+    <string name="settings_create_local_backup_summary">Erstellt einen Snapshot der lokalen Datenbank. Dies ist kein Backup und es fehlen Informationen, die nur auf dem Server verfügbar sind.</string>
+
+    <string name="settings_restore_local_backup">Snapshot anwenden</string>
+    <string name="settings_restore_local_backup_summary">Ersetzt die Datenbank von Deck Android durch den neuesten Snapshot und startet die App neu.</string>
+    <string name="restore_local_backup_warning_title">⚠️ Achtung!</string>
+    <string name="restore_local_backup_warning_message">Noch nicht synchronisierte Änderungen gehen unwiederbringlich verloren. Sicherstellen, dass lokalen Änderungen bekannt sind.</string>
+
+    <string name="restore_local_backup_success">Die Datenbank wurde wiederhergestellt. Die App wird nun neu gestartet.</string>
+    <string name="restore_local_backup_failed">Die Wiederherstellung der Datenbank ist fehlgeschlagen.</string>
+
+    <string name="create_local_backup_success">Snapshot erstellt.</string>
+    <string name="create_local_backup_failed">Snapshot fehlgeschlagen.</string>
+
+    <string name="settings_export_database">Snapshot exportieren</string>
+    <string name="settings_export_database_summary">Kopiert den letzten Snapshot der Deck Android SQLite-Datenbankdatei an einen frei auswählbaren Speicherort. Er enthält nicht alle Informationen und ist keine vollständige Backup-Lösung.</string>
+    <string name="export_database_failed">Export fehlgeschlagen</string>
+    <string name="export_database_success">Snapshot exportiert.</string>
+
+    <string name="restore_warning_message">Hierdurch werden alle Daten auf dem Server für dieses Konto mit einer lokalen Teilkopie überschrieben und die Deck Android-App neu gestartet.\n\nAnforderungen:\n- Benutzerkonto existiert auf dem Server\n- Alle Benutzerboards die geteilt wurden, müssen auf dem Server existieren\n- Richtig angemeldet in der Nextcloud Files app\n\nAnhänge, Aktivitäten und mehr:\nNicht alle Anhänge sind möglicherweise lokal verfügbar und können daher nicht auf den neuen Server hochgeladen werden. Aktivitäten werden im Allgemeinen nur vom Deck-Server erstellt. Diese und andere Informationen fehlen möglicherweise nach der Durchführung der Wiederherstellung.\n\nBenutzer, die auf dem Server vorhanden sein müssen:\n%1$s</string>
+    <string name="restore_backup_failed">Datenbanksicherung fehlgeschlagen. Wiederherstellung abgebrochen.</string>
 </resources>

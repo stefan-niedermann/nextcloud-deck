@@ -53,6 +53,7 @@ public class EditCardViewModel extends BaseViewModel {
     private boolean canEdit = false;
     private final MutableLiveData<String> descriptionChangedFromExternal$ = new MutableLiveData<>();
     private final MutableLiveData<Integer> boardColor$ = new MutableLiveData<>();
+    private final MutableLiveData<Integer> cardColor$ = new MutableLiveData<>();
     private final SharedPreferences sharedPreferences;
     private final MutableLiveData<Boolean> descriptionIsPreview = new MutableLiveData<>(false);
     private boolean attachmentsBackPressedCallbackStatus = false;
@@ -121,6 +122,17 @@ public class EditCardViewModel extends BaseViewModel {
         this.boardColor$.setValue(color);
     }
 
+    public LiveData<Integer> getCardColor() {
+        return distinctUntilChanged(this.cardColor$);
+    }
+
+    public void setCardColor(@Nullable @ColorInt Integer color) {
+        this.cardColor$.setValue(color);
+        if (fullCard != null && fullCard.getCard() != null) {
+            fullCard.getCard().setColor(color);
+        }
+    }
+
     /**
      * Stores a deep copy of the given fullCard to be able to compare the state at every time in #{@link EditCardViewModel#hasChanges()}
      *
@@ -132,6 +144,7 @@ public class EditCardViewModel extends BaseViewModel {
         this.fullCard = fullCard;
         this.originalCard = new FullCardWithProjects(this.fullCard);
         this.isSupportedVersion = isSupportedVersion;
+        this.cardColor$.setValue(fullCard.getCard().getColor());
     }
 
     public void setAccount(@NonNull Account account) throws NextcloudFilesAppAccountNotFoundException {

@@ -17,6 +17,7 @@
     <string name="simple_reset">Athshocraigh</string>
     <string name="simple_discard">Caith amach</string>
     <string name="simple_update">Nuashonrú</string>
+    <string name="simple_export">Easpórtáil</string>
     <string name="simple_delete">Scrios</string>
     <string name="simple_rename">Athainmnigh</string>
     <string name="simple_settings">Socruithe</string>
@@ -216,8 +217,9 @@
     <string name="error_edit_activity_killed_by_android">Chríochnaigh Android an modh eagarthóireachta toisc go raibh níos mó acmhainní córais ag teastáil uaidh le haghaidh aipeanna eile.</string>
 
     <string name="error_dialog_title">Ó ní hea - Cad anois? 🙁</string>
+    <string name="error_dialog_tip_parsing_failed">Níorbh fhéidir freagra do fhreastalaí a pharsáil mar a bhíothas ag súil leis. Cinntigh go bhfuil an aip Deck cumasaithe agat ar do fhreastalaí Nextcloud.</string>
     <string name="error_dialog_tip_token_mismatch_retry">Déan iarracht iallach a chur ar an aip a dhúnadh agus í a atosú arís le do thoil. Seans go raibh nasc mícheart leis an aip Nextcloud.</string>
-    <string name="error_dialog_tip_clear_storage_might_help">Má leanann an cheist, déan iarracht stóráil an dá apps a ghlanadh: Nextcloud agus Nextcloud Deck chun an cheist seo a réiteach.</string>
+    <string name="error_dialog_tip_clear_storage_might_help">Má leanann an fhadhb ar aghaidh, déan iarracht stóráil an dá aip a ghlanadh: Nextcloud agus Nextcloud Deck agus athiompórtáil do chuntas.</string>
     <string name="error_dialog_tip_database_upgrade_failed">Theip ar uasghrádú an bhunachair sonraí. Tuairiscigh an fhadhb le do thoil agus glan an stóras chun an aip a úsáid de ghnáth.</string>
     <string name="error_dialog_tip_clear_storage">Is féidir leat an stóráil a ghlanadh tríd an eolas app a oscailt agus Stóráil → Stóráil Glan a roghnú.</string>
     <string name="error_dialog_tip_offline_no_internet">Tá an chuma ar an scéal go ndearna tú iarracht sioncrónú a spreagadh gan nasc idirlín.</string>
@@ -234,7 +236,7 @@
     <string name="error_dialog_check_maintenance">Seiceáil le do thoil an bhfuil do shampla Nextcloud i mód cothabhála faoi láthair.</string>
     <string name="error_dialog_insufficient_storage">Níl aon stóras saor in aisce fágtha ag do shampla Nextcloud. Scrios roinnt comhad chun d\'athruithe áitiúla a shioncronú isteach i do néal le do thoil.</string>
     <string name="error_dialog_we_need_info">Tá an fhaisnéis theicniúil seo a leanas ag teastáil uainn chun cabhrú leat:</string>
-    <string name="error_dialog_redirect">D\'fhreagair do fhreastalaí le cód stádais HTTP 302, rud a thugann le tuiscint, nach bhfuil an app Deck suiteáilte agat ar do fhreastalaí nó go bhfuil rud éigin míchumraithe. Is féidir é seo a bheith mar chúis le sáruithe saincheaptha i gcomhad .htaccess nó trí apps Nextcloud cosúil le Cliant OID.</string>
+    <string name="error_dialog_redirect">D’fhreagair do fhreastalaí le cód stádais HTTP 302, rud a thugann le fios nach bhfuil an aip Deck suiteáilte agat ar do fhreastalaí nó go bhfuil rud éigin míchumraithe. Is féidir é seo a bheith mar thoradh ar sháruithe saincheaptha i gcomhad .htaccess nó ar aipeanna Nextcloud cosúil le Cliant OID.</string>
     <string name="error_dialog_version_not_parsable">Níorbh fhéidir linn an leagan den app Deic taobh an fhreastalaí a chinneadh. Cinntigh le do thoil go bhfuil sé suiteáilte agus cumasaithe.</string>
     <string name="error_dialog_account_might_not_be_authorized">Seans nach bhfuil cuntas d’aip Nextcloud údaraithe a thuilleadh.</string>
     <string name="error_dialog_user_not_found_in_database">Ní mheaitseálann an t-úsáideoir reatha an t-úsáideoir atá inár mbunachar sonraí. Má tá LDAP á úsáid agat ar do shampla Nextcloud, seans go raibh seanaitheantas úsáideora stóráilte ag d’aip Nextcloud.</string>
@@ -350,4 +352,38 @@
     <string name="no_search_results_description">Ní bhfuaireamar aon toradh ar an téarma cuardaigh a tugadh</string>
     <string name="label_no_startdate">Gan dáta tosaithe</string>
     <string name="label_dependent_cards">Cártaí cleithiúnacha</string>
+    <string name="label_color">Dath</string>
+    <string name="label_clear_color">Dath soiléir</string>
+    <string name="choose_color">Roghnaigh dath</string>
+
+    <string name="settings_recovery_title">Aisghabháil Éigeandála</string>
+    <string name="recovery_deck_server_title">Aisghabháil Freastalaí Deic</string>
+    <string name="recovery_deck_android_title">Aisghabháil Deic Android</string>
+    <string name="settings_restore_server_summary">⚠️ CONTÚIRT: Scríobhtar thar shonraí an fhreastalaí le sonraí atá ar fáil go háitiúil. Níl sna sonraí áitiúla ach cuid den fhaisnéis atá ar fáil; bíonn ceangaltáin, gníomhaíochtaí agus nithe eile ar iarraidh iontu. Teastaíonn fíordheimhniú arís agus atosú ar an aip.</string>
+    <string name="restore_warning_title">⚠️ CONTÚIRT: Forscríobh sonraí freastalaí</string>
+    <string name="simple_restore">Athchóirigh</string>
+    <string name="simple_apply">Cuir isteach</string>
+    <string name="backup_restore_warning">Glacaim leis gurb é mo fhreagracht aonair féin é cóipeanna cúltaca rialta de mo chuid sonraí a dhéanamh. Cuireann na huirlisí thíos cumais theoranta téarnaimh éigeandála ar fáil agus ní féidir breathnú orthu mar réiteach cuí cúltaca. Tuigim nár cheart iad a úsáid ach amháin nuair a thugann an fhoireann tacaíochta comhairle dá réir.</string>
+
+    <string name="settings_create_local_backup">Cruthaigh léargas</string>
+    <string name="settings_create_local_backup_summary">Cruthaítear léargas ar an mbunachar sonraí áitiúil. Ní cúltaca é seo, agus tá faisnéis ar iarraidh ann nach bhfuil ar fáil ach ar do fhreastalaí.</string>
+
+    <string name="settings_restore_local_backup">Cuir pictiúr i bhfeidhm</string>
+    <string name="settings_restore_local_backup_summary">Cuireann sé an léargas is déanaí in áit bhunachar sonraí Deck Android agus atosaíonn sé an aip.</string>
+    <string name="restore_local_backup_warning_title">⚠️ Aird!</string>
+    <string name="restore_local_backup_warning_message">Caillfear go deo aon athruithe nach bhfuil sioncronaithe go fóill. Cinntigh gur thug tú faoi deara do chuid athruithe áitiúla.</string>
+
+    <string name="restore_local_backup_success">Bunachar sonraí athchóirithe. Atosófar an aip anois.</string>
+    <string name="restore_local_backup_failed">Theip ar athchóiriú an bhunachair shonraí.</string>
+
+    <string name="create_local_backup_success">Cruthaíodh an íomhá phointe ama go rathúil.</string>
+    <string name="create_local_backup_failed">Theip ar an ngrianghraf staide.</string>
+
+    <string name="settings_export_database">Easpórtáil an tsnapbhreise</string>
+    <string name="settings_export_database_summary">Cóipeálann sé an babhta-íomhá is déanaí ina bhfuil comhad bunachar sonraí SQLite Deck Android chuig suíomh de do rogha féin. Ní chuimsítear an fhaisnéis ar fad ann. Ní réiteach cuí cúltaca é seo.</string>
+    <string name="export_database_failed">Theip ar an easpórtáil.</string>
+    <string name="export_database_success">Easpórtáladh an grianghraf staide go rathúil.</string>
+
+    <string name="restore_warning_message">Scríobhfaidh sé seo na sonraí go léir ar an bhfreastalaí don chuntas seo le do chóip pháirteach áitiúil agus atosóidh sé aip Deck Android.\n\nRiachtanais:\n- Tá cuntas úsáideora ann ar an bhfreastalaí\n- Roinntear boird gach úsáideora leo, ní mór dóibh a bheith ann ar an bhfreastalaí\n- Fíordheimhnithe i gceart in aip Nextcloud Files\n\nCeangaltáin, Gníomhaíochtaí agus tuilleadh:\nB’fhéidir nach bhfuil na ceangaltáin go léir ar fáil go háitiúil agus dá bhrí sin ní féidir iad a uaslódáil chuig an bhfreastalaí nua. De ghnáth ní chruthaíonn ach freastalaí Deck gníomhaíochtaí. D’fhéadfadh an fhaisnéis seo agus faisnéis eile a bheith ar iarraidh tar éis an athchóiriú a dhéanamh.\n\nÚsáideoirí nach mór dóibh a bheith ann ar an bhfreastalaí:\n%1$s</string>
+    <string name="restore_backup_failed">Theip ar chúltaca an bhunachair shonraí. Cuireadh an t-athchóiriú ar ceal.</string>
 </resources>

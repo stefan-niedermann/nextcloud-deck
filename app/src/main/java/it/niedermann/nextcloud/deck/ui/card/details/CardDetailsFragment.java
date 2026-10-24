@@ -108,6 +108,7 @@ public class CardDetailsFragment extends Fragment implements
         setupLabels((Account) requireNonNull(args.getSerializable(KEY_ACCOUNT)));
         setupStartDate();
         setupDueDate();
+        setupColor();
         setupDependents();
         setupDescription();
         setupProjects();
@@ -118,6 +119,9 @@ public class CardDetailsFragment extends Fragment implements
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        if (viewModel.getFullCard() == null) {
+            return;
+        }
         final var ssoAccount = viewModel.getAccount().getSingleSignOnAccount(requireContext()).orElse(null);
 
         viewModel.getBoardColor().observe(getViewLifecycleOwner(), color -> {
@@ -148,6 +152,9 @@ public class CardDetailsFragment extends Fragment implements
     }
 
     private void applyTheme(@ColorInt int color) {
+        if (binding == null) {
+            return;
+        }
         final var utils = ThemeUtils.of(color, requireContext());
 
         Stream.of(
@@ -161,11 +168,12 @@ public class CardDetailsFragment extends Fragment implements
 
         if (viewModel.getAccount().getServerDeckVersionAsObject().supportsStartDate()) {
             binding.cardStartDateView.applyTheme(color);
+            utils.material.colorTextInputLayout(binding.cardColorWrapper);
         }
 
         binding.cardDueDateView.applyTheme(color);
 
-        if (viewModel.getAccount().getServerDeckVersionAsObject().supportsDependents()) {
+        if (viewModel.getAccount().getServerDeckVersionAsObject().supportsDependents() && dependentsAdapter != null) {
             dependentsAdapter.applyTheme(color);
         }
 
@@ -264,6 +272,24 @@ public class CardDetailsFragment extends Fragment implements
         binding.cardDueDateView.setDueDateListener(this);
         binding.cardDueDateView.setEnabled(this.viewModel.canEdit());
         binding.cardDueDateView.setDueDate(getChildFragmentManager(), version, card.getDueDate(), card.getDone());
+    }
+
+    private void setupColor() {
+        if (!viewModel.getAccount().getServerDeckVersionAsObject().supportsCardColor()) {
+            binding.cardColorWrapper.setVisibility(GONE);
+            return;
+        }
+        binding.cardColor.setOnClickListener(v -> PickColorDialogFragment.newInstance(viewModel.getCardColor().getValue()).show(getChildFragmentManager(), PickColorDialogFragment.class.getSimpleName()));
+        viewModel.getCardColor().observe(getViewLifecycleOwner(), color -> {
+            if (color != null) {
+                binding.cardColor.setText(String.format("#%06X", (0xFFFFFF & color)));
+                binding.cardColorWrapper.setEndIconTintList(ColorStateList.valueOf(color));
+            } else {
+                binding.cardColor.setText("");
+                binding.cardColorWrapper.setEndIconTintList(null);
+            }
+        });
+        binding.cardColor.setEnabled(viewModel.canEdit());
     }
 
     @Override

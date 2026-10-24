@@ -17,6 +17,7 @@
     <string name="simple_reset">Berrezarri</string>
     <string name="simple_discard">Baztertu</string>
     <string name="simple_update">Eguneratu</string>
+    <string name="simple_export">Esportatu</string>
     <string name="simple_delete">Ezabatu</string>
     <string name="simple_rename">Aldatu izena</string>
     <string name="simple_settings">Ezarpenak</string>
@@ -209,7 +210,6 @@
 
     <string name="error_dialog_title">Oh ez - Orain zer? 🙁</string>
     <string name="error_dialog_tip_token_mismatch_retry">Saia zaitez aplikazioa itxi eta berrabiarazten. Agian Nextcloud aplikazioarekin gaizki konektatzea gertatu da.</string>
-    <string name="error_dialog_tip_clear_storage_might_help">Arazoak jarraitzen badu, saiatu bi aplikazioen biltegiak garbitzen: Nextcloud eta Nextcloud Deck aplikazioenak, arazoa konpontzeko.</string>
     <string name="error_dialog_tip_database_upgrade_failed">Datu-basearen bertsio-berritzeak huts egin du. Eman arazoaren berri eta biltegia garbitu aplikazioa normaltasunez erabiltzeko.</string>
     <string name="error_dialog_tip_clear_storage">Biltegia garbi dezakezu aplikazioaren informazioa ireki eta hautatuz: Biltegia → Garbitu biltegia.</string>
     <string name="error_dialog_tip_offline_no_internet">Badirudi internet konexiorik gabe saiatu zarela sinkronizatzen.</string>
@@ -226,7 +226,6 @@
     <string name="error_dialog_check_maintenance">Egiazta ezazu zure Nextcloud instantzia ez dagoela mantentze moduan une honetan.</string>
     <string name="error_dialog_insufficient_storage">Zure Nextcloud instantziak ez du biltegiratze leku libre gehiagorik. Ezabatu fitxategi batzuk, aldaketa lokalak hodeiarekin sinkroniza daitezen.</string>
     <string name="error_dialog_we_need_info">Zuri laguntzeko hurrengo informazio teknikoa behar dugu:</string>
-    <string name="error_dialog_redirect">Zure zerbitzariak HTTP 302 egoera kodearekin erantzun du, honek esan nahi du ez duzula Deck aplikazioa ez duzula zure zerbitzarian instalatu edo zerbait txarto konfiguratuta dagoela. Hau .htaccess fitxategi batean arau pertsonalizatuak daudelako edo OID Bezeroa izeneko aplikazioarengatik sortua izan daiteke. </string>
     <string name="error_dialog_version_not_parsable">Ezin izan dugu zerbitzariaren Deck aplikazioaren bertsioa zehaztu. Ziurtatu instalatuta eta gaituta dagoela.</string>
     <string name="error_dialog_account_might_not_be_authorized">Baliteke Nextcloud aplikazioaren kontua baimenduta ez egotea.</string>
     <string name="error_dialog_user_not_found_in_database">Egungo erabiltzailea ez dator bat gure datu-basean daukagun erabiltzailearekin. Zure Nextcloud instantzian LDAP erabiltzen ari bazara, baliteke zure Nextcloud aplikazioak erabiltzaile-ID zahar bat biltegiratu izana.</string>
@@ -334,4 +333,9 @@
     <string name="enter_search_term_description">Sartu bilaketa-terminoa taula honetan txartelak aurkitzeko</string>
     <string name="no_search_results_title">Ez dago bilaketaren emaitzarik</string>
     <string name="no_search_results_description">Ez dugu emaitzarik aurkitu emandako bilaketa-terminoarentzat</string>
+    <string name="label_color">Kolorea</string>
+    <string name="choose_color">Aukeratu kolorea</string>
+
+    <string name="simple_restore">Leheneratu</string>
+    <string name="simple_apply">Aplikatu</string>
     </resources>

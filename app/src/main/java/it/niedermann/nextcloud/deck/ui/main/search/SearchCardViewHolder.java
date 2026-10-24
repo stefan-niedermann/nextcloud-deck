@@ -92,6 +92,13 @@ public class SearchCardViewHolder extends SearchViewHolder {
                 menu.removeItem(R.id.share_link);
             }
 
+            if (account.getServerDeckVersionAsObject().supportsDone()) {
+                final boolean isDone = fullCard.getCard().getDone() != null;
+                menu.findItem(R.id.action_card_done).setTitle(isDone ? R.string.label_clear_done : R.string.mark_as_done);
+            } else {
+                menu.removeItem(menu.findItem(R.id.action_card_done).getItemId());
+            }
+
             popup.setOnMenuItemClickListener(item -> optionsItemsSelectedListener.onCardOptionsItemSelected(item, fullCard));
             popup.show();
         });

@@ -13,6 +13,10 @@ public interface UserDao extends GenericDao<User> {
 
     @Query("SELECT * FROM user WHERE accountId = :accountId")
     LiveData<List<User>> getUsersForAccount(final long accountId);
+
+    @Query("SELECT * FROM user WHERE accountId = :accountId")
+    List<User> getUsersForAccountDirectly(final long accountId);
+
     @Query("SELECT * FROM user")
     List<User> getAllUsersDirectly();
 

@@ -1,5 +1,6 @@
 package it.niedermann.nextcloud.deck.ui.card;
 
+import android.content.res.ColorStateList;
 import android.text.TextUtils;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -7,10 +8,12 @@ import android.view.View.OnLongClickListener;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.annotation.ColorInt;
 import androidx.annotation.MenuRes;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
+import androidx.core.widget.TextViewCompat;
 
 import com.google.android.material.card.MaterialCardView;
 import com.nextcloud.android.common.ui.theme.utils.ColorRole;
@@ -44,7 +47,7 @@ public class DefaultCardViewHolder extends AbstractCardViewHolder {
 
         final var context = itemView.getContext();
 
-        if (fullCard.getAssignedUsers() != null && fullCard.getAssignedUsers().size() > 0) {
+        if (fullCard.getAssignedUsers() != null && !fullCard.getAssignedUsers().isEmpty()) {
             binding.overlappingAvatars.setAvatars(account, fullCard.getAssignedUsers());
             binding.overlappingAvatars.setVisibility(View.VISIBLE);
         } else {
@@ -71,7 +74,7 @@ public class DefaultCardViewHolder extends AbstractCardViewHolder {
         }
 
         final var labels = fullCard.getLabels();
-        if (labels != null && labels.size() > 0) {
+        if (labels != null && !labels.isEmpty()) {
             binding.labels.updateLabels(labels);
             binding.labels.setVisibility(View.VISIBLE);
         } else {
@@ -114,6 +117,20 @@ public class DefaultCardViewHolder extends AbstractCardViewHolder {
     }
 
     @Override
+    protected void applyForegroundColor(@ColorInt int color) {
+        super.applyForegroundColor(color);
+        final var colorStateList = ColorStateList.valueOf(color);
+        Stream.of(
+                binding.cardCountAttachments,
+                binding.cardCountTasks,
+                binding.cardCountComments
+        ).forEach(v -> {
+            v.setTextColor(color);
+            TextViewCompat.setCompoundDrawableTintList(v, colorStateList);
+        });
+    }
+
+    @Override
     protected DueDateChip getCardDueDate() {
         return binding.cardDueDate;
     }
@@ -149,7 +166,6 @@ public class DefaultCardViewHolder extends AbstractCardViewHolder {
     public MaterialCardView getDraggable() {
         return binding.card;
     }
-
 
     private static void setupCounter(@NonNull TextView textView, @NonNull String counterMaxValue, int count) {
         if (count > 99) {

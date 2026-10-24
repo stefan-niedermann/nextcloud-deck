@@ -12,6 +12,7 @@
     <string name="simple_filter">Филтер</string>
     <string name="simple_reset">Ресетирање</string>
     <string name="simple_update">Ажурирај</string>
+    <string name="simple_export">Извези</string>
     <string name="simple_delete">Избриши</string>
     <string name="simple_rename">Преименувај</string>
     <string name="simple_settings">Параметри</string>
@@ -241,4 +242,7 @@
     <string name="widget_upcoming_title">Престојни картици</string>
     <string name="simple_search">Барај</string>
     <string name="no_search_results_title">Нема резултати од пребарувањето</string>
+    <string name="label_color">Боја</string>
+    <string name="simple_restore">Врати</string>
+    <string name="simple_apply">Примени</string>
     </resources>

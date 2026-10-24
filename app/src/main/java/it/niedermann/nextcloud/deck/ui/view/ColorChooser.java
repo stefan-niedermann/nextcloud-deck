@@ -18,6 +18,7 @@ import com.skydoves.colorpickerview.listeners.ColorEnvelopeListener;
 
 import java.util.Arrays;
 
+import it.niedermann.nextcloud.deck.DeckLog;
 import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.databinding.WidgetColorChooserBinding;
 import it.niedermann.nextcloud.deck.ui.theme.DeckViewThemeUtils;
@@ -54,6 +55,10 @@ public class ColorChooser extends LinearLayout {
         styles.recycle();
 
         binding = WidgetColorChooserBinding.inflate(LayoutInflater.from(context), this, true);
+
+        final var colorChooserTooltip = new ColorChooserTooltip(context, R.layout.widget_color_chooser_tooltip);
+        binding.customColorPicker.setFlagView(colorChooserTooltip);
+
         for (final int color : colors) {
             final var image = new ImageView(getContext());
             image.setLayoutParams(params);
@@ -78,27 +83,36 @@ public class ColorChooser extends LinearLayout {
             binding.customColorPicker.setVisibility(View.VISIBLE);
             binding.brightnessSlide.setVisibility(View.VISIBLE);
             if (previouslySelectedImageView != null) {
-                previouslySelectedImageView.setImageDrawable(DeckViewThemeUtils.getTintedImageView(context, R.drawable.circle_36dp, selectedColor));
+                previouslySelectedImageView.setImageDrawable(DeckViewThemeUtils.getTintedImageView(context, R.drawable.circle_36dp, previouslySelectedColor));
                 previouslySelectedImageView = null;
             }
+            binding.customColorPicker.post(() -> {
+                try {
+                    binding.customColorPicker.selectByHsvColor(selectedColor);
+                } catch (IllegalAccessException | NullPointerException e) {
+                    DeckLog.error(e);
+                }
+            });
         });
 
         binding.customColorPicker.setColorListener((ColorEnvelopeListener) (envelope, fromUser) -> {
-            if (previouslySelectedImageView != null) {
-                previouslySelectedImageView.setImageDrawable(DeckViewThemeUtils.getTintedImageView(this.context, R.drawable.circle_36dp, previouslySelectedColor));
-                previouslySelectedImageView = null;
+            if (fromUser) {
+                if (previouslySelectedImageView != null) {
+                    previouslySelectedImageView.setImageDrawable(DeckViewThemeUtils.getTintedImageView(this.context, R.drawable.circle_36dp, previouslySelectedColor));
+                    previouslySelectedImageView = null;
+                }
+                @ColorInt final int customColor = envelope.getColor();
+                selectedColor = customColor;
+                previouslySelectedColor = customColor;
+                binding.customColorChooser.setImageDrawable(DeckViewThemeUtils.getTintedImageView(context, R.drawable.circle_alpha_colorize_36dp, selectedColor));
             }
-            @ColorInt
-            final int customColor = envelope.getColor();
-            selectedColor = customColor;
-            previouslySelectedColor = customColor;
-            binding.customColorChooser.setImageDrawable(DeckViewThemeUtils.getTintedImageView(context, R.drawable.circle_alpha_colorize_36dp, selectedColor));
         });
     }
 
     public void selectColor(@ColorInt int newColor) {
         boolean newColorIsCustomColor = true;
         selectedColor = newColor;
+        previouslySelectedColor = newColor;
         for (int i = 0; i < colors.length; i++) {
             if (colors[i] == newColor) {
                 binding.customColorChooser.setImageDrawable(DeckViewThemeUtils.getTintedImageView(this.context, R.drawable.circle_alpha_colorize_36dp, ContextCompat.getColor(context, R.color.board_default_custom_color)));
@@ -108,7 +122,14 @@ public class ColorChooser extends LinearLayout {
             }
         }
         if (newColorIsCustomColor) {
+            if (previouslySelectedImageView != null) {
+                previouslySelectedImageView.setImageDrawable(DeckViewThemeUtils.getTintedImageView(this.context, R.drawable.circle_36dp, previouslySelectedColor));
+                previouslySelectedImageView = null;
+            }
             binding.customColorChooser.setImageDrawable(DeckViewThemeUtils.getTintedImageView(this.context, R.drawable.circle_alpha_colorize_36dp, this.selectedColor));
+            binding.customColorPicker.setInitialColor(this.selectedColor);
+            binding.customColorPicker.setVisibility(View.VISIBLE);
+            binding.brightnessSlide.setVisibility(View.VISIBLE);
         }
     }
 

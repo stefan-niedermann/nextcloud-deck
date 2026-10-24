@@ -19,6 +19,7 @@
     <string name="simple_reset">Reset</string>
     <string name="simple_discard">Discard</string>
     <string name="simple_update">Update</string>
+    <string name="simple_export">Export</string>
     <string name="simple_delete">Delete</string>
     <string name="simple_rename">Rename</string>
     <string name="simple_settings">Settings</string>
@@ -253,8 +254,9 @@
     <string name="error_edit_activity_killed_by_android">Android finished the edit mode because it needed more system resources for other apps.</string>
 
     <string name="error_dialog_title">Oh no - What now? 🙁</string>
+    <string name="error_dialog_tip_parsing_failed">The response of your server could not be parsed as expected. Make sure you have enabled the Deck app on your Nextcloud server.</string>
     <string name="error_dialog_tip_token_mismatch_retry">Please try to force close the app and restart it again. There might have been an incorrect connection to the Nextcloud app.</string>
-    <string name="error_dialog_tip_clear_storage_might_help">If the issue persists, try to clear the storage of both apps: Nextcloud and Nextcloud Deck to solve this issue.</string>
+    <string name="error_dialog_tip_clear_storage_might_help">If the issue persists, try to clear the storage of both apps: Nextcloud and Nextcloud Deck and reimport your account.</string>
     <string name="error_dialog_tip_database_upgrade_failed">The upgrade of the database failed. Please report the issue and clear the storage to use the app normally.</string>
     <string name="error_dialog_tip_clear_storage">You can clear the storage by opening the app info and selecting Storage → Clear storage.</string>
     <string name="error_dialog_tip_offline_no_internet">It looks like you tried to trigger a synchronization without an internet connection.</string>
@@ -271,7 +273,7 @@
     <string name="error_dialog_check_maintenance">Please check whether your Nextcloud instance is not currently in maintenance mode.</string>
     <string name="error_dialog_insufficient_storage">Your Nextcloud instance has no free storage left. Please delete some files to sync your local changes into your cloud.</string>
     <string name="error_dialog_we_need_info">We need the following technical information to help you:</string>
-    <string name="error_dialog_redirect">Your server did respond with a HTTP 302 status code, which implies, that you do not have installed the Deck app on your server or something is misconfigured. This can be caused by custom overrides in a .htaccess-file or by Nextcloud apps like OID Client.</string>
+    <string name="error_dialog_redirect">Your server did respond with an HTTP 302 status code, which implies, that you do not have installed the Deck app on your server or something is misconfigured. This can be caused by custom overrides in a .htaccess-file or by Nextcloud apps like OID Client.</string>
     <string name="error_dialog_version_not_parsable">We could not determine the version of the server side Deck app. Please make sure it is installed and enabled.</string>
     <string name="error_dialog_account_might_not_be_authorized">The account of your Nextcloud app might no longer be authorized.</string>
     <string name="error_dialog_user_not_found_in_database">The current user does not match the user we have in our database. If you are using LDAP on your Nextcloud instance, your Nextcloud app might have stored an old user ID.</string>
@@ -382,4 +384,40 @@
     <string name="no_search_results_description">We have not found any result for the given search term</string>
     <string name="label_no_startdate">No start date</string>
     <string name="label_dependent_cards">Dependent cards</string>
+    <string name="label_color">Color</string>
+    <string name="label_clear_color">Clear color</string>
+    <string name="choose_color">Choose color</string>
+
+    <string name="settings_recovery_title">Emergency Recovery</string>
+    <string name="recovery_deck_server_title">Recover Deck Server</string>
+    <string name="recovery_deck_android_title">Recover Deck Android</string>
+    <string name="pref_key_recovery" translatable="false">recovery</string>
+
+    <string name="settings_restore_server_summary">⚠️ DANGER: Overwrites server data with locally available data. Locally available data is only a part of the available information and is missing attachments, activities, and more. Requires re-authentication and app restart.</string>
+    <string name="restore_warning_title">⚠️ DANGER: Overwrite server data</string>
+    <string name="simple_restore">Restore</string>
+    <string name="simple_apply">Apply</string>
+    <string name="backup_restore_warning">I accept that it is my sole responsibility to make regular backups of my data. The tools below provide limited emergency recovery capabilities and cannot be considered a proper backup solution. I understand that they should only be used when advised to do so by support.</string>
+
+    <string name="settings_create_local_backup">Create snapshot</string>
+    <string name="settings_create_local_backup_summary">Creates a snapshot of the local database. This is not a backup, and it is lacking information that is only available on your server.</string>
+
+    <string name="settings_restore_local_backup">Apply snapshot</string>
+    <string name="settings_restore_local_backup_summary">Replaces the database of Deck Android with the latest snapshot and restarts the app.</string>
+    <string name="restore_local_backup_warning_title">⚠️ Attention!</string>
+    <string name="restore_local_backup_warning_message">Not yet synchronized changes will be unrecoverably lost. Ensure you took note of your local changes.</string>
+
+    <string name="restore_local_backup_success">Database restored. The app will restart now.</string>
+    <string name="restore_local_backup_failed">Database restore failed.</string>
+
+    <string name="create_local_backup_success">Snapshot created successfully.</string>
+    <string name="create_local_backup_failed">Snapshot failed.</string>
+
+    <string name="settings_export_database">Export snapshot</string>
+    <string name="settings_export_database_summary">Copies the last snapshot containing the Deck Android SQLite database file to a location of your choice. This does not contain all information. This is not a proper backup solution.</string>
+    <string name="export_database_failed">Export failed.</string>
+    <string name="export_database_success">Snapshot exported successfully.</string>
+
+    <string name="restore_warning_message">This will overwrite all data on the server for this account with your local partial copy and restart the Deck Android app.\n\nRequirements:\n- User account exists on server\n- All users boards are shared with, must exist on the server\n- Properly authenticated in Nextcloud Files app\n\nAttachments, Activities and more:\nNot all attachments might be available locally and thus cannot be uploaded to the new server. Activities are generally only created by Deck server. This and other information may be missing after performing the restore.\n\nUsers that must exist on server:\n%1$s</string>
+    <string name="restore_backup_failed">Database backup failed. Restore canceled.</string>
 </resources>
