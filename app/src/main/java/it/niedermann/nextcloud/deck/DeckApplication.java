@@ -4,7 +4,7 @@ import android.app.Application;
 import android.os.StrictMode;
 
 import java.util.concurrent.ExecutorService;
-import java.util.concurrent.SynchronousQueue;
+import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 
@@ -14,7 +14,7 @@ import it.niedermann.nextcloud.deck.util.CustomAppGlideModule;
 
 public class DeckApplication extends Application {
 
-    private final ExecutorService executor = new ThreadPoolExecutor(0, 2, 0L, TimeUnit.SECONDS, new SynchronousQueue<>());
+    private final ExecutorService executor = new ThreadPoolExecutor(0, 2, 0L, TimeUnit.SECONDS, new LinkedBlockingQueue<>());
 
     @Override
     public void onCreate() {
