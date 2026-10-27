@@ -330,4 +330,5 @@
     <string name="no_search_results_description">Berilgan qidiruv soʻzi boʻyicha hech qanday natija topilmadi</string>
     <string name="label_color">Rang</string>
     <string name="simple_restore">Qayta tiklangan</string>
+    <string name="simple_apply">Qo\'llash</string>
     </resources>
