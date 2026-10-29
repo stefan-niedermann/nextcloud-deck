@@ -21,6 +21,12 @@ public abstract class AbstractSyncDataProvider<T extends IRemoteEntity> {
 
     @Nullable
     protected final AbstractSyncDataProvider<?> parent;
+    /**
+     * Children are added and removed from many request callback threads at once. Every access to {@link #children}
+     * and {@link #stillGoingDeeper}, including the "all done?" check, must hold this lock; otherwise a lost
+     * remove leaves a child behind forever and the sync never reports this provider as done.
+     */
+    private final Object childrenLock = new Object();
     protected final List<AbstractSyncDataProvider<?>> children = new ArrayList<>();
     protected boolean stillGoingDeeper = false;
 
@@ -72,7 +78,9 @@ public abstract class AbstractSyncDataProvider<T extends IRemoteEntity> {
     }
 
     public void addChild(AbstractSyncDataProvider<?> child) {
-        children.add(child);
+        synchronized (childrenLock) {
+            children.add(child);
+        }
     }
 
     @SuppressWarnings("UnnecessaryReturnStatement")
@@ -112,8 +120,13 @@ public abstract class AbstractSyncDataProvider<T extends IRemoteEntity> {
     public abstract void deleteOnServer(ServerAdapter serverAdapter, long accountId, ResponseCallback<EmptyResponse> callback, T entity, DataBaseAdapter dataBaseAdapter);
 
     public void childDone(AbstractSyncDataProvider<?> child, ResponseCallback<Boolean> responseCallback, boolean syncChangedSomething) {
-        removeChild(child);
-        if (!stillGoingDeeper && children.isEmpty()) {
+        final boolean allDone;
+        synchronized (childrenLock) {
+            removeChild(child);
+            allDone = !stillGoingDeeper && children.isEmpty();
+        }
+        // Notify outside the lock, so that parent and child locks are never held at the same time.
+        if (allDone) {
             if (parent != null) {
                 parent.childDone(this, responseCallback, syncChangedSomething);
             } else {
@@ -123,16 +136,22 @@ public abstract class AbstractSyncDataProvider<T extends IRemoteEntity> {
     }
 
     protected boolean removeChild(AbstractSyncDataProvider<?> child) {
-        return children.remove(child);
+        synchronized (childrenLock) {
+            return children.remove(child);
+        }
     }
 
     public void doneGoingDeeper(ResponseCallback<Boolean> responseCallback, boolean syncChangedSomething) {
-        stillGoingDeeper = false;
+        synchronized (childrenLock) {
+            stillGoingDeeper = false;
+        }
         childDone(this, responseCallback, syncChangedSomething);
     }
 
     public void goingDeeper() {
-        stillGoingDeeper = true;
+        synchronized (childrenLock) {
+            stillGoingDeeper = true;
+        }
     }
 
     public abstract List<T> getAllChangedFromDB(DataBaseAdapter dataBaseAdapter, long accountId, Instant lastSync);
