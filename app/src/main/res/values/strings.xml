@@ -176,6 +176,7 @@
     <string name="minutes_15">15 minutes</string>
     <string name="hour_1">1 hour</string>
     <string name="hours_6">6 hours</string>
+    <string name="action_card_move_to_top">Move card to top</string>
     <string name="action_card_move">Move card</string>
     <string name="action_card_move_title">Move %1$s</string>
     <string name="title_is_mandatory">Title is required</string>

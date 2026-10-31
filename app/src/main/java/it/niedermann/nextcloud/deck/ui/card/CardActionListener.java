@@ -17,6 +17,8 @@ public interface CardActionListener {
 
     void onMove(@NonNull FullBoard fullBoard, @NonNull FullCard fullCard);
 
+    void onMoveToTop(@NonNull FullCard fullCard);
+
     void onShareLink(@NonNull FullBoard fullBoard, @NonNull FullCard fullCard);
 
     void onShareContent(@NonNull FullCard fullCard);

@@ -98,7 +98,8 @@ public class UpcomingCardsActivity extends AppCompatActivity implements Themed, 
                             CallbackUtil.runOnUiThread(UpcomingCardsActivity.this, () -> ExceptionDialogFragment.newInstance(throwable, null).show(getSupportFragmentManager(), ExceptionDialogFragment.class.getSimpleName()));
                         }
                     }
-                })
+                }),
+                fullCard -> viewModel.moveCardToTop(fullCard)
         );
         binding.recyclerView.setAdapter(adapter);
         viewModel.getUpcomingCards().observe(this, items -> {
