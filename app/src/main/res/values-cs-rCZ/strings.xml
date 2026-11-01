@@ -341,6 +341,7 @@
     <string name="enter_search_term_description">Pokud chcete hledat karty na této tabuli, zadejte hledaný pojem</string>
     <string name="no_search_results_title">Nic nenalezeno</string>
     <string name="no_search_results_description">Pro daný hledaný pojem nebylo nic nalezeno</string>
+    <string name="label_dependent_cards">Závislé karty</string>
     <string name="label_color">Barva</string>
     <string name="choose_color">Zvolte barvu</string>
 

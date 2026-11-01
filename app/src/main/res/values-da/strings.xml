@@ -153,7 +153,7 @@
     <string name="hours_6">6 timer</string>
     <string name="action_card_move">Flyt kort</string>
     <string name="action_card_move_title">Flyt %1$s</string>
-    <string name="title_is_mandatory">Titlen er påkrævet</string>
+    <string name="title_is_mandatory">Titlen er obligatorisk</string>
     <string name="provide_at_least_a_title_or_description">Angiv mindst en titel eller en beskrivelse</string>
     <string name="welcome_text">Velkommen til %1$s</string>
     <string name="welcome_text_further_accounts">Tilføj en anden konto</string>
@@ -327,7 +327,7 @@
     <string name="account_imported">Kontoen er importeret</string>
     <string name="simple_search">Søg</string>
     <!-- Label for a title input field that is required to be filled out -->
-    <string name="title_mandatory">Titel (påkrævet)</string>
+    <string name="title_mandatory">Titel (obligatorisk)</string>
     <string name="saving_new_card">Gemmer nyt kort…</string>
     <string name="progress_import">Importerer tavle %1$d af %2$d…</string>
     <string name="progress_import_indeterminate">Importerer tavler…</string>
