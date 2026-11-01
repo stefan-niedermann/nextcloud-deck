@@ -101,6 +101,7 @@ public class UpcomingCardsActivity extends AppCompatActivity implements Themed, 
                         }
                     }
                 }),
+                fullCard -> viewModel.moveCardToTop(fullCard),
                 fullCard -> {
                     final var card = fullCard.getCard();
                     card.setDone(card.getDone() == null ? Instant.now() : null);

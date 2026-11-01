@@ -10,6 +10,7 @@ import com.nextcloud.android.sso.exceptions.NextcloudFilesAppAccountNotFoundExce
 
 import java.util.List;
 
+import it.niedermann.nextcloud.deck.DeckLog;
 import it.niedermann.nextcloud.deck.model.Account;
 import it.niedermann.nextcloud.deck.model.Card;
 import it.niedermann.nextcloud.deck.model.full.FullCard;
@@ -70,6 +71,18 @@ public class UpcomingCardsViewModel extends BaseViewModel {
                 syncManager.deleteCard(card, callback);
             } catch (NextcloudFilesAppAccountNotFoundException e) {
                 callback.onError(e);
+            }
+        });
+    }
+
+    public void moveCardToTop(@NonNull FullCard fullCard) {
+        executor.submit(() -> {
+            final var account = baseRepository.readAccountDirectly(fullCard.getAccountId());
+            try {
+                final var syncManager = new SyncRepository(getApplication(), account);
+                syncManager.reorder(fullCard.getAccountId(), fullCard, fullCard.getCard().getStackId(), 0);
+            } catch (NextcloudFilesAppAccountNotFoundException e) {
+                DeckLog.logError(e);
             }
         });
     }

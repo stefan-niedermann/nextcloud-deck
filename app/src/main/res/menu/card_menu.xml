@@ -18,6 +18,10 @@
         android:title="@string/action_card_unassign"
         app:showAsAction="never" />
     <item
+        android:id="@+id/action_card_move_to_top"
+        android:title="@string/action_card_move_to_top"
+        app:showAsAction="never" />
+    <item
         android:id="@+id/action_card_move"
         android:title="@string/action_card_move"
         app:showAsAction="never" />
