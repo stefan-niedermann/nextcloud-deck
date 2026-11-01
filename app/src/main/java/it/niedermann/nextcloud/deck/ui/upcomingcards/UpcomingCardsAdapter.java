@@ -9,7 +9,6 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.FragmentManager;
-import androidx.preference.PreferenceManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
@@ -56,6 +55,7 @@ public class UpcomingCardsAdapter extends RecyclerView.Adapter<RecyclerView.View
     private final Consumer<Card> deleteCard;
     @NonNull
     private final Consumer<FullCard> moveToTopCard;
+    private final Consumer<FullCard> toggleDone;
     private final int maxCoverImages;
 
     public UpcomingCardsAdapter(@NonNull Activity activity, @NonNull FragmentManager fragmentManager,
@@ -63,7 +63,8 @@ public class UpcomingCardsAdapter extends RecyclerView.Adapter<RecyclerView.View
                                 @NonNull BiConsumer<Account, Card> unassignCard,
                                 @NonNull Consumer<FullCard> archiveCard,
                                 @NonNull Consumer<Card> deleteCard,
-                                @NonNull Consumer<FullCard> moveToTopCard) {
+                                @NonNull Consumer<FullCard> moveToTopCard,
+                                @NonNull Consumer<FullCard> toggleDone) {
         this.activity = activity;
         this.counterMaxValue = this.activity.getString(R.string.counter_max_value);
         this.fragmentManager = fragmentManager;
@@ -74,7 +75,8 @@ public class UpcomingCardsAdapter extends RecyclerView.Adapter<RecyclerView.View
         this.archiveCard = archiveCard;
         this.deleteCard = deleteCard;
         this.moveToTopCard = moveToTopCard;
-        this.maxCoverImages = PreferenceManager.getDefaultSharedPreferences(activity).getBoolean(activity.getString(R.string.pref_key_cover_images), true)
+        this.toggleDone = toggleDone;
+        this.maxCoverImages = getDefaultSharedPreferences(activity).getBoolean(activity.getString(R.string.pref_key_cover_images), true)
                 ? activity.getResources().getInteger(R.integer.max_cover_images)
                 : 0;
         setHasStableIds(true);
@@ -157,7 +159,8 @@ public class UpcomingCardsAdapter extends RecyclerView.Adapter<RecyclerView.View
                                 unassignCard,
                                 archiveCard,
                                 deleteCard,
-                                moveToTopCard
+                                moveToTopCard,
+                                toggleDone
                         ), counterMaxValue, utils);
                 cardViewHolder.bindCardClickListener((v) -> activity.startActivity(EditActivity.createEditCardIntent(activity, cardItem.getAccount(), cardItem.getCurrentBoardLocalId(), cardItem.getFullCard().getLocalId())));
             } else {

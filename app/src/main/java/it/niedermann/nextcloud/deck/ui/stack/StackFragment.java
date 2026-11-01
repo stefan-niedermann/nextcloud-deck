@@ -5,6 +5,8 @@ import static it.niedermann.nextcloud.deck.util.MimeTypeUtil.TEXT_PLAIN;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+
+import java.time.Instant;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -217,6 +219,24 @@ public class StackFragment extends Fragment implements Themed, DragAndDropTab<Ca
             @Override
             public void onResponse(FullCard response, Headers headers) {
                 DeckLog.info("Successfully archived", Card.class.getSimpleName(), fullCard.getCard().getTitle());
+            }
+
+            @Override
+            public void onError(Throwable throwable) {
+                IResponseCallback.super.onError(throwable);
+                showExceptionDialog(throwable, fullCard.getAccountId());
+            }
+        });
+    }
+
+    @Override
+    public void onToggleDone(@NonNull FullCard fullCard) {
+        final var card = fullCard.getCard();
+        card.setDone(card.getDone() == null ? Instant.now() : null);
+        stackViewModel.updateCard(fullCard, new IResponseCallback<>() {
+            @Override
+            public void onResponse(FullCard response, Headers headers) {
+                DeckLog.info("Successfully updated done state for card", card.getTitle());
             }
 
             @Override

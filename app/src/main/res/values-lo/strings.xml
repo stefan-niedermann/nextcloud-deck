@@ -17,6 +17,7 @@
     <string name="simple_reset">ຕັ້ງຄ່າໃໝ່</string>
     <string name="simple_discard">ຍົກເລີກ</string>
     <string name="simple_update">ອັບເດດ</string>
+    <string name="simple_export">ສົ່ງອອກ</string>
     <string name="simple_delete">ລຶບ</string>
     <string name="simple_rename">ປ່ຽນຊື່</string>
     <string name="simple_settings">ການຕັ້ງຄ່າ</string>
@@ -330,4 +331,7 @@
     <string name="no_search_results_description">ລອງໃຊ້ຄຳຄົ້ນຫາອື່ນເບິ່ງ.</string>
     <string name="label_color">ສີ</string>
     <string name="choose_color">ເລືອກສີ</string>
-</resources>
+
+    <string name="simple_restore">ກູ້ຄືນ</string>
+    <string name="simple_apply">Apply</string>
+    </resources>

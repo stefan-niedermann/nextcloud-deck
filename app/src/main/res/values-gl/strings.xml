@@ -17,6 +17,7 @@
     <string name="simple_reset">Restabelecer</string>
     <string name="simple_discard">Desbortar</string>
     <string name="simple_update">Actualizar</string>
+    <string name="simple_export">Exportar</string>
     <string name="simple_delete">Eliminar</string>
     <string name="simple_rename">Cambiar o nome</string>
     <string name="simple_settings">Axustes</string>
@@ -334,4 +335,7 @@
     <string name="no_search_results_description">Non foi atopado ningún resultado para o termo de busca dado</string>
     <string name="label_color">Cor</string>
     <string name="choose_color">Escoller a cor</string>
-</resources>
+
+    <string name="simple_restore">Restaurar</string>
+    <string name="simple_apply">Aplicar</string>
+    </resources>

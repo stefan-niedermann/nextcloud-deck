@@ -17,6 +17,7 @@
     <string name="simple_reset">Tilbakestill</string>
     <string name="simple_discard">Slett</string>
     <string name="simple_update">Oppdater</string>
+    <string name="simple_export">Eksporter</string>
     <string name="simple_delete">Slett</string>
     <string name="simple_rename">Endre navn</string>
     <string name="simple_settings">Innstillinger</string>
@@ -334,4 +335,7 @@
     <string name="no_search_results_description">Vi fant ingen resultater for dine oppgitte søkeord</string>
     <string name="label_color">Farge</string>
     <string name="choose_color">Velg farge</string>
-</resources>
+
+    <string name="simple_restore">Gjenopprett</string>
+    <string name="simple_apply">Bruk</string>
+    </resources>

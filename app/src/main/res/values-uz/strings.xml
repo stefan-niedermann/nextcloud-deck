@@ -17,6 +17,7 @@
     <string name="simple_reset">Qayta tiklash</string>
     <string name="simple_discard">Bekor qilish</string>
     <string name="simple_update">Yangilash</string>
+    <string name="simple_export">Eksport</string>
     <string name="simple_delete">Oʻchirish</string>
     <string name="simple_rename">Nomini o\'zgartirish</string>
     <string name="simple_settings">Sozlamalar</string>
@@ -328,4 +329,6 @@
     <string name="no_search_results_title">Qidiruv natijalari yo‘q</string>
     <string name="no_search_results_description">Berilgan qidiruv soʻzi boʻyicha hech qanday natija topilmadi</string>
     <string name="label_color">Rang</string>
+    <string name="simple_restore">Qayta tiklangan</string>
+    <string name="simple_apply">Qo\'llash</string>
     </resources>

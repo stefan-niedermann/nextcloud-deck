@@ -17,6 +17,7 @@
     <string name="simple_reset">Ponastavi</string>
     <string name="simple_discard">Opusti</string>
     <string name="simple_update">Posodobi</string>
+    <string name="simple_export">Izvozi</string>
     <string name="simple_delete">Izbriši</string>
     <string name="simple_rename">Preimenuj</string>
     <string name="simple_settings">Nastavitve</string>
@@ -337,4 +338,7 @@
     <string name="no_search_results_description">Za vpisan iskalni niz ni najdenih zadetkov</string>
     <string name="label_color">Barva</string>
     <string name="choose_color">Izbor barve</string>
-</resources>
+
+    <string name="simple_restore">Obnovi</string>
+    <string name="simple_apply">Uveljavi</string>
+    </resources>

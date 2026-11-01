@@ -42,6 +42,7 @@ public class UpcomingCardsOptionsItemSelectedListener implements CardOptionsItem
     private final Consumer<Card> deleteCard;
     @NonNull
     private final Consumer<FullCard> moveToTopCard;
+    private final Consumer<FullCard> toggleDone;
 
     public UpcomingCardsOptionsItemSelectedListener
             (@NonNull Account account,
@@ -53,7 +54,8 @@ public class UpcomingCardsOptionsItemSelectedListener implements CardOptionsItem
              @NonNull BiConsumer<Account, Card> unassignCard,
              @NonNull Consumer<FullCard> archiveCard,
              @NonNull Consumer<Card> deleteCard,
-             @NonNull Consumer<FullCard> moveToTopCard
+             @NonNull Consumer<FullCard> moveToTopCard,
+             @NonNull Consumer<FullCard> toggleDone
             ) {
         this.account = account;
         this.activity = activity;
@@ -65,6 +67,7 @@ public class UpcomingCardsOptionsItemSelectedListener implements CardOptionsItem
         this.archiveCard = archiveCard;
         this.deleteCard = deleteCard;
         this.moveToTopCard = moveToTopCard;
+        this.toggleDone = toggleDone;
     }
 
     @Override
@@ -104,6 +107,9 @@ public class UpcomingCardsOptionsItemSelectedListener implements CardOptionsItem
             return true;
         } else if (itemId == R.id.action_card_archive) {
             archiveCard.accept(fullCard);
+            return true;
+        } else if (itemId == R.id.action_card_done) {
+            toggleDone.accept(fullCard);
             return true;
         } else if (itemId == R.id.action_card_delete) {
             deleteCard.accept(fullCard.getCard());

@@ -17,6 +17,7 @@
     <string name="simple_reset">Відхилити зміни</string>
     <string name="simple_discard">Відхилити</string>
     <string name="simple_update">Оновлення</string>
+    <string name="simple_export">Експорт</string>
     <string name="simple_delete">Вилучити</string>
     <string name="simple_rename">Перейменувати</string>
     <string name="simple_settings">Налаштування</string>
@@ -342,4 +343,7 @@
     <string name="no_search_results_description">Ми не знайшли жодного результату за заданим пошуковим запитом</string>
     <string name="label_color">Колір</string>
     <string name="choose_color">Виберіть колір</string>
-</resources>
+
+    <string name="simple_restore">Відновити</string>
+    <string name="simple_apply">Застосувати</string>
+    </resources>

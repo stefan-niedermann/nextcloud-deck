@@ -17,6 +17,7 @@
     <string name="simple_reset">Resetuj</string>
     <string name="simple_discard">Odrzuć</string>
     <string name="simple_update">Aktualizuj</string>
+    <string name="simple_export">Eksportuj</string>
     <string name="simple_delete">Usuń</string>
     <string name="simple_rename">Zmień nazwę</string>
     <string name="simple_settings">Ustawienia</string>
@@ -341,4 +342,6 @@
     <string name="no_search_results_title">Brak wyników wyszukiwania</string>
     <string name="no_search_results_description">Nie znaleźliśmy żadnych wyników dla podanego terminu wyszukiwania</string>
     <string name="label_color">Kolor</string>
+    <string name="simple_restore">Przywróć</string>
+    <string name="simple_apply">Zastosuj</string>
     </resources>

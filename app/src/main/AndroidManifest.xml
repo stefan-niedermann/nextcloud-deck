@@ -121,6 +121,11 @@
             android:parentActivityName="it.niedermann.nextcloud.deck.ui.main.MainActivity" />
 
         <activity
+            android:name=".ui.settings.RecoveryActivity"
+            android:label="@string/settings_recovery_title"
+            android:parentActivityName="it.niedermann.nextcloud.deck.ui.settings.SettingsActivity" />
+
+        <activity
             android:name=".ui.ImportAccountActivity"
             android:label="@string/app_name" />
 

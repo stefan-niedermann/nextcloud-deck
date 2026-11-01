@@ -17,6 +17,7 @@
     <string name="simple_reset">ئەسلىگە قايتۇرۇش</string>
     <string name="simple_discard">تاشلىۋېتىش</string>
     <string name="simple_update">يېڭىلاش</string>
+    <string name="simple_export">ئېكسپورت</string>
     <string name="simple_delete">ئۆچۈرۈش</string>
     <string name="simple_rename">ئىسىم ئۆزگەرتىش</string>
     <string name="simple_settings">تەڭشەك</string>
@@ -334,4 +335,7 @@
     <string name="no_search_results_description">بېرىلگەن ئىزدەش سۆزى ئۈچۈن ھېچقانداق نەتىجىنى تاپالمىدۇق</string>
     <string name="label_color">رەڭ</string>
     <string name="choose_color">رەڭ تاللاڭ</string>
-</resources>
+
+    <string name="simple_restore">ئەسلىگە كەلتۈرۈش</string>
+    <string name="simple_apply">ئىلتىماس قىلىڭ</string>
+    </resources>

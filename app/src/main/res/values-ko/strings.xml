@@ -17,6 +17,7 @@
     <string name="simple_reset">초기화</string>
     <string name="simple_discard">무시</string>
     <string name="simple_update">업데이트</string>
+    <string name="simple_export">내보내기</string>
     <string name="simple_delete">삭제</string>
     <string name="simple_rename">이름 바꾸기</string>
     <string name="simple_settings">설정</string>
@@ -314,4 +315,6 @@
     <string name="progress_import_indeterminate">보드 가져오기</string>
     <string name="no_search_results_title">검색 결과 없음</string>
     <string name="label_color">색</string>
+    <string name="simple_restore">복원</string>
+    <string name="simple_apply">적용</string>
     </resources>

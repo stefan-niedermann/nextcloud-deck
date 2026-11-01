@@ -17,6 +17,7 @@
     <string name="simple_reset">リセット</string>
     <string name="simple_discard">破棄</string>
     <string name="simple_update">更新</string>
+    <string name="simple_export">エクスポート</string>
     <string name="simple_delete">削除</string>
     <string name="simple_rename">名前変更</string>
     <string name="simple_settings">設定</string>
@@ -322,4 +323,6 @@
     <string name="enter_search_term_description">単語を入力してボードのカードを検索する</string>
     <string name="no_search_results_title">検索結果なし</string>
     <string name="label_color">色</string>
+    <string name="simple_restore">復元</string>
+    <string name="simple_apply">適用</string>
     </resources>
