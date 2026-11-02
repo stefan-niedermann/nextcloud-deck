@@ -34,6 +34,10 @@ public class StackViewModel extends SyncViewModel {
         syncRepository.moveCard(originAccountId, originCardLocalId, targetAccountId, targetBoardLocalId, targetStackLocalId, callback);
     }
 
+    public void reorder(@NonNull FullCard movedCard, long newStackId, int newIndex) {
+        syncRepository.reorder(movedCard.getAccountId(), movedCard, newStackId, newIndex);
+    }
+
     public LiveData<Account> getAccount(long accountId) {
         return new ReactiveLiveData<>(baseRepository.readAccount(accountId))
                 .distinctUntilChanged();

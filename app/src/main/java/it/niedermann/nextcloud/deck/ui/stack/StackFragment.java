@@ -284,6 +284,12 @@ public class StackFragment extends Fragment implements Themed, DragAndDropTab<Ca
     }
 
     @Override
+    public void onMoveToTop(@NonNull FullCard fullCard) {
+        DeckLog.verbose("[Move card] Move " + Card.class.getSimpleName() + " \"" + fullCard.getCard().getTitle() + "\" (#" + fullCard.getLocalId() + ") to top of " + Stack.class.getSimpleName() + " #" + +stackId);
+        stackViewModel.reorder(fullCard, fullCard.getCard().getStackId(), 0);
+    }
+
+    @Override
     public void onShareLink(@NonNull FullBoard fullBoard, @NonNull FullCard fullCard) {
         stackViewModel.getAccountFuture(fullCard.getAccountId()).thenAcceptAsync(account -> {
             final int shareLinkRes = account.getServerDeckVersionAsObject().getShareLinkResource();

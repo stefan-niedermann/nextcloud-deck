@@ -173,6 +173,9 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchViewHolder> implem
             }
             cardActionListener.onMove(fullBoard, fullCard);
             return true;
+        } else if (itemId == R.id.action_card_move_to_top) {
+            cardActionListener.onMoveToTop(fullCard);
+            return true;
         } else if (itemId == R.id.action_card_archive) {
             cardActionListener.onArchive(fullCard);
             return true;
