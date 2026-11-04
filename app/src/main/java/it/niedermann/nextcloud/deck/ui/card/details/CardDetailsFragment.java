@@ -491,7 +491,10 @@ public class CardDetailsFragment extends Fragment implements
         }
 
         dependentsAdapter.setCards(this.viewModel.getFullCard().getDependents());
-        this.viewModel.getFullCard().getDependents().forEach(((DependentAutoCompleteAdapter) binding.dependentsAutoComplete.getAdapter())::exclude);
+        DependentAutoCompleteAdapter adapter = (DependentAutoCompleteAdapter) binding.dependentsAutoComplete.getAdapter();
+        if (adapter != null) {
+            this.viewModel.getFullCard().getDependents().forEach(adapter::exclude);
+        }
     }
 
     private void setupProjects() {
