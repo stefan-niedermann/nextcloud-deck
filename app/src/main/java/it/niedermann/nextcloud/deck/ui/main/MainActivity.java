@@ -99,6 +99,7 @@ import it.niedermann.nextcloud.deck.ui.card.CardActionListener;
 import it.niedermann.nextcloud.deck.ui.card.CardAdapter;
 import it.niedermann.nextcloud.deck.ui.card.CreateCardListener;
 import it.niedermann.nextcloud.deck.ui.card.NewCardDialog;
+import it.niedermann.nextcloud.deck.ui.deeplink.BoardDeepLink;
 import it.niedermann.nextcloud.deck.ui.exception.ExceptionDialogFragment;
 import it.niedermann.nextcloud.deck.ui.exception.ExceptionHandler;
 import it.niedermann.nextcloud.deck.ui.filter.FilterDialogFragment;
@@ -350,7 +351,29 @@ public class MainActivity extends AppCompatActivity implements DeleteStackListen
                             binding.viewPager.registerOnPageChangeCallback(stackChangeCallback);
                         }
                     });
+
+            if (savedInstanceState == null) {
+                openBoardFromDeepLink(getIntent());
+            }
         }
+    }
+
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        openBoardFromDeepLink(intent);
+    }
+
+    private void openBoardFromDeepLink(@Nullable Intent intent) {
+        BoardDeepLink.from(intent).ifPresent(link -> mainViewModel.openBoard(link.getAccountName(), link.getBoardRemoteId())
+                .whenCompleteAsync((result, throwable) -> {
+                    if (throwable == null) {
+                        return;
+                    }
+                    DeckLog.warn("Could not open board", link.getBoardRemoteId(), "of", link.getAccountName(), throwable);
+                    ThemedSnackbar.make(binding.coordinatorLayout, R.string.open_board_failed, Snackbar.LENGTH_LONG,
+                            ContextCompat.getColor(this, R.color.defaultBrand)).show();
+                }, ContextCompat.getMainExecutor(this)));
     }
 
     private void applyAccount(@NonNull Account account) throws NextcloudFilesAppAccountNotFoundException {
