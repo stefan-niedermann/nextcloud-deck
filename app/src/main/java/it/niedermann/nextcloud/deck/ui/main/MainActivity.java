@@ -7,8 +7,6 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
-
-import java.time.Instant;
 import android.net.ConnectivityManager;
 import android.net.Network;
 import android.net.NetworkRequest;
@@ -57,6 +55,7 @@ import com.nextcloud.android.sso.exceptions.NextcloudHttpRequestFailedException;
 import com.nextcloud.android.sso.exceptions.UnknownErrorException;
 
 import java.net.HttpURLConnection;
+import java.time.Instant;
 import java.util.List;
 import java.util.Map;
 import java.util.NoSuchElementException;
@@ -99,6 +98,7 @@ import it.niedermann.nextcloud.deck.ui.card.CardActionListener;
 import it.niedermann.nextcloud.deck.ui.card.CardAdapter;
 import it.niedermann.nextcloud.deck.ui.card.CreateCardListener;
 import it.niedermann.nextcloud.deck.ui.card.NewCardDialog;
+import it.niedermann.nextcloud.deck.ui.deeplink.BoardDeepLink;
 import it.niedermann.nextcloud.deck.ui.exception.ExceptionDialogFragment;
 import it.niedermann.nextcloud.deck.ui.exception.ExceptionHandler;
 import it.niedermann.nextcloud.deck.ui.filter.FilterDialogFragment;
@@ -350,7 +350,35 @@ public class MainActivity extends AppCompatActivity implements DeleteStackListen
                             binding.viewPager.registerOnPageChangeCallback(stackChangeCallback);
                         }
                     });
+
+            if (savedInstanceState == null) {
+                openBoardFromDeepLink(getIntent());
+            }
         }
+    }
+
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        openBoardFromDeepLink(intent);
+    }
+
+    private void openBoardFromDeepLink(@Nullable Intent intent) {
+        final var optionalBoardDeepLink = BoardDeepLink.from(intent);
+        if (optionalBoardDeepLink.isEmpty()) {
+            return;
+        }
+
+        final var link = optionalBoardDeepLink.get();
+        final var futureResult = mainViewModel.openBoard(link.getAccountName(), link.getBoardRemoteId());
+        futureResult.whenCompleteAsync((result, throwable) -> {
+            if (throwable == null) {
+                return;
+            }
+            DeckLog.warn("Could not open board", link.getBoardRemoteId(), "of", link.getAccountName(), throwable);
+            final var brandColor = ContextCompat.getColor(this, R.color.defaultBrand);
+            ThemedSnackbar.make(binding.coordinatorLayout, R.string.open_board_failed, Snackbar.LENGTH_LONG, brandColor).show();
+        }, ContextCompat.getMainExecutor(this));
     }
 
     private void applyAccount(@NonNull Account account) throws NextcloudFilesAppAccountNotFoundException {

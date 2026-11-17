@@ -230,6 +230,7 @@
 
     <string name="error">An error appeared</string>
     <string name="synchronization_failed">Synchronization failed</string>
+    <string name="open_board_failed">Could not open the board</string>
     <string name="operation_not_yet_supported">Not yet supported</string>
     <string name="error_revoking_ac">Error while revoking the access for %1$s</string>
     <string name="error_create_label">Error while creating label %1$s</string>

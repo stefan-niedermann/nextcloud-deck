@@ -2,6 +2,7 @@ package it.niedermann.nextcloud.deck.ui.main;
 
 import static java.util.concurrent.CompletableFuture.supplyAsync;
 
+import android.annotation.SuppressLint;
 import android.app.Application;
 
 import androidx.annotation.ColorInt;
@@ -18,6 +19,7 @@ import java.io.File;
 import java.time.Instant;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
 
 import it.niedermann.android.reactivelivedata.ReactiveLiveData;
@@ -38,6 +40,7 @@ import it.niedermann.nextcloud.deck.remote.api.IResponseCallback;
 import it.niedermann.nextcloud.deck.remote.api.ResponseCallback;
 import it.niedermann.nextcloud.deck.repository.SyncRepository;
 import it.niedermann.nextcloud.deck.ui.viewmodel.BaseViewModel;
+import okhttp3.Headers;
 
 @SuppressWarnings("WeakerAccess")
 public class MainViewModel extends BaseViewModel {
@@ -96,6 +99,52 @@ public class MainViewModel extends BaseViewModel {
 
     public void saveCurrentBoardId(long accountId, long boardId) {
         baseRepository.saveCurrentBoardId(accountId, boardId);
+    }
+
+    public CompletableFuture<Void> openBoard(@NonNull String accountName, long boardRemoteId) {
+        final var accountFuture = supplyAsync(() -> {
+            final var account = baseRepository.readAccountDirectly(accountName);
+            if (account == null) {
+                throw new IllegalArgumentException("No account " + accountName);
+            }
+            return account;
+        }, executor);
+
+        return accountFuture.thenComposeAsync(account -> {
+            final var boardFuture = findBoard(account, boardRemoteId);
+
+            return boardFuture.thenAcceptAsync(board -> {
+                baseRepository.saveCurrentBoardId(account.getId(), board.getLocalId());
+                baseRepository.saveCurrentAccount(account);
+            }, executor);
+        }, executor);
+    }
+
+    private CompletableFuture<Board> findBoard(@NonNull Account account, long boardRemoteId) {
+        final var localBoard = baseRepository.getBoardByRemoteIdDirectly(account.getId(), boardRemoteId);
+        if (localBoard != null) {
+            return CompletableFuture.completedFuture(localBoard);
+        }
+
+        final var result = new CompletableFuture<Board>();
+        try {
+            new SyncRepository(getApplication(), account).synchronize(new ResponseCallback<>(account) {
+                @Override
+                public void onResponse(Boolean response, Headers headers) {
+                    executor.submit(() -> Optional.ofNullable(baseRepository.getBoardByRemoteIdDirectly(account.getId(), boardRemoteId))
+                            .ifPresentOrElse(result::complete, () -> result.completeExceptionally(new IllegalArgumentException("No board " + boardRemoteId))));
+                }
+
+                @SuppressLint("MissingSuperCall")
+                @Override
+                public void onError(Throwable throwable) {
+                    result.completeExceptionally(throwable);
+                }
+            });
+        } catch (NextcloudFilesAppAccountNotFoundException e) {
+            result.completeExceptionally(e);
+        }
+        return result;
     }
 
     public void createBoard(@NonNull Account account, @NonNull Board board, @NonNull IResponseCallback<FullBoard> callback) {
