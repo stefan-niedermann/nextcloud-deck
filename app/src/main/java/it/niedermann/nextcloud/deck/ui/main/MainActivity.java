@@ -7,8 +7,6 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
-
-import java.time.Instant;
 import android.net.ConnectivityManager;
 import android.net.Network;
 import android.net.NetworkRequest;
@@ -57,6 +55,7 @@ import com.nextcloud.android.sso.exceptions.NextcloudHttpRequestFailedException;
 import com.nextcloud.android.sso.exceptions.UnknownErrorException;
 
 import java.net.HttpURLConnection;
+import java.time.Instant;
 import java.util.List;
 import java.util.Map;
 import java.util.NoSuchElementException;
@@ -365,15 +364,21 @@ public class MainActivity extends AppCompatActivity implements DeleteStackListen
     }
 
     private void openBoardFromDeepLink(@Nullable Intent intent) {
-        BoardDeepLink.from(intent).ifPresent(link -> mainViewModel.openBoard(link.getAccountName(), link.getBoardRemoteId())
-                .whenCompleteAsync((result, throwable) -> {
-                    if (throwable == null) {
-                        return;
-                    }
-                    DeckLog.warn("Could not open board", link.getBoardRemoteId(), "of", link.getAccountName(), throwable);
-                    ThemedSnackbar.make(binding.coordinatorLayout, R.string.open_board_failed, Snackbar.LENGTH_LONG,
-                            ContextCompat.getColor(this, R.color.defaultBrand)).show();
-                }, ContextCompat.getMainExecutor(this)));
+        final var optionalBoardDeepLink = BoardDeepLink.from(intent);
+        if (optionalBoardDeepLink.isEmpty()) {
+            return;
+        }
+
+        final var link = optionalBoardDeepLink.get();
+        final var futureResult = mainViewModel.openBoard(link.getAccountName(), link.getBoardRemoteId());
+        futureResult.whenCompleteAsync((result, throwable) -> {
+            if (throwable == null) {
+                return;
+            }
+            DeckLog.warn("Could not open board", link.getBoardRemoteId(), "of", link.getAccountName(), throwable);
+            final var brandColor = ContextCompat.getColor(this, R.color.defaultBrand);
+            ThemedSnackbar.make(binding.coordinatorLayout, R.string.open_board_failed, Snackbar.LENGTH_LONG, brandColor).show();
+        }, ContextCompat.getMainExecutor(this));
     }
 
     private void applyAccount(@NonNull Account account) throws NextcloudFilesAppAccountNotFoundException {

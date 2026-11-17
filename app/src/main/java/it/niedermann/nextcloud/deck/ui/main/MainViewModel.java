@@ -102,13 +102,22 @@ public class MainViewModel extends BaseViewModel {
     }
 
     public CompletableFuture<Void> openBoard(@NonNull String accountName, long boardRemoteId) {
-        return supplyAsync(() -> Optional.ofNullable(baseRepository.readAccountDirectly(accountName))
-                .orElseThrow(() -> new IllegalArgumentException("No account " + accountName)), executor)
-                .thenCompose(account -> findBoard(account, boardRemoteId)
-                        .thenAccept(board -> {
-                            baseRepository.saveCurrentBoardId(account.getId(), board.getLocalId());
-                            baseRepository.saveCurrentAccount(account);
-                        }));
+        final var accountFuture = supplyAsync(() -> {
+            final var account = baseRepository.readAccountDirectly(accountName);
+            if (account == null) {
+                throw new IllegalArgumentException("No account " + accountName);
+            }
+            return account;
+        }, executor);
+
+        return accountFuture.thenComposeAsync(account -> {
+            final var boardFuture = findBoard(account, boardRemoteId);
+
+            return boardFuture.thenAcceptAsync(board -> {
+                baseRepository.saveCurrentBoardId(account.getId(), board.getLocalId());
+                baseRepository.saveCurrentAccount(account);
+            }, executor);
+        }, executor);
     }
 
     private CompletableFuture<Board> findBoard(@NonNull Account account, long boardRemoteId) {
