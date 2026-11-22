@@ -1,6 +1,12 @@
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 
+def deckReleaseStorePath = System.getenv('DECK_RELEASE_STORE_PATH')
+def deckReleaseStorePassword = System.getenv('DECK_RELEASE_STORE_PASSWORD')
+def deckReleaseKeyAlias = System.getenv('DECK_RELEASE_KEY_ALIAS')
+def deckReleaseKeyPassword = System.getenv('DECK_RELEASE_KEY_PASSWORD')
+def deckReleaseSigningConfigured = deckReleaseStorePath && deckReleaseStorePassword && deckReleaseKeyAlias && deckReleaseKeyPassword
+
 android {
     compileSdk 37
     namespace 'it.niedermann.nextcloud.deck'
@@ -9,7 +15,8 @@ android {
         applicationId "it.niedermann.nextcloud.deck"
         minSdk 24
         targetSdk 37
-        versionCode 1027000
+        // Give this separately signed fork its own monotonically increasing update channel.
+        versionCode 1027000 + (System.getenv('DECK_VERSION_CODE_OFFSET') ?: '0').toInteger()
         versionName "1.27.0"
         vectorDrawables.useSupportLibrary true
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
@@ -23,10 +30,23 @@ android {
         viewBinding true
         buildConfig true
     }
+    signingConfigs {
+        deckRelease {
+            if (deckReleaseSigningConfigured) {
+                storeFile file(deckReleaseStorePath)
+                storePassword deckReleaseStorePassword
+                keyAlias deckReleaseKeyAlias
+                keyPassword deckReleaseKeyPassword
+            }
+        }
+    }
     buildTypes {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            if (deckReleaseSigningConfigured) {
+                signingConfig signingConfigs.deckRelease
+            }
         }
     }
     compileOptions {
