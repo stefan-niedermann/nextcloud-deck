@@ -41,6 +41,7 @@ public class UpcomingCardsOptionsItemSelectedListener implements CardOptionsItem
     @NonNull
     private final Consumer<Card> deleteCard;
     @NonNull
+    private final Consumer<FullCard> moveToTopCard;
     private final Consumer<FullCard> toggleDone;
 
     public UpcomingCardsOptionsItemSelectedListener
@@ -53,6 +54,7 @@ public class UpcomingCardsOptionsItemSelectedListener implements CardOptionsItem
              @NonNull BiConsumer<Account, Card> unassignCard,
              @NonNull Consumer<FullCard> archiveCard,
              @NonNull Consumer<Card> deleteCard,
+             @NonNull Consumer<FullCard> moveToTopCard,
              @NonNull Consumer<FullCard> toggleDone
             ) {
         this.account = account;
@@ -64,6 +66,7 @@ public class UpcomingCardsOptionsItemSelectedListener implements CardOptionsItem
         this.unassignCard = unassignCard;
         this.archiveCard = archiveCard;
         this.deleteCard = deleteCard;
+        this.moveToTopCard = moveToTopCard;
         this.toggleDone = toggleDone;
     }
 
@@ -98,6 +101,9 @@ public class UpcomingCardsOptionsItemSelectedListener implements CardOptionsItem
             MoveCardDialogFragment
                     .newInstance(fullCard.getAccountId(), boardLocalId, fullCard.getCard().getTitle(), fullCard.getLocalId(), CardUtil.cardHasCommentsOrAttachments(fullCard))
                     .show(fragmentManager, MoveCardDialogFragment.class.getSimpleName());
+            return true;
+        } else if (itemId == R.id.action_card_move_to_top) {
+            moveToTopCard.accept(fullCard);
             return true;
         } else if (itemId == R.id.action_card_archive) {
             archiveCard.accept(fullCard);
