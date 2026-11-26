@@ -20,4 +20,6 @@ public interface CardActionListener {
     void onShareLink(@NonNull FullBoard fullBoard, @NonNull FullCard fullCard);
 
     void onShareContent(@NonNull FullCard fullCard);
+
+    void onToggleDone(@NonNull FullCard fullCard);
 }

@@ -17,6 +17,7 @@
     <string name="simple_reset">Ripristina</string>
     <string name="simple_discard">Iscarta</string>
     <string name="simple_update">Agiorna</string>
+    <string name="simple_export">Esporta</string>
     <string name="simple_delete">Cantzella</string>
     <string name="simple_rename">Torra a numenare</string>
     <string name="simple_settings">Cunfiguratzione</string>
@@ -306,4 +307,6 @@
     <string name="saving_new_card">Sarvende s\'ischeda noa...</string>
     <string name="no_search_results_title">Perunu resurtadu de chirca</string>
     <string name="label_color">Colore</string>
+    <string name="simple_restore">Riprìstina</string>
+    <string name="simple_apply">Àplica</string>
     </resources>

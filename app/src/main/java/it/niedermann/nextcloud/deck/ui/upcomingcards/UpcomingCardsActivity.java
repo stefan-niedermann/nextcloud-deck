@@ -10,6 +10,8 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
 
+import java.time.Instant;
+
 import com.nextcloud.android.common.ui.theme.utils.ColorRole;
 import com.nextcloud.android.sso.api.EmptyResponse;
 import com.nextcloud.android.sso.exceptions.NextcloudFilesAppAccountNotFoundException;
@@ -98,7 +100,23 @@ public class UpcomingCardsActivity extends AppCompatActivity implements Themed, 
                             CallbackUtil.runOnUiThread(UpcomingCardsActivity.this, () -> ExceptionDialogFragment.newInstance(throwable, null).show(getSupportFragmentManager(), ExceptionDialogFragment.class.getSimpleName()));
                         }
                     }
-                })
+                }),
+                fullCard -> {
+                    final var card = fullCard.getCard();
+                    card.setDone(card.getDone() == null ? Instant.now() : null);
+                    viewModel.updateCard(fullCard, new IResponseCallback<>() {
+                        @Override
+                        public void onResponse(FullCard response, Headers headers) {
+                            DeckLog.info("Successfully updated done state for card", card.getTitle());
+                        }
+
+                        @Override
+                        public void onError(Throwable throwable) {
+                            IResponseCallback.super.onError(throwable);
+                            CallbackUtil.runOnUiThread(UpcomingCardsActivity.this, () -> ExceptionDialogFragment.newInstance(throwable, null).show(getSupportFragmentManager(), ExceptionDialogFragment.class.getSimpleName()));
+                        }
+                    });
+                }
         );
         binding.recyclerView.setAdapter(adapter);
         viewModel.getUpcomingCards().observe(this, items -> {

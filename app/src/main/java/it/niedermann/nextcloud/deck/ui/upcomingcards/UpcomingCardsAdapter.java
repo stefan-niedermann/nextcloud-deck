@@ -54,13 +54,16 @@ public class UpcomingCardsAdapter extends RecyclerView.Adapter<RecyclerView.View
     private final Consumer<FullCard> archiveCard;
     @NonNull
     private final Consumer<Card> deleteCard;
+    @NonNull
+    private final Consumer<FullCard> toggleDone;
     private final int maxCoverImages;
 
     public UpcomingCardsAdapter(@NonNull Activity activity, @NonNull FragmentManager fragmentManager,
                                 @NonNull BiConsumer<Account, Card> assignCard,
                                 @NonNull BiConsumer<Account, Card> unassignCard,
                                 @NonNull Consumer<FullCard> archiveCard,
-                                @NonNull Consumer<Card> deleteCard) {
+                                @NonNull Consumer<Card> deleteCard,
+                                @NonNull Consumer<FullCard> toggleDone) {
         this.activity = activity;
         this.counterMaxValue = this.activity.getString(R.string.counter_max_value);
         this.fragmentManager = fragmentManager;
@@ -70,7 +73,8 @@ public class UpcomingCardsAdapter extends RecyclerView.Adapter<RecyclerView.View
         this.unassignCard = unassignCard;
         this.archiveCard = archiveCard;
         this.deleteCard = deleteCard;
-        this.maxCoverImages = PreferenceManager.getDefaultSharedPreferences(activity).getBoolean(activity.getString(R.string.pref_key_cover_images), true)
+        this.toggleDone = toggleDone;
+        this.maxCoverImages = getDefaultSharedPreferences(activity).getBoolean(activity.getString(R.string.pref_key_cover_images), true)
                 ? activity.getResources().getInteger(R.integer.max_cover_images)
                 : 0;
         setHasStableIds(true);
@@ -152,7 +156,8 @@ public class UpcomingCardsAdapter extends RecyclerView.Adapter<RecyclerView.View
                                 assignCard,
                                 unassignCard,
                                 archiveCard,
-                                deleteCard
+                                deleteCard,
+                                toggleDone
                         ), counterMaxValue, utils);
                 cardViewHolder.bindCardClickListener((v) -> activity.startActivity(EditActivity.createEditCardIntent(activity, cardItem.getAccount(), cardItem.getCurrentBoardLocalId(), cardItem.getFullCard().getLocalId())));
             } else {

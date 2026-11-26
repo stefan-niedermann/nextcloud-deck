@@ -17,6 +17,7 @@
     <string name="simple_reset">Vrátit na výchozí</string>
     <string name="simple_discard">Zahodit</string>
     <string name="simple_update">Aktualizovat</string>
+    <string name="simple_export">Exportovat</string>
     <string name="simple_delete">Smazat</string>
     <string name="simple_rename">Přejmenovat</string>
     <string name="simple_settings">Nastavení</string>
@@ -340,6 +341,11 @@
     <string name="enter_search_term_description">Pokud chcete hledat karty na této tabuli, zadejte hledaný pojem</string>
     <string name="no_search_results_title">Nic nenalezeno</string>
     <string name="no_search_results_description">Pro daný hledaný pojem nebylo nic nalezeno</string>
+    <string name="label_dependent_cards">Závislé karty</string>
     <string name="label_color">Barva</string>
+    <string name="label_clear_color">Vymazat barvu</string>
     <string name="choose_color">Zvolte barvu</string>
-</resources>
+
+    <string name="simple_restore">Obnovit</string>
+    <string name="simple_apply">Použít</string>
+    </resources>

@@ -23,6 +23,7 @@ import it.niedermann.nextcloud.deck.model.full.FullBoard;
 import it.niedermann.nextcloud.deck.ui.theme.ThemeUtils;
 import it.niedermann.nextcloud.deck.ui.theme.Themed;
 import it.niedermann.nextcloud.deck.util.KeyboardUtils;
+import it.niedermann.nextcloud.deck.util.OnTextChangedWatcher;
 
 public class EditBoardDialogFragment extends DialogFragment implements Themed {
 
@@ -100,7 +101,26 @@ public class EditBoardDialogFragment extends DialogFragment implements Themed {
             viewModel.getAccountColor(account.getId()).observe(this, this::applyTheme);
         }
 
-        return builder.create();
+        final var dialog = builder.create();
+
+        dialog.setOnShowListener(d -> {
+            final boolean inputIsValid = inputIsValid(binding.input.getText());
+            dialog.getButton(DialogInterface.BUTTON_POSITIVE).setEnabled(inputIsValid);
+        });
+
+        binding.input.addTextChangedListener(new OnTextChangedWatcher(s -> {
+            final boolean inputIsValid = inputIsValid(binding.input.getText());
+            if (inputIsValid) {
+                binding.inputWrapper.setError(null);
+            }
+            dialog.getButton(DialogInterface.BUTTON_POSITIVE).setEnabled(inputIsValid);
+        }));
+
+        return dialog;
+    }
+
+    private static boolean inputIsValid(@Nullable CharSequence input) {
+        return input != null && !input.toString().trim().isEmpty();
     }
 
     @Nullable

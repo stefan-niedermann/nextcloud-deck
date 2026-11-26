@@ -204,6 +204,9 @@ public class CardAdapter extends RecyclerView.Adapter<AbstractCardViewHolder> im
         } else if (itemId == R.id.action_card_archive) {
             cardActionListener.onArchive(fullCard);
             return true;
+        } else if (itemId == R.id.action_card_done) {
+            cardActionListener.onToggleDone(fullCard);
+            return true;
         } else if (itemId == R.id.action_card_delete) {
             cardActionListener.onDelete(fullCard);
             return true;

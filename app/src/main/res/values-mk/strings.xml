@@ -11,7 +11,9 @@
     <string name="simple_close">Затвори</string>
     <string name="simple_filter">Филтер</string>
     <string name="simple_reset">Ресетирање</string>
+    <string name="simple_discard">Отфрли</string>
     <string name="simple_update">Ажурирај</string>
+    <string name="simple_export">Извези</string>
     <string name="simple_delete">Избриши</string>
     <string name="simple_rename">Преименувај</string>
     <string name="simple_settings">Параметри</string>
@@ -40,6 +42,7 @@
     <string name="about_translators_transifex_label">Transifex</string>
     <string name="about_source_title">Изворен код</string>
     <string name="about_source">Овој проект е хостиран на GitHub: %1$s</string>
+    <string name="about_issues_title">Проблеми</string>
     <string name="about_translate_title">Преведи</string>
     <string name="about_app_license_title">Лиценца на апликацијата</string>
     <string name="about_app_license_button">Види лиценца</string>
@@ -242,4 +245,6 @@
     <string name="simple_search">Барај</string>
     <string name="no_search_results_title">Нема резултати од пребарувањето</string>
     <string name="label_color">Боја</string>
+    <string name="simple_restore">Врати</string>
+    <string name="simple_apply">Примени</string>
     </resources>

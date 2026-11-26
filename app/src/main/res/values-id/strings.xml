@@ -17,6 +17,7 @@
     <string name="simple_reset">Setel ulang</string>
     <string name="simple_discard">Abaikan</string>
     <string name="simple_update">Perbarui</string>
+    <string name="simple_export">Ekspor</string>
     <string name="simple_delete">Hapus</string>
     <string name="simple_rename">Ubah nama</string>
     <string name="simple_settings">Setelan</string>
@@ -87,8 +88,10 @@
     <string name="add_board">Tambah papan</string>
 
     <string name="label_clear_due_date">Hapus tanggal kedaluwarsa</string>
+    <string name="label_clear_start_date">Hapus tanggal mulai</string>
     <string name="label_clear_done">Belum selesai</string>
     <string name="label_due_at">Tanggal jatuh tempo: %1$s</string>
+    <string name="label_start_at">Mulai pada: %1$s</string>
     <string name="label_add">Tambah %1$s</string>
 
     <string name="card_edit_details">Detail</string>
@@ -206,7 +209,9 @@
     <string name="error_edit_activity_killed_by_android">Android menyelesaikan mode penyuntingan karena membutuhkan lebih banyak sumber daya sistem untuk aplikasi lain.</string>
 
     <string name="error_dialog_title">Aduh — apa sekarang? 🙁</string>
+    <string name="error_dialog_tip_parsing_failed">Respons server Anda tidak dapat diurai sebagaimana mestinya. Pastikan Anda telah mengaktifkan aplikasi Deck di server Nextcloud Anda.</string>
     <string name="error_dialog_tip_token_mismatch_retry">Silakan mencoba untuk menutup aplikasi secara paksa dan mulai ulang. Mungkin ada koneksi yang tidak benar ke aplikasi Nextcloud.</string>
+    <string name="error_dialog_tip_clear_storage_might_help">Jika masalah berlanjut, coba hapus data penyimpanan kedua aplikasi: Nextcloud dan Nextcloud Deck, lalu impor ulang akun Anda.</string>
     <string name="error_dialog_tip_database_upgrade_failed">Pembaruan basis data gagal. Silakan laporkan masalah ini dan hapus penyimpanan untuk menggunakan aplikasi secara normal.</string>
     <string name="error_dialog_tip_clear_storage">Anda dapat menghapus penyimpanan dengan membuka informasi aplikasi dan memilih Penyimpanan → Hapus penyimpanan.</string>
     <string name="error_dialog_tip_offline_no_internet">Sepertinya Anda mencoba untuk sinkronisasi tanpa koneksi internet.</string>
@@ -223,6 +228,7 @@
     <string name="error_dialog_check_maintenance">Tolong periksa apakah instansi Nextcloud Anda saat ini tidak dalam mode pemeliharaan.</string>
     <string name="error_dialog_insufficient_storage">Instansi Nextcloud Anda tidak memiliki penyimpanan gratis yang tersisa. Silakan hapus beberapa berkas untuk menyinkronkan perubahan lokal Anda ke awan Anda.</string>
     <string name="error_dialog_we_need_info">Kami membutuhkan informasi teknis berikut untuk membantu Anda.</string>
+    <string name="error_dialog_redirect">Server Anda merespons dengan kode status HTTP 302, yang menunjukkan bahwa aplikasi Deck belum terpasang di server Anda atau terdapat kesalahan konfigurasi. Hal ini dapat disebabkan oleh pengaturan khusus yang menimpa konfigurasi dalam file .htaccess atau oleh aplikasi Nextcloud seperti OID Client.</string>
     <string name="error_dialog_version_not_parsable">Kami tidak dapat menentukan versi aplikasi Longgok sisi server. Pastikan aplikasi tersebut terinstal dan diaktifkan.</string>
     <string name="error_dialog_account_might_not_be_authorized">Akun aplikasi Nextcloud Anda mungkin tidak lagi diotorisasi.</string>
     <string name="error_dialog_user_not_found_in_database">Pengguna saat ini tidak sesuai dengan pengguna yang terdaftar di database kami. Jika Anda menggunakan LDAP pada instance Nextcloud Anda, aplikasi Nextcloud Anda mungkin telah menyimpan ID pengguna yang lama.</string>
@@ -328,6 +334,40 @@
     <string name="enter_search_term_description">Masukkan istilah pencarian untuk menemukan kartu di papan ini</string>
     <string name="no_search_results_title">Tidak ada hasil pencarian</string>
     <string name="no_search_results_description">Kami tidak menemukan hasil untuk istilah pencarian yang diberikan</string>
+    <string name="label_no_startdate">Tidak ada tanggal mulai</string>
+    <string name="label_dependent_cards">Kartu yang bergantung</string>
     <string name="label_color">Warna</string>
+    <string name="label_clear_color">Hapus warna</string>
     <string name="choose_color">Pilih warna</string>
+
+    <string name="settings_recovery_title">Pemulihan Darurat</string>
+    <string name="recovery_deck_server_title">Pulihkan Server Deck</string>
+    <string name="recovery_deck_android_title">Pulihkan Deck Android</string>
+    <string name="settings_restore_server_summary">⚠️ BAHAYA: Menimpa data server dengan data yang tersedia secara lokal. Data yang tersedia secara lokal hanya mencakup sebagian informasi dan tidak menyertakan lampiran, aktivitas, serta informasi lainnya. Memerlukan autentikasi ulang dan mulai ulang aplikasi.</string>
+    <string name="restore_warning_title">⚠️ BAHAYA: Timpa data server</string>
+    <string name="simple_restore">Pulihkan</string>
+    <string name="simple_apply">Terapkan</string>
+    <string name="backup_restore_warning">Saya menyetujui bahwa membuat cadangan data secara berkala sepenuhnya merupakan tanggung jawab saya. Alat di bawah ini menyediakan kemampuan pemulihan darurat yang terbatas dan tidak dapat dianggap sebagai solusi pencadangan yang memadai. Saya memahami bahwa alat ini hanya boleh digunakan atas saran tim dukungan.</string>
+
+    <string name="settings_create_local_backup">Buat snapshot</string>
+    <string name="settings_create_local_backup_summary">Membuat snapshot basis data lokal. Snapshot ini bukan cadangan dan tidak mencakup informasi yang hanya tersedia di server Anda.</string>
+
+    <string name="settings_restore_local_backup">Terapkan snapshot</string>
+    <string name="settings_restore_local_backup_summary">Mengganti basis data Deck Android dengan snapshot terbaru dan memulai ulang aplikasi.</string>
+    <string name="restore_local_backup_warning_title">⚠️ Perhatian!</string>
+    <string name="restore_local_backup_warning_message">Perubahan yang belum disinkronkan akan hilang dan tidak dapat dipulihkan. Pastikan Anda telah mencatat perubahan lokal Anda.</string>
+
+    <string name="restore_local_backup_success">Basis data dipulihkan. Aplikasi akan dimulai ulang sekarang.</string>
+    <string name="restore_local_backup_failed">Pemulihan basis data gagal.</string>
+
+    <string name="create_local_backup_success">Snapshot berhasil dibuat.</string>
+    <string name="create_local_backup_failed">Pembuatan snapshot gagal.</string>
+
+    <string name="settings_export_database">Ekspor snapshot</string>
+    <string name="settings_export_database_summary">Menyalin snapshot terakhir yang berisi file basis data SQLite Deck Android ke lokasi pilihan Anda. Snapshot ini tidak mencakup seluruh informasi. Ini bukan solusi pencadangan yang memadai.</string>
+    <string name="export_database_failed">Ekspor gagal.</string>
+    <string name="export_database_success">Snapshot berhasil diekspor.</string>
+
+    <string name="restore_warning_message">Tindakan ini akan menimpa seluruh data di server untuk akun ini dengan salinan lokal Anda yang tidak lengkap dan memulai ulang aplikasi Deck Android.\n\nPersyaratan:\n- Akun pengguna tersedia di server\n- Semua pengguna yang menerima akses berbagi papan harus tersedia di server\n- Telah terautentikasi dengan benar di aplikasi Nextcloud Files\n\nLampiran, Aktivitas, dan lainnya:\nSebagian lampiran mungkin tidak tersedia secara lokal sehingga tidak dapat diunggah ke server baru. Aktivitas umumnya hanya dibuat oleh server Deck. Informasi ini dan informasi lainnya mungkin tidak tersedia setelah pemulihan dilakukan.\n\nPengguna yang harus tersedia di server:\n%1$s</string>
+    <string name="restore_backup_failed">Pencadangan basis data gagal. Pemulihan dibatalkan.</string>
 </resources>

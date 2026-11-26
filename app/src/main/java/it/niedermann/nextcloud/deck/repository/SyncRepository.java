@@ -58,6 +58,7 @@ import it.niedermann.nextcloud.deck.model.internal.FilterInformation;
 import it.niedermann.nextcloud.deck.model.ocs.Capabilities;
 import it.niedermann.nextcloud.deck.model.ocs.comment.DeckComment;
 import it.niedermann.nextcloud.deck.model.ocs.comment.OcsComment;
+import it.niedermann.nextcloud.deck.model.ocs.user.OcsUser;
 import it.niedermann.nextcloud.deck.model.ocs.user.OcsUserList;
 import it.niedermann.nextcloud.deck.model.ocs.user.UserForAssignment;
 import it.niedermann.nextcloud.deck.remote.adapters.ServerAdapter;
@@ -347,7 +348,7 @@ public class SyncRepository extends BaseRepository {
     @AnyThread
     public void createBoard(@NonNull Account account, @NonNull Board board, @NonNull IResponseCallback<FullBoard> callback) {
         executor.submit(() -> {
-            final User owner = dataBaseAdapter.getUserByUidDirectly(account.getId(), account.getUserName());
+            final User owner = getOrFetchUser(account);
             if (owner == null) {
                 StringBuilder sb = buildOwnerNullMessage(account);
                 callback.onError(new IllegalStateException(sb.toString()));
@@ -361,6 +362,51 @@ public class SyncRepository extends BaseRepository {
                 new DataPropagationHelper(serverAdapter, dataBaseAdapter, executor).createEntity(new BoardDataProvider(), fullBoard, ResponseCallback.from(account, callback));
             }
         });
+    }
+
+    private User getOrFetchUser(@NonNull Account account) {
+        User user = dataBaseAdapter.getUserByUidDirectly(account.getId(), account.getUserName());
+        // doesn't seem to be in DB, lets fetch it from server via OCS then
+        if (user == null) {
+            // unknown user. fetch!
+            CountDownLatch latch = new CountDownLatch(1);
+
+            serverAdapter.getSingleUserData(account.getUserName(), new ResponseCallback<>(account) {
+                @Override
+                public void onResponse(OcsUser response, Headers headers) {
+                    DeckLog.log(response);
+                    User user = new User();
+                    user.setUid(response.getId());
+                    user.setPrimaryKey(response.getId());
+                    user.setDisplayname(response.getDisplayName());
+                    try {
+                        dataBaseAdapter.createUser(getAccount().getId(), user);
+                    } catch (Exception e) {
+                        try {
+                            // retry... if still nothing: skip.
+                            Thread.sleep(500);
+                            dataBaseAdapter.createUser(getAccount().getId(), user);
+                        } catch (Exception ex) {
+                            throw new RuntimeException(ex);
+                        }
+                    }
+                    latch.countDown();
+                }
+
+                @Override
+                public void onError(Throwable throwable) {
+                    super.onError(throwable);
+                    latch.countDown();
+                }
+            });
+            try {
+                latch.await();
+                user = dataBaseAdapter.getUserByUidDirectly(account.getId(), account.getUserName());
+            } catch (InterruptedException e) {
+                throw new RuntimeException("Unable to fetch user "+account.getUserName()+" on the fly", e);
+            }
+        }
+        return user;
     }
 
     @NonNull

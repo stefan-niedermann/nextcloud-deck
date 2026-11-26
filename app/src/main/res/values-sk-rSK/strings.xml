@@ -17,6 +17,7 @@
     <string name="simple_reset">Resetovať</string>
     <string name="simple_discard">Odstrániť</string>
     <string name="simple_update">Aktualizovať</string>
+    <string name="simple_export">Export</string>
     <string name="simple_delete">Zmazať</string>
     <string name="simple_rename">Premenovať</string>
     <string name="simple_settings">Nastavenia</string>
@@ -48,9 +49,9 @@
     <string name="about_issues_title">Problémy</string>
     <string name="about_issues">Hlásenia chýb, návrhy na vylepšenia a požiadavky na funkcie môžete nahlásiť v sledovači problémov GitHub: %1$s</string>
     <string name="about_translate_title">Preložiť</string>
-    <string name="about_translate">Pripojte sa k tímu Nextcloud na stránke Transifex a pomožte nám s prekladom tejto apky: %1$s</string>
+    <string name="about_translate">Pripojte sa k tímu Nextcloud na Transifexe a pomôžte nám s prekladom tejto aplikácie: %1$s</string>
     <string name="about_app_license_title">Licencia aplikácie</string>
-    <string name="about_app_license">Táto aplikácie je licencovaná pod GNU GENERAL PUBLIC LICENSE v3+.</string>
+    <string name="about_app_license">Táto aplikácia je licencovaná pod GNU GENERAL PUBLIC LICENSE v3+.</string>
     <string name="about_app_license_button">Zobraziť licenciu</string>
     <string name="about_icons_disclaimer_title">Ikony</string>
     <string name="about_icons_disclaimer_app_icon">Pôvodnú ikonu nájdete %1$s.</string>
@@ -84,7 +85,7 @@
     <string name="action_card_unassign">Zrušiť priradenie karty mne</string>
     <string name="action_card_archive">Archivovať kartu</string>
     <string name="action_card_delete">Zmazať kartu</string>
-    <string name="add_board">Pridať nástenk</string>
+    <string name="add_board">Pridať nástenku</string>
 
     <string name="label_clear_due_date">Odstrániť termín dokončenia</string>
     <string name="label_clear_start_date">Vymazať dátum začiatku</string>
@@ -121,17 +122,17 @@
     </plurals>
     <string name="add_a_new_list_using_the_button">Pridajte nový zoznam pomocou tlačidla +</string>
     <string name="add_a_new_card_using_the_button">Pridajte novú kartu pomocou tlačidla +</string>
-    <string name="deck_outdated_please_update">Verzia vášho balíčka je príliš stará (%1$s). Ak chcete túto aplikáciu pre Android používať ako klienta, aktualizujte ju.</string>
+    <string name="deck_outdated_please_update">Verzia vašej webovej aplikácie Deck je príliš stará (%1$s). Aktualizujte ju, aby ste túto aplikáciu pre Android mohli používať ako klienta.</string>
     <string name="delete_board_message">Táto nástenka sa natrvalo odstráni, vrátane všetkých zoznamov a kariet.</string>
     <string name="settings_theme_title">Vzhľad</string>
     <string name="settings_compact_title">Kompaktný režim</string>
-    <string name="settings_cover_images_title">Titulný obrázok</string>
-    <string name="settings_debugging">Ladiaci záznam</string>
+    <string name="settings_cover_images_title">Titulné obrázky</string>
+    <string name="settings_debugging">Ladiace záznamy</string>
     <string name="settings_etags">Použiť ETagy</string>
     <string name="settings_etags_summary">Urýchliť synchronizáciu</string>
     <string name="settings_background_sync">Synchronizácia na pozadí</string>
     <string name="settings_push_notifications">Push notifikácie</string>
-    <string name="settings_compress_image_attachments">Komprimovať obázky pri nahrávaní</string>
+    <string name="settings_compress_image_attachments">Komprimovať obrázky pri nahrávaní</string>
     <string name="search_in">Hľadať v %1$s</string>
     <string name="settings_compress_image_attachments_summary">Rýchlejšie nahrávanie, menšia kvalita</string>
     <string name="pref_value_wifi_and_mobile">Synchronizovať na Wi-Fi a mobilných dátach</string>
@@ -155,12 +156,12 @@
     <string name="hour_1">1 hodina</string>
     <string name="hours_6">6 hodín</string>
     <string name="action_card_move">Presunúť kartu</string>
-    <string name="action_card_move_title">Preusnúť %1$s</string>
+    <string name="action_card_move_title">Presunúť %1$s</string>
     <string name="title_is_mandatory">Titulok je povinný</string>
     <string name="provide_at_least_a_title_or_description">Uveďte aspoň názov alebo popis</string>
     <string name="welcome_text">Vitajte v %1$s</string>
     <string name="welcome_text_further_accounts">Pridať ďalší účet</string>
-    <string name="share_add_to_card">Pridať do košíka</string>
+    <string name="share_add_to_card">Pridať ku karte</string>
     <string name="share_success">%1$s úspešne pridané do %2$s</string>
     <string name="add_comment">Pridať komentár</string>
     <string name="card_edit_comments">Komentáre</string>
@@ -179,8 +180,8 @@
     <string name="filter_overdue">Po termíne</string>
     <string name="filter_today">Dnes</string>
     <string name="filter_tomorrow">Zajtra</string>
-    <string name="filter_week">Následujúcich 7 dní</string>
-    <string name="filter_month">Následujúcich 30 dní</string>
+    <string name="filter_week">Nasledujúcich 7 dní</string>
+    <string name="filter_month">Nasledujúcich 30 dní</string>
     <string name="filter_no_due">Bez termínu</string>
     <string name="filter_later">Neskôr</string>
 
@@ -209,14 +210,16 @@
     <string name="synchronization_failed">Synchronizácia zlyhala</string>
     <string name="operation_not_yet_supported">Zatiaľ nepodporované</string>
     <string name="error_revoking_ac">Chyba pri zrušení prístupu pre %1$s</string>
-    <string name="error_create_label">Pri vytváraní označenia %1$s sa vyskytla chyba</string>
+    <string name="error_create_label">Pri vytváraní štítka %1$s sa vyskytla chyba</string>
     <string name="maintenance_mode">Server je v móde údržby</string>
     <string name="error_edit_activity_killed_by_android">Android ukončil úpravy, pretože viac systémových prostriedkov potreboval pre ďalšie aplikácie.</string>
 
     <string name="error_dialog_title">Ale nie - Čo teraz? 🙁</string>
-    <string name="error_dialog_tip_token_mismatch_retry">Skúste vyinútiť zatvorenie aplikácie a znova ju reštartovať. Možno došlo k chybnému pripojeniu k aplikácii Nextcloud.</string>
+    <string name="error_dialog_tip_parsing_failed">Odpoveď vášho servera sa nepodarilo spracovať podľa očakávaní. Uistite sa, že máte na serveri Nextcloud povolenú aplikáciu Deck.</string>
+    <string name="error_dialog_tip_token_mismatch_retry">Skúste vynútiť zatvorenie aplikácie a znova ju reštartovať. Možno došlo k chybnému pripojeniu k aplikácii Nextcloud.</string>
+    <string name="error_dialog_tip_clear_storage_might_help">Ak problém pretrváva, skúste vymazať úložisko oboch aplikácií – Nextcloud aj Nextcloud Deck – a znova importovať svoje konto.</string>
     <string name="error_dialog_tip_database_upgrade_failed">Aktualizácia databázy zlyhala. Nahláste problém a vymažte ukladací priestor, aby ste aplikáciu mohli normálne používať.</string>
-    <string name="error_dialog_tip_clear_storage">Úložisko môžete vyčistiť otvorením informácii o aplikácii a výberom Úložisko → Vyčistiť úložisko.</string>
+    <string name="error_dialog_tip_clear_storage">Úložisko môžete vyčistiť otvorením informácií o aplikácii a výberom Úložisko → Vyčistiť úložisko.</string>
     <string name="error_dialog_tip_offline_no_internet">Vyzerá, že sa snažíte spustiť synchronizáciu bez pripojenia k internetu.</string>
     <string name="error_dialog_tip_offline_connection_refused">Pripojenie bolo odmietnuté, skontrolujte, či je váš server dostupný cez webový prehliadač.</string>
     <string name="error_dialog_tip_offline_connection_timeout">Časový limit pripojenia vypršal, skontrolujte, či ste pripojení na internet. Môže sa to stať aj vtedy, keď je váš server zaneprázdnený.</string>
@@ -224,14 +227,15 @@
     <string name="error_dialog_tip_sync_only_on_wifi">Ak máte aktivovanú \"Synchronizáciu iba na Wi-Fi\", môžete synchronizovať iba ak ste pripojený k Wi-Fi sieti.</string>
     <string name="error_dialog_tip_files_force_stop">Zdá sa, že s Nextcloudom niečo nie je v poriadku. Pokúste sa vynútiť zastavenie aplikácie Nextcloud aj aplikácie Nextcloud Deck.</string>
     <string name="error_dialog_tip_files_delete_storage">Ak ich ukončenie nepomôže, môžete skúsiť vyčistiť úložiská oboch aplikácií.</string>
-    <string name="error_dialog_timeout_instance">Server dlho neodpovedal. Uistite sa, vami využívaná inštancia funguje dobre.</string>
+    <string name="error_dialog_timeout_instance">Server v danom čase neodpovedal. Uistite sa, že vaša inštancia funguje správne.</string>
     <string name="error_dialog_timeout_toggle">Skontrolujte pripojenie k sieti. Niekedy pomôže vypnutie a znovu zapnutie mobilných dát alebo Wi-Fi.</string>
     <string name="error_dialog_check_server">Odpoveď vášho servera nebola správna. Skontrolujte, či máte prístup k aplikácii Deck prostredníctvom webového rozhrania.</string>
-    <string name="error_dialog_check_server_logs">V nastavení vášho Nextcloudu je problém. Skontrolujte súbor so záznamom udalostí na serveri.</string>
+    <string name="error_dialog_check_server_logs">V nastavení vášho Nextcloudu je problém. Skontrolujte súbory so záznamami udalostí na serveri.</string>
     <string name="error_dialog_check_maintenance">Prosím skontrolujte, či vaša inštancia Nextcloudu nie je práve v móde údržby.</string>
     <string name="error_dialog_insufficient_storage">Vo vašej inštancii Nexcloudu nie je na úložisku voľné miesto. Aby bolo možné synchronizovať vaše miestne zmeny s vaším cloudom, je potrebné najprv zmazať niektoré súbory.</string>
     <string name="error_dialog_we_need_info">Aby sme vám pomohli, potrebujeme následovné technické informácie:</string>
-    <string name="error_dialog_version_not_parsable">Nepodarilo sa určiť verziu aplikácie Deck na strane servera. Skontrolujte, či je nainštalovaný a povolený.</string>
+    <string name="error_dialog_redirect">Váš server odpovedal stavovým kódom HTTP 302, čo naznačuje, že na serveri nemáte nainštalovanú aplikáciu Deck alebo je niečo nesprávne nastavené. Môžu to spôsobovať vlastné nastavenia v súbore .htaccess alebo aplikácie Nextcloudu, napríklad OID Client.</string>
+    <string name="error_dialog_version_not_parsable">Nepodarilo sa určiť verziu aplikácie Deck na strane servera. Skontrolujte, či je nainštalovaná a povolená.</string>
     <string name="error_dialog_account_might_not_be_authorized">Účet vašej aplikácie Nextcloud už nemusí byť autorizovaný.</string>
     <string name="error_dialog_user_not_found_in_database">Aktuálny používateľ sa nezhoduje s používateľom, ktorý máme v našej databáze. Ak používate server LDAP vo vašej inštancii Nextcloud, vaša aplikácia Nextcloud pravdepodobne uložila staré ID používateľa.</string>
     <string name="error_dialog_capabilities_not_parsable">Nepodarilo sa načítať možnosti vášho servera. Uistite sa, že váš server funguje správne a že ďalšie klientske aplikácie majú prístup k serveru Nextcloud.</string>
@@ -239,7 +243,7 @@
     <string name="error_dialog_certificate">Niečo sa pokazilo s certifikátom servera. Prosím skontrolujte všetky účty v Nextcloud aplikácii pre ďalšie informácie.</string>
     <string name="error_dialog_tip_disable_battery_optimizations">Vypnite všetky optimalizácie batérie pre aplikácie Nextcloud a Deck.</string>
     <string name="error_dialog_unknown_error">Zdá sa, že vaša inštancia Nextcloud je nedostupná. Skontrolujte svoje internetové pripojenie a či sa môžete k svojej inštancii pripojiť prostredníctvom prehliadača.</string>
-    <string name="error_dialog_min_version">Aplikácia Deck pre Android potrebuje aplikáciu Nextcloud pre android aspoň vo verzii 3.18.</string>
+    <string name="error_dialog_min_version">Aplikácia Deck pre Android potrebuje aplikáciu Nextcloud pre Android aspoň vo verzii 3.18.</string>
     <string name="error_action_open_deck_info">Otvoriť informácie o aplikácii</string>
     <string name="error_action_open_nextcloud_app">Otvoriť aplikáciu Nextcloud</string>
     <string name="error_action_open_network">Nastavenia siete</string>
@@ -253,7 +257,7 @@
     <string name="share_link">Sprístupniť odkaz</string>
     <string name="share_content">Zdieľať obsah</string>
     <string name="share_content_duedate">K dátumu: %1$s</string>
-    <string name="share_content_labels">Tagy: %1$s</string>
+    <string name="share_content_labels">Štítky: %1$s</string>
     <string name="archive_cards">Archivovať karty</string>
 
     <string name="manage_accounts">Spravovať účty</string>
@@ -275,14 +279,14 @@
     <string name="clone_board">Duplikovať nástenku</string>
     <string name="cloning_board">Klonovanie %1$s…</string>
     <string name="successfully_cloned_board">%1$s úspešne klonovaný</string>
-    <string name="attachment_does_not_yet_exist">Príloha ešte na nástenke neexistuje</string>
-    <string name="card_does_not_yet_exist">Karta ešte na nástenke neexistuje</string>
+    <string name="attachment_does_not_yet_exist">Príloha ešte v Decku neexistuje</string>
+    <string name="card_does_not_yet_exist">Karta ešte v Decku neexistuje</string>
 
     <string name="widget_stack_title">Zoznam</string>
     <string name="widget_stack_header_icon">Ikona hlavičky miniaplikácie</string>
     <string name="widget_placeholder_icon">Ikona zástupného symbolu miniaplikácie</string>
-    <string name="project_type_deck_board">Palubná doska</string>
-    <string name="project_type_deck_card">Palubná karta</string>
+    <string name="project_type_deck_board">Nástenka Decku</string>
+    <string name="project_type_deck_card">Karta Decku</string>
     <string name="project_type_file">Súbor</string>
     <string name="projects_title">Projekty</string>
     <plurals name="resources_count">
@@ -297,10 +301,10 @@
     <string name="simple_move">Presunúť</string>
     <string name="cannot_upload_files_without_permission">Nie je možné nahrávať súbory bez povolenia</string>
     <string name="insufficient_permission">Nedostatočné oprávnenia</string>
-    <string name="no_matching_app_installed">Nenašla sa žiadna zhoda nainštalovanej aplikácie.</string>
+    <string name="no_matching_app_installed">Nie je nainštalovaná žiadna zodpovedajúca aplikácia.</string>
     <string name="clone_cards">Duplikovať karty</string>
     <string name="simple_clone">Duplikovať</string>
-    <string name="user_avatar">Avatar užívateľa</string>
+    <string name="user_avatar">Avatar používateľa</string>
     <string name="simple_unassign">Zrušiť priradenie</string>
     <string name="take_photo">Urobiť fotografiu</string>
     <string name="take_photo_switch_camera">Prepnúť kameru</string>
@@ -316,9 +320,9 @@
     <string name="voice_recorder">Hlasový záznamník</string>
     <string name="gallery">Galéria</string>
     <string name="videos">Videá</string>
-    <string name="simple_attach"> Priložiť</string>
+    <string name="simple_attach">Priložiť</string>
     <string name="add_stack_widget">Pridať ovládací prvok zoznamu</string>
-    <string name="add_filter_widget">Pridať ovládací prvok filteru</string>
+    <string name="add_filter_widget">Pridať ovládací prvok filtra</string>
     <string name="simple_order">Zoradiť</string>
     <string name="edit_description">Upraviť popis</string>
     <string name="widget_upcoming_title">Nadchádzajúce karty</string>
@@ -331,10 +335,10 @@
     <string name="account_imported">Účet naimportovaný</string>
     <string name="simple_search">Hľadať</string>
     <!-- Label for a title input field that is required to be filled out -->
-    <string name="title_mandatory">Titulok (povinné)</string>
-    <string name="saving_new_card">Ukladám novú kartu...</string>
-    <string name="progress_import">Importujem tabuľu %1$d z %2$d ...</string>
-    <string name="progress_import_indeterminate">Importujem tabule</string>
+    <string name="title_mandatory">Titulok (povinný)</string>
+    <string name="saving_new_card">Ukladá sa nová karta…</string>
+    <string name="progress_import">Importujem nástenku %1$d z %2$d…</string>
+    <string name="progress_import_indeterminate">Importujem nástenky…</string>
     <string name="card_outdated">Obsah tejto karty môže byť zastaraný.</string>
     <string name="show_error">Zobraziť chybu</string>
     <string name="push_notification_link_empty">Kvôli známemu problému vo webovej aplikácii Deck, žiaľ, nemôžeme túto kartu zobraziť. Viac informácií nájdete na: %1$s</string>
@@ -343,6 +347,39 @@
     <string name="no_search_results_title">Žiadne výsledky vyhľadávania</string>
     <string name="no_search_results_description">Nenašli sme žiadne výsledky pre zadaný vyhľadávací výraz</string>
     <string name="label_no_startdate">Žiadny dátum začiatku</string>
+    <string name="label_dependent_cards">Závislé karty</string>
     <string name="label_color">Farba</string>
+    <string name="label_clear_color">Vymazať farbu</string>
     <string name="choose_color">Vyberte farbu</string>
+
+    <string name="settings_recovery_title">Núdzové obnovenie</string>
+    <string name="recovery_deck_server_title">Obnoviť server Deck</string>
+    <string name="recovery_deck_android_title">Obnoviť Deck pre Android</string>
+    <string name="settings_restore_server_summary">⚠️ NEBEZPEČENSTVO: Prepíše údaje na serveri lokálne dostupnými údajmi. Lokálne dostupné údaje sú iba časťou dostupných informácií a chýbajú v nich prílohy, aktivity a ďalšie údaje. Vyžaduje opätovné overenie a reštart aplikácie.</string>
+    <string name="restore_warning_title">⚠️ NEBEZPEČENSTVO: Prepísať údaje na serveri</string>
+    <string name="simple_restore">Obnoviť</string>
+    <string name="simple_apply">Použiť</string>
+    <string name="backup_restore_warning">Súhlasím, že za pravidelné zálohovanie svojich údajov zodpovedám výhradne ja. Nástroje nižšie poskytujú obmedzené možnosti núdzového obnovenia a nemožno ich považovať za riadne riešenie zálohovania. Chápem, že by sa mali používať iba na odporúčanie podpory.</string>
+
+    <string name="settings_create_local_backup">Vytvoriť snímku</string>
+    <string name="settings_create_local_backup_summary">Vytvorí snímku lokálnej databázy. Nejde o zálohu a chýbajú v nej informácie dostupné iba na serveri.</string>
+
+    <string name="settings_restore_local_backup">Použiť snímku</string>
+    <string name="settings_restore_local_backup_summary">Nahradí databázu aplikácie Deck pre Android najnovšou snímkou a reštartuje aplikáciu.</string>
+    <string name="restore_local_backup_warning_title">⚠️ Upozornenie!</string>
+    <string name="restore_local_backup_warning_message">Nezosynchronizované zmeny sa nenávratne stratia. Poznačte si svoje lokálne zmeny.</string>
+
+    <string name="restore_local_backup_success">Databáza bola obnovená. Aplikácia sa teraz reštartuje.</string>
+    <string name="restore_local_backup_failed">Obnovenie databázy zlyhalo.</string>
+
+    <string name="create_local_backup_success">Snímka bola úspešne vytvorená.</string>
+    <string name="create_local_backup_failed">Vytvorenie snímky zlyhalo.</string>
+
+    <string name="settings_export_database">Exportovať snímku</string>
+    <string name="settings_export_database_summary">Skopíruje poslednú snímku obsahujúcu súbor databázy SQLite aplikácie Deck pre Android na miesto podľa vášho výberu. Neobsahuje všetky informácie. Nejde o riadne riešenie zálohovania.</string>
+    <string name="export_database_failed">Export zlyhal.</string>
+    <string name="export_database_success">Snímka bola úspešne exportovaná.</string>
+
+    <string name="restore_warning_message">Prepíše všetky údaje na serveri pre tento účet vašou lokálnou čiastočnou kópiou a reštartuje aplikáciu Deck pre Android.\n\nPožiadavky:\n- Používateľský účet existuje na serveri\n- Na serveri musia existovať všetci používatelia, s ktorými sú nástenky zdieľané\n- V aplikácii Súbory Nextcloud musíte byť riadne overení\n\nPrílohy, aktivity a ďalšie údaje:\nNie všetky prílohy môžu byť lokálne dostupné, a preto ich nemožno nahrať na nový server. Aktivity zvyčajne vytvára iba server Decku. Po obnovení môžu chýbať tieto aj ďalšie údaje.\n\nPoužívatelia, ktorí musia existovať na serveri:\n%1$s</string>
+    <string name="restore_backup_failed">Zálohovanie databázy zlyhalo. Obnovenie bolo zrušené.</string>
 </resources>

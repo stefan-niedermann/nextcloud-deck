@@ -87,6 +87,11 @@ public class BaseRepository {
         LastSyncUtil.init(context.getApplicationContext());
     }
 
+    @WorkerThread
+    public void saveCurrentAccountDirectly(@NonNull Account account) {
+        dataBaseAdapter.saveCurrentAccountDirectly(account);
+    }
+
     public void saveCurrentAccount(@NonNull Account account) {
         dataBaseAdapter.saveCurrentAccount(account);
     }
@@ -151,6 +156,11 @@ public class BaseRepository {
                 callback.onError(t);
             }
         });
+    }
+
+    @WorkerThread
+    public void updateAccountDirectly(@NonNull Account account) {
+        dataBaseAdapter.updateAccount(account);
     }
 
     @AnyThread
@@ -578,5 +588,32 @@ public class BaseRepository {
     @WorkerThread
     public Integer getBoardColorDirectly(long accountId, long localBoardId) {
         return dataBaseAdapter.getBoardColorDirectly(accountId, localBoardId);
+    }
+
+    @WorkerThread
+    public List<User> getUsersForAccountDirectly(long accountId) {
+        return dataBaseAdapter.getUsersForAccountDirectly(accountId);
+    }
+
+    @WorkerThread
+    public boolean backupDatabase() {
+        return dataBaseAdapter.backupDatabase();
+    }
+
+    @AnyThread
+    public void resetAccountData(long accountId, Runnable callback) {
+        executor.submit(() -> {
+            dataBaseAdapter.resetAccountData(accountId);
+            callback.run();
+        });
+    }
+
+    @WorkerThread
+    public boolean restoreDatabase() {
+        return dataBaseAdapter.restoreDatabase();
+    }
+
+    public boolean hasBackup() {
+        return dataBaseAdapter.hasBackup();
     }
 }

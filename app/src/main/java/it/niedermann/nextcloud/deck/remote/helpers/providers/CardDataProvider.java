@@ -382,9 +382,15 @@ public class CardDataProvider extends AbstractSyncDataProvider<FullCard> {
         }
         for (Attachment attachment : attachments) {
             FullCard card = dataBaseAdapter.getFullCardByLocalIdDirectly(account.getId(), attachment.getCardId());
-            stack = dataBaseAdapter.getFullStackByLocalIdDirectly(card.getCard().getStackId());
-            board = dataBaseAdapter.getBoardByLocalIdDirectly(stack.getStack().getBoardId());
-            syncHelper.doUpSyncFor(new AttachmentDataProvider(this, board, stack.getStack(), card, Collections.singletonList(attachment)));
+            if (card != null && card.getId() != null) {
+                stack = dataBaseAdapter.getFullStackByLocalIdDirectly(card.getCard().getStackId());
+                if (stack != null && stack.getId() != null) {
+                    board = dataBaseAdapter.getBoardByLocalIdDirectly(stack.getStack().getBoardId());
+                    if (board != null && board.getId() != null) {
+                        syncHelper.doUpSyncFor(new AttachmentDataProvider(this, board, stack.getStack(), card, Collections.singletonList(attachment)));
+                    }
+                }
+            }
         }
 
         List<Card> cardsWithChangedComments;
@@ -394,7 +400,9 @@ public class CardDataProvider extends AbstractSyncDataProvider<FullCard> {
             cardsWithChangedComments = dataBaseAdapter.getCardsWithLocallyChangedCommentsForStackDirectly(this.stack.getLocalId());
         }
         for (Card card : cardsWithChangedComments) {
-            syncHelper.doUpSyncFor(new DeckCommentsDataProvider(this, card));
+            if (card != null && card.getId() != null) {
+                syncHelper.doUpSyncFor(new DeckCommentsDataProvider(this, card));
+            }
         }
 
         callback.onResponse(Boolean.TRUE, IResponseCallback.EMPTY_HEADERS);
@@ -412,6 +420,10 @@ public class CardDataProvider extends AbstractSyncDataProvider<FullCard> {
 
             Long boardId = dataBaseAdapter.getBoardRemoteIdByCardLocalIdDirectly(card.getLocalId());
             Long stackId = dataBaseAdapter.getStackRemoteIdByCardLocalIdDirectly(card.getLocalId());
+
+            if (boardId == null || stackId == null || card.getId() == null) {
+                continue;
+            }
 
             if (changedDependentLocal.getStatusEnum() == DBStatus.LOCAL_DELETED) {
                 serverAdapter.unassignDependentToCard(boardId, stackId, card.getId(), changedDependentLocal.getDependentRemoteCardId(), new ResponseCallback<>(account) {

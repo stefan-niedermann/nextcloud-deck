@@ -17,6 +17,7 @@
     <string name="simple_reset">Berrezarri</string>
     <string name="simple_discard">Baztertu</string>
     <string name="simple_update">Eguneratu</string>
+    <string name="simple_export">Esportatu</string>
     <string name="simple_delete">Ezabatu</string>
     <string name="simple_rename">Aldatu izena</string>
     <string name="simple_settings">Ezarpenak</string>
@@ -334,4 +335,7 @@
     <string name="no_search_results_description">Ez dugu emaitzarik aurkitu emandako bilaketa-terminoarentzat</string>
     <string name="label_color">Kolorea</string>
     <string name="choose_color">Aukeratu kolorea</string>
-</resources>
+
+    <string name="simple_restore">Leheneratu</string>
+    <string name="simple_apply">Aplikatu</string>
+    </resources>

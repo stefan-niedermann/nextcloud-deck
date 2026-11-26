@@ -69,6 +69,10 @@ public class StackViewModel extends SyncViewModel {
         syncRepository.archiveCard(card, callback);
     }
 
+    public void updateCard(@NonNull FullCard fullCard, @NonNull IResponseCallback<FullCard> callback) {
+        syncRepository.updateCard(fullCard, callback);
+    }
+
 
     public void deleteCard(@NonNull Card card, @NonNull IResponseCallback<EmptyResponse> callback) {
         syncRepository.deleteCard(card, callback);

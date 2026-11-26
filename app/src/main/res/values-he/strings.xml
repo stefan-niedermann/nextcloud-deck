@@ -15,6 +15,7 @@
     <string name="simple_reset">איפוס</string>
     <string name="simple_discard">התעלמות</string>
     <string name="simple_update">עדכון</string>
+    <string name="simple_export">ייצוא</string>
     <string name="simple_delete">מחיקה</string>
     <string name="simple_rename">שינוי שם</string>
     <string name="simple_settings">הגדרות</string>
@@ -219,4 +220,6 @@
     <string name="widget_upcoming_title">כרטיסים עתידיים</string>
     <string name="simple_search">חיפוש</string>
     <string name="label_color">צבע</string>
+    <string name="simple_restore">שחזור</string>
+    <string name="simple_apply">החלה</string>
     </resources>

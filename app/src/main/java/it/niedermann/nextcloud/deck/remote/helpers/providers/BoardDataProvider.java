@@ -264,14 +264,21 @@ public class BoardDataProvider extends AbstractSyncDataProvider<FullBoard> {
         AsyncUtil.awaitAsyncWork(locallyChangedLabels.size(), latch -> {
             for (Label label : locallyChangedLabels) {
                 Board board = dataBaseAdapter.getBoardByLocalIdDirectly(label.getBoardId());
-                label.setBoardId(board.getId());
-                syncHelper.doUpSyncFor(new LabelDataProvider(this, board, Collections.singletonList(label)), latch);
+                if (board != null && board.getId() != null) {
+                    label.setBoardId(board.getId());
+                    syncHelper.doUpSyncFor(new LabelDataProvider(this, board, Collections.singletonList(label)), latch);
+                } else {
+                    latch.countDown();
+                }
             }
         });
 
         List<Long> localBoardIDsWithChangedACL = dataBaseAdapter.getBoardIDsOfLocallyChangedAccessControl(accountId);
         for (Long boardId : localBoardIDsWithChangedACL) {
-            syncHelper.doUpSyncFor(new AccessControlDataProvider(this, dataBaseAdapter.getFullBoardByLocalIdDirectly(accountId, boardId), new ArrayList<>()));
+            FullBoard board = dataBaseAdapter.getFullBoardByLocalIdDirectly(accountId, boardId);
+            if (board != null && board.getBoard().getId() != null) {
+                syncHelper.doUpSyncFor(new AccessControlDataProvider(this, board, new ArrayList<>()));
+            }
         }
 
         Set<Long> syncedBoards = new HashSet<>();
